@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Submission snapshot: release `v1.0.0`, commit `6c5904be3f9bf8ec9138cda5bcb961b6a67f4feb`
-- Archived DOI: (Zenodo, to be inserted after the release is archived)
+- Archived DOI: [10.5281/zenodo.21405962](https://doi.org/10.5281/zenodo.21405962)
 - Typical full `lake build` time: ~10–20 min cold (first build of the
   toolchain-pinned project), a few minutes warm.
 
