@@ -66,4 +66,4 @@ Companion Lean 4 formalizations, all axiom-free (`#print axioms` verifiable): Vo
 
 ## License
 
-[Apache-2.0](LICENSE). Author: Ryota Shibusawa (Daiichi Institute of Technology) — r-shibusawa@daiichi-koudai.ac.jp
+[Apache-2.0](LICENSE). Author: Ryota Shibusawa (Daiichi Institute of Technology).

@@ -80,5 +80,5 @@ witnesses the algorithmic behaviour (all catalogue rows, and
 
 ## Author
 
-Ryota Shibusawa, Daiichi Institute of Technology —
-r-shibusawa@daiichi-koudai.ac.jp
+Ryota Shibusawa, Daiichi Institute of Technology.
+(Contact: see the paper, `docs/paper/jrefl.pdf`.)
