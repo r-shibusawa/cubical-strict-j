@@ -1373,11 +1373,16 @@ library definition.
 \subparagraph*{Artifact and its scope.}  The repository --- kernel,
 catalogue (\texttt{LibStrictness.lean}), switchover experiments
 (\texttt{LibSwitchover.lean}), library, harness, and a row-by-row
-paper-to-probe correspondence (\texttt{ARTIFACT.md}) --- accompanies
-the submission with a pinned toolchain and fixed commit; build with
-\texttt{lake build}: every catalogue and switchover claim is an
-elaboration-time guard, so a successful build is the verification
-run.  We distinguish explicitly: the artifact provides
+paper-to-probe correspondence (\texttt{ARTIFACT.md}) --- is public at
+\begin{center}
+  \url{https://github.com/r-shibusawa/cubical-strict-j}
+\end{center}
+release \texttt{v1.0.0}, commit \texttt{6c5904b}
+(archived snapshot: DOI to be inserted); pinned toolchain
+Lean \texttt{4.31.0}; build with \texttt{lake build}: every catalogue
+and switchover claim is an elaboration-time guard, so a successful
+build is the verification run (continuous integration replays it on
+every commit).  We distinguish explicitly: the artifact provides
 \emph{machine-checked object-language witnesses} (all
 algorithmic-equality claims) and \emph{executable regression tests}
 (the differential harness); it does \emph{not} provide machine-checked
