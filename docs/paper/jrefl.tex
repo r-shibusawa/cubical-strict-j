@@ -1,0 +1,3219 @@
+\documentclass{lmcs}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\DM}[1]{\mathrm{DM}(#1)}
+\newcommand{\transp}{\mathsf{transp}}
+\newcommand{\hcomp}{\mathsf{hcomp}}
+\newcommand{\vcomp}{\mathsf{comp}}
+\newcommand{\refl}{\mathsf{refl}}
+\newcommand{\J}{\mathsf{J}}
+\newcommand{\ua}{\mathsf{ua}}
+\newcommand{\Glue}{\mathsf{Glue}}
+\newcommand{\glue}{\mathsf{glue}}
+\newcommand{\unglue}{\mathsf{unglue}}
+\newcommand{\nf}{\mathsf{nf}}
+\newcommand{\FV}{\mathsf{FV}}
+\renewcommand{\conv}{\equiv}
+\newcommand{\aconv}{\equiv_{\mathrm{alg}}}
+\newcommand{\repeq}{\approx}
+\newcommand{\valeq}{\equiv^{\mathrm{val}}}
+\newcommand{\Path}{\mathsf{Path}}
+\providecommand{\fst}{}\renewcommand{\fst}{\mathsf{fst}}
+\providecommand{\snd}{}\renewcommand{\snd}{\mathsf{snd}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\ii}{\mathsf{i1}}
+\newcommand{\io}{\mathsf{i0}}
+\newcommand{\evalop}{\mathsf{eval}}
+\newcommand{\constq}{\mathsf{const?}}
+\newcommand{\constspec}{\mathsf{const?}_{\mathrm{spec}}}
+\newcommand{\convop}{\mathsf{conv}}
+\newcommand{\quo}{\mathsf{quote}}
+\newcommand{\capp}{\mathsf{inst}}
+\newcommand{\Comp}{\mathsf{Comp}}
+
+\begin{document}
+
+\title[Evaluation-Time Constancy Inference]{Evaluation-Time Constancy
+  Inference for Transport in Cubical Type Theory}
+
+\author[R.~Shibusawa]{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\keywords{cubical type theory, definitional equality, regularity,
+  transport, normalization by evaluation, De Morgan algebra}
+
+% REMOVE BEFORE SUBMISSION: draft version marker (added so that
+% successive external review rounds can identify which revision they
+% are reading).
+\titlecomment{Draft v12, 2026-07-17.}
+
+\begin{abstract}
+  The eliminator $\J$ of cubical type theories does not compute
+  definitionally on $\refl$: the transport primitive's constancy
+  formula is fixed when a term is written, so constancy arising later
+  by substitution is never used.  Re-detecting it at evaluation time
+  is an old informal idea; this paper gives it a metatheory.  First,
+  a no-go theorem: combining the evaluation-time rule equationally
+  with the structural transport rules derives a constant-system
+  $\hcomp$-regularity principle --- closely related to regularity
+  principles known to fail in standard cubical-sets models ---
+  already at path types, before $\Glue$; and restricting the
+  structural rules to non-constant families is not
+  substitution-stable.  Second, the positive system: judgmental
+  equality is defined as the algorithmic equality of a prioritized
+  normalization-by-evaluation strategy whose constancy check is
+  specified representation-independently (the fresh dimension must
+  not occur in the read-back of the family's value) and implemented
+  exactly; we prove the check semantically sound and the typed
+  algorithmic equality an admissible conversion relation ---
+  equivalence, congruence, weakening, substitution, context
+  conversion, type preservation --- with termination and canonicity
+  relative to an explicitly delimited base component, which we
+  discharge for a $\Glue$-free, universe-free core fragment: there,
+  including for $\J\,d\,\refl \conv d$ itself, the results are
+  unconditional.  All concrete positive and negative
+  object-language conversion witnesses, including the switchover
+  experiments behind the no-go theorem, are machine-checked in a
+  self-contained Lean~4 kernel; the metatheory itself is
+  pen-and-paper.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+Cubical type theories \cite{CCHM,ABCFHL} compute: univalence and
+higher inductive types have computational content, and canonicity and
+normalization hold \cite{HuberNorm,SterlingAngiuli}.  The price is
+paid at the eliminator $\J$ of Martin-L\"of's identity type, which in
+cubical systems is a defined operation --- transport along a
+connection square --- and no longer satisfies the definitional
+computation rule $\J\,d\,\refl \conv d$.  In Cubical Agda
+\cite{VezzosiMortbergAbel} the equation holds only propositionally
+(\textsf{transportRefl}); library code is peppered with explicit
+appeals to it, and the gap is a standing source of friction when
+porting Book-HoTT developments \cite{UIPCubical}.
+
+The mechanism is easy to isolate.  The transport primitive
+$\transp^i\,A\,\varphi\,u$ of ABCFHL-style theories carries a
+\emph{constancy formula} $\varphi$: a cofibration under which the
+family $A$ is required to be judgmentally constant in $i$, with the
+primitive rule $\transp^i A\,\ii\,u \conv u$.  The formula is fixed
+when the term is \emph{written}.  Inside the definition of $\J$ the
+transport is formed with $\varphi = \io$; substituting $p := \refl$
+later makes the family judgmentally constant, but nothing revisits
+$\varphi$.  The information is available at evaluation time and is
+simply not used.
+
+The obvious repair has circulated informally for years: let the
+\emph{evaluator} re-detect constancy --- normalize the family, check
+that the transport dimension does not occur, and if so return the
+input.  Arend's \textsf{coe} computes on constant families over its
+(non-cubical) interval \cite{Arend}.  For full cubical theories the
+folklore assessment --- which has, to our knowledge, circulated only
+informally --- locates the obstruction in the interaction with the
+structural transport rules, above all at $\Glue$, where regularity
+fails in the standard models \cite{SwanRegularity,SattlerNote}; no
+published metatheoretic analysis of the idea for a univalent cubical
+calculus appears to exist.
+This paper provides that analysis: a no-go theorem locating the
+obstruction precisely, and the metatheory of an operational
+formulation that avoids it.
+
+\subparagraph*{The no-go half.}  Write (R) for the evaluation-time
+rule: $\transp^i A\,\varphi\,u \conv u$ whenever $A$ is judgmentally
+$i$-constant, regardless of $\varphi$.  When the family is constant,
+(R) and the \emph{structural} rule for the family's head former both
+apply, and an equational theory containing both closes over the pair.
+We machine-check the resulting \emph{switchover} equations former by
+former (Section~\ref{sec:switchover}).  For $\Pi$, $\Sigma$ and the
+argument-wise higher inductive constructors the structural contractum
+collapses back to the input --- using, and in fact \emph{forcing},
+the $\eta$~laws.  For path types it does not: the structural rule
+\[
+  \transp^i (\Path\,A\,a\,b)\,\varphi\,p \;\conv\;
+  \langle j \rangle\, \vcomp^i\,A\,[\,j{=}0 \mapsto a,\ j{=}1 \mapsto
+  b\,]\,(p\,j)
+\]
+leaves, at a constant family, an $\hcomp$ whose tubes are constant in
+the fill dimension.  Equating that residue with $p$ is a
+constant-system homogeneous-composition regularity principle --- an
+equation of the kind excluded in the standard cubical-sets models
+\cite{SwanRegularity,SattlerNote}, and one our kernel refutes
+($\mathsf{trans}\,\refl\,\refl \not\aconv \refl$).  Thus
+(Theorem~\ref{thm:nogo}, with the full derivation in
+Section~\ref{sec:nogo}): \emph{any equational theory containing the
+structural path-transport rule, rule (R), congruence and transitivity
+derives constant-tube $\hcomp$-regularity; the conflict arises at
+path types already --- before, and independently of, $\Glue$.}
+Moreover the alternative of \emph{restricting} the structural rules
+to non-constant families --- the route taken by an earlier version of
+this work --- fails for a dual reason: non-constancy is \emph{not}
+stable under substitution (a family non-constant at definition time
+is exactly one that may become constant later), so the restricted
+rule set is not closed under substitution either.
+
+\subparagraph*{The positive half.}  The way out is to stop generating
+the equality by rules on terms and instead take the judgmental
+equality of the extended system to \emph{be} the algorithmic equality
+of a prioritized evaluation strategy: normalization by evaluation, in
+which a transport node first evaluates its family, instantiates it at
+a fresh dimension, and checks constancy \emph{of the resulting
+value}; only if the check fails does it dispatch structurally.  For
+this to be a definition of judgmental equality rather than a
+description of an implementation, a body of metatheory is owed, and
+this paper's main technical contribution is to supply it
+(Sections~\ref{sec:domain}--\ref{sec:canonicity}):
+
+\begin{itemize}
+\item a \emph{representation equivalence} $\repeq$ on the semantic
+  domain (values differing only in closure representation), because
+  in a defunctionalized NbE the two sides of the substitution lemma
+  do \emph{not} produce identical values, only $\repeq$-related ones
+  (Section~\ref{sec:domain});
+\item a \emph{specification} of the constancy check ---
+  the fresh dimension must not occur in the \emph{read-back} of the
+  family value --- which is representation-independent, together with
+  its \emph{semantic soundness theorem}: a checked family has
+  logically-related endpoints (Section~\ref{sec:check});
+  the implemented occurs-check is proved to \emph{decide the
+  specification exactly} (Theorem~\ref{thm:exact}), so the kernel and
+  the specified system are one system, not two;
+\item the substitution lemma
+  $\evalop(t\sigma, \rho) \repeq \evalop(t, \evalop(\sigma,\rho))$,
+  whose transport case goes through \emph{because} the check is
+  specified representation-independently --- the branch taken is a
+  function of the $\repeq$-class (Section~\ref{sec:oper});
+\item a Kripke logical relation $\valeq$ over the domain whose
+  fundamental theorem yields, as corollaries, that the typed
+  algorithmic equality is an \emph{admissible conversion relation}:
+  an equivalence, a congruence for every term former, stable under
+  weakening, substitution and context conversion, type-preserving,
+  and coherent with the bidirectional checker
+  (Theorem~\ref{thm:admissible});
+\item termination folded into the logical relation in the standard
+  Tait style --- no syntactic termination measure is claimed, and the
+  double induction (typing derivation outside, semantic type values
+  inside) discharging the structural transport branch is made
+  explicit (Section~\ref{sec:canonicity});
+\item canonicity: closed naturals evaluate to numerals, whence
+  consistency and $\J\,d\,\refl \conv d$
+  (Theorem~\ref{thm:canonicity}).  The base-rule cases of the
+  fundamental theorem are inherited as an explicitly delimited
+  \emph{base component} (Section~\ref{sec:assumptions});
+\item an \emph{unconditional core}: for the minimal fragment
+  $\Pi, \Sigma, \Path, \mathbb{N}$ with transport and homogeneous
+  composition --- no $\Glue$, no universes, no HITs --- we discharge
+  the base component ourselves, in full per-former detail
+  (Appendix~\ref{app:core}), so that there admissibility, canonicity
+  and the definitional $\J\,d\,\refl$ hold with no assumption at all
+  (Theorem~\ref{thm:core}); the derived $\J$ and its computation on
+  $\refl$ are spelled out as an explicit proposition
+  (Proposition~\ref{prop:J}).  The extension of the core by $S^1$ is
+  stated separately as a proposition with a proof sketch and
+  artifact evidence, so the headline result is not entangled with
+  higher-inductive obligations;
+\end{itemize}
+
+\subparagraph*{The three layers, once and for all.}  The paper's
+positive results live at three clearly separated strengths, and we
+keep the labels attached throughout:
+\begin{itemize}
+\item \emph{Unconditional theorem} (Theorem~\ref{thm:core},
+  Appendix~\ref{app:core}): the $\Glue$-free, universe-free
+  \emph{minimal core} $\Pi, \Sigma, \Path, \mathbb{N}$ with
+  $\transp$ and $\hcomp$ --- large enough to define $\J$, so
+  $\J\,d\,\refl \conv d$ is unconditional;
+\item \emph{Relative theorem} (Theorems~\ref{thm:fundamental},
+  \ref{thm:admissible}, \ref{thm:canonicity}): the full implemented
+  De~Morgan calculus, relative to the delimited base component (B)
+  of Section~\ref{sec:assumptions};
+\item \emph{Artifact evidence}: $\Glue$, univalence, and the HIT
+  roster, machine-checked in the kernel but not covered by the
+  unconditional layer.
+\end{itemize}
+When we speak of a metatheory ``for a univalent cubical calculus'',
+univalence lives in the second and third layers; the unconditional
+layer is deliberately $\Glue$- and universe-free.
+
+We claim neither full regularity (the catalogue records
+$\mathsf{trans}\,p\,\refl \not\aconv p$: $\hcomp$ is untouched, as by
+Theorem~\ref{thm:nogo} it must be), nor a semantic countermodel for
+the no-go equation (we state precisely what is refuted
+algorithmically and what is conjectured semantically), nor a model
+construction for the positive system; open problems are collected in
+Section~\ref{sec:conclusion}.  A complementary result --- on a
+generic path, algorithmic equality of connection-reparametrizations
+is exactly free De~Morgan equality --- is kept in
+Appendix~\ref{app:reparam}.
+
+\section{The base calculus}
+\label{sec:base}
+
+\subsection{Syntax and rules}
+\label{sec:rules}
+
+We fix an ABCFHL-style univalent cubical type theory $T_0$ with a
+De~Morgan interval.\footnote{The Cartesian variant carries the
+switchover analysis through unchanged --- the residues are about
+$\hcomp$, not connections --- and strengthens the metatheory
+(Theorem A below).  We fix the De~Morgan case as primary because the
+accompanying implementation realizes it.}  The judgment forms,
+formers and rules used in this paper:
+
+\begin{itemize}
+\item \emph{Interval and cofibrations.}  Interval expressions over
+  $i_1,\dots,i_n$ form the free De~Morgan algebra
+  $\DM{i_1,\dots,i_n}$; cofibrations $\varphi$ are generated by face
+  equations $i{=}0$, $i{=}1$, conjunction and disjunction, with
+  constants $\io, \ii$.
+\item \emph{Formers.}  $\Pi$, $\Sigma$, $\Path$ (heterogeneous
+  $\mathsf{PathP}$), universes \`a la Russell, natural numbers and
+  base types, $\Glue$, and the higher inductive types listed in
+  Section~\ref{sec:hits}.
+\item \emph{$\eta$~rules} for $\Pi$, $\Sigma$ and $\Path$.
+\item \emph{Transport}, with an explicit constancy formula:
+  \[
+    \frac{\Gamma, i : \I \vdash A\ \mathsf{type} \qquad
+          \Gamma \vdash \varphi\ \mathsf{cof} \qquad
+          \Gamma, \varphi, i : \I \vdash A \conv A(\io/i) \qquad
+          \Gamma \vdash u : A(\io/i)}
+         {\Gamma \vdash \transp^i A\,\varphi\,u : A(\ii/i)}
+  \]
+  with the primitive collapse rule
+  $(\mathrm{S}_{\ii})\colon \transp^i A\,\ii\,u \conv u$ and one
+  \emph{structural} rule per former; the three needed later
+  ($\varphi$ omitted where it merely distributes):
+  \begin{align*}
+    \transp^i (\Pi x{:}A.B)\,u &\conv
+      \lambda x_1.\, \transp^i B[w\,x_1\,i/x]\,
+        \bigl(u\,(w\,x_1\,0)\bigr),
+      && w\,x_1\,i := \transp^j A(i \vee \neg j)\,x_1;\\
+    \transp^i (\Sigma x{:}A.B)\,u &\conv
+      \bigl(\transp^i A\,(\fst u),\
+            \transp^i B[\overline{u}\,i/x]\,(\snd u)\bigr),
+      && \overline{u}\,i := \transp^j A(i \wedge j)\,(\fst u);\\
+    \transp^i (\Path\,A\,a\,b)\,p &\conv
+      \langle j \rangle\, \vcomp^i A\,
+        [\,j{=}0 \mapsto a,\ j{=}1 \mapsto b\,]\,(p\,j).
+  \end{align*}
+  Higher inductive types transport argument-wise on constructor
+  arguments (Section~\ref{sec:hits}); $\Glue$ transports by the
+  composite operation $\mathsf{transpGlue}$ of \cite[\S6.2]{CCHM},
+  recalled in Section~\ref{sec:glueresidue}.
+\item \emph{Homogeneous composition} $\hcomp$ with the usual boundary
+  rules.  \emph{No} regularity rule for $\hcomp$ is assumed, and none
+  may be: constant-tube collapse is of the kind excluded in the
+  standard models \cite{SwanRegularity,SattlerNote}.  $\vcomp$
+  abbreviates transport followed by $\hcomp$ of the transported
+  tubes.
+\end{itemize}
+
+\subsection{The base component, and the three-layer main theorem}
+\label{sec:assumptions}
+
+The metatheory below is organized so that everything specific to rule
+(R) is proved here, while the (large) base-theory content enters as
+one delimited component:
+
+\begin{itemize}
+\item[(B)] \emph{The base component}: the Kripke logical relation of
+  Section~\ref{sec:domain} restricted to $T_0$, i.e.\ the predicate
+  clauses for all $T_0$ formers, the read-back correctness lemmas
+  ($v \valeq \evalop(\quo\,v)$, uniqueness and inconvertibility of
+  distinct normal forms, injectivity of type constructors), and the
+  fundamental-theorem cases for all $T_0$ rules, in environment form.
+\end{itemize}
+
+\noindent Our results then come in three layers:
+
+\begin{itemize}
+\item \textbf{Theorem A$'$ (unconditional minimal core).}  For the
+  fragment $\Pi, \Sigma, \Path, \mathbb{N}$ with $\transp$ and
+  $\hcomp$ --- no $\Glue$, no universes, no HITs --- component (B)
+  is discharged \emph{in this paper} (Appendix~\ref{app:core}), in
+  per-former detail: because the fragment has no universe, its
+  logical relation is defined by \emph{structural recursion on
+  syntactic types in environments} --- a plainly well-founded
+  induction --- and because it has no $\Glue$, transport never meets
+  the $\mathsf{transpGlue}$ machinery.  All positive results are
+  unconditional there (Theorem~\ref{thm:core}); in particular
+  $\J\,d\,\refl \conv d$, whose definition needs only paths,
+  connections and transport, is unconditional
+  (Proposition~\ref{prop:J}).  The $S^1$ extension is a separate
+  proposition (Appendix~\ref{app:core}, last subsection).
+\item \textbf{Theorem A (Cartesian layer).}  For Cartesian cubical
+  type theory, the judgmental-theory-level part of component (B) ---
+  the normal-form language and bijection, inconvertibility of
+  distinct normal forms, injectivity of type constructors,
+  decidability --- is discharged by the normalization theorem of
+  Sterling--Angiuli \cite{SterlingAngiuli} (normal-form specification
+  in \cite{HuangNF}), \emph{for the fragment their theorem covers}:
+  $\Pi$, $\Sigma$, path, glue and the circle, \emph{without
+  universes}.  The evaluator-level part of (B) --- the concrete
+  Kripke relation over our domain and the environment-form
+  fundamental cases --- is not literally in \cite{SterlingAngiuli},
+  whose method is deliberately not evaluation-based; it is a standard
+  NbE-correctness transposition, which we enumerate but do not claim
+  from the literature.  Appendix~\ref{app:bridge} gives the precise
+  item-by-item correspondence, the translation between their
+  boundary-conditioned $\mathsf{coe}$ and our $\varphi$-annotated
+  $\transp$, and the exact residual gaps (universes; the wider HIT
+  roster; the evaluator-level transposition).  Theorem A is therefore
+  unconditional only over that fragment and modulo that
+  transposition; we do not claim more.
+\item \textbf{Theorem B (De~Morgan layer).}  For the De~Morgan
+  calculus --- which the accompanying implementation realizes ---
+  component (B) is an assumption: Huber \cite{HuberNorm} provides its
+  closed/canonicity fragment, but a full open-term normalization
+  proof on the De~Morgan side is not in the literature.  All theorems
+  below are stated relative to (B).
+\end{itemize}
+
+\section{Rule (R), and the instability of non-constancy}
+\label{sec:rule}
+
+\begin{defi}[Judgmental constancy]\label{def:const}
+  $A$ is \emph{judgmentally $i$-constant} (over $\Gamma, i : \I$) if
+  there is $A_0$ with $\Gamma, i \vdash A \conv A_0$ and
+  $i \notin \FV(A_0)$.
+\end{defi}
+
+\noindent The rule under study is
+\[
+  (\mathrm{R})\qquad
+  \transp^i A\,\varphi\,u \conv u
+  \qquad\text{for \emph{any} $\varphi$, whenever $A$ is judgmentally
+  $i$-constant.}
+\]
+Write $T_{\mathrm{eq}} := T_0 + (\mathrm{R})$ for the
+\emph{unrestricted equational theory}.  Two different systems appear
+in this paper, and we name them apart once and for all:
+$T_{\mathrm{eq}}$ is the object of the no-go analysis
+(Section~\ref{sec:switchover}) and the target of the soundness
+theorem (Section~\ref{sec:soundness}); it is not used as the type
+system of record (its judgmental equality appears in statements, its
+typing never does).
+The system of record --- in which every fundamental-theorem,
+admissibility and canonicity statement below is made --- is the type
+system $T_{\mathrm{alg}}$ of Definition~\ref{def:talg}, whose
+conversion rule uses the algorithmic equality.
+
+\begin{rem}[Why the explicit formula matters]\label{rem:explicit}
+  In a $\varphi$-free presentation whose collapse rule is the side
+  condition ``$i \notin \FV(A) \Rightarrow \transp^i A\,u \conv u$'',
+  rule (R) is derivable from congruence.  With the explicit formula
+  --- as in ABCFHL and Cubical Agda --- it is not:
+  $(\mathrm{S}_{\ii})$ applies only at $\varphi = \ii$, and
+  congruence cannot change $\varphi$.  So (R) genuinely extends the
+  judgmental equality of the $\varphi$-explicit calculus; for the
+  $\varphi$-free reading, the contribution of this paper is the
+  operational system of Section~\ref{sec:oper}.
+\end{rem}
+
+\begin{lem}[Positive substitution stability]\label{lem:posstab}
+  If $A$ is judgmentally $i$-constant over $\Gamma, i$ and
+  $\sigma : \Delta \to \Gamma$, then $A\sigma$ is judgmentally
+  $i$-constant over $\Delta, i$.
+\end{lem}
+\begin{proof}
+  Judgmental equality is closed under substitution; $i$ is bound at
+  the transport site, may be chosen fresh for $\Delta$, and the terms
+  of $\sigma$ live over $\Delta$, so $\FV(A_0\sigma) \not\ni i$.
+\end{proof}
+
+\begin{lem}[Type preservation]\label{lem:preservation}
+  If $A$ is judgmentally $i$-constant then
+  $A(\io) \conv A_0 \conv A(\ii)$; rule (R) preserves typing.
+\end{lem}
+
+\noindent Note the asymmetry: constancy is substitution-stable;
+\emph{non}-constancy is not --- substituting $\refl$ for a path
+variable is exactly how a non-constant family becomes constant.  Any
+side condition of the form ``the family is \emph{not} constant'' is
+therefore unusable in a rule schema, both because it is not preserved
+by substitution and because, as a negative premise, it does not even
+define an inductive rule set.
+
+\section{The switchover analysis and the no-go theorem}
+\label{sec:switchover}
+
+When the family is constant, (R) and the structural rule for its head
+former both apply.  Call the induced equation between the two
+contracta the \emph{switchover equation} of the former.  This section
+determines, former by former and machine-checked throughout, which
+switchover equations hold in the algorithmic equality
+(Section~\ref{sec:oper}); the probes are the file
+\texttt{LibSwitchover.lean} of the artifact.
+
+\subsection{Convergent formers}
+\label{sec:convergent}
+
+\begin{lem}[Switchover convergence at $\Pi$, $\Sigma$]
+  \label{lem:converge}
+  Let the families involved be judgmentally $i$-constant.  Then, in
+  $T_0 + (\mathrm{R})$ and in the algorithmic equality:
+  \begin{align*}
+    \lambda x.\,\transp^i B\,\bigl(u\,(\transp^i A\,x)\bigr)
+      &\conv u  &&(\Pi)\\
+    \bigl(\transp^i A\,(\fst u),\ \transp^i B'\,(\snd u)\bigr)
+      &\conv u  &&(\Sigma, \text{ incl.\ dependent})
+  \end{align*}
+\end{lem}
+\begin{proof}
+  $\Pi$: the inner families are reparametrizations of constant
+  families, hence constant; (R) collapses both inner transports,
+  leaving $\lambda x.\,u\,x$, and $\eta_\Pi$ finishes.  $\Sigma$: in
+  the dependent case the second family is $B[\overline{u}\,i/x]$ with
+  $\overline{u}\,i \conv \fst u$ by (R), hence constant; (R) twice,
+  then $\eta_\Sigma$.  Machine witnesses: \texttt{swPiD},
+  \texttt{swSigD}, \texttt{swSigDepD} (all accepted).
+\end{proof}
+
+\begin{rem}[(R) forces $\eta$]\label{rem:eta}
+  Over an $\eta$-free base, the $\Sigma$ switchover equation \emph{is}
+  surjective pairing: any theory containing (R) and structural
+  $\Sigma$-transport derives $\eta_\Sigma$ (similarly $\eta_\Pi$).
+  Our kernel has all three $\eta$~laws, machine-checked, as any
+  implementation of (R) must.
+\end{rem}
+
+\subsection{Higher inductive types: the argument-wise class}
+\label{sec:hits}
+
+For higher inductive types we make no blanket claim; we delimit a
+signature class and check it.
+
+\begin{defi}[Argument-wise transport signatures]\label{def:argwise}
+  A constructor signature is \emph{argument-wise} if its structural
+  transport transports each point argument along the corresponding
+  line and carries interval arguments unchanged, generating no
+  boundary correction ($\hcomp$/filler).
+\end{defi}
+
+\begin{lem}\label{lem:hitconverge}
+  For argument-wise signatures, the switchover equation converges by
+  (R) on each argument line alone (no $\eta$ needed): the contractum
+  is literally the constructor form.
+\end{lem}
+
+\noindent The signatures implemented in the artifact classify as
+follows (machine witnesses in the last column):
+
+\begin{center}
+\small
+\begin{tabular}{llll}
+  HIT & constructors & class & switchover \\\hline
+  lists & $\mathsf{nil}, \mathsf{cons}$ & argument-wise &
+    converges (\texttt{swListD}) \\
+  suspension & $\mathsf{N}, \mathsf{S}, \mathsf{merid}$ &
+    arg.-wise (path ctor.) & converges (\texttt{swSuspMeridD}) \\
+  pushout & $\mathsf{inl}, \mathsf{inr}, \mathsf{push}$ &
+    argument-wise & converges (same schema) \\
+  $S^1$, torus & point/loop/surface & no point arguments &
+    trivially converges \\
+  $K(G,1)$, $B\mathrm{Gpd}$ & base/loop/comp cells &
+    argument-wise & converges (same schema) \\
+  quotient & $\mathsf{qin}$ & argument-wise & converges \\
+  quotient & $\mathsf{qeq}$, squash cells &
+    \emph{no structural rule} & vacuous (no critical pair) \\
+  truncation & $\mathsf{tin}$, squash & argument-wise / none &
+    converges / vacuous \\
+\end{tabular}
+\end{center}
+
+\noindent In our kernel, transports of non-constructor elements of
+quotients and truncations become neutral, so for the squash-type
+constructors there is no structural contractum and hence no
+switchover question.  Signatures whose structural transport would
+generate boundary corrections (constructors with non-trivial boundary
+in the transported arguments) are \emph{not} covered by
+Lemma~\ref{lem:hitconverge}; in the light of
+Section~\ref{sec:nogo} we expect non-convergence there, and we leave
+a general signature framework as future work.
+
+\subsection{Non-convergence at path types}
+\label{sec:nogo}
+
+At a constant family $\Path\,A\,a\,b$, the transport component of the
+structural contractum collapses by (R), and the residue is an
+$\hcomp$ whose tubes are constant in the fill dimension.
+
+\begin{lem}[Path separation]\label{lem:pathfail}
+  In the algorithmic equality, over the generic context
+  $(A{:}\,\U,\ a\,b{:}\,A,\ p{:}\,\Path\,A\,a\,b)$,
+  \[
+    \langle j \rangle\, \hcomp^{\,\iota} A\,
+      [\,j{=}0 \mapsto a,\ j{=}1 \mapsto b\,]\,(p\,j)
+    \;\not\aconv\; p.
+  \]
+  (Negative probe in \texttt{LibSwitchover.lean}; a control probe
+  confirms the left-hand side is well-typed, so the failure is one of
+  conversion, not typing.)  For the \emph{minimal core} the schema
+  version --- $A$ any fixed core type --- is moreover proved on
+  paper, unconditionally, in
+  Proposition~\ref{prop:papersep}; the machine probe remains the
+  witness for the full implemented calculus, where $A$ is a
+  universe variable.
+\end{lem}
+
+\noindent The derivation of that equation in any equational extension
+is short and fully formal.  Write $P := \Path\,A\,a\,b$ (so
+$i \notin \FV(P)$) and fix the typing premises
+$\Gamma \vdash A : \U$, $\Gamma \vdash a, b : A$,
+$\Gamma \vdash p : P$; note $\Gamma, i \vdash P\ \mathsf{type}$ and
+$\Gamma \vdash \transp^i P\,\io\,p : P$.
+\begin{align}
+  \Gamma &\vdash \transp^i P\,\io\,p \conv p
+    && \text{by (R), $P$ $i$-free} \label{eq:d1}\\
+  \Gamma &\vdash \transp^i P\,\io\,p \conv
+    \langle j \rangle\, \vcomp^i A\,[\partial j \mapsto a, b]\,(p\,j)
+    && \text{structural $\Path$ rule} \label{eq:d2}\\
+  \Gamma &\vdash \langle j \rangle\, \vcomp^i A\,[\cdots]\,(p\,j)
+    \conv \langle j \rangle\, \hcomp^{\,\iota} A\,[\cdots]\,(p\,j)
+    && \text{$\vcomp = \hcomp \circ \transp$; (R); congr.}
+    \label{eq:d3}\\
+  \Gamma &\vdash p \conv
+    \langle j \rangle\, \hcomp^{\,\iota} A\,
+      [\,j{=}0 \mapsto a,\ j{=}1 \mapsto b\,]\,(p\,j)
+    && \text{sym., trans.\ of \eqref{eq:d1}--\eqref{eq:d3}}
+    \tag{$\dagger$}\label{eq:dagger}
+\end{align}
+Each step preserves the stated typing: \eqref{eq:d1} by
+Lemma~\ref{lem:preservation}; \eqref{eq:d2} is the structural rule at
+its stated type; in \eqref{eq:d3} the transported tubes and base are
+along $i$-free lines, so (R) applies under the binder and the
+congruence rules for $\hcomp$ systems, and the boundary conditions
+($j{=}0$: base $p\,0 \conv a$ matches the tube; $j{=}1$
+symmetrically) are exactly those of the structural rule.
+
+Four remarks on scope, answering natural objections.  (i) The rule
+used in \eqref{eq:d2} is the $\Path$-instance of the transport
+unfolding common to CCHM~\cite[\S3]{CCHM} and
+ABCFHL~\cite{ABCFHL}; the heterogeneous $\mathsf{PathP}$ instance
+differs only in that the composition line is $A(i,j)$, and at a
+constant family degenerates to the same residue.  (ii) The residue
+survives in the Cartesian calculus unchanged --- no connections are
+used anywhere in
+\eqref{eq:d1}--\eqref{eq:dagger}.  (iii) $\eta_{\Path}$ cannot
+discharge \eqref{eq:dagger}: $\eta$ cancels a path abstraction
+against a path application, and the right-hand side's body is an
+$\hcomp$ value, not an application of $p$.  (iv) ``Constant tubes''
+means constancy in the \emph{fill} dimension $\iota$; the tubes do
+depend on $j$.
+
+\begin{thm}[No-go]\label{thm:nogo}
+  \begin{enumerate}
+  \item Any equational theory containing the structural
+    path-transport rule, rule (R), congruence and transitivity
+    derives \eqref{eq:dagger}.  Consequently the conversion checker
+    of Section~\ref{sec:oper}, which refutes \eqref{eq:dagger}
+    (Lemma~\ref{lem:pathfail}), is incomplete for every such theory.
+  \item Equation \eqref{eq:dagger} is a constant-system
+    $\hcomp$-regularity principle.  We do not claim it is literally
+    an instance of a published counterexample; it is closely related
+    to the regularity principles excluded by the results of Swan
+    \cite{SwanRegularity} and Sattler \cite{SattlerNote}, and we
+    conjecture that it fails in the standard cubical-sets semantics.
+    Constructing a countermodel is stated as an open problem
+    (Section~\ref{sec:conclusion}); no result of this paper depends
+    on it.
+  \item Restricting the structural transport rules to judgmentally
+    non-constant families does not define a substitution-closed rule
+    set (Section~\ref{sec:rule}); closing the restricted theory under
+    substitution re-imports \eqref{eq:dagger}.  An explicit witness:
+    over $\Gamma = (A : \U,\ a\,b : A,\ p : \Path\,A\,a\,b)$ the
+    family $C(i) := \Path\,A\,a\,(p\,i)$ is judgmentally
+    \emph{non}-constant (its normal form mentions $i$ through the
+    neutral $p$), so the restricted theory applies the structural
+    rule:
+    $\transp^i C\,\io\,q \conv
+    \langle j \rangle\, \vcomp^i A\,[\ldots]\,(q\,j)$.
+    Substituting $\sigma := [\refl_a / p]$ (and $a$ for $b$) sends
+    $C$ to the \emph{constant} family $\Path\,A\,a\,a$; the
+    substituted instance of the derived equation must still hold in
+    a substitution-closed theory, while (R) now collapses its
+    left-hand side --- transitivity yields exactly
+    \eqref{eq:dagger} at $\Path\,A\,a\,a$.
+  \item The conflict is independent of $\Glue$: the derivation uses
+    path types only.
+  \end{enumerate}
+\end{thm}
+
+\noindent Theorem~\ref{thm:nogo} is, we believe, the precise content
+of the folklore judgment that evaluation-time constancy detection
+``does not interact well with the rest of cubical type theory'': the
+obstruction is not the detection, and not specifically $\Glue$, but
+that any equational marriage of (R) with the $\hcomp$-generating
+structural rules collapses onto regularity for $\hcomp$.  It also
+fixes the design space: the extension must be operational, with (R)
+tried \emph{before} structural dispatch.
+
+\subsection{The $\Glue$ residue}
+\label{sec:glueresidue}
+
+The same computation for $\Glue$ shows its switchover residue is the
+path residue plus fiber corrections.  Let
+$G := \Glue\,[\varphi \mapsto (T, w)]\,B$ with $\varphi, T, w, B$ all
+$i$-free, and $u_0 : G$.  Unfold $\mathsf{transpGlue}$
+\cite[\S6.2]{CCHM} at the constant line, collapsing every inner
+transport by (R): the branch transport $\transp^i T\,u_0$ collapses;
+the branch filler line becomes the \emph{constant} tube
+$\iota \mapsto w.1\,u_0$; hence the corrected base is
+\[
+  a_1' \;=\; \hcomp^{\,\iota} B\,[\,\delta \mapsto w.1\,u_0\,]\,
+  (\unglue\,u_0), \qquad \delta = \forall i.\,\varphi = \varphi,
+\]
+a constant-tube $\hcomp$, stuck off $\delta$ --- the residue of
+Lemma~\ref{lem:pathfail} --- after which the fiber-point correction
+adds further $\hcomp$s on the fiber $\Sigma$-type before reassembly
+with $\glue$.
+
+\section{The semantic domain, and two value equivalences}
+\label{sec:domain}
+
+This section and the next two supply the metatheory that entitles us
+to call an algorithmic equality a \emph{judgmental} equality.  We
+work with the concrete NbE domain of the implementation; all
+definitions are stated so as to be implementation-independent.
+
+\subsection{The domain}
+\label{sec:rawdomain}
+
+\emph{Levels} $\ell \in \mathbb{N}$ name free variables (term and
+dimension alike); a \emph{depth} $d$ records the number of enclosing
+binders, with the invariant that every free level of a value produced
+at depth $d$ is $< d$.  \emph{Interval values} are elements of the
+free De~Morgan algebra over levels, with a canonical antichain-DNF.
+\emph{Values} are weak-head normal: a head constructor with value,
+interval, cofibration, system and \emph{closure} arguments.
+\emph{Closures} are defunctionalized: either
+$\mathsf{mk}(\rho, t)$ --- an environment (a list of values) and a
+term body --- or one of finitely many closure combinators
+(reparametrizations, the structural-transport auxiliaries, \dots);
+\emph{instantiation} $\capp_d(c, w)$ dispatches on the combinator
+and, in the $\mathsf{mk}$ case, calls
+$\evalop(t, \rho{+}[w])$ --- the one place evaluation re-enters, and
+the reason no syntactic termination measure exists.  \emph{Neutrals}
+are elimination spines on a variable level.  The \emph{dimension
+action} $v\langle\xi\rangle$ of a partial map
+$\xi : \mathrm{Level} \rightharpoonup \I$ applies $\xi$ to interval
+parts, preserving heads and acting pointwise on closure
+environments.
+
+\subsection{Representation equivalence}
+\label{sec:repeq}
+
+In a defunctionalized NbE, the values $\evalop(A\sigma, \rho)$ and
+$\evalop(A, \evalop(\sigma,\rho))$ are \emph{not} identical: the
+first carries the substituted body with a shorter environment, the
+second the original body with a longer one.  Every ``equal values''
+statement below is therefore made with respect to:
+
+\begin{defi}[Representation equivalence $\repeq$]\label{def:repeq}
+  The largest relation such that $v \repeq v'$ implies: same head
+  constructor; interval and cofibration arguments \emph{literally
+  equal} (in DNF); value arguments $\repeq$; neutral spines pointwise
+  (same head level, arguments $\repeq$); and for closures,
+  $c \repeq c'$ iff $\capp_d(c, w) \repeq \capp_d(c', w)$ for all
+  $d$ and all arguments $w$.
+\end{defi}
+
+\noindent Literal equality of interval parts is meaningful because
+fresh levels are generated deterministically by depth, and the two
+evaluations traverse the same term structure at the same depths
+(the depth invariant of Section~\ref{sec:rawdomain}; this is made a
+standing lemma in Appendix~\ref{app:cases}).
+
+\begin{lem}[Read-back invariance]\label{lem:readback}
+  $v \repeq v' \implies \quo_d(v) = \quo_d(v')$.
+\end{lem}
+\begin{proof}
+  $\quo$ dispatches on heads, copies interval parts, and opens
+  closures at generic levels --- exactly the observations $\repeq$
+  preserves; coinduction over the read-back.
+\end{proof}
+
+\noindent $\repeq$ is preserved by all semantic operations
+($\capp$, application, projections, path application, $\transp$,
+$\hcomp$, $\glue$/$\unglue$): each dispatches on heads, interval
+parts and instantiation behavior only.  The per-operation
+compatibility lemmas are stated in Appendix~\ref{app:cases}.
+
+\subsection{The Kripke logical relation}
+\label{sec:valeq}
+
+\begin{defi}[$\valeq$]\label{def:valeq}
+  By induction on type values (stratified by universe level), a
+  Kripke partial equivalence relation.  In this section, for
+  readability, worlds are depths; the full world structure ---
+  depths together with cofibration assumptions, with dimension
+  substitutions and face restrictions as maps --- is what the
+  clauses quantify over wherever systems and faces appear, and is
+  made fully explicit for the core in
+  Appendix~\ref{app:coreworlds} (for the general calculus it is
+  part of component (B), as in \cite{HuberNorm}, whose
+  computability predicates are likewise face-indexed families):
+  \begin{itemize}
+  \item $\valeq_{\mathbb{N}}$: forced to the same numeral, or both
+    neutral with equal read-back;
+  \item $f \valeq_{\Pi(D,C)} f'$ iff for all $d' \ge d$ and all
+    $w \valeq_D w'$:
+    $f\,w \valeq_{\capp(C,w)} f'\,w'$;
+  \item $\Sigma$: componentwise; $\mathsf{PathP}(F,l,r)$: at every
+    interval value, in the corresponding fiber;
+  \item $\Glue$: the unglued parts related in the base, and on each
+    live face the branch parts related in the branch type;
+  \item $\U$: both codes decode to related PERs (the universe
+    induction);
+  \item HITs: constructor-wise (value arguments related, interval
+    arguments literally equal), closed under $\hcomp$ and neutrals.
+  \end{itemize}
+\end{defi}
+
+\begin{lem}\label{lem:valeqbasics}
+  (i) $\repeq \subseteq \valeq_T$ for every $T$.
+  (ii) $\valeq$ is a PER, invariant under $\valeq$-replacement of the
+  type value.
+  (iii) \emph{Conversion correctness}: $\convop_d(v, v', T)$ accepts
+  iff $v \valeq_T v'$.  Soundness of $\convop$ (accepted implies
+  related) is by induction on the run: each clause checks exactly a
+  defining clause of $\valeq$.  Completeness (related implies
+  accepted) is the standard NbE read-back argument, part of the base
+  component (B) for base types and extended in
+  Appendix~\ref{app:cases} for the new clause.
+  In particular symmetry and transitivity of the algorithmic
+  equality are inherited from the PER structure.
+\end{lem}
+
+\begin{rem}[Where clause (iii) is proved, per layer]
+  \label{rem:whichlayer}
+  In the \emph{relative} full calculus, clause (iii) --- in
+  particular its term-level soundness direction --- is part of the
+  base component (B) of Section~\ref{sec:assumptions}, inherited in
+  the form stated.  For the \emph{unconditional core}, Appendix~F
+  does \emph{not} re-prove term-level soundness and does not need
+  it: it replaces clause (iii) by the read-back characterization of
+  conversion (Lemma~\ref{lem:convrb}), type-level soundness
+  (Lemmas~\ref{lem:typeidem}--\ref{lem:typeconvsound}) and
+  completeness (Lemma~\ref{lem:coreconvcomp}); see
+  Remark~\ref{rem:nosemconv} for why this weaker package suffices
+  for every use the unconditional results make.  The two proof
+  routes coexist without conflict, but they are different routes,
+  and each theorem below cites the one appropriate to its layer.
+\end{rem}
+
+\section{The constancy check: specification, soundness,
+  implementation}
+\label{sec:check}
+
+\subsection{Specification}
+
+The system is \emph{defined} with the following
+representation-independent check.  Let $F$ be the family value
+instantiated at a fresh dimension level $\ell$ at depth $d{+}1$.
+
+\begin{defi}[Check specification]\label{def:spec}
+  $\constspec(F, \ell) :\iff \ell \notin \FV(\quo_{d+1}(F))$.
+\end{defi}
+
+\noindent By Lemma~\ref{lem:readback} the specification is invariant
+under $\repeq$ --- the property that makes the substitution lemma
+below go through, and that no direct traversal of representations
+can have.
+
+\subsection{Semantic soundness}
+
+\begin{thm}[Constancy-check soundness]\label{thm:checksound}
+  If $\constspec(F, \ell)$ then for all interval values $r, s$:
+  $F\langle r/\ell\rangle \valeq F\langle s/\ell\rangle$ (as type
+  values: they decode to the same PER).
+\end{thm}
+\begin{proof}
+  (1) \emph{Read-back/action commutation}:
+  $\quo(v\langle\xi\rangle) = \quo(v)\langle\xi\rangle$ --- the
+  action touches only interval parts and closure environments, and
+  read-back opens closures at generic levels disjoint from
+  $\mathrm{dom}\,\xi$; induction over the read-back.
+  (2) Hence with $\ell \notin \FV(\quo F)$:
+  $\quo(F\langle r/\ell\rangle) = \quo(F)\langle r/\ell\rangle =
+  \quo(F) = \quo(F\langle s/\ell\rangle)$.
+  (3) \emph{NbE idempotence at type values}: the family value and
+  the evaluation of its read-back determine the same relation.  For
+  the general calculus this is part of the base component (B)
+  (Appendix~\ref{app:cases}); for the minimal core it is proved as
+  an independent lemma (Lemma~\ref{lem:typeidem}), by structural
+  induction on the family's syntactic type --- read-back equality
+  and quote--eval idempotence are distinct theorems, and we use the
+  latter, at type values only.  Then
+  $F\langle r/\ell\rangle \valeq \evalop(\quo F) \valeq
+  F\langle s/\ell\rangle$.
+\end{proof}
+
+\noindent Theorem~\ref{thm:checksound} is what entitles the positive
+branch of the evaluator to return its input: the two endpoint type
+values have \emph{equal read-back} and decode to the same PER, so no
+coercion is needed --- see the transport case of
+Theorem~\ref{thm:fundamental}.
+
+\subsection{The implementation realizes the specification exactly}
+\label{sec:implcheck}
+
+The kernel's occurs-check (\texttt{usesLvl}) mirrors the read-back
+traversal clause by clause: the same face forcing at the head, the
+same structural recursion on value and interval arguments, binder
+closures instantiated at generic levels exactly as read-back's
+binder cases, and the tubes of neutral $\hcomp$s likewise
+instantiated, exactly as read-back's system case.  Its two
+optimizations are semantically transparent: an $O(1)$
+\emph{level-bound cut} --- every value carries an upper bound on its
+free levels, maintained by the smart constructors; the bound's
+correctness (Lemma~L1, Appendix~\ref{app:depth}) makes the cut
+\emph{exact} --- and memoization.
+
+\begin{thm}[Checker exactness, Kleene form]\label{thm:exact}
+  For every value $F$ and level $\ell$: if either of
+  $\texttt{usesLvl}(\ell, F)$, $\quo(F)$ is defined then both are,
+  and then
+  \[
+    \texttt{usesLvl}(\ell, F) = \mathsf{true}
+    \iff \ell \in \FV(\quo(F)).
+  \]
+  Hence the implemented check decides $\constspec$ exactly on
+  exactly the inputs where the specification is defined; in
+  particular it is invariant under $\repeq$
+  (by Lemma~\ref{lem:readback}), although its traversal never
+  constructs the read-back term.
+\end{thm}
+\begin{proof}
+  Simultaneous induction on the defining big-step derivations
+  (Section~\ref{sec:partiality}) of \texttt{usesLvl} and $\quo$,
+  whose recursion structures are mirrored clause by clause; the full
+  clause table, covering every value, neutral and
+  closure-instantiation case, together with the definedness
+  transfer, the completeness of the level-bound cut, and the
+  transparency of memoization, is Appendix~\ref{app:exact}.
+\end{proof}
+
+\begin{rem}[An instructive archaeology]\label{rem:archaeology}
+  An earlier version of the checker walked the tubes of neutral
+  $\hcomp$s \emph{structurally}, over their closure environments,
+  without instantiation --- a representation-sensitive
+  over-approximation.  That design would have opened a real gap:
+  a family the specification accepts but the implementation
+  declines, making the specification take the (R)-branch and the
+  implementation the structural branch --- whose results, at path
+  types, are \emph{deliberately} non-convertible
+  (Lemma~\ref{lem:pathfail}); one-way soundness of the check would
+  then not make the kernel a realization of the specified system at
+  all.  Inspection during the present revision showed that code path
+  had become unreachable --- the live path already instantiates,
+  mirroring read-back --- and it has been removed from the artifact,
+  with the exact-mirroring property now asserted in the kernel's
+  documentation.  We record this because it sharpens
+  Remark~\ref{rem:whyspec} into a slogan: \emph{any deviation of the
+  checker from read-back is not a harmless approximation but a
+  change of judgmental equality.}
+\end{rem}
+
+\noindent Consequently the implemented evaluator \emph{is} the
+specified system: every branch decision agrees
+(Theorem~\ref{thm:exact}), all theorems of
+Sections~\ref{sec:oper}--\ref{sec:canonicity} apply to the
+implementation verbatim, and every machine probe --- positive and
+negative --- is a claim about the one algorithmic equality.
+
+\section{The operational system and its admissibility}
+\label{sec:oper}
+
+\subsection{Partiality: what kind of objects the definitions are}
+\label{sec:partiality}
+
+The functions $\evalop$, $\capp$, $\quo$, $\constspec$ (which calls
+$\quo$) and $\convop$ form \emph{one} mutually recursive family of
+\emph{partial} functions.  Mathematically, we define their
+\emph{graphs} inductively, as big-step derivations: a derivation
+certifies ``this call is defined, with this result''; determinism is
+by construction of the rules, and the implementation's recursive
+definitions compute exactly these graphs.  Two call cycles are
+inherent and intended: instantiation re-enters evaluation on stored
+closure bodies (Section~\ref{sec:rawdomain}), and the transport
+clause calls the check, which reads back the family value, which
+re-instantiates closures ---
+$\evalop \to \constspec \to \quo \to \capp \to \evalop$.  Neither is
+vicious: inductive definitions of graphs need no termination
+argument; \emph{totality on well-typed inputs} is a theorem
+(Corollary~\ref{cor:termination}), proved by the logical relation
+and never assumed.  Three consequences for the statements below:
+the closure clause of $\repeq$ (Definition~\ref{def:repeq}) is read
+Kleene-style --- for all $w$, $\capp(c,w)$ and $\capp(c',w)$ are both
+undefined or both defined and related; the substitution lemma is
+stated in Kleene form; and the compatibility lemmas of
+Appendix~\ref{app:repeq} are simultaneous inductions on the defining
+derivations, with coinduction on the produced values.
+
+Formally, $\repeq$ is the greatest fixed point of an operator
+$\Phi$ on relations over the partial computation graph: for a
+relation $R$ on values, $\Phi(R)$ relates $v, v'$ iff they have the
+same head constructor, literally equal interval and cofibration
+arguments, $R$-related value arguments, pointwise-$R$ neutral
+spines, and, for each closure argument pair $(c, c')$ and every $w$,
+either both $\capp(c,w)$ and $\capp(c',w)$ are undefined or both are
+defined and $R$-related.  $\Phi$ is monotone (it uses $R$ only
+positively), so $\repeq := \nu\Phi$ exists by Knaster--Tarski;
+coinductive proofs below exhibit $\Phi$-invariant relations
+(post-fixed points), and their guardedness is the fact that each
+appeal to the coinduction hypothesis sits under at least one value
+constructor of $\Phi$'s unfolding.  The simultaneous inductions of
+Appendix~\ref{app:repeq} are ordered by the sub-derivation relation
+of the big-step graphs --- an evaluation derivation strictly
+contains the derivations of its premises, and instantiation
+derivations are premises of the evaluation derivations that invoke
+them --- which is well-founded because derivations are finite trees;
+no measure on values or terms is used anywhere.
+
+\subsection{The prioritized evaluator}
+
+$\evalop(t, \rho)$ is the base NbE evaluator with one changed clause.
+On $\transp^i A\,\varphi\,u$:
+\begin{enumerate}
+\item $F := \capp_{d+1}(\evalop(A, \rho), \ell)$ at a fresh dimension
+  level $\ell$;
+\item if $\constspec(F, \ell)$ (implementation: \texttt{usesLvl}),
+  return $\evalop(u, \rho)$;
+\item otherwise dispatch structurally on the head of $F$ as in the
+  base evaluator ($\Pi$, $\Sigma$, $\Path$, HITs, $\Glue$ via
+  $\mathsf{transpGlue}$, neutral).
+\end{enumerate}
+The check runs on the \emph{evaluated} family, so it fires on
+families whose value is constant even when their syntax is not
+(machine-checked: \texttt{strictTranspValueConstD}).  There is
+exactly one definition of constancy in the system --- the one the
+evaluator runs.
+
+\begin{defi}[Typed algorithmic equality]\label{def:alg}
+  $\Gamma \vdash t \aconv u : A$ iff
+  \[
+    \convop_{|\Gamma|}\bigl(\evalop(t, \rho_\Gamma),\
+    \evalop(u, \rho_\Gamma),\ \evalop(A, \rho_\Gamma)\bigr)
+  \]
+  accepts, where
+  $\rho_\Gamma$ is the generic environment of $\Gamma$ (each variable
+  a fresh neutral at its type).
+\end{defi}
+
+\begin{defi}[The system of record $T_{\mathrm{alg}}$]\label{def:talg}
+  $T_{\mathrm{alg}}$ is the type system with the rules of
+  Appendix~\ref{app:rules} whose conversion rule is mediated by
+  $\aconv$ (Definition~\ref{def:alg}); it is the system the
+  bidirectional checker implements.  It is \emph{not} presented by an
+  equational theory on terms: by Theorem~\ref{thm:nogo} no
+  substitution-closed rule-generated presentation containing both
+  (R) and the structural rules can coincide with it.
+\end{defi}
+
+\subsection{The substitution lemma}
+
+\begin{lem}[Substitution/environment coherence]\label{lem:subst}
+  For every term $t$, substitution $\sigma$ and environment $\rho$:
+  if either of $\evalop(t\sigma, \rho)$,
+  $\evalop(t, \evalop(\sigma, \rho))$ is defined then both are, and
+  \[
+    \evalop(t\sigma, \rho) \;\repeq\; \evalop(t, \evalop(\sigma, \rho)).
+  \]
+\end{lem}
+\begin{proof}
+  Structural induction on $t$.  All cases except transport are the
+  standard NbE compositionality cases: value formers produce equal
+  heads with $\repeq$ arguments; the closure-forming cases are the
+  closure clause of Definition~\ref{def:repeq} (instantiating either
+  closure continues with the induction hypothesis); interval parts
+  are literally equal by the depth-determinacy of fresh levels.
+
+  For $t = \transp^i A\,\varphi\,u$: the two family values
+  \[
+    F_L := \evalop(A\sigma,\rho)[\ell], \qquad
+    F_R := \evalop(A, \evalop(\sigma,\rho))[\ell]
+  \]
+  satisfy $F_L \repeq F_R$ (induction hypothesis for $A$ plus
+  $\capp$-compatibility), with the \emph{same} fresh $\ell$ (depth
+  determinacy).  The check is the specification of
+  Definition~\ref{def:spec}, which is $\repeq$-invariant
+  (Lemma~\ref{lem:readback}); \emph{hence the two sides take the same
+  branch}.  Positive branch: induction hypothesis for $u$.  Negative
+  branch: the same structural dispatch on the same head, closing by
+  the induction hypotheses and the per-operation compatibility
+  lemmas.
+\end{proof}
+
+\begin{rem}\label{rem:whyspec}
+  The proof shows why the check \emph{must} be specified
+  representation-independently: an implementation-level check
+  (a traversal of representations) is not a function of the
+  $\repeq$-class --- the two sides of the lemma present the same
+  family in different representations, and a
+  representation-sensitive check could take different branches,
+  breaking the lemma at exactly the transport case.  Specification
+  vs.\ implementation is not pedantry here; it is the load-bearing
+  design decision.  (For the artifact no gap remains: the implemented
+  checker decides the specification exactly, Theorem~\ref{thm:exact}
+  --- and Remark~\ref{rem:archaeology} records how close it once came
+  to having one.)
+\end{rem}
+
+\subsection{The fundamental theorem, and termination}
+
+\begin{defi}[Semantic typing]\label{def:semtyping}
+  $\Gamma \vDash t : A$ iff for all depths and all pairs of related
+  $\Gamma$-environments $\rho \valeq \rho'$: $\evalop(t, \rho)$ is
+  \emph{defined} (evaluation terminates) and
+  $\evalop(t, \rho) \valeq_{\evalop(A,\rho)} \evalop(t, \rho')$.
+\end{defi}
+
+\begin{thm}[Fundamental theorem]\label{thm:fundamental}
+  If $\Gamma \vdash t : A$ in $T_{\mathrm{alg}}$ then
+  $\Gamma \vDash t : A$.
+\end{thm}
+\begin{proof}
+  Induction on the typing derivation.  All $T_0$ rules are the base
+  component (B), in environment form (the enumeration, with the
+  clause-by-clause correspondence to \cite{HuberNorm}, is
+  Appendix~\ref{app:cases}).  Two cases are specific to
+  $T_{\mathrm{alg}}$.
+
+  \emph{The conversion rule.}  From $\Gamma \vdash t : B$ and
+  $\Gamma \vdash B \aconv A$: by IH, $\evalop(t,\rho)$ is defined and
+  related at $\evalop(B,\rho)$; conversion correctness
+  (Lemma~\ref{lem:valeqbasics}(iii)) turns the accepted conversion
+  into $\evalop(B,\rho) \valeq \evalop(A,\rho)$, and $\valeq$ is
+  invariant under related type values (Lemma~L10), closing the case.
+  This is where defining the system of record with the
+  \emph{algorithmic} equality is essential and not cosmetic: had the
+  conversion rule used derivability in $T_{\mathrm{eq}}$, this case
+  would demand invariance of the predicates along
+  \eqref{eq:dagger}-type equations, which the algorithm refutes ---
+  the fundamental theorem would be false as stated.
+
+  \emph{The transport clause} of the prioritized evaluator:
+  \begin{itemize}
+  \item \emph{Positive branch.}  By Theorem~\ref{thm:checksound} the
+    endpoint type values decode to the same PER --- indeed they have
+    equal read-back --- so the induction hypothesis for $u$ gives
+    exactly the required relatedness at the result type.  Note no
+    closure property of the predicates under judgmental equality is
+    invoked; the equality of PERs is by read-back identity.  This is
+    where the specification (Definition~\ref{def:spec}) pays a
+    second time.
+  \item \emph{Negative branch.}  The dispatch clauses are the base
+    proof's structural transport cases.  Their inner recursive
+    transports (along domain lines, cod fibers, tube lines) are at
+    \emph{structurally smaller semantic type values}, so they are
+    discharged by the inner induction on type values by which
+    $\valeq$ and the base transport case are defined --- \emph{not}
+    by the outer induction on typing derivations.  The proof is thus
+    a double induction: outer on the derivation, inner on type
+    values; the evaluator's own recursion is mirrored by the inner
+    induction, which is well-founded by the stratified definition of
+    $\valeq$ (Definition~\ref{def:valeq}).  Termination of the
+    dispatch is part of the conclusion, not an input.
+  \end{itemize}
+\end{proof}
+
+\begin{cor}[Termination]\label{cor:termination}
+  Evaluation, the constancy check, conversion and read-back
+  terminate on well-typed inputs.
+\end{cor}
+\begin{proof}
+  Termination of $\evalop$ is part of
+  Definition~\ref{def:semtyping} and hence of
+  Theorem~\ref{thm:fundamental}.  The check traverses a value that is
+  semantically well-typed; its binder instantiations are
+  instantiations of computable closures at generic arguments, which
+  terminate by the same theorem; system closures are walked without
+  instantiation.  $\convop$ and $\quo$ recurse along the stratified
+  type-value structure.  No syntactic measure is claimed anywhere:
+  this is the standard normalization-proof route
+  \cite{HuberNorm,SterlingAngiuli}, and the only one available, since
+  closure instantiation re-enters evaluation
+  (Section~\ref{sec:rawdomain}).
+\end{proof}
+
+\subsection{Admissibility of the algorithmic equality}
+
+\begin{thm}[Admissible conversion relation]\label{thm:admissible}
+  Relative to the base component (B), the typed algorithmic equality
+  of Definition~\ref{def:alg}:
+  \begin{enumerate}
+  \item is an equivalence relation on well-typed terms
+    (reflexivity from Theorem~\ref{thm:fundamental} at the generic
+    environment; symmetry and transitivity from the PER structure via
+    Lemma~\ref{lem:valeqbasics}(iii));
+  \item is a congruence: for every term former, relatedness of the
+    immediate subterms implies relatedness of the whole (each former
+    evaluates to a value former whose $\valeq$-clause is
+    componentwise; the former-by-former list, including both
+    transport branches, is Appendix~\ref{app:cases});
+  \item is stable under weakening (Kripke monotonicity of $\valeq$
+    in the depth);
+  \item is stable under substitution: $\Gamma \vdash t \aconv u : A$
+    and $\Delta \vdash \sigma : \Gamma$ imply
+    $\Delta \vdash t\sigma \aconv u\sigma : A\sigma$
+    (Lemma~\ref{lem:subst} composed with
+    Lemma~\ref{lem:valeqbasics}(i,iii) and
+    Theorem~\ref{thm:fundamental} applied to $\sigma$);
+  \item is stable under context conversion ($\Gamma \aconv \Gamma'$
+    pointwise implies the generic environments are $\valeq$-related,
+    and $\valeq$ is invariant under related type values);
+  \item preserves and respects typing in $T_{\mathrm{alg}}$: if
+    $\Gamma \vdash t : A$ and $\Gamma \vdash A \aconv B$ then
+    $\Gamma \vdash t : B$ (this \emph{is} $T_{\mathrm{alg}}$'s
+    conversion rule, and the fundamental theorem shows it harmless),
+    and the bidirectional checker's conversion sites decide exactly
+    this relation.
+  \end{enumerate}
+\end{thm}
+
+\noindent Theorem~\ref{thm:admissible} is the license to call the
+algorithmic equality a \emph{judgmental} equality: it has every
+structural property the conversion rule of a dependent type theory
+requires.
+
+\section{Soundness, and what completeness would mean}
+\label{sec:soundness}
+
+\begin{lem}[Step soundness]\label{lem:stepsound}
+  Write $\hat\rho$ for the substitution quoting an environment
+  pointwise, and $t[\hat\rho]$ for the result of applying it.  If
+  $\evalop(t, \rho)$ is defined with value $v$, then
+  $t[\hat\rho] \conv \quo(v)$ is derivable in
+  $T_{\mathrm{eq}} = T_0 + (\mathrm{R})$; and if
+  $\convop(v, v', T)$ accepts then $\quo(v) \conv \quo(v')$ is
+  derivable in $T_{\mathrm{eq}}$.
+\end{lem}
+\begin{proof}
+  Induction on the big-step derivation
+  (Section~\ref{sec:partiality}), with the read-back statements of
+  the sub-computations supplied by the same induction.  Each
+  evaluator rule is matched by a $T_{\mathrm{eq}}$ equation:
+  $\beta$-steps and projections by the $\beta$ rules; face collapses
+  by the boundary rules; the structural transport dispatches by the
+  corresponding structural rules of Section~\ref{sec:rules},
+  instantiated at the quoted premises; $\hcomp$ steps by the
+  composition rules; $\eta$-directed conversion clauses by the
+  $\eta$ rules, and interval comparisons by the free De~Morgan
+  axioms (sound for $T_{\mathrm{eq}}$, which contains them).
+
+  The one step needing care is the \emph{positive transport branch}:
+  $\evalop(\transp^i A\,\varphi\,u, \rho) = \evalop(u,\rho)$ when
+  $\constspec(F, \ell)$ for $F$ the family value at the fresh
+  $\ell$.  We must exhibit a $T_{\mathrm{eq}}$ derivation of
+  $(\transp^i A\,\varphi\,u)[\hat\rho] \conv u[\hat\rho]$.  Take
+  $A_0 := \quo(F)$, a term not containing (the variable
+  corresponding to) $\ell$, by the definition of $\constspec$.  By
+  the induction hypothesis applied to the family's evaluation and
+  instantiation, $A[\hat\rho] \conv A_0$ is derivable in
+  $T_{\mathrm{eq}}$ (in the context extended by $\ell$).  So
+  $A[\hat\rho]$ is \emph{judgmentally $i$-constant} in the sense of
+  Definition~\ref{def:const} --- the premise of rule (R) --- with
+  witness $A_0$, and (R) yields
+  $(\transp^i A\,\varphi\,u)[\hat\rho] \conv u[\hat\rho]$.  The
+  induction hypothesis for $u$ finishes the step.
+\end{proof}
+
+\begin{thm}[Soundness]\label{thm:soundness}
+  Algorithmic equality is contained in derivability in
+  $T_{\mathrm{eq}}$: if $\Gamma \vdash t \aconv u : A$ then
+  $\Gamma \vdash t \conv u : A$ is derivable in $T_{\mathrm{eq}}$.
+\end{thm}
+\begin{proof}
+  By Definition~\ref{def:alg}, $\convop$ accepts the values of $t$
+  and $u$ at the generic environment; Lemma~\ref{lem:stepsound}
+  gives $T_{\mathrm{eq}}$-derivations of
+  $t \conv \quo(\evalop\,t)$, $u \conv \quo(\evalop\,u)$
+  (the generic environment quotes to the identity substitution) and
+  $\quo(\evalop\,t) \conv \quo(\evalop\,u)$; compose by
+  transitivity.
+\end{proof}
+
+\noindent The asymmetry between Theorem~\ref{thm:soundness} and
+Remark~\ref{rem:incomplete} below is the paper's central design
+fact: $T_{\mathrm{alg}}$'s equality is \emph{strictly weaker} than
+$T_{\mathrm{eq}}$'s (the no-go equation separates them), yet every
+algorithmic step is $T_{\mathrm{eq}}$-sound; the algorithm selects a
+consistent, substitution-stable sub-theory of an equational theory
+that is itself unusable.
+
+\begin{rem}[No completeness --- necessarily]\label{rem:incomplete}
+  By Theorem~\ref{thm:nogo}(1), $T_0+(\mathrm{R})$ derives
+  \eqref{eq:dagger}, which $\convop$ refutes; the checker is
+  incomplete for $T_0+(\mathrm{R})$, provably and by design.  The
+  system of record is the algorithmic equality itself ---
+  legitimately so, by Theorem~\ref{thm:admissible} ---
+  and $T_0+(\mathrm{R})$ is its sound equational
+  over-approximation.  We therefore do not use the phrase ``decision
+  procedure'' for judgmental equality anywhere: the algorithmic
+  equality is decidable by running its terminating checker
+  (Corollary~\ref{cor:termination}), and is soundly included in
+  $T_0+(\mathrm{R})$; nothing more is claimed.
+\end{rem}
+
+\section{Canonicity}
+\label{sec:canonicity}
+
+\begin{thm}[Canonicity]\label{thm:canonicity}
+  Relative to the base component (B), in both the Cartesian and the
+  De~Morgan presentations --- in the Cartesian fragment the
+  judgmental-theory part of (B) follows from \cite{SterlingAngiuli},
+  the evaluator-level bridge remaining open
+  (Appendix~\ref{app:bridge}): every closed $T_{\mathrm{alg}}$-term
+  $t : \mathbb{N}$ evaluates to a numeral; the algorithmic equality
+  is consistent ($0 \not\aconv 1$); and $\J\,d\,\refl \aconv d$.
+\end{thm}
+\begin{proof}
+  The closed instance of Theorem~\ref{thm:fundamental}: the empty
+  environment is trivially related to itself, so
+  $\evalop(t) \valeq_{\mathbb{N}} \evalop(t)$, and the
+  $\valeq_{\mathbb{N}}$ clause forces a numeral (there are no closed
+  neutrals); numeral inversion is
+  Appendix~\ref{app:cases}.  Consistency: $0$ and $1$ evaluate to
+  distinct numerals, and $\convop$ separates them.  For $\J$:
+  substituting $p := \refl$ makes the transport family's value
+  read back without the transport dimension, so
+  $\constspec$ holds and the positive branch returns $d$'s value;
+  machine-checked end to end (\texttt{strictJReflD}).
+\end{proof}
+
+\begin{cor}[Unconditional minimal core]\label{thm:core}
+  Over the minimal fragment $\Pi, \Sigma, \Path, \mathbb{N}$ with
+  $\transp$ and $\hcomp$ (no $\Glue$, no universes, no HITs),
+  Theorems~\ref{thm:fundamental}, \ref{thm:admissible}
+  and~\ref{thm:canonicity} hold \emph{with no base-component
+  assumption}: Appendix~\ref{app:core} constructs the logical
+  relation for the fragment by structural recursion on syntactic
+  types and proves every (B)-marked lemma for it, former by former.
+  In particular $\J\,d\,\refl \aconv d$ --- $\J$ being defined from
+  paths, connections and transport alone --- is unconditional
+  (Proposition~\ref{prop:J}).
+\end{cor}
+
+\subparagraph*{Inheritance inventory.}  Reused from
+\cite{HuberNorm} (as component (B)): the predicate clauses for base
+formers, $\hcomp$-computability (the composition clauses never
+inspect transport redexes), read-back correctness, numeral
+inversion.  New in this paper: representation equivalence and its
+compatibility lemmas (Section~\ref{sec:repeq}); the check
+specification, its soundness (Theorem~\ref{thm:checksound}) and the
+checker-exactness theorem (Theorem~\ref{thm:exact}); the
+substitution lemma through the transport case
+(Lemma~\ref{lem:subst}); the positive transport case of the
+fundamental theorem; the explicit double-induction discharge of the
+negative case; and the admissibility theorem
+(Theorem~\ref{thm:admissible}).
+
+\section{The strictness catalogue}
+\label{sec:catalogue}
+
+Machine-checked excerpt (positive rows: an inline $\refl$ witness is
+accepted; negative rows: the analogous witness is rejected; all rows
+are claims about the one algorithmic equality --- implementation and
+specification coincide by Theorem~\ref{thm:exact}):
+
+\begin{center}
+\small
+\begin{tabular}{ll}
+  law & holds? \\\hline
+  connection reparametrizations (idempotence, involution,
+    absorption, $i \wedge 0$) & yes \\
+  De Morgan duality square & yes \\
+  $\eta$ for $\Pi$, $\Sigma$, $\Path$ & yes \\
+  $\mathsf{symm}\,\refl \conv \refl$;\
+    $\mathsf{symm}\circ\mathsf{symm} \conv \mathrm{id}$;\
+    $\mathsf{cong}$ laws & yes \\
+  transport along constant families (syntactic and value-level; at
+    $\U$; at path families) & yes \\
+  switchover contracta at $\Pi$, $\Sigma$, dependent $\Sigma$,
+    argument-wise HIT constructors (incl.\ $\mathsf{merid}$) & yes \\
+  $\J\,d\,\refl \conv d$ & \textbf{yes} \\
+  $\mathsf{transport}\,(\ua\,\mathsf{idEquiv})\,x \conv x$
+    (via $\mathsf{transpGlue}$) & yes \\
+  $\mathsf{trans}\,\refl\,\refl \conv \refl$
+    ($\hcomp$-regularity) & no \\
+  path switchover contractum \eqref{eq:dagger} & no \\
+  $\mathsf{cong}$/$\mathsf{symm}$ distribution over
+    $\mathsf{trans}$ & no \\
+  $\langle i\rangle\, p(i \wedge \neg i) \conv \refl$
+    (Appendix~\ref{app:reparam}) & no \\
+\end{tabular}
+\end{center}
+
+\section{Implementation and artifact}
+\label{sec:impl}
+
+The kernel is a self-contained CCHM-style implementation of about
+five thousand lines of Lean~4 (toolchain \texttt{4.31.0}),
+independent of Lean's own definitional equality: the NbE core with
+defunctionalized closures, bidirectional type checking, the De~Morgan
+interval with the antichain-DNF decision procedure,
+$\Glue$/univalence with $\mathsf{transpGlue}$, and the higher
+inductive types of Section~\ref{sec:hits}.  The prioritized transport
+of Section~\ref{sec:oper} is the evaluator's transport clause; the
+occurs-check is implemented as described in
+Section~\ref{sec:implcheck}.  A $\sim$300-definition object-language
+library exercises the rule throughout ($\pi_1(S^1) \cong \mathbb{Z}$,
+untruncated Eckmann--Hilton and Mac\,Lane coherence, a groupoid
+classifying-space HIT with its classification theorem), validated by
+a differential harness fingerprinting the normal forms of every
+library definition.
+
+\subparagraph*{Artifact and its scope.}  The repository --- kernel,
+catalogue (\texttt{LibStrictness.lean}), switchover experiments
+(\texttt{LibSwitchover.lean}), library, harness, and a row-by-row
+paper-to-probe correspondence (\texttt{ARTIFACT.md}) --- accompanies
+the submission with a pinned toolchain and fixed commit; build with
+\texttt{lake build}: every catalogue and switchover claim is an
+elaboration-time guard, so a successful build is the verification
+run.  We distinguish explicitly: the artifact provides
+\emph{machine-checked object-language witnesses} (all
+algorithmic-equality claims) and \emph{executable regression tests}
+(the differential harness); it does \emph{not} provide machine-checked
+metatheory --- the theorems of
+Sections~\ref{sec:switchover}--\ref{sec:canonicity} are pen-and-paper
+results about the specified system, which the kernel implements
+exactly (Theorem~\ref{thm:exact}); a kernel passing its test suite
+remains evidence, not proof, of its own soundness.
+
+\section{Related work}
+\label{sec:related}
+
+\subparagraph*{Constancy formulas.}  The $\varphi$-discipline is from
+ABCFHL \cite{ABCFHL}; Cubical Agda \cite{VezzosiMortbergAbel} fixes
+$\varphi$ at elaboration time, whence the propositional
+\textsf{transportRefl}.  Rule (R) is the conversion-closure of
+$(\mathrm{S}_{\ii})$; Remark~\ref{rem:explicit} locates exactly when
+this is a proper extension.
+
+\subparagraph*{Regularity.}  CCHM \cite{CCHM} initially claimed
+regular composition; the universe error was found by Sattler
+\cite{SattlerNote}, and Swan \cite{SwanRegularity} separated path and
+identity types in presheaf models.  Those results concern
+$\hcomp$/composition; Theorem~\ref{thm:nogo} connects them to
+transport-level constancy inference: prioritization is exactly what
+prevents the equational collapse onto $\hcomp$-regularity.  Recent
+work towards computational UIP in Cubical Agda \cite{UIPCubical}
+documents the practical cost of missing regularity.
+
+\subparagraph*{Systems with regular coercion.}  Arend \cite{Arend}
+has a regular \textsf{coe} over a non-cubical interval; the folklore
+obstruction to porting this to full cubical theories --- which
+Theorem~\ref{thm:nogo} makes precise --- was the interaction with
+structural transport and $\Glue$.  XTT and observational theories
+\cite{StickyXTT} obtain a strict $\J$ by strengthening equality
+globally, at the cost of the univalent universe; the present system
+keeps the ABCFHL setting unchanged.
+
+\subparagraph*{Normalization and NbE metatheory.}  The logical
+relation of Section~\ref{sec:domain} is the standard Kripke PER
+structure of NbE correctness proofs, transposed to the cubical
+domain; the environment-based fundamental theorem follows Huber
+\cite{HuberNorm}, and the Cartesian discharge of the base component
+is Sterling--Angiuli \cite{SterlingAngiuli} (normal-form
+specification in \cite{HuangNF}).  What is new is confined to the
+transport clause: the representation-independent check specification,
+its soundness theorem, and the resulting substitution and
+admissibility results.
+
+\section{Conclusion and open problems}
+\label{sec:conclusion}
+
+Evaluation-time constancy inference is an old idea.  The analysis
+here shows why its naive equational formulations could not work ---
+they derive constant-system $\hcomp$-regularity, at path types
+already (Theorem~\ref{thm:nogo}) --- and that the operational
+formulation, done with a representation-independent check
+specification, supports the full structural metatheory expected of a
+judgmental equality (Theorem~\ref{thm:admissible}) together with
+termination and canonicity (Theorem~\ref{thm:canonicity}), and
+computes $\J$ on $\refl$ --- \emph{unconditionally on the minimal
+core} $\Pi, \Sigma, \Path, \mathbb{N}$
+(Theorem~\ref{thm:core}, Proposition~\ref{prop:J}), and
+\emph{relative to the delimited base component} for the full
+implemented univalent calculus.  We do not claim an unconditional
+strict $\J$ for the full univalent system; the three-layer division
+of Section~\ref{sec:intro} is the paper's claim, exactly.
+
+Open problems, in decreasing order of importance.
+(1)~\emph{The base component beyond the core}: for the core fragment
+of Appendix~\ref{app:core} the base component is discharged in this
+paper and the positive results are unconditional; beyond it, the
+judgmental-theory part of the Cartesian base component follows from
+\cite{SterlingAngiuli}, while the concrete evaluator-level bridge
+(Appendix~\ref{app:bridge}), universes, $\Glue$ and the wider HIT
+roster remain to be discharged --- on the De~Morgan side, in full.
+(2)~\emph{A semantic countermodel for \eqref{eq:dagger}}: upgrading
+Theorem~\ref{thm:nogo}(2) from ``closely related to excluded
+principles'' to a refutation in a concrete cubical-sets model.
+(3)~\emph{Model-theoretic status of the positive system}: whether a
+cubical-sets-style model validates the specified algorithmic
+equality.
+(4)~\emph{Characterization}: is there any rule-generated presentation
+of the operational system?  We conjecture not.
+(5)~\emph{Boundary-corrected HIT signatures}: extending the
+switchover classification of Section~\ref{sec:hits} beyond the
+argument-wise class.
+
+\subparagraph*{Acknowledgements.}  Three rounds of critical review of
+earlier drafts materially reshaped this paper: the observation that
+non-constancy is not substitution-stable prompted the switchover
+experiments that became Theorem~\ref{thm:nogo}, and the demand for
+the structural metatheory of the algorithmic equality prompted
+Sections~\ref{sec:domain}--\ref{sec:canonicity} in their present
+form.
+
+\appendix
+
+\section{The base calculus in full}
+\label{app:rules}
+
+This appendix fixes $T_0$ completely: grammar, judgments, typing,
+and the equational rules, matching the artifact's kernel former by
+former.  ($\Gamma \vdash \varphi\ \mathsf{cof}$ premises and routine
+congruence rules are elided from displays.)
+
+\subsection{Grammar and judgments}
+
+\[
+\begin{array}{r@{\ }l}
+  r, s ::=& i \mid 0 \mid 1 \mid r \wedge s \mid r \vee s \mid \neg r
+  \qquad\qquad
+  \varphi, \psi ::= (r{=}0) \mid (r{=}1) \mid \varphi \wedge \psi
+    \mid \varphi \vee \psi \mid \io \mid \ii \\[2pt]
+  A, B, t, u ::=& x \mid \U_k
+    \mid \Pi x{:}A.B \mid \lambda x.t \mid t\,u
+    \mid \Sigma x{:}A.B \mid (t, u) \mid \fst t \mid \snd t \\
+  &\mid \mathsf{PathP}\,(\langle i \rangle A)\,t\,u
+    \mid \langle i \rangle t \mid t\,r
+    \mid \mathbb{N} \mid \mathsf{ze} \mid \mathsf{su}\,t
+    \mid \mathsf{natrec} \\
+  &\mid \transp^i A\,\varphi\,u
+    \mid \hcomp^{\,i} A\,[\overrightarrow{\varphi \mapsto t}]\,u
+    \mid \Glue\,[\overrightarrow{\varphi \mapsto (T, w)}]\,B \\
+  &\mid \glue \mid \unglue
+    \mid \text{HIT formers (Section~\ref{sec:hits})}
+\end{array}
+\]
+Judgments: $\Gamma\ \mathsf{ctx}$;\ \ $\Gamma \vdash A\ \mathsf{type}_k$
+(equivalently $\Gamma \vdash A : \U_k$, universes \`a la Russell,
+cumulative);\ \ $\Gamma \vdash t : A$;\ \ $\Gamma \vdash
+\varphi\ \mathsf{cof}$; and the \emph{algorithmic} equality
+$\Gamma \vdash t \aconv u : A$ of Definition~\ref{def:alg}, used in
+the conversion rule.  Contexts extend by term variables, interval
+variables and cofibration restrictions.  Interval expressions are
+identified up to free De~Morgan equality (decided by antichain-DNF);
+the implementation additionally provides
+$\mathsf{Int}, \mathsf{Unit}, \mathsf{Empty}$, binary sums and lists,
+whose rules are routine copies of the $\mathbb{N}$ pattern.
+
+\subsection{Structural core}
+
+\[
+  \frac{\Gamma, x{:}A \vdash t : B}
+       {\Gamma \vdash \lambda x.t : \Pi x{:}A.B}
+  \qquad
+  \frac{\Gamma \vdash t : \Pi x{:}A.B \quad \Gamma \vdash u : A}
+       {\Gamma \vdash t\,u : B[u/x]}
+  \qquad
+  (\beta,\ \eta_\Pi:\ \lambda x.\,t\,x \conv t)
+\]
+\[
+  \frac{\Gamma \vdash t : A \quad \Gamma \vdash u : B[t/x]}
+       {\Gamma \vdash (t,u) : \Sigma x{:}A.B}
+  \qquad
+  (\fst/\snd\ \text{projections};\ \beta;\
+   \eta_\Sigma:\ (\fst t, \snd t) \conv t)
+\]
+\[
+  \frac{\Gamma, i{:}\I \vdash t : A}
+       {\Gamma \vdash \langle i \rangle t :
+         \mathsf{PathP}\,(\langle i \rangle A)\,t(\io)\,t(\ii)}
+  \qquad
+  \frac{\Gamma \vdash p : \mathsf{PathP}\,(\langle i \rangle A)\,l\,r
+        \quad \Gamma \vdash s : \I}
+       {\Gamma \vdash p\,s : A(s/i)}
+\]
+\[
+  (\beta;\ p\,\io \conv l,\ p\,\ii \conv r;\
+   \eta_{\Path}:\ \langle i \rangle\, p\,i \conv p)
+\]
+\[
+  \frac{}{\Gamma \vdash \mathbb{N} : \U_0}
+  \qquad
+  \mathsf{natrec}\ \text{with its two computation rules}
+  \qquad
+  \frac{\Gamma \vdash A : \U_k}{\Gamma \vdash A : \U_{k+1}}
+\]
+
+\subsection{Kan operations}
+
+Transport was displayed in Section~\ref{sec:rules}: the typing rule
+with explicit $\varphi$, the collapse rule $(\mathrm{S}_{\ii})$, and
+the structural rules for $\Pi$, $\Sigma$, $\Path$.  The remaining
+structural transport rules: at $\U_k$, $\mathbb{N}$ and base types,
+$\transp^i A\,\varphi\,u \conv u$ (the line is constant by
+typing); at HIT formers, argument-wise per
+Section~\ref{sec:hits}; at $\Glue$, the $\mathsf{transpGlue}$
+unfolding of \cite[\S6.2]{CCHM} (its constant-family degeneration is
+computed in Section~\ref{sec:glueresidue}); on neutral lines,
+transport is neutral.
+
+Homogeneous composition:
+\[
+  \frac{\Gamma \vdash A\ \mathsf{type} \qquad
+        \Gamma \vdash u : A \qquad
+        \Gamma, \varphi_k, i{:}\I \vdash t_k : A\ \ (\forall k)}
+       {\Gamma \vdash \hcomp^{\,i} A\,
+         [\overrightarrow{\varphi_k \mapsto t_k}]\,u : A}
+\]
+with side conditions
+$\Gamma, \varphi_k \vdash t_k(\io) \conv u$ and
+$\Gamma, \varphi_k \wedge \varphi_l, i \vdash t_k \conv t_l$,
+with $\Gamma, \varphi_k \vdash
+\hcomp\,[\cdots]\,u \conv t_k(\ii)$, and
+$\hcomp\,[\ii \mapsto t]\,u \conv t(\ii)$; structural rules push
+$\hcomp$ into $\Pi$/$\Sigma$/$\Path$ components, compute at
+$\mathbb{N}$ and constructors, and are constructors at HITs
+($\hcomp$-cells).  \emph{No} constancy rule for $\hcomp$ exists
+(Theorem~\ref{thm:nogo} is why none may be added).
+$\vcomp^i A\,[\vec\varphi \mapsto \vec t]\,u :=
+\hcomp^{\,i} A(\ii)\,[\vec\varphi \mapsto
+\transp\text{-filled } \vec t]\,(\transp^i A\,\io\,u)$.
+
+\subsection{$\Glue$}
+
+\[
+  \frac{\Gamma \vdash B : \U_k \quad
+        \Gamma, \varphi \vdash T : \U_k \quad
+        \Gamma, \varphi \vdash w : \mathsf{Equiv}\,T\,B}
+       {\Gamma \vdash \Glue\,[\varphi \mapsto (T,w)]\,B : \U_k}
+  \qquad
+  \Gamma, \varphi \vdash \Glue\,[\varphi \mapsto (T,w)]\,B \conv T
+\]
+with $\glue$/$\unglue$ introduction and elimination, their $\beta$
+rule, the face collapses, and univalence realized as $\ua$ by gluing
+along an equivalence; $\mathsf{Equiv}$ is the standard
+contractible-fibers definition (no universe needed, as in
+\cite{SterlingAngiuli}).
+
+\subsection{Conversion rule}
+
+\[
+  \frac{\Gamma \vdash t : A \qquad \Gamma \vdash A \aconv B}
+       {\Gamma \vdash t : B}
+\]
+The equality in the conversion rule is the algorithmic equality ---
+legitimately, by Theorem~\ref{thm:admissible}; the bidirectional
+checker of the artifact implements exactly this rule at its
+switching points.
+
+\section{Reparametrization coherence}
+\label{app:reparam}
+
+A self-contained result delimiting the strict/weak boundary from
+below: reparametrizations are strict, and whatever generates an
+$\hcomp$ is not --- as Theorem~\ref{thm:nogo} explains, this is no
+accident.  Fix the generic context
+\[
+  \Gamma = (A : \U,\ a\,b : A,\ p : \Path\,A\,a\,b).
+\]
+
+\begin{thm}[Reparametrization coherence]\label{thm:reparam}
+  Let $\varphi, \psi \in \DM{i_1,\dots,i_n}$ agree at every corner
+  $\varepsilon \in \{0,1\}^n$.  Then
+  \[
+    \langle i_1 \cdots i_n \rangle\, p(\varphi)
+    \;\aconv\;
+    \langle i_1 \cdots i_n \rangle\, p(\psi)
+    \qquad\Longleftrightarrow\qquad
+    \varphi = \psi \ \text{in}\ \DM{i_1,\dots,i_n}.
+  \]
+\end{thm}
+\begin{proof}
+  ($\Leftarrow$) Conversion instantiates binders at generic
+  dimensions $\vec\ell$; $i_k \mapsto \ell_k$ is a De~Morgan
+  homomorphism, and neutral path applications compare interval
+  arguments by canonical antichain-DNF, sound and complete for free
+  De~Morgan equality; if the common value is $0/1$, both sides
+  collapse to the same endpoint.  ($\Rightarrow$) In the generic
+  context $p, a, b$ are distinct neutrals.  If neither side
+  collapses, DNF equality of $\varphi(\vec\ell)$ and
+  $\psi(\vec\ell)$ is demanded, and generators map to generators, so
+  $\varphi = \psi$.  If exactly one side collapses, a variable is
+  compared against a neutral application and conversion fails.  If
+  both collapse, the corner hypothesis forces the same endpoint.
+\end{proof}
+
+\noindent In particular
+$\langle i \rangle\, p(i \wedge \neg i) \not\aconv \refl_a$: the
+absence of excluded middle in the free De~Morgan algebra is reflected
+in the algorithmic equality (machine-checked, both directions).
+
+\section{Lemmas: statements and proofs}
+\label{app:cases}
+
+This appendix carries out the routine inductions behind
+Sections~\ref{sec:domain}--\ref{sec:canonicity}.  A structural remark
+organizes everything:
+
+\begin{rem}[The domain is unchanged]\label{rem:samedomain}
+  Rule (R) alters the \emph{evaluator}, not the \emph{domain}: it
+  prunes transport redexes and introduces no new value forms.  The
+  values, neutrals, closures, read-back and conversion of the
+  extended system are literally those of the base system.
+  Consequently every base lemma \emph{about values} --- the PER laws,
+  Kripke monotonicity, conversion correctness, read-back correctness,
+  numeral inversion --- transfers verbatim; the extension is audited
+  entirely in (i) the evaluator clauses (the fundamental theorem,
+  Appendix~\ref{app:fund}) and (ii) the check
+  (Section~\ref{sec:check}).  Lemmas below marked (B) are of the
+  first kind and constitute the base component of
+  Section~\ref{sec:assumptions}; lemmas marked (new) are of the
+  second kind and are proved here in full.
+\end{rem}
+
+\subsection{Depth and freshness}
+\label{app:depth}
+
+\begin{lem}[L1: depth invariant (new)]\label{lem:L1}
+  Every free level of a value produced by evaluation at depth $d$ is
+  $< d$; the level bound $\mathrm{lb}(v)$ maintained by the smart
+  constructors satisfies $\FV(v) \subseteq [0, \mathrm{lb}(v))$ and
+  $\mathrm{lb}(v) \le d$.
+\end{lem}
+\begin{proof}
+  Induction on the evaluation step producing $v$.  Environment
+  entries were produced at outer depths, so the invariant holds for
+  them by hypothesis; a fresh level is allocated as the current depth
+  $d$ and only inside a binder, i.e.\ at inner depth $d{+}1$, where
+  $d < d{+}1$; every smart constructor sets
+  $\mathrm{lb} := \max$ of its parts' bounds, and no operation
+  manufactures a level except fresh allocation.  The level-bound cut
+  of Section~\ref{sec:implcheck} ($\ell \ge \mathrm{lb}(v) \implies
+  \ell \notin \FV(v)$) is immediate.
+\end{proof}
+
+\begin{lem}[L2: depth determinacy (new)]\label{lem:L2}
+  Let two evaluation runs traverse the same term spine at the same
+  depth (in possibly different environments).  Then they allocate the
+  same fresh levels at the same positions.
+\end{lem}
+\begin{proof}
+  Fresh levels are, by construction, \emph{equal to the depth at
+  allocation}; depth evolves only by crossing a binder of the term
+  spine being traversed, which is the same on both runs.  (This is
+  the reason Definition~\ref{def:repeq} may demand \emph{literal}
+  equality of interval parts: the interval values produced by two
+  $\repeq$-related computations are built from the same generic
+  levels by the same De~Morgan operations.)
+\end{proof}
+
+\subsection{Compatibility of representation equivalence}
+\label{app:repeq}
+
+All compatibility lemmas are proved by one simultaneous coinduction:
+the relation
+\[
+  \mathcal{R} \;:=\; \{\,(\mathsf{op}(\vec v),\ \mathsf{op}(\vec v'))
+    \mid \mathsf{op} \text{ a semantic operation},\ \vec v \repeq
+    \vec v'\,\}
+\]
+is shown to be a $\repeq$-bisimulation, by case analysis on
+$\mathsf{op}$ and on the (common) head of the principal arguments.
+We record the cases separately for reference.
+
+\begin{lem}[L3: environments and instantiation (new)]\label{lem:L3}
+  If $\rho \repeq \rho'$ pointwise then
+  $\evalop(t, \rho) \repeq \evalop(t, \rho')$; consequently if
+  moreover $c \repeq c'$ and $w \repeq w'$ then
+  $\capp_d(c, w) \repeq \capp_d(c', w')$.
+\end{lem}
+\begin{proof}
+  For $\mathsf{mk}$-closures, $\capp$ is an $\evalop$ call on the
+  common body in $\repeq$-related environments; for each closure
+  combinator, $\capp$ is a fixed composite of semantic operations
+  applied to the stored fields, and the fields are $\repeq$ by
+  assumption.  The $\evalop$ statement is by induction on $t$: value
+  formers yield equal heads with $\repeq$ arguments (interval parts
+  literal by Lemma~\ref{lem:L2}); closure formers store
+  $\repeq$-related environments over the same body, which is exactly
+  the closure clause of Definition~\ref{def:repeq}; eliminators
+  reduce to L4--L8.
+\end{proof}
+
+\begin{lem}[L4: application, projections, path application
+  (new)]\label{lem:L4}
+  $\repeq$ is preserved by $\mathsf{app}$, $\fst$, $\snd$,
+  $\mathsf{papp}$.
+\end{lem}
+\begin{proof}
+  Case on the common head.  $\beta$-heads ($\mathsf{lam}$,
+  $\mathsf{pair}$, $\mathsf{plam}$): the operation is an
+  instantiation or a field projection --- L3, or immediate.  Neutral
+  heads: the spine grows by $\repeq$-related arguments, which is the
+  neutral clause.  Path application at an endpoint returns a stored
+  endpoint field --- immediate.
+\end{proof}
+
+\begin{lem}[L5: face forcing (new)]\label{lem:L5}
+  $\repeq$ is preserved by $\mathsf{force}$ (deciding faces of
+  $\hcomp$/$\glue$ values under a cofibration valuation).
+\end{lem}
+\begin{proof}
+  The decision inspects cofibration arguments, which are literally
+  equal; both sides therefore decide identically, and the surviving
+  branches are $\repeq$ by assumption.
+\end{proof}
+
+\begin{lem}[L6: transport (new)]\label{lem:L6}
+  If $c \repeq c'$ (family closures) and $u \repeq u'$ then
+  $\transp$-evaluation on $(c, u)$ and $(c', u')$ yields
+  $\repeq$-related results.
+\end{lem}
+\begin{proof}
+  The instantiated family values $F := \capp_{d+1}(c, \ell)$ and
+  $F' := \capp_{d+1}(c', \ell)$ are $\repeq$ (L3; same $\ell$ by
+  L2).  The check is $\constspec$, invariant under $\repeq$ by
+  Lemma~\ref{lem:readback}: \emph{both sides take the same branch}.
+  Positive branch: $u \repeq u'$.  Negative branch: same head of $F,
+  F'$; each structural dispatch is a fixed composite of L3--L5, L7,
+  L8 and recursive L6-instances on stored fields, closing the
+  bisimulation.
+\end{proof}
+
+\begin{lem}[L7: homogeneous composition (new)]\label{lem:L7}
+  $\repeq$ is preserved by $\hcomp$ and by system formation.
+\end{lem}
+\begin{proof}
+  System entries are pairs of literally-equal cofibrations and
+  $\repeq$-related closures (L3); if a face is decided, both sides
+  decide it identically (L5) and continue in the tube; otherwise both
+  form an $\hcomp$ value with componentwise-$\repeq$ arguments.
+\end{proof}
+
+\begin{lem}[L8: $\Glue$ operations (new)]\label{lem:L8}
+  $\repeq$ is preserved by $\glue$, $\unglue$ and
+  $\mathsf{transpGlue}$.
+\end{lem}
+\begin{proof}
+  $\glue$/$\unglue$: head formation and field extraction over
+  componentwise-$\repeq$ data, with face decisions by L5.
+  $\mathsf{transpGlue}$ is a fixed composite of instantiations,
+  transports, compositions, projections and (un)gluings
+  (\cite[\S6.2]{CCHM}); each step is L3--L7 or a recursive
+  L6-instance.
+\end{proof}
+
+\noindent (L9 is Lemma~\ref{lem:readback} in the main text.)
+
+\subsection{Value-level lemmas of the base component}
+\label{app:valuelemmas}
+
+By Remark~\ref{rem:samedomain} the following are statements about the
+shared domain and transfer verbatim from the base theory; we record
+the statements and the proof shapes for self-containment.
+
+\begin{lem}[L10: PER laws and type invariance (B)]\label{lem:L10}
+  Each $\valeq_T$ is symmetric and transitive, and if
+  $T \valeq_{\U} T'$ then $\valeq_T = \valeq_{T'}$.
+\end{lem}
+\begin{proof}[Proof shape]
+  Induction on the stratified type value.  Symmetry and transitivity
+  are inherited clause-wise (e.g.\ at $\Pi$ from the codomain PERs at
+  related arguments, using symmetry to swap and transitivity to
+  compose through a common argument).  Type invariance: related type
+  values have, clause by clause, cofinally the same decompositions
+  (related domains and codomain families), so the defined PERs
+  coincide; at $\U$ this is the universe induction.
+\end{proof}
+
+\begin{lem}[L11: Kripke monotonicity (B)]\label{lem:L11}
+  $v \valeq_T v'$ at depth $d$ and $d' \ge d$ imply
+  $v \valeq_T v'$ at depth $d'$.
+\end{lem}
+\begin{proof}[Proof shape]
+  The quantifiers in Definition~\ref{def:valeq} range over all future
+  depths; restriction is monotone.
+\end{proof}
+
+\begin{lem}[L12: conversion correctness (B)]\label{lem:L12}
+  $\convop_d(v, v', T)$ accepts iff $v \valeq_T v'$.  The extension
+  adds \emph{no} clause to $\convop$: conversion consumes values,
+  and rule (R) only changes which values the evaluator produces.
+\end{lem}
+\begin{proof}[Proof shape]
+  Soundness: induction on the accepting run; each clause of
+  $\convop$ ($\eta$-directed at $\Pi$/$\Sigma$/$\Path$, DNF equality
+  for interval arguments of neutral path applications, spine
+  comparison for neutrals, componentwise elsewhere) verifies a
+  defining clause of $\valeq$.  Completeness: by L13, related values
+  have equal read-back, and $\convop$ accepts values with equal
+  read-back (induction on the read-back).
+\end{proof}
+
+\begin{lem}[L13: read-back correctness (B)]\label{lem:L13}
+  $v \valeq_T \evalop(\quo_d\,v)$; distinct normal forms of the same
+  type are inconvertible; read-back is injective on
+  $\valeq$-classes.
+\end{lem}
+
+\begin{lem}[L14: read-back/action commutation (new)]\label{lem:L14}
+  $\quo_d(v\langle\xi\rangle) = \quo_d(v)\langle\xi\rangle$ for any
+  dimension substitution $\xi$ whose domain is disjoint from the
+  generic levels used by the read-back.
+\end{lem}
+\begin{proof}
+  Induction on the read-back.  Head cases: the action preserves the
+  head and acts on interval parts; read-back copies interval parts in
+  DNF, and the action followed by DNF-renormalization equals
+  DNF-renormalization followed by the syntactic substitution, because
+  substitution into a De~Morgan expression is a homomorphism and the
+  antichain DNF is canonical.  Binder cases: read-back opens the
+  closure at a generic level $\notin \mathrm{dom}\,\xi$; the action
+  passes into the closure environment (its definition) and the
+  induction hypothesis applies to the opened body.  Neutral cases:
+  spine-wise.
+\end{proof}
+
+\begin{lem}[L15: numeral inversion (B)]\label{lem:L15}
+  A closed value $v$ with $v \valeq_{\mathbb{N}} v$ is a numeral.
+\end{lem}
+\begin{proof}[Proof shape]
+  The $\valeq_{\mathbb{N}}$ clause allows numerals or neutrals with
+  equal read-back; closed neutrals do not exist (a neutral's head is
+  a variable level, and depth $0$ admits none).
+\end{proof}
+
+\section{The fundamental theorem, case by case}
+\label{app:fund}
+
+Throughout, $\rho \valeq_\Gamma \rho'$ abbreviates ``related
+$\Gamma$-environments'', and \emph{IH} the induction hypothesis of
+the outer induction (on the typing derivation).  ``Defined'' includes
+termination (Definition~\ref{def:semtyping}).  Cases marked (B) are
+the base component in environment form; we give their proofs in the
+uniform one-paragraph style to make the claimed transposition
+inspectable, with the understanding that they follow
+\cite{HuberNorm} (De~Morgan) --- the correspondence for the Cartesian
+layer is Appendix~\ref{app:bridge}.
+
+\subparagraph*{Variables (B).}  $\evalop(x, \rho) = \rho(x)$, defined
+and related by assumption on $\rho \valeq \rho'$.
+
+\subparagraph*{$\Pi$-introduction (B).}  $\evalop(\lambda x.t, \rho)$
+is a closure value; for the $\Pi$-clause of $\valeq$, take
+$d' \ge d$ and $w \valeq_D w'$; instantiation continues as
+$\evalop(t, \rho{+}[w])$, and $\rho{+}[w] \valeq \rho'{+}[w']$, so IH
+for $t$ applies; definedness of the body's evaluation under every
+related extension is exactly IH's definedness clause.
+
+\subparagraph*{$\Pi$-elimination (B).}  $\evalop(t\,u, \rho) =
+\mathsf{app}(\evalop(t,\rho), \evalop(u,\rho))$; by IH both parts are
+defined and related; the $\Pi$-clause of $\valeq$ applied at
+$w := \evalop(u,\rho) \valeq w' := \evalop(u,\rho')$ gives
+definedness and relatedness of the application; the type is the
+instantiated codomain, matching the typing rule by L3.
+
+\subparagraph*{$\Sigma$ (B).}  Introduction: componentwise by IH.
+Eliminations $\fst$/$\snd$: the $\Sigma$-clause is componentwise;
+projections of related values are related at domain and instantiated
+codomain respectively.
+
+\subparagraph*{$\Path$-introduction (B).}
+$\evalop(\langle i \rangle t, \rho)$ is a path closure; the
+$\mathsf{PathP}$-clause quantifies over interval values $\iota$;
+instantiation continues as $\evalop(t, \rho{+}[\iota])$ with IH; the
+endpoint conditions are the typing rule's boundary premises evaluated
+by IH, using L12 to convert the boundary equalities.
+
+\subparagraph*{$\Path$-elimination (B).}  Application of related path
+values to a common interval value, by the $\mathsf{PathP}$-clause;
+at endpoints the stored endpoint values are returned, related by the
+formation premises.
+
+\subparagraph*{Universe rules (B).}  Codes evaluate to type values;
+the $\U$-clause requires the decoded PERs to be related, which is IH
+at the smaller universe level (the stratification of
+Definition~\ref{def:valeq}); cumulativity is monotone inclusion of
+the stratification.
+
+\subparagraph*{$\mathbb{N}$ (B).}  $\mathsf{zero}$, $\mathsf{suc}$:
+numeral clauses.  Recursor: by the $\valeq_{\mathbb{N}}$ clause the
+scrutinee is a numeral or neutral with equal read-back; in the
+numeral case compute by IH on the branch, by induction on the
+numeral; in the neutral case both sides form neutral recursor spines
+with related components, related by the neutral clause.
+
+\subparagraph*{$\hcomp$, all formers (B).}  If a face of the system
+is decided, both evaluations continue in that tube at the top of the
+fill dimension (L5), related by IH on the system entry.  Otherwise:
+at $\Pi$/$\Sigma$/$\Path$ the composition commutes into the
+components (the base structural $\hcomp$ rules), reducing to IH and
+the componentwise clauses; at base types and HITs the value is an
+$\hcomp$-constructor covered by the $\hcomp$-closure clause of
+$\valeq$; at $\Glue$ the composite operation is a fixed composite of
+covered operations (L8).  \emph{No clause of this case mentions
+transport redexes} --- the observation that lets the extension leave
+it untouched.
+
+\subparagraph*{$\Glue$ (B).}  Formation: componentwise (type values
+with related base and branch data on faces).  Introduction
+($\glue$): the $\Glue$-clause asks relatedness of the unglued part
+and of the branch parts on their faces --- both by IH.  Elimination
+($\unglue$): extraction, plus the decided-face case by L5.
+
+\subparagraph*{HIT constructors and eliminators (B).}  For the
+signatures of Section~\ref{sec:hits}: constructors are covered by
+the constructor clause of $\valeq$ (value arguments by IH, interval
+arguments literal); eliminators follow the recursor pattern: on
+constructor values compute by IH and the signature's computation
+rule; on $\hcomp$ values use the $\hcomp$-closure clause and
+commute; on neutrals form related neutral spines.
+
+\subparagraph*{Structural transport dispatches (B), and where the
+inner induction runs.}  These are the negative-branch continuations
+of the transport clause; we spell out the two used in
+Section~\ref{sec:switchover} and the pattern for the rest.
+\begin{itemize}
+\item \emph{$\Pi$-line.}  The result is the closure value
+  $\lambda x_1.\transp(\mathrm{cod\ line})\,
+  (f\,(\transp(\mathrm{dom\ line})^{-}\,x_1))$.  To place it in the
+  $\Pi$-clause at the endpoint type, take related arguments
+  $w \valeq w'$ at the endpoint domain; the reversed domain transport
+  is a transport along a line whose fibers are \emph{structurally
+  smaller type values} than the $\Pi$-line, so the \emph{inner}
+  induction (on type values, by which $\valeq$ is defined) provides
+  its definedness and relatedness; likewise the codomain transport.
+  The outer IH is used only for the premises ($f$, the line).  This
+  is the division of labor claimed in
+  Theorem~\ref{thm:fundamental}: the evaluator's recursion along the
+  line's structure is mirrored by the inner induction, never by the
+  outer one.
+\item \emph{$\Sigma$-line, $\Path$-line, HIT lines, $\Glue$ line.}
+  Same pattern: each inner transport or composition is at a
+  structurally smaller type value (domain fiber, codomain fiber over
+  a transported point, tube line, branch line), discharged by the
+  inner induction; $\hcomp$ components by the $\hcomp$ case;
+  $\mathsf{transpGlue}$'s steps by L8 and the inner induction.
+\item \emph{Neutral line.}  Both sides form related neutral
+  transport spines (neutral clause).
+\end{itemize}
+
+\subparagraph*{Transport, positive branch (new).}  Suppose
+$\constspec(F, \ell)$.  By Theorem~\ref{thm:checksound} the endpoint
+type values have equal read-back and decode to the same PER; by IH
+$\evalop(u,\rho) \valeq \evalop(u,\rho')$ at the source endpoint,
+hence at the target endpoint \emph{by identity of the PERs} --- no
+closure property under judgmental equality is invoked.  Definedness
+is IH's.  By Lemma~\ref{lem:subst} and Lemma~\ref{lem:readback} the
+branch taken is a function of the $\repeq$-class, so the case is
+stable under the environment/substitution manipulations used
+elsewhere in the proof.
+
+\subparagraph*{Congruence lemmas (Theorem~\ref{thm:admissible}(2)).}
+For each former, the lemma ``subterms related $\implies$ whole
+related'' is the corresponding case above read with the IH replaced
+by the assumption; we list the non-obvious instances:
+$\transp$-congruence needs the branch-agreement argument (the two
+families are $\valeq$, hence --- being values of well-typed families
+--- of equal read-back by L13, so $\constspec$ agrees);
+$\hcomp$-congruence needs L5 to align face decisions; HIT-eliminator
+congruence needs the neutral clause when the scrutinee is neutral.
+All others are componentwise.
+
+\section{Checker exactness: the full clause table}
+\label{app:exact}
+
+Theorem~\ref{thm:exact} rests on the claim that \texttt{usesLvl} and
+$\quo$ have mirrored recursion structures.  This appendix makes the
+claim inspectable.  Throughout, ``$\ell \in \mathsf{iv}(r)$'' means
+the level $\ell$ occurs in the interval value $r$, and we use that
+interval quotation is \emph{structural} (it maps the De~Morgan
+operators of the value to the corresponding term formers), so
+$\ell \in \mathsf{iv}(r) \iff \ell \in \FV(\quo(r))$.
+
+\subparagraph*{Definedness transfer.}  Both functions begin by
+forcing the value's head under the current cofibration valuation ---
+the same $\mathsf{force}$ --- and recurse along the same
+sub-computations: on value arguments structurally, and on closures
+via the \emph{same} instantiation $\capp$ at the \emph{same} fresh
+level (equal to the current depth, Lemma~L2).  Hence the big-step
+derivation trees of $\texttt{usesLvl}(\ell, F)$ and $\quo(F)$ are
+isomorphic --- one is defined iff the other is --- with two
+exceptions in \texttt{usesLvl}'s favour, both of which only prune
+sub-derivations: the level-bound cut and the early exit of the
+disjunctive traversal (\texttt{usesLvl} may stop at the first
+occurrence).  Pruning cannot destroy definedness.
+
+\subparagraph*{Clause table.}  Value cases (heads after
+$\mathsf{force}$):
+
+\begin{center}
+\footnotesize
+\begin{tabular}{lll}
+  head & \texttt{usesLvl} & $\quo$ \\\hline
+  constants ($\U_k$, $\mathbb{N}$, $0$, \dots) &
+    $\mathsf{false}$ & closed term \\
+  $\mathsf{suc}\,n$, injections, $\mathsf{tin}$, $\mathsf{qin}$,
+    \dots & recurse on arguments & recurse on arguments \\
+  HIT cells (e.g.\ $\mathsf{merid}\,a\,r$,
+    $\mathsf{emloop}\,g\,r$, squash cells) &
+    args $\lor$ $\ell \in \mathsf{iv}(r_i)$ &
+    args, $\quo(r_i)$ \\
+  $\Pi$/$\Sigma$ (domain, codomain closure) &
+    dom $\lor$ binder-inst.\ & dom, binder-inst.\ \\
+  $\lambda$-value (closure) & binder-inst.\ & binder-inst.\ \\
+  $\mathsf{PathP}$ (line closure, endpoints) &
+    i-binder-inst.\ $\lor$ endpoints &
+    i-binder-inst., endpoints \\
+  path abstraction (closure) & i-binder-inst.\ &
+    i-binder-inst.\ \\
+  interval value $r$ & $\ell \in \mathsf{iv}(r)$ & $\quo(r)$ \\
+  $\Glue$ type / $\glue$ value &
+    components $\lor$ cof mentions & components, cof terms \\
+  neutral & spine (below) & spine (below) \\
+\end{tabular}
+\end{center}
+
+Neutral cases: variable ($\ell$-equality of the head level
+$\leftrightarrow$ occurrence of the corresponding de~Bruijn index in
+the quoted variable); application, projections, path application,
+recursors (spine pointwise, motive closures by binder
+instantiation); \emph{neutral transport} (family by interval-binder
+instantiation, argument structurally); \emph{neutral $\hcomp$} (type
+and base structurally, each tube by cofibration mentions plus
+interval-binder instantiation of the tube closure --- the case that
+the legacy dead code of Remark~\ref{rem:archaeology} would have
+treated structurally); $\unglue$ and the HIT eliminators (spine
+pointwise).  In every row the right column's free-variable content
+is computed by the same recursion as the left column's disjunction,
+so the biconditional propagates by induction on the (isomorphic)
+derivations.
+
+\subparagraph*{Completeness of the level-bound cut.}  The invariant
+of Lemma~L1 is maintained by \emph{every} smart constructor,
+including the closure formers: the bound of a closure is the maximum
+of the bounds of its stored environment entries and combinator
+fields.  If $\ell \ge \mathrm{lb}(v)$, then $\ell$ is not among
+$v$'s stored levels; levels introduced by instantiations during
+read-back are fresh, i.e.\ $\ge$ the current depth $> \ell$'s
+binding depth, and are bound by the binders the read-back produces.
+So $\ell \notin \FV(\quo(v))$: the cut answers exactly what the
+specification would.
+
+\subparagraph*{Transparency of memoization.}  The memo hooks cache
+the result of $\texttt{usesLvl}(\ell, \cdot)$ keyed by the level and
+the \emph{physical identity} of the value (pointer equality).
+Physical identity implies structural identity, and
+$\texttt{usesLvl}$ is a pure function of its arguments (it neither
+allocates observable state nor depends on any); caching a pure
+function at a sound key is observationally transparent.  The
+generation-stamp discipline ensures a value reachable from two
+environments is the \emph{same} value, so pointer keys do not
+conflate distinct values.  Likewise the depth argument is determined
+by the value's stamp, so omitting it from the key loses nothing.
+
+\section{Discharging the base component for the minimal core}
+\label{app:core}
+
+This appendix proves component (B) --- and hence
+Theorems~\ref{thm:fundamental}, \ref{thm:admissible}
+and~\ref{thm:canonicity} unconditionally
+(Corollary~\ref{thm:core}) --- for the \emph{minimal core}
+\[
+  T^{\mathrm{core}} \;:=\;
+  \Pi,\ \Sigma,\ \mathsf{PathP},\ \mathbb{N}
+  \ \text{with}\ \transp\ \text{and}\ \hcomp
+  \quad(\text{no } \Glue,\ \text{no universes},\ \text{no HITs}),
+\]
+over the De~Morgan interval; the Cartesian variant is a
+simplification of the same proof (drop the connection cases of the
+interval algebra).  The fragment is chosen as the \emph{smallest}
+one in which $\J$ is definable (Proposition~\ref{prop:J}); the
+extension by $S^1$ is treated separately, as a proposition with a
+proof sketch and artifact evidence
+(Section~\ref{app:s1ext}), precisely so that the headline theorem
+is not entangled with higher-inductive proof obligations.
+
+\subsection{Types, values, normal forms, and the induction order}
+\label{app:coretypes}
+
+Since there is no universe, types are a separate syntactic
+category:
+\[
+  T, S ::= \mathbb{N} \mid \Pi x{:}T.S \mid \Sigma x{:}T.S \mid
+  \mathsf{PathP}\,(\langle i \rangle T)\,t\,u .
+\]
+
+\begin{lem}[Type-value inversion]\label{lem:coreinv}
+  If $\evalop(T, \rho)$ is defined, its head is the value former
+  matching $T$'s head former, and its closure fields store the
+  syntactic subexpressions of $T$ with (extensions of) $\rho$:
+  $\evalop(\Pi x{:}T.S, \rho) = \mathsf{v}\Pi(\evalop(T,\rho),
+  \langle \rho; S \rangle)$, and similarly for $\Sigma$ and
+  $\mathsf{PathP}$.
+\end{lem}
+\begin{proof}
+  Immediate from the evaluator's type clauses: each is a single
+  head-formation step storing a $\mathsf{mk}$-closure.
+\end{proof}
+
+\begin{rem}[The induction order, precisely]\label{rem:order}
+  Lemma~\ref{lem:coreinv} is what makes the fragment's metatheory
+  elementary: every instantiation of a stored closure of a type
+  value is an evaluation of a \emph{proper syntactic subexpression}
+  in an extended environment.  Accordingly, the logical relation
+  below is defined by \emph{structural recursion on the syntactic
+  type $T$}, carrying the environment as a parameter --- when the
+  $\Pi$-clause speaks of $\capp(C, w)$, it is, by
+  Lemma~\ref{lem:coreinv}, speaking of $\evalop(S, \rho{+}[w])$
+  with $S$ a proper subterm of $\Pi x{:}T.S$.  This is the exact
+  well-founded order behind every ``structurally smaller type
+  value'' step in this appendix; no ordinal, size measure on
+  values, or universe stratification appears anywhere.
+\end{rem}
+
+\noindent Normal and neutral forms of the core (the target of
+read-back):
+\begin{align*}
+  \mathsf{nf} &::= \mathsf{ze} \mid \mathsf{su}\,\mathsf{nf}
+    \mid \lambda x.\mathsf{nf} \mid (\mathsf{nf}, \mathsf{nf})
+    \mid \langle i \rangle \mathsf{nf} \mid \mathsf{ne} \\
+  \mathsf{ne} &::= x \mid \mathsf{ne}\,\mathsf{nf}
+    \mid \fst \mathsf{ne} \mid \snd \mathsf{ne}
+    \mid \mathsf{ne}\,r
+    \mid \mathsf{natrec}(\mathsf{nf}, \mathsf{nf}, \mathsf{nf},
+      \mathsf{ne})
+    \mid \transp^i \mathsf{T}_{\mathsf{ne}}\,\varphi\,\mathsf{nf}
+    \mid \hcomp\,[\vec\varphi \mapsto \vec{\mathsf{nf}}]\,
+      \mathsf{nf}
+\end{align*}
+where in the core the transport-neutral case does not arise (all
+core type values are canonical, Lemma~\ref{lem:coreinv}), path
+application $\mathsf{ne}\,r$ is restricted to $r$ not an endpoint
+(the $\eta$/boundary rules fire otherwise), and $\hcomp$-neutrals
+occur only at $\mathbb{N}$ over a neutral base with an undecided
+system (Lemma~\ref{lem:corehcompN}).  Read-back targets exactly
+this grammar, clause by clause of $\quo$
+(Appendix~\ref{app:exact}).
+
+\subsection{Worlds: depths, dimensions, and faces}
+\label{app:coreworlds}
+
+Contexts of the calculus contain term variables, \emph{interval
+variables} and \emph{cofibration restrictions} $\Gamma, \varphi$;
+and the boundary conditions of $\hcomp$ hold only \emph{under
+faces}.  The logical relation must therefore be indexed not by
+depths alone but by:
+
+\begin{defi}[Worlds]\label{def:worlds}
+  Worlds are defined relative to a fixed \emph{sorted context
+  shape}: the context determines, for each level $< d$, whether it
+  is a term level or an interval level, and all notions below
+  respect this sorting (the implementation records it in the
+  context; values never confuse the sorts, by the typing of the
+  smart constructors).  A \emph{world} is then a pair
+  $w = (d, \psi)$ of a depth $d$ (making available the term and
+  interval levels $< d$, as sorted by the context shape) and a
+  cofibration $\psi$ over the interval levels $< d$ (the conjunction of the
+  faces currently assumed; $\psi = \ii$ is the empty assumption,
+  $\psi = \io$ the absurd one).  A \emph{world map}
+  $(d', \psi') \to (d, \psi)$ is a dimension substitution
+  $\xi$ from the interval levels $< d$ to $\DM{<d'}$ (extended by
+  the identity on term levels, with $d \le d'$ on the term part)
+  such that $\psi' \models \psi\langle\xi\rangle$.  Weakenings
+  ($d \le d'$, $\xi = \mathrm{id}$, face strengthening
+  $\psi' \models \psi$) and face restrictions
+  ($\psi' := \psi \wedge \varphi$) are the two generating cases
+  used below.
+\end{defi}
+
+\begin{defi}[Semantic context satisfaction]\label{def:semctx}
+  Related environments at a context, at a world $w = (d, \psi)$:
+  term variables pointwise related (at the types of the context,
+  each in the preceding environments, at $w$); interval variables
+  assigned \emph{the same} interval value over the levels $< d$ on
+  both sides (Definition~\ref{def:repeq}'s literal-interval
+  discipline); and for a restriction entry $\varphi$ of the
+  context, $\psi \models \varphi[\rho]$ --- the world must satisfy
+  the restriction.
+\end{defi}
+
+At the absurd world ($\psi = \io$, i.e.\ $\psi \models \bot$) all
+values of all types are related by convention; this is what makes
+empty-intersection compatibility conditions (such as
+\eqref{eq:P3}) genuinely vacuous rather than informally so.
+
+\subsection{The logical relation}
+\label{app:corerel}
+
+For each syntactic type $T$, world $w = (d, \psi)$, and pair of
+environments $\rho, \rho'$ related at $T$'s context at $w$
+(Definition~\ref{def:semctx}), a relation
+$v \sim^w_{T[\rho,\rho']} v'$ on values, by structural recursion on
+$T$; every clause is implicitly \emph{Kripke over worlds}: it
+quantifies over all $w' \to w$, with the values transported by the
+corresponding dimension action, and all clauses are Kleene (the
+mentioned applications and instantiations are required to be
+defined):
+
+\begin{itemize}
+\item $\mathbb{N}$: both force to the same numeral, or to neutrals
+  with equal read-back (including stuck $\hcomp$-neutrals over
+  neutral bases);
+\item $\Pi x{:}T.S$: for all worlds $w' \to w$ and all
+  $u \sim^{w'}_{T[\rho,\rho']} u'$:
+  $f\,u \sim^{w'}_{S[\rho+[u],\, \rho'+[u']]} f'\,u'$;
+\item $\Sigma x{:}T.S$: $\fst u \sim^w_{T[\rho,\rho']} \fst u'$
+  and
+  $\snd u \sim^w_{S[\rho+[\fst u],\, \rho'+[\fst u']]} \snd u'$;
+\item $\mathsf{PathP}\,(\langle i \rangle T)\,l\,r$: for every
+  world $w' \to w$ and interval value $\iota$ over $w'$:
+  $p\,\iota \sim^{w'}_{T[\rho+[\iota],\, \rho'+[\iota]]} p'\,\iota$;
+  at $\iota = \io$ (resp.\ $\ii$) the boundary rules force the
+  values of $l$ (resp.\ $r$), so the endpoint conditions are
+  instances of the same clause.
+\end{itemize}
+A \emph{computable type in $\rho$ at $w$} is one all of whose
+stored components are so related (for $\mathsf{PathP}$: the line,
+at every instantiation over every future world, and both
+endpoints).
+
+\begin{defi}[Related systems]\label{def:relsys}
+  Systems $[\varphi_k \mapsto t_k]$, $[\varphi_k \mapsto t_k']$
+  (same cofibrations, by Definition~\ref{def:repeq}) are related at
+  $T$, $w = (d, \psi)$ if: for each $k$, the tubes are related
+  \emph{at the restricted world} $(d, \psi \wedge \varphi_k)$, at
+  every instantiation of their interval binder; and for each pair
+  $k, l$, the tubes agree (are related to each other) at
+  $(d, \psi \wedge \varphi_k \wedge \varphi_l)$.  A base $u_0$ is
+  \emph{adapted} to the system if
+  $u_0 \sim^{(d, \psi \wedge \varphi_k)} t_k(\io)$ for each $k$ ---
+  the semantic boundary condition.
+\end{defi}
+
+\begin{lem}[PER laws, environment irrelevance, world
+  functoriality]\label{lem:coreper}
+  Each $\sim^w_T$ is symmetric and transitive; replacing $\rho,
+  \rho'$ by environments related to them yields the same relation;
+  and relatedness is \emph{functorial in the world}: for every
+  world map $\theta : w' \to w$ with dimension action
+  $\langle\theta\rangle$,
+  $v \sim^w_T v' \implies
+  v\langle\theta\rangle \sim^{w'}_{T} v'\langle\theta\rangle$
+  (\emph{face restriction / weakening lemma}).
+\end{lem}
+\begin{proof}
+  Structural induction on $T$.  PER laws: $\mathbb{N}$ by equality
+  of numerals and read-backs; $\Pi$ by swapping and composing
+  through a common argument; $\Sigma$ componentwise with
+  environment irrelevance at $S$; $\mathsf{PathP}$ pointwise.
+  Environment irrelevance is inherited from the clauses'
+  quantification.  Functoriality: every clause quantifies over all
+  future worlds, and world maps compose, so the quantified
+  conditions restrict; the only content is at the base cases ---
+  the dimension action commutes with forcing (a face decided at
+  $w$ stays decided at $w'$ since
+  $\psi' \models \psi\langle\theta\rangle$; new decisions can only
+  collapse both sides identically, L5), and read-back commutes with
+  the action (Lemma~L14) --- so numeral/neutral disjuncts are
+  preserved.  At the absurd world the convention closes every case.
+\end{proof}
+
+\begin{lem}[Boundary preservation]\label{lem:boundary}
+  Let the system and adapted base be related at $T$, $w = (d,
+  \psi)$ (Definition~\ref{def:relsys}), and suppose the $\hcomp$
+  at $T$ is defined (as it is in each case of
+  Lemmas~\ref{lem:corehcompN}--\ref{lem:corehcompstr}).  Then at
+  each restricted world $(d, \psi \wedge \varphi_k)$, the composite
+  is related to the tube top $t_k(\ii)$.
+\end{lem}
+\begin{proof}
+  At $(d, \psi \wedge \varphi_k)$ the face $\varphi_k$ is
+  satisfied, so forcing decides it and the composite collapses to
+  $t_k(\ii)$ on both sides (the $\hcomp$ face rule; L5); the tube
+  tops are related there by Definition~\ref{def:relsys}.
+  Functoriality (Lemma~\ref{lem:coreper}) transports the ambient
+  relatedness data to the restricted world, so the collapse happens
+  in a coherent context.
+\end{proof}
+
+\subsection{Reflect and reify, former by former}
+\label{app:corereify}
+
+Reflect and reify are proved by \emph{one} mutual structural
+induction on the syntactic type: the lemma for a former may use both
+lemmas at that former's proper subexpressions.  We state them per
+former, as separate lemmas, so that each obligation is inspectable
+in isolation; the induction discipline is: L(T) may invoke
+L$'$($T'$) for any $T'$ a proper subterm of $T$ and any L$'$ among
+the eight lemmas below.
+
+\begin{lem}[Reflect at $\mathbb{N}$]\label{lem:reflN}
+  Neutrals $n, n'$ of type $\mathbb{N}$ with $\quo(n) = \quo(n')$
+  satisfy $n \sim_{\mathbb{N}} n'$.
+\end{lem}
+\begin{proof}
+  The neutral disjunct of the $\mathbb{N}$-clause, verbatim.
+\end{proof}
+
+\begin{lem}[Reify at $\mathbb{N}$]\label{lem:reifN}
+  $v \sim_{\mathbb{N}} v' \implies \quo(v) = \quo(v')$, both
+  defined.
+\end{lem}
+\begin{proof}
+  Same-numeral case: numerals quote to themselves.  Neutral case:
+  the clause \emph{is} read-back equality.
+\end{proof}
+
+\begin{lem}[Reflect at $\Pi$]\label{lem:reflPi}
+  Let $\Pi x{:}T.S$ be computable in $\rho, \rho'$ and $n, n'$
+  neutrals of that type with equal read-back.  Then
+  $n \sim_{\Pi x{:}T.S\,[\rho,\rho']} n'$.
+\end{lem}
+\begin{proof}
+  Given $d' \ge d$ and $w \sim_{T} w'$: by reify at the subterm
+  $T$ (the mutual-induction instance of this lemma family),
+  $\quo(w) = \quo(w')$, so the applications $n\,w$, $n'\,w'$ are
+  neutrals with equal read-back
+  $\quo(n)\,\quo(w) = \quo(n')\,\quo(w')$; reflect at the subterm
+  $S$ (in the extended, related environments) relates them at $S$,
+  which is the $\Pi$-clause's requirement.  Here and below,
+  ``reflect/reify at $T$'' always abbreviates the mutual-induction
+  instance at the proper subterm $T$.
+\end{proof}
+
+\begin{lem}[Reify at $\Pi$]\label{lem:reifPi}
+  $f \sim_{\Pi x{:}T.S\,[\rho,\rho']} f' \implies
+  \quo(f) = \quo(f')$, both defined.
+\end{lem}
+\begin{proof}
+  Let $x_d$ be the generic neutral of type $T$ at the current
+  depth; it is related to itself by reflect at $T$ (its read-back
+  is the variable).  The $\Pi$-clause gives
+  $f\,x_d \sim_{S[\rho+[x_d]]} f'\,x_d$, defined; reify at $S$
+  gives equal body read-backs; $\quo$ at $\Pi$-type values produces
+  the $\lambda$-abstraction of exactly that body
+  (Appendix~\ref{app:exact}), so the read-backs agree.
+\end{proof}
+
+\begin{lem}[Reflect at $\Sigma$]\label{lem:reflSig}
+  Under the same hypotheses at $\Sigma x{:}T.S$:
+  $n \sim_{\Sigma x{:}T.S} n'$.
+\end{lem}
+\begin{proof}
+  $\fst n, \fst n'$ are neutrals with equal read-back, related at
+  $T$ by reflect at $T$; hence the second-component type
+  $S[\rho{+}[\fst n]]$ is computable
+  (Lemma~\ref{lem:coreper}, environment irrelevance), and
+  $\snd n, \snd n'$ are neutrals with equal read-back, related at
+  it by reflect at $S$.  Both components together are the
+  $\Sigma$-clause.
+\end{proof}
+
+\begin{lem}[Reify at $\Sigma$]\label{lem:reifSig}
+  $u \sim_{\Sigma x{:}T.S} u' \implies \quo(u) = \quo(u')$.
+\end{lem}
+\begin{proof}
+  Componentwise by reify at $T$ and at $S$ (the latter in the
+  environments extended by the related first components); $\quo$
+  produces the pair of the component read-backs.
+\end{proof}
+
+\begin{lem}[Reflect at $\mathsf{PathP}$]\label{lem:reflPath}
+  Let $P := \mathsf{PathP}(\langle i \rangle T)\,l\,r$ be
+  computable in $\rho, \rho'$ and $n, n'$ neutrals of type $P$ with
+  equal read-back.  Then $n \sim_P n'$.
+\end{lem}
+\begin{proof}
+  Take any interval value $\iota$.  If $\iota$ is not forced to an
+  endpoint, $n\,\iota$, $n'\,\iota$ are neutral path applications;
+  their read-backs agree because interval read-back is structural
+  and the spine read-backs agree; reflect at $T$ (in the
+  environments extended by $\iota$) relates them.  If
+  $\iota = \io$ (resp.\ $\ii$), the boundary rule returns the
+  stored endpoint values of $l$ (resp.\ $r$) on both sides ---
+  related because $P$ is computable (its endpoint components are
+  related by definition of computable type).  Both cases are what
+  the $\mathsf{PathP}$-clause demands.
+\end{proof}
+
+\begin{lem}[Reify at $\mathsf{PathP}$]\label{lem:reifPath}
+  $p \sim_P p' \implies \quo(p) = \quo(p')$.
+\end{lem}
+\begin{proof}
+  Instantiate at the generic interval level $\iota_d$: related
+  bodies at $T[\rho{+}[\iota_d]]$ by the clause; reify at $T$
+  gives equal body read-backs; interval arguments of any neutral
+  path applications occurring inside compare equal by canonical
+  antichain-DNF (sound and complete for the free De~Morgan
+  algebra); $\quo$ produces the path abstraction of the common
+  body.
+\end{proof}
+
+\noindent The mutual induction across the eight lemmas is
+well-founded by Remark~\ref{rem:order}: every cross-reference is at
+a proper syntactic subterm.
+
+\subsection{Conversion correctness, restructured}
+\label{app:coreconv}
+
+Conversion correctness splits into a purely \emph{syntactic}
+characterization and two \emph{type-level} semantic lemmas.  The
+split is deliberate: read-back equality and quote--eval idempotence
+are different theorems, and the load-bearing semantic content is
+needed \emph{only at type values}, where the core's type-value
+inversion (Lemma~\ref{lem:coreinv}) makes it provable by structural
+induction on syntax --- the generic-to-arbitrary passage never has
+to be performed on arbitrary function \emph{values}.
+
+\begin{lem}[Conversion is read-back equality]\label{lem:convrb}
+  For values of a core type, $\convop(v, v', T\text{-value})$
+  accepts iff $\quo(v) = \quo(v')$, and the accepting run is
+  defined iff both read-backs are.
+\end{lem}
+\begin{proof}
+  Purely syntactic, no logical relation involved.
+  ($\Rightarrow$) Induction on the accepting run: each $\convop$
+  clause compares exactly what the corresponding $\quo$ clause
+  emits --- the $\eta$-directed $\Pi$/$\Sigma$/$\mathsf{PathP}$
+  clauses instantiate at the same generic levels as
+  $\quo$'s binder cases; numerals, neutral spines and interval
+  arguments (DNF) coincide with their quotations.
+  ($\Leftarrow$) Induction on the common read-back along the
+  normal-form grammar of Section~\ref{app:coretypes}: each
+  production is matched by exactly one $\convop$ clause.
+  Definedness transfers as in Theorem~\ref{thm:exact}: the two
+  traversals visit the same instantiations.
+\end{proof}
+
+\noindent Lemma~\ref{lem:convrb} already yields, with no semantic
+input, that $\aconv$ restricted to the core is an equivalence
+relation and a congruence in all value-forming positions: it is
+equality of read-backs.
+
+\begin{lem}[Type-level idempotence]\label{lem:typeidem}
+  Let $F = \evalop(T, \rho)$ be a computable type value at $w$.
+  Then $\quo(F)$ is a syntactic core type, it is well-typed in the
+  generic context of $w$, and $\evalop(\quo(F), \rho_{\mathrm{gen}})$
+  is defined and determines \emph{the same relation} as $F$:
+  $\sim_{\quo(F)[\rho_{\mathrm{gen}}]} \;=\; \sim_{T[\rho]}$.
+\end{lem}
+\begin{proof}
+  Structural induction on $T$, using type-value inversion
+  throughout.  $\mathbb{N}$: $\quo(F) = \mathbb{N}$, evaluation
+  returns $\mathsf{v}\mathbb{N}$, same clause.
+  $\Pi x{:}T.S$: $\quo(F) = \Pi x{:}\quo(D).\quo(C\,x_d)$ where $D$
+  is the domain value and $C\,x_d$ the codomain instantiated at the
+  generic level; by the induction hypothesis at $T$ the quoted
+  domain re-evaluates to a type value with the same relation, and
+  for every $u \sim u'$ at a future world the quoted codomain
+  re-evaluates over $\rho_{\mathrm{gen}}{+}[u]$ --- by
+  Lemma~\ref{lem:coreinv} both the original and the re-evaluated
+  codomain instantiations are evaluations of the \emph{syntactic}
+  $S$ (resp.\ its read-back) in related environments, so the
+  induction hypothesis at $S$ applies pointwise.  $\Sigma$,
+  $\mathsf{PathP}$: the same pattern (for $\mathsf{PathP}$,
+  pointwise over interval values at all future worlds, endpoints by
+  the induction hypothesis at the endpoint type).  Well-typedness
+  of the read-back is the same induction read syntactically.
+\end{proof}
+
+\begin{lem}[Reindexing at $\mathsf{PathP}$]\label{lem:reindex}
+  Let $L, L'$ be line closures of core type (over the syntactic
+  types $T, T'$, by inversion) and suppose
+  $\evalop(T, \rho{+}[\iota_d]) $ and
+  $\evalop(T', \rho'{+}[\iota_d])$ determine the same relation at
+  the generic interval level $\iota_d$ (at all future worlds).
+  Then for \emph{every} interval value $\iota$ over any future
+  world, $\evalop(T, \rho{+}[\iota])$ and
+  $\evalop(T', \rho'{+}[\iota])$ determine the same relation.
+\end{lem}
+\begin{proof}
+  World functoriality (Lemma~\ref{lem:coreper}): the map that sends
+  the generic level to $\iota$ is a world map
+  (Definition~\ref{def:worlds}), the dimension action transports
+  the generic instance to the $\iota$-instance, and evaluation
+  commutes with the action on the interval entry of the environment
+  (the action acts pointwise on environments,
+  Section~\ref{sec:rawdomain}).  Note this is a \emph{dimension}
+  substitution --- available as a world map --- not a term
+  substitution; no appeal to Lemma~\ref{lem:subst} is needed.
+\end{proof}
+
+\begin{lem}[Type conversion soundness]\label{lem:typeconvsound}
+  Let $F, F'$ be computable type values at $w$.  If
+  $\convop(F, F', \U)$ accepts, then $F$ and $F'$ determine the
+  same relation.
+\end{lem}
+\begin{proof}
+  By Lemma~\ref{lem:convrb}, $\quo(F) = \quo(F')$; by
+  Lemma~\ref{lem:typeidem} both $F$ and $F'$ determine the same
+  relation as the evaluation of that common syntactic type in the
+  generic environment.  (Unfolded, the generic-to-arbitrary passage
+  happens inside Lemma~\ref{lem:typeidem}'s $\Pi$ case by
+  structural induction on the \emph{syntactic} codomain, and at
+  $\mathsf{PathP}$ by Lemma~\ref{lem:reindex} --- never on
+  arbitrary function values.)
+\end{proof}
+
+\begin{lem}[Conversion completeness]\label{lem:coreconvcomp}
+  If $v \sim_{T[\rho,\rho']} v'$ then
+  $\convop(v, v', T\text{-value})$ accepts.
+\end{lem}
+\begin{proof}
+  By the reify lemmas
+  (\ref{lem:reifN}, \ref{lem:reifPi}, \ref{lem:reifSig},
+  \ref{lem:reifPath}) the read-backs are equal;
+  Lemma~\ref{lem:convrb} ($\Leftarrow$) concludes.
+\end{proof}
+
+\begin{rem}[What happened to term-level semantic soundness]
+  \label{rem:nosemconv}
+  The development never needs ``$\convop$ accepts $\Rightarrow$
+  related'' for arbitrary function \emph{values}: the fundamental
+  theorem's conversion case switches \emph{type} predicates
+  (Lemma~\ref{lem:typeconvsound}); the admissibility package uses
+  the equivalence/congruence structure of $\aconv$, which
+  Lemma~\ref{lem:convrb} provides syntactically; and the constancy
+  argument uses idempotence at \emph{type} values
+  (Lemma~\ref{lem:typeidem}).  We therefore do not claim the
+  term-level statement, and no proof in this paper depends on it.
+  This is the precise resolution of the apparent
+  generic-to-arbitrary gap: at types it is closed by structural
+  induction on syntax; at terms it is never used.
+\end{rem}
+
+\subsection{$\hcomp$ computability, former by former}
+\label{app:corehcomp}
+
+\noindent\emph{Induction discipline for the Kan lemmas.}
+Lemmas~\ref{lem:corehcompN}--\ref{lem:coretransp} are proved by
+\emph{one} simultaneous structural induction on the syntactic type:
+the $\Sigma$-case of composition invokes transport at the subterm
+$S$, and the $\mathsf{PathP}$-case of transport invokes composition
+at the subterm $T$ --- every cross-reference between the two lemmas
+is at a proper syntactic subterm, so the joint induction is
+well-founded by Remark~\ref{rem:order}.  We keep the statements
+separate for readability.
+
+\begin{lem}[$\hcomp$ at $\mathbb{N}$]\label{lem:corehcompN}
+  If the system is related and the base adapted, at $w$
+  (Definition~\ref{def:relsys}), the $\hcomp$s at $\mathbb{N}$ are
+  defined and related at $w$, with the boundary behaviour of
+  Lemma~\ref{lem:boundary}.
+\end{lem}
+\begin{proof}
+  If some face is decided true, both sides return that tube's top
+  (L5), related by assumption.  Otherwise, by cases on the (common,
+  by the $\mathbb{N}$-clause) shape of the base.  \emph{Numeral
+  base:} by induction on the numeral, using the kernel's
+  computation rules --- an $\hcomp$ at $\mathbb{N}$ with base
+  $\mathsf{ze}$ (resp.\ $\mathsf{su}\,m$) peels the tubes through
+  the constructor ($\mathsf{ze}$/$\mathsf{su}$ commute with
+  $\hcomp$): tube tops over a numeral base at undecided faces are
+  themselves related numeral-shaped values by the boundary
+  condition, and the peeled composite recurses at $m$.
+  \emph{Neutral base:} both sides form the stuck
+  $\hcomp$-\emph{neutral} with equal read-back (tubes reified by
+  the reify lemmas under their interval binder; equal
+  cofibrations), covered by the neutral part of the
+  $\mathbb{N}$-clause.  \emph{Closed instance remark} (used for
+  canonicity): a closed cofibration contains no interval
+  variables, hence is decided; so closed $\hcomp$s at $\mathbb{N}$
+  always take the decided-face or numeral path and compute to
+  numerals --- no closed stuck composite exists.
+\end{proof}
+
+\begin{lem}[$\hcomp$ at $\Pi$, $\Sigma$, $\mathsf{PathP}$]
+  \label{lem:corehcompstr}
+  Same hypotheses (Definition~\ref{def:relsys}, at $w$); the
+  structural composites are defined and related at $w$, with the
+  boundary behaviour of Lemma~\ref{lem:boundary}.
+\end{lem}
+\begin{proof}
+  \emph{$\Pi$:} the composite is the closure value
+  $\lambda w.\,\hcomp\,[\vec\varphi \mapsto \vec t\,w]\,(u_0\,w)$;
+  applying to related $w \sim_T w'$ gives related tubes and base at
+  $S[\rho{+}[w]]$ (the $\Pi$-clause, pointwise), and the induction
+  hypothesis of the outer structural recursion on $T$ (the
+  composite at $S$) closes the case.
+  \emph{$\Sigma$:} let the input be
+  $\hcomp^{\,\iota}\,(\Sigma x{:}T.S)\,
+  [\vec\varphi_k \mapsto t_k]\,u_0$ in environment $\rho$.  The
+  first components compose at $T$:
+  \[
+    c \;:=\; \hcomp^{\,\iota}\,T\,
+      [\vec\varphi_k \mapsto \fst t_k]\,(\fst u_0)
+    \;:\; T[\rho],
+  \]
+  and the kernel forms their \emph{filler}, the truncation of the
+  same composition at $\iota$:
+  \[
+    \overline{c}(\iota) \;:=\; \hcomp^{\,\iota'}\,T\,
+      [\vec\varphi_k \mapsto \fst t_k(\iota \wedge \iota'),\
+       (\iota{=}0) \mapsto \fst u_0]\,(\fst u_0)
+    \;:\; T[\rho],
+  \]
+  with $\overline{c}(0) = \fst u_0$ and $\overline{c}(1) = c$,
+  related to its primed counterpart at every $\iota$ by this lemma
+  at $T$ (the truncated system is again a related system).  The
+  second components then compose \emph{heterogeneously along the
+  line $\iota \mapsto S[\rho{+}[\overline{c}(\iota)]]$}:
+  \[
+    \snd(\text{result}) \;:=\;
+    \vcomp^{\,\iota}\,\bigl(S[\overline{c}(\iota)/x]\bigr)\,
+      [\vec\varphi_k \mapsto \snd t_k]\,(\snd u_0)
+    \;:\; S[\rho{+}[c]],
+  \]
+  whose transport part is along instantiations of the proper
+  subexpression $S$ at the related environments
+  $\rho{+}[\overline{c}(\iota)]$ (Lemma~\ref{lem:coretransp} at
+  $S$), and whose $\hcomp$ part is the induction hypothesis at $S$.
+  The boundary premises are inherited: on $\varphi_k$, the pair
+  $t_k$ has $\fst t_k$ matching the filler on that face
+  ($\overline{c}(\iota) = \fst t_k(\iota)$ there, by the filler's
+  face rule), so $\snd t_k$ is a legitimate tube for the
+  heterogeneous composite; at $\iota = 0$ the composite starts at
+  $\snd u_0 : S[\rho{+}[\fst u_0]] =
+  S[\rho{+}[\overline{c}(0)]]$.  The resulting pair is related at
+  $\Sigma x{:}T.S$ by the $\Sigma$-clause, whose second-component
+  environment is $\rho{+}[c]$, exactly the filler at $1$.  All
+  instantiations are of proper subexpressions
+  (Remark~\ref{rem:order}).
+  \emph{$\mathsf{PathP}$:} the composite at
+  $\mathsf{PathP}(\langle i \rangle T)\,l\,r$ is
+  $\langle j \rangle\, \hcomp\,[\vec\varphi \mapsto \vec t\,j,\
+  j{=}0 \mapsto l,\ j{=}1 \mapsto r]\,(u_0\,j)$: the system is
+  \emph{extended with the endpoint tubes}.  Endpoint coherence ---
+  the reviewer-facing detail --- is exactly the boundary check: at
+  $j = \io$ the added face is decided true and the composite
+  collapses to $l$ (the $\hcomp$ face rule), matching the
+  $\mathsf{PathP}$-clause's endpoint condition; likewise at $\ii$;
+  at generic $j$ the composite is the induction hypothesis at $T$
+  with the enlarged (still pairwise-compatible: the original tubes
+  agree with $l, r$ at the endpoints by \emph{their} boundary
+  conditions) system.
+\end{proof}
+
+\subsection{Prioritized transport computability, former by former}
+\label{app:coretransp}
+
+\begin{lem}\label{lem:coretransp}
+  If the family closure (over a syntactic core type in one
+  interval binder) and the argument are related, the prioritized
+  transport is defined and related at the endpoint type.
+\end{lem}
+\begin{proof}
+  \emph{Positive branch:} Theorem~\ref{thm:checksound}; its
+  ingredients --- read-back/action commutation (Lemma~L14) and
+  type-level idempotence --- are available for the core as
+  Lemma~\ref{lem:typeidem}.
+  \emph{Negative branch}, by cases on the family's head
+  (Lemma~\ref{lem:coreinv}; there is no $\Glue$ case and no neutral
+  case):
+
+  \emph{$\mathbb{N}$-line:} the family value at the generic
+  dimension has head $\mathsf{v}\mathbb{N}$ with no arguments, so
+  it is $\ell$-free and the check fired
+  (Theorem~\ref{thm:exact}); this branch is unreachable.
+
+  \emph{$\Pi$-line} $\langle i \rangle \Pi x{:}T.S$: the
+  contractum is $\lambda x_1.\, \transp^i
+  S[w\,x_1\,i/x]\,(f\,(w\,x_1\,0))$ with
+  $w\,x_1\,i = \transp^j T(i \vee \neg j)\,x_1$.  Apply to related
+  $x_1 \sim x_1'$ at the endpoint domain: $w\,x_1\,i$ is a
+  transport along the \emph{domain line} --- the syntactic
+  subexpression $T$ under a reparametrized interval environment
+  --- so this lemma applies at $T$ (structural recursion,
+  Remark~\ref{rem:order}), giving related fills, in particular
+  related $w\,x_1\,0$ at the source domain; $f$ applied to them is
+  related at $S[\rho{+}[w\,x_1\,0]]$ by the $\Pi$-clause; the
+  outer transport is along $\langle i \rangle
+  S[w\,x_1\,i/x]$ --- the subexpression $S$ in the environment
+  extended by the fill --- so this lemma at $S$ closes the case,
+  and the results assemble by the $\Pi$-clause at the endpoint
+  type.
+
+  \emph{$\Sigma$-line} $\langle i \rangle \Sigma x{:}T.S$: the
+  first component transports along $T$ (this lemma at $T$).  The
+  \emph{codomain typing detail}: the second component transports
+  along $\langle i \rangle S[\overline{u}\,i/x]$ where
+  $\overline{u}\,i = \transp^j T(i \wedge j)\,(\fst u)$ is the
+  first component's fill; by this lemma at $T$ the fills are
+  related at $T[\rho{+}[\iota]]$ for each $\iota$, so the
+  environments $\rho{+}[\overline{u}\,i]$ are related, the line
+  $\langle i \rangle S[\overline{u}\,i/x]$ is a computable family
+  (its instantiations are evaluations of the subexpression $S$ in
+  related environments), and this lemma at $S$ applies.  The pair
+  is related at the endpoint type by the $\Sigma$-clause, whose
+  second-component environment $\rho{+}[\transp\,T\,(\fst u)]$ is
+  exactly the fill at $\ii$.
+
+  \emph{$\mathsf{PathP}$-line}
+  $\langle i \rangle \mathsf{PathP}(\langle j \rangle T)\,l\,r$
+  (where $T, l, r$ may mention $i$): the contractum and its
+  obligations, in derivation form.  The structural rule produces
+  \[
+    \langle j \rangle\, \vcomp^i\, T(i,j)\,
+      [\,j{=}0 \mapsto l(i),\ j{=}1 \mapsto r(i)\,]\,(p\,j),
+  \]
+  whose premises are exactly the composition rule's:
+  \begin{align}
+    &j{=}0:\quad l(0) \conv p\,0
+      && \text{the source typing of } p
+      \tag{P1}\label{eq:P1}\\
+    &j{=}1:\quad r(0) \conv p\,1
+      && \text{likewise}
+      \tag{P2}\label{eq:P2}\\
+    &j{=}0 \wedge j{=}1:\quad \text{vacuous}
+      && (0 = 1) = \bot
+      \tag{P3}\label{eq:P3}
+  \end{align}
+  --- \eqref{eq:P1}/\eqref{eq:P2} hold because
+  $p : \mathsf{PathP}(\langle j \rangle T(0,j))\,l(0)\,r(0)$ and
+  path application at an endpoint returns that endpoint.  The
+  composite unfolds as transport of the base and tubes along
+  $\langle i \rangle T(i,j)$ followed by an $\hcomp$ at $T(1,j)$
+  with the transported endpoint tubes; each transport is this lemma
+  at the subterm $T$, and the $\hcomp$ is
+  Lemma~\ref{lem:corehcompstr} at $T$.  The \emph{endpoint
+  coherence} of the result --- required by the
+  $\mathsf{PathP}$-clause at the target type
+  $\mathsf{PathP}(\langle j \rangle T(1,j))\,l(1)\,r(1)$ --- is the
+  face computation:
+  \begin{align}
+    (\text{result})\,\io
+    &= \vcomp\text{-value on the decided face } j{=}0
+    = \text{top of the } l\text{-tube} \notag\\
+    &= \text{the } \transp^i\,T(i,0)\text{-corrected } l
+       \text{ at } i{=}1
+    \;\conv\; l(1),
+    \tag{E0}\label{eq:E0}\\
+    (\text{result})\,\ii
+    &\conv r(1) \quad\text{symmetrically},
+    \tag{E1}\label{eq:E1}
+  \end{align}
+  where the last step of \eqref{eq:E0} is the composition rule's
+  face collapse ($\hcomp$ on a decided face returns the tube top)
+  together with the tube's own transport landing at $l(1)$ ---
+  precisely the boundary rule of $\vcomp$.  So the contractum
+  inhabits the target path type with the required endpoints, and
+  relatedness at generic $j$ is the two ingredients above.
+\end{proof}
+
+\subsection{The fundamental theorem, and the corollaries}
+\label{app:corefund}
+
+\begin{thm}\label{thm:corefund}
+  Every rule of $T^{\mathrm{core}}_{\mathrm{alg}}$ preserves
+  semantic typing (Definition~\ref{def:semtyping}, with
+  $\valeq_{\evalop(T,\rho)}$ read as $\sim_{T[\rho,\rho']}$).
+\end{thm}
+\begin{proof}
+  Induction on the typing derivation.  Variables: environment
+  relatedness.  $\lambda$/application, pairing/projections, path
+  abstraction/application: the matching clauses of
+  Section~\ref{app:corerel}, with definedness carried by each
+  clause.  $\mathbb{N}$-introductions: numerals.
+  $\mathsf{natrec}$: by the $\mathbb{N}$-clause the scrutinee is a
+  numeral (compute by an inner induction on the numeral, the step
+  case using the $\Pi$-clause of the step premise) or a neutral
+  (both sides form recursor neutrals with equal read-back ---
+  motive by reify under its binder ---
+  related by reflect at the motive instance).  $\transp$:
+  Lemma~\ref{lem:coretransp}.  $\hcomp$:
+  Lemmas~\ref{lem:corehcompN} and~\ref{lem:corehcompstr}.
+  Conversion rule: Lemma~\ref{lem:typeconvsound} (the switch of
+  type predicates), with Lemma~\ref{lem:coreconvcomp} and
+  Lemma~\ref{lem:coreper} (environment/type irrelevance).
+\end{proof}
+
+\begin{cor}\label{cor:corepkg}
+  For the minimal core, unconditionally: evaluation, read-back and
+  conversion terminate on well-typed inputs; canonicity (closed
+  naturals are numerals: the $\mathbb{N}$-clause, no closed
+  neutrals, and no closed stuck composites by the closed-instance
+  remark of Lemma~\ref{lem:corehcompN}); consistency; and the
+  admissibility package of Theorem~\ref{thm:admissible}.
+\end{cor}
+
+\subsection{A paper proof of the path separation}
+\label{app:papersep}
+
+The read-back characterization of conversion
+(Lemma~\ref{lem:convrb}) upgrades the machine witness of
+Lemma~\ref{lem:pathfail} to a paper theorem, for every fixed core
+type.
+
+\begin{lem}[$\hcomp$/spine separation]\label{lem:sepschema}
+  Let $T$ be a core type over a core context, $n$ a neutral of type
+  $T$, and
+  $H := \hcomp^{\,\iota}\,T\,[\vec\varphi \mapsto \vec t\,]\,(n)$ a
+  composite whose faces $\vec\varphi$ are undecided at the current
+  world and whose tubes are neutral-based values constant in the
+  fill dimension $\iota$.  Then $\quo(H) \ne \quo(n)$; hence, by
+  Lemma~\ref{lem:convrb}, $H \not\aconv n$.
+\end{lem}
+\begin{proof}
+  Structural induction on $T$, following the kernel's structural
+  $\hcomp$ rules (which are also how $\quo$ sees the values).
+  \emph{$\mathbb{N}$:} the base is neutral, so $H$ is a stuck
+  $\hcomp$-neutral (Section~\ref{app:coretypes}); its read-back is
+  an $\hcomp$-term, while $\quo(n)$ is an elimination spine ---
+  distinct productions of the normal-form grammar.
+  \emph{$\Pi x{:}T_1.S$:} read-back $\eta$-expands both sides at
+  the generic $x_d$; on the left, the structural rule turns
+  $H\,x_d$ into an $\hcomp$ at $S[x_d]$ whose base $n\,x_d$ is
+  again a neutral spine and whose tubes remain fill-constant and
+  neutral-based; on the right, $n\,x_d$ is a spine.  The induction
+  hypothesis at $S$ gives distinct body read-backs, hence distinct
+  $\lambda$-bodies.
+  \emph{$\Sigma x{:}T_1.S$:} read-back compares first projections;
+  $\fst H$ is the composite of the first components over the spine
+  $\fst n$ (fill-constant, neutral-based), and the induction
+  hypothesis at $T_1$ separates already the first components.
+  \emph{$\mathsf{PathP}(\langle k \rangle T_1)\,l\,r$:} read-back
+  instantiates at the generic level $k_d$; the structural rule
+  extends the system with the endpoint tubes $k{=}0 \mapsto l$,
+  $k{=}1 \mapsto r$ --- undecided at generic $k_d$, so the
+  composite does not collapse --- with base $n\,k_d$, a spine; the
+  induction hypothesis at $T_1$ applies with the enlarged (still
+  fill-constant, neutral-based) system.
+  In every case the faces stay undecided at the generic
+  instantiations, so no collapse intervenes, and the separation
+  bottoms out at $\mathbb{N}$ in distinct grammar productions.
+\end{proof}
+
+\begin{prop}[Path separation in the core, on paper]
+  \label{prop:papersep}
+  For every core type $A$ and the generic context
+  $(a\,b : A,\ p : \Path\,A\,a\,b)$:
+  \[
+    \langle j \rangle\, \hcomp^{\,\iota} A\,
+      [\,j{=}0 \mapsto a,\ j{=}1 \mapsto b\,]\,(p\,j)
+    \;\not\aconv\; p ,
+  \]
+  unconditionally.
+\end{prop}
+\begin{proof}
+  Conversion at the path type instantiates both sides at the
+  generic level $j_d$: the faces $j_d{=}0$, $j_d{=}1$ are
+  undecided, the base $p\,j_d$ is a neutral spine, and the tubes
+  $a, b$ (values of the context variables) are generic neutrals,
+  constant in the fill dimension.  Lemma~\ref{lem:sepschema} at $A$
+  separates the two sides; Lemma~\ref{lem:convrb} turns the
+  read-back difference into rejection.  Every step lives in the
+  minimal core, so Corollary~\ref{cor:corepkg} makes the statement
+  unconditional.  Consequently the no-go analysis of
+  Section~\ref{sec:nogo} --- both the derivation of
+  \eqref{eq:dagger} in $T_{\mathrm{eq}}$ and its refutation by the
+  algorithm --- is established on paper within the unconditional
+  layer; the machine probes witness, in addition, the full
+  implemented calculus with $A$ a universe variable.
+\end{proof}
+
+\subsection{The derived $\J$, explicitly}
+\label{app:coreJ}
+
+\begin{prop}[Strict $\J$ in the minimal core; a schema]\label{prop:J}
+  Work in the core over a context
+  $\Gamma = (x : A;\ \text{and, in the extended context } y : A,\
+  p : \Path\,A\,x\,y,\ \text{a core type } C)$, with
+  $d : C[x, \refl_x]$.  Define, as usual in cubical type theory,
+  \[
+    \J_C\,d\,y\,p \;:=\;
+    \transp^i\, C\bigl[\,p(i),\ \langle j \rangle\, p(i \wedge j)
+    \,\bigr]\ \io\ d .
+  \]
+  Then: (i) $\J_C$ is well-typed in the core (the family is a core
+  type in the interval binder $i$, using the connection
+  $i \wedge j$; no $\Glue$, universe or HIT is involved);
+  (ii) $\J_C\,d\,x\,\refl_x \aconv d$, unconditionally.
+\end{prop}
+\begin{proof}
+  (i) is the standard typing of the connection square: at $i=0$
+  the family is $C[p(0), \langle j \rangle p(0)] =
+  C[x, \refl_x]$ by the boundary and connection laws ($0 \wedge j
+  = 0$), so $d$ is accepted at the source.
+  (ii) Substitute $p := \refl_x$ and evaluate the transport's
+  family at the fresh dimension $\ell$:
+  $p(\ell)$ evaluates to (the value of) $x$, and
+  $\langle j \rangle\, p(\ell \wedge j)$ evaluates to the constant
+  path abstraction over $x$ --- the connection is absorbed by the
+  DNF normalization ($\ell \wedge j$ instantiated on the constant
+  path collapses; machine witness \texttt{strictConnZeroD}).  So
+  the family value is the value of $C[x, \refl_x]$ in an
+  environment not involving $\ell$, and by Lemma~L1 its read-back
+  does not contain $\ell$.  By Theorem~\ref{thm:exact} the check
+  fires; the positive branch returns the value of $d$; by
+  Lemma~\ref{lem:coreconvcomp} the algorithmic equality
+  $\J_C\,d\,x\,\refl_x \aconv d$ holds.  Every ingredient ---
+  evaluation, check, conversion --- is inside the minimal core, so
+  Corollary~\ref{cor:corepkg} applies and no assumption is used.
+  Machine witness: \texttt{strictJReflD}.
+\end{proof}
+
+\begin{rem}[Schema, not internal term]
+  The core has no universe, so $\J_C$ is a \emph{meta-level schema}:
+  one derived eliminator per core type $C$ in the extended context,
+  not a single internal universe-polymorphic term.  This is the
+  usual status of $\J$ in a universe-free fragment and involves no
+  loss: Proposition~\ref{prop:J} is proved uniformly in $C$.  (In
+  the full calculus, where universes exist, the internal $\J$ is the
+  same construction at a universe-valued motive; it then lives in
+  the relative layer.)
+\end{rem}
+
+\subsection{The $S^1$ extension}
+\label{app:s1ext}
+
+\begin{prop}[$S^1$, proof sketch]\label{prop:s1}
+  The results of this appendix extend to the fragment enlarged by
+  $S^1$ ($\mathsf{base}$, $\mathsf{loop}$, its eliminator, and
+  $\hcomp$-cells).
+\end{prop}
+\begin{proof}[Proof sketch (deliberately so labelled)]
+  The $S^1$-clause of the relation adds: both $\mathsf{base}$;
+  or $\mathsf{loop}$ at DNF-equal interval values; or
+  componentwise-related $\hcomp$-cells with equal cofibrations; or
+  neutrals with equal read-back.  Transport along a constant
+  $S^1$-line always takes the positive branch (as for
+  $\mathbb{N}$).  The eliminator computes on $\mathsf{base}$ and
+  $\mathsf{loop}$ by its two rules, acts on an $\hcomp$-cell by
+  composing in the motive fiber against the tube-transformed
+  system (the kernel's tube-transformer closure), and is neutral
+  on neutrals; boundary computation
+  ($\mathsf{loop}(\io) = \mathsf{loop}(\ii) = \mathsf{base}$) is
+  the face collapse.  Filling in the eliminator-over-$\hcomp$ case
+  at the level of detail of
+  Sections~\ref{app:corehcomp}--\ref{app:coretransp} is routine
+  but lengthy, and we deliberately keep it \emph{outside} the
+  unconditional theorem; the artifact provides machine evidence
+  (the $S^1$ probes, the winding-number development
+  $\pi_1(S^1) \cong \mathbb{Z}$, and the switchover probes for
+  higher-inductive constructors).
+\end{proof}
+
+\subparagraph*{What the core deliberately omits.}  $\Glue$ (hence
+$\ua$ and $\mathsf{transpGlue}$), universes (hence large
+elimination), and all HITs (with $S^1$ recovered as
+Proposition~\ref{prop:s1}).  These are exactly the ingredients
+whose base metatheory is the content of
+\cite{HuberNorm,SterlingAngiuli}; extending the discharge to them
+is the remaining gap between Theorem A$'$ and Theorems A/B, and we
+prefer to leave it visibly open rather than to compress those
+proofs beyond inspectability.
+
+\section{The Sterling--Angiuli bridge}
+\label{app:bridge}
+
+This appendix makes precise which parts of the base component (B) are
+discharged by the normalization theorem of Sterling--Angiuli
+\cite{SterlingAngiuli} for the Cartesian layer (Theorem A), and which
+parts remain a transposition obligation.  It is based on the
+published LICS 2021 paper (arXiv:2101.11479v2).
+
+\subsection{What their theorem provides}
+
+Their subject is intensional \emph{Cartesian} cubical type theory,
+presented as the locally Cartesian closed category of judgments
+generated by an explicit signature: connectives $\Pi$, $\Sigma$,
+$\mathsf{path}$, $\mathsf{glue}$ (with $\mathsf{Equiv}$ defined
+without universes), the circle $\mathsf{S1}$ with its eliminator, and
+Kan operations $\mathsf{hcom}$ and
+\[
+  \mathsf{coe} : \textstyle\prod_{A : \I \to \mathsf{tp}}
+  \prod_{r, s : \I} \mathsf{tm}(A(r)) \to
+  \{\mathsf{tm}(A(s)) \mid r = s \hookrightarrow a\},
+\]
+with cofibration classifier $\mathbb{F}$ closed under
+$\wedge, \vee, \forall_\I, =_\I$.  The method is synthetic Tait
+computability --- a gluing model over the generic model, with the
+novel device of \emph{stabilized neutrals} (neutrals indexed by the
+cofibration recording where they cease to be neutral); it is, by
+design, \emph{not} evaluation-based.  The main results are: the
+normalization theorem (their Theorem~42), a bijection between
+equivalence classes of terms in context and $\beta/\eta$-normal
+forms; injectivity of type constructors (their Theorem~43); and an
+algorithm deciding judgmental equality (their Corollary~47).  Two
+scope restrictions are explicit in their paper: \emph{universes are
+not treated} (they note the expected extension via cumulative
+universes and the tininess of the interval, but do not carry it
+out), and the only higher inductive type is the circle.  For the
+De~Morgan variant they state that the argument ``carries over
+mutatis mutandis''; the adaptation is likewise not carried out.
+
+\subsection{Item-by-item correspondence}
+
+\begin{center}
+\begin{tabular}{p{0.44\textwidth}p{0.50\textwidth}}
+  component (B) item & status under \cite{SterlingAngiuli} \\\hline
+  normal-form language; uniqueness; inconvertibility of distinct
+  normal forms (L13, second half) &
+  \textbf{provided}: Theorem 42 (bijection with $\beta/\eta$-normal
+  forms), for $\Pi, \Sigma, \mathsf{path}, \mathsf{glue},
+  \mathsf{S1}$, no universes \\
+  injectivity of type constructors &
+  \textbf{provided}: Theorem 43 \\
+  decidability of the base judgmental equality &
+  \textbf{provided}: Corollary 47 \\
+  predicate clauses of $\valeq$ for their connectives &
+  \textbf{provided in substance}: their computability structures
+  (with stabilized neutrals) are the proof-relevant counterpart of
+  Definition~\ref{def:valeq}'s clauses; the transposition to a
+  concrete Kripke PER over our domain is mechanical but must be
+  written \\
+  environment-form fundamental cases for a concrete NbE evaluator
+  (Appendix~\ref{app:fund}, (B)-cases); read-back correctness for
+  that evaluator (L13, first half); evaluator termination content &
+  \textbf{not literal}: their normalization function arises from the
+  glued model, not from an operational evaluator; the standard
+  NbE-correctness argument for a concrete evaluator against their
+  normal forms is a known pattern but is not in their paper \\
+  universes ($\valeq_\U$, universe rules of
+  Appendix~\ref{app:fund}) & \textbf{gap}: outside their theorem;
+  expected but unproven extension \\
+  HITs beyond the circle (Section~\ref{sec:hits}) &
+  \textbf{gap}: outside their theorem \\
+  De~Morgan instance & \textbf{gap}: ``mutatis mutandis'' claim, not
+  carried out --- which is why our De~Morgan layer is Theorem B,
+  relative to (B) \\
+\end{tabular}
+\end{center}
+
+\subsection{Primitive translation: boundary-conditioned
+  $\mathsf{coe}$ vs.\ $\varphi$-annotated $\transp$}
+
+Their coercion is regular \emph{on the diagonal}: the codomain
+$\{\mathsf{tm}(A(s)) \mid r = s \hookrightarrow a\}$ builds
+$\mathsf{coe}(A, r, r, a) = a$ into the \emph{type} of the primitive
+--- the Cartesian counterpart of our $(\mathrm{S}_{\ii})$, expressed
+as a boundary condition rather than a formula annotation.  Our
+$\transp^i A\,\varphi\,u$ translates as
+$\mathsf{coe}(\lambda i.A, 0, 1, u)$, with the constancy formula
+$\varphi$ corresponding to the cofibration under which the line is
+required constant; rule (R) then reads: coerce along a line whose
+\emph{normal form} is degenerate as if $r = s$.  The switchover
+analysis of Section~\ref{sec:switchover} is insensitive to the
+difference: the derivation \eqref{eq:d1}--\eqref{eq:dagger} uses only
+the diagonal rule, the structural path rule and congruence, all of
+which the Cartesian signature has, and the residue is an
+$\mathsf{hcom}$ with fill-constant tubes.
+
+\subsection{The precise statement of Theorem A}
+
+\begin{quote}
+  \textbf{Theorem A.}  Over the fragment
+  $\Pi, \Sigma, \mathsf{path}, \mathsf{glue}, \mathsf{S1}$ of
+  Cartesian cubical type theory --- the fragment covered by
+  \cite{SterlingAngiuli} --- the results of
+  Sections~\ref{sec:oper}--\ref{sec:canonicity}
+  (admissibility, termination, canonicity, definitional
+  $\J\,d\,\refl$) hold for the prioritized operational system,
+  \emph{modulo the evaluator-level transposition}: the re-proof, for
+  a concrete NbE evaluator of that fragment, of the (B)-marked
+  lemmas of Appendices~\ref{app:cases}--\ref{app:fund} against the
+  normal forms of \cite{SterlingAngiuli}.  The transposition is
+  standard (it is the routine half of every NbE-correctness proof)
+  and involves no cubical subtlety beyond what
+  \cite{SterlingAngiuli} already resolved, but it is a proof
+  obligation, not a citation; and universes, the wider HIT roster,
+  and the De~Morgan instance remain outside it.
+\end{quote}
+
+\noindent We prefer this honest statement to the stronger
+``unconditional'' phrasing: the alternative --- claiming the
+evaluator-level lemmas from a theorem that is deliberately not
+evaluation-based --- would misattribute the one part of the base
+component that their method, precisely by its elegance, does not
+supply.
+
+\begin{thebibliography}{10}
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{ABCFHL}
+C.~Angiuli, G.~Brunerie, T.~Coquand, R.~Harper, K.-B.~Hou, D.~Licata.
+\newblock Syntax and models of Cartesian cubical type theory.
+\newblock \emph{Math.\ Struct.\ Comput.\ Sci.}, 31(4), 2021.
+
+\bibitem{VezzosiMortbergAbel}
+A.~Vezzosi, A.~M\"ortberg, A.~Abel.
+\newblock Cubical Agda: a dependently typed programming language with
+  univalence and higher inductive types.
+\newblock \emph{J.\ Funct.\ Program.}, 31, 2021.
+
+\bibitem{HuberNorm}
+S.~Huber.
+\newblock Canonicity for cubical type theory.
+\newblock \emph{J.\ Autom.\ Reasoning}, 63, 2019.
+
+\bibitem{SterlingAngiuli}
+J.~Sterling, C.~Angiuli.
+\newblock Normalization for cubical type theory.
+\newblock \emph{LICS 2021}.
+
+\bibitem{SwanRegularity}
+A.~W.~Swan.
+\newblock Separating path and identity types in presheaf models of
+  univalent type theory.
+\newblock Preprint, arXiv:1808.00920, 2018.
+
+\bibitem{SattlerNote}
+C.~Sattler.
+\newblock The failure of regularity for composition in the CCHM
+  universe (unpublished observation, commonly attributed; we know of
+  no self-contained publication).
+\newblock Published accounts: the introduction and historical
+  remarks of \cite{SwanRegularity}, and the discussion of regular
+  composition in \cite{CCHM,ABCFHL}.
+
+\bibitem{Arend}
+V.~Isaev, F.~Part, S.~Sinchuk.
+\newblock Arend: a theorem prover based on homotopy type theory.
+\newblock JetBrains Research.  Language paper and the Prelude
+  documentation of \textsf{coe} (whose computation rules include the
+  constant-family collapse) at
+  \url{https://arend-lang.github.io/documentation/language-reference/prelude};
+  accessed 2026-07-17.
+
+\bibitem{UIPCubical}
+Y.~J.~Tan.
+\newblock Towards computational UIP in Cubical Agda.
+\newblock Preprint, arXiv:2511.21209, 2025.
+
+\bibitem{HuangNF}
+X.~Huang.
+\newblock Normal forms in cubical type theory.
+\newblock Preprint, arXiv:2603.24923, 2026.
+
+\bibitem{OrtonPitts}
+I.~Orton, A.~M.~Pitts.
+\newblock Axioms for modelling cubical type theory in a topos.
+\newblock \emph{LMCS} 14(4), 2018.
+
+\bibitem{StickyXTT}
+J.~Sterling, C.~Angiuli, D.~Gratzer.
+\newblock Cubical syntax for reflection-free extensional equality.
+\newblock \emph{FSCD 2019}.
+
+\end{thebibliography}
+
+\end{document}

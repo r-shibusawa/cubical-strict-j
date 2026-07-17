@@ -1,0 +1,15 @@
+# Lean build artifacts
+/.lake
+
+# OS junk
+.DS_Store
+
+# Paper draft history (only the current jrefl.tex + jrefl.pdf are published)
+docs/paper/jrefl_v*_backup.tex
+
+# LaTeX build junk
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz

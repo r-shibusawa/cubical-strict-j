@@ -1,0 +1,418 @@
+\documentclass[11pt]{ltjsarticle}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,pdfencoding=auto}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\op}[1]{\ensuremath{\mathsf{#1}}}
+\title{Lean 4 上の自己完結型 Cubical 型理論カーネル:\\
+成果物・数学的意義・数理論理学と圏論の未解決問題への関わり}
+\author{FormalizedMathematics プロジェクト}
+\date{最終更新: 2026-07-11(プロジェクト進行に伴い随時更新される生きた文書)}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本プロジェクトは,外部数学ライブラリに一切依存せず,Lean~4 の内部に
+CCHM 流 cubical 型理論の証明支援系カーネルをゼロから実装し,その
+\textbf{対象言語の内部で}約250個の定理(総合的ホモトピー論・単価的数学・
+圏論)を機械検証したものである.ハイライト:\textbf{計算する univalence},
+完全量化された $\pi_1(S^1)\cong\Z$,宇宙の中の型の等式としての
+$\Omega S^1\equiv\Z$,全セルが定義的な $T^2\simeq S^1\times S^1$,
+一般 gradLemma($\op{isoToEquiv}$),Eilenberg--MacLane 空間 $K(G,1)$ を
+含む高階帰納型群,1-型における Mac~Lane の五角形・三角形,そして
+$\mathbf{Cat}$ の2-圏構造.本文書は成果物を記録し,その数学的意義を説明し,
+ホモトピー仮説・コヒーレンスの公理化・弱高次元圏の比較問題という
+未解決問題群への寄与可能性を\textbf{誠実に}評価する.
+\end{abstract}
+
+\tableofcontents
+
+\section{全体像}
+
+プロジェクトは厳密に分離された2層からなる.
+
+\begin{description}[leftmargin=1.5em]
+\item[カーネル(メタ理論,Lean~4)] 双方向型検査器,NbE(評価による正規化)
+評価器,De~Morgan 区間代数からなる Cohen--Coquand--Huber--M\"ortberg
+(CCHM)流 cubical 型理論の実装.依存積・依存和,累積的宇宙階層
+$\U_0:\U_1:\cdots$,道型 $\op{PathP}$,Kan 演算($\op{transp}$ と定数性規則,
+面系付き $\op{hcomp}$),Glue 型,および高階帰納型群.
+約5{,}000行,mathlib 非依存.全ての判断は実行可能コードで決定される.
+\item[ライブラリ(対象言語)] 約250個の定義・定理.各々が対象型理論の
+閉じた項とその型の組であり,ビルド時にカーネルが検証する.
+Lean の定理として「カーネルについて」述べるのではなく,実装された
+型理論の\textbf{内部で}遂行された数学である(Cubical Agda ライブラリが
+Cubical Agda 内部の数学であるのと同じ意味で).
+\end{description}
+
+この「厳密なメタ理論(Lean)が単価的対象理論(cubical)を宿す」2層構造
+自体が基礎論的関心の対象である(\S\ref{sec:open} 参照).
+
+\section{カーネル:機能と設計原則}
+
+\subsection{中核の型理論}
+\begin{itemize}[leftmargin=1.5em]
+\item De~Morgan 区間:対合付き自由分配束.等価性は標準反鎖 DNF で決定.
+\item 脱関数化閉包による NbE:値は一階データ.約90個の特殊閉包構成子が
+Kan の構造規則($\Pi/\Sigma/\op{PathP}$ 族の輸送,除去子と合成の可換用の
+管変換子,依存除去子の動機余域)を担う.
+\item 双方向検査.道適用 $\op{papp}$ は端点注釈を携行 —— 型なし評価下で
+中立境界計算を健全にする要.
+\item 判断レベルの累積性を持つ宇宙,ソート推論.
+\item Kan 演算:\textbf{定数性規則}付き $\op{transp}$(定数族に沿う輸送は
+恒等 —— 意味論的族への出現検査で決定),変数制約の連言による面系上の
+$\op{hcomp}$,導出された $\op{hfill}$・異種合成.
+\item $\op{unglue}$ 付き Glue 型.\textbf{プログラムとしての univalence}
+$\op{ua}$.宇宙での合成(HCompU)は lineEquiv で貼った Glue として計算.
+ファイバー補正込みの一般 CCHM \S6.2 $\op{transpGlue}$.
+\end{itemize}
+
+\subsection{高階帰納型}
+8種の(高階)帰納型を実装.各々が新しい実装パターンを提供した:
+\begin{center}
+\begin{tabular}{ll}
+$S^1$ & 最初の HIT.遅延端点崩壊,除去子と hcomp の可換\\
+$\Sigma A$(懸垂) & 最初の\textbf{径数付き} HIT.構造的輸送\\
+$T^2$(トーラス) & 最初の \textbf{2-セル}構成子\\
+$\lVert A\rVert$(命題切詰) & 最初の\textbf{再帰的}道構成子\\
+プッシュアウト & 端点が復元不能なため\textbf{注釈携行}するセル\\
+$A/R$(集合商) & \textbf{依存}除去子,2次元切詰セル\\
+$K(G,1)$ & 合成2-セル+切詰3-セル,依存除去子\\
+リスト・和・$\top$・$\bot$・$\N$・$\Z$ & 通常の帰納型(NbE 流)
+\end{tabular}
+\end{center}
+
+\subsection{発見された設計原則}
+バグに強いられ,いまや体系化された3原則:
+\begin{enumerate}[leftmargin=1.7em]
+\item \textbf{遅延境界崩壊}:$\op{loop}\,0\mapsto\op{base}$ 等の先行簡約は
+後で $\op{transpGlue}$ が要する Kan 構造を破壊する.端点崩壊は単一の
+\op{force} に集約し,除去子は\textbf{未 force} のセル値を先にマッチする.
+独立な5件のバグがこの原則違反に帰着した.
+\item \textbf{注釈携行セル}:セルの境界がセルから復元できない径数に依存する
+とき(プッシュアウトの $\op{push}\,c$ の端点は $\op{inl}(f\,c)$),
+構成子値が必要データを携行し,検査器が周囲の型との整合を検証する.
+\item \textbf{面外ジャンク耐性}:部分要素は無制限に計算され,面の外では
+無意味である.全除去子はそうしたジャンクをパニックせず透過する ——
+出現検査が到達しうる値の上で評価器を全域化する.
+\end{enumerate}
+
+\section{ライブラリ:主要成果}
+
+\subsection{道代数と univalence}
+関数外延性,\textbf{導出された}道帰納法 $J$(接続平方に沿う輸送としての
+プログラム.原始規則ではない),道の亜群構造の全体(単位律・結合律・
+逆元律 —— 逆元律は接続形の充填で),2次元道代数,そして望まれる計算規則:
+\[
+\op{trans}\,\op{refl}\,\op{refl}\longrightarrow\op{refl}
+\ (\text{具体型で}),\qquad
+\op{transport}(\op{ua}\,e)\longrightarrow e.\op{fst}.
+\]
+$\op{ua}$ の上に:単一の Glue 平方による
+$\op{uaIdEquiv}:\op{ua}(\op{idEquiv})\equiv\op{refl}$,1宇宙上の $J$ による
+$\eta$ 規則 $\op{uaEta}:\op{ua}(\op{pathToEquiv}\,p)\equiv p$ ——
+完全 univalence 同値の片側 —— そこからリトラクト論法で
+$\op{isSetPathU}$(集合間の宇宙道は集合)が従う.
+
+\subsection{h-レベル}
+可縮性・命題・集合・亜群.単元集合の可縮性,$\op{isPropIsContr}$
+(古典的な4面管 $\op{hcomp}$),「同値であること」は命題,「集合であること」
+は命題,$\Pi$・$\Sigma$(命題ファイバー)・リトラクトによる閉包,
+\textbf{Hedberg の定理}(可判定等価$\Rightarrow$集合),
+$\op{setIsoToEquiv}$(集合への同型は同値),そして h-レベル仮定なしの
+\textbf{一般 gradLemma} $\op{isoToEquiv}$ —— 古典的 $\op{lemIso}$ の
+3つの $\op{hfill}$ と2つの補正平方.複合面 $(k\wedge j){=}1$ は連言で,
+$(k\wedge j){=}0$ は本体同一の枝分割で符号化.
+
+\subsection{円周:計算する完全な $\pi_1$}
+\begin{itemize}[leftmargin=1.5em]
+\item 完全量化定理 $\pi_1(S^1)\cong\Z$:両往復,$\op{encode}$/$\op{decode}$.
+$\op{decode}$ は $S^1$ 上の真の依存関数($\Pi$-レベル合成 —— 検査器の
+既知の不完全性の文書化された回避 —— と相殺パス補正で構成).
+\item \textbf{計算}:$\op{winding}(\op{loop}\cdot\op{loop})\longrightarrow+2$
+等が HCompU と Glue 輸送を通って走る —— 古典的な数が univalence によって
+「証明」でなく\textbf{計算}される,現存数少ない実装の一つ.
+\item 宇宙の中の型の同一視としての $\Omega S^1\equiv\Z$.
+\item 否定的結果:$\op{loop}\not\equiv\op{refl}$,ゆえに $S^1$ は集合でない.
+$\Z$ のリトラクトとして $\op{isSet}(\Omega S^1)$.$S^1$ は連結
+($\forall x.\,\lVert\op{base}\equiv x\rVert$).
+\end{itemize}
+
+\subsection{整数・算術・商}
+代入安定な $\op{pos}/\op{negsuc}$ 表現の $\Z$(strict 相殺表現は
+\textbf{代入不安定}であることを機械的失敗により再発見 —— Cubical Agda が
+それを採らない理由の実地確認),帰納法による可換群法則の全て,
+$\N$・$\Z$・ブール・文字・リストの可判定等価(Hedberg 経由の独立な
+$\op{isSet}$ 別証明つき),商の全ワークフローを行使する古典的差表現
+$(\N\times\N)/{\sim}\simeq\Z$.
+
+\subsection{単価的宇宙の中の圏論}
+モノイドと $(\Z,+,0)$.宇宙レベル付き前圏(対象は $\U_{n+1}$,射は $\U_n$).
+型の圏(法則は $\eta$ で定義的).基本亜群.関手と自然変換.
+\textbf{関手圏} —— 必然的に1宇宙上がり,自然性は hom-集合上の
+\textbf{命題}として輸送される.垂直・水平合成,whiskering,
+\textbf{交換法則}:$\mathbf{Cat}$ の2-圏構造の機械検証.
+具体例:delooping $B\Z$ と自己関手圏 $[B\Z,B\Z]$.
+
+\subsection{高階帰納型の定理}
+\begin{itemize}[leftmargin=1.5em]
+\item $S^0\simeq\op{Bool}$,$S^0\equiv\op{Bool}$
+($\op{transport}$ が $\op{north}\mapsto\op{true}$ を計算).
+有名なデモ $\op{transport}(\op{ua}\,\op{not})\,\op{true}\longrightarrow
+\op{false}$.
+\item $S^2:=\Sigma S^1$,懸垂の関手性,$\pi_2(S^2)$ の生成元に対応する
+$\sigma:S^1\to\Omega S^2$.
+\item $T^2\cong S^1\times S^1$(一般 gradLemma と $\op{ua}$ を経て
+$\simeq$,$\equiv$ にも):平方セルがループ対に対応し
+\textbf{往復の全セルが定義的}という cubical の看板証明.
+\item $\Sigma A\simeq$ pushout($\top\leftarrow A\rightarrow\top$),
+wedge・写像錐,8の字 $S^1\vee S^1$ の階数2被覆と\textbf{アーベル化}巻き数
+$\pi_1(S^1{\vee}S^1)\to\Z^2$ —— この不変量が $LR$ と $RL$ を区別できない
+ことの計算的実証($F_2$ のアーベル化しか見ない).
+\item 命題切詰:$\op{isProp}\lVert A\rVert$,関手性,冪等性,
+\textbf{単なる存在}の言明($S^1$ の連結性,winding の全射性),
+$\lVert A\rVert\simeq A/\!\sim_{\text{全関係}}$.
+\item 自由群の基盤:2生成元上の簡約語,生成元 generic な相殺付き前置
+$\op{consG}$ の同値性($J$ でなく\textbf{接続} $e@(i\wedge j)$ による
+場合書き換え),階数2自由被覆 $\op{helixF_2}$ と非可換巻き数
+$\op{windF_2}$(生成元計算は検証済み,深い合成は性能作業待ち).
+\item Eilenberg--MacLane 空間:合成2-セルと切詰3-セルを持つ $K(G,1)$ HIT.
+$\op{emloop}$ は群準同型($\op{emcomp}$ セルとの compPath 一意性立方体),
+群法則と道の亜群法則から $\op{emloop}\,1\equiv\op{refl}$,
+\textbf{集合の亜群}への $\op{Codes}$ 族($\op{isGroupoidHSet}$ は担体道
+リトラクションと $\op{isSetPathU}$ で証明),$\op{uaCompMul}$
+(右乗法合成の $\op{ua}$,ネイティブランナーで108秒検証),
+$\op{encode}$/$\op{decode}$/$\pi_1(K(G,1))\simeq G$ は完全構成済み
+(最終検査がネイティブ基盤上で走行中).
+\item \textbf{2つの円周は1つ}: $S^1\simeq K(\Z,1)$ を完全構成 ——
+$\op{toEM}$($\op{loop}\mapsto\op{emloop}\,1$),$\op{fromEM}$
+($\op{intLoopComp}$ 補正付き合成セルを持つ recursor),両往復.
+鍵補題 $\op{toIntLoop}$($\op{cong}\,\op{toEM}$ は定数動機の除去子が
+$\op{hcomp}$ と可換であることにより合成に\textbf{定義的に}分配)は
+ネイティブ3msで検証.重い往復検査はネイティブ基盤上で走行中.
+\end{itemize}
+
+\subsection{コヒーレンス第1章}
+道合成に対する Mac~Lane の\textbf{五角形}と\textbf{三角形}を,結合子と
+whiskering の完全な合成を明示した形で言明し,\textbf{任意の1-型で}証明
+(亜群の平行2-セルは一致).$\Z$-インスタンス付き.独立した価値のある知見:
+\textbf{無切詰}版は素朴な4重道帰納法では証明できない ——
+$\op{trans}\,\op{refl}\,\op{refl}$ は具体型でのみ $\op{refl}$ に簡約し,
+抽象型では stuck な $\op{hcomp}$ のままであり,コヒーレンスセル
+($\op{assocRefl}$ 等)を手動で bootstrap する必要がある.これは
+コヒーレンス理論が扱う困難の\textbf{計算的な所在の特定}である.
+
+\subsection{コヒーレンス第2〜4章:無切詰の道具と Eckmann--Hilton}
+1-型を超えて,\textbf{任意の型で}コヒーレンスセルを証明した
+(connection のみ.$J$ 不使用,追加の Kan 合成なし):
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{定義的端点フィラー}:
+  $\op{transFill} : \op{PathP}\,(\lambda k.\,w \equiv q\,k)\,p\,
+  (p \cdot q)$ とその左版.恒真になるチューブ面により端点が
+  \textbf{定義的に}崩壊するよう設計.無切詰結合子
+  $\op{assocConn} : p\cdot(q\cdot r) \equiv (p\cdot q)\cdot r$ は
+  2つのフィラーを\textbf{動く中点} $q\,k$ 越しに合成して組み上がり,
+  立方体推論はフィラーの外に漏れない.
+\item \textbf{定義的な単位子の一致}:
+  $\op{transReflR}\,\op{refl}$ と $\op{transReflL}\,\op{refl}$ は
+  \textbf{convertible}(3-セルは $\op{refl}$).book HoTT では非自明な
+  補題だが,ここではカーネルが計算で消す.
+\item \textbf{正方形交換原理}:任意の構文的正方形 $S\,k\,m$ に対し
+  $(\mathrm{bottom}\cdot\mathrm{right}) \equiv
+  (\mathrm{left}\cdot\mathrm{top})$.中点を反対角線
+  $S\,(\neg m)\,m$ に沿って滑らせ,両半辺は connection 正方形.
+  インスタンス:$\op{cong}_2$ 交換則($\op{congSlide}$)と両単位子の
+  自然性.
+\item \textbf{Eckmann--Hilton}:\textbf{任意の型}の 2-ループについて
+  $\alpha \cdot \beta \equiv \beta \cdot \alpha$ ——
+  $\pi_1(S^1)$ の先にある合成的ホモトピー論の古典的第一定理 ——
+  を 18 ステップの 3-セル合成として証明:$\op{congSlide}$ で2つの
+  ループを交換し,単位子の自然性で whisker 形を戻し,共有単位子を消去
+  (定義的単位子一致が左右の帳尻合わせを conversion に吸収).
+  型検査はミリ秒で完了.代数的にパッケージ化した:
+  \textbf{任意の型の2次ループ空間は可換モノイド}(無切詰)であり,
+  乗法は合成,可換性は Eckmann--Hilton —— ループ空間タワーの全段で
+  インスタンス化される.
+\item \textbf{正準面リテラルと Mac~Lane 三角形}:カーネル改良
+  (面正規化での正準原子リテラル化:$\neg k{=}1 \mapsto k{=}0$,
+  連言分解)により,$\op{assocConn}\,p\,\op{refl}\,q$ の2つの
+  フィラーが両単位子と \textbf{convertible} になる —— 中央 $\op{refl}$
+  の結合子は単位子正方形の\textbf{対角線そのもの}.これにより
+  Mac~Lane の\textbf{三角形}が無切詰・任意の型で,わずか3ステップ
+  (動く中点法による対角線–辺補題+右消去)で成立する.
+\item \textbf{Mac~Lane 五角形(無切詰)}:完全な五角形
+  \[ \alpha_{p,q,r\cdot s} \cdot \alpha_{p\cdot q,r,s} \;\equiv\;
+     (p\cdot\alpha_{q,r,s}) \cdot \alpha_{p,q\cdot r,s} \cdot
+     (\alpha_{p,q,r}\cdot s) \]
+  が($\alpha := \op{assocConn}$ として)\textbf{任意の型で}成立.
+  証明の構成:\textbf{結合子を自身のフィラーに沿って動かす}ことで得る
+  3つの自然性正方形(いずれも正方形交換原理の一行適用),
+  \textbf{連言面}による融合セル(面 $(l{=}0)\wedge(m{=}1)$ は補間の
+  片端で恒偽,他端で $(l{=}0)$ に正規化 —— 両端で面系が異なるセルが
+  構成可能になる),そして最後に\textbf{箱蓋セル}(接続立方体の全4辺を
+  恒真面で崩壊させ,壁として両側の hfill 自身を用いる).カーネル側では
+  チェッカーの面解決を正準 DNF 選言肢被覆へ一般化.三角形と合わせ,
+  \textbf{Mac~Lane コヒーレンスの対が無切詰・公理なしで完成}した.
+\item \textbf{次元1ホモトピー仮説:余単位}:任意の基点付き1-型 $(A,a)$
+  のループ空間 $\Omega(A,a)$ は群であり,\textbf{全ての群律が上記の
+  無切詰コヒーレンスセルで与えられる}(結合律 = $\op{assocConn}$,
+  単位律 = 両単位子,逆元律 = $\op{cancelL}$;1-型性は集合性にのみ
+  使用).実現写像 $K(\Omega(A,a),1) \to A$ は\textbf{恒等}ループ写像
+  による `em1rec` で,そのコヒーレンスセルは合成フィラー
+  $\op{transFill}$ そのもの —— ループ上では\textbf{定義的に}恒等を
+  計算する($\op{refl}$ 証明).これは $S^1 \simeq K(\Z,1)$ の一般化
+  であり,基点付き連結1-型に対する $A \simeq K(\pi_1 A,1)$ プログラム
+  の出発点である.
+\item \textbf{基本亜群 —— 関手的に}:内部(多対象)亜群構造を定義し,
+  任意の1-型がその道空間上にこの構造を持つ(全法則が無切詰コヒーレンス
+  セルのインスタンス,1-型仮定は hom の集合性のみ).理論は関手的に
+  展開される:亜群の射,恒等射と射の合成,任意の写像の関手作用
+  ($F_1 = \op{cong}$,恒等保存は定義的,合成保存は $\op{congTrans}$).
+  さらに2つの厳密性定理が \textbf{refl で}成立する:基本亜群の頂点群は
+  ループ群\textbf{そのもの}であり,$\op{cong}(g \circ f) \equiv
+  \op{cong} g \circ \op{cong} f$.群 = 一対象亜群と併せ,
+  「亜群 $\simeq$ 1-型」の 1-型→亜群方向が完備した.逆方向の前提 —— \textbf{一般亜群 Eilenberg--MacLane HIT}
+  $B\mathcal{G}$ —— はカーネルに実装済みである:形成・点/射/合成/
+  切り詰め構成子・点上で計算する再帰子を備え,$B(\mathrm{Unit},\Z,+)$
+  上のスモークテストが全てカーネル検査を通過,拡張全体が差分ハーネスで
+  挙動保存と検証された.この基盤の上で\textbf{次元1の分類定理}が
+  \textbf{基点・連結性の仮定なしに完全機械検証}された:
+  \[ B(\Pi_1 A) \;\simeq\; A \qquad(\text{従って一価性により }
+     B(\Pi_1 A) \equiv A) \]
+  (\textbf{任意の}1-型 $A$).証明が軽いのは HIT が正しい普遍性を
+  持つからである:余単位は合成フィラーをコヒーレンスセルとする再帰子で
+  点・射上で定義的に計算し,単位は `barr ≡ cong bpt`(消去と $J$ で
+  証明)を射セルとする依存除去子 —— encode--decode も `ua` 線に沿う
+  輸送も不要.
+\end{itemize}
+
+\section{独立した価値を持つ工学的成果}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{ネイティブ対インタプリタ検査}:約100倍.
+$\op{uaCompMul}$ の検査は解釈実行で6.75時間超(未完)から
+ネイティブで108秒に.\texttt{implemented\_by} のネイティブ置換は
+エラボレータ内では静かに不発 —— Lean 上の評価器実装者が知るべき事実.
+\item \textbf{定義環境}:検証済み定義への参照は信頼される(依存順に一度
+だけ検査)—— 証明支援系の標準構成を1ノード拡張で実装.加えて参照を
+de~Bruijn 変数に解決し値共有された文脈に載せる環境注入モード.
+\item \textbf{評価器キャッシュの失敗カタログ}(GC アドレス再利用による
+不健全ヒット,捕獲ベース過剰近似による載荷済み定義的等式の破壊,等)——
+各々機構まで文書化.
+\end{itemize}
+
+\section{数学的意義}
+\begin{enumerate}[leftmargin=1.7em]
+\item \textbf{univalence は計算する}:Cubical Agda・\texttt{cubicaltt} と
+独立の実装として,univalence 公理がプログラムでありうることの実働実証.
+cubical 型理論の構成的正準性の伝統に対する,実装による証拠.
+\item \textbf{実効的な総合ホモトピー論}:Licata--Shulman の encode--decode
+法の新実装,さらに宇宙の中の同一視($\Omega S^1\equiv\Z$,
+$T^2\equiv S^1{\times}S^1$)まで.8の字の計算は被覆空間論の
+\textbf{実効性}(不変量が構成されるだけでなく評価される)を示す.
+\item \textbf{分類空間プログラム}:$K(G,1)$ と $\op{Codes}$ 族は
+「群 $\simeq$ 点付き連結1-型」のレベル1核心.必要な全て
+($\op{isGroupoidHSet}$,univalence $\eta$,h-レベル塔)を対象理論内で
+第一原理から構築した.
+\item \textbf{計算的コヒーレンス}:五角形・三角形の開発と,特に無切詰
+基底ケースに関する\textbf{否定的}知見は,コヒーレンスデータの正体
+——「抽象型において Kan 演算からただでは出ないセルの正確なリスト」——
+の鋭い計算的定式化を与える.
+\item \textbf{メタ理論的データ点}:strict 相殺 $\Z$ の代入不安定性,
+遅延境界崩壊の必然性,ジャンク耐性の要請は,論文文献を補完する
+「実装による小定理」である.
+\end{enumerate}
+
+\section{未解決問題への関わり}\label{sec:open}
+
+まず明言する:\textbf{本プロジェクトは以下の未解決問題を解決しておらず,
+解決したと主張もしない}.その価値は,明確に定義された断片を定式化・
+機械検証できるプラットフォームであること,および計算的証拠の源泉で
+あることにある.その上で:
+
+\subsection{ホモトピー仮説}
+Kan 複体に対しては古典的定理であり,未解決なのは Grothendieck
+$\infty$-亜群による定式化(Maltsiniotis, Ara, Henry)と,型理論内部では
+完全な仮説を\textbf{言明すること}自体の困難(HoTT における半単体的型の
+定義問題に帰着)である.本プロジェクトは3点で関わる.
+\begin{enumerate}[leftmargin=1.7em]
+\item \textbf{レベル1断片の定理化}:「群 $\simeq$ 点付き連結1-型」は
+機械検証可能な部品に分解される:$\pi_1(S^1)\cong\Z$(完了),
+$\pi_1(K(G,1))\simeq G$(構成済み,最終検査走行中),
+$S^1\simeq K(\Z,1)$(構成済み),そして —— 新規 ——
+\textbf{次元1ホモトピー仮説の完全形}:任意の点付き\textbf{連結}1-型
+$(A,a)$ について
+\[ K(\Omega(A,a),1) \;\equiv\; A. \]
+実現写像(恒等ループ写像による `em1rec`,コヒーレンスセル = 合成
+フィラー)が同値であることを:$\Omega(\mathrm{cong})$ と `encode` の
+2歩一致 → ループ上の同値 → $K(G,1)$ の連結性(群律不要で証明)による
+全端点への拡張 → 補正付き特異点フィラーを第2成分とする対の道による
+ファイバー可縮性,の鎖で示す.全体が構成済み・コンパイル通過で,重い
+conversion 検査はネイティブ検証器で走行中.同様に
+$\pi_1(S^1\vee S^1)=F_2$(2文字の自由群,簡約語として)も完全構成:
+被覆空間,両向きの巻き付け(\textbf{共役化された右円生成元に沿う輸送
+までカーネルが定義的に計算する}),両往復(encode 側は無消去補題を
+経由する語帰納).「亜群 $\simeq$ 1-型」はロードマップに残る.
+\item \textbf{2層構造}:内在化の既知の障害は無限コヒーレンスであり,
+現在の最有力戦略は2レベル型理論(Annenkov--Capriotti--Kraus--Sattler).
+本プロジェクトは構造的に\textbf{2LTT そのもの}である:Lean は外部 $\N$ で
+添字づけられた塔 —— 例えば各対象言語型の上の van den Berg--Garner 流
+$\omega$-亜群構造を「$n\mapsto$ カーネル検証済み項としてのセル構造」なる
+Lean 関数として —— を定義・検証できる厳密メタ理論である.これは本
+コードベースが可能にする具体的で実行可能な研究方向である.
+この方向は現に\textbf{開始された}:モジュール `LibTower` は外部
+$n$ の Lean 関数として反復ループ空間 $\Omega^n(A,a)$ と,その合成,
+無切詰結合子,Mac~Lane 三角形・五角形,中央四交換則,(次元2以降の)
+Eckmann--Hilton ブレイディングを定義する —— 各段は総称コヒーレンスセルの一行インスタンス化であり,
+周囲の型について一様に言明され,レベルごとにカーネル検証される
+($n \le 3$ で検証済み;検査は全レベルで軽量).かくして全ての
+対象言語型が van den Berg--Garner 流の弱 $\omega$-亜群構造の最初の
+数段を担うことが実証された.さらに塔は\textbf{関手的}である:
+反復 `cong` が全レベルのループ写像 $\Omega^n f$ を共役なしで与え
+(基点保存は定義的),関手法則 $\Omega^n(g \circ f) \equiv
+\Omega^n g \circ \Omega^n f$ は\textbf{全レベルで refl} で成立する.
+\item \textbf{計算的証拠}:仮説が計算的内容を持つ場面(巻き数,同一視に
+沿う輸送)で,本プラットフォームはそれを実行する.
+\end{enumerate}
+
+\subsection{コヒーレンスの公理化}
+古典的には双圏・三圏で解決済み,一般には比較・公理化問題として未解決.
+cubical の視点はこれを再定式化する:Kan 演算が全ての合成とコヒーレンスを
+\textbf{一様に}生成し,問いは「どのコヒーレンスセルが定義的で,どれが
+構成を要するか」になる.本プロジェクトの寄与はその境界の精密な実験地図:
+亜群レベルのコヒーレンスは1行(1-型),無切詰コヒーレンスは bootstrap
+セルを要し,その正確なリスト($\op{assocRefl}$,抽象型での単位崩壊,…)が
+特定された.この地図を上方(五角形子,…)へ拡張することは,本基盤上の
+機械的だが情報量のある作業であり,将来のいかなる公理化にも
+「\textbf{自由な}コヒーレンス対\textbf{公理的}コヒーレンス」の機械的確実性
+をもった区別を供給する.
+
+\subsection{弱高次元圏と比較問題}
+ライブラリは低次元断片を実現している:(前)圏,交換法則込みの2-圏
+$\mathbf{Cat}$,hom-集合切詰の関手圏,亜群 $\op{hSet}$.弱 $n$-圏の定義の
+比較問題そのものは手つかずである —— 誠実に言えば,一般の $n$ に対しては
+現在のいかなる証明支援系でも射程外である.本基盤が支援できるのは:
+(i)~低い $n$ での特定の定義の形式化と比較インスタンスの証明,
+(ii)~内部言明を阻む無限コヒーレンス簿記のメタレベル(Lean)での管理
+(上記 2LTT の所見).
+
+\subsection{何をもって前進とするか}
+本基盤が現実的に受け止められる段階的マイルストーン:
+$\pi_1(K(G,1))\simeq G$ の正式化(走行中),$S^1\simeq K(\Z,1)$,
+亜群 $\simeq$ 1-型,メタレベル $\omega$-亜群塔(2LTT 流
+van den Berg--Garner),bootstrap セルによる無切詰五角形,
+$\pi_1(S^1\vee S^1)\simeq F_2$,長期目標としての
+$\pi_2(S^2)\simeq\Z$(Freudenthal 級).
+
+\section{現在の前線}
+本稿執筆時点:$\pi_1(K(G,1))$ の検証連鎖がネイティブ基盤上で走行中
+($\op{uaCompMul}$ 検証済み,残余進行中).評価器の性能科学
+(値共有・変換キャッシュ)は継続中.日次の状態はリポジトリの
+\texttt{HANDOFF.md} を参照.本文書はコードと並走して保守され,
+実質的マイルストーンごとに更新される.
+
+\end{document}

@@ -1,0 +1,21 @@
+{
+  "title": "Evaluation-Time Constancy Inference for Transport in Cubical Type Theory (Lean 4 artifact)",
+  "description": "Artifact for the paper 'Evaluation-Time Constancy Inference for Transport in Cubical Type Theory': a self-contained CCHM-style cubical type theory kernel in Lean 4 (NbE evaluator with a read-back-exact transport constancy check, bidirectional type checker, De Morgan interval with antichain-DNF decision procedure, Glue/univalence, higher inductive types), the machine-checked strictness catalogue and switchover experiments (LibStrictness.lean, LibSwitchover.lean), a ~300-definition object-language library, and a differential-testing harness. See ARTIFACT.md for the build instructions and the paper-to-probe correspondence table.",
+  "creators": [
+    {
+      "name": "Shibusawa, Ryota",
+      "affiliation": "Daiichi Institute of Technology"
+    }
+  ],
+  "license": "Apache-2.0",
+  "upload_type": "software",
+  "keywords": [
+    "cubical type theory",
+    "definitional equality",
+    "regularity",
+    "transport",
+    "normalization by evaluation",
+    "Lean 4",
+    "proof assistant"
+  ]
+}

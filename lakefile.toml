@@ -1,0 +1,47 @@
+name = "FormalizedMathematics"
+version = "0.1.0"
+defaultTargets = ["FormalizedMathematics"]
+
+[[lean_lib]]
+name = "FormalizedMathematics"
+precompileModules = true
+
+[[lean_exe]]
+name = "heavychecks"
+root = "Test.HeavyChecks"
+
+[[lean_exe]]
+name = "windf2"
+root = "Test.WindF2"
+
+[[lean_exe]]
+name = "heavychecks2"
+root = "Test.HeavyChecks2"
+
+[[lean_exe]]
+name = "heavychecks3"
+root = "Test.HeavyChecks3"
+
+[[lean_exe]]
+name = "circleem"
+root = "Test.CircleEM"
+
+[[lean_exe]]
+name = "profilerun"
+root = "Test.Profile"
+
+[[lean_exe]]
+name = "isolate"
+root = "Test.Isolate"
+
+[[lean_exe]]
+name = "hh1"
+root = "Test.HH1"
+
+[[lean_exe]]
+name = "wedgef2"
+root = "Test.WedgeF2"
+
+[[lean_exe]]
+name = "golden"
+root = "Test.Golden"

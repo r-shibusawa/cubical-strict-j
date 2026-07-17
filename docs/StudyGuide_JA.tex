@@ -1,0 +1,238 @@
+\documentclass[11pt]{ltjsarticle}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,pdfencoding=auto}
+\newcommand{\op}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\title{FormalizedMathematics Cubical プロジェクト学習ガイド:\\
+前提知識・文献・最短経路}
+\author{FormalizedMathematics プロジェクト}
+\date{最終更新: 2026-07-11(プロジェクト進行に伴い随時更新される生きた文書)}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドは,本プロジェクト —— Lean~4 で実装された CCHM 流 cubical 型理論
+カーネルと,約250定理の対象言語ライブラリ(総合的ホモトピー論・圏論)——
+を読み,拡張するために必要な知識を列挙し,各分野を学ぶための書籍・論文を
+注釈付きで示し,現実的に可能な限り速くこの全スタックを習得するための
+圧縮スケジュールを与える.
+\end{abstract}
+
+\tableofcontents
+
+\section{知識の地図}
+
+本プロジェクトは5つの知識体系の交点にある.依存構造はおよそ:
+\[
+\underbrace{\text{MLTT}}_{(1)}
+\longrightarrow
+\underbrace{\text{HoTT}}_{(2)}
+\longrightarrow
+\underbrace{\text{cubical 型理論}}_{(3)}
+\qquad
+\underbrace{\text{実装(NbE・検査器)}}_{(4)}
+\qquad
+\underbrace{\text{圏論・トポロジー}}_{(5)}
+\]
+(4) は (2)(3) と独立に学べ(カーネルで合流する),(5) はライブラリの
+数学的内容を与える.
+
+\subsection*{(1) 依存型理論(MLTT)}
+判断・文脈,$\Pi$/$\Sigma$/同一性型,宇宙,de~Bruijn 表現,代入.
+内包的 Martin-L\"of 型理論の規則を正確に述べられ,$J$ 除去子が UIP を
+証明しない理由を説明できること.
+
+\subsection*{(2) ホモトピー型理論}
+同一性としての道.h-レベル(可縮・命題・集合・亜群).同値
+(可縮ファイバー,および「同値であること」が命題でなければならない理由).
+univalence.関数外延性.高階帰納型.encode--decode 法.切詰.
+本ライブラリは実質的に HoTT Book 第2--8章の cubical 再証明である.
+
+\subsection*{(3) cubical 型理論(CCHM)}
+De~Morgan 区間.面束と部分要素.系(systems).$\op{transp}$ と
+$\op{hcomp}$,そして HoTT の全構成(funext・$J$・univalence)が
+\textbf{プログラム}になる仕組み.Glue 型と univalence の計算.
+HIT の合成.—— 本プロジェクトに最も固有の知識体系.
+
+\subsection*{(4) 実装}
+脱関数化閉包による NbE.双方向型検査.中立項が注釈を携行する理由.
+実装言語としての Lean~4(帰納型,パターンマッチ,\texttt{partial},
+そしてエラボレータ/インタプリタ/コンパイラの区別 —— 最後の点について
+本プロジェクトは苦労して得た実践知を持つ).
+
+\subsection*{(5) 形式化される数学}
+基本群と被覆空間($\pi_1(S^1)$,8の字,自由群).分類空間 $K(G,1)$.
+2-圏までの圏論の基礎(関手圏,whiskering,交換法則,コヒーレンス:
+Mac~Lane の五角形).群と商.
+
+\section{分野別・注釈付き文献}
+
+\subsection{依存型理論}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{HoTT Book 第1章}(Univalent Foundations Program,
+\emph{Homotopy Type Theory}, 2013.無料公開).能動的に読めば MLTT の
+速習として十分.
+\item Egbert Rijke, \emph{Introduction to Homotopy Type Theory}
+(arXiv:2212.11082).MLTT と HoTT を一体で扱う最も整った現代的教科書.
+主教材として推奨.
+\item (参照用)Martin-L\"of, \emph{Intuitionistic Type Theory} (1984);
+Hofmann, \emph{Syntax and Semantics of Dependent Types} (1997)
+(代入・判断の厳密さのため).
+\end{itemize}
+
+\subsection{ホモトピー型理論}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{HoTT Book 第2--8章}.第2章(道),3章(h-レベル),
+4章(同値),6章(HIT),7章(切詰),8章($\pi_1(S^1)$ と総合的
+ホモトピー論)は本ライブラリの各モジュールに\textbf{直接}対応する.
+\item Licata--Shulman, \emph{Calculating the fundamental group of the
+circle in homotopy type theory} (LICS 2013).本プロジェクトが2度
+($S^1$ と $K(G,1)$)実装した encode--decode 法の原典.
+\item Rijke(前掲)第II部:より流線型の説明.
+\end{itemize}
+
+\subsection{cubical 型理論}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Cohen--Coquand--Huber--M\"ortberg}, \emph{Cubical Type
+Theory: a constructive interpretation of the univalence axiom}
+(TYPES 2015/LIPIcs).\textbf{原典中の原典}.本カーネルはその \S\S4--7
+(コードが節番号で引用する \S6.2 の Glue 輸送を含む)を実装している.
+\item Vezzosi--M\"ortberg--Abel, \emph{Cubical Agda} (ICFP 2019).
+本ライブラリが精神的に最も近い体系.
+\item Simon Huber 博士論文 \emph{Cubical Interpretations of Type Theory}
+(2016):正準性と Kan 演算の操作的読解.
+\item M\"ortberg 講義ノート \emph{Cubical methods in HoTT/UF}
+(EPIT 2022 春学校.付属の \texttt{agda/cubical} 演習込み).
+\item (文脈)Orton--Pitts(トポス内公理化),
+Angiuli 以下(cartesian cubical)—— 設計の選択肢の理解に有用.
+\end{itemize}
+
+\subsection{実装}
+\begin{itemize}[leftmargin=1.5em]
+\item Andr\'as Kov\'acs の \texttt{elaboration-zoo}(GitHub):小さく
+読みやすい NbE エラボレータ群.本カーネルの評価器構成への最良の
+実地入門.
+\item Andreas Abel, \emph{Normalization by Evaluation: Dependent Types
+and Impredicativity}(教授資格論文, 2013):NbE の理論.
+\item David Christiansen, \emph{Checking Dependent Types with
+Normalization by Evaluation: A Tutorial}:平易で直接的.
+\item 『Theorem Proving in Lean 4』『Functional Programming in Lean』
+(公式・無料):メタ言語.本プロジェクトを噛んだエラボレータ/
+インタプリタ/コンパイラの区別には Lean 4 メタプログラミング本
+(Ullrich 他,コミュニティ)が有用.
+\item \texttt{cubicaltt}(Coquand 他,GitHub):端から端まで読める
+規模の CCHM Haskell 実装.本カーネルに最も近い既存物.
+\end{itemize}
+
+\subsection{圏論・高次圏・コヒーレンス}
+\begin{itemize}[leftmargin=1.5em]
+\item Riehl, \emph{Category Theory in Context}(無料 PDF):
+本文で使う1-圏論の全て.
+\item Mac~Lane, \emph{Categories for the Working Mathematician}:
+コヒーレンス(五角形・三角形)の章.
+\item Leinster, \emph{Higher Operads, Higher Categories}
+(arXiv:math/0305049):弱 $n$-圏の諸定義と比較問題 ——
+本プロジェクトの目標群の背景.
+\item Ara・Maltsiniotis・Henry(Grothendieck $\infty$-亜群),
+Annenkov--Capriotti--Kraus--Sattler(2レベル型理論)——
+ロードマップが参照する未解決問題の正確な言明.
+\item Van den Berg--Garner, \emph{Types are weak $\omega$-groupoids}
+(2011),Lumsdaine 版 —— 2LTT 方向で形式化するメタレベルの塔.
+\item Licata--Finster, \emph{Eilenberg--MacLane spaces in homotopy type
+theory}(LICS 2014)—— $K(G,1)$ の構成と一意性.本プロジェクトの
+次元1ホモトピー仮説($K(\Omega A,1)\equiv A$,点付き連結1-型)は
+この理論圏の cubical 完全展開版.
+\item HoTT Book \S8.7(van Kampen)と Cubical Agda の自由群の開発
+—— 簡約語と被覆空間による $\pi_1(S^1\vee S^1)=F_2$ の背景.本
+プロジェクトの `LibWords`/`helixF2` は集合商ではなく正規形
+(簡約語)戦略を採る.
+\item 無切詰コヒーレンス章(Eckmann--Hilton,任意型での Mac~Lane
+五角形・三角形)には:HoTT Book \S2.1--2.3(亜群法則)と Cubical
+Agda の `Cubical.Foundations.GroupoidLaws` —— 本プロジェクトの
+`squareExchange`/動く中点イディオムが洗練するフィラー・接続証明
+スタイルの出典.
+\end{itemize}
+
+\subsection{代数的トポロジー}
+\begin{itemize}[leftmargin=1.5em]
+\item Hatcher, \emph{Algebraic Topology} \S\S1.1--1.3(無料 PDF):
+$\pi_1$・被覆空間・van Kampen —— ライブラリの総合的定理群の古典的な影.
+\item May, \emph{A Concise Course in Algebraic Topology}:
+分類空間 $K(G,1)$.
+\end{itemize}
+
+\section{文献と本リポジトリの対応}
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{リポジトリの成果物} & \textbf{主参照}\\[2pt]
+\texttt{Interval.lean}(DNF 区間) & CCHM \S2,Huber 論文\\
+\texttt{Syntax}/\texttt{TypeCheck} & Christiansen,elaboration-zoo\\
+\texttt{Semantics}(NbE・Kan 演算) & CCHM \S\S4--6,Abel\\
+Glue/\op{ua}/HCompU & CCHM \S6, \S7.1,Cubical Agda 論文 \S3\\
+\texttt{LibCore}--\texttt{LibLoop}($\pi_1(S^1)$) & HoTT Book 2--3, 8.1章,Licata--Shulman\\
+\texttt{LibHedberg}/h-レベル & HoTT Book 3, 7章,Rijke II\\
+\texttt{LibCats}(関手圏・交換法則) & Riehl,Mac~Lane\\
+\texttt{LibHITs}(懸垂/トーラス/pushout/切詰) & HoTT Book 6章,Cubical Agda lib\\
+\texttt{LibQuot}/\texttt{LibWords}($F_2$) & HoTT Book 6.10--6.11,Hatcher 1.3\\
+\texttt{LibEM}($K(G,1)$・\op{Codes}) & Licata--Finster $K(G,n)$ (LICS 2014)\\
+\texttt{LibCoherence}(五角形) & Mac~Lane VII章,Leinster 1章\\
+\texttt{HANDOFF.md} & プロジェクト自身の設計原則ノート
+\end{tabular}
+\end{center}
+
+\section{最短経路}
+
+生産的貢献のための誠実な最低ラインは,数学的成熟と関数型プログラミング
+経験のある人で\textbf{集中パートタイム3--5か月}.以下の計画は
+(a)~2トラック並行,(b)~読むより\textbf{やる},(c)~本リポジトリ自体を
+最終教科書とする,の3点で強く圧縮している.
+
+\subsection*{ステージ0(第1週):道具}
+Lean~4 + VS Code を導入し『Functional Programming in Lean』前半を消化.
+並行して Agda + \texttt{agda/cubical}(砂場としてのみ使用)を導入.
+
+\subsection*{ステージ1(第2--5週):MLTT と HoTT 中核を,手で}
+Rijke 第1--12章を\textbf{全演習付き}で(または HoTT Book 1--4章を同様に).
+並行して Cubical Agda で funext,可縮の $\Sigma$ の可縮性,Hedberg を証明.
+到達目標:何も見ずに $\op{isPropIsContr}$ を再証明できる.
+
+\subsection*{ステージ2(第5--8週):cubical 構造}
+CCHM \S\S1--4 を精読,\S\S5--7 は構成把握.Cubical Agda で古典を自作:
+$\lambda$ 入替としての $\op{funExt}$,輸送と接続からの $J$,
+$\op{hcomp}$ としての $\op{trans}$,そして
+$\pi_1(S^1)\cong\Z$ の encode--decode を\textbf{ゼロから}
+(本プロジェクトに対する単一最重要演習.丸1週間を割り当てよ).
+到達目標:$\op{transport}(\op{ua}\,e)$ が Glue を通って $e.\op{fst}$ に
+計算される理由を紙上で説明できる.
+
+\subsection*{ステージ3(第8--11週):実装}
+Christiansen / elaboration-zoo に沿って小さな依存型検査器を自作
+(型なし $\lambda$ → 依存 $\Pi$ → 宇宙).その後,本カーネルを次の順で読む:
+\texttt{Interval} → \texttt{Syntax} → \texttt{Semantics}
+(まず eval/capp/force,次に \op{transp}/\op{hcomp},最後に Glue)→
+\texttt{TypeCheck}.到達目標:玩具的帰納型(例:二分木)を
+構文・値・除去子・型付け規則・ライブラリのガードまで一気通貫で追加できる.
+
+\subsection*{ステージ4(第11--14週):ライブラリと前線}
+\texttt{HANDOFF.md} を読む(設計原則と既知の罠はプロジェクトの蒸留された
+経験である).次に鎖の順にライブラリ各モジュールを読み,各ガードを
+HoTT Book の対応物と頭の中で突き合わせる.到達目標:ライブラリに無い
+小さな Cubical Agda の補題を1つ,全ワークフロー(Raw 項,型,ガード,
+重ければネイティブ検査)を通して移植できる.
+
+\subsection*{さらなる圧縮の注意}
+時間がさらに短い場合:ステージ1は HoTT Book 2章+同値関係の Rijke 演習
+のみに圧縮可.ステージ3の玩具検査器は,本カーネルの \op{eval} を3つの項
+($\op{funExt}$ 適用,定数族上の $\op{transp}$,$\op{winding}\,\op{loop}$)
+について紙上でトレースすることで代替可.圏論(Riehl)とトポロジー
+(Hatcher 1.1--1.3)は対応するモジュールを読む際に定理単位で遅延取得
+してよい.\textbf{省略不能なもの}:Cubical Agda での $\pi_1(S^1)$ 演習,
+および合成規則が必然に感じられるまで読む CCHM \S4(Kan 演算).
+
+\end{document}

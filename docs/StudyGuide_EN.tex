@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\newcommand{\op}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black}
+\title{Study Guide for the FormalizedMathematics Cubical Project:\\
+Prerequisites, Literature, and a Fastest Path}
+\author{The FormalizedMathematics Project}
+\date{Last updated: 2026-07-11 (living document, updated as the project advances)}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This guide lists the knowledge needed to read and extend the project ---
+a CCHM-style cubical type theory kernel implemented in Lean~4, plus a
+$\sim$250-theorem object-language library of synthetic homotopy theory
+and category theory --- together with the books and papers to learn each
+piece from, and a compressed schedule for acquiring the whole stack as
+fast as is realistic.
+\end{abstract}
+
+\tableofcontents
+
+\section{The knowledge map}
+
+The project sits at the intersection of five bodies of knowledge.  The
+dependency structure is roughly:
+\[
+\underbrace{\text{MLTT}}_{\text{(1)}}
+\;\longrightarrow\;
+\underbrace{\text{HoTT}}_{\text{(2)}}
+\;\longrightarrow\;
+\underbrace{\text{cubical TT}}_{\text{(3)}}
+\qquad
+\underbrace{\text{implementation (NbE, checkers)}}_{\text{(4)}}
+\qquad
+\underbrace{\text{category theory / topology}}_{\text{(5)}}
+\]
+with (4) independent of (2)--(3) until they are combined in the kernel,
+and (5) providing the mathematical content of the library.
+
+\subsection*{(1) Dependent type theory (MLTT)}
+Judgments, contexts, $\Pi$/$\Sigma$/identity types, universes, de~Bruijn
+representation, substitution.  You should be able to state the rules of
+intensional Martin-L\"of type theory precisely and explain why the
+$J$ eliminator does not prove UIP.
+
+\subsection*{(2) Homotopy type theory}
+Paths as identities; homotopy levels (contractible/prop/set/groupoid);
+equivalences (contractible fibers, and why ``isEquiv'' must be a
+proposition); univalence; function extensionality; higher inductive
+types; the encode--decode method; truncations.  The project's library is
+essentially chapters 2--8 of the HoTT Book, cubically re-proved.
+
+\subsection*{(3) Cubical type theory (CCHM)}
+The de~Morgan interval; face lattices and partial elements; systems;
+$\op{transp}$ and $\op{hcomp}$ and how every HoTT construct (funext,
+$J$, univalence) becomes a \emph{program}; Glue types and the univalence
+computation; composition for HITs.  This is the single most
+project-specific body of knowledge.
+
+\subsection*{(4) Implementation}
+Normalization by evaluation with defunctionalized closures; bidirectional
+type checking; how neutral terms carry annotations; Lean~4 as an
+implementation language (inductives, pattern matching, \texttt{partial}
+functions, the elaborator/interpreter/compiler distinction --- the last
+of which this project has hard-won practical knowledge about).
+
+\subsection*{(5) The mathematics being formalized}
+Fundamental group and covering spaces ($\pi_1(S^1)$, figure eight, free
+groups); classifying spaces $K(G,1)$; basic category theory through
+2-categories (functor categories, whiskering, interchange, coherence:
+Mac~Lane's pentagon); groups and quotients.
+
+\section{Annotated literature, by area}
+
+\subsection{Dependent type theory}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{The HoTT Book, Chapter 1} (Univalent Foundations Program,
+\emph{Homotopy Type Theory}, 2013; free online).  Sufficient as an MLTT
+crash course if read actively.
+\item Egbert Rijke, \emph{Introduction to Homotopy Type Theory}
+(arXiv:2212.11082).  The cleanest modern textbook treatment of MLTT and
+HoTT together; recommended as the primary text.
+\item (Reference) Martin-L\"of, \emph{Intuitionistic Type Theory} (1984);
+Hofmann, \emph{Syntax and Semantics of Dependent Types} (1997) for
+substitution/judgment rigor.
+\end{itemize}
+
+\subsection{Homotopy type theory}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{The HoTT Book, Chapters 2--8}.  Chapter 2 (paths),
+3 (h-levels), 4 (equivalences), 6 (HITs), 7 (truncations),
+8 ($\pi_1(S^1)$ and synthetic homotopy) map \emph{directly} onto this
+project's library modules.
+\item Licata--Shulman, \emph{Calculating the fundamental group of the
+circle in homotopy type theory} (LICS 2013).  The encode--decode method
+this project implements twice ($S^1$ and $K(G,1)$).
+\item Rijke (op.\ cit.), Part II, for a more streamlined account.
+\end{itemize}
+
+\subsection{Cubical type theory}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Cohen--Coquand--Huber--M\"ortberg}, \emph{Cubical Type
+Theory: a constructive interpretation of the univalence axiom} (TYPES
+2015/LIPIcs).  \emph{The} reference; this kernel implements its \S\S4--7
+(including the \S6.2 Glue transport, which the code cites by section
+number).
+\item Vezzosi--M\"ortberg--Abel, \emph{Cubical Agda: a dependently typed
+programming language with univalence and higher inductive types} (ICFP
+2019) --- the system whose library this project's is closest to in
+spirit.
+\item Simon Huber's PhD thesis, \emph{Cubical Interpretations of Type
+Theory} (2016): canonicity and the operational reading of Kan operations.
+\item M\"ortberg's lecture notes \emph{Cubical methods in homotopy type
+theory and univalent foundations} (EPIT 2022 spring school; and the
+associated \texttt{agda/cubical} exercises).
+\item (Context) Orton--Pitts, \emph{Axioms for modelling cubical type
+theory in a topos}; Angiuli--Brunerie--Coquand--Harper--Hou--Licata for
+cartesian cubical variants --- useful to understand design alternatives.
+\end{itemize}
+
+\subsection{Implementation}
+\begin{itemize}[leftmargin=1.5em]
+\item Andras Kovacs' \texttt{elaboration-zoo} (GitHub): small,
+readable NbE elaborators; the best hands-on introduction to the
+evaluator architecture used here.
+\item Andreas Abel, \emph{Normalization by Evaluation: Dependent Types
+and Impredicativity} (habilitation, 2013): the theory behind NbE.
+\item David Christiansen, \emph{Checking Dependent Types with
+Normalization by Evaluation: A Tutorial} --- gentle and directly relevant.
+\item \emph{Theorem Proving in Lean 4} and \emph{Functional Programming
+in Lean} (official, free): the metalanguage.  For the
+elaborator/interpreter/compiler distinctions that bit this project, the
+Lean~4 metaprogramming book (Ullrich et al., community) is useful.
+\item \texttt{cubicaltt} (Coquand et al., GitHub) --- a Haskell
+implementation of CCHM small enough to read end-to-end; the closest
+existing artifact to this project's kernel.
+\end{itemize}
+
+\subsection{Category theory, higher categories, coherence}
+\begin{itemize}[leftmargin=1.5em]
+\item Riehl, \emph{Category Theory in Context} (free PDF): all the
+1-category theory used here.
+\item Mac~Lane, \emph{Categories for the Working Mathematician}:
+coherence (pentagon/triangle) chapters.
+\item Leinster, \emph{Higher Operads, Higher Categories}
+(arXiv:math/0305049): definitions of weak $n$-categories and the
+comparison problem --- background for the project's stated goals.
+\item Ara, Maltsiniotis, Henry (papers on Grothendieck
+$\infty$-groupoids) and Annenkov--Capriotti--Kraus--Sattler,
+\emph{Two-level type theory and applications} --- the precise statements
+of the open problems the project's roadmap references.
+\item Van den Berg--Garner, \emph{Types are weak $\omega$-groupoids}
+(2011); Lumsdaine's version --- the meta-level tower the 2LTT direction
+would formalize.
+\item Licata--Finster, \emph{Eilenberg--MacLane spaces in homotopy type
+theory} (LICS 2014) --- the $K(G,1)$ construction and its uniqueness;
+the project's dimension-1 homotopy hypothesis
+($K(\Omega A,1)\equiv A$ for pointed connected 1-types) is the cubical,
+fully elaborated version of this circle of ideas.
+\item The HoTT Book \S8.7 (van Kampen) and the Cubical Agda development
+of free groups --- background for $\pi_1(S^1\vee S^1)=F_2$ via reduced
+words and covering spaces; the project's `LibWords`/`helixF2` follows the
+normal-form (reduced-word) strategy rather than the set-quotient one.
+\item For the untruncated coherence chapter (Eckmann--Hilton, Mac~Lane
+pentagon/triangle in arbitrary types): HoTT Book \S2.1--2.3 for the
+groupoid laws, and the `Cubical.Foundations.GroupoidLaws` module of the
+Cubical Agda library for the filler/connection proof style the project's
+`squareExchange`/moving-middle idiom refines.
+\end{itemize}
+
+\subsection{Algebraic topology}
+\begin{itemize}[leftmargin=1.5em]
+\item Hatcher, \emph{Algebraic Topology}, \S\S1.1--1.3 (free PDF):
+$\pi_1$, covering spaces, van Kampen --- the classical shadows of the
+library's synthetic theorems ($\pi_1(S^1)$, figure-eight covers, $F_2$).
+\item May, \emph{A Concise Course in Algebraic Topology}, for
+classifying spaces $K(G,1)$.
+\end{itemize}
+
+\section{How the literature maps onto this repository}
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Repository artifact} & \textbf{Primary reading}\\[2pt]
+\texttt{Interval.lean} (DNF interval) & CCHM \S2; Huber thesis\\
+\texttt{Syntax.lean}/\texttt{TypeCheck.lean} & Christiansen tutorial; elaboration-zoo\\
+\texttt{Semantics.lean} (NbE, Kan ops) & CCHM \S\S4--6; Abel habilitation\\
+Glue/\op{ua}/HCompU & CCHM \S6, \S7.1; Cubical Agda paper \S3\\
+\texttt{LibCore}--\texttt{LibLoop} ($\pi_1(S^1)$) & HoTT Book ch.\ 2--3, 8.1; Licata--Shulman\\
+\texttt{LibHedberg}/h-levels & HoTT Book ch.\ 3, 7; Rijke II\\
+\texttt{LibCats} (functor cats, interchange) & Riehl; Mac~Lane\\
+\texttt{LibHITs} (susp/torus/pushout/trunc) & HoTT Book ch.\ 6; Cubical Agda lib\\
+\texttt{LibQuot}/\texttt{LibWords} ($F_2$) & HoTT Book 6.10--6.11; Hatcher 1.3\\
+\texttt{LibEM} ($K(G,1)$, \op{Codes}) & Licata--Finster $K(G,n)$ (LICS 2014)\\
+\texttt{LibCoherence} (pentagon) & Mac~Lane VII; Leinster ch.\ 1\\
+\texttt{HANDOFF.md} & the project's own design-principle notes
+\end{tabular}
+\end{center}
+
+\section{A fastest path}
+
+The honest minimum for productive contribution is $\sim$3--5 months of
+focused part-time study for someone with general mathematical maturity
+and some functional programming; the plan below compresses aggressively
+by (a) running two tracks in parallel, (b) preferring \emph{doing} over
+reading, and (c) using this repository itself as the final textbook.
+
+\subsection*{Stage 0 (week 1): tooling}
+Install Lean~4 + VS Code; work through the first half of
+\emph{Functional Programming in Lean}.  Simultaneously install Agda +
+the \texttt{agda/cubical} library (used only as a sandbox).
+
+\subsection*{Stage 1 (weeks 2--5): MLTT and HoTT core, by doing}
+Rijke chapters 1--12 \emph{with all exercises}, or HoTT Book chapters
+1--4 similarly.  In parallel, in Cubical Agda: prove funext, $\Sigma$ of
+contractibles contractible, Hedberg.  Milestone: reprove
+$\op{isPropIsContr}$ without looking anything up.
+
+\subsection*{Stage 2 (weeks 5--8): cubical structures}
+Read CCHM \S\S1--4 slowly, \S\S5--7 for architecture.  In Cubical Agda,
+do the classics: $\op{funExt}$ as a $\lambda$-swap, $J$ from transport
+and connections, $\op{trans}$ as an \op{hcomp}, and the
+$\pi_1(S^1)\cong\Z$ encode--decode \emph{from scratch} (the single most
+valuable exercise for this project; budget a full week).  Milestone:
+explain, on paper, why $\op{transport}(\op{ua}\,e)$ computes to
+$e.\op{fst}$ through Glue.
+
+\subsection*{Stage 3 (weeks 8--11): implementation}
+Build a tiny dependent type checker with NbE following Christiansen /
+elaboration-zoo (untyped $\lambda$ $\to$ dependent $\Pi$ $\to$
+universes).  Then read this repository's kernel in this order:
+\texttt{Interval} $\to$ \texttt{Syntax} $\to$ \texttt{Semantics}
+(eval/capp/force first, then \op{transp}/\op{hcomp}, then Glue last)
+$\to$ \texttt{TypeCheck}.  Milestone: add a toy inductive (e.g.\ binary
+trees) end-to-end --- syntax, values, eliminator, typing rule, and a
+library guard.
+
+\subsection*{Stage 4 (weeks 11--14): the library and the frontier}
+Read \texttt{HANDOFF.md} (design principles and known pitfalls are the
+distilled experience of the project), then the library modules in chain
+order, checking each guard mentally against its HoTT Book counterpart.
+Milestone: port one small Cubical Agda lemma the library lacks, through
+the full workflow (Raw term, type, guard, native check if heavy).
+
+\subsection*{Compression notes}
+If time is shorter still: Stage~1 can shrink to HoTT Book ch.\ 2 + Rijke
+exercises on equivalences only; Stage~3's toy checker can be replaced by
+tracing this kernel's \op{eval} on paper for three terms
+($\op{funExt}$-application, $\op{transp}$ on a constant family,
+$\op{winding}\,\op{loop}$).  Categorical background (Riehl) and topology
+(Hatcher 1.1--1.3) can be acquired lazily, per-theorem, when reading the
+corresponding library modules.  The items that \emph{cannot} be skipped:
+the $\pi_1(S^1)$ exercise in Cubical Agda, and CCHM \S4 (Kan operations)
+read until the composition rules feel inevitable.
+
+\end{document}
