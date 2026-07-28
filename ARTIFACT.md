@@ -9,7 +9,8 @@ This repository is the artifact accompanying the paper
   shared-edge suites `LibGenBoundary.lean` / `LibSharedEdge.lean`,
   the notes `docs/GenericBoundary.md`, and the companion papers
   `docs/paperC/strictlayer.{tex,pdf}` and
-  `docs/paperD/realization.{tex,pdf}`); DOI recorded after archiving
+  `docs/paperD/realization.{tex,pdf}`), archived at DOI
+  [10.5281/zenodo.21638976](https://doi.org/10.5281/zenodo.21638976)
 - Previous: release `v1.2.0` (dimension-2 reparametrization suite),
   DOI [10.5281/zenodo.21638543](https://doi.org/10.5281/zenodo.21638543)
 - Paper snapshot: release `v1.1.0` (paper v14: non-substitutivity
