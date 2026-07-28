@@ -5,11 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.3.0` (adds the generic-boundary and
-  shared-edge suites `LibGenBoundary.lean` / `LibSharedEdge.lean`,
-  the notes `docs/GenericBoundary.md`, and the companion papers
-  `docs/paperC/strictlayer.{tex,pdf}` and
-  `docs/paperD/realization.{tex,pdf}`), archived at DOI
+- Current snapshot: release `v1.4.0` (adds the De Morgan convexity
+  suite `LibMixed.lean`, the notes `docs/DeMorganConvexity.md` /
+  `docs/MixedLayer.md`, and the paper
+  `docs/paperE/convexity.{tex,pdf}`); DOI recorded after archiving
+- Previous: release `v1.3.0` (generic-boundary and shared-edge
+  suites + papers C/D), DOI
   [10.5281/zenodo.21638976](https://doi.org/10.5281/zenodo.21638976)
 - Previous: release `v1.2.0` (dimension-2 reparametrization suite),
   DOI [10.5281/zenodo.21638543](https://doi.org/10.5281/zenodo.21638543)
@@ -75,6 +76,9 @@ elaboration time; a successful build **is** the verification run.
 | Generic-boundary square: attachment equations (faces ≡ prescribed edges, corners ≡ vertices, edge squares); De Morgan laws strict at dependent square types | `gbAttPD/QD/RD/SD`, `gbCornerD`, `gbEdgeSqD`, `gbEtaD`, `gbAbsorbD`, `gbAbsorbPerturbD` (LibGenBoundary.lean; notes in `docs/GenericBoundary.md`) |
 | **Non-uniqueness of strict fillers: two distinct squares with the same boundary** | `gbFill1D`, `gbFill2D` + separation `#guard`; transposition as a cross-type operation: `gbTransposeCtrlD` |
 | Shared-edge gluing: cross-cell face identification definitional; boundary-collapsed interiors of distinct cells pairwise separated | `seAttM1D/M2D`, `seGlueD`, `seS1CtrlD/S2CtrlD/SmCtrlD` + three `#guard` negatives (LibSharedEdge.lean) |
+| **De Morgan interpolation: strict homotopy rel boundary between the two non-convertible fillers; naive interpolant FAILS (no-LEM)** | `mixInterpD`, `mixInterpCtrlD` + separation and naive-failure `#guard`s (LibMixed.lean; notes in `docs/DeMorganConvexity.md`, `docs/MixedLayer.md`) |
+| Cross-cell zig-zag: both interiors deform strictly onto the shared-edge square | `mixDeformQ1D`, `mixDeformQ2D` |
+| **(†) is propositional: the canonical filler connects the constant-tube composite to its base, rel boundary** | `mixFillD` + definitional-separation `#guard` |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

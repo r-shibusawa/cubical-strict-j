@@ -6,6 +6,7 @@ import FormalizedMathematics.Cubical.LibNonSubst
 import FormalizedMathematics.Cubical.LibSquares
 import FormalizedMathematics.Cubical.LibGenBoundary
 import FormalizedMathematics.Cubical.LibSharedEdge
+import FormalizedMathematics.Cubical.LibMixed
 
 /-! # The cubical object-language library — index and summary
 

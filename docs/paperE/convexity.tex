@@ -1,0 +1,561 @@
+% To be reformatted in the TAC style (tac.cls) upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\DM}[1]{\mathrm{DM}(#1)}
+\newcommand{\Dbox}{\square_{\mathrm{DM}}}
+\newcommand{\aconv}{\equiv}
+\newcommand{\nconv}{\not\equiv}
+\newcommand{\propeq}{\simeq}
+\newcommand{\refl}{\mathsf{refl}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\PathP}{\mathsf{PathP}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\hcomp}{\mathsf{hcomp}}
+\newcommand{\hfillop}{\mathsf{hfill}}
+\newcommand{\act}[1]{A_{#1}}
+\newcommand{\itp}[2]{#1 \mathbin{\ast_k} #2}
+
+\begin{document}
+
+\title[De Morgan convexity]{De Morgan convexity and the
+  strict--weak comparison\\ in cubical type theory}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{18N45, 03B38, 18M99}
+\keywords{cubical type theory, connections, De Morgan algebra,
+  definitional equality, homotopy, Kan filling, excluded middle}
+
+\begin{abstract}
+  A companion paper proved that in cubical type theory the
+  \emph{strict fillers} of a boundary --- the fillers definable by
+  pure reparametrization, without Kan operations --- need not be
+  unique.  This paper shows that the non-uniqueness resolves
+  \emph{inside} the strict layer: the De Morgan convex combination
+  \[
+    \chi(k) \;=\; (\varphi \wedge \neg k) \vee (k \wedge \varphi')
+    \vee (\varphi \wedge \varphi')
+  \]
+  yields a strict homotopy rel boundary between any two
+  same-boundary fillers of one cell, and, iterated, makes the fiber
+  of strict fillers over a boundary strictly contractible --- the
+  exact strict parallel of the uniqueness of Kan fillers up to
+  homotopy.  The third term is essential: the naive combination
+  $(\varphi \wedge \neg k) \vee (k \wedge \varphi')$ fails
+  \emph{precisely} by the absence of excluded middle in the free De
+  Morgan algebra, and the failure is machine-checked as a typing
+  error.  Fillers originating from different cells admit no direct
+  strict homotopy, but connect by deformation onto the shared
+  subcomplex (a machine-checked zig-zag).  The strict--weak
+  comparison then closes a circle opened by the first paper of this
+  series: the constant-tube composition equation, which its no-go
+  theorem shows can never be definitional, holds
+  \emph{propositionally and uniformly} via the canonical filler ---
+  what cannot be definitional is exactly what $\hfillop$ supplies
+  propositionally --- while genuinely weak composites open new
+  propositional classes (winding).  All positive and negative
+  instances are machine-checked in a self-contained proof-assistant
+  kernel, and every statement is a decidable, assumption-free fact
+  about the algorithmic equality of a minimal fragment.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+This is the fourth paper in a series on the definitional (strict)
+structure of cubical type theory \cite{CCHM}, written, like its
+predecessors, to be read independently.  The first paper
+\cite{Const} developed the metatheoretic platform --- in particular
+a no-go theorem: extending definitional equality with
+\emph{constant-tube collapse} for homogeneous composition (the
+equation we call $(\dagger)$ below) is impossible in principle ---
+and the decidability of the algorithmic equality on a minimal
+fragment.  The second \cite{Sphere} characterized the strict layer
+of generic loops as a wedge of De Morgan spheres.  The third
+\cite{Realization} extended the characterization to cells with
+generic boundaries --- the strict layer of a cellular context
+realizes its cube presheaf on the nose --- and isolated a phenomenon
+absent from the Kan world: \emph{strict fillers of a common boundary
+need not be unique}.
+
+The present paper is about what that non-uniqueness means, and more
+generally about how the strict layer sits inside the full theory.
+Its results:
+
+\begin{enumerate}
+\item \emph{De Morgan interpolation}
+  (Section~\ref{sec:interp}).  For interval formulas
+  $\varphi, \varphi'$ whose restrictions to every face of the cube
+  agree, the \emph{De Morgan convex combination}
+  \[
+    \chi(k) := (\varphi \wedge \neg k) \vee (k \wedge \varphi')
+    \vee (\varphi \wedge \varphi')
+  \]
+  satisfies $\chi(0) = \varphi$, $\chi(1) = \varphi'$ and is
+  constant in $k$ on every face.  Consequently any two strict
+  fillers of one boundary arising from the same cell are connected
+  by a \emph{strict} homotopy rel boundary --- no Kan operation is
+  involved (machine-checked on the non-uniqueness pair of
+  \cite{Realization}).
+\item \emph{Necessity of the third term}
+  (Section~\ref{sec:interp}).  The naive combination
+  $(\varphi \wedge \neg k) \vee (k \wedge \varphi')$ restricts on a
+  face with common value $\rho$ to $\rho \wedge (k \vee \neg k)$,
+  which is \emph{not} $\rho$: the free De Morgan algebra has no
+  excluded middle.  The would-be homotopy fails to typecheck
+  (machine-checked failure).  The correction term
+  $\varphi \wedge \varphi'$ is the exact price of the missing
+  excluded middle.
+\item \emph{Strict contractibility of fiber towers}
+  (Section~\ref{sec:contract}).  Iterating the interpolation ---
+  two homotopies between the same fillers again share a boundary
+  --- the entire tower of strict fillers, homotopies, homotopies
+  between homotopies, \dots\ over a fixed boundary is strictly
+  contractible.  Strict fillers are therefore \emph{unique up to
+  strict homotopy}: the exact parallel, inside the strict layer, of
+  the Kan world's uniqueness of fillers up to homotopy.
+\item \emph{Cross-cell connection through the shared subcomplex}
+  (Section~\ref{sec:cross}).  Fillers of one boundary originating
+  from \emph{different} cells admit no direct strict homotopy (a
+  strict cube is single-cell material), yet connect by strict
+  deformations onto the shared boundary material --- a
+  machine-checked zig-zag
+  $S_1 \rightsquigarrow S_m$, $S_2 \rightsquigarrow S_m$.
+\item \emph{The comparison closed}
+  (Section~\ref{sec:comparison}).  The constant-tube equation
+  $(\dagger)$, provably never definitional \cite{Const}, holds
+  propositionally and uniformly: the canonical filler is a path rel
+  boundary from the base to the composite (machine-checked).
+  Conversely the weak layer genuinely extends the propositional
+  classification: the composite $\mathsf{loop} \cdot \mathsf{loop}$
+  on the circle has winding $+2$, separating it propositionally
+  from the basic strict cells (winding $0, \pm 1$,
+  machine-computed).
+\end{enumerate}
+
+The emerging picture is summarized in
+Table~\ref{tab:comparison}: over a common boundary, strict cells
+are unique up to strict homotopy; constant-tube composites are
+definitionally new but propositionally strict; genuine composites
+are new outright.  The interpolation operator equips the strict
+fibers with a canonical convex structure --- we call it \emph{De
+Morgan convexity} --- which supplies the strict layer with its own
+homotopy theory, definable entirely in the connection algebra.
+
+\begin{table}
+  \centering
+  \footnotesize
+  \begin{tabular}{lll}
+    cells over a common boundary & definitional & propositional \\
+    \hline
+    strict (reparametrizations) &
+      unique up to strict homotopy &
+      likewise \\
+    constant-tube composites &
+      separated ($(\dagger)$ no-go) &
+      strict, via the filler \\
+    genuine composites &
+      separated &
+      new classes (winding) \\
+  \end{tabular}
+  \medskip
+  \caption{The strict--weak comparison over a common boundary.}
+  \label{tab:comparison}
+\end{table}
+
+\subparagraph*{Honest positioning.}  Each ingredient is elementary:
+the interpolation lemma is three absorption computations, and the
+propositional half of the comparison is the standard filler.  The
+contribution is the assembly and its exactness --- that the
+interpolant is boundary-constant \emph{exactly} when restrictions
+agree, that the naive interpolant fails \emph{exactly} by no-LEM,
+that strict homotopy uniqueness holds \emph{despite} definitional
+non-uniqueness, and that the definitional/propositional boundary
+traced by the no-go theorem of \cite{Const} is exactly the
+$\hfillop$-image.  We know of no prior treatment of the strict
+layer's internal homotopy theory.  As throughout the series, all
+instances are machine-checked and, by the decidability theorem of
+\cite{Const}, decided.
+
+\section{Preliminaries}
+\label{sec:prelim}
+
+We work in the reparametrization-plus-composition fragment of a
+CCHM-style cubical type theory \cite{CCHM}: path types over a base
+type, path abstraction/application, and homogeneous composition
+$\hcomp$; $\DM{\vec i}$ is the free De Morgan algebra of interval
+formulas (no excluded middle), with canonical antichain normal
+forms.  Definitional equality $\aconv$ is the algorithmic equality
+of the kernel of \cite{Const}; we import from the companions:
+
+\begin{enumerate}
+\item[(K1)] endpoint collapse of path application is normal-form
+  exact, and for dependent path types returns the stored boundary
+  cells \cite[K1]{Realization};
+\item[(K2)] conversion of neutral spines is head- and
+  argument-exact \cite[K2]{Sphere};
+\item[(K3)] on the minimal fragment, evaluation and conversion
+  terminate and $\aconv$ is decidable, with no assumptions
+  \cite{Const};
+\item[(K4)] \emph{realization} \cite{Realization}: over a cellular
+  context, strict cubes are classified, injectively, by cells and
+  formula tuples; in particular \emph{equal boundaries force equal
+  face restrictions} for same-cell fillers.
+\end{enumerate}
+
+\subparagraph*{The running example.}  Over the generic-boundary
+square computad (vertices, edges $p,q,r,s$, square $Q$)
+\cite{Realization} exhibits two strict fillers of one boundary:
+\[
+  F_1 := \langle i \rangle \langle j \rangle\,
+  Q(i \wedge \neg i)(j),
+  \qquad
+  F_2 := \langle i \rangle \langle j \rangle\,
+  Q\bigl((i \wedge \neg i) \wedge (j \vee \neg j)\bigr)(j),
+\]
+non-convertible, both inhabiting
+$\PathP\,(\langle i \rangle\,
+\Path\,A\,(r(i \wedge \neg i))\,(s(i \wedge \neg i)))\,p\,p$:
+the two formulas differ in the free algebra yet restrict equally to
+all four faces.
+
+\section{De Morgan interpolation}
+\label{sec:interp}
+
+\begin{lem}[Interpolation]\label{lem:interp}
+  For $\varphi, \varphi' \in \DM{\vec i}$ let
+  \[
+    \chi(k) \;:=\; (\varphi \wedge \neg k) \vee
+    (k \wedge \varphi') \vee (\varphi \wedge \varphi')
+    \;\in\; \DM{\vec i, k}.
+  \]
+  Then:
+  \begin{enumerate}
+  \item $\chi(0/k) = \varphi$ and $\chi(1/k) = \varphi'$;
+  \item for any face $f$ of the $\vec i$-cube on which
+    $\varphi|_f = \varphi'|_f = \rho$:\ \ $\chi|_f = \rho$,
+    constant in $k$.
+  \end{enumerate}
+\end{lem}
+\begin{proof}
+  (1) $\chi(0) = (\varphi \wedge 1) \vee 0 \vee (\varphi \wedge
+  \varphi') = \varphi \vee (\varphi \wedge \varphi') = \varphi$ by
+  absorption ($\varphi \wedge \varphi' \le \varphi$); symmetrically
+  at $1$.  (2) $\chi|_f = (\rho \wedge \neg k) \vee (k \wedge \rho)
+  \vee \rho = \rho$, again by absorption (the first two joinands are
+  $\le \rho$).
+\end{proof}
+
+\begin{thm}[Strict homotopy rel boundary]\label{thm:homotopy}
+  Let $F = \act{c}(\vec\varphi)$ and $F' = \act{c}(\vec\varphi')$
+  be strict fillers of the same boundary arising from the same cell
+  $c$.  Then
+  \[
+    H \;:=\; \act{c}(\vec\chi), \qquad
+    \chi_t := (\varphi_t \wedge \neg k) \vee (k \wedge \varphi_t')
+    \vee (\varphi_t \wedge \varphi_t'),
+  \]
+  with $k$ as the outer dimension, is a strict homotopy rel
+  boundary from $F$ to $F'$.
+\end{thm}
+\begin{proof}
+  By (K4), equality of the boundaries forces
+  $\vec\varphi|_f = \vec\varphi'|_f$ on every face $f$.
+  Lemma~\ref{lem:interp}(1) gives the $k$-endpoints;
+  Lemma~\ref{lem:interp}(2), applied coordinatewise, makes every
+  face of $H$ constant in $k$ and equal to the given boundary, so
+  $H$ inhabits the path type over the boundary type from $F$ to
+  $F'$.  (Typing uses only the boundary conditions; interior
+  degeneracies of $\vec\chi$ are irrelevant.)  Machine witness on
+  the running example: \texttt{mixInterpD}, with a control probe
+  and with the separation $F_1 \nconv F_2$ re-checked --- the
+  homotopy is not trivial.
+\end{proof}
+
+\begin{lem}[Necessity of the third term]\label{lem:necessity}
+  For $k$-free $\rho \ne 0$:
+  \[
+    (\rho \wedge \neg k) \vee (k \wedge \rho)
+    \;=\; \rho \wedge (k \vee \neg k) \;\ne\; \rho ,
+  \]
+  since $\rho \le k \vee \neg k$ would require every clause of
+  $\rho$ to contain $k$ or $\neg k$.  Consequently the naive
+  interpolant $(\varphi \wedge \neg k) \vee (k \wedge \varphi')$ is
+  \emph{not} boundary-constant, and the corresponding term fails to
+  typecheck as a homotopy (machine-checked failure on the running
+  example).
+\end{lem}
+
+\begin{rem}
+  Lemma~\ref{lem:necessity} is a small but pointed fact: in a
+  Boolean interval the naive convex combination would do, and the
+  third term is invisible.  The free De Morgan algebra's missing
+  excluded middle --- the very feature that keeps the connection
+  layer faithful \cite{Sphere} --- exacts the correction term
+  $\varphi \wedge \varphi'$ as its price.  The corrected operation
+  is the ``strong'' (Kleene-style) convex combination, and we will
+  see it is exactly what the strict layer's homotopy theory runs
+  on.
+\end{rem}
+
+\section{Strict contractibility of fiber towers}
+\label{sec:contract}
+
+Fix a cellular context, a cell $c$, and a boundary $\beta$.
+
+\begin{defi}[Fiber tower]\label{def:tower}
+  $\mathrm{Fib}^0(\beta)$ is the set of strict fillers of $\beta$
+  from $c$; for $x, y \in \mathrm{Fib}^n$,
+  $\mathrm{Fib}^{n+1}(x,y)$ is the set of strict homotopies rel
+  boundary between them (strict cubes one dimension up whose
+  $k$-faces are $x, y$ and whose remaining faces are the constant
+  extensions of the lower boundary data).  The tower is
+  \emph{strictly contractible} if at every level any two elements
+  are connected: $\mathrm{Fib}^{n+1}(x,y) \ne \emptyset$ for all
+  $x, y$.
+\end{defi}
+
+\begin{thm}[Contractibility]\label{thm:contract}
+  The fiber tower of a cell over any boundary is strictly
+  contractible.
+\end{thm}
+\begin{proof}
+  Level $1$ is Theorem~\ref{thm:homotopy}.  For level $n+1$: two
+  elements $H, H' \in \mathrm{Fib}^n$ are strict cubes
+  $\act{c}(\vec\chi), \act{c}(\vec\chi')$ of the same $(m+n)$-cube
+  boundary --- their $k$-faces are the shared lower-level elements
+  and their remaining faces the shared constant extensions --- so
+  by (K4) their tuples' restrictions agree on \emph{every} face,
+  and Theorem~\ref{thm:homotopy} applies verbatim one dimension
+  up.  Induction.
+\end{proof}
+
+\begin{rem}
+  Together with the non-uniqueness theorem of \cite{Realization},
+  the picture is: \emph{strict fillers are not unique, but are
+  unique up to strict homotopy, coherently at all levels} --- the
+  precise strict parallel of Kan filling's uniqueness up to
+  homotopy, achieved without any Kan operation.  We call the
+  underlying canonical structure --- the interpolation operator as
+  a convex combination on fibers --- \emph{De Morgan convexity}.
+\end{rem}
+
+\section{Cross-cell fillers and the shared subcomplex}
+\label{sec:cross}
+
+Fillers of one boundary can originate from different cells: over
+the shared-edge computad of \cite{Realization} (squares $Q_1, Q_2$
+sharing the edge $m$), the squares
+\[
+  S_1 := \langle i \rangle \langle j \rangle\,
+  Q_1(i \vee \neg i \vee j \vee \neg j)(j),
+  \qquad
+  S_2 := \langle i \rangle \langle j \rangle\,
+  Q_2(i \wedge \neg i \wedge j \wedge \neg j)(j)
+\]
+both inhabit $\Path\,(\Path\,A\,a_{10}\,a_{11})\,m\,m$, together
+with the edge square
+$S_m := \langle i \rangle \langle j \rangle\, m(j)$, and are
+pairwise non-convertible \cite{Realization}.
+
+\begin{prop}[No direct homotopy]\label{prop:nodirect}
+  There is no strict homotopy with $k$-faces $S_1$ and $S_2$: by
+  the realization theorem a strict cube is a single cell's
+  material, and its two $k$-faces are that cell's material or
+  boundary material --- never the interiors of two different
+  cells.
+\end{prop}
+
+\begin{thm}[Connection through the shared subcomplex]
+  \label{thm:zigzag}
+  Both interiors deform strictly onto the shared material:
+  \[
+    \langle k \rangle \langle i \rangle \langle j \rangle\,
+    Q_1\bigl((i \vee \neg i \vee j \vee \neg j) \vee k\bigr)(j)
+    \;:\; S_1 \rightsquigarrow S_m,
+  \]
+  \[
+    \langle k \rangle \langle i \rangle \langle j \rangle\,
+    Q_2\bigl((i \wedge \neg i \wedge j \wedge \neg j) \wedge
+    \neg k\bigr)(j)
+    \;:\; S_2 \rightsquigarrow S_m,
+  \]
+  --- at $k = 1$ the first formula becomes $1$ and
+  $Q_1(1)(j) \aconv m(j)$ by the attachment equations of
+  \cite{Realization}; dually for the second.  Hence the strict
+  fiber is connected by the zig-zag
+  $S_1 \rightsquigarrow S_m$, $S_2 \rightsquigarrow S_m$ --- entirely inside
+  the strict layer.  (Machine witnesses \texttt{mixDeformQ1D},
+  \texttt{mixDeformQ2D}.)
+\end{thm}
+
+\begin{rem}[The general pattern]\label{rem:descent}
+  When same-boundary fillers originate from different cells, the
+  realization theorem forces the boundary to lie in the
+  \emph{shared} subcomplex, and the coordinate of each filler
+  transverse to its shared face then has endpoint restrictions on
+  every face --- so Lemma~\ref{lem:interp} applies against the
+  corresponding constant, deforming each filler onto shared
+  material, where Theorem~\ref{thm:contract} (one dimension down)
+  connects them.  We have verified the two-cell, dimension-$2$
+  case by machine; the inductive general statement follows the
+  same descent and we record it at the same level of uniformity as
+  the realization theorem itself \cite[Rem.~5.4]{Realization}.
+\end{rem}
+
+\section{The strict--weak comparison}
+\label{sec:comparison}
+
+The full theory adds the Kan operations.  Two theorems close the
+comparison over a common boundary.
+
+\begin{thm}[$(\dagger)$ is propositional]\label{thm:dagger}
+  Let $T := \langle j \rangle\,
+  \hcomp\,[\,j{=}0 \mapsto a,\ j{=}1 \mapsto b\,]\,(p\,j)$ be the
+  constant-tube composite over a generic edge $p$ --- the left-hand
+  side of the equation $(\dagger)$ that the no-go theorem of
+  \cite{Const} proves can never be definitional.  Then the
+  canonical filler
+  \[
+    \langle k \rangle \langle j \rangle\,
+    \hcomp\,[\,j{=}0 \mapsto a,\ j{=}1 \mapsto b,\
+    k{=}0 \mapsto p\,j\,]\,(p\,j)
+    \;:\; \Path\,(\Path\,A\,a\,b)\,p\,T
+  \]
+  is a path rel boundary from $p$ to $T$: at $k = 0$ the added face
+  is decided and the composite collapses to $p\,j$; at $k = 1$ the
+  false face is discarded, leaving $T$.  The same two computations
+  give the statement for any constant-tube system in any dimension.
+  (Machine witness \texttt{mixFillD}, together with the standing
+  definitional separation $T \nconv p$.)
+\end{thm}
+
+\begin{rem}
+  Theorem~\ref{thm:dagger} is the exact dual of the no-go theorem:
+  \emph{what can never be definitional is precisely what
+  $\hfillop$ supplies propositionally, uniformly}.  The
+  definitional/propositional boundary for composition is not a
+  deficiency to be engineered away --- the no-go theorem says it
+  cannot be --- but a structural line, with the canonical filler
+  standing exactly on it.
+\end{rem}
+
+\begin{prop}[The weak layer extends the propositional
+  classification]\label{prop:winding}
+  In the circle instance, the composite
+  $\mathsf{loop} \cdot \mathsf{loop}$ has winding number $+2$,
+  while $\refl$, $\mathsf{loop}$ and its reversal have winding
+  $0, +1, -1$ (all machine-computed in the artifact library of
+  \cite{Const}).  Since winding is a propositional invariant,
+  genuine composites are not propositionally equal to these strict
+  cells: the weak layer adds new propositional classes over the
+  same boundary.
+\end{prop}
+
+Table~\ref{tab:comparison} now stands proved in all three rows.
+
+\section{Machine verification}
+\label{sec:artifact}
+
+All instances are elaboration-time checks in the self-contained
+Lean~4 cubical kernel of \cite{Const}: repository
+\begin{center}
+  \url{https://github.com/r-shibusawa/cubical-strict-j}.
+\end{center}
+The probes of this paper are the file \texttt{LibMixed.lean} ---
+the interpolation homotopy with its control and separation, the
+machine-checked \emph{failure} of the naive interpolant, the two
+deformation homotopies of the zig-zag, and the canonical filler
+with its definitional-separation control --- together with the
+proof notes \texttt{docs/DeMorganConvexity.md} and
+\texttt{docs/MixedLayer.md}.  They are included from release
+\texttt{v1.4.0}, archived at DOI
+\href{https://doi.org/10.5281/zenodo.TODOE}%
+{\texttt{10.5281/zenodo.\allowbreak TODOE}}.  A successful
+\texttt{lake build} replays every check; by (K3) each check is a
+decision.
+
+\section{Related work and outlook}
+\label{sec:related}
+
+The uniqueness of Kan fillers up to homotopy is foundational for
+cubical models \cite{CCHM}; the present paper locates its exact
+strict shadow, running on the connection algebra alone.  The
+series' platform and characterizations are
+\cite{Const,Sphere,Realization}; winding numbers and the circle
+computation descend from the encode--decode method
+\cite{LicataShulman}.
+
+Two directions seem natural.  First, \emph{a strict model
+structure in miniature}: De Morgan convexity gives the strict
+layer contractible fibers and canonical homotopies; whether this
+organizes into a factorization system or a fibration structure on
+cellular presheaves --- with the strict layer as the ``cofibrant
+skeleton'' of the full theory --- deserves study.  Second,
+\emph{normal forms up to homotopy}: combining
+Theorem~\ref{thm:dagger} with the realization theorem suggests
+rewriting genuinely weak cells to canonical composites of strict
+cells, a step toward word problems for cubical polygraphs
+\cite[\S 10]{Realization}.
+
+\subparagraph*{Acknowledgements.}  The platform and companion
+results were developed in \cite{Const,Sphere,Realization}.
+
+\begin{thebibliography}{10}
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{LicataShulman}
+D.~R.~Licata, M.~Shulman.
+\newblock Calculating the fundamental group of the circle in
+  homotopy type theory.
+\newblock \emph{LICS 2013}.
+
+\bibitem{Const}
+R.~Shibusawa.
+\newblock Evaluation-time constancy inference for transport in
+  cubical type theory.
+\newblock Preprint, 2026.  Artifact:
+  \url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+  at DOI \href{https://doi.org/10.5281/zenodo.21637898}%
+  {10.5281/zenodo.21637898}.
+
+\bibitem{Sphere}
+R.~Shibusawa.
+\newblock The strict layer of generic cells in cubical type theory
+  is a wedge of De Morgan spheres.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.3.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21638976}%
+  {10.5281/zenodo.21638976}).
+
+\bibitem{Realization}
+R.~Shibusawa.
+\newblock Generic cellular contexts in cubical type theory realize
+  their cube presheaves on the nose.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.3.0}, DOI as for \cite{Sphere}).
+
+\end{thebibliography}
+
+\end{document}
