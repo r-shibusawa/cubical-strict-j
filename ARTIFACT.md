@@ -8,7 +8,8 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.4.0` (adds the De Morgan convexity
   suite `LibMixed.lean`, the notes `docs/DeMorganConvexity.md` /
   `docs/MixedLayer.md`, and the paper
-  `docs/paperE/convexity.{tex,pdf}`); DOI recorded after archiving
+  `docs/paperE/convexity.{tex,pdf}`), archived at DOI
+  [10.5281/zenodo.21639454](https://doi.org/10.5281/zenodo.21639454)
 - Previous: release `v1.3.0` (generic-boundary and shared-edge
   suites + papers C/D), DOI
   [10.5281/zenodo.21638976](https://doi.org/10.5281/zenodo.21638976)
