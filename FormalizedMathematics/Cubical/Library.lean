@@ -3,6 +3,7 @@ import FormalizedMathematics.Cubical.LibTower
 import FormalizedMathematics.Cubical.LibStrictness
 import FormalizedMathematics.Cubical.LibSwitchover
 import FormalizedMathematics.Cubical.LibNonSubst
+import FormalizedMathematics.Cubical.LibSquares
 
 /-! # The cubical object-language library — index and summary
 

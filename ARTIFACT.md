@@ -59,6 +59,11 @@ elaboration time; a successful build **is** the verification run.
 | switchover convergence at Π / Σ / dependent Σ / argument-wise HIT constructors incl. the path constructor `merid` (Lemma, paper §Switchover) | `swPiD`, `swSigD`, `swSigDepD`, `swListD`, `swSuspMeridD` (LibSwitchover.lean) |
 | **NEGATIVE: path switchover contractum `⟨j⟩hcomp[j=0↦a,j=1↦b](p@j) ≢ p` (No-go Theorem, machine witness)** | `#guard !(okD …)` in LibSwitchover.lean §4; control probe `swPathContractumD` |
 | **Non-substitutivity (second no-go): `t ≡ u` (structural instance), `tσ ≡ q` (collapse), yet `uσ ≢ q` and `tσ ≢ uσ`** | `nsStructuralD`, `nsCollapseD`, `nsResidueCtrlD` + two `#guard !(okD …)` (LibNonSubst.lean) |
+| Dimension-2 reparametrization: DM² laws strict per coordinate (idem/invol/cross-absorption/De Morgan) | `sq2IdemD`, `sq2InvolD`, `sq2AbsorbD`, `sq2DeMorganD` (LibSquares.lean; proofs in `docs/ReparamCoherence2.md`) |
+| Degenerate collapse: any endpoint coordinate (in the free DM algebra) kills the square; the degenerate class is one point | `sq2DegFstD`, `sq2DegSndD`, `sq2DegCrossD` |
+| NEGATIVE: transposition `q(j)(i) ≢ q(i)(j)` (definitional shadow of weak Eckmann–Hilton); diagonal pair separated; dim-2 no-LEM `q(i∧¬i)(j) ≢ const` | `#guard !(okD …)` + controls (`sq2TransposeCtrlD`, `sq2DiagCtrlD`, `sq2LEMCtrlD`) |
+| Multi-cell wedge: cross-cell degenerate collapse; head and spine-depth separation | `sqxDegD`, `sqxDepthCtrlD` + `#guard` negatives |
+| De Morgan cube-category action is strictly functorial: unit (nested path η) and composition (= formula substitution) | `sqEtaD`, `sqCloneCompD`, `sqDiagCtrlD` |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);
