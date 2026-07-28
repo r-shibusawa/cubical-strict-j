@@ -5,8 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Submission snapshot: release `v1.0.0`, commit `6c5904be3f9bf8ec9138cda5bcb961b6a67f4feb`
-- Archived DOI: [10.5281/zenodo.21405962](https://doi.org/10.5281/zenodo.21405962)
+- Current snapshot: release `v1.1.0` (erratum revision — paper v14:
+  non-substitutivity theorem, presentation impossibility, canonicity
+  regained on the core via the endpoint-blind invariant)
+- Pre-erratum snapshot: release `v1.0.0`, commit
+  `6c5904be3f9bf8ec9138cda5bcb961b6a67f4feb`, archived at DOI
+  [10.5281/zenodo.21405962](https://doi.org/10.5281/zenodo.21405962);
+  `v1.1.0` is archived as a new version under the same Zenodo record
 - Typical full `lake build` time: ~10–20 min cold (first build of the
   toolchain-pinned project), a few minutes warm.
 

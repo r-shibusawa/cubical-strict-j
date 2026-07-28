@@ -47,7 +47,7 @@
   transport, normalization by evaluation, De Morgan algebra}
 
 % REMOVE BEFORE SUBMISSION: draft version marker.
-\titlecomment{Draft v13, 2026-07-28.}
+\titlecomment{Draft v14, 2026-07-28.}
 
 
 \begin{abstract}
@@ -76,13 +76,18 @@
   structural unfolding leaves the equality under the substitution
   that makes the family constant --- and consequently \emph{no}
   substitution-closed presentation of the algorithmic equality
-  exists, closing what was previously left open.  Canonicity is
-  accordingly stated as a conjecture: the natural computability
-  argument breaks precisely at the conversion rule, and we exhibit
-  the exact failing step.  The headline equation
-  $\J\,d\,\refl \conv d$ is unaffected: it holds by a direct,
-  self-contained evaluation argument on a $\Glue$-free, universe-free
-  core fragment.  All concrete positive and negative
+  exists, closing what was previously left open.  The binary
+  (relational) fundamental theorem breaks precisely at the
+  conversion rule, and we exhibit the exact failing step; canonicity
+  is then \emph{regained} on a $\Glue$-free, universe-free core
+  fragment by a new invariant --- unary, endpoint-blind hereditary
+  termination, which depends only on type skeletons and therefore
+  crosses the substitution barrier that kills the binary layer.  On
+  that core, canonicity, termination and decidability of the
+  algorithmic equality hold unrestrictedly, and the headline
+  equation $\J\,d\,\refl \conv d$ holds outright; for the full
+  univalent calculus with universes, canonicity remains
+  conjectural.  All concrete positive and negative
   object-language conversion witnesses, including the switchover
   experiments behind the no-go theorem, are machine-checked in a
   self-contained Lean~4 kernel; the metatheory itself is
@@ -216,12 +221,16 @@ this paper's main technical contribution is to supply it
   explicit (Section~\ref{sec:canonicity});
 \item a fundamental theorem in \emph{conditional} form
   (conversion instances restricted to environment-uniform ones,
-  Theorem~\ref{thm:fundamental}) with termination folded into the
-  logical relation; canonicity for unrestricted derivations is
-  stated as a conjecture, the failing step of the previous argument
-  exhibited exactly (Remark~\ref{rem:conversiongap}).  The
-  base-rule cases are inherited as an explicitly delimited
-  \emph{base component} (Section~\ref{sec:assumptions});
+  Theorem~\ref{thm:fundamental}), the failing step of the
+  unrestricted argument exhibited exactly
+  (Remark~\ref{rem:conversiongap}); and its repair on the core: an
+  \emph{endpoint-blind hereditary-termination invariant} whose
+  fundamental theorem tolerates unrestricted conversions, regaining
+  canonicity, termination and decidability there
+  (Theorem~\ref{thm:canonregained},
+  Appendix~\ref{app:htrepair}).  The base-rule cases are inherited
+  as an explicitly delimited \emph{base component}
+  (Section~\ref{sec:assumptions});
 \item an \emph{unconditional core}: for the minimal fragment
   $\Pi, \Sigma, \Path, \mathbb{N}$ with transport and homogeneous
   composition --- no $\Glue$, no universes, no HITs --- we discharge
@@ -245,8 +254,9 @@ keep the labels attached throughout:
   \emph{minimal core} $\Pi, \Sigma, \Path, \mathbb{N}$ with
   $\transp$ and $\hcomp$ --- large enough to define $\J$, so
   $\J\,d\,\refl \conv d$ is unconditional
-  (Proposition~\ref{prop:J}); canonicity is conjectural at every
-  layer (Section~\ref{sec:nonsubst});
+  (Proposition~\ref{prop:J}) and canonicity, termination and
+  decidability hold unrestrictedly
+  (Theorem~\ref{thm:canonregained});
 \item \emph{Relative theorem} (Theorems~\ref{thm:fundamental},
   \ref{thm:admissible}): the full implemented De~Morgan calculus,
   relative to the delimited base component (B) of
@@ -1396,6 +1406,9 @@ the checker ($0 \not\aconv 1$ is a direct fact); the entire
 strictness catalogue; and $\J\,d\,\refl \aconv d$, which is
 re-proved by a direct evaluation argument in
 Proposition~\ref{prop:J} without appeal to the fundamental theorem.
+Moreover canonicity itself is \emph{regained} on the minimal core by
+an invariant designed around this very phenomenon
+(Theorem~\ref{thm:canonregained}).
 
 \section{Canonicity}
 \label{sec:canonicity}
@@ -1405,21 +1418,47 @@ Proposition~\ref{prop:J} without appeal to the fundamental theorem.
   a numeral.
 \end{conj}
 
-\noindent The status is honest and precise.  For derivations whose
-conversion instances are environment-uniform, canonicity is a
-theorem (the argument below, via
-Theorem~\ref{thm:fundamental}).  For unrestricted
-$T_{\mathrm{alg}}$-derivations it is open:
-Remark~\ref{rem:conversiongap} shows the previous argument's
-conversion case is unsound, and no repaired invariant is known to
-us.  We conjecture canonicity holds --- evaluation is type-blind, so
-conversions never block a closed computation, and every
-machine-checked closed instance in the artifact evaluates to a
-canonical form --- but a proof requires a new idea for typing-up-to
-non-uniform conversion.  Consistency of the algorithmic equality
-($0 \not\aconv 1$) and $\J\,d\,\refl \aconv d$ are \emph{not}
-conditional: the former is a direct fact about the checker, the
-latter is Proposition~\ref{prop:J}.
+\noindent The status is precise.  For derivations whose conversion
+instances are environment-uniform, canonicity is a theorem (the
+argument below, via Theorem~\ref{thm:fundamental}).  For the
+\emph{minimal core}, canonicity is regained \emph{unrestrictedly} by
+a different invariant --- unary and endpoint-blind, hence immune to
+the non-substitutivity phenomenon
+(Theorem~\ref{thm:canonregained}; development in
+Appendix~\ref{app:htrepair}).  For the full calculus with universes
+the conjecture remains open: there, types are terms and the
+skeleton-syntacticity on which the repair rests is lost.
+Consistency of the algorithmic equality ($0 \not\aconv 1$) and
+$\J\,d\,\refl \aconv d$ are not conditional in any case.
+
+\begin{thm}[Canonicity regained for the minimal core]
+  \label{thm:canonregained}
+  Over the minimal core (no $\Glue$, no universes, no HITs), with
+  \emph{no} restriction on conversion instances and \emph{no}
+  base-component assumption: every closed
+  $T^{\mathrm{core}}_{\mathrm{alg}}$-term $t : \mathbb{N}$ evaluates
+  to a numeral, and evaluation, read-back and conversion terminate
+  on core-typed inputs; consequently the algorithmic equality is
+  decidable on the core.
+\end{thm}
+\begin{proof}[Proof idea; full development in
+  Appendix~\ref{app:htrepair}]
+  The relational fundamental theorem is irreparable
+  (Theorem~\ref{thm:nonsubst}), but canonicity needs only
+  \emph{termination}, which is unary.  Core types embed terms
+  \emph{only at path endpoints}; define hereditary termination
+  $\mathrm{HT}_{T,\rho}$ by structural recursion on the syntactic
+  type, with the $\mathsf{PathP}$-clause \emph{ignoring the
+  endpoints}.  Then $\mathrm{HT}$ depends only on the type's
+  \emph{skeleton}, which (i) is preserved by interval substitution
+  --- so the positive transport branch closes trivially --- and
+  (ii) is determined by the generic read-back --- so accepted
+  conversions preserve $\mathrm{HT}$ \emph{at every environment},
+  which is exactly where the binary PER argument failed.  The
+  fundamental theorem for $\mathrm{HT}$ then goes through with an
+  unrestricted conversion case, and closed $\mathrm{HT}$-values at
+  $\mathbb{N}$ are numerals.
+\end{proof}
 \begin{proof}[Proof of the environment-uniform case]
   The closed instance of Theorem~\ref{thm:fundamental}: the empty
   environment is trivially related to itself, so
@@ -1446,11 +1485,12 @@ latter is Proposition~\ref{prop:J}.
   derivations with environment-uniform conversions hold there
   \emph{with no base-component assumption}.  The scope caveat of
   Remark~\ref{rem:conversiongap} applies inside the core as well ---
-  the non-substitutivity counterexample lives in the core --- so
-  unrestricted core canonicity is likewise
-  Conjecture~\ref{thm:canonicity}.  What \emph{is} unconditional
-  without any caveat is the headline equation:
-  $\J\,d\,\refl \aconv d$, by the direct evaluation argument of
+  the non-substitutivity counterexample lives in the core --- but
+  there it is \emph{overcome}: unrestricted core canonicity,
+  termination and decidability hold by the endpoint-blind invariant
+  (Theorem~\ref{thm:canonregained},
+  Appendix~\ref{app:htrepair}), and the headline equation
+  $\J\,d\,\refl \aconv d$ holds by the direct evaluation argument of
   Proposition~\ref{prop:J}.
 \end{cor}
 
@@ -1531,9 +1571,11 @@ paper-to-probe correspondence (\texttt{ARTIFACT.md}) --- is public at
 \begin{center}
   \url{https://github.com/r-shibusawa/cubical-strict-j}
 \end{center}
-release \texttt{v1.0.0}, commit \texttt{6c5904b}, archived at
-DOI \href{https://doi.org/10.5281/zenodo.21405962}%
-{\texttt{10.5281/zenodo.21405962}}; pinned toolchain
+release \texttt{v1.1.0} (this revision).  The pre-erratum snapshot
+\texttt{v1.0.0} is archived at DOI
+\href{https://doi.org/10.5281/zenodo.21405962}%
+{\texttt{10.5281/zenodo.21405962}}; \texttt{v1.1.0} is archived as a
+new version under the same Zenodo record.  Pinned toolchain
 Lean \texttt{4.31.0}; build with \texttt{lake build}: every catalogue
 and switchover claim is an elaboration-time guard, so a successful
 build is the verification run (continuous integration replays it on
@@ -1602,12 +1644,16 @@ substitution-closed presentation
 (Corollary~\ref{cor:nopresentation}).  The system still computes
 $\J$ on $\refl$ --- unconditionally, by a direct evaluation
 argument on the minimal core (Proposition~\ref{prop:J}) --- and is
-sound for $T_{\mathrm{eq}}$ with an exactly-specified checker;
-canonicity, previously claimed, is re-scoped as a conjecture whose
-failing proof step is exhibited exactly.  We regard the pair of
-no-go theorems, and the delimitation of what survives them, as the
-paper's contribution; no unconditional strict $\J$ for the full
-univalent system is claimed.
+sound for $T_{\mathrm{eq}}$ with an exactly-specified checker; and
+on the minimal core, canonicity, termination and decidability are
+\emph{regained}, with unrestricted conversions, by the
+endpoint-blind termination invariant
+(Theorem~\ref{thm:canonregained}) --- the unary layer of the
+metatheory crosses the substitution barrier that provably kills the
+binary layer.  We regard the pair of no-go theorems, the
+delimitation of what survives them, and this unary/binary
+separation as the paper's contribution; no unconditional strict
+$\J$ for the full univalent system is claimed.
 
 Open problems, in decreasing order of importance.
 (1)~\emph{The base component beyond the core}: for the core fragment
@@ -1623,11 +1669,12 @@ principles'' to a refutation in a concrete cubical-sets model.
 (3)~\emph{Model-theoretic status of the positive system}: whether a
 cubical-sets-style model validates the specified algorithmic
 equality.
-(4)~\emph{Repairing canonicity}: an invariant for typing with
-non-environment-uniform conversion instances
-(Remark~\ref{rem:conversiongap}); the presentation question
-previously listed here is settled negatively by
-Corollary~\ref{cor:nopresentation}.
+(4)~\emph{Canonicity beyond the core}: extending the
+endpoint-blind invariant (Appendix~\ref{app:htrepair}) past
+universes, where types are terms and neutral codes have no
+syntactic skeleton; the core case is settled by
+Theorem~\ref{thm:canonregained}, and the presentation question
+previously listed here by Corollary~\ref{cor:nopresentation}.
 (5)~\emph{Boundary-corrected HIT signatures}: extending the
 switchover classification of Section~\ref{sec:hits} beyond the
 argument-wise class.
@@ -3145,6 +3192,128 @@ type.
   the full calculus, where universes exist, the internal $\J$ is the
   same construction at a universe-valued motive; it then lives in
   the relative layer.)
+\end{rem}
+
+\subsection{The endpoint-blind invariant: canonicity regained}
+\label{app:htrepair}
+
+This subsection proves Theorem~\ref{thm:canonregained}: unrestricted
+core canonicity, immune to Remark~\ref{rem:conversiongap}.
+
+\subparagraph*{Skeletons.}  Core types embed terms only as
+$\mathsf{PathP}$ endpoints ($\Pi$ and $\Sigma$ carry types; $\mathbb{N}$
+nothing).  The \emph{skeleton} $\mathrm{sk}(T)$ erases the endpoint
+terms.  Interval substitution changes no former, so
+$\mathrm{sk}(T(\io/i)) = \mathrm{sk}(T(\ii/i)) = \mathrm{sk}(T)$.
+The non-substitutivity counterexamples perturb only endpoint
+\emph{values} across environments; skeletons are environment-blind.
+
+\subparagraph*{Hereditary termination.}  For a syntactic core type
+$T$ and environment $\rho$ (at a world $w$), a \emph{unary},
+Kleene-read predicate on values:
+\begin{align*}
+  \mathrm{HT}_{\mathbb{N},\rho}(v) &\iff
+    v \text{ forces to a numeral, or to a neutral/stuck value with }
+    \mathrm{HT} \text{ components};\\
+  \mathrm{HT}_{\Pi x:T.S,\rho}(f) &\iff
+    \forall w' \to w,\ \forall u \in \mathrm{HT}_{T,\rho}\colon\\
+    &\qquad
+    f\,u \text{ defined and } \in \mathrm{HT}_{S,\rho+[u]};\\
+  \mathrm{HT}_{\Sigma x:T.S,\rho}(v) &\iff
+    \fst v \in \mathrm{HT}_{T,\rho} \text{ and }
+    \snd v \in \mathrm{HT}_{S,\rho+[\fst v]};
+\end{align*}
+and, for $P = \mathsf{PathP}(\langle i \rangle T)\,t\,u$,
+\[
+  \mathrm{HT}_{P,\rho}(p) \iff
+  \forall \iota\colon\ p\,\iota \text{ defined and }
+  \in \mathrm{HT}_{T,\rho+[\iota]}
+  \qquad(\text{\emph{endpoints $t,u$ ignored}}).
+\]
+Environments are $\mathrm{HT}$ pointwise; neutrals with
+$\mathrm{HT}$ components are $\mathrm{HT}$ at every skeleton (the
+unary reflection lemma, by structural induction).  By construction
+$\mathrm{HT}$ depends only on $\mathrm{sk}(T)$ and the sub-syntax;
+in particular
+$\mathrm{HT}_{T(\io/i),\rho} = \mathrm{HT}_{T(\ii/i),\rho}$
+\emph{literally}.
+
+\begin{lem}[Conversion invariance]\label{lem:htconv}
+  If $T \sim_{\mathrm{gen}} T'$ (equal generic read-backs, i.e.\
+  accepted conversion, Lemma~\ref{lem:convrb}), then
+  $\mathrm{HT}_{T,\rho} = \mathrm{HT}_{T',\rho}$ for \emph{every}
+  $\rho$.
+\end{lem}
+\begin{proof}
+  Induction on the skeleton; core type values are always canonical,
+  so equal read-backs force equal head formers.  $\Pi$/$\Sigma$:
+  read-back opens the codomain generically, giving
+  $T_1 \sim_{\mathrm{gen}} T_1'$ and (in the extended context)
+  $S \sim_{\mathrm{gen}} S'$; the induction hypotheses equate the
+  argument and result predicates at all environments, and the
+  clauses are built from nothing else.  $\mathsf{PathP}$: the lines
+  are $\sim_{\mathrm{gen}}$ under the interval binder (induction
+  hypothesis); \emph{the endpoint read-backs, though equal, are not
+  needed} --- the clause ignores endpoints.  This is precisely the
+  step at which the binary PER argument failed
+  (Remark~\ref{rem:conversiongap}) and the unary endpoint-blind
+  predicate does not.
+\end{proof}
+
+\begin{thm}[Fundamental theorem for $\mathrm{HT}$]\label{thm:htfund}
+  If $\Gamma \vdash t : A$ in $T^{\mathrm{core}}_{\mathrm{alg}}$
+  (conversion \emph{unrestricted}) and $\rho$ is an
+  $\mathrm{HT}$-environment, then $\evalop(t,\rho)$ is defined and
+  $\mathrm{HT}_{A,\rho}$.
+\end{thm}
+\begin{proof}
+  Induction on the typing derivation, with the inner structural
+  induction on syntactic types of Remark~\ref{rem:order}; the cases
+  are the unary shadows of
+  Sections~\ref{app:corerel}--\ref{app:coretransp}.
+  \emph{Conversion:} Lemma~\ref{lem:htconv}, with no uniformity
+  hypothesis.  \emph{Transport, positive branch:} the result is
+  $\evalop(u,\rho)$ with $u : A(\io/i)$ against result type
+  $A(\ii/i)$; the two $\mathrm{HT}$ predicates are literally equal
+  (skeleton invariance under interval substitution) --- the
+  checker-soundness theorem is not even needed here.
+  \emph{Transport, negative branch, and $\hcomp$:} the structural
+  dispatches recurse along proper sub-skeletons (domain lines,
+  codomain fibers over fills, endpoint-extended systems), exactly
+  as in Lemmas~\ref{lem:corehcompN}--\ref{lem:coretransp} with the
+  relational content dropped; definedness is carried by every
+  clause.  \emph{$\mathsf{natrec}$:} numeral scrutinees by an inner
+  numeral induction; neutral/stuck scrutinees by the unary
+  reflection lemma.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:canonregained}]
+  The closed instance of Theorem~\ref{thm:htfund}: the empty
+  environment is $\mathrm{HT}$.  A closed $\mathrm{HT}$-value at
+  $\mathbb{N}$ is a numeral: closed neutrals need a variable, and
+  closed stuck composites need an undecided face, which closed
+  cofibrations do not have (the closed-instance remark of
+  Lemma~\ref{lem:corehcompN}).  Termination of read-back and
+  conversion on core-typed inputs follows from $\mathrm{HT}$ of the
+  compared values along the recursions of
+  Sections~\ref{app:corereify}--\ref{app:coreconv}; decidability of
+  the algorithmic equality on the core is then immediate.
+\end{proof}
+
+\begin{rem}[The boundary of the repair]
+  The repair is deliberately \emph{unary}: the binary (relational)
+  fundamental theorem stays dead, as it must
+  (Theorem~\ref{thm:nonsubst}).  And it is deliberately
+  \emph{core-bound}: with universes, types are terms --- neutral
+  type codes have no syntactic skeleton --- and whether an
+  environment-invariant ``skeleton of a code value'' can be carved
+  out is the open problem to which
+  Section~\ref{sec:conclusion}(4) now points.  The general design
+  principle this exhibits: in a system whose judgmental equality
+  incorporates evaluation-time optimization, the metatheory
+  separates into a unary layer (termination, canonicity) that
+  crosses the substitution barrier and a binary layer (semantic
+  equality) that provably cannot.
 \end{rem}
 
 \subsection{The $S^1$ extension}
