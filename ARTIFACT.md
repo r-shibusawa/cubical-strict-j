@@ -5,10 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.1.0` (erratum revision — paper v14:
-  non-substitutivity theorem, presentation impossibility, canonicity
-  regained on the core via the endpoint-blind invariant), archived at
-  DOI [10.5281/zenodo.21637898](https://doi.org/10.5281/zenodo.21637898)
+- Current snapshot: release `v1.2.0` (adds the dimension-2
+  reparametrization suite, `LibSquares.lean` +
+  `docs/ReparamCoherence2.md`), archived at DOI
+  [10.5281/zenodo.21638543](https://doi.org/10.5281/zenodo.21638543)
+- Paper snapshot: release `v1.1.0` (paper v14: non-substitutivity
+  theorem, presentation impossibility, canonicity regained on the
+  core), archived at DOI
+  [10.5281/zenodo.21637898](https://doi.org/10.5281/zenodo.21637898)
 - Pre-erratum snapshot: release `v1.0.0`, commit
   `6c5904be3f9bf8ec9138cda5bcb961b6a67f4feb`, archived at DOI
   [10.5281/zenodo.21405962](https://doi.org/10.5281/zenodo.21405962);
