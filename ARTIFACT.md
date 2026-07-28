@@ -52,6 +52,7 @@ elaboration time; a successful build **is** the verification run.
 | NEGATIVE: `⟨i⟩p(i∧¬i) ≢ refl`, `⟨i⟩p(i∨¬i) ≢ refl` (reparametrization coherence, ⇒) | `#guard !(okD …)`, lines 351, 358 |
 | switchover convergence at Π / Σ / dependent Σ / argument-wise HIT constructors incl. the path constructor `merid` (Lemma, paper §Switchover) | `swPiD`, `swSigD`, `swSigDepD`, `swListD`, `swSuspMeridD` (LibSwitchover.lean) |
 | **NEGATIVE: path switchover contractum `⟨j⟩hcomp[j=0↦a,j=1↦b](p@j) ≢ p` (No-go Theorem, machine witness)** | `#guard !(okD …)` in LibSwitchover.lean §4; control probe `swPathContractumD` |
+| **Non-substitutivity (second no-go): `t ≡ u` (structural instance), `tσ ≡ q` (collapse), yet `uσ ≢ q` and `tσ ≢ uσ`** | `nsStructuralD`, `nsCollapseD`, `nsResidueCtrlD` + two `#guard !(okD …)` (LibNonSubst.lean) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

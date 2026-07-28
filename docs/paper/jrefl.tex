@@ -46,6 +46,9 @@
 \keywords{cubical type theory, definitional equality, regularity,
   transport, normalization by evaluation, De Morgan algebra}
 
+% REMOVE BEFORE SUBMISSION: draft version marker.
+\titlecomment{Draft v13, 2026-07-28.}
+
 
 \begin{abstract}
   The eliminator $\J$ of cubical type theories does not compute
@@ -65,13 +68,21 @@
   specified representation-independently (the fresh dimension must
   not occur in the read-back of the family's value) and implemented
   exactly; we prove the check semantically sound and the typed
-  algorithmic equality an admissible conversion relation ---
-  equivalence, congruence, weakening, substitution, context
-  conversion, type preservation --- with termination and canonicity
-  relative to an explicitly delimited base component, which we
-  discharge for a $\Glue$-free, universe-free core fragment: there,
-  including for $\J\,d\,\refl \conv d$ itself, the results are
-  unconditional.  All concrete positive and negative
+  algorithmic equality a partial congruence --- an equivalence and a
+  congruence, stable under weakening and renaming.  A \emph{second}
+  no-go theorem shows this is sharp: the typed algorithmic equality
+  is provably \emph{not} stable under general substitution --- a
+  machine-checked equation between a transport redex and its
+  structural unfolding leaves the equality under the substitution
+  that makes the family constant --- and consequently \emph{no}
+  substitution-closed presentation of the algorithmic equality
+  exists, closing what was previously left open.  Canonicity is
+  accordingly stated as a conjecture: the natural computability
+  argument breaks precisely at the conversion rule, and we exhibit
+  the exact failing step.  The headline equation
+  $\J\,d\,\refl \conv d$ is unaffected: it holds by a direct,
+  self-contained evaluation argument on a $\Glue$-free, universe-free
+  core fragment.  All concrete positive and negative
   object-language conversion witnesses, including the switchover
   experiments behind the no-go theorem, are machine-checked in a
   self-contained Lean~4 kernel; the metatheory itself is
@@ -185,32 +196,41 @@ this paper's main technical contribution is to supply it
   whose transport case goes through \emph{because} the check is
   specified representation-independently --- the branch taken is a
   function of the $\repeq$-class (Section~\ref{sec:oper});
-\item a Kripke logical relation $\valeq$ over the domain whose
-  fundamental theorem yields, as corollaries, that the typed
-  algorithmic equality is an \emph{admissible conversion relation}:
-  an equivalence, a congruence for every term former, stable under
-  weakening, substitution and context conversion, type-preserving,
-  and coherent with the bidirectional checker
-  (Theorem~\ref{thm:admissible});
+\item a Kripke logical relation $\valeq$ over the domain, and the
+  structural properties of the typed algorithmic equality it
+  supports: an equivalence, a congruence for every term former,
+  stable under weakening and renaming, coherent with the
+  bidirectional checker (Theorem~\ref{thm:admissible});
+\item a \emph{second no-go theorem}
+  (Section~\ref{sec:nonsubst}, machine-checked): the typed
+  algorithmic equality is provably \emph{not} stable under general
+  substitution --- a transport redex and its structural contractum
+  are equal, and cease to be under the substitution that makes the
+  family constant --- whence \emph{no substitution-closed
+  presentation of the algorithmic equality exists}
+  (Corollary~\ref{cor:nopresentation});
 \item termination folded into the logical relation in the standard
   Tait style --- no syntactic termination measure is claimed, and the
   double induction (typing derivation outside, semantic type values
   inside) discharging the structural transport branch is made
   explicit (Section~\ref{sec:canonicity});
-\item canonicity: closed naturals evaluate to numerals, whence
-  consistency and $\J\,d\,\refl \conv d$
-  (Theorem~\ref{thm:canonicity}).  The base-rule cases of the
-  fundamental theorem are inherited as an explicitly delimited
+\item a fundamental theorem in \emph{conditional} form
+  (conversion instances restricted to environment-uniform ones,
+  Theorem~\ref{thm:fundamental}) with termination folded into the
+  logical relation; canonicity for unrestricted derivations is
+  stated as a conjecture, the failing step of the previous argument
+  exhibited exactly (Remark~\ref{rem:conversiongap}).  The
+  base-rule cases are inherited as an explicitly delimited
   \emph{base component} (Section~\ref{sec:assumptions});
 \item an \emph{unconditional core}: for the minimal fragment
   $\Pi, \Sigma, \Path, \mathbb{N}$ with transport and homogeneous
   composition --- no $\Glue$, no universes, no HITs --- we discharge
   the base component ourselves, in full per-former detail
-  (Appendix~\ref{app:core}), so that there admissibility, canonicity
-  and the definitional $\J\,d\,\refl$ hold with no assumption at all
-  (Theorem~\ref{thm:core}); the derived $\J$ and its computation on
-  $\refl$ are spelled out as an explicit proposition
-  (Proposition~\ref{prop:J}).  The extension of the core by $S^1$ is
+  (Appendix~\ref{app:core}); there the structural properties and the
+  conditional fundamental theorem need no assumption, and the
+  definitional $\J\,d\,\refl$ holds outright by a direct evaluation
+  argument (Theorem~\ref{thm:core},
+  Proposition~\ref{prop:J}).  The extension of the core by $S^1$ is
   stated separately as a proposition with a proof sketch and
   artifact evidence, so the headline result is not entangled with
   higher-inductive obligations;
@@ -224,11 +244,14 @@ keep the labels attached throughout:
   Appendix~\ref{app:core}): the $\Glue$-free, universe-free
   \emph{minimal core} $\Pi, \Sigma, \Path, \mathbb{N}$ with
   $\transp$ and $\hcomp$ --- large enough to define $\J$, so
-  $\J\,d\,\refl \conv d$ is unconditional;
+  $\J\,d\,\refl \conv d$ is unconditional
+  (Proposition~\ref{prop:J}); canonicity is conjectural at every
+  layer (Section~\ref{sec:nonsubst});
 \item \emph{Relative theorem} (Theorems~\ref{thm:fundamental},
-  \ref{thm:admissible}, \ref{thm:canonicity}): the full implemented
-  De~Morgan calculus, relative to the delimited base component (B)
-  of Section~\ref{sec:assumptions};
+  \ref{thm:admissible}): the full implemented De~Morgan calculus,
+  relative to the delimited base component (B) of
+  Section~\ref{sec:assumptions}, with the fundamental theorem in
+  conditional form;
 \item \emph{Artifact evidence}: $\Glue$, univalence, and the HIT
   roster, machine-checked in the kernel but not covered by the
   unconditional layer.
@@ -1071,9 +1094,19 @@ evaluator runs.
   $\evalop(t, \rho) \valeq_{\evalop(A,\rho)} \evalop(t, \rho')$.
 \end{defi}
 
-\begin{thm}[Fundamental theorem]\label{thm:fundamental}
-  If $\Gamma \vdash t : A$ in $T_{\mathrm{alg}}$ then
-  $\Gamma \vDash t : A$.
+\begin{thm}[Fundamental theorem, conditional form]
+  \label{thm:fundamental}
+  Call a conversion instance $\Gamma \vdash B \aconv A$
+  \emph{environment-uniform} if $\evalop(B,\rho)$ and
+  $\evalop(A,\rho)$ decode to the same PER for \emph{every} pair of
+  related computable $\Gamma$-environments (not only the generic
+  one).  If $\Gamma \vdash t : A$ in $T_{\mathrm{alg}}$ by a
+  derivation all of whose conversion instances are
+  environment-uniform, then $\Gamma \vDash t : A$.
+  (By Remark~\ref{rem:conversiongap} the uniformity hypothesis is
+  not vacuous: accepted conversion instances exist that are not
+  environment-uniform, so the restriction cannot be dropped;
+  conversion-free derivations satisfy it trivially.)
 \end{thm}
 \begin{proof}
   Induction on the typing derivation.  All $T_0$ rules are the base
@@ -1120,7 +1153,8 @@ evaluator runs.
   \end{itemize}
 \end{proof}
 
-\begin{cor}[Termination]\label{cor:termination}
+\begin{cor}[Termination, under the same hypothesis]
+  \label{cor:termination}
   Evaluation, the constancy check, conversion and read-back
   terminate on well-typed inputs.
 \end{cor}
@@ -1141,7 +1175,8 @@ evaluator runs.
 
 \subsection{Admissibility of the algorithmic equality}
 
-\begin{thm}[Admissible conversion relation]\label{thm:admissible}
+\begin{thm}[Structural properties of the typed equality]
+  \label{thm:admissible}
   Relative to the base component (B), the typed algorithmic equality
   of Definition~\ref{def:alg}:
   \begin{enumerate}
@@ -1156,21 +1191,25 @@ evaluator runs.
     transport branches, is Appendix~\ref{app:cases});
   \item is stable under weakening (Kripke monotonicity of $\valeq$
     in the depth);
-  \item is stable under substitution: $\Gamma \vdash t \aconv u : A$
-    and $\Delta \vdash \sigma : \Gamma$ imply
-    $\Delta \vdash t\sigma \aconv u\sigma : A\sigma$
-    (Lemma~\ref{lem:subst} composed with
-    Lemma~\ref{lem:valeqbasics}(i,iii) and
-    Theorem~\ref{thm:fundamental} applied to $\sigma$);
+  \item is stable under \emph{renamings} (substitutions sending
+    variables to generic variables): a renaming maps the generic
+    environment to a generic environment, so Lemma~\ref{lem:subst}
+    transfers acceptance directly.  It is \emph{not} stable under
+    general substitution: Theorem~\ref{thm:nonsubst} below gives a
+    machine-checked counterexample, and
+    Corollary~\ref{cor:nopresentation} shows the failure is
+    intrinsic, not a defect of the checker;
   \item is stable under context conversion ($\Gamma \aconv \Gamma'$
     pointwise implies the generic environments are $\valeq$-related,
     and $\valeq$ is invariant under related type values);
-  \item preserves and respects typing in $T_{\mathrm{alg}}$: if
+  \item interfaces with typing in $T_{\mathrm{alg}}$: if
     $\Gamma \vdash t : A$ and $\Gamma \vdash A \aconv B$ then
     $\Gamma \vdash t : B$ (this \emph{is} $T_{\mathrm{alg}}$'s
-    conversion rule, and the fundamental theorem shows it harmless),
-    and the bidirectional checker's conversion sites decide exactly
-    this relation.
+    conversion rule), and the bidirectional checker's conversion
+    sites decide exactly this relation.  Whether this rule is
+    semantically harmless is precisely the question reopened by
+    Theorem~\ref{thm:nonsubst}; see
+    Remark~\ref{rem:conversiongap}.
   \end{enumerate}
 \end{thm}
 
@@ -1258,19 +1297,130 @@ that is itself unusable.
   $T_0+(\mathrm{R})$; nothing more is claimed.
 \end{rem}
 
+\section{The second no-go: non-substitutivity of the typed
+  equality}
+\label{sec:nonsubst}
+
+The no-go theorem of Section~\ref{sec:nogo} rules out equational,
+substitution-closed presentations.  The operational system evades it
+by being algorithmic --- and this section shows the evasion is
+\emph{exact}: the typed algorithmic equality itself fails
+substitution-stability, one instance at a time, and provably must.
+
+Work over $\Gamma = (A : \U,\ a\,b : A,\ p : \Path\,A\,a\,b,\
+q : \Path\,A\,a\,a)$ and let
+\begin{align*}
+  t &\;:=\; \transp^i\,(\Path\,A\,a\,(p\,i))\ \io\ q,\\
+  u &\;:=\; \langle j \rangle\, \hcomp^{\,\iota} A\,
+    [\,j{=}0 \mapsto a,\ j{=}1 \mapsto p\,\iota\,]\,(q\,j)
+\end{align*}
+--- a transport redex over a family that is \emph{non-constant at the
+generic environment}, and its structural contractum (the transport
+components along the constant line $A$ collapse by (R) during
+evaluation).  Let $\sigma := [\refl_a/p,\ a/b]$ into
+$\Delta = (A, a, q)$.
+
+\begin{thm}[Non-substitutivity]\label{thm:nonsubst}
+  All three of the following hold in the algorithmic equality
+  (machine-checked, \texttt{LibNonSubst.lean}):
+  \begin{enumerate}
+  \item $\Gamma \vdash t \aconv u$ --- the evaluator's negative
+    branch \emph{is} the structural rule, so redex and contractum
+    have the same value at the generic environment;
+  \item $\Delta \vdash t\sigma \aconv q$ --- after $\sigma$ the
+    family's \emph{value} is constant, so the check fires;
+  \item $\Delta \vdash u\sigma \not\aconv q$ and
+    $\Delta \vdash t\sigma \not\aconv u\sigma$ --- the substituted
+    contractum freezes into a constant-tube $\hcomp$, the
+    \eqref{eq:dagger}-residue, separated from $q$ by
+    Proposition~\ref{prop:papersep}.
+  \end{enumerate}
+  Hence $\aconv$ is not closed under substitution: the equation
+  $t \aconv u$ holds while its $\sigma$-instance fails.  The root
+  cause is that \emph{normal forms are not substitution-stable} in
+  the prioritized system: $\nf(t)$ is the composite form while
+  $\nf(t\sigma) = q$.
+\end{thm}
+
+\begin{cor}[No presentation]\label{cor:nopresentation}
+  No equality that coincides with the algorithmic equality is closed
+  under substitution; in particular the algorithmic equality has no
+  substitution-closed rule-generated presentation.  This resolves
+  affirmatively the conjecture left open in earlier versions of this
+  work.
+\end{cor}
+\begin{proof}
+  A substitution-closed equality containing (1) and (2) contains
+  $t\sigma \conv u\sigma$ and hence, by transitivity and symmetry,
+  $u\sigma \conv q$ --- which (3) excludes from the algorithmic
+  equality.
+\end{proof}
+
+\begin{rem}[The conversion gap]\label{rem:conversiongap}
+  Theorem~\ref{thm:nonsubst} invalidates a step in the fundamental
+  theorem as previously formulated: its conversion case inferred,
+  from acceptance of $\Gamma \vdash B \aconv A$ \emph{at the generic
+  environment}, the equality of the induced PERs at \emph{every}
+  computable environment.  A type-level counterexample is now
+  available: $B := \Path\,(\Path\,A\,a\,b)\,t\,t$ and
+  $A' := \Path\,(\Path\,A\,a\,b)\,t\,u$ are accepted at the generic
+  environment (their endpoint values coincide there,
+  Theorem~\ref{thm:nonsubst}(1)), yet at the environment sending
+  $p \mapsto \refl_a$ their endpoint values differ
+  (Theorem~\ref{thm:nonsubst}(3)), so they decode to different PERs.
+  The transfer implicitly used normal-form substitution-stability,
+  which fails.  Consequently the fundamental theorem holds as stated
+  only for derivations whose conversion instances are semantically
+  valid at every environment
+  (Theorem~\ref{thm:fundamental}), and canonicity is
+  \emph{re-scoped as a conjecture}
+  (Conjecture~\ref{thm:canonicity}); Section~\ref{sec:whatstands}
+  delimits exactly what stands.
+\end{rem}
+
+\subsection{What stands, unaffected}
+\label{sec:whatstands}
+
+The following are independent of the fundamental theorem's
+conversion case and are unaffected: the first no-go theorem
+(Theorem~\ref{thm:nogo}) and the path-separation paper proof
+(Proposition~\ref{prop:papersep}); soundness into $T_{\mathrm{eq}}$
+(Theorem~\ref{thm:soundness} --- per-derivation, no conversion
+transfer involved); checker exactness (Theorem~\ref{thm:exact}); the
+evaluator-level substitution lemma (Lemma~\ref{lem:subst} --- it
+relates the \emph{same} term under environment composition and is
+consistent with Theorem~\ref{thm:nonsubst}, which concerns the
+\emph{typed relation at generic environments}); the PER, congruence
+and renaming clauses of Theorem~\ref{thm:admissible}; consistency of
+the checker ($0 \not\aconv 1$ is a direct fact); the entire
+strictness catalogue; and $\J\,d\,\refl \aconv d$, which is
+re-proved by a direct evaluation argument in
+Proposition~\ref{prop:J} without appeal to the fundamental theorem.
+
 \section{Canonicity}
 \label{sec:canonicity}
 
-\begin{thm}[Canonicity]\label{thm:canonicity}
-  Relative to the base component (B), in both the Cartesian and the
-  De~Morgan presentations --- in the Cartesian fragment the
-  judgmental-theory part of (B) follows from \cite{SterlingAngiuli},
-  the evaluator-level bridge remaining open
-  (Appendix~\ref{app:bridge}): every closed $T_{\mathrm{alg}}$-term
-  $t : \mathbb{N}$ evaluates to a numeral; the algorithmic equality
-  is consistent ($0 \not\aconv 1$); and $\J\,d\,\refl \aconv d$.
-\end{thm}
-\begin{proof}
+\begin{conj}[Canonicity]\label{thm:canonicity}
+  Every closed $T_{\mathrm{alg}}$-term $t : \mathbb{N}$ evaluates to
+  a numeral.
+\end{conj}
+
+\noindent The status is honest and precise.  For derivations whose
+conversion instances are environment-uniform, canonicity is a
+theorem (the argument below, via
+Theorem~\ref{thm:fundamental}).  For unrestricted
+$T_{\mathrm{alg}}$-derivations it is open:
+Remark~\ref{rem:conversiongap} shows the previous argument's
+conversion case is unsound, and no repaired invariant is known to
+us.  We conjecture canonicity holds --- evaluation is type-blind, so
+conversions never block a closed computation, and every
+machine-checked closed instance in the artifact evaluates to a
+canonical form --- but a proof requires a new idea for typing-up-to
+non-uniform conversion.  Consistency of the algorithmic equality
+($0 \not\aconv 1$) and $\J\,d\,\refl \aconv d$ are \emph{not}
+conditional: the former is a direct fact about the checker, the
+latter is Proposition~\ref{prop:J}.
+\begin{proof}[Proof of the environment-uniform case]
   The closed instance of Theorem~\ref{thm:fundamental}: the empty
   environment is trivially related to itself, so
   $\evalop(t) \valeq_{\mathbb{N}} \evalop(t)$, and the
@@ -1284,17 +1434,24 @@ that is itself unusable.
   machine-checked end to end (\texttt{strictJReflD}).
 \end{proof}
 
-\begin{cor}[Unconditional minimal core]\label{thm:core}
+\begin{cor}[Minimal core, without base assumptions]\label{thm:core}
   Over the minimal fragment $\Pi, \Sigma, \Path, \mathbb{N}$ with
   $\transp$ and $\hcomp$ (no $\Glue$, no universes, no HITs),
-  Theorems~\ref{thm:fundamental}, \ref{thm:admissible}
-  and~\ref{thm:canonicity} hold \emph{with no base-component
-  assumption}: Appendix~\ref{app:core} constructs the logical
-  relation for the fragment by structural recursion on syntactic
-  types and proves every (B)-marked lemma for it, former by former.
-  In particular $\J\,d\,\refl \aconv d$ --- $\J$ being defined from
-  paths, connections and transport alone --- is unconditional
-  (Proposition~\ref{prop:J}).
+  Appendix~\ref{app:core} constructs the logical relation by
+  structural recursion on syntactic types and proves every
+  (B)-marked lemma for it, former by former.  Consequently the
+  structural properties of Theorem~\ref{thm:admissible}, the
+  conditional fundamental theorem
+  (Theorem~\ref{thm:fundamental}) and hence canonicity for
+  derivations with environment-uniform conversions hold there
+  \emph{with no base-component assumption}.  The scope caveat of
+  Remark~\ref{rem:conversiongap} applies inside the core as well ---
+  the non-substitutivity counterexample lives in the core --- so
+  unrestricted core canonicity is likewise
+  Conjecture~\ref{thm:canonicity}.  What \emph{is} unconditional
+  without any caveat is the headline equation:
+  $\J\,d\,\refl \aconv d$, by the direct evaluation argument of
+  Proposition~\ref{prop:J}.
 \end{cor}
 
 \subparagraph*{Inheritance inventory.}  Reused from
@@ -1368,7 +1525,8 @@ library definition.
 
 \subparagraph*{Artifact and its scope.}  The repository --- kernel,
 catalogue (\texttt{LibStrictness.lean}), switchover experiments
-(\texttt{LibSwitchover.lean}), library, harness, and a row-by-row
+(\texttt{LibSwitchover.lean}), the non-substitutivity probes
+(\texttt{LibNonSubst.lean}), library, harness, and a row-by-row
 paper-to-probe correspondence (\texttt{ARTIFACT.md}) --- is public at
 \begin{center}
   \url{https://github.com/r-shibusawa/cubical-strict-j}
@@ -1435,18 +1593,21 @@ admissibility results.
 Evaluation-time constancy inference is an old idea.  The analysis
 here shows why its naive equational formulations could not work ---
 they derive constant-system $\hcomp$-regularity, at path types
-already (Theorem~\ref{thm:nogo}) --- and that the operational
-formulation, done with a representation-independent check
-specification, supports the full structural metatheory expected of a
-judgmental equality (Theorem~\ref{thm:admissible}) together with
-termination and canonicity (Theorem~\ref{thm:canonicity}), and
-computes $\J$ on $\refl$ --- \emph{unconditionally on the minimal
-core} $\Pi, \Sigma, \Path, \mathbb{N}$
-(Theorem~\ref{thm:core}, Proposition~\ref{prop:J}), and
-\emph{relative to the delimited base component} for the full
-implemented univalent calculus.  We do not claim an unconditional
-strict $\J$ for the full univalent system; the three-layer division
-of Section~\ref{sec:intro} is the paper's claim, exactly.
+already (Theorem~\ref{thm:nogo}) --- and, in the second no-go
+theorem, that the operational evasion is exact: the typed
+algorithmic equality is a congruent, renaming-stable partial
+equivalence that is provably \emph{not} substitution-stable
+(Theorem~\ref{thm:nonsubst}) and provably has no
+substitution-closed presentation
+(Corollary~\ref{cor:nopresentation}).  The system still computes
+$\J$ on $\refl$ --- unconditionally, by a direct evaluation
+argument on the minimal core (Proposition~\ref{prop:J}) --- and is
+sound for $T_{\mathrm{eq}}$ with an exactly-specified checker;
+canonicity, previously claimed, is re-scoped as a conjecture whose
+failing proof step is exhibited exactly.  We regard the pair of
+no-go theorems, and the delimitation of what survives them, as the
+paper's contribution; no unconditional strict $\J$ for the full
+univalent system is claimed.
 
 Open problems, in decreasing order of importance.
 (1)~\emph{The base component beyond the core}: for the core fragment
@@ -1462,8 +1623,11 @@ principles'' to a refutation in a concrete cubical-sets model.
 (3)~\emph{Model-theoretic status of the positive system}: whether a
 cubical-sets-style model validates the specified algorithmic
 equality.
-(4)~\emph{Characterization}: is there any rule-generated presentation
-of the operational system?  We conjecture not.
+(4)~\emph{Repairing canonicity}: an invariant for typing with
+non-environment-uniform conversion instances
+(Remark~\ref{rem:conversiongap}); the presentation question
+previously listed here is settled negatively by
+Corollary~\ref{cor:nopresentation}.
 (5)~\emph{Boundary-corrected HIT signatures}: extending the
 switchover classification of Section~\ref{sec:hits} beyond the
 argument-wise class.
@@ -2131,8 +2295,8 @@ by the value's stamp, so omitting it from the key loses nothing.
 \label{app:core}
 
 This appendix proves component (B) --- and hence
-Theorems~\ref{thm:fundamental}, \ref{thm:admissible}
-and~\ref{thm:canonicity} unconditionally
+Theorem~\ref{thm:fundamental} (in its conditional form) and
+Theorem~\ref{thm:admissible} without base assumptions
 (Corollary~\ref{thm:core}) --- for the \emph{minimal core}
 \[
   T^{\mathrm{core}} \;:=\;
@@ -2964,7 +3128,11 @@ type.
   Lemma~\ref{lem:coreconvcomp} the algorithmic equality
   $\J_C\,d\,x\,\refl_x \aconv d$ holds.  Every ingredient ---
   evaluation, check, conversion --- is inside the minimal core, so
-  Corollary~\ref{cor:corepkg} applies and no assumption is used.
+  every step is a concrete, finite, machine-reproducible
+  computation on this instance --- family evaluation, occurs-check,
+  the positive branch, and one conversion of identical values ---
+  requiring neither the fundamental theorem nor any base-component
+  assumption.
   Machine witness: \texttt{strictJReflD}.
 \end{proof}
 
