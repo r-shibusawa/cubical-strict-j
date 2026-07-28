@@ -1,0 +1,679 @@
+% To be reformatted in the TAC style (tac.cls) upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{obs}[thm]{Observation}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\DM}[1]{\mathrm{DM}(#1)}
+\newcommand{\Dbox}{\square_{\mathrm{DM}}}
+\newcommand{\aconv}{\equiv}
+\newcommand{\nconv}{\not\equiv}
+\newcommand{\refl}{\mathsf{refl}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\PathP}{\mathsf{PathP}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\hcomp}{\mathsf{hcomp}}
+\newcommand{\act}[1]{A_{#1}}
+\newcommand{\cellp}{\mathsf{p}}
+\newcommand{\Real}[1]{|#1|}
+
+\begin{document}
+
+\title[Cellular contexts realize their cube presheaves]{Generic
+  cellular contexts in cubical type theory\\ realize their cube
+  presheaves on the nose}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{18N45, 03B38, 18M99}
+\keywords{cubical type theory, cube categories, computads,
+  polygraphs, connections, De Morgan algebra, definitional equality}
+
+\begin{abstract}
+  A companion paper showed that in cubical type theory with a De
+  Morgan interval, a generic higher \emph{loop} spans, under
+  definitional equality, a boundary-collapsed representable presheaf
+  on the De Morgan cube category --- a ``De Morgan sphere'' --- and
+  left open what happens for cells with \emph{generic} boundaries.
+  This paper answers that question.  For a cellular context --- a
+  cubical computad: generic vertices, generic edges between them,
+  generic squares with prescribed edges, and so on --- the cubes
+  definable by pure reparametrization form, modulo definitional
+  equality and naturally in the cube dimension, exactly the
+  \emph{cellular presheaf} of the computad: the colimit of one
+  representable per cell, glued along the attachment maps.  The
+  gluing is definitional in the strongest sense: each face of a
+  generic cell \emph{is} its prescribed boundary cell on the nose,
+  and no further identifications occur --- in particular, cells
+  sharing a face are identified along exactly that face.  For a
+  single cell with generic boundary the layer is the full
+  representable, with no collapse; the spheres of the companion
+  paper are recovered as the boundary-degenerate limit.  As a
+  by-product we isolate a phenomenon absent from the Kan world:
+  \emph{strict fillers are not unique} --- a boundary in the strict
+  layer can admit several distinct fillers, reflecting the
+  non-injectivity of the restriction of free De Morgan polynomials
+  to the faces of a cube.  All positive and negative instances are
+  machine-checked in a self-contained proof-assistant kernel, and
+  every statement is a decidable, assumption-free fact about the
+  algorithmic equality of a minimal fragment.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+Cubical type theories \cite{CCHM} equip the identity structure of
+types with definitional operations indexed by a De Morgan algebra:
+reparametrizing a cell along $\wedge$, $\vee$, $\neg$ --- the
+connections and reversals --- happens on the nose, not up to higher
+cells.  A companion paper \cite{Sphere} determined the exact extent
+of this strictness over contexts of generic \emph{loops}: the
+definable cubes form a wedge of \emph{De Morgan spheres},
+boundary-collapsed representable presheaves $\Dbox(-,[n])/\partial$
+on the De Morgan cube category $\Dbox$, one per loop, and nothing
+else is identified.  The collapse of the boundary was forced by the
+choice of generic objects: a loop's faces are reflexivities, and
+reflexivities absorb everything applied to them.
+
+That paper left open the \emph{unpointed} question: what does a
+generic cell with a \emph{generic} boundary span?  The present
+paper answers it, and the answer upgrades the picture from wedges of
+quotients to genuine cell complexes.
+
+\subparagraph*{Cellular contexts.}  By a \emph{cellular context} (a
+\emph{cubical computad}) we mean a context of generic cells
+declared dimension by dimension: generic points $a, b, \dots : A$;
+generic edges between prescribed points,
+$p : \Path\,A\,a\,b$; generic squares with four prescribed edges,
+$Q : \PathP\,(\langle i \rangle\, \Path\,A\,(r\,i)\,(s\,i))\,p\,q$;
+and so on.  This is the type-theoretic incarnation of a computad
+(polygraph) \cite{Burroni,Polygraphs} over the cube category: free
+generators in each dimension, attached along specified lower cells.
+Every computad $C$ has a \emph{cellular presheaf} $\Real{C}$ on
+$\Dbox$ --- one representable $\Dbox(-,[n_c])$ per cell $c$, glued
+along the attachment maps --- the cubical analogue of the cell
+complex a CW-presentation describes.
+
+\subparagraph*{Main results.}  Let $\aconv$ denote the definitional
+(algorithmic) equality of the calculus
+(Section~\ref{sec:calc}).
+
+\begin{enumerate}
+\item \emph{Attachment is definitional}
+  (Section~\ref{sec:attach}).  Each face of a generic cell computes,
+  on the nose, to its prescribed boundary cell:
+  $\langle j \rangle\, Q(0)(j) \aconv p$, \
+  $\langle i \rangle\, Q(i)(0) \aconv r$, and so on; corners
+  compute through two steps to the prescribed vertices.  The
+  structure maps of the cellular presheaf are thus judgmental
+  equalities, not merely admissible ones.
+\item \emph{The realization theorem}
+  (Sections~\ref{sec:single}--\ref{sec:main}).  The
+  pure-reparametrization cubes over a cellular context, modulo
+  $\aconv$ and naturally in the cube dimension $[m]$, are exactly
+  the cellular presheaf:
+  \[
+    \{\text{$m$-cubes}\}/{\aconv} \;\cong\; \Real{C}([m]).
+  \]
+  For a single cell with generic boundary this is the \emph{full}
+  representable $\Dbox(-,[n])$ --- no collapse; for cells sharing a
+  face, the gluing identifies exactly the shared face
+  (machine-checked in both directions: the cross-cell face equation
+  holds definitionally, and interior cubes of distinct cells with
+  \emph{identical boundaries} remain separated).
+\item \emph{Strict fillers are not unique}
+  (Section~\ref{sec:fillers}).  The elements
+  $i \wedge \neg i$ and $(i \wedge \neg i) \wedge (j \vee \neg j)$
+  of the free De Morgan algebra are distinct, yet restrict equally
+  to all four faces of the square.  Consequently two
+  \emph{different} strict squares can fill the \emph{same} boundary.
+  Where Kan filling is unique up to homotopy, strict filling is
+  non-unique on the nose --- for the entirely algebraic reason that
+  restriction of free De Morgan polynomials to the boundary of a
+  cube is not injective.
+\item \emph{Sphere recovery} (Section~\ref{sec:spheres}).
+  Degenerating the boundary of the computad to a point recovers the
+  wedge-of-spheres theorem of \cite{Sphere}: the collapse
+  $\Dbox(-,[n]) \twoheadrightarrow \Dbox(-,[n])/\partial$ is the
+  image, under realization, of collapsing the boundary cells.
+\end{enumerate}
+
+All positive and negative instances are elaboration-time checks in
+the artifact kernel (Section~\ref{sec:artifact}); by the
+decidability theorem imported from the first companion paper
+\cite{Const}, each is a decided, assumption-free fact.
+
+\subparagraph*{Honest positioning.}  As in \cite{Sphere}, the
+positive direction --- that the De Morgan laws and the attachment
+equations hold --- is by design of the theory.  The content is the
+exactness: the identifications are \emph{exactly} those of the
+cellular presheaf, no more (the separations, including the delicate
+same-boundary ones behind non-uniqueness of fillers) and no less
+(the attachment equations).  We know of no prior statement of the
+realization theorem or of the non-uniqueness phenomenon.  The
+proofs are elementary given two small kernel facts (K1, K2 below)
+and are designed to be checked against the artifact.
+
+\subparagraph*{Relation to the companions.}  This paper is the
+third in a series but is written to be read independently.  From
+\cite{Const} we import only the decidability of the algorithmic
+equality on the minimal fragment (K3) and the two kernel facts K1,
+K2; from \cite{Sphere} we import the De Morgan cube category and
+the sphere theorem, which the present results generalize and
+recover.  Nothing here depends on the transport-layer analysis of
+\cite{Const} (Remark~\ref{rem:robust}).
+
+\section{The De Morgan cube category, computads, and cellular
+  presheaves}
+\label{sec:cube}
+
+\begin{defi}[{\cite[Def.~2.2]{Sphere}}]\label{def:cube}
+  $\Dbox$ has objects $[m]$, $m \ge 0$, and morphisms
+  $\Dbox([m],[n]) := \DM{i_1,\dots,i_m}^{\,n}$, tuples of free De
+  Morgan polynomials, composed by substitution; the identity of
+  $[n]$ is the generator tuple.  $\DM{\vec i}$ is the free De
+  Morgan algebra (no excluded middle), with canonical antichain
+  disjunctive normal forms; $0, 1$ are its \emph{endpoints}.  The
+  \emph{$k$-th face} is $\delta_k^\varepsilon := (i_1, \dots,
+  \varepsilon, \dots, i_{n-1}) : [n-1] \to [n]$; a morphism is
+  \emph{face-factoring} if it factors through some
+  $\delta_k^\varepsilon$, equivalently iff some coordinate is an
+  endpoint \emph{of the free algebra}.
+\end{defi}
+
+\begin{defi}[Cellular contexts]\label{def:computad}
+  A \emph{cellular context of dimension $\le 2$} over a base type
+  $A : \U$ is a context declaring, in order:
+  \begin{itemize}
+  \item generic vertices $a_1, \dots : A$;
+  \item generic edges $e : \Path\,A\,a\,a'$ between prescribed
+    vertices;
+  \item generic squares
+    $Q : \PathP\,(\langle i \rangle\,
+    \Path\,A\,(r\,i)\,(s\,i))\,p\,q$ with four prescribed edges
+    $p, q, r, s$ whose endpoints match at the corners.
+  \end{itemize}
+  Higher cells are declared analogously along the cube-boundary
+  telescopes; we spell out dimension $\le 2$, which is where our
+  machine evidence lives, and treat higher dimensions uniformly
+  (Remark~\ref{rem:highdim}).  We call the data a \emph{cubical
+  computad} $C$; it is precisely a polygraph
+  \cite{Burroni,Polygraphs} over $\Dbox$ presented type-theoretically.
+\end{defi}
+
+\begin{defi}[Cellular presheaf]\label{def:cellpresheaf}
+  The \emph{cellular presheaf} $\Real{C}$ of a computad $C$ is the
+  presheaf on $\Dbox$ with
+  \[
+    \Real{C}([m]) \;:=\;
+    \Bigl(\coprod_{c \in C} \Dbox([m],[n_c])\Bigr)\Big/\sim,
+  \]
+  where $\sim$ is generated by the attachments: if
+  $\vec\varphi = \delta_k^\varepsilon \circ \vec\chi$ face-factors,
+  then $(c, \vec\varphi) \sim (\partial_k^\varepsilon c, \vec\chi)$,
+  for $\partial_k^\varepsilon c$ the prescribed boundary cell.
+  Equivalently, $\Real{C}$ is the colimit of the representables
+  $\Dbox(-,[n_c])$ along the face inclusions specified by the
+  attachments --- the cubical cell complex presented by $C$.
+\end{defi}
+
+\section{The calculus and imported facts}
+\label{sec:calc}
+
+We work in the reparametrization fragment of a CCHM-style cubical
+type theory \cite{CCHM}: path types over a base type, path
+abstraction and application; Kan operations are excluded from the
+layer under study.  Definitional equality is the algorithmic
+equality $\aconv$ of the concrete normalization-by-evaluation
+kernel of \cite{Const}, whose two load-bearing clauses are:
+
+\begin{enumerate}
+\item[(K1)] \emph{Endpoint collapse is normal-form exact}: applying
+  a path value at $r \in \DM{\vec i}$ collapses to the stored
+  endpoint iff $r$ is an endpoint of the free algebra (the kernel
+  decides by antichain normal forms).  For a value of a
+  \emph{dependent} path type $\PathP\,(\langle i \rangle
+  T)\,l\,u$, the stored endpoints are $l, u$; for a neutral spine,
+  the stored endpoint \emph{annotations} of its type.
+\item[(K2)] \emph{Conversion of neutrals is spine-wise}: same head
+  variable, same length, convertible endpoint annotations, interval
+  arguments equal in the free algebra.
+\item[(K3)] \emph{Decidability, assumption-free} \cite{Const}: on
+  the minimal fragment, evaluation and conversion terminate and
+  $\aconv$ is decidable.
+\end{enumerate}
+
+\begin{rem}[Robustness]\label{rem:robust}
+  The fragment involves no transport, so all results are
+  insensitive to the transport-layer design of \cite{Const} and
+  hold verbatim for a standard CCHM-style conversion; we use the
+  kernel of \cite{Const} because there they are unconditional
+  decidable facts (K3).
+\end{rem}
+
+Throughout, fix a cellular context; for a generic square $Q$ with
+edges $p, q, r, s$ (as in Definition~\ref{def:computad}) and
+$\varphi, \psi \in \DM{i,j}$ write
+\[
+  Q(\varphi)(\psi)
+\]
+for the doubly applied cell (with the boundary-typed endpoint
+annotations) and
+$\act{Q}(\vec\varphi) := \langle \vec i\, \rangle\,
+Q(\varphi_1)(\varphi_2)$ for the reparametrized cube, and likewise
+for edges.
+
+\section{Attachment is definitional}
+\label{sec:attach}
+
+\begin{thm}[Attachment equations]\label{thm:attach}
+  For a generic square $Q$ with prescribed edges $p, q, r, s$:
+  \[
+    \langle j \rangle\, Q(0)(j) \aconv p, \quad
+    \langle j \rangle\, Q(1)(j) \aconv q, \quad
+    \langle i \rangle\, Q(i)(0) \aconv r, \quad
+    \langle i \rangle\, Q(i)(1) \aconv s,
+  \]
+  and corners compute through two steps:
+  $\langle i \rangle \langle j \rangle\, Q(0)(0) \aconv
+  \langle i \rangle \langle j \rangle\, a_{00}$, etc.
+  More generally the whole face square is the edge square:
+  $\langle i \rangle \langle j \rangle\, Q(0)(j) \aconv
+  \langle i \rangle \langle j \rangle\, p(j)$.
+\end{thm}
+\begin{proof}
+  By K1 at the outer application: $Q(0)$ collapses to the stored
+  endpoint of the $\PathP$ type, which is the \emph{prescribed edge}
+  $p$ --- a generic cell, not a reflexivity; the remaining
+  application and $\eta$ give the first equation.  For the third,
+  $Q(\varphi)$ at non-endpoint $\varphi$ is a neutral spine whose
+  stored endpoint annotations are $r(\varphi), s(\varphi)$; K1 at
+  the inner application returns them, and $\eta$ finishes.  Corners
+  iterate the two collapses.  Machine probes: \texttt{gbAttPD},
+  \texttt{gbAttQD}, \texttt{gbAttRD}, \texttt{gbAttSD},
+  \texttt{gbCornerD}, \texttt{gbEdgeSqD}.
+\end{proof}
+
+\begin{rem}
+  This is the exact point at which the generic-boundary situation
+  departs from the loops of \cite{Sphere}: there the stored
+  endpoints were reflexivity towers, through which every further
+  application computed to the base point --- producing the
+  $/\partial$ collapse.  Here the stored endpoints are generic
+  cells, and the face-factoring morphisms land in the boundary's
+  own layer instead of a single point.  The De Morgan laws
+  themselves remain strict in the presence of a generic boundary:
+  the unit and absorption laws hold at the full dependent square
+  type (machine probes \texttt{gbEtaD}, \texttt{gbAbsorbD},
+  \texttt{gbAbsorbPerturbD}).
+\end{rem}
+
+\section{The single-cell realization}
+\label{sec:single}
+
+\begin{lem}[Value computation, generic boundary]\label{lem:value}
+  Over the square computad (four vertices, four edges, one square),
+  open the $m$ binders of a definable cube at generic dimensions.
+  The body evaluates to exactly one of:
+  \begin{enumerate}
+  \item a vertex variable;
+  \item an edge spine $e(\chi)$ with $e \in \{p,q,r,s\}$ and $\chi$
+    a non-endpoint;
+  \item a full spine $Q(\varphi)(\psi)$ with both coordinates
+    non-endpoints.
+  \end{enumerate}
+  A tuple $(\varphi,\psi)$ face-factoring as
+  $\delta^\varepsilon \circ \chi$ evaluates to the \emph{same
+  value} as the corresponding boundary composite: the edge spine of
+  the prescribed face at $\chi$ (or a vertex, when $\chi$ is again
+  an endpoint).
+\end{lem}
+\begin{proof}
+  K1 case analysis as in Theorem~\ref{thm:attach}; the three cases
+  are exhaustive because collapse consumes coordinates until either
+  none remain (vertex) or the first non-endpoint argument freezes
+  the spine.
+\end{proof}
+
+\begin{thm}[Single cell, full representable]\label{thm:single}
+  The pure-reparametrization $m$-cubes over the square computad,
+  modulo $\aconv$, are naturally isomorphic to
+  $\Real{C} = \Dbox(-,[2])$ --- the \emph{full} representable, the
+  isomorphism sending $\vec\varphi$ to $\act{Q}(\vec\varphi)$ and
+  the face-factoring morphisms to the boundary composites.
+\end{thm}
+\begin{proof}
+  \emph{Surjectivity} is Lemma~\ref{lem:value}: every value is a
+  vertex, edge, or full spine, i.e.\ the image of a morphism (for
+  the square computad, every boundary composite is a face-factoring
+  morphism of $[2]$, so $\Real{C}([m]) = \Dbox([m],[2])$ ---
+  attachments here \emph{create} no quotient, they only relate the
+  coproduct's summands, and every summand embeds by face
+  composition).
+
+  \emph{Well-definedness} (the presheaf identifications hold) is
+  Theorem~\ref{thm:attach}.
+
+  \emph{Injectivity}: two full spines are convertible iff their
+  tuples agree (K2, interval arguments componentwise in the free
+  algebra); two edge spines iff same edge and same argument (K2:
+  the four edges are distinct head variables); vertex values are
+  the four distinct vertex variables; and the three classes are
+  mutually non-convertible (distinct heads; a variable is not a
+  spine).  A face-factoring tuple and a non-face-factoring tuple
+  land in different classes by Lemma~\ref{lem:value}.  Finally two
+  face-factoring tuples with the same value have the same boundary
+  composite, hence are equal in $\Dbox([m],[2])$ --- e.g.\
+  $p(\chi) = p(\chi')$ forces $\chi = \chi'$, and cross-edge
+  coincidences occur only at corners, where the tuples agree.
+\end{proof}
+
+\begin{rem}[Higher dimensions]\label{rem:highdim}
+  For a generic $n$-cell attached along the full cube-boundary
+  computad of dimension $n$, Lemma~\ref{lem:value} and its
+  consequences go through verbatim by induction on $n$: K1 peels
+  endpoint coordinates one at a time, each collapse landing in the
+  boundary computad one dimension down, and K2 separates the
+  resulting spines by head and length.  We have carried out the
+  machine verification for $n \le 2$; the induction step involves
+  no new phenomenon, and we state the general case as a theorem
+  with this uniform proof.
+\end{rem}
+
+\section{Gluing, and the main theorem}
+\label{sec:main}
+
+The induction step for several cells is the two-square computad:
+squares $Q_1$ (edges $p, m, r_1, s_1$) and $Q_2$ (edges
+$m, q, r_2, s_2$) \emph{sharing} the edge $m$.
+
+\begin{thm}[Gluing along a shared face]\label{thm:glue}
+  \begin{enumerate}
+  \item (Identification.)  The two faces agree across the two
+    cells, definitionally:
+    \[
+      \langle i \rangle \langle j \rangle\, Q_1(1)(j)
+      \;\aconv\;
+      \langle i \rangle \langle j \rangle\, Q_2(0)(j)
+      \qquad (\text{both} \aconv \text{the edge square of } m).
+    \]
+  \item (No over-identification.)  Let
+    $E_0 := i \vee \neg i \vee j \vee \neg j$ and
+    $D_0 := i \wedge \neg i \wedge j \wedge \neg j$ --- the
+    edge-one and edge-zero elements of $\DM{i,j}$.  The squares
+    \[
+      S_1 := \langle i \rangle \langle j \rangle\, Q_1(E_0)(j),
+      \qquad
+      S_2 := \langle i \rangle \langle j \rangle\, Q_2(D_0)(j)
+    \]
+    have their \emph{entire boundaries} on $m$: together with
+    the edge square $\langle i \rangle \langle j \rangle\, m(j)$,
+    both inhabit the type
+    $\Path\,(\Path\,A\,a_{10}\,a_{11})\,m\,m$.  All three are
+    pairwise non-convertible.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  (1) Both sides collapse by K1 to the shared cell $m$
+  (Theorem~\ref{thm:attach} applied in each square), hence to each
+  other.  Machine probes \texttt{seAttM1D}, \texttt{seAttM2D},
+  \texttt{seGlueD}.  (2) $E_0$ and $D_0$ are non-endpoints of the
+  free algebra whose restrictions to all four faces are $1$
+  resp.\ $0$; so $S_1, S_2$ are full spines with heads $Q_1$
+  resp.\ $Q_2$, the edge square is an $m$-spine, and K2 separates
+  the three by head.  Well-typedness at the common type is the
+  boundary computation of (1).  Machine probes
+  \texttt{seS1CtrlD}, \texttt{seS2CtrlD}, \texttt{seSmCtrlD} and
+  the three separation guards.
+\end{proof}
+
+\begin{thm}[Realization]\label{thm:main}
+  For every cubical computad $C$ (of dimension $\le 2$; higher
+  dimensions per Remark~\ref{rem:highdim}), the
+  pure-reparametrization $m$-cubes over the context of $C$, modulo
+  the algorithmic equality, form naturally in $[m]$ the cellular
+  presheaf:
+  \[
+    \{\text{$m$-cubes}\}/{\aconv} \;\cong\; \Real{C}([m]).
+  \]
+  All of this is decidable and assumption-free by K3.
+\end{thm}
+\begin{proof}
+  Induction on the cells of $C$.  Adding a vertex or an edge is the
+  base analysis of Lemma~\ref{lem:value} (an edge over its two
+  vertices is the one-dimensional instance of
+  Theorem~\ref{thm:single}).  Adding a square $Q$ attached along
+  prescribed edges: the new definable bodies are exactly the
+  $Q$-spines (Lemma~\ref{lem:value}, whose proof is local to the
+  cell and its boundary); the attachment identifications hold
+  definitionally (Theorem~\ref{thm:attach}), matching the
+  presheaf's $\sim$; and no new identifications occur --- between a
+  $Q$-spine and anything previously definable (K2, head
+  separation; the same-boundary cases are exactly those of
+  Theorem~\ref{thm:glue}(2), which is the general no-merge
+  computation: the boundary-collapsed interior of a new cell never
+  merges with old material or with another cell's interior).
+  Naturality in $[m]$ --- compatibility with reparametrization ---
+  is the strict functoriality of the actions, proved in
+  \cite[Lemmas 4.2--4.3]{Sphere} and re-checked at dependent
+  square types here (\texttt{gbEtaD}, \texttt{gbAbsorbD}).
+\end{proof}
+
+\section{Strict fillers are not unique}
+\label{sec:fillers}
+
+In the Kan world, a boundary determines its fillers up to homotopy.
+In the strict layer the situation is sharper in one way --- fillers
+are literal --- and looser in another:
+
+\begin{thm}[Non-uniqueness of strict fillers]\label{thm:fillers}
+  Over the square computad there exist two non-convertible squares
+  with the \emph{same} boundary: with
+  $\varphi_1 := i \wedge \neg i$ and
+  $\varphi_2 := (i \wedge \neg i) \wedge (j \vee \neg j)$,
+  \[
+    \langle i \rangle \langle j \rangle\, Q(\varphi_1)(j)
+    \;\nconv\;
+    \langle i \rangle \langle j \rangle\, Q(\varphi_2)(j),
+  \]
+  yet both inhabit
+  $\PathP\,(\langle i \rangle\,
+  \Path\,A\,(r(i \wedge \neg i))\,(s(i \wedge \neg i)))\,p\,p$.
+\end{thm}
+\begin{proof}
+  $\varphi_1 \ne \varphi_2$ in the free algebra: absorption fails
+  because the clause $\{i, \neg i\}$ contains neither $\{j\}$ nor
+  $\{\neg j\}$, so
+  $(i \wedge \neg i) \wedge (j \vee \neg j) \ne i \wedge \neg i$.
+  Yet their restrictions to the four faces coincide ($0$ on the
+  $i$-faces, $i \wedge \neg i$ on the $j$-faces), so the two
+  squares have convertible boundaries; being non-degenerate full
+  spines with distinct interval arguments, K2 separates them.
+  Machine probes \texttt{gbFill1D}, \texttt{gbFill2D} and the
+  separation guard.
+\end{proof}
+
+\begin{prop}[The minimal perturbation is absorbed]
+  \label{prop:absorbed}
+  The edge-vanishing elements of $\DM{i,j}$ are exactly $0$ and
+  $D_0 = i \wedge \neg i \wedge j \wedge \neg j$, and $D_0 \le
+  \varphi$ for \emph{every} $\varphi \ne 0$ (the clause of $D_0$
+  contains every literal, hence contains every clause).
+  Consequently join-perturbation by $D_0$ never produces a new
+  filler: $\varphi \vee D_0 = \varphi$
+  (machine probe \texttt{gbAbsorbPerturbD}).  The non-uniqueness of
+  Theorem~\ref{thm:fillers} therefore arises only through
+  meet-constructions such as $\varphi_2$, i.e.\ through the
+  non-injectivity of the boundary-restriction map
+  $\DM{i,j} \to \DM{j}^2 \times \DM{i}^2$ --- an intrinsic feature
+  of free De Morgan algebras, faithfully reflected by definitional
+  equality.
+\end{prop}
+
+\begin{rem}
+  Theorem~\ref{thm:fillers} is consistent with the realization
+  theorem --- the representable $\Dbox(-,[2])$ genuinely has
+  several elements over a single boundary configuration --- but it
+  is worth isolating because it contradicts a natural first guess
+  (that strict fillers, when they exist, are unique) and because it
+  gives the boundary-restriction non-injectivity of free De Morgan
+  algebras a geometric meaning inside type theory.
+\end{rem}
+
+\section{Recovering the spheres}
+\label{sec:spheres}
+
+The companion's generic loops are the boundary-degenerate limit of
+the present setting: substituting the constant computad (one
+vertex, reflexivity boundaries) for the boundary cells sends the
+square computad to the $2$-loop context of \cite{Sphere}.  Under
+this substitution the stored endpoints of the spine collapse to
+reflexivity towers, through which K1 computes to the base point ---
+precisely the mechanism that turns the full representable into the
+boundary-collapsed one:
+
+\begin{prop}\label{prop:spheres}
+  Boundary degeneration realizes the quotient: the substitution of
+  the point computad for the boundary carries the isomorphism of
+  Theorem~\ref{thm:single} to the sphere isomorphism
+  $\{\text{cubes}\}/{\aconv} \cong \Dbox(-,[2])/\partial$ of
+  \cite{Sphere}, the induced map on presheaves being the canonical
+  collapse $\Dbox(-,[2]) \twoheadrightarrow
+  \Dbox(-,[2])/\partial$.
+\end{prop}
+\begin{proof}
+  The substitution sends attachment values (edge spines, vertices)
+  to reflexivity towers and the base point; Lemma~\ref{lem:value}
+  degenerates clause-wise to the value computation of
+  \cite[Lemma 5.1]{Sphere}, identifying exactly the face-factoring
+  classes.
+\end{proof}
+
+Together, Theorems~\ref{thm:single}, \ref{thm:main} and
+Proposition~\ref{prop:spheres} give a uniform picture: \emph{the
+definitional equality of cubical type theory realizes cubical
+computads as their cell complexes, on the nose; collapsing
+boundaries collapses realizations accordingly}.
+
+\section{Machine verification}
+\label{sec:artifact}
+
+All instances quoted above are elaboration-time checks in the
+self-contained Lean~4 cubical kernel of \cite{Const}: repository
+\begin{center}
+  \url{https://github.com/r-shibusawa/cubical-strict-j}.
+\end{center}
+The probes
+of this paper are the files \texttt{LibGenBoundary.lean}
+(attachments, corners, edge squares, unit and absorption at
+dependent square types, filler non-uniqueness) and
+\texttt{LibSharedEdge.lean} (cross-cell gluing and the no-merge
+separations), with the supporting proof notes
+\texttt{docs/\allowbreak GenericBoundary.md}.  They are included
+from release \texttt{v1.3.0}, archived at DOI
+\href{https://doi.org/10.5281/zenodo.TODOD}%
+{\texttt{10.5281/zenodo.\allowbreak TODOD}}.  A successful \texttt{lake build}
+replays every check; by K3 each check is a decision.  As in the
+companions, the kernel supplies machine-checked \emph{instances};
+the theorems are pen-and-paper results about the conversion
+algorithm, whose two load-bearing clauses (K1, K2) are small
+inspectable functions.
+
+\section{Related work and outlook}
+\label{sec:related}
+
+Computads/polygraphs as presentations of free higher structures go
+back to Street and Burroni \cite{Burroni}; see \cite{Polygraphs}
+for a modern account.  The present results interpret the
+\emph{free} structure they present inside cubical type theory
+\cite{CCHM} literally: definitional equality itself realizes the
+presented cell complex over the De Morgan cube category
+\cite{GrandisMauri,BuchholtzMorehouse}, with nothing added and
+nothing collapsed.  The companion papers \cite{Const,Sphere}
+supply the metatheoretic platform (decidability of the algorithmic
+equality on the fragment) and the pointed special case (loops and
+spheres).
+
+Two directions seem worthwhile.  First, \emph{mixed layers}: our
+fragment excludes the Kan operations; over a cellular context, the
+full theory's cubes include composites and fillers, and the
+inclusion of the strict layer into the full layer is a
+type-theoretic incarnation of the unit ``free strict
+$\to$ free weak'' comparison, whose exact structure (in particular
+which weak cells are detected by strict boundaries, given
+Theorem~\ref{thm:fillers}) deserves study.  Second,
+\emph{presentations}: since realization is exact, one can read off
+normal forms for the free cubical $\omega$-category on a computad
+in the De Morgan signature from the type theory's normal forms ---
+suggesting a proof-assistant-based approach to word problems for
+cubical polygraphs.
+
+\subparagraph*{Acknowledgements.}  The metatheoretic platform and
+the companion results were developed in \cite{Const,Sphere}.
+
+\begin{thebibliography}{10}
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{GrandisMauri}
+M.~Grandis, L.~Mauri.
+\newblock Cubical sets and their site.
+\newblock \emph{Theory and Applications of Categories} 11 (2003),
+  185--211.
+
+\bibitem{BuchholtzMorehouse}
+U.~Buchholtz, E.~Morehouse.
+\newblock Varieties of cubical sets.
+\newblock \emph{RAMiCS 2017}, LNCS 10226; arXiv:1701.08189.
+
+\bibitem{Burroni}
+A.~Burroni.
+\newblock Higher-dimensional word problems with applications to
+  equational logic.
+\newblock \emph{Theoretical Computer Science} 115 (1993), 43--62.
+
+\bibitem{Polygraphs}
+D.~Ara, A.~Burroni, Y.~Guiraud, P.~Malbos, F.~M\'etayer,
+S.~Mimram.
+\newblock \emph{Polygraphs: From Rewriting to Higher Categories}.
+\newblock London Mathematical Society Lecture Note Series,
+  Cambridge University Press, 2025; arXiv:2312.00429.
+
+\bibitem{Const}
+R.~Shibusawa.
+\newblock Evaluation-time constancy inference for transport in
+  cubical type theory.
+\newblock Preprint, 2026.  Artifact:
+  \url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+  at DOI \href{https://doi.org/10.5281/zenodo.21637898}%
+  {10.5281/zenodo.21637898}.
+
+\bibitem{Sphere}
+R.~Shibusawa.
+\newblock The strict layer of generic cells in cubical type theory
+  is a wedge of De Morgan spheres.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (release \texttt{v1.3.0}).
+
+\end{thebibliography}
+
+\end{document}

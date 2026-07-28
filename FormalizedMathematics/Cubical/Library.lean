@@ -4,6 +4,8 @@ import FormalizedMathematics.Cubical.LibStrictness
 import FormalizedMathematics.Cubical.LibSwitchover
 import FormalizedMathematics.Cubical.LibNonSubst
 import FormalizedMathematics.Cubical.LibSquares
+import FormalizedMathematics.Cubical.LibGenBoundary
+import FormalizedMathematics.Cubical.LibSharedEdge
 
 /-! # The cubical object-language library — index and summary
 

@@ -5,10 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.2.0` (adds the dimension-2
-  reparametrization suite, `LibSquares.lean` +
-  `docs/ReparamCoherence2.md`), archived at DOI
-  [10.5281/zenodo.21638543](https://doi.org/10.5281/zenodo.21638543)
+- Current snapshot: release `v1.3.0` (adds the generic-boundary and
+  shared-edge suites `LibGenBoundary.lean` / `LibSharedEdge.lean`,
+  the notes `docs/GenericBoundary.md`, and the companion papers
+  `docs/paperC/strictlayer.{tex,pdf}` and
+  `docs/paperD/realization.{tex,pdf}`); DOI recorded after archiving
+- Previous: release `v1.2.0` (dimension-2 reparametrization suite),
+  DOI [10.5281/zenodo.21638543](https://doi.org/10.5281/zenodo.21638543)
 - Paper snapshot: release `v1.1.0` (paper v14: non-substitutivity
   theorem, presentation impossibility, canonicity regained on the
   core), archived at DOI
@@ -68,6 +71,9 @@ elaboration time; a successful build **is** the verification run.
 | NEGATIVE: transposition `q(j)(i) ≢ q(i)(j)` (definitional shadow of weak Eckmann–Hilton); diagonal pair separated; dim-2 no-LEM `q(i∧¬i)(j) ≢ const` | `#guard !(okD …)` + controls (`sq2TransposeCtrlD`, `sq2DiagCtrlD`, `sq2LEMCtrlD`) |
 | Multi-cell wedge: cross-cell degenerate collapse; head and spine-depth separation | `sqxDegD`, `sqxDepthCtrlD` + `#guard` negatives |
 | De Morgan cube-category action is strictly functorial: unit (nested path η) and composition (= formula substitution) | `sqEtaD`, `sqCloneCompD`, `sqDiagCtrlD` |
+| Generic-boundary square: attachment equations (faces ≡ prescribed edges, corners ≡ vertices, edge squares); De Morgan laws strict at dependent square types | `gbAttPD/QD/RD/SD`, `gbCornerD`, `gbEdgeSqD`, `gbEtaD`, `gbAbsorbD`, `gbAbsorbPerturbD` (LibGenBoundary.lean; notes in `docs/GenericBoundary.md`) |
+| **Non-uniqueness of strict fillers: two distinct squares with the same boundary** | `gbFill1D`, `gbFill2D` + separation `#guard`; transposition as a cross-type operation: `gbTransposeCtrlD` |
+| Shared-edge gluing: cross-cell face identification definitional; boundary-collapsed interiors of distinct cells pairwise separated | `seAttM1D/M2D`, `seGlueD`, `seS1CtrlD/S2CtrlD/SmCtrlD` + three `#guard` negatives (LibSharedEdge.lean) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);
