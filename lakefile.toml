@@ -45,3 +45,7 @@ root = "Test.WedgeF2"
 [[lean_exe]]
 name = "golden"
 root = "Test.Golden"
+
+[[lean_exe]]
+name = "sanov"
+root = "Test.Sanov"

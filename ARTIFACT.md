@@ -5,10 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.4.0` (adds the De Morgan convexity
-  suite `LibMixed.lean`, the notes `docs/DeMorganConvexity.md` /
-  `docs/MixedLayer.md`, and the paper
-  `docs/paperE/convexity.{tex,pdf}`), archived at DOI
+- Current snapshot: release `v1.5.0` (adds the word-problem suites
+  `LibWord.lean` / `LibSanov.lean` / `LibPresent.lean` /
+  `LibCover.lean`, the native timing harness `Test/Sanov.lean`
+  (`lake exe sanov`), the notes `docs/WordProblem.md`, and the paper
+  `docs/paperF/wordproblems.{tex,pdf}`); DOI recorded after archiving
+- Previous: release `v1.4.0` (De Morgan convexity suite + paper E),
+  DOI
   [10.5281/zenodo.21639454](https://doi.org/10.5281/zenodo.21639454)
 - Previous: release `v1.3.0` (generic-boundary and shared-edge
   suites + papers C/D), DOI
@@ -80,6 +83,11 @@ elaboration time; a successful build **is** the verification run.
 | **De Morgan interpolation: strict homotopy rel boundary between the two non-convertible fillers; naive interpolant FAILS (no-LEM)** | `mixInterpD`, `mixInterpCtrlD` + separation and naive-failure `#guard`s (LibMixed.lean; notes in `docs/DeMorganConvexity.md`, `docs/MixedLayer.md`) |
 | Cross-cell zig-zag: both interiors deform strictly onto the shared-edge square | `mixDeformQ1D`, `mixDeformQ2D` |
 | **(†) is propositional: the canonical filler connects the constant-tube composite to its base, rel boundary** | `mixFillD` + definitional-separation `#guard` |
+| Relator compilation over the presentation context of ⟨x∣x²⟩: `x⁴ ≡prop refl` from two relator uses + a unit law | `wordX4D`, `wordRelD` (LibWord.lean; notes in `docs/WordProblem.md`) |
+| **Sanov invariant (proof-free carrier): right-multiplication equivalences of ℤ⁴, the SL₂(ℤ) cover of the figure eight, matrix winding** | `addCancelD`, `addCancelND`, `sanovLD/RD`, `helixSLD`, `windSLD` (LibSanov.lean); timings + machine-compared matrix values: `lake exe sanov` (generators 8 ms; iterated per-letter transport < 1 ms; L·R vs R·L separated; commutator ≠ I) |
+| **Internal presentation complex: RP² = cofib(deg2); the relator cell realized; generic derivations transfer by instantiation** | `deg2D`, `deg2LoopD`, `rp2D`, `rp2AttachD`, `rp2RelSqD`, `rp2RelD`, `wordX4RP2D`, `wordRelRP2D` + two definitional-separation `#guard`s (LibPresent.lean) |
+| ua-coherence for the double cover: `ua not ⬝ ua not ≡prop refl` | `uaNotNotD` (LibPresent.lean; heavy guard, ~110 s) |
+| **Double cover of RP²: winding computes (refl ↦ true, x ↦ false); the presentation ⟨x∣x²⟩ realized faithfully (x² = 1, x ≠ 1)** | `covS1D`, `covRP2D`, `windRP2D`, `rp2LoopNontrivD`, `rp2NotSetD` (LibCover.lean) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

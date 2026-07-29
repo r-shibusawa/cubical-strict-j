@@ -7,6 +7,10 @@ import FormalizedMathematics.Cubical.LibSquares
 import FormalizedMathematics.Cubical.LibGenBoundary
 import FormalizedMathematics.Cubical.LibSharedEdge
 import FormalizedMathematics.Cubical.LibMixed
+import FormalizedMathematics.Cubical.LibWord
+import FormalizedMathematics.Cubical.LibSanov
+import FormalizedMathematics.Cubical.LibPresent
+import FormalizedMathematics.Cubical.LibCover
 
 /-! # The cubical object-language library — index and summary
 
@@ -91,7 +95,11 @@ def allDefs : List LibDef :=
    idNatD,
    isPropPiD, isContrPiD, isPropToIsSetD, toPathPD,
    refl1D, symm1D, trans1D, transReflR1D, cong01D, cong10D, j01D, j10D,
-   congTrans01D, transpTransD]
+   congTrans01D, transpTransD,
+   addCancelD, addCancelND, sanovLD, sanovRD, helixSLD, windSLD,
+   deg2D, deg2LoopD, rp2D, rp2AttachD, rp2RelSqD, rp2RelD,
+   wordX4RP2D, wordRelRP2D,
+   covS1D, covRP2D, windRP2D, rp2LoopNontrivD, rp2NotSetD]
 
 /-! ## Fast checking with a preloaded definition environment
 

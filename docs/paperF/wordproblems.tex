@@ -1,0 +1,868 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{obs}[thm]{Observation}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\DM}[1]{\mathrm{DM}(#1)}
+\newcommand{\aconv}{\equiv_{\mathrm{alg}}}
+\newcommand{\nconv}{\not\equiv}
+\newcommand{\propeq}{\equiv_{\mathrm{prop}}}
+\newcommand{\refl}{\mathsf{refl}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\hcomp}{\mathsf{hcomp}}
+\newcommand{\ua}{\mathsf{ua}}
+\newcommand{\transp}{\mathsf{transp}}
+\newcommand{\cng}{\mathsf{cong}}
+\newcommand{\trns}{\mathbin{\cdot}}
+\newcommand{\Ftwo}{F_2}
+\newcommand{\SL}{\mathrm{SL}_2(\mathbb{Z})}
+\newcommand{\RP}{\mathbb{RP}^2}
+\newcommand{\Sone}{S^1}
+
+\begin{document}
+
+\title[Word problems across the strict--weak boundary]{Word problems
+  across the strict--weak boundary\\ in cubical type theory}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{03D40, 03B38, 18N45, 20F10}
+\keywords{cubical type theory, word problem, decidability, cubical
+  computads, covering spaces, univalence, free groups, group
+  presentations}
+
+\begin{abstract}
+  Over a cellular context --- the context of a cubical computad,
+  freely listing cell variables over a De Morgan interval theory ---
+  two word problems coexist: whether two definable cells are equal
+  \emph{strictly} (by the decidable algorithmic equality of a cubical
+  kernel) and whether they are equal \emph{up to homotopy} (by a
+  propositional identification).  We show that the boundary between
+  the strict and the weak layer is exactly the boundary between
+  decidability and undecidability.  The strict word problem is
+  decidable over every cellular context, in every dimension.  The
+  propositional word problem is decidable over free graph contexts
+  (dimension~$1$), where we make both halves of the decision
+  procedure computational: identifications are compiled from generic
+  groupoid laws, and separations are computed by a
+  univalent transport invariant with a \emph{proof-free carrier} ---
+  the faithful representation $\Ftwo \hookrightarrow \SL$ of Sanov,
+  which evaluates at machine speed (under a millisecond per letter)
+  where the reduced-word invariant is impractical.  From
+  dimension~$2$ on, the propositional problem is undecidable:
+  finitely presented groups embed as relator cells, and both
+  directions of the reduction are exhibited inside the kernel ---
+  relator applications compile to explicit path constructions over
+  the generic presentation context, and the presentation complex of
+  $\mathbb{Z}/2$ is realized internally as $\RP$, where a
+  univalent double cover certifies that the presentation is realized
+  faithfully ($x^2 = 1$ and $x \neq 1$, both machine-checked).  All
+  positive claims are anchored in a kernel-checked artifact; the
+  measured computational frontier of the kernel itself is reported.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+A cubical proof assistant maintains two equalities.  The
+\emph{strict} (definitional, algorithmic) equality $\aconv$ is the
+one its kernel decides silently at every type check; the \emph{weak}
+(propositional) equality $\propeq$ is the one its users prove, path
+by path.  A companion line of work
+\cite{Const,Sphere,Realization,Convexity} has measured the gap
+between the two layers over \emph{cellular contexts} --- contexts
+$\Gamma$ that freely list cell variables ($A : \U$, points, paths,
+squares, \dots), the type-theoretic incarnation of cubical computads
+--- and found the strict layer to be small, combinatorial, and
+well-organized: strict cells are classified by reparametrizations
+along the free De Morgan algebra, the strict layer of a generic
+$n$-cell is a wedge of De Morgan spheres, cellular contexts realize
+their cube presheaves on the nose, and the strict fibers over a
+boundary are strictly contractible.
+
+This paper asks the decision-theoretic question: \emph{given two
+definable cells over a cellular context, can a machine decide whether
+they are equal?}  The answer splits along the same seam:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+  & dimension $1$ (free) & dimension $\geq 2$ (with relators)\\
+  \hline
+  strict $\aconv$ & decidable & \textbf{decidable}\\
+  weak $\propeq$ & decidable & \textbf{undecidable}
+\end{tabular}
+\end{center}
+
+\noindent The strict word problem is decidable over \emph{every}
+cellular context (Theorem~\ref{thm:strict}): the kernel's
+algorithmic equality is a decision procedure, and the realization
+theorem of \cite{Realization} says exactly that it decides the
+intended combinatorial equality.  The propositional word problem is
+decidable in dimension~$1$ (Theorem~\ref{thm:free}) and undecidable
+from dimension~$2$ on (Theorem~\ref{thm:undec}): group presentations
+embed as relator cells and the word problem of a finitely presented
+group reduces to $\propeq$, so Novikov--Boone applies
+\cite{Novikov,Boone}.  \emph{The strict--weak boundary is the
+decidable--undecidable boundary.}  This gives a quantitative reading
+of what weakening buys and what it costs: relator cells create the
+identifications that make homotopy theory expressive, and those same
+identifications destroy decidability --- while the strict layer,
+which by the no-go theorems of \cite{Const,Convexity} can never
+absorb a relator, remains decidable throughout.
+
+The mathematical content of the boundary statement is classical:
+normal forms for free groupoids on one side, Novikov--Boone on the
+other.  The contribution of this paper is to make the statement
+\emph{computational} in a live cubical kernel, in four steps.
+
+\begin{enumerate}
+\item \emph{Identifications compile.}  Over the free context, the
+  identification half of the dimension-$1$ decision procedure is a
+  compiler from reduction sequences of words to explicit path
+  composites of generic groupoid laws, each machine-checked once and
+  for all (\S\ref{sec:free}).  Over a presentation context, relator
+  applications compile the same way: the group-theoretic consequence
+  $x^4 = 1$ of the single relation $x^2 = 1$ becomes an explicit
+  path constructed from two relator uses and one unit law, checked
+  over the \emph{generic} presentation context
+  (\S\ref{sec:relators}).
+\item \emph{Separations compute.}  The separation half needs
+  invariants that evaluate.  Abelian invariants (winding numbers)
+  are cheap but incomplete.  We introduce a transport invariant with
+  a \emph{proof-free carrier}: the faithful Sanov representation
+  $\Ftwo \hookrightarrow \SL$, implemented as a univalent cover of
+  the figure eight whose fibers are $\mathbb{Z}^4$ and whose
+  monodromies are elementary integer-arithmetic equivalences.
+  Replacing a proof-carrying carrier (reduced words as a subset
+  type) by a flat one moves the per-letter cost from ``infeasible''
+  to under a millisecond, and faithfulness makes the invariant
+  complete for $\Ftwo$ (\S\ref{sec:sanov}).
+\item \emph{Presentations realize.}  For the undecidability
+  transfer, the presentation complex is built \emph{inside} the
+  theory: for $\langle x \mid x^2 \rangle$ it is the mapping cone of
+  the degree-$2$ map, i.e.\ $\RP$, and the relator cell folds into a
+  machine-checked identification $x \trns x \propeq \refl$ --- one
+  $\hcomp$ square capped at the cone point.  Generic relator
+  derivations then transfer by instantiation alone
+  (\S\ref{sec:present}).
+\item \emph{Faithfulness certifies.}  A univalent double cover of
+  $\RP$, whose existence hinges on exactly the coherence
+  $\ua(\mathsf{not}) \trns \ua(\mathsf{not}) \propeq \refl$,
+  computes a $\mathbb{Z}/2$ winding and refutes $x \propeq \refl$.
+  Together with $x \trns x \propeq \refl$ this machine-certifies
+  that the internal realization presents $\mathbb{Z}/2$ faithfully:
+  $x^2 = 1$ and $x \neq 1$ (\S\ref{sec:cover}).
+\end{enumerate}
+
+Along the way we report the measured computational frontier of the
+kernel itself (\S\ref{sec:frontier}): transport along a single
+$\hcomp$-composite of universe paths completes in about a minute,
+while three nested layers blow up superlinearly --- the identified
+obstruction, value-sharing across Kan steps, is a kernel-engineering
+problem rather than a mathematical one, and the iterated per-letter
+procedure sidesteps it entirely.
+
+\subparagraph*{Relation to the companion papers.}  The kernel, the
+constancy rule studied in \cite{Const}, and the cellular-context
+platform of \cite{Sphere,Realization,Convexity} are reused here;
+this paper is self-contained in its statements and cites the
+companions for proofs of the imported facts
+(\S\ref{sec:setting}).  The artifact conventions follow the series:
+every machine-checked claim names a definition in the accompanying
+repository (\S\ref{sec:artifact}).
+
+\section{Setting and imported facts}
+\label{sec:setting}
+
+We work in the object theory of a defensively small cubical proof
+kernel implementing a CCHM-style cubical type theory
+\cite{CCHM}: dependent products and sums, universes
+$\U_0 : \U_1$ (no type-in-type), a De Morgan interval $\I$ with
+connections and reversal, $\Path$/$\mathsf{PathP}$ types,
+$\transp$/$\hcomp$ with the standard computation rules, Glue types
+with univalence ($\ua$) computing by unglueing, and the higher
+inductive types used below ($\Sone$, pushouts).  Its algorithmic
+equality $\aconv$ is a terminating normalization-by-evaluation
+conversion check; \emph{decidability of $\aconv$ on well-typed
+terms} is the kernel's basic metatheoretic budget, and everything
+labeled ``machine-checked'' below is a type check (positive or, for
+separations, deliberately failing) or a closed-term normalization
+performed by this kernel.
+
+\begin{defi}[cellular context]
+  A \emph{cellular context} is a context of the object theory of
+  the shape
+  \[
+    \Gamma \;=\; A : \U,\; a_1 : A,\; \dots,\;
+    p_1 : \Path\,A\,a_i\,a_j,\; \dots,\;
+    Q_1 : \mathsf{Sq}(\dots),\; \dots
+  \]
+  listing finitely many cell variables whose boundaries are formed
+  from earlier cells --- the context of a finite cubical computad
+  (polygraph).  A \emph{definable cell} over $\Gamma$ is a term of a
+  cell type over $\Gamma$; a \emph{word} is a definable cell built
+  from cell variables by path operations
+  ($\refl$, inversion, $\cng$, composition $\trns$, and Kan
+  fillers).
+\end{defi}
+
+We import three facts from the companions, with the anchor
+statements re-proved in the artifact of this paper where they are
+used.
+
+\begin{enumerate}
+\item[(K1)] \emph{Strict classification} \cite{Sphere}: over a
+  generic cellular context, the strict inhabitants of a cell type
+  are exactly the reparametrizations of cell variables along the
+  free De Morgan algebra on the bound interval variables; the
+  strict layer of a generic $n$-cell is the wedge-of-spheres
+  monoid $\DM{-}$-set.
+\item[(K2)] \emph{Realization} \cite{Realization}: cellular
+  contexts realize their cube presheaves on the nose --- the
+  attachment equations of the computad hold definitionally, and
+  the kernel's $\aconv$ neither merges distinct presheaf cells nor
+  misses an identification.
+\item[(K3)] \emph{Decidability of the strict layer}
+  \cite{Sphere,Realization}: equality of reparametrizations in the
+  free De Morgan algebra is decidable (disjunctive normal forms of
+  antichains), and $\aconv$ restricted to strict cells implements
+  it.
+\end{enumerate}
+
+Two further companion results frame the interpretation: the no-go
+theorems of \cite{Const,Convexity} (a nontrivial relator can never
+be made definitional --- constant-tube $\hcomp$-regularity at path
+types breaks canonicity-adjacent invariants), and the strict
+contractibility of filler fibers \cite{Convexity}.  They will
+reappear in \S\ref{sec:boundary} as the conceptual reason the
+decidability boundary sits where it does.
+
+\section{The strict word problem is decidable everywhere}
+\label{sec:strict}
+
+\begin{thm}
+  \label{thm:strict}
+  Over every cellular context $\Gamma$ and in every dimension, the
+  strict word problem --- given two definable cells $u, v$ of a
+  common cell type over $\Gamma$, decide $u \aconv v$ --- is
+  decidable.  Moreover the decision agrees with equality in the cube
+  presheaf presented by $\Gamma$: relator cells are treated as
+  generating cells, never as equations.
+\end{thm}
+
+\begin{proof}
+  Decidability is the kernel's conversion check on well-typed terms
+  (\S\ref{sec:setting}).  Agreement with the presheaf semantics is
+  (K2): the realization theorem states that $\aconv$ over $\Gamma$
+  decides exactly the on-the-nose equality of the presented
+  presheaf, with the strict layer classified by (K1) and its
+  equational theory decided by (K3).  A relator cell --- a cell
+  variable whose boundary happens to spell a word --- contributes
+  generators to the presheaf, not equations: no computation rule of
+  the kernel consults the boundary of a variable to rewrite a term.
+  (This is the operational face of the no-go theorems: the kernel
+  \emph{could not} consistently promote the relator to a rewrite
+  even if asked; cf.\ \S\ref{sec:boundary}.)
+\end{proof}
+
+The theorem is deliberately unspectacular --- it records that the
+strict layer stays decidable \emph{uniformly}, including over the
+very contexts on which the propositional layer will turn
+undecidable.  That uniformity is the left column of the table in
+\S\ref{sec:intro}, and half of the boundary statement.
+
+\section{Dimension one, free: the propositional problem is decidable}
+\label{sec:free}
+
+Let $\Gamma_G$ be a free graph context: a type $A$, finitely many
+points, and finitely many path variables (edges), with no cells of
+dimension $\geq 2$.  Words over $\Gamma_G$ are edge-words: composites
+of edges and their inverses.  Classically, the free groupoid on a
+graph has normal forms --- reduced words --- and two edge-words are
+equal in the free groupoid iff their reductions coincide.  The
+propositional layer of the kernel presents exactly the free
+groupoid:
+
+\begin{thm}
+  \label{thm:free}
+  Over a free graph context, the propositional word problem is
+  decidable: $w_1 \propeq w_2$ is inhabited iff the reduced words of
+  $w_1$ and $w_2$ coincide.  Both halves of the decision procedure
+  are computational over the kernel:
+  \begin{enumerate}
+  \item (\emph{identification}) if the reductions coincide, an
+    inhabitant of $w_1 \propeq w_2$ is compiled from the generic
+    groupoid laws --- associativity, units, inverses ---
+    each a machine-checked path over the generic context;
+  \item (\emph{separation}) if the reductions differ, the words are
+    separated by instantiating $\Gamma_G$ at a univalent cover and
+    computing a transport invariant; since substitution preserves
+    $\propeq$, distinct invariant values over the instance refute
+    $w_1 \propeq w_2$ over the generic context.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}[Proof scheme]
+  Completeness of reduced words for the free groupoid is classical.
+  (1) is a compilation: each reduction step (cancel $e \trns
+  e^{-1}$, reassociate, absorb a unit) is an instance of a generic
+  law available as a closed library path
+  ($\mathsf{transAssoc}$, $\mathsf{transReflL/R}$,
+  $\mathsf{transInvR/L}$ in the artifact), transported into word
+  position by $\cng$ and chained by $\trns$; the compiled composite
+  type-checks over $\Gamma_G$ itself.  (2) reduces to exhibiting,
+  for each pair of distinct reduced words, an instance and an
+  invariant with distinct computed values.  For a single edge
+  instantiated at the circle, the winding invariant computes
+  ($+1$, $-1$, $0$, $+2$, \dots{} are among the artifact's
+  normalized values); for several edges the wedge of circles is the
+  universal instance, and \S\ref{sec:sanov} supplies a complete,
+  practically computable invariant.  Soundness of the refutation is
+  transport invariance: an identification over $\Gamma_G$ would
+  transport to an identification of distinct normal forms of the
+  invariant's values.
+\end{proof}
+
+The interesting engineering content is in (2): completeness of the
+separation half needs an invariant that (a) distinguishes all pairs
+of distinct reduced words --- so abelian invariants are insufficient
+--- and (b) actually evaluates on the kernel.  The next section
+constructs one.
+
+\section{A proof-free carrier: the Sanov invariant}
+\label{sec:sanov}
+
+The natural complete invariant for two generators is the
+$\Ftwo$-cover of the figure eight $\Sone \vee \Sone$: fibers are
+reduced words, monodromy prepends a generator with cancellation.
+The series artifact contains this cover in full, machine-checked
+--- and it is computationally impractical.  Its carrier is a
+subset type (words with a reducedness proof), so every value carries
+a proof, and the cover equivalence embeds a proof that the carrier
+is a set; the kernel's Kan steps traverse those proofs.  A single
+generator's winding normalizes in seconds; composites exhaust any
+practical budget.  The failure mode is structural, not accidental:
+\emph{proof-carrying carriers make transport walk proofs}.
+
+The remedy is to change the invariant, not the kernel.  Sanov's
+representation \cite{Sanov}
+\[
+  L \mapsto \begin{pmatrix}1 & 2\\ 0 & 1\end{pmatrix},
+  \qquad
+  R \mapsto \begin{pmatrix}1 & 0\\ 2 & 1\end{pmatrix}
+\]
+embeds $\Ftwo$ faithfully into $\SL$.  The carrier is now
+$\mathbb{Z}^4$ --- a matrix, a pair of pairs of integers, with
+\emph{no propositional payload}.
+
+\begin{defi}[Sanov cover]
+  \label{def:sanov}
+  Right multiplication by $L$ (resp.\ $R$) is an equivalence of
+  $\mathbb{Z}^4$: the inverse prepends the negated double, and both
+  round trips reduce to two integer cancellation laws
+  ($x + (-x + y) = y$ and its mirror), proved from associativity,
+  inverses and units of $\mathbb{Z}$.  The \emph{Sanov cover}
+  $\mathsf{helixSL} : \Sone \vee \Sone \to \U$ sends each circle to
+  $\ua$ of its generator's equivalence; the \emph{matrix winding}
+  $\mathsf{windSL}$ of a loop transports the identity matrix along
+  the cover.
+\end{defi}
+
+\begin{thm}
+  \label{thm:sanov}
+  The Sanov invariant is complete for the free group on two
+  generators and computes at machine speed on the kernel:
+  \begin{enumerate}
+  \item generators wind to their Sanov matrices in milliseconds
+    (measured: $8\,$ms, against seconds for the reduced-word
+    cover);
+  \item the \emph{iterated} procedure --- one Glue transport per
+    letter, feeding the concrete matrix forward --- runs at under a
+    millisecond per letter; in particular
+    $L\trns R \mapsto \left(\begin{smallmatrix}5&2\\2&1
+    \end{smallmatrix}\right)$ and
+    $R\trns L \mapsto \left(\begin{smallmatrix}1&2\\2&5
+    \end{smallmatrix}\right)$ are distinct --- separating a pair
+    that every abelian invariant conflates --- and the commutator
+    $L\trns R\trns L^{-1}\trns R^{-1}$ evaluates to
+    $\left(\begin{smallmatrix}21&-8\\8&-3\end{smallmatrix}\right)
+    \neq I$;
+  \item two words are equal in $\Ftwo$ iff their computed matrices
+    coincide (faithfulness of the representation), so the invariant
+    decides the separation half of Theorem~\ref{thm:free}
+    completely, in time linear in word length.
+  \end{enumerate}
+  The agreement of the iterated procedure with the direct winding of
+  the composite loop is propositional and generic: $\cng$
+  distributes over composition
+  ($\mathsf{congTrans}$), and transport along a composite of
+  universe paths is the composite of transports
+  ($\mathsf{transpTrans}$), both closed library paths.
+\end{thm}
+
+\begin{proof}
+  (1) and (2) are kernel computations, machine-checked against the
+  expected matrices in the artifact's native harness; (3) is
+  Sanov's theorem \cite{Sanov} together with soundness of the
+  computed values (canonicity for the closed integer type: a
+  normalized matrix entry is a numeral, and distinct numerals are
+  separated by the decidable equality of $\mathbb{Z}$, itself a
+  library fact).  The bridging identifications are the named
+  library paths.
+\end{proof}
+
+\begin{rem}
+  The lesson we draw --- and use again in \S\ref{sec:cover} --- is a
+  design principle for computational univalence:
+  \emph{represent invariants on proof-free carriers, pushing all
+  proof obligations into the equivalences}.  The equivalence proofs
+  are walked once per Glue formation, not once per transported
+  value; normal forms of values stay small; and a classical
+  faithful representation (here into $\SL$) converts completeness of
+  the invariant into a theorem about the target group rather than
+  about the type-theoretic carrier.
+\end{rem}
+
+\section{Relators compile: the presentation context}
+\label{sec:relators}
+
+From dimension~$2$ on, cellular contexts contain \emph{relator
+cells}: squares whose boundary spells a word.  Up to the standard
+globular--cubical translation, the presentation context of
+$\langle x \mid x^2 \rangle$ is
+\[
+  \Gamma_{\mathbb{Z}/2}
+  \;=\;
+  A : \U,\;
+  a : A,\;
+  x : \Path\,A\,a\,a,\;
+  R : \Path\,(\Path\,A\,a\,a)\,(x \trns x)\,\refl .
+\]
+Over $\Gamma_{\mathbb{Z}/2}$, the group-theoretic consequences of
+the relation compile to explicit paths, exactly as the groupoid
+laws did in Theorem~\ref{thm:free}(1) --- with $R$ now among the
+usable moves:
+
+\begin{prop}
+  \label{prop:compile}
+  Over $\Gamma_{\mathbb{Z}/2}$ there is a machine-checked path
+  \begin{gather*}
+    \mathsf{wordX4}
+    \;:\;
+    (x \trns x) \trns (x \trns x) \;\propeq\; \refl,\\
+    \mathsf{wordX4}
+    \;=\;
+    \cng_{(-)\trns(x\trns x)}(R)
+    \trns \mathsf{transReflL}
+    \trns R ,
+  \end{gather*}
+  i.e.\ $x^4 = 1$ is derived by two relator uses and one unit law.
+  The compilation scheme is uniform: a derivation of $w = 1$ in the
+  presented group maps to a path $w \propeq \refl$ by sending each
+  relator application to a $\cng$-embedded use of the relator
+  variable and each free-reduction step to a groupoid law, chained
+  by $\trns$.
+\end{prop}
+
+This is one half of the undecidability transfer: \emph{provable
+group equalities become inhabitants}.  It is worth noting what the
+compilation does \emph{not} need: no instance, no Kan machinery
+beyond composition, no knowledge of the ambient type $A$ --- the
+derivation lives over the generic context and transfers to every
+model by substitution.  The other half --- \emph{inhabitants imply
+group equalities} --- needs an interpretation, hence a realization
+of the presentation complex; that is the next section.
+
+\section{Presentations realize: $\RP$ inside the kernel}
+\label{sec:present}
+
+The presentation complex of $\langle x \mid x^2 \rangle$ --- one
+vertex, one edge, one $2$-cell attached along $x^2$ --- is the
+mapping cone of the degree-$2$ self-map of the circle: the real
+projective plane.  Both the attaching map and the cone exist as
+first-class objects of the kernel:
+
+\begin{defi}
+  \label{def:rp2}
+  $\deg_2 : \Sone \to \Sone$ is the circle eliminator with
+  $\mathsf{base} \mapsto \mathsf{base}$ and $\mathsf{loop} \mapsto
+  \mathsf{loop} \trns \mathsf{loop}$;
+  $\RP := \mathsf{cofib}(\deg_2)$ is its mapping cone, the pushout
+  $\mathbf{1} \leftarrow \Sone \xrightarrow{\deg_2} \Sone$.  Write
+  $b := \mathsf{inr}(\mathsf{base})$ and
+  $x := \langle i \rangle\, \mathsf{inr}(\mathsf{loop}\,i)$ for the
+  realized vertex and generator.
+\end{defi}
+
+\begin{thm}
+  \label{thm:realize}
+  The internal $\RP$ realizes the presentation:
+  \begin{enumerate}
+  \item (\emph{attachment, strictly}) $\cng_{\deg_2}(\mathsf{loop})
+    \aconv \mathsf{loop} \trns \mathsf{loop}$ --- the attaching map
+    computes definitionally on the generator ---
+    and the cone path from the cone point to $b$ is a definable
+    cell;
+  \item (\emph{the relator cell, realized}) there is a
+    machine-checked identification
+    $\mathsf{rp2Rel} : x \trns x \propeq \refl_b$, obtained by
+    folding the pushout cylinder with a single $\hcomp$ square
+    capped at the cone point, then splitting the image of
+    $\mathsf{loop}\trns\mathsf{loop}$ by $\mathsf{congTrans}$;
+  \item (\emph{transfer by instantiation}) the substitution of
+    $(\RP, b, x, \mathsf{rp2Rel})$ for
+    $(A, a, x, R)$ in Proposition~\ref{prop:compile} yields a
+    machine-checked identification $x^4 \propeq \refl$ in $\RP$:
+    generic relator derivations land on the internal realization
+    with no further work;
+  \item (\emph{properly propositional}) the identification in (2)
+    is not strict: the constant path-lambda fails to type-check
+    against $x \trns x \propeq \refl$ (a deliberate negative probe),
+    as the no-go theorems require.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  All four items are single artifact probes.  (1) the constant
+  path-lambda inhabits
+  $\langle i\rangle \deg_2(\mathsf{loop}\,i) \propeq
+  \mathsf{loop}\trns\mathsf{loop}$, so the attachment is
+  definitional; (2) the square has the pushout cylinder as its
+  $k{=}0$ wall, the cone point as cap, and the basepoint cone path
+  on the remaining three walls; (3) is literally an application of
+  the closed term $\mathsf{wordX4}$; (4) is a failing type check,
+  recorded as a guard.
+\end{proof}
+
+\section{Faithfulness: the double cover of $\RP$}
+\label{sec:cover}
+
+Theorem~\ref{thm:realize} would be vacuous if the realization
+collapsed --- if, say, $x \propeq \refl$ held in $\RP$, every word
+would be identified and the relator would certify nothing.  The
+classical statement $\pi_1(\RP) = \mathbb{Z}/2$ says precisely that
+the presentation is realized \emph{faithfully}: $x^2 = 1$ (the
+relator) and $x \neq 1$ (no collapse).  We certify the computational
+core of this on the kernel with a univalent double cover, built by
+the proof-free-carrier principle of \S\ref{sec:sanov} with carrier
+$\mathsf{Bool}$.
+
+\begin{lem}
+  \label{lem:uanotnot}
+  $\ua(\mathsf{not}) \trns \ua(\mathsf{not}) \propeq
+  \refl_{\mathsf{Bool}}$, machine-checked (by injectivity of $\ua$,
+  equality of equivalences from equality of functions, and the
+  pointwise involution $\mathsf{not}\circ\mathsf{not} = \mathsf{id}$).
+\end{lem}
+
+\begin{thm}
+  \label{thm:cover}
+  There is a cover $\mathsf{covRP2} : \RP \to \U$ with fiber
+  $\mathsf{Bool}$, sending the $1$-skeleton circle to
+  $\ua(\mathsf{not})$; its extension over the relator $2$-cell
+  requires exactly Lemma~\ref{lem:uanotnot}, and is constructed by
+  transporting the trivial square along it (path induction in
+  $\U_1$).  The resulting winding
+  $\mathsf{windRP2} := \transp_{\mathsf{covRP2}}(\mathsf{true})$
+  computes:
+  \[
+    \mathsf{windRP2}(\refl) \longmapsto \mathsf{true},
+    \qquad
+    \mathsf{windRP2}(x) \longmapsto \mathsf{false},
+  \]
+  whence a machine-checked refutation
+  \[
+    \mathsf{rp2LoopNontriv} \;:\;
+    (x \propeq \refl) \to \mathbf{0}.
+  \]
+  Together with $\mathsf{rp2Rel}$
+  (Theorem~\ref{thm:realize}(2)), the presentation
+  $\langle x \mid x^2\rangle$ is realized faithfully at the level of
+  loop identifications: $x^2 = 1$ and $x \neq 1$.  As a corollary,
+  $\RP$ is not a set.
+\end{thm}
+
+\begin{proof}
+  The cover is a pushout eliminator into $\U$; on the cone it is
+  constantly $\mathsf{Bool}$, on the $1$-skeleton it is the circle
+  eliminator with loop payload $\ua(\mathsf{not})$, and on the
+  pushout cylinder it must provide, over each point of the attaching
+  circle, a path $\mathsf{Bool} \propeq
+  \mathsf{cov}(\deg_2(-))$ --- a square whose monodromy side is the
+  image of $\mathsf{loop} \trns \mathsf{loop}$, i.e.\ (after
+  $\mathsf{congTrans}$) the composite
+  $\ua(\mathsf{not}) \trns \ua(\mathsf{not})$.
+  Lemma~\ref{lem:uanotnot} is thus literally the extension
+  condition; path induction along it reduces the required square to
+  the trivial one.  The two windings are closed-term
+  normalizations; the refutation composes
+  $\cng_{\mathsf{windRP2}}$ with the decidable separation of
+  $\mathsf{false}$ from $\mathsf{true}$.
+\end{proof}
+
+\begin{rem}
+  The cover makes a second architectural point: the extension
+  condition over a relator cell is always a coherence in the
+  universe --- here $\ua(\mathsf{not})^{\trns 2} \propeq \refl$,
+  in general the image of the relator word under the intended
+  monodromy.  Constructing covers of internal presentation
+  complexes is thus exactly as hard as proving the corresponding
+  relation among $\ua$-paths, a task the proof-free-carrier
+  principle keeps tractable.
+\end{rem}
+
+\section{From dimension two: undecidability}
+\label{sec:undec}
+
+\begin{thm}
+  \label{thm:undec}
+  The propositional word problem over cellular contexts with cells
+  of dimension $\geq 2$ is undecidable: there is no algorithm that,
+  given a cellular context $\Gamma$ and two edge-words $w_1, w_2$
+  over it, decides whether $w_1 \propeq w_2$ is inhabited.
+\end{thm}
+
+\begin{proof}[Proof, by reduction]
+  Let $\langle X \mid \mathcal{R} \rangle$ be a finite group
+  presentation and $\Gamma_{\langle X \mid \mathcal{R}\rangle}$ its
+  presentation context: one point, one loop per generator, one
+  relator square per relation (as in \S\ref{sec:relators}).  We
+  claim $w \propeq \refl$ is inhabited over
+  $\Gamma_{\langle X \mid \mathcal{R}\rangle}$ iff $w = 1$ in the
+  presented group $G$; undecidability then follows from the
+  existence of finitely presented groups with undecidable word
+  problem \cite{Novikov,Boone}.
+
+  ($\Leftarrow$) is the compilation of
+  Proposition~\ref{prop:compile}, verbatim for arbitrary
+  presentations.  ($\Rightarrow$): interpret
+  $\Gamma_{\langle X \mid \mathcal{R}\rangle}$ into the realization
+  of its presentation complex $K_{\langle X \mid \mathcal{R}\rangle}$
+  --- the interpretation exists in any model of the theory with
+  pushouts, sending cell variables to the corresponding cells, as in
+  Theorem~\ref{thm:realize} for the one-relator case --- and apply
+  $\pi_1(K_{\langle X \mid \mathcal{R}\rangle}) = G$ (van Kampen):
+  an inhabitant of $w \propeq \refl$ over the generic context
+  substitutes to an identification in the realization, hence to
+  $w = 1$ in $G$.  Soundness of the type theory for such models is
+  the standard cubical-sets semantics \cite{CCHM}.
+\end{proof}
+
+\begin{rem}
+  The kernel-checked material of
+  \S\S\ref{sec:relators}--\ref{sec:cover} exhibits both directions
+  of the reduction in the minimal nontrivial instance
+  $\mathbb{Z}/2$: the compilation ($\Leftarrow$) as
+  $\mathsf{wordX4}$, and the faithful realization underlying
+  ($\Rightarrow$) as
+  $\mathsf{rp2Rel}$ + $\mathsf{rp2LoopNontriv}$ ---
+  including the genuinely propositional character of the relator
+  (Theorem~\ref{thm:realize}(4)).  We do not claim an internal
+  proof of $\pi_1 = G$ for arbitrary presentations; the reduction
+  above uses it classically, as is standard for undecidability
+  transfers.
+\end{rem}
+
+\section{The boundary}
+\label{sec:boundary}
+
+Assembling Theorems~\ref{thm:strict}, \ref{thm:free}
+and~\ref{thm:undec}:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+  & dimension $1$ (free) & dimension $\geq 2$ (relators)\\
+  \hline
+  strict $\aconv$
+    & decidable (K1--K3)
+    & decidable (Theorem~\ref{thm:strict})\\
+  weak $\propeq$
+    & decidable (Theorem~\ref{thm:free})
+    & undecidable (Theorem~\ref{thm:undec})
+\end{tabular}
+\end{center}
+
+The two layers separate exactly at the relator cells, and the no-go
+theorems of the series say this is not an accident of
+implementation.  A kernel that tried to decide the propositional
+layer by promoting relators to definitional equations would need
+$R : x\trns x \propeq \refl$ to hold strictly; the no-go theorems
+\cite{Const,Convexity} show that even the humblest such promotion
+--- constant-tube $\hcomp$-regularity at path types --- already
+destroys the invariants behind canonicity.  Undecidability gives the
+quantitative version: \emph{no} extension of the strict equality
+can absorb the relators of an arbitrary presentation while remaining
+decidable, since the resulting theory would decide group word
+problems.  Conversely, the price is worth paying exactly where it is
+paid: the weak layer's identifications are what make the
+presentation complexes, covers and invariants of
+\S\S\ref{sec:present}--\ref{sec:cover} exist at all.  The
+strict--weak boundary is not a defect line but a load-bearing wall:
+on one side, a decidable combinatorics of reparametrizations
+(K1--K3); on the other, the full undecidable expressiveness of
+homotopy theory --- with the compilation of
+Proposition~\ref{prop:compile} and the covers of
+\S\ref{sec:cover} as the traffic across it.
+
+\section{The measured frontier}
+\label{sec:frontier}
+
+Two performance walls were identified and measured in the course of
+this work; both concern the kernel, not the mathematics, and both
+are reported here as data for kernel engineering.
+
+\emph{Proof-carrying carriers} (\S\ref{sec:sanov}): transport walks
+the proofs embedded in carrier values and cover equivalences.  With
+the reduced-word carrier a single generator costs seconds and
+composites are infeasible; the proof-free Sanov carrier removes this
+wall entirely (milliseconds per letter, measured).
+
+\emph{Nested Kan composition in the universe}: transporting
+directly along a composite loop evaluates $\hcomp$ in $\U$ over
+Glue lines.  Measured on the Sanov cover: one nested layer (the
+cancelling composite, or the wedge-conjugated second generator)
+completes in about a minute; three nested layers exceed 50 CPU
+minutes without completing.  The growth is superlinear in nesting
+depth; the identified cause is re-evaluation of inner Glue layers at
+each Kan step, and the identified remedy --- value-sharing
+(memoization) across Kan steps --- is a kernel-engineering project
+orthogonal to this paper.  The iterated per-letter procedure of
+Theorem~\ref{thm:sanov} avoids the wall by construction, and its
+agreement with the direct composite is the generic propositional
+bridge ($\mathsf{congTrans}$, $\mathsf{transpTrans}$); nothing in
+Theorems~\ref{thm:free}--\ref{thm:undec} depends on the wall.
+
+\section{Outlook}
+\label{sec:outlook}
+
+Three continuations suggest themselves.  First, \emph{internal
+$\pi_1$ for general presentations}: the $\mathbb{Z}/2$ case of
+\S\S\ref{sec:present}--\ref{sec:cover} used no property of the
+presentation beyond its finiteness; an internal encode--decode proof
+of $\pi_1(K_{\langle X \mid \mathcal{R} \rangle}) = G$ (in the style
+of \cite{LicataShulman}, with the cover extension conditions
+discharged relator-by-relator as in Lemma~\ref{lem:uanotnot}) would
+make the ($\Rightarrow$) direction of Theorem~\ref{thm:undec}
+internal as well.  Second, \emph{up-to-homotopy normal forms}: over
+free contexts, reduced words are normal forms for the weak layer;
+whether a useful normal-form calculus survives some relator classes
+(one-relator groups, small cancellation) is the type-theoretic
+shadow of classical combinatorial group theory, with the compiled
+identifications of Proposition~\ref{prop:compile} as the rewriting
+moves.  Third, \emph{the kernel frontier}: value-sharing across Kan
+steps (\S\ref{sec:frontier}) would make direct composite transport
+practical and is the single most valuable kernel improvement
+identified by this series.
+
+\subparagraph*{Acknowledgements.}  The platform and companion
+results were developed in \cite{Const,Sphere,Realization,Convexity}.
+
+\section{Artifact}
+\label{sec:artifact}
+
+\sloppy
+All machine-checked claims are definitions with positive or negative
+guards in the accompanying repository (kernel, library and probe
+suites; the native harness reports the timings quoted above).
+Anchors: the presentation-context compilation
+(\S\ref{sec:relators}) is \texttt{wordX4}/\texttt{wordRel}; the
+Sanov invariant (\S\ref{sec:sanov}) is
+\texttt{addCancel}/\texttt{addCancelN}, \texttt{sanovL/R},
+\texttt{helixSL}, \texttt{windSL}, with the timing harness
+\texttt{Test/Sanov.lean}; the internal presentation complex
+(\S\ref{sec:present}) is \texttt{deg2}, \texttt{deg2Loop},
+\texttt{rp2}, \texttt{rp2Attach}, \texttt{rp2RelSq},
+\texttt{rp2Rel}, \texttt{wordX4RP2}, \texttt{wordRelRP2}; the double
+cover (\S\ref{sec:cover}) is \texttt{uaNotNot}, \texttt{covS1},
+\texttt{covRP2}, \texttt{windRP2}, \texttt{rp2LoopNontriv},
+\texttt{rp2NotSet}; the groupoid laws and winding values of
+Theorem~\ref{thm:free} and the reduced-word $\Ftwo$ cover are in the
+library of the earlier releases.  Repository:
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived at
+DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961} (concept DOI; the release accompanying
+this paper is tagged in the repository).
+
+\begin{thebibliography}{10}
+
+\bibitem{Boone}
+W.~W.~Boone.
+\newblock The word problem.
+\newblock \emph{Ann.\ of Math.}\ 70 (1959), 207--265.
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{LicataShulman}
+D.~R.~Licata, M.~Shulman.
+\newblock Calculating the fundamental group of the circle in
+  homotopy type theory.
+\newblock \emph{LICS 2013}.
+
+\bibitem{Novikov}
+P.~S.~Novikov.
+\newblock On the algorithmic unsolvability of the word problem in
+  group theory.
+\newblock \emph{Trudy Mat.\ Inst.\ Steklov}\ 44 (1955), 1--143.
+
+\bibitem{Sanov}
+I.~N.~Sanov.
+\newblock A property of a representation of a free group.
+\newblock \emph{Dokl.\ Akad.\ Nauk SSSR}\ 57 (1947), 657--659.
+
+\bibitem{Const}
+R.~Shibusawa.
+\newblock Evaluation-time constancy inference for transport in
+  cubical type theory.
+\newblock Preprint, 2026.  Artifact:
+  \url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+  at DOI \href{https://doi.org/10.5281/zenodo.21637898}%
+  {10.5281/zenodo.21637898}.
+
+\bibitem{Sphere}
+R.~Shibusawa.
+\newblock The strict layer of generic cells in cubical type theory
+  is a wedge of De Morgan spheres.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.3.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21638976}%
+  {10.5281/zenodo.21638976}).
+
+\bibitem{Realization}
+R.~Shibusawa.
+\newblock Generic cellular contexts in cubical type theory realize
+  their cube presheaves on the nose.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.3.0}, DOI as for \cite{Sphere}).
+
+\bibitem{Convexity}
+R.~Shibusawa.
+\newblock De Morgan convexity and the strict--weak comparison in
+  cubical type theory.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.4.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21639454}%
+  {10.5281/zenodo.21639454}).
+
+\end{thebibliography}
+
+\end{document}
