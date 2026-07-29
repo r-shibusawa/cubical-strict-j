@@ -9,7 +9,8 @@ This repository is the artifact accompanying the paper
   `LibWord.lean` / `LibSanov.lean` / `LibPresent.lean` /
   `LibCover.lean`, the native timing harness `Test/Sanov.lean`
   (`lake exe sanov`), the notes `docs/WordProblem.md`, and the paper
-  `docs/paperF/wordproblems.{tex,pdf}`); DOI recorded after archiving
+  `docs/paperF/wordproblems.{tex,pdf}`), archived at DOI
+  [10.5281/zenodo.21669939](https://doi.org/10.5281/zenodo.21669939)
 - Previous: release `v1.4.0` (De Morgan convexity suite + paper E),
   DOI
   [10.5281/zenodo.21639454](https://doi.org/10.5281/zenodo.21639454)
