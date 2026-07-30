@@ -8,8 +8,9 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.9.0` (adds the paper
   `docs/paperJ/nogo.{tex,pdf}` — natural strict fillers do not
   exist: the no-go theorem and the median correction structure —
-  with the note `docs/NoGo.md` and the record `scripts/nogo.py`);
-  DOI recorded after archiving
+  with the note `docs/NoGo.md` and the record `scripts/nogo.py`),
+  archived at DOI
+  [10.5281/zenodo.21697938](https://doi.org/10.5281/zenodo.21697938)
 - Previous: release `v1.8.1` (Kleene paper revision), DOI
   [10.5281/zenodo.21695917](https://doi.org/10.5281/zenodo.21695917)
 - Previous: release `v1.8.0` (the Kleene interpolation paper), DOI
