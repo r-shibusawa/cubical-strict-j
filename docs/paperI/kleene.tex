@@ -66,8 +66,13 @@
   degeneracy behaviour), Kleene has exactly two polar exceptions
   independent of dimension, and De Morgan is Sperner-extremal ---
   the three grades of involution measure the distance from
-  Eilenberg--Zilber structure.  All counts and theorems are verified
-  exhaustively by machine through three generators.
+  Eilenberg--Zilber structure.  A completeness theorem closes the
+  classification along the signature axis as well: nontrivial
+  boundary fibers require both the involution and a connection in
+  the interval signature, and once both are present De Morgan's laws
+  and Kalman's theorem leave no room beyond the three grades.  All
+  counts and theorems are verified exhaustively by machine through
+  three generators.
 \end{abstract}
 
 \maketitle
@@ -180,7 +185,9 @@ Boolean $\subset$ Kleene $\subset$ De Morgan, by Kalman) is
 simultaneously a scale of \emph{how badly the associated cube
 category fails to be Eilenberg--Zilber}, with the failure measured
 by boundary-fiber structure --- none, two polar bits, a full
-Sperner antichain of bits.
+Sperner antichain of bits.  Section~\ref{sec:complete} shows the
+scale is complete: no interval signature produces any other fiber
+behaviour.
 
 \section{The representation theorem}
 \label{sec:rep}
@@ -430,6 +437,72 @@ $g = 1$.
   category from Eilenberg--Zilber behaviour.
 \end{rem}
 
+\section{Completeness: fiber behaviours across signatures}
+\label{sec:complete}
+
+The trichotomy of the introduction classifies fiber behaviour over
+the subvarieties of De Morgan algebras.  One may still ask whether
+\emph{weaker signatures} --- interval theories that drop the
+involution or the connections --- realize intermediate behaviours.
+They do not.
+
+\begin{lem}
+  \label{lem:signature}
+  An interval signature (a subset of $\{\wedge, \vee, \neg\}$
+  over the bounds $0, 1$) containing $\neg$ and at least one
+  connection defines the other connection by De Morgan's laws.
+  Hence the signature classes are: $\emptyset$, $\{\wedge\}$,
+  $\{\vee\}$, $\{\wedge,\vee\}$ (the Dedekind theory),
+  $\{\neg\}$, and the full De Morgan signature.
+\end{lem}
+
+\begin{thm}[completeness]
+  \label{thm:complete}
+  Over every interval signature not containing both the involution
+  and a connection, all boundary fibers of the free algebras are
+  singletons.  Consequently the realizable fiber behaviours of
+  interval theories are exactly three: trivial (Dedekind, Boolean,
+  and all weaker signatures), two polar fibers (Kleene), and
+  Sperner-extremal (De Morgan).
+\end{thm}
+
+\begin{proof}
+  By Lemma~\ref{lem:signature} four signature classes remain below
+  the full one.  \emph{Dedekind}: the free bounded distributive
+  lattice on $n$ generators is the lattice of monotone functions on
+  $\{0,1\}^n$; every evaluation point has a first coordinate in
+  $\{0,1\}$, so an element is determined by its two faces
+  $x_1 := 0, 1$ --- fibers are singletons.  (The same two-face
+  decomposition handles the \emph{Boolean} algebra of all
+  functions, re-proving the first line of the table.)
+  \emph{Meet-only} (dually join-only): the free bounded
+  $\wedge$-semilattice consists of $0$ and the conjunctions
+  $\bigwedge_{i \in S} x_i$; the faces of a conjunction determine
+  $S$ (whether $i \in S$ is read off the $x_i := 0$ face), and
+  distinguish $0$ from $1$.  \emph{Involution-only}: the free
+  algebra is $\{0, 1, x_1, \neg x_1, \dots\}$, and the faces of
+  $x_i$, $\neg x_i$ (constants $0, 1$ in opposite positions)
+  separate all elements.  \emph{Bare}: immediate.  In each case no
+  evaluation point is invisible to the faces; the nontrivial
+  behaviours require literals to decouple ($\neg$, giving
+  independent pairs) \emph{and} to combine ($\wedge$ or $\vee$),
+  and once both are available the algebra is a De Morgan algebra,
+  where Kalman's theorem \cite{Kalman} and the fiber theorems
+  (\cite{DMFibers}, Theorem~\ref{thm:fibers}) leave exactly the
+  three grades.
+\end{proof}
+
+\begin{rem}
+  The moral sharpens the through-line of the introduction:
+  \emph{fiber freedom is born only from the interaction of the
+  involution with a connection, and once born it is exhausted by
+  Kalman's three grades}.  In particular no interval \emph{theory}
+  interpolates strictly between the Kleene and De Morgan rows ---
+  any graded interpolation must come from non-equational structure
+  (restricted substitution classes, cf.\ the coherence analysis of
+  \cite{StrictDM}), not from the algebra.
+\end{rem}
+
 \section{Machine verification}
 \label{sec:machine}
 
@@ -448,7 +521,11 @@ coincide exactly, with incoherent loci of sizes $2, 2, 0, 2, 0$
 $x \mapsto x \wedge \neg x$), each consisting of the two polar
 elements.  Assertions that substitutions preserve unmixedness and
 that defects stay within $\{\bot, \top\}$ were checked at every
-step.  At $n = 2$ the boundary counts of the Kleene and De Morgan
+step.  For Theorem~\ref{thm:complete}, the
+singleton-fiber claims were enumerated as well: Dedekind
+$n \leq 3$ ($6$ and $20$ elements), meet-only $n \leq 3$ ($5$ and
+$9$ elements), involution-only $n = 2$ ($6$ elements) --- all
+fibers singleton.  At $n = 2$ the boundary counts of the Kleene and De Morgan
 theories coincide ($82$): the mixed points of $\lc_2$ are the two
 non-polar diagonals, so the two face-point posets agree ---
 a low-dimensional accident that disappears at $n = 3$
@@ -457,14 +534,15 @@ a low-dimensional accident that disappears at $n = 3$
 \section{Outlook}
 \label{sec:outlook}
 
-The subvariety classification suggests two further questions.
-First, \emph{relative theories}: interval theories between Kleene
-and De Morgan can be manufactured by bounding the number of
-``independently mixable'' variable groups; the fiber theory should
-interpolate in a graded way between two poles and the full diagonal
-antichain lattice, and it would be interesting to axiomatize which
-fiber behaviours are realizable by \emph{some} interval theory.
-Second, \emph{the strict--weak interface}: in the De Morgan case
+Two questions remain.  First, with the equational axis closed by
+Theorem~\ref{thm:complete}, graded interpolations between the
+Kleene and De Morgan rows can only arise from \emph{non-equational}
+data --- wide subcategories of the cube category (restricting which
+substitutions act) or filtered mixing constraints; there the
+varying quantity is not the fiber but the \emph{coherence}
+behaviour of \cite{StrictDM}, and a classification over the
+generator classes of \cite{BuchholtzMorehouse} seems within
+reach.  Second, \emph{the strict--weak interface}: in the De Morgan case
 the diagonal points simultaneously index fiber freedom, coherence
 defects, and the failure of idempotent splitting; the Kleene case
 shows the first two can be cut to a constant while the third

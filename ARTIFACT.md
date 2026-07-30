@@ -5,11 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.8.0` (adds the paper
-  `docs/paperI/kleene.{tex,pdf}` — the Kleene interpolation:
-  boundary fibers across the subvarieties of De Morgan algebras —
-  with the note `docs/Kleene.md` and the script
-  `scripts/kleene.py`), archived at DOI
+- Current snapshot: release `v1.8.1` (revision of the Kleene paper
+  `docs/paperI/kleene.{tex,pdf}`: adds the completeness theorem —
+  nontrivial boundary fibers require both the involution and a
+  connection, so the three grades exhaust all interval signatures);
+  DOI recorded after archiving
+- Previous: release `v1.8.0` (the Kleene interpolation paper), DOI
   [10.5281/zenodo.21695778](https://doi.org/10.5281/zenodo.21695778)
 - Previous: release `v1.7.0` (strict-layer paper), DOI
   [10.5281/zenodo.21695641](https://doi.org/10.5281/zenodo.21695641)
