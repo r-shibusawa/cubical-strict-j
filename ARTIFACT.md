@@ -10,7 +10,8 @@ This repository is the artifact accompanying the paper
   cubical sets — Karoubi envelope, defect formula, coherence
   dichotomy — the note `docs/StrictLayer.md`, the defect script
   `scripts/dmdefect.py`, and a README listing of the full paper
-  series); DOI recorded after archiving
+  series), archived at DOI
+  [10.5281/zenodo.21695641](https://doi.org/10.5281/zenodo.21695641)
 - Previous: release `v1.6.0` (De Morgan fiber paper + census), DOI
   [10.5281/zenodo.21695307](https://doi.org/10.5281/zenodo.21695307)
 - Previous: release `v1.5.0` (word-problem suites + paper F), DOI
