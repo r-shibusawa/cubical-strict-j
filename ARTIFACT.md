@@ -9,7 +9,8 @@ This repository is the artifact accompanying the paper
   `docs/paperK/reversal.{tex,pdf}` — cubical models with reversal
   do not present spaces: the interval quotient is a K(ℤ/2,1) —
   with the note `docs/ReversalQuotient.md` and the record
-  `scripts/reversal.py`); DOI recorded after archiving
+  `scripts/reversal.py`), archived at DOI
+  [10.5281/zenodo.21704342](https://doi.org/10.5281/zenodo.21704342)
 - Previous: release `v1.9.0` (the no-go paper), DOI
   [10.5281/zenodo.21697938](https://doi.org/10.5281/zenodo.21697938)
 - Previous: release `v1.8.1` (Kleene paper revision), DOI
