@@ -5,12 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.7.0` (adds the paper
-  `docs/paperH/strictdm.{tex,pdf}` on the strict layer of De Morgan
-  cubical sets — Karoubi envelope, defect formula, coherence
-  dichotomy — the note `docs/StrictLayer.md`, the defect script
-  `scripts/dmdefect.py`, and a README listing of the full paper
-  series), archived at DOI
+- Current snapshot: release `v1.8.0` (adds the paper
+  `docs/paperI/kleene.{tex,pdf}` — the Kleene interpolation:
+  boundary fibers across the subvarieties of De Morgan algebras —
+  with the note `docs/Kleene.md` and the script
+  `scripts/kleene.py`); DOI recorded after archiving
+- Previous: release `v1.7.0` (strict-layer paper), DOI
   [10.5281/zenodo.21695641](https://doi.org/10.5281/zenodo.21695641)
 - Previous: release `v1.6.0` (De Morgan fiber paper + census), DOI
   [10.5281/zenodo.21695307](https://doi.org/10.5281/zenodo.21695307)
@@ -96,6 +96,7 @@ elaboration time; a successful build **is** the verification run.
 | **Double cover of RP²: winding computes (refl ↦ true, x ↦ false); the presentation ⟨x∣x²⟩ realized faithfully (x² = 1, x ≠ 1)** | `covS1D`, `covRP2D`, `windRP2D`, `rp2LoopNontrivD`, `rp2NotSetD` (LibCover.lean) |
 | Boundary fibers in free De Morgan algebras (paper `docs/paperG`): Boolean-interval structure, Sperner-extremal fibers, sphere filling, boundary↔antichain classification, median cylinder — full census n ≤ 3, construction check n = 4 | `scripts/dmfiber.py`, `scripts/dmfiber3.py`, `scripts/dmfiber_boundaries.py` (Python; notes in `docs/DMFiber.md`; the type-theoretic counterparts are `mixInterpD`/`mixFillD` and the strictness suites) |
 | The strict layer of De Morgan cubical sets (paper `docs/paperH`): non-idempotent-completeness, Karoubi envelope via projective De Morgan algebras (Bova–Cabrer), the defect antichain formula, the coherence dichotomy — verified on all 7,828,354 elements of DM(3) | `scripts/dmdefect.py` (record; notes in `docs/StrictLayer.md`) |
+| The Kleene interpolation (paper `docs/paperI`): KL(n) = monotone functions on the unmixed poset (counts 6, 84, 43918 = Berman–Mukaidono); fibers ≤ 2 with exactly two non-singleton fibers at every n; B_K(n) = FK(n) − 2 (= OEIS A007154, newly interpreted); defect/coherence ported with polar exceptional locus | `scripts/kleene.py` (record; notes in `docs/Kleene.md`) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

@@ -1,0 +1,545 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ques}[thm]{Question}
+\newtheorem*{thmstar}{Theorem}
+
+\newcommand{\DM}{\mathrm{DM}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\lc}{Q}
+\newcommand{\uc}{U}
+\newcommand{\bnd}{\partial}
+\newcommand{\Face}{\mathrm{Face}}
+\newcommand{\rmin}{\mathrm{r}}
+\newcommand{\Kar}{\mathrm{Kar}}
+\newcommand{\Kthree}{\mathbf{3}}
+
+\begin{document}
+
+\title[The Kleene interpolation]{The Kleene interpolation:\\
+  boundary fibers and the strict layer\\ across the subvarieties of
+  De Morgan algebras}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{06D30; 06A07, 03B38, 55U35}
+\keywords{Kleene algebra, De Morgan algebra, free algebra, cubical
+  sets, boundary fiber, free spectrum, Eilenberg--Zilber category,
+  cubical type theory}
+
+\begin{abstract}
+  Two companion papers determined the boundary fibers of free De
+  Morgan algebras (Boolean intervals $2^{D}$ over antichains of
+  diagonal points, Sperner-extremal) and the resulting structure of
+  the strict layer of De Morgan cubical sets (a defect formula and a
+  coherence dichotomy).  This paper computes the same theory over
+  the remaining subvarieties of De Morgan algebras --- by Kalman's
+  classical theorem, exactly the Boolean and Kleene varieties.  The
+  free Kleene algebra on $n$ generators is identified with the
+  lattice of monotone Boolean functions on the \emph{unmixed} part
+  of the literal cube, the points not containing both a $(0,0)$ and
+  a $(1,1)$ pair; the identification recovers the free spectra
+  $6, 84, 43918, \dots$ of Berman--Mukaidono.  Only two unmixed
+  points are invisible to the faces --- the poles --- and they are
+  comparable, so \emph{boundary fibers in free Kleene algebras have
+  at most two elements, with exactly two non-singleton fibers in
+  every dimension}; realizable boundaries therefore number two fewer
+  than elements, matching Berman's constant-free spectrum
+  (OEIS A007154) and giving that sequence a new, cubical
+  interpretation.  The defect formula and the coherence dichotomy
+  port verbatim, with defects confined to the poles.  The result is
+  a complete classification of strict-layer behaviour across the
+  subvariety lattice: Boolean and bare distributive interval
+  theories have singleton fibers (Eilenberg--Zilber-compatible
+  degeneracy behaviour), Kleene has exactly two polar exceptions
+  independent of dimension, and De Morgan is Sperner-extremal ---
+  the three grades of involution measure the distance from
+  Eilenberg--Zilber structure.  All counts and theorems are verified
+  exhaustively by machine through three generators.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+The interval theories of cubical type theory are bounded
+distributive lattices with extra structure, and the free algebras of
+those theories govern the \emph{strict} (judgmental) layer of the
+resulting cubical sets: their elements are the reparametrizations a
+proof assistant applies silently.  Over the De Morgan interval
+theory of Cohen--Coquand--Huber--M\"ortberg \cite{CCHM}, two
+companion papers analyzed this layer.  In \cite{DMFibers} the
+\emph{boundary fibers} of the free De Morgan algebra $\DM_n$ ---
+the sets of elements sharing all $2n$ face restrictions --- were
+shown to be Boolean intervals $2^{D}$, with $D$ an antichain of
+\emph{diagonal} points of the literal cube, of size up to
+$2^{\binom{n}{\lfloor n/2 \rfloor}}$ by Sperner's theorem; in
+\cite{StrictDM} this non-uniqueness was organized into a structure
+theory for the De Morgan cube category (a one-step \emph{defect
+formula} and an exact \emph{coherence dichotomy}), against the
+background fact that the category is not Eilenberg--Zilber.
+
+By a classical theorem of Kalman \cite{Kalman}, the variety of De
+Morgan algebras has exactly two proper nontrivial subvarieties:
+Boolean algebras and \emph{Kleene algebras} (De Morgan algebras
+satisfying $x \wedge \neg x \leq y \vee \neg y$) --- the three-element
+chain $\Kthree$ being the generating subdirectly irreducible of the
+latter.  Each subvariety has its cube category and its cubical sets
+\cite{BuchholtzMorehouse}, and it is natural to ask how the fiber
+and strict-layer theory varies across the lattice of subvarieties.
+This paper answers the question completely; the summary is the
+following table, in which the last row is \cite{DMFibers,StrictDM}
+and the first is folklore.
+
+\begin{center}
+\small
+\begin{tabular}{l|l|l|l}
+  theory & invisible pts & fibers &
+  non-singleton fibers\\
+  \hline
+  Dedekind, Boolean & none & $1$ & none\\
+  \textbf{Kleene} & the two poles & $\leq 2$ &
+  \textbf{exactly $2$, every $n$}\\
+  De Morgan & $2^n$ diagonals & $\leq 2^{\binom{n}{\lfloor
+  n/2\rfloor}}$ & $34.5\%$ of $\DM_3$
+\end{tabular}
+\end{center}
+
+\noindent The Kleene row is the content of this paper, and it sits
+strictly --- and, as it turns out, very asymmetrically --- between
+its neighbours: the Kleene law does not restore unique fillers, but
+it cuts the exceptional locus from a positive fraction of all
+elements down to \emph{exactly two fibers, independent of
+dimension}.
+
+The technical basis is a representation theorem
+(Theorem~\ref{thm:rep}) that seems worth recording in its own
+right.  Call a point of the literal cube $\{0,1\}^{2n}$
+\emph{mixed} if some coordinate pair equals $(0,0)$ and another
+equals $(1,1)$, and let $\uc_n$ be the subposet of unmixed points.
+Then the free Kleene algebra $\KL_n$ is the lattice of monotone
+Boolean functions on $\uc_n$ --- the Kleene law deletes from the De
+Morgan representation \cite{DMFibers} exactly the mixed points.
+The proof is a two-sided probe of the three-valued semantics: the
+lower and upper Boolean approximations of a point of $\Kthree^n$
+are always unmixed, and every unmixed point arises as such an
+approximation.  The cardinalities
+$|\KL_n| = 6, 84, 43918, \dots$ then agree with the free spectra
+computed by Berman--Mukaidono \cite{BermanMukaidono}
+(OEIS~A268534), which we take as independent confirmation.
+
+The fiber theory follows in one stroke
+(Theorem~\ref{thm:fibers}): the points of $\uc_n$ invisible to all
+faces are the two poles $\bot, \top$ --- every other diagonal point
+of the De Morgan literal cube is mixed --- and the poles are
+comparable, so the defect antichains of \cite{DMFibers,StrictDM}
+can only be $\emptyset$, $\{\bot\}$ or $\{\top\}$.  Fibers have at
+most two elements; exactly two fibers are non-singleton (the
+\emph{polar} fibers $\{0, \delta_{\top}\}$ and
+$\{1 \setminus \bot, 1\}$); and the number of realizable boundaries
+is exactly $|\KL_n| - 2$.  Numerically this is the sequence
+$4, 82, 43916, \dots$ --- which turns out to be in the OEIS as
+A007154, \emph{Berman's constant-free free spectrum of Kleene
+algebras} \cite{Berman}; the coincidence is explained by a
+two-line bijection (boundaries $\leftrightarrow$ fiber-minimal
+elements, of which all but two elements are), giving the classical
+sequence a new interpretation as a count of spheres in the Kleene
+cube category.
+
+Finally, the strict-layer theory of \cite{StrictDM} ports verbatim
+(\S\ref{sec:strict}): the Kleene cube category is not idempotent
+complete (the proof for De Morgan applies word for word, as
+$|\KL_1| = |\DM_1| = 6$), its Karoubi envelope is the opposite of
+finite projective Kleene algebras via Bova--Cabrer
+\cite[Thm.~12]{BovaCabrer}, the defect formula holds with defects
+confined to the poles, and the coherence dichotomy is exact --- with
+the exceptional locus of any substitution now consisting of at most
+the two polar elements.  All statements are verified exhaustively
+by machine for $n \leq 3$ (\S\ref{sec:machine}).
+
+\subparagraph*{Reading guide.}  This paper is the third of a
+series but is self-contained in its statements; proofs that are
+verbatim ports from \cite{DMFibers,StrictDM} are indicated as such,
+with the one substitution ``diagonal points $\mapsto$ poles''
+spelled out.  The conceptual through-line is stated once, here: the
+lattice of subvarieties of De Morgan algebras (trivial $\subset$
+Boolean $\subset$ Kleene $\subset$ De Morgan, by Kalman) is
+simultaneously a scale of \emph{how badly the associated cube
+category fails to be Eilenberg--Zilber}, with the failure measured
+by boundary-fiber structure --- none, two polar bits, a full
+Sperner antichain of bits.
+
+\section{The representation theorem}
+\label{sec:rep}
+
+A \emph{Kleene algebra} is a De Morgan algebra satisfying
+$x \wedge \neg x \leq y \vee \neg y$; the variety is generated by
+the three-element chain $\Kthree = \{0, u, 1\}$ with $\neg u = u$
+\cite{Kalman, GWW}.  Write $\KL_n$ for the free Kleene algebra on
+$x_1, \dots, x_n$.  We use the literal-cube representation of
+$\DM_n$ from \cite{DMFibers}: monotone functions (up-sets) on
+$\lc_n = \{0,1\}^{2n}$, coordinates in pairs $(x_i, \neg x_i)$.
+
+\begin{defi}
+  A point $\alpha \in \lc_n$ is \emph{mixed} if some pair
+  $\alpha_i = (0,0)$ and some pair $\alpha_j = (1,1)$; otherwise
+  \emph{unmixed}.  Let $\uc_n \subseteq \lc_n$ be the subposet of
+  unmixed points.  ($|\uc_1| = 4$, $|\uc_2| = 14$,
+  $|\uc_3| = 46$.)
+\end{defi}
+
+Note that $\uc_n$ is closed under the De Morgan symmetry
+(complement all coordinates, swap each pair), and that the
+\emph{diagonal} points of $\lc_n$ (all pairs in
+$\{(0,0), (1,1)\}$) that are unmixed are exactly the two poles
+$\bot = (0,\dots,0)$ and $\top = (1,\dots,1)$.
+
+\begin{thm}
+  \label{thm:rep}
+  Restriction of monotone functions along
+  $\uc_n \hookrightarrow \lc_n$ induces an isomorphism from the
+  free Kleene algebra onto the lattice of monotone functions on
+  $\uc_n$, with involution
+  $(\neg\varphi)(\alpha) = 1 - \varphi(\sigma\bar\alpha)$ as
+  before:
+  \[
+    \KL_n \;\cong\; \{\text{monotone } \uc_n \to \{0,1\}\}.
+  \]
+\end{thm}
+
+\begin{proof}
+  The restriction map
+  $\rho : \DM_n \to \mathrm{Mon}(\uc_n)$ is a homomorphism of De
+  Morgan algebras: meets, joins and bounds are pointwise, and
+  $\uc_n$ is closed under the symmetry defining $\neg$.  It is
+  surjective, since a monotone function on $\uc_n$ extends to
+  $\lc_n$ (e.g.\ by its least monotone extension).
+
+  $\mathrm{Mon}(\uc_n)$ is a Kleene algebra: if
+  $\alpha \in x_i \wedge \neg x_i$ then $\alpha_i = (1,1)$, so by
+  unmixedness no pair of $\alpha$ is $(0,0)$; hence
+  $\alpha_j \in \{(0,1), (1,0), (1,1)\}$ and
+  $\alpha \in x_j \vee \neg x_j$, for every $j$.  Thus $\rho$
+  factors through the Kleene quotient, giving a surjection
+  $\KL_n \twoheadrightarrow \mathrm{Mon}(\uc_n)$.
+
+  For injectivity we use the three-valued semantics.  By
+  \cite{GWW}, $\KL_n$ embeds into $\Kthree^{(\Kthree^n)}$ as the
+  subalgebra generated by the projections; write
+  $\hat\varphi : \Kthree^n \to \Kthree$ for the function induced by
+  $\varphi$.  For $v \in \Kthree^n$ define
+  $v_{\mathrm{low}}, v_{\mathrm{high}} \in \lc_n$ by encoding
+  $v_i = 0 \mapsto (0,1)$, $v_i = 1 \mapsto (1,0)$, and
+  $v_i = u \mapsto (0,0)$ (low), resp.\ $(1,1)$ (high).  Both are
+  \emph{unmixed}, because the choice for $u$ is made uniformly; and
+  a direct induction on terms shows
+  $\hat\varphi(v) = 0, u, 1$ according as the pair
+  $\bigl(\varphi(v_{\mathrm{low}}), \varphi(v_{\mathrm{high}})\bigr)$
+  is $(0,0)$, $(0,1)$, $(1,1)$ (monotonicity excludes $(1,0)$).
+  Hence $\hat\varphi$ is determined by $\rho(\varphi)$.
+  Conversely every unmixed point is a $v_{\mathrm{low}}$ or a
+  $v_{\mathrm{high}}$ (read $u$ at its diagonal pairs), so
+  $\rho(\varphi)$ is determined by $\hat\varphi$; as
+  $\varphi \mapsto \hat\varphi$ is injective on $\KL_n$, so is the
+  induced map $\KL_n \to \mathrm{Mon}(\uc_n)$.
+\end{proof}
+
+\begin{rem}
+  The counts $|\mathrm{Mon}(\uc_n)| = 6, 84, 43918$ for
+  $n = 1, 2, 3$ (machine enumeration, \S\ref{sec:machine}) agree
+  with the free spectra of Kleene algebras computed by
+  Berman--Mukaidono \cite{BermanMukaidono} (OEIS~A268534), an
+  independent confirmation of Theorem~\ref{thm:rep}.  The theorem
+  refines the classical normal-form descriptions \cite{GWW,
+  BermanMukaidono} in the same way the literal-cube picture refines
+  them for De Morgan algebras: it makes the \emph{boundary}
+  combinatorics visible.  In that picture the Kleene law acts by
+  \emph{deleting the mixed points} --- and, as the next section
+  shows, mixed points are almost all of the diagonal.
+\end{rem}
+
+\section{Boundary fibers: at most two elements}
+\label{sec:fibers}
+
+Faces $\bnd_i^e : \KL_n \to \KL_{n-1}$ restrict to the face
+subcubes of $\uc_n$ exactly as in the De Morgan case (the face
+subcubes of $\uc_n$ are copies of $\uc_{n-1}$: fixing a pair to
+$(0,1)$ or $(1,0)$ cannot create or destroy mixedness).  A point of
+$\uc_n$ is a \emph{face point} if some pair is $(0,1)$ or $(1,0)$;
+the points invisible to every face are the unmixed diagonal
+points:
+
+\begin{lem}
+  \label{lem:poles}
+  The unmixed diagonal points of $\lc_n$ are exactly the poles
+  $\bot$ and $\top$; they are comparable, and there is a face point
+  strictly between them (any point with one pair $(0,1)$ and the
+  rest $(0,0)$).
+\end{lem}
+
+\begin{thm}
+  \label{thm:fibers}
+  Every boundary fiber of $\KL_n$ is an interval $[m, M]$ with
+  $D = M \setminus m$ an antichain contained in
+  $\{\bot, \top\}$; hence $|D| \leq 1$ and fibers have at most two
+  elements.  Exactly two fibers are non-singleton in every
+  dimension $n \geq 1$: the \emph{zero-boundary} fiber
+  $\{0,\ \delta_{\top}\}$ ($\delta_{\top}$ the indicator of
+  $\top$, i.e.\ $x_1 \wedge \neg x_1 \wedge \cdots \wedge x_n
+  \wedge \neg x_n$) and the \emph{top-boundary} fiber
+  $\{1 \setminus \bot,\ 1\}$.  Consequently
+  \[
+    B_{\KL}(n) \;=\; |\KL_n| - 2 ,
+  \]
+  where $B_{\KL}(n)$ is the number of realizable boundaries.
+\end{thm}
+
+\begin{proof}
+  The interval property, the confinement of $D$ to invisible
+  points, and the antichain property are the proofs of
+  \cite[\S3]{DMFibers} verbatim, applied to the poset $\uc_n$: the
+  only inputs are that faces see exactly the face points and that
+  between comparable invisible points there is a face point
+  (Lemma~\ref{lem:poles}).  Since $\bot < \top$, an antichain
+  contains at most one pole.  Realizability of $D = \{\top\}$ and
+  $D = \{\bot\}$ is witnessed by the displayed fibers (that
+  $\delta_{\top}$ is monotone on $\uc_n$ and has zero boundary, and
+  dually, is immediate); uniqueness of each --- i.e.\ that no other
+  fiber has $D \neq \emptyset$ --- follows from the fiber
+  description of \cite[Thm.~3.4]{DMFibers}: $D = \{\top\}$ forces
+  every face point above $\top$ to lie in $m$, and there are none,
+  so $m$ is the least up-set with empty intersection with
+  $\{\top\}$'s up-set, namely $m = 0$; dually for $\bot$, $m$ must
+  contain every face point, forcing $m = 1 \setminus \bot$.
+  Finally, boundaries biject with fiber-minimal elements
+  \cite[Thm.~4.2]{DMFibers}, and all elements are fiber-minimal
+  except the top members $\delta_{\top}$ and $1$ of the two polar
+  fibers.
+\end{proof}
+
+\begin{rem}[the free spectrum, interpreted]
+  \label{rem:spectrum}
+  The sequence $B_{\KL}(n) = 4, 82, 43916, \dots$ appears in the
+  OEIS as A007154, \emph{the free spectrum of Kleene algebras in
+  the constant-free signature} (Berman \cite{Berman}): dropping the
+  constants $0, 1$ from the signature removes exactly two elements
+  from each free algebra.  Theorem~\ref{thm:fibers} gives the same
+  numbers a different meaning --- the number of compatible spheres
+  in the Kleene cube category --- via the bijection
+  boundaries $\leftrightarrow$ fiber-minimal elements.  We do not
+  know a direct structural link between the two interpretations
+  beyond the count; both ``remove two elements'', but different
+  ones ($\{0,1\}$ versus $\{\delta_\top, 1\}$).
+\end{rem}
+
+\begin{rem}[Boolean and Dedekind]
+  \label{rem:boolean}
+  For the Boolean cube category ($x \vee \neg x = 1$), the
+  representation collapses to functions on the \emph{consistent}
+  points (all pairs $(0,1)$ or $(1,0)$): every point is a face
+  point, no invisible points remain, and all fibers are singletons
+  --- boundaries determine fillers, as for the bare distributive
+  (Dedekind) theory \cite{DMFibers}.  With Kalman's theorem
+  \cite{Kalman} --- Boolean and Kleene are the only proper
+  nontrivial subvarieties of De Morgan algebras --- the table of
+  \S\ref{sec:intro} is therefore a \emph{complete} classification
+  of boundary-fiber behaviour over the subvariety lattice.
+\end{rem}
+
+\section{The strict layer}
+\label{sec:strict}
+
+We record how the structure theory of \cite{StrictDM} specializes.
+Throughout, $\rmin(g) = g \setminus A_g$ where $A_g$ is the set of
+minimal invisible points of $g$; by Theorem~\ref{thm:fibers},
+$A_g \subseteq \{\bot, \top\}$, and indeed
+$A_g = \{\top\}$ iff $g = \delta_\top$, $A_g = \{\bot\}$ iff
+$g = 1$.
+
+\begin{prop}
+  \label{prop:kar}
+  The Kleene cube category is not idempotent complete
+  ($x \mapsto x \vee \neg x$ does not split; the proof of
+  \cite[Prop.~3.1]{StrictDM} applies verbatim since
+  $|\KL_1| = 6$), hence not Eilenberg--Zilber; and its Karoubi
+  envelope is the opposite of the category of finite projective
+  Kleene algebras, characterized combinatorially by Bova--Cabrer
+  \cite[Thm.~12]{BovaCabrer}.
+\end{prop}
+
+\begin{thm}
+  \label{thm:strict}
+  Over the Kleene cube category:
+  \begin{enumerate}
+  \item (\emph{defect formula}) for every $g$, $\rmin(g)$ is the
+    least element of the boundary fiber of $g$ in one deletion
+    step;
+  \item (\emph{coherence dichotomy}) for every substitution $f$
+    (inducing $F$ on unmixed points --- substitutions preserve
+    unmixedness) and every $g$:
+    $\rmin(f^{*}g) = \rmin(f^{*}\rmin(g))$ iff
+    $F(\Face(\uc_m)) \cap A_g = \emptyset$;
+  \item (\emph{polar exceptional locus}) consequently the
+    incoherent pairs $(f, g)$ have
+    $g \in \{\delta_{\top}, 1\}$: for each substitution, at most
+    two elements --- independent of $n$ --- fail to transport
+    coherently, in contrast with the positive-fraction exceptional
+    loci of the De Morgan case \cite{StrictDM}.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  (1) and (2) are the proofs of \cite[Thm.~4.1, Thm.~5.2]{StrictDM}
+  verbatim over the poset $\uc_n$, with
+  Lemma~\ref{lem:poles} supplying the two ingredients used there
+  (faces see exactly face points; a face point lies between
+  comparable invisible points).  Preservation of unmixedness by
+  substitutions is the semantic fact that lower/upper
+  approximations are computed uniformly:
+  $F(v_{\mathrm{low}}) = (t(v))_{\mathrm{low}}$ for the
+  three-valued evaluation $t$ of the substitution.  (3) is
+  immediate from $A_g \subseteq \{\bot,\top\}$ and the
+  identification of the two elements with nonempty defect.
+\end{proof}
+
+\begin{rem}
+  Thus the Kleene strict layer is ``Eilenberg--Zilber up to two
+  poles'': the minimal-filler retraction is a strictly natural
+  normal form away from $\{\delta_\top, 1\}$, and even there the
+  deviation is a single toggled pole, corrected inside a two-element
+  fiber by the median cylinder (whose Kleene instance is the same
+  term as in \cite{DMFibers}).  It is instructive that the two
+  exceptional elements are precisely the witnesses of the
+  \emph{failure of excluded middle} surviving the Kleene law:
+  $\delta_\top = \bigwedge_i (x_i \wedge \neg x_i) \neq 0$ and its
+  dual.  The Kleene law tames, but cannot eliminate, the no-LEM
+  cells --- and they are exactly what separates the Kleene cube
+  category from Eilenberg--Zilber behaviour.
+\end{rem}
+
+\section{Machine verification}
+\label{sec:machine}
+
+All counts and theorems were verified exhaustively for
+$n \leq 3$ (scripts accompany the artifact):
+$|\mathrm{Mon}(\uc_n)| = 6, 84, 43918$ against the
+Berman--Mukaidono spectra; fiber censuses
+$\{1^2, 2^2\}$, $\{1^{80}, 2^{2}\}$, $\{1^{43914}, 2^{2}\}$
+confirming Theorem~\ref{thm:fibers} and the identity
+$B_{\KL}(n) = |\KL_n| - 2$; the defect formula on all $84$
+elements of $\KL_2$ against brute-force fiber minima; and the
+coherence dichotomy on all of $\KL_2$ for five generating
+substitutions --- conditions of Theorem~\ref{thm:strict}(2)
+coincide exactly, with incoherent loci of sizes $2, 2, 0, 2, 0$
+(both connections, reversal, diagonal,
+$x \mapsto x \wedge \neg x$), each consisting of the two polar
+elements.  Assertions that substitutions preserve unmixedness and
+that defects stay within $\{\bot, \top\}$ were checked at every
+step.  At $n = 2$ the boundary counts of the Kleene and De Morgan
+theories coincide ($82$): the mixed points of $\lc_2$ are the two
+non-polar diagonals, so the two face-point posets agree ---
+a low-dimensional accident that disappears at $n = 3$
+($43{,}916$ versus $4{,}829{,}136$ \cite{DMFibers}).
+
+\section{Outlook}
+\label{sec:outlook}
+
+The subvariety classification suggests two further questions.
+First, \emph{relative theories}: interval theories between Kleene
+and De Morgan can be manufactured by bounding the number of
+``independently mixable'' variable groups; the fiber theory should
+interpolate in a graded way between two poles and the full diagonal
+antichain lattice, and it would be interesting to axiomatize which
+fiber behaviours are realizable by \emph{some} interval theory.
+Second, \emph{the strict--weak interface}: in the De Morgan case
+the diagonal points simultaneously index fiber freedom, coherence
+defects, and the failure of idempotent splitting; the Kleene case
+shows the first two can be cut to a constant while the third
+persists ($x \vee \neg x$ still does not split).  Whether the
+Karoubi envelope of the Kleene cube category — the finite projective
+Kleene algebras of \cite{BovaCabrer} — admits a boundary-fiber
+theory of its own, and how the polar cells behave there, is open.
+
+\subparagraph*{Artifact.}  Scripts and machine-checked companions
+are available in the repository at
+\url{https://github.com/r-shibusawa/cubical-strict-j}
+(archived at DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961}).
+
+\begin{thebibliography}{10}
+
+\bibitem{Berman}
+J.~Berman.
+\newblock Free spectra of $3$-element algebras.
+\newblock In \emph{Universal Algebra and Lattice Theory}
+  (R.~S.~Freese, O.~C.~Garcia, eds.), Lecture Notes in
+  Math.\ 1004, Springer, 1983.
+
+\bibitem{BermanMukaidono}
+J.~Berman, M.~Mukaidono.
+\newblock Enumerating fuzzy switching functions and free Kleene
+  algebras.
+\newblock \emph{Comput.\ Math.\ Appl.}\ 10 (1984), 25--35.
+
+\bibitem{BovaCabrer}
+S.~Bova, L.~Cabrer.
+\newblock Unification and projectivity in De Morgan and Kleene
+  algebras.
+\newblock \emph{Order}\ 31 (2014), 159--187.
+
+\bibitem{BuchholtzMorehouse}
+U.~Buchholtz, E.~Morehouse.
+\newblock Varieties of cubical sets.
+\newblock \emph{RAMiCS 2017}, LNCS 10226, 2017.
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{GWW}
+M.~Gehrke, C.~Walker, E.~Walker.
+\newblock Normal forms and truth tables for fuzzy logics.
+\newblock \emph{Fuzzy Sets and Systems}\ 138 (2003), 25--51.
+
+\bibitem{Kalman}
+J.~A.~Kalman.
+\newblock Lattices with involution.
+\newblock \emph{Trans.\ Amer.\ Math.\ Soc.}\ 87 (1958), 485--491.
+
+\bibitem{DMFibers}
+R.~Shibusawa.
+\newblock Boundary fibers in free De Morgan algebras: Boolean
+  intervals, Sperner bounds, and median contractions.
+\newblock Preprint, 2026.  Included in the artifact repository
+  \url{https://github.com/r-shibusawa/cubical-strict-j} (from
+  release \texttt{v1.6.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695307}%
+  {10.5281/zenodo.21695307}).
+
+\bibitem{StrictDM}
+R.~Shibusawa.
+\newblock The strict layer of De Morgan cubical sets: minimal
+  fillers, a coherence dichotomy, and the Karoubi envelope.
+\newblock Preprint, 2026.  Included in the artifact repository
+  above (from release \texttt{v1.7.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695641}%
+  {10.5281/zenodo.21695641}).
+
+\end{thebibliography}
+
+\end{document}

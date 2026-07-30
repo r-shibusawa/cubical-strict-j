@@ -22,8 +22,9 @@ Seven self-contained papers have been developed on this artifact; each is indepe
 | 5 | [Word problems across the strict–weak boundary](docs/paperF/wordproblems.pdf) | the strict/weak boundary **is** the decidable/undecidable boundary; Sanov invariant at <1 ms per letter; RP² realized faithfully |
 | 6 | [Boundary fibers in free De Morgan algebras](docs/paperG/dmfibers.pdf) | fibers are Boolean intervals over antichains of diagonal points; Sperner-extremal; census new to OEIS |
 | 7 | [The strict layer of De Morgan cubical sets](docs/paperH/strictdm.pdf) | the Karoubi envelope via projective De Morgan algebras; the defect formula; a coherence dichotomy |
+| 8 | [The Kleene interpolation](docs/paperI/kleene.pdf) | boundary fibers across the subvarieties of De Morgan algebras: Kleene has exactly two non-singleton fibers in every dimension |
 
-Papers 2–7 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
+Papers 2–8 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
 ## What the paper shows
 
