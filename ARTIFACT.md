@@ -9,7 +9,8 @@ This repository is the artifact accompanying the paper
   `docs/paperG/dmfibers.{tex,pdf}` on boundary fibers in free De
   Morgan algebras, its census scripts `scripts/dmfiber*.py`, the
   note `docs/DMFiber.md`, and a revision of
-  `docs/paperF/wordproblems.{tex,pdf}`); DOI recorded after archiving
+  `docs/paperF/wordproblems.{tex,pdf}`), archived at DOI
+  [10.5281/zenodo.21695307](https://doi.org/10.5281/zenodo.21695307)
 - Previous: release `v1.5.0` (word-problem suites + paper F), DOI
   [10.5281/zenodo.21669939](https://doi.org/10.5281/zenodo.21669939)
 - Previous: release `v1.4.0` (De Morgan convexity suite + paper E),
