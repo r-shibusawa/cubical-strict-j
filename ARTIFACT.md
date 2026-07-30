@@ -5,11 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.8.1` (revision of the Kleene paper
-  `docs/paperI/kleene.{tex,pdf}`: adds the completeness theorem —
-  nontrivial boundary fibers require both the involution and a
-  connection, so the three grades exhaust all interval signatures),
-  archived at DOI
+- Current snapshot: release `v1.9.0` (adds the paper
+  `docs/paperJ/nogo.{tex,pdf}` — natural strict fillers do not
+  exist: the no-go theorem and the median correction structure —
+  with the note `docs/NoGo.md` and the record `scripts/nogo.py`);
+  DOI recorded after archiving
+- Previous: release `v1.8.1` (Kleene paper revision), DOI
   [10.5281/zenodo.21695917](https://doi.org/10.5281/zenodo.21695917)
 - Previous: release `v1.8.0` (the Kleene interpolation paper), DOI
   [10.5281/zenodo.21695778](https://doi.org/10.5281/zenodo.21695778)
@@ -100,6 +101,7 @@ elaboration time; a successful build **is** the verification run.
 | Boundary fibers in free De Morgan algebras (paper `docs/paperG`): Boolean-interval structure, Sperner-extremal fibers, sphere filling, boundary↔antichain classification, median cylinder — full census n ≤ 3, construction check n = 4 | `scripts/dmfiber.py`, `scripts/dmfiber3.py`, `scripts/dmfiber_boundaries.py` (Python; notes in `docs/DMFiber.md`; the type-theoretic counterparts are `mixInterpD`/`mixFillD` and the strictness suites) |
 | The strict layer of De Morgan cubical sets (paper `docs/paperH`): non-idempotent-completeness, Karoubi envelope via projective De Morgan algebras (Bova–Cabrer), the defect antichain formula, the coherence dichotomy — verified on all 7,828,354 elements of DM(3) | `scripts/dmdefect.py` (record; notes in `docs/StrictLayer.md`) |
 | The Kleene interpolation (paper `docs/paperI`): KL(n) = monotone functions on the unmixed poset (counts 6, 84, 43918 = Berman–Mukaidono); fibers ≤ 2 with exactly two non-singleton fibers at every n; B_K(n) = FK(n) − 2 (= OEIS A007154, newly interpreted); defect/coherence ported with polar exceptional locus | `scripts/kleene.py` (record; notes in `docs/Kleene.md`) |
+| The no-go theorem (paper `docs/paperJ`): no natural section of the boundary-fiber correspondence (three-line proof from m = ¬x∧y∧¬y; 142 forced conflicts; exhaustive 2^38·4^16 search); the median correction system is strictly contractible (fiber-coordinate formula; iterated median cylinder with exact faces) | `scripts/nogo.py` (record; notes in `docs/NoGo.md`) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

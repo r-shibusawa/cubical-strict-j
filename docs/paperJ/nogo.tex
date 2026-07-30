@@ -1,0 +1,454 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ques}[thm]{Question}
+\newtheorem*{thmstar}{Theorem}
+
+\newcommand{\DM}{\mathrm{DM}}
+\newcommand{\cube}{\square_{\mathrm{DM}}}
+\newcommand{\lc}{Q}
+\newcommand{\bnd}{\partial}
+\newcommand{\Face}{\mathrm{Face}}
+\newcommand{\rmin}{\mathrm{r}}
+\newcommand{\cyl}{\mathrm{cyl}}
+
+\begin{document}
+
+\title[Natural strict fillers do not exist]{Natural strict fillers
+  do not exist:\\ a no-go theorem for De Morgan cubical sets\\ and
+  the median correction structure}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{06D30; 18N40, 55U35, 03B38}
+\keywords{cubical sets, De Morgan algebra, filling, algebraic weak
+  factorization system, median, naturality, cubical type theory}
+
+\begin{abstract}
+  Over the free De Morgan algebras that govern the strict layer of
+  CCHM cubical type theory, a boundary does not determine its
+  filler: the fibers of the boundary map are Boolean lattices
+  $2^{D}$, and a companion paper showed that the canonical minimal
+  filler fails to commute with substitution in a controlled way.
+  This paper closes the question of whether the failure can be
+  repaired by a cleverer choice: it cannot.  \emph{No section of
+  the boundary-fiber correspondence --- no rule assigning to every
+  boundary one of its strict fillers --- is natural with respect to
+  substitution}; the proof takes three lines from one
+  uniquely-fillable boundary whose transports under a diagonal and
+  under a connective collapse land at the top and the bottom of a
+  single two-element fiber, and an exhaustive machine search
+  certifies that the obstruction is ubiquitous rather than
+  exceptional.  What replaces the impossible choice is
+  \emph{structure}: the median interpolation of the companion
+  papers is computed in fiber coordinates to be a graded Boolean
+  median, its compositional coherence is witnessed by explicit
+  \emph{iterated} median cylinders whose faces match on the nose,
+  and every compatible sphere of corrections fills --- the system of
+  corrections is strictly contractible.  As a consequence, any
+  filling operation for De Morgan cubical sets that is natural in
+  the cube category must take values outside the strict layer: the
+  weak (Kan) layer is categorically necessary, not merely
+  convenient.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+This paper resolves the last open question of a structure theory,
+developed in \cite{DMFibers, StrictDM, Kleene}, of the \emph{strict
+layer} of De Morgan cubical sets --- the presheaves on the cube
+category $\cube$ of the CCHM interval theory \cite{CCHM}, restricted
+to the reparametrizations that a proof-assistant kernel applies
+judgmentally.  The theory so far: boundary fibers in the free De
+Morgan algebra $\DM_n$ are Boolean intervals $2^{D}$ over
+antichains of diagonal points, Sperner-extremal in size
+\cite{DMFibers}; every fiber has a canonical least element,
+reachable by the one-step \emph{defect formula}; and the least
+element commutes with a substitution $f$ exactly when the
+transported boundary avoids the defect antichain --- the
+\emph{coherence dichotomy} \cite{StrictDM}.  The minimal filler is
+thus not natural.  The question this paper answers:
+
+\begin{quote}
+  \emph{Is any choice of strict fillers natural?  Or is the failure
+  of naturality intrinsic to the strict layer?}
+\end{quote}
+
+The answer is the strongest possible no-go.
+
+\begin{thmstar}[Theorem~\ref{thm:nogo}]
+  There is no section of the boundary-fiber correspondence on the
+  free De Morgan algebras --- no assignment $s$ of a filler
+  $s(B) \in \mathrm{fib}(B)$ to every boundary $B$ --- such that
+  $s(\bnd(f^{*}g)) = f^{*}(s(B))$ for all substitutions $f$ and all
+  $g = s(B)$.  Already at two generators, and already for
+  endomorphisms of $[2]$, the constraints are unsatisfiable.
+\end{thmstar}
+
+The proof is three lines (\S\ref{sec:nogo}): the element
+$m = \neg x \wedge y \wedge \neg y$ is the \emph{unique} filler of
+its boundary, so any natural $s$ is forced on it and on all its
+transports; but the diagonal $x := y$ and the connective collapse
+$x := x \wedge \neg x$ send $m$ to the top, respectively the
+bottom, of one and the same two-element fiber --- two forced values
+for one boundary.  The two substitutions realize the two faces of
+the defect formula: one \emph{adds} the invisible diagonal point,
+the other does not.  A machine census shows this is no isolated
+accident: unique fillers force values on $42$ of the $54$
+non-singleton fibers of $\DM_2$, with $142$ pairwise conflicts, and
+an exhaustive search over all
+$2^{38} \cdot 4^{16}$ sections, constrained by $121$
+endo-substitutions, confirms unsatisfiability without using
+higher cubes.
+
+The no-go sharpens the slogan of \cite{StrictDM} --- \emph{without
+Eilenberg--Zilber normal forms, thinness cannot be a property} ---
+into a theorem about \emph{choices}: not only is there no
+property singling out a filler, there is no natural \emph{choice
+function} either.  What survives is the correction
+\emph{structure}, and the second half of the paper
+(\S\ref{sec:median}) shows it is as good as such a structure can
+be.  In fiber coordinates the median interpolation
+$\chi = (\varphi \wedge \neg k) \vee (k \wedge \varphi') \vee
+(\varphi \wedge \varphi')$ of \cite{DMFibers} is precisely a graded
+Boolean median on $2^{D}$ (Proposition~\ref{prop:coords}); the
+composition of corrections is witnessed by an \emph{iterated}
+median cylinder
+$\Xi = \chi_{l}(\chi_{k}(a, b), \cyl\, c)$ whose four faces are
+exactly the three interpolations and one degeneracy, on the nose
+(Theorem~\ref{thm:coherence}); and every compatible sphere of
+corrections fills, by the sphere-filling theorem applied in
+$\DM_{n+k}$ --- the correction system is \emph{strictly
+contractible}.  In the language of algebraic weak factorization
+systems \cite{Garner}, the strict layer supports pointed-endofunctor
+algebra structures in abundance (any section will do) but no
+monad-algebra structure; the contractible median system is the
+canonical pseudo-structure interpolating between the two.
+
+The consequence for cubical type theory is worth stating plainly
+(Corollary~\ref{cor:weak}): \emph{any filling operation natural in
+the cube category must take values outside the strict layer}.  Kan
+composition is not a convenience bolted onto the
+reparametrization calculus; it is forced by naturality itself.
+This gives the strict--weak divide studied throughout the series
+\cite{Const, Convexity, WordProblems} a purely categorical root.
+
+\section{Preliminaries}
+\label{sec:prelim}
+
+We freely use the setting of \cite{DMFibers, StrictDM}: $\DM_n$ is
+the lattice of monotone functions (up-sets) on the literal cube
+$\lc_n = \{0,1\}^{2n}$, coordinates in pairs $(x_i, \neg x_i)$;
+\emph{face points} have some pair in $\{(0,1), (1,0)\}$,
+\emph{diagonal points} have all pairs in $\{(0,0), (1,1)\}$; the
+boundary $\bnd g$ is the tuple of the $2n$ substitutions
+$x_i := 0, 1$; fibers of $\bnd$ are Boolean intervals
+$[m, m \cup D] \cong 2^{D}$ with $D$ an antichain of diagonal
+points; $A_g$ denotes the antichain of minimal diagonal points of
+$g$, and $\rmin(g) = g \setminus A_g$ is the least element of the
+fiber of $g$ (the defect formula).  A substitution
+$f : [m] \to [n]$ of $\cube$ induces $f^{*} : \DM_n \to \DM_m$ and
+the literal-cube map $F : \lc_m \to \lc_n$.  A \emph{section} is a
+function $s$ from realizable boundaries to elements with
+$\bnd(s(B)) = B$; it is \emph{natural} if
+$s(\bnd(f^{*} s(B))) = f^{*} s(B)$ for all $f, B$ --- i.e.\ the
+transport of a chosen filler is again chosen.
+
+\section{The no-go theorem}
+\label{sec:nogo}
+
+\begin{thm}
+  \label{thm:nogo}
+  No natural section exists, already for $n \leq 2$ and already
+  with respect to the endomorphisms of $[2]$.
+\end{thm}
+
+\begin{proof}
+  Let $m = \neg x \wedge y \wedge \neg y \in \DM_2$, the up-set of
+  the single point $\alpha = ((0,1), (1,1))$.  Its boundary fiber is
+  a singleton: a diagonal point $\delta$ could be added only if
+  every face point above $\delta$ already lay in $m$, and for each
+  of the four diagonal points one checks a face point above it
+  missing from $m$ (e.g.\ for $\delta = ((0,0),(1,1))$ the face
+  point $((1,0),(1,1))$ is not in $m$).  So any natural section
+  satisfies $s(\bnd m) = m$, and hence is forced on every
+  transport: $s(\bnd(f^{*}m)) = f^{*}m$ for all $f$.  Now
+  \[
+    (x := y)^{*}\, m \;=\; y \wedge \neg y,
+    \qquad
+    (x := x \wedge \neg x)^{*}\, m
+    \;=\; (x \vee \neg x) \wedge y \wedge \neg y .
+  \]
+  These two elements have the same boundary --- their common fiber
+  is the two-element interval with
+  $D = \{((0,0),(1,1))\}$, of which $y \wedge \neg y$ is the top
+  and $(x \vee \neg x) \wedge y \wedge \neg y$ the bottom --- and
+  they are distinct.  Two different values are forced at one
+  boundary; contradiction.
+\end{proof}
+
+\begin{rem}
+  The proof is the coherence dichotomy of \cite{StrictDM} weaponized:
+  the diagonal substitution reaches the invisible diagonal point
+  (its $F$ maps a face point onto it), the connective collapse does
+  not, and a \emph{unique} filler upstream leaves no freedom to
+  absorb the difference downstream.  Machine census
+  (\S\ref{sec:machine}): unique fillers force values on $42$ of the
+  $54$ non-singleton fibers of $\DM_2$, with $142$ pairwise
+  conflicts of forced values; and independently of the forcing
+  argument, an exhaustive backtracking search over all sections,
+  constrained by $121$ endo-substitutions of $[2]$, finds no
+  solution.  The no-go is thus robust: it does not hinge on one
+  clever element, and it needs neither higher cubes nor
+  degeneracies.
+\end{rem}
+
+\begin{cor}
+  \label{cor:weak}
+  Any filling operation for De Morgan cubical sets that is natural
+  in $\cube$ --- in particular, any algebraic fibrancy structure on
+  the representables, and any functorial fibrant replacement ---
+  takes some values outside the strict layer.  Equivalently: in any
+  cubical type theory over the De Morgan interval whose filling
+  operation is substitution-stable, fillers cannot all be
+  reparametrizations; a weak layer is categorically necessary.
+\end{cor}
+
+\begin{proof}
+  A strict-valued natural filling operation restricts, on
+  representables, to a natural section, which
+  Theorem~\ref{thm:nogo} forbids.
+\end{proof}
+
+\section{The median correction structure}
+\label{sec:median}
+
+If no filler can be chosen, all fillers must be carried --- with
+the identifications between them.  The companion papers supply the
+identifications; here we show they are computed by a graded Boolean
+median and compose \emph{on the nose} via iterated medians.
+
+\begin{prop}[fiber coordinates]
+  \label{prop:coords}
+  Let $[m, m \cup D]$ be a fiber and
+  $\varphi = m \cup S$, $\varphi' = m \cup S'$ with
+  $S, S' \subseteq D$.  Then the median interpolation in one fresh
+  generator $k$ is, as an up-set of $\lc_{n+1}$,
+  \begin{multline*}
+    \chi(\varphi, \varphi')
+    \;=\; \cyl\bigl(m \cup (S \cap S')\bigr)\\
+    \cup\; \{(\alpha, \kappa) : \alpha \in S \setminus S',\
+    \kappa \in \neg k\}
+    \;\cup\; \{(\alpha, \kappa) : \alpha \in S' \setminus S,\
+    \kappa \in k\},
+  \end{multline*}
+  i.e.\ the cylinder on the common part and the symmetric
+  difference graded by the two half-cylinders of $k$: the Boolean
+  median of $S$, $S'$ and the $k$-grading, computed pointwise on
+  $D$.
+\end{prop}
+
+\begin{proof}
+  Evaluate
+  $(\varphi \wedge \neg k) \vee (k \wedge \varphi') \vee
+  (\varphi \wedge \varphi')$ at a point $(\alpha, \kappa)$: for
+  $\alpha \in m \cup (S \cap S')$ the third disjunct fires for all
+  $\kappa$; for $\alpha \in S \setminus S'$ only the first, i.e.\
+  $\kappa \in \neg k$; for $\alpha \in S' \setminus S$ only the
+  second.  (Machine-checked on all pairs of a rank-two fiber of
+  $\DM_2$.)
+\end{proof}
+
+\begin{thm}[coherence by iterated medians]
+  \label{thm:coherence}
+  Let $a, b, c$ lie in one fiber.  Then the iterated median
+  cylinder
+  \[
+    \Xi \;:=\; \chi_{l}\bigl(\chi_{k}(a, b),\ \cyl_{k}(c)\bigr)
+    \;\in\; \DM_{n+2}
+  \]
+  has faces, on the nose:
+  \[
+    \Xi|_{l=0} = \chi_{k}(a,b), \quad
+    \Xi|_{l=1} = \cyl_{k}(c), \quad
+    \Xi|_{k=0} = \chi_{l}(a,c), \quad
+    \Xi|_{k=1} = \chi_{l}(b,c).
+  \]
+  More generally, every compatible sphere assembled from
+  interpolations and cylinders over one fiber fills in
+  $\DM_{n+j}$: the correction system is strictly contractible.
+\end{thm}
+
+\begin{proof}
+  The four face identities are absorption computations from
+  Proposition~\ref{prop:coords} (each face substitutes an endpoint
+  into one grading; machine-checked exactly on a rank-two fiber).
+  For the general statement, observe that a compatible sphere of
+  corrections over a fiber has, at each original face of $\lc_n$,
+  the constant value of the common boundary --- so it is a
+  compatible sphere in $\DM_{n+j}$, and the sphere-filling theorem
+  of \cite[Thm.~4.1]{DMFibers} provides a filler, whose defect
+  freedom is again a Boolean fiber.  Contractibility at every level
+  follows by induction, exactly as in the strict-contractibility
+  analysis of \cite{Convexity}.
+\end{proof}
+
+\begin{rem}[the pseudo-structure]
+  In the terminology of algebraic weak factorization systems
+  \cite{Garner}, generated in $\widehat{\cube}$ by the boundary
+  inclusions $\bnd\square^n \hookrightarrow \square^n$: any section
+  equips the representables with an algebra structure for the
+  \emph{pointed endofunctor} of the associated one-step
+  construction, but Theorem~\ref{thm:nogo} forbids the
+  compatibilities required of a \emph{monad} algebra valued in
+  strict fillers.  The data that does exist naturally is: the full
+  Boolean fiber $2^{D}$ of fillers (structure, not property), the
+  defect antichain measuring every transport
+  \cite{StrictDM}, and the strictly contractible median system of
+  Theorem~\ref{thm:coherence} identifying all choices coherently.
+  This is precisely a fibered, strictly contractible
+  \emph{pseudo}-algebra --- and the no-go says pseudo is optimal.
+  Steiner's anticipation that thin fillers in weak settings
+  ``exist but not necessarily uniquely'' \cite{Steiner} is thus
+  realized in the sharpest form: existence, canonical
+  non-uniqueness, and provable impossibility of natural selection.
+\end{rem}
+
+\section{Machine verification}
+\label{sec:machine}
+
+Three computations back the theorems (scripts accompany the
+artifact).  (1)~\emph{Forcing census}: over $\DM_2$, the unique
+fillers (singleton fibers) force values, via endo-substitutions
+from a generating set of $121$, on $42$ of the $54$ non-singleton
+fibers, with $142$ pairwise conflicts; the specific core of
+Theorem~\ref{thm:nogo} is one of them, chosen for the shortness of
+its by-hand verification.  (2)~\emph{Exhaustive search}: a
+backtracking search with constraint propagation over all sections
+--- $2^{38} \cdot 4^{16}$ assignments for the $38$ two-element and
+$16$ four-element fibers --- confirms unsatisfiability against the
+same $121$ substitutions, independently of the forcing argument.
+(3)~\emph{Median identities}: the fiber-coordinate formula of
+Proposition~\ref{prop:coords} and all four face identities of
+Theorem~\ref{thm:coherence} were verified exactly on a rank-two
+fiber of $\DM_2$.  We remark that (1) alone proves the theorem, (2)
+alone re-proves it, and the printed proof needs neither.
+
+\section{Outlook}
+\label{sec:outlook}
+
+Two directions.  First, the \emph{quantitative geography of the
+obstruction}: the forcing graph --- boundaries as vertices, forced
+transports as edges --- was here used only for unsatisfiability,
+but its structure (which fibers are forced from how many unique
+fillers, and how conflicts distribute over the defect rank) should
+refine the coherence dichotomy of \cite{StrictDM} into a
+cohomological invariant of the strict layer; the Kleene case
+\cite{Kleene}, with its two polar fibers, is the natural test bed,
+and we expect its forcing graph to be consistent away from the
+poles.  Second, the \emph{converse direction}: Theorem~\ref{thm:nogo}
+shows natural filling requires values beyond reparametrizations;
+how far beyond?  The minimal natural filling operations valued in
+Kan composites --- and whether the CCHM $\mathrm{hcomp}$ is initial
+among them in a precise sense --- is, we believe, the right
+formulation of the ``value of the weak layer'' question raised
+across this series, and the strictly contractible median system of
+\S\ref{sec:median} is the comparison datum such a formulation
+needs.
+
+\subparagraph*{Artifact.}  Scripts and the machine-checked
+companions are available in the artifact repository:\\
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+at DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961}.
+
+\begin{thebibliography}{10}
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{Garner}
+R.~Garner.
+\newblock Understanding the small object argument.
+\newblock \emph{Appl.\ Categ.\ Structures}\ 17 (2009), 247--285.
+
+\bibitem{Steiner}
+R.~Steiner.
+\newblock Thin fillers in the cubical nerves of omega-categories.
+\newblock \emph{Theory Appl.\ Categ.}\ 16 (2006), 144--173.
+
+\bibitem{Const}
+R.~Shibusawa.
+\newblock Evaluation-time constancy inference for transport in
+  cubical type theory.
+\newblock Preprint, 2026.  Artifact:
+  \url{https://github.com/r-shibusawa/cubical-strict-j}, DOI
+  \href{https://doi.org/10.5281/zenodo.21637898}%
+  {10.5281/zenodo.21637898}.
+
+\bibitem{Convexity}
+R.~Shibusawa.
+\newblock De Morgan convexity and the strict--weak comparison in
+  cubical type theory.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.4.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21639454}%
+  {10.5281/zenodo.21639454}).
+
+\bibitem{WordProblems}
+R.~Shibusawa.
+\newblock Word problems across the strict--weak boundary in cubical
+  type theory.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.5.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21669939}%
+  {10.5281/zenodo.21669939}).
+
+\bibitem{DMFibers}
+R.~Shibusawa.
+\newblock Boundary fibers in free De Morgan algebras: Boolean
+  intervals, Sperner bounds, and median contractions.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.6.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695307}%
+  {10.5281/zenodo.21695307}).
+
+\bibitem{StrictDM}
+R.~Shibusawa.
+\newblock The strict layer of De Morgan cubical sets: minimal
+  fillers, a coherence dichotomy, and the Karoubi envelope.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.7.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695641}%
+  {10.5281/zenodo.21695641}).
+
+\bibitem{Kleene}
+R.~Shibusawa.
+\newblock The Kleene interpolation: boundary fibers and the strict
+  layer across the subvarieties of De Morgan algebras.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.8.1}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695917}%
+  {10.5281/zenodo.21695917}).
+
+\end{thebibliography}
+
+\end{document}
