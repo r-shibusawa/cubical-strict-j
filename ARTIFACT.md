@@ -5,11 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.9.0` (adds the paper
-  `docs/paperJ/nogo.{tex,pdf}` — natural strict fillers do not
-  exist: the no-go theorem and the median correction structure —
-  with the note `docs/NoGo.md` and the record `scripts/nogo.py`),
-  archived at DOI
+- Current snapshot: release `v1.10.0` (adds the paper
+  `docs/paperK/reversal.{tex,pdf}` — cubical models with reversal
+  do not present spaces: the interval quotient is a K(ℤ/2,1) —
+  with the note `docs/ReversalQuotient.md` and the record
+  `scripts/reversal.py`); DOI recorded after archiving
+- Previous: release `v1.9.0` (the no-go paper), DOI
   [10.5281/zenodo.21697938](https://doi.org/10.5281/zenodo.21697938)
 - Previous: release `v1.8.1` (Kleene paper revision), DOI
   [10.5281/zenodo.21695917](https://doi.org/10.5281/zenodo.21695917)
@@ -103,6 +104,7 @@ elaboration time; a successful build **is** the verification run.
 | The strict layer of De Morgan cubical sets (paper `docs/paperH`): non-idempotent-completeness, Karoubi envelope via projective De Morgan algebras (Bova–Cabrer), the defect antichain formula, the coherence dichotomy — verified on all 7,828,354 elements of DM(3) | `scripts/dmdefect.py` (record; notes in `docs/StrictLayer.md`) |
 | The Kleene interpolation (paper `docs/paperI`): KL(n) = monotone functions on the unmixed poset (counts 6, 84, 43918 = Berman–Mukaidono); fibers ≤ 2 with exactly two non-singleton fibers at every n; B_K(n) = FK(n) − 2 (= OEIS A007154, newly interpreted); defect/coherence ported with polar exceptional locus | `scripts/kleene.py` (record; notes in `docs/Kleene.md`) |
 | The no-go theorem (paper `docs/paperJ`): no natural section of the boundary-fiber correspondence (three-line proof from m = ¬x∧y∧¬y; 142 forced conflicts; exhaustive 2^38·4^16 search); the median correction system is strictly contractible (fiber-coordinate formula; iterated median cylinder with exact faces) | `scripts/nogo.py` (record; notes in `docs/NoGo.md`) |
+| The reversal quotient (paper `docs/paperK`): freeness of the reversal action (0 self-dual cells, m ≤ 3, DM and KL); no symmetric rescue terms; reachability census (60/32/8 symmetric squares, [x]-component isolated in all three theories); sheet-transport fibration — L is a K(ℤ/2,1) with contractible realization | `scripts/reversal.py` (record; notes in `docs/ReversalQuotient.md`) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

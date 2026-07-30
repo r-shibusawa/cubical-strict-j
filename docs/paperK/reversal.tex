@@ -1,0 +1,624 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ques}[thm]{Question}
+\newtheorem*{thmA}{Theorem A}
+\newtheorem*{thmB}{Theorem B}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\DM}{\mathrm{DM}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\BA}{\mathrm{BA}}
+\newcommand{\comp}{\mathsf{comp}}
+\newcommand{\inc}{\mathsf{inc}}
+\newcommand{\Ldash}{L}
+
+\begin{document}
+
+\title[The reversal quotient is a $K(\mathbb{Z}/2,1)$]{Cubical
+  models with reversal do not present spaces:\\ the interval
+  quotient is a $K(\mathbb{Z}/2, 1)$}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{55U35; 18N40, 55U10, 06D30, 03B38}
+\keywords{cubical sets, cubical type theory, model structure,
+  reversal, De Morgan algebra, Kleene algebra, geometric
+  realization, Eilenberg--MacLane space, test category}
+
+\begin{abstract}
+  Since 2018 it has been folklore, recorded only in a lecture and a
+  mailing-list discussion, that the cubical-type model structure on
+  De Morgan cubical sets --- the semantic home of CCHM cubical type
+  theory --- does not present the homotopy theory of spaces: the
+  quotient $\Ldash$ of the representable interval by the reversal
+  $x \mapsto \neg x$ has contractible geometric realization but is
+  not weakly contractible.  We give the first complete proof, in a
+  form that covers the De Morgan, Kleene and Boolean cube categories
+  uniformly --- the Kleene case having never been examined --- and
+  we identify the homotopy type: $\Ldash$ is a
+  $K(\mathbb{Z}/2, 1)$ in the cubical-type model structure.  The
+  proof has two engines.  A one-line \emph{freeness theorem} shows
+  the reversal acts without fixed cells on the interval, in every
+  dimension and all three theories; a finite \emph{reachability
+  census} of reversal-symmetric squares then closes the
+  non-contractibility argument, adapting Coquand's
+  trivial-cofibration/fibration factorization method from the
+  cartesian symmetric square to the symmetric line --- including two
+  subtleties absent from the cartesian case (connection-degenerate
+  composition directions, and symmetric contractibility of the
+  connection-degenerate line, which makes the reachability census
+  essential).  Freeness then powers a \emph{sheet-transport}
+  fibration structure on the covering $\square^1 \to \Ldash$, whose
+  total space is contractible by a connection and whose fiber is the
+  discrete $\mathbb{Z}/2$: the quotient computes the homotopy
+  quotient, not the orbit space.  Consequences: the cubical-type and
+  test model structures differ on all three cube categories, and
+  geometric realization is not a Quillen equivalence for any of
+  them.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+Cubical type theory in the style of
+Cohen--Coquand--Huber--M\"ortberg \cite{CCHM} is interpreted in
+presheaves on a cube category whose interval carries connections
+$\wedge, \vee$ and a reversal $\neg$ --- the free De Morgan algebra
+structure.  These presheaves carry a \emph{cubical-type model
+structure} (Sattler \cite{SattlerEEP}; Coquand \cite{CoqNote} gives
+an explicit trivial-cofibration/fibration factorization), whose
+fibrant objects model univalent type theory.  Whether this model
+structure presents the homotopy theory of spaces was answered in
+the negative, for the cartesian cube category, by an argument of
+Sattler and Coquand in June 2018: the quotient of the square by the
+coordinate swap is not weakly contractible, though its realization
+is a triangle \cite{CoqNote, CoqML}.  The equivariant repair of
+this defect for cartesian cubes is the recent landmark of
+Awodey--Cavallo--Coquand--Riehl--Sattler \cite{ACCRS}.
+
+For the De Morgan cube category the corresponding negative claim
+--- with counterexample the quotient
+\[
+  \Ldash \;:=\; \square^1 / (x \sim \neg x)
+\]
+of the representable interval by the reversal --- has circulated
+since the same discussions \cite{CoqML, SatTalk}, but no proof has
+been published: Coquand's note proves the cartesian case in full
+and says of the De Morgan case only that the argument ``should also
+be valid'' \cite[Rem.~3]{CoqNote}; the recent literature
+\cite{ACCRS, CavalloSattlerRev} continues to cite the 2018 lecture
+\cite{SatTalk} for it.  The Kleene cube category --- the canonical
+cube category of the standard interval $[0,1]$
+\cite{BuchholtzMorehouse} --- appears in this connection only once
+in the literature, as a parenthetical remark in the 2018 thread
+\cite{CoqML}.
+
+This paper closes the question, in a stronger form than the
+folklore records.  Throughout, $\mathcal{T}$ denotes any of the De
+Morgan, Kleene, or Boolean cube categories, and ``the model
+structure'' means the cubical-type model structure on presheaves
+over $\mathcal{T}$.
+
+\begin{thmA}[= Theorem~\ref{thm:nogo}]
+  In all three theories, $\Ldash \to 1$ is not a weak equivalence,
+  although the geometric realization $|\Ldash| \cong [0, 1/2]$ is
+  contractible.  Hence the cubical-type model structure differs
+  from the test model structure, and geometric realization is not a
+  Quillen equivalence.
+\end{thmA}
+
+\begin{thmB}[= Theorem~\ref{thm:kz2}]
+  In all three theories, the quotient map
+  $p : \square^1 \to \Ldash$ is a fibration with contractible total
+  space and fiber the discrete $\mathbb{Z}/2$; consequently
+  $\Ldash$ is a $K(\mathbb{Z}/2, 1)$ in the cubical-type model
+  structure.
+\end{thmB}
+
+Theorem A for De Morgan and Boolean cubes is the first published
+proof of the folklore claim; for Kleene cubes it is new.  Theorem B
+identifies the actual homotopy type, which no source has claimed:
+the moral is that \emph{the presheaf quotient computes the homotopy
+quotient of the reversal action, not its orbit space} --- exactly
+the phenomenon that equivariance was invented to control on the
+cartesian side \cite{ACCRS}, here appearing for the
+$\mathbb{Z}/2$-action of the reversal, for which no equivariant
+theory yet exists.
+
+\subparagraph*{Method.}  Everything flows from one observation
+(Theorem~\ref{thm:free}): \emph{the reversal acts freely on the
+cells of the interval} --- no reparametrization $t$ of the interval
+satisfies $t = \neg t$, in any dimension and any of the three
+theories, because the all-consistent vertex assignment
+is fixed by the point-level involution while Boolean values are
+not.  Freeness has two independent uses.  For Theorem A we adapt
+Coquand's invariant method \cite[\S4--5]{CoqNote} from symmetric
+squares to \emph{symmetric lines}; two subtleties absent from the
+cartesian case appear.  First, the composition directions fixed by
+the reversal now include the connection-degenerate elements
+$x \wedge \neg x$ and $x \vee \neg x$, enlarging the case analysis
+of the factorization argument.  Second --- and this is where the
+cartesian intuition genuinely fails --- the connection-degenerate
+line $\ell(x \wedge \neg x)$ \emph{is} symmetrically contractible,
+so the chain version of the invariant could conceivably connect
+the generator to a constant through it; whether it can is a finite
+question about two-variable free algebras, and an exhaustive
+\emph{reachability census} answers it: the symmetric-square graph
+on symmetric lines decomposes, in all three theories, into the
+isolated component of the generator and the contractible component
+of the degenerate lines.  (The census sizes are small: $60$, $32$
+and $8$ symmetric squares for De Morgan, Kleene, Boolean.)  For
+Theorem B, freeness makes the two lifts of any cell of $\Ldash$
+into disjoint \emph{sheets}, and the fibration structure on $p$ is
+\emph{sheet transport}: the unique lift through a prescribed face,
+with a tube-forcing lemma showing all compatibility data lies on
+the same sheet.  The reachability census and the monodromy of the
+covering tell one story: the generator line has odd parity, the
+degenerate lines even --- the combinatorial shadow of
+$\pi_1 = \mathbb{Z}/2$.
+
+\subparagraph*{Relation to the literature.}  Our debt to
+\cite{CoqNote} is total as to method; the contribution is the
+adaptation (with its two new subtleties), the uniform treatment of
+the three theories, the previously unexamined Kleene case, the
+identification of the homotopy type, and machine verification of
+every finite ingredient.  The reversal-elimination theorem of
+Cavallo--Sattler \cite{CavalloSattlerRev} obtains a model of a
+theory \emph{with} reversals presenting spaces by interpreting over
+reversal-free cubes; Theorems A and B delimit what it is they are
+eliminating: reversal as a \emph{cube-category} symmetry inevitably
+manufactures $K(\mathbb{Z}/2,1)$s from free quotients.  Whether an
+equivariant fibration structure for the reversal action --- the
+$\mathbb{Z}/2$, or in higher dimensions hyperoctahedral, analogue
+of \cite{ACCRS} --- repairs the De Morgan and Kleene models is, we
+believe, the natural open problem these results isolate
+(\S\ref{sec:outlook}).  The literal-cube combinatorics of free De
+Morgan and Kleene algebras used throughout is developed in
+\cite{DMFibers, Kleene}.
+
+\section{Preliminaries}
+\label{sec:prelim}
+
+\subsection{Cube categories and the interval}
+
+Following \cite[\S1]{CoqNote}, the base category has as objects
+finite sets of names $I, J, \dots$; a morphism $f : J \to I$ is a
+function from $I$ to the free algebra $\mathcal{T}(J)$ of the
+interval theory $\mathcal{T}$ on the names $J$, where
+$\mathcal{T}(J)$ is the free De Morgan algebra $\DM(J)$, the free
+Kleene algebra $\KL(J)$, or the free Boolean algebra $\BA(J)$.  The
+formal interval is $\I(J) = \mathcal{T}(J)$.  We use the
+literal-cube representations \cite{DMFibers, Kleene}: $\DM(J)$ is
+the lattice of monotone Boolean functions on $\{0,1\}^{2|J|}$
+(coordinates in pairs $(x, \neg x)$), $\KL(J)$ its quotient by the
+mixed points, $\BA(J)$ the functions on consistent points.  The
+reversal $\neg$ acts on elements by
+$(\neg t)(\alpha) = 1 - t(\sigma\bar\alpha)$, where $\bar\alpha$
+complements all coordinates and $\sigma$ swaps each pair.
+
+$\square^1 = \mathrm{Yon}(x)$ denotes the representable interval,
+with cells $\square^1(J) = \mathcal{T}(J)$, and
+\[
+  \Ldash \;=\; \square^1 / (t \sim \neg t),
+  \qquad \Ldash(J) = \mathcal{T}(J)/\mathord{\sim},
+\]
+the quotient presheaf (colimits are computed pointwise).  We write
+$[t]$ for cells of $\Ldash$ and $\ell(t)$ when we think of them as
+reparametrizations of the generating line.  Note
+$[0] = [1]$: $\Ldash$ has a single vertex $\ell_0$, and the
+generator $[x]$ is a loop at it.
+
+\subsection{The model structure and the factorization}
+
+The cubical-type model structure on
+$\widehat{\mathcal{T}}$ has cofibrations the (decidable)
+monomorphisms; its fibrations are defined by a uniform composition
+operation $\comp^{k \to l}$ against partial elements, and Coquand's
+note constructs, for any map $\sigma : A \to B$, an explicit trivial
+cofibration--fibration factorization $A \to T \to B$ where $T$ is
+the total space of an inductively defined family $E$ over $B$ with
+constructors $\inc$ and $\comp^{k \to l}(u_k, \psi, u, v)$
+($k \neq l \in \I(J)$, $\psi \neq 1$), and restriction maps given
+by: reindexing when $kg \neq lg$ and $\psi g \neq 1$;
+$u_k g$ when $kg = lg$; $u_{[l]g}$ when $\psi g = 1$
+\cite[\S3]{CoqNote}.  A map is a weak equivalence iff in (any) such
+factorization the fibration part is a trivial fibration; trivial
+fibrations have sections.  All of this is verbatim uniform in
+$\mathcal{T}$: the constructions never inspect the interval theory
+beyond its algebra operations.
+
+\section{The freeness theorem}
+\label{sec:free}
+
+\begin{thm}[freeness]
+  \label{thm:free}
+  In all three theories and for every $J$, no $t \in \mathcal{T}(J)$
+  satisfies $t = \neg t$.  Hence the reversal action on the cells of
+  $\square^1$ is free, and every cell of $\Ldash$ has exactly two
+  lifts $\{t, \neg t\}$.
+\end{thm}
+
+\begin{proof}
+  Let $\alpha_0$ be the point of the literal cube with every pair
+  equal to $(0,1)$ --- the consistent point of the all-zeros
+  assignment, present in all three representations.  Then
+  $\sigma\bar\alpha_0 = \alpha_0$: complementing gives all pairs
+  $(1,0)$, and swapping each pair returns $(0,1)$.  So
+  $t = \neg t$ would give
+  $t(\alpha_0) = 1 - t(\sigma\bar\alpha_0) = 1 - t(\alpha_0)$,
+  impossible for a Boolean value.
+\end{proof}
+
+(Machine census: there are $0$ self-dual elements among all
+$7{,}828{,}354$ elements of $\DM(3)$, all $43{,}918$ of $\KL(3)$,
+and below; see \S\ref{sec:machine}.)
+
+\section{Theorem A: $\Ldash$ is not weakly contractible}
+\label{sec:nogo}
+
+\begin{defi}
+  A square $c(x, z)$ \emph{symmetrically connects} lines $a(x)$ and
+  $b(x)$ if $c(x, 0) = a$, $c(x,1) = b$ (or vice versa) and
+  $c(\neg x, z) = c(x, z)$.  Write $P'(A)$ for the property: every
+  reversal-symmetric line $a(x) = a(\neg x)$ of $A$ is connected to
+  a constant line by a finite chain of symmetrically connecting
+  squares.  (In a quotient like $\Ldash$, symmetry of $[t]$ means
+  $t \circ \sigma_x \in \{t, \neg t\}$.)
+\end{defi}
+
+\begin{lem}
+  \label{lem:section}
+  If $u : A \to B$ has a section then $P'(A)$ implies $P'(B)$.
+\end{lem}
+
+\begin{proof}
+  As in \cite[Lem.~4.1]{CoqNote}: push the symmetric line along the
+  section, connect there, map the chain back.
+\end{proof}
+
+\begin{prop}
+  \label{prop:pres}
+  For every $\sigma : A \to B$ with factorization $A \to T \to B$
+  as above, $P'(A)$ implies $P'(T)$.
+\end{prop}
+
+\begin{proof}
+  A symmetric line of $T$ over $v[l]$ is either
+  $(\sigma a, \inc\, a)$ with $a$ a symmetric line of $A$ ---
+  handled by $P'(A)$ --- or
+  $(v(x, l), \comp^{k \to l}(a, \psi, u, \langle z\rangle v(x,z)))$
+  with $k \neq l \in \I(x)$.  Two remarks before the induction.
+  First, the substitution $g = (x \mapsto \neg x)$ is an
+  \emph{automorphism} of $\mathcal{T}(J)$, so the degenerate
+  restriction clauses cannot fire under it: $kg = lg$ iff $k = l$,
+  and $\psi g = 1$ iff $\psi = 1$.  Symmetry of the cell is
+  therefore an equality of $\comp$-constructors, forcing
+  $k \circ \sigma_x = k$, $l \circ \sigma_x = l$, $a$ symmetric,
+  $\psi$, $u$, $v$ symmetric.  Second, the fixed elements of
+  $\I(x)$ under $x \mapsto \neg x$ are $\{0, 1\}$ in the Boolean
+  theory but
+  \[
+    \{\,0,\ 1,\ x \wedge \neg x,\ x \vee \neg x\,\}
+  \]
+  in the De Morgan and Kleene theories: the composition may enter
+  or exit through a connection-degenerate direction, a case with no
+  cartesian analogue.  The induction is nevertheless uniform: with
+  a fresh name $t$, the square
+  \[
+    c(x, t) \;=\;
+    \bigl(v(x,t),\ \comp^{k \to t}(a, \psi, u,
+    \langle z\rangle v(x,z))\bigr)
+  \]
+  is symmetric (all its data is), equals the given line at $t = l$,
+  and at $t = k$ equals $(v[k], a)$ by the $kg = lg$ restriction
+  clause.  Since $a$ has smaller inductive height and is symmetric,
+  induction reaches an $\inc$-cell and $P'(A)$ concludes.
+\end{proof}
+
+\begin{prop}
+  \label{prop:census}
+  $P'(\Ldash)$ fails, in all three theories.
+\end{prop}
+
+\begin{proof}
+  The symmetric lines of $\Ldash$ are exactly its three (Boolean:
+  two) lines: the generator $[x]$, the connection-degenerate
+  $[x \wedge \neg x] = [x \vee \neg x]$ (absent in the Boolean
+  case), and the constant $[0] = [1]$: every element of
+  $\mathcal{T}(x)$ is orbit-symmetric.  A symmetrically connecting
+  square of $\Ldash$ is an orbit $[t]$, $t \in \mathcal{T}(x,z)$,
+  with $t \circ \sigma_x \in \{t, \neg t\}$ --- a \emph{finite} set,
+  and the faces $z = 0, 1$ of its members are computable.  The
+  exhaustive census (\S\ref{sec:machine}): the symmetric squares
+  number $60$ (De Morgan), $32$ (Kleene), $8$ (Boolean), and the
+  induced graph on symmetric lines is, in each theory,
+  \[
+    \underbrace{[x] \circlearrowleft}_{\text{isolated}}
+    \qquad\qquad
+    [x \wedge \neg x] \longleftrightarrow \text{const}
+    \,\circlearrowleft ,
+  \]
+  i.e.\ every symmetric square with one face $[x]$ has both faces
+  $[x]$.  Two features deserve note.  The degenerate line
+  \emph{is} symmetrically contractible ---
+  $t = (x \wedge \neg x) \wedge \neg z$ is exactly symmetric and
+  connects it to $0$ --- so the isolation of $[x]$ is essential
+  and not a foregone conclusion; and the connection trick that
+  kills the cartesian symmetric-square invariant
+  \cite[Rem.~1]{CoqNote} produces $\ell(x \vee z)$, which is
+  \emph{not} symmetric ($x \vee z \neq \neg x \vee z$ and
+  $\neq \neg(x \vee z)$ in the free algebras), in accordance with
+  the census.  Hence no chain connects $[x]$ to a constant.
+\end{proof}
+
+\begin{thm}
+  \label{thm:nogo}
+  In all three theories $\Ldash \to 1$ is not a weak equivalence;
+  the cubical-type model structure differs from the test model
+  structure; and geometric realization is not a Quillen
+  equivalence.
+\end{thm}
+
+\begin{proof}
+  If $\Ldash \to 1$ were a weak equivalence then so would be the
+  vertex $1 \to \Ldash$ (two-out-of-three); factor it as
+  $1 \to T \to \Ldash$; the fibration $T \to \Ldash$ is then
+  trivial, hence has a section.  $P'(1)$ holds trivially,
+  Proposition~\ref{prop:pres} gives $P'(T)$, and
+  Lemma~\ref{lem:section} gives $P'(\Ldash)$ --- contradicting
+  Proposition~\ref{prop:census}.  For the comparisons:
+  $|\Ldash| \cong [0,1]/(s \sim 1-s) \cong [0, 1/2]$ is
+  contractible, and all three cube categories are strict test
+  categories \cite{BuchholtzMorehouse}, so in the test model
+  structure $\Ldash \to 1$ \emph{is} a weak equivalence --- the two
+  localizations differ.  Since cofibrations are monomorphisms,
+  $\Ldash$ is cofibrant, and a left Quillen equivalence reflects
+  weak contractibility of cofibrant objects
+  \cite[1.3.16]{Hovey}; realization fails to do so.
+\end{proof}
+
+\section{Theorem B: $\Ldash$ is a $K(\mathbb{Z}/2, 1)$}
+\label{sec:kz2}
+
+\begin{thm}[sheet transport]
+  \label{thm:fib}
+  The quotient $p : \square^1 \to \Ldash$ is a fibration: it
+  carries a uniform composition structure.
+\end{thm}
+
+\begin{proof}
+  In dependent form, the fiber over a cell $v \in \Ldash(J)$ is
+  $E(v) = \{t, \neg t\}$, the two lifts (Theorem~\ref{thm:free}).
+  Given composition data --- $v \in \Ldash(J^{+})$,
+  $k \neq l \in \I(J)$, a lift $u_k \in E(v[k])$, $\psi \neq 1$,
+  and a compatible partial family $u_f \in E(vf)$ for
+  $f : K \to J^{+}$ with $\psi \mathsf{p} f = 1$ --- there is a
+  \emph{unique} lift $T \in \mathcal{T}(J^{+})$ of $v$ with
+  $T[k] = u_k$: of the two lifts $T, \neg T$ exactly one restricts
+  to $u_k$, since $T[k] = \neg T[k]$ would contradict freeness at
+  level $J$.  Define
+  \[
+    \comp^{k \to l}(u_k, \psi, u) \;:=\; T[l].
+  \]
+  \emph{Tube forcing}: for $g : K \to J$ with $\psi g = 1$, the
+  tube cell $u_{g^{+}}$ (part of the data, as
+  $\psi \mathsf{p} g^{+} = 1$) satisfies
+  $u_{g^{+}}[kg] = u_{[k]g} = u_k g = T[k] g = (T g^{+})[kg]$,
+  using $[k] \circ g = g^{+} \circ [kg]$; by freeness at level
+  $K^{+}$, agreeing with $T g^{+}$ at one face forces
+  $u_{g^{+}} = T g^{+}$, whence
+  $u_{[l]g} = u_{g^{+}}[lg] = (T g^{+})[lg] = T[l] g$: the
+  composition agrees with the prescribed data on $\psi$.
+  Uniformity: for $g$ with $kg \neq lg$, $\psi g \neq 1$, the
+  unique lift of $v g^{+}$ through $u_k g$ is $T g^{+}$, so
+  $\comp(\dots) g = T[l] g = \comp(u_k g, \psi g, u g^{+})$ ---
+  naturality of the construction.  Finally
+  $\comp^{k \to k} = T[k] = u_k$.
+\end{proof}
+
+\begin{thm}
+  \label{thm:kz2}
+  In all three theories, $\Ldash$ is a $K(\mathbb{Z}/2, 1)$: the
+  loop object of its fibrant replacement at the vertex is weakly
+  equivalent to the discrete two-point object, and its higher
+  homotopy vanishes.
+\end{thm}
+
+\begin{proof}
+  $p$ is a fibration (Theorem~\ref{thm:fib}) with fiber over the
+  vertex the discrete two-point presheaf.  Its total space
+  $\square^1$ is contractible: the connection square
+  $c(x, z) = x \wedge \neg z$ is a homotopy from the identity to
+  the constant $0$.  The fiber sequence
+  $\mathbb{Z}/2 \to \square^1 \to \Ldash$ then identifies, in the
+  homotopy category of the model structure, the loop object of
+  $\Ldash$ at $\ell_0$ with the discrete fiber and kills the
+  higher homotopy: $\pi_n(\Ldash) = \pi_{n-1}(\mathbb{Z}/2) = 0$
+  for $n \geq 2$.  Concretely, the generator loop $[x]$ lifts to
+  the path $x$ from $0$ to $1$, crossing sheets: its monodromy is
+  the nontrivial element of $\mathbb{Z}/2$ (this re-proves
+  Theorem~\ref{thm:nogo} independently of \S\ref{sec:nogo}), while
+  $[x] \cdot [x]$ lifts to a genuine loop and is
+  null-homotopic --- $\pi_1 = \mathbb{Z}/2$ exactly.
+\end{proof}
+
+\begin{rem}
+  The two proofs of non-contractibility are one: the reachability
+  census of Proposition~\ref{prop:census} separates the symmetric
+  lines precisely by the parity of their monodromy --- $[x]$ lifts
+  $0 \to 1$ (odd), while $[x \wedge \neg x]$ and the constants lift
+  to loops (even) --- and symmetric squares preserve the parity.
+  The census is the combinatorial shadow of
+  $\pi_1 = \mathbb{Z}/2$.
+\end{rem}
+
+\begin{rem}
+  Theorem~\ref{thm:kz2} says the presheaf quotient of the interval
+  by the reversal computes the \emph{homotopy} quotient
+  $(\square^1)_{h\mathbb{Z}/2} \simeq B\mathbb{Z}/2$ rather than
+  the orbit space --- because the action is free on cells
+  (Theorem~\ref{thm:free}) even though its topological realization
+  has a fixed point at $\tfrac12$.  This is precisely the mechanism
+  that equivariant fibrations neutralize on the cartesian side
+  \cite{ACCRS}, where the symmetric quotients $I^n/H$ play the role
+  of $\Ldash$; the reversal case is, if anything, cleaner, since
+  freeness makes the covering honest.  No equivariant theory for
+  the reversal ($\mathbb{Z}/2$ per direction; hyperoctahedrally,
+  $\Sigma_n \ltimes (\mathbb{Z}/2)^n$ in dimension $n$) exists in
+  the literature.
+\end{rem}
+
+\section{Machine verification}
+\label{sec:machine}
+
+All finite ingredients were verified exhaustively (scripts
+accompany the artifact).  \emph{Freeness}: $0$ self-dual elements
+in $\DM(m)$ for $m \leq 3$ (out of $6$, $168$, $7{,}828{,}354$) and
+in $\KL(m)$ for $m \leq 3$ (out of $6$, $84$, $43{,}918$) ---
+the theorem's one-line proof makes higher $m$ unnecessary, but the
+census independently guards the representations.  \emph{No rescue
+terms}: no $t$ in $\DM(x,z)$ or $\KL(x,z)$ is
+reversal-compatible, restricts to the generator at $z = 0$, and is
+constant at $z = 1$ --- the connection trick of
+\cite[Rem.~1]{CoqNote} has no symmetric analogue.
+\emph{Reachability}: the symmetric squares number $60$ / $32$ / $8$
+(De Morgan / Kleene / Boolean); their face graphs on symmetric
+lines have edge counts $[x] \to [x]$: $10$/$6$/$4$, degenerate
+$\leftrightarrow$ constant: $10{+}10$ / $6{+}6$ / --- , constant
+$\to$ constant: $10$/$8$/$4$, and \emph{no} edge leaves the
+$[x]$-component in any theory.  \emph{L-cells}: the squares of
+$\Ldash$ over the generator number $62$ ($44$ with $z$-varying
+faces, $12$ contracting the generator non-symmetrically) --- the
+quotient is rich; only symmetry starves it.
+
+\section{Outlook}
+\label{sec:outlook}
+
+Three directions.  (1) \emph{Reversal equivariance}: define uniform
+fibrations equivariant for the $\mathbb{Z}/2$-actions of reversal
+(hyperoctahedrally, $\Sigma_n \ltimes (\mathbb{Z}/2)^n$) on De
+Morgan or Kleene cubes, in the style of \cite{ACCRS}; the freeness
+theorem says the reversal orbits are regular on the interval, so
+the equivariant filling conditions have no isotropy at the crucial
+cells --- we regard the repair as plausible and the natural
+continuation.  (2) \emph{The remaining open positive case}: our
+argument uses reversal essentially; for Dedekind cubes (no
+reversal) the presentation question remains open
+\cite{StreicherWeinberger, CavalloSattlerElegance}, with a
+constructive solution announced by Sattler.  (3) \emph{Stronger
+inequivalence}: Theorems A and B show the canonical comparison
+fails; whether the cubical-type localization is inequivalent to
+spaces under \emph{every} functor --- asserted in the folklore, and
+explicitly not excluded on the nLab --- would follow from an
+invariant distinguishing the localizations; the abundance of
+$K(\mathbb{Z}/2,1)$s with contractible realization produced here
+(one for every free reversal quotient) is a start.
+
+\subparagraph*{Artifact.}  The verification scripts and the
+machine-checked companions are available in the artifact
+repository:\\
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+at DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961}.
+
+\begin{thebibliography}{10}
+
+\bibitem{ACCRS}
+S.~Awodey, E.~Cavallo, T.~Coquand, E.~Riehl, C.~Sattler.
+\newblock The equivariant model structure on cartesian cubical
+  sets.
+\newblock \emph{Adv.\ Math.}\ 495 (2026), 110965.
+
+\bibitem{BuchholtzMorehouse}
+U.~Buchholtz, E.~Morehouse.
+\newblock Varieties of cubical sets.
+\newblock \emph{RAMiCS 2017}, LNCS 10226, 2017.
+
+\bibitem{CavalloSattlerElegance}
+E.~Cavallo, C.~Sattler.
+\newblock Relative elegance and cartesian cubes with one
+  connection.
+\newblock \emph{Canad.\ J.\ Math.}, to appear; arXiv:2211.14801.
+
+\bibitem{CavalloSattlerRev}
+E.~Cavallo, C.~Sattler.
+\newblock Eliminating reversals from cubical type theories.
+\newblock \emph{LICS 2026}, LIPIcs 380, 2026.
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{CoqNote}
+T.~Coquand.
+\newblock Trivial cofibration-fibration factorization with one
+  application.
+\newblock Unpublished note, June 2018; circulated on the Homotopy
+  Type Theory mailing list \cite{CoqML}.
+
+\bibitem{CoqML}
+T.~Coquand et al.
+\newblock Quillen model structure.
+\newblock Homotopy Type Theory mailing-list discussion, June 2018.
+\newblock \url{https://groups.google.com/g/homotopytypetheory/c/RQkLWZ_83kQ}.
+
+\bibitem{Hovey}
+M.~Hovey.
+\newblock \emph{Model Categories}.
+\newblock Math.\ Surveys Monogr.\ 63, AMS, 1999.
+
+\bibitem{SatTalk}
+C.~Sattler.
+\newblock Do cubical models of type theory also model homotopy
+  types?
+\newblock Lecture, Hausdorff Trimester Program ``Types, Sets and
+  Constructions'', Bonn, June 2018.
+
+\bibitem{SattlerEEP}
+C.~Sattler.
+\newblock The equivalence extension property and model structures.
+\newblock Preprint, arXiv:1704.06911, 2017.
+
+\bibitem{StreicherWeinberger}
+T.~Streicher, J.~Weinberger.
+\newblock Simplicial sets inside cubical sets.
+\newblock \emph{Theory Appl.\ Categ.}\ 37 (2021), 276--286.
+
+\bibitem{DMFibers}
+R.~Shibusawa.
+\newblock Boundary fibers in free De Morgan algebras: Boolean
+  intervals, Sperner bounds, and median contractions.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.6.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695307}%
+  {10.5281/zenodo.21695307}).
+
+\bibitem{Kleene}
+R.~Shibusawa.
+\newblock The Kleene interpolation: boundary fibers and the strict
+  layer across the subvarieties of De Morgan algebras.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.8.1}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695917}%
+  {10.5281/zenodo.21695917}).
+
+\end{thebibliography}
+
+\end{document}
