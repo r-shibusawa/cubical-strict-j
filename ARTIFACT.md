@@ -8,8 +8,9 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.8.1` (revision of the Kleene paper
   `docs/paperI/kleene.{tex,pdf}`: adds the completeness theorem —
   nontrivial boundary fibers require both the involution and a
-  connection, so the three grades exhaust all interval signatures);
-  DOI recorded after archiving
+  connection, so the three grades exhaust all interval signatures),
+  archived at DOI
+  [10.5281/zenodo.21695917](https://doi.org/10.5281/zenodo.21695917)
 - Previous: release `v1.8.0` (the Kleene interpolation paper), DOI
   [10.5281/zenodo.21695778](https://doi.org/10.5281/zenodo.21695778)
 - Previous: release `v1.7.0` (strict-layer paper), DOI
