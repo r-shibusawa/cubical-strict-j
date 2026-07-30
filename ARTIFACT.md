@@ -5,11 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.6.0` (adds the lattice-theory paper
-  `docs/paperG/dmfibers.{tex,pdf}` on boundary fibers in free De
-  Morgan algebras, its census scripts `scripts/dmfiber*.py`, the
-  note `docs/DMFiber.md`, and a revision of
-  `docs/paperF/wordproblems.{tex,pdf}`), archived at DOI
+- Current snapshot: release `v1.7.0` (adds the paper
+  `docs/paperH/strictdm.{tex,pdf}` on the strict layer of De Morgan
+  cubical sets — Karoubi envelope, defect formula, coherence
+  dichotomy — the note `docs/StrictLayer.md`, the defect script
+  `scripts/dmdefect.py`, and a README listing of the full paper
+  series); DOI recorded after archiving
+- Previous: release `v1.6.0` (De Morgan fiber paper + census), DOI
   [10.5281/zenodo.21695307](https://doi.org/10.5281/zenodo.21695307)
 - Previous: release `v1.5.0` (word-problem suites + paper F), DOI
   [10.5281/zenodo.21669939](https://doi.org/10.5281/zenodo.21669939)
@@ -92,6 +94,7 @@ elaboration time; a successful build **is** the verification run.
 | ua-coherence for the double cover: `ua not ⬝ ua not ≡prop refl` | `uaNotNotD` (LibPresent.lean; heavy guard, ~110 s) |
 | **Double cover of RP²: winding computes (refl ↦ true, x ↦ false); the presentation ⟨x∣x²⟩ realized faithfully (x² = 1, x ≠ 1)** | `covS1D`, `covRP2D`, `windRP2D`, `rp2LoopNontrivD`, `rp2NotSetD` (LibCover.lean) |
 | Boundary fibers in free De Morgan algebras (paper `docs/paperG`): Boolean-interval structure, Sperner-extremal fibers, sphere filling, boundary↔antichain classification, median cylinder — full census n ≤ 3, construction check n = 4 | `scripts/dmfiber.py`, `scripts/dmfiber3.py`, `scripts/dmfiber_boundaries.py` (Python; notes in `docs/DMFiber.md`; the type-theoretic counterparts are `mixInterpD`/`mixFillD` and the strictness suites) |
+| The strict layer of De Morgan cubical sets (paper `docs/paperH`): non-idempotent-completeness, Karoubi envelope via projective De Morgan algebras (Bova–Cabrer), the defect antichain formula, the coherence dichotomy — verified on all 7,828,354 elements of DM(3) | `scripts/dmdefect.py` (record; notes in `docs/StrictLayer.md`) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

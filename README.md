@@ -9,6 +9,22 @@
 - Archived artifact snapshot: release `v1.0.0`, commit `6c5904b` — DOI [10.5281/zenodo.21405962](https://doi.org/10.5281/zenodo.21405962)
 - Paper-to-probe correspondence table and artifact guide: [`ARTIFACT.md`](ARTIFACT.md)
 
+## 📚 The paper series
+
+Seven self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
+
+| # | paper (PDF) | one line |
+|---|---|---|
+| 1 | [Evaluation-time constancy inference for transport](docs/paper/jrefl.pdf) | definitional `J d refl ≡ d` in a CCHM kernel: a no-go theorem, an admissible operational rule, canonicity on the core |
+| 2 | [The strict layer of generic cells is a wedge of De Morgan spheres](docs/paperC/strictlayer.pdf) | classification of the judgmental layer of cubical computads |
+| 3 | [Generic cellular contexts realize their cube presheaves on the nose](docs/paperD/realization.pdf) | attachment equations are definitional; the kernel decides presheaf equality |
+| 4 | [De Morgan convexity and the strict–weak comparison](docs/paperE/convexity.pdf) | strict fillers are non-unique but strictly contractible; the third median term is the price of no-LEM |
+| 5 | [Word problems across the strict–weak boundary](docs/paperF/wordproblems.pdf) | the strict/weak boundary **is** the decidable/undecidable boundary; Sanov invariant at <1 ms per letter; RP² realized faithfully |
+| 6 | [Boundary fibers in free De Morgan algebras](docs/paperG/dmfibers.pdf) | fibers are Boolean intervals over antichains of diagonal points; Sperner-extremal; census new to OEIS |
+| 7 | [The strict layer of De Morgan cubical sets](docs/paperH/strictdm.pdf) | the Karoubi envelope via projective De Morgan algebras; the defect formula; a coherence dichotomy |
+
+Papers 2–7 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
+
 ## What the paper shows
 
 In cubical type theories the eliminator `J` does not compute definitionally on `refl`, because the transport primitive's constancy formula is fixed when a term is written. Re-detecting constancy at evaluation time is an old informal idea; the paper gives it a metatheory:
