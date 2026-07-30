@@ -9,7 +9,8 @@ This repository is the artifact accompanying the paper
   `docs/paperI/kleene.{tex,pdf}` — the Kleene interpolation:
   boundary fibers across the subvarieties of De Morgan algebras —
   with the note `docs/Kleene.md` and the script
-  `scripts/kleene.py`); DOI recorded after archiving
+  `scripts/kleene.py`), archived at DOI
+  [10.5281/zenodo.21695778](https://doi.org/10.5281/zenodo.21695778)
 - Previous: release `v1.7.0` (strict-layer paper), DOI
   [10.5281/zenodo.21695641](https://doi.org/10.5281/zenodo.21695641)
 - Previous: release `v1.6.0` (De Morgan fiber paper + census), DOI
