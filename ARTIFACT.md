@@ -5,11 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.5.0` (adds the word-problem suites
-  `LibWord.lean` / `LibSanov.lean` / `LibPresent.lean` /
-  `LibCover.lean`, the native timing harness `Test/Sanov.lean`
-  (`lake exe sanov`), the notes `docs/WordProblem.md`, and the paper
-  `docs/paperF/wordproblems.{tex,pdf}`), archived at DOI
+- Current snapshot: release `v1.6.0` (adds the lattice-theory paper
+  `docs/paperG/dmfibers.{tex,pdf}` on boundary fibers in free De
+  Morgan algebras, its census scripts `scripts/dmfiber*.py`, the
+  note `docs/DMFiber.md`, and a revision of
+  `docs/paperF/wordproblems.{tex,pdf}`); DOI recorded after archiving
+- Previous: release `v1.5.0` (word-problem suites + paper F), DOI
   [10.5281/zenodo.21669939](https://doi.org/10.5281/zenodo.21669939)
 - Previous: release `v1.4.0` (De Morgan convexity suite + paper E),
   DOI
@@ -89,6 +90,7 @@ elaboration time; a successful build **is** the verification run.
 | **Internal presentation complex: RP² = cofib(deg2); the relator cell realized; generic derivations transfer by instantiation** | `deg2D`, `deg2LoopD`, `rp2D`, `rp2AttachD`, `rp2RelSqD`, `rp2RelD`, `wordX4RP2D`, `wordRelRP2D` + two definitional-separation `#guard`s (LibPresent.lean) |
 | ua-coherence for the double cover: `ua not ⬝ ua not ≡prop refl` | `uaNotNotD` (LibPresent.lean; heavy guard, ~110 s) |
 | **Double cover of RP²: winding computes (refl ↦ true, x ↦ false); the presentation ⟨x∣x²⟩ realized faithfully (x² = 1, x ≠ 1)** | `covS1D`, `covRP2D`, `windRP2D`, `rp2LoopNontrivD`, `rp2NotSetD` (LibCover.lean) |
+| Boundary fibers in free De Morgan algebras (paper `docs/paperG`): Boolean-interval structure, Sperner-extremal fibers, sphere filling, boundary↔antichain classification, median cylinder — full census n ≤ 3, construction check n = 4 | `scripts/dmfiber.py`, `scripts/dmfiber3.py`, `scripts/dmfiber_boundaries.py` (Python; notes in `docs/DMFiber.md`; the type-theoretic counterparts are `mixInterpD`/`mixFillD` and the strictness suites) |
 
 Positive rows: the probe is a `refl`-witness (`.plam`) at the stated path
 type, accepted by the checker ⟺ the equation is *algorithmic* (definitional);

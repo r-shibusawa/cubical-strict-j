@@ -1,0 +1,678 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem*{thmstar}{Theorem}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ques}[thm]{Question}
+
+\newcommand{\DM}{\mathrm{DM}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\lc}{Q}                       % the literal cube
+\newcommand{\md}[3]{\mathrm{m}(#1,#2,#3)}
+\newcommand{\bnd}{\partial}
+\newcommand{\Up}{\mathord{\uparrow}}
+
+\begin{document}
+
+\title[Boundary fibers in free De Morgan algebras]{Boundary fibers in
+  free De Morgan algebras:\\ Boolean intervals, Sperner bounds, and
+  median contractions}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{06D30; 06A07, 05A15, 03B38}
+\keywords{De Morgan algebra, free algebra, distributive lattice,
+  monotone Boolean function, antichain, Sperner's theorem, median,
+  Dedekind number, cubical type theory}
+
+\begin{abstract}
+  In the free De Morgan algebra on $n$ generators, the
+  \emph{boundary} of an element is the tuple of its $2n$ face
+  restrictions, obtained by substituting the endpoints $0,1$ for a
+  generator.  We determine the fibers of the boundary map completely:
+  each fiber is an interval which is a Boolean lattice $2^{D}$, where
+  $D$ is an antichain of \emph{diagonal} points of the underlying
+  literal cube; conversely every antichain of diagonal points arises,
+  so by Sperner's theorem the largest fiber has exactly
+  $2^{\binom{n}{\lfloor n/2\rfloor}}$ elements.  Fibers are connected
+  by an explicit median-style interpolation with one fresh generator,
+  constant on all faces --- a strict cylinder.  We further show that
+  every compatible sphere of faces is the boundary of some element,
+  and that boundaries are in bijection with antichains of
+  \emph{non}-diagonal points, which reduces the enumeration of
+  boundaries to a Dedekind-type antichain count.  A complete machine
+  census for $n \le 3$ (all $7{,}828{,}354$ elements at $n = 3$)
+  accompanies the paper; none of the resulting sequences appear in
+  the OEIS.  The questions are motivated by the interval algebras of
+  cubical type theory, where the fibers describe the strict
+  (judgmental) fillers of a fixed boundary.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+A De Morgan algebra is a bounded distributive lattice equipped with
+an involution $\neg$ interchanging $\wedge,\vee$ and $0,1$; unlike a
+Boolean algebra it does not satisfy the law of the excluded middle,
+so $x \wedge \neg x$ need not vanish.  The finitely generated free De
+Morgan algebras $\DM_n$ are classical objects
+\cite{BalbesDwinger,GWW,MA,MAfree}: as a lattice, $\DM_n$ is the free
+bounded distributive lattice on the $2n$ \emph{literals}
+$x_1, \neg x_1, \dots, x_n, \neg x_n$, hence is isomorphic to the
+lattice of monotone Boolean functions of $2n$ variables, of
+cardinality the Dedekind number $M(2n)$.
+
+This paper studies a natural map on $\DM_n$ that appears not to have
+received attention in the lattice-theoretic literature: the
+\emph{boundary map}.  Substituting an endpoint $e \in \{0,1\}$ for a
+generator $x_i$ (hence $1-e$ for $\neg x_i$) defines a surjective
+homomorphism $\bnd_i^e : \DM_n \to \DM_{n-1}$, the \emph{face} maps;
+the boundary of $\varphi \in \DM_n$ is the tuple
+$\bnd\varphi = (\bnd_i^e \varphi)_{i \le n,\, e \in \{0,1\}}$ of all
+its faces.  Two questions arise at once.  \emph{Which} boundaries
+occur?  And what is the structure of the \emph{fiber} --- the set of
+all elements with a given boundary?
+
+Our main theorem answers the second question completely.  Call a
+point of the literal cube $\{0,1\}^{2n}$ \emph{diagonal} if, for
+every $i$, its pair of coordinates for $(x_i, \neg x_i)$ is $(0,0)$
+or $(1,1)$ --- the points invisible to every face.
+
+\begin{thmstar}[Theorem~\ref{thm:main}]
+  Every fiber of the boundary map on $\DM_n$ is an interval $[m, M]$
+  whose difference $D = M \setminus m$ (in the monotone-function
+  representation) is an antichain of diagonal points, and the fiber
+  is a Boolean lattice, canonically isomorphic to $2^{D}$.
+  Conversely, every antichain of diagonal points arises as the $D$ of
+  some fiber.  Consequently the maximal fiber cardinality in $\DM_n$
+  is exactly $2^{\binom{n}{\lfloor n/2 \rfloor}}$.
+\end{thmstar}
+
+The appearance of Sperner's theorem \cite{Sperner} is, to our
+knowledge, new in this context: the diagonal points form a copy of
+the Boolean cube $\{0,1\}^n$, and the extremal fibers are governed by
+its maximal antichains.  The proof is short and entirely elementary
+--- the crux is that between any two comparable diagonal points there
+lies a face point (Lemma~\ref{lem:antichain}) --- but the statement
+is sharp and, as the machine census shows, the Boolean structure is
+far from sparse: at $n = 3$ there are $2{,}130{,}934$ non-singleton
+fibers, and the explicit complement $g \mapsto m \vee (M \wedge
+g^{c})$ witnesses Boolean-ness in every one of them.
+
+Around the main theorem we prove three companion results.
+First, a \emph{filling theorem} (Theorem~\ref{thm:filling}): every
+compatible sphere --- a tuple of prospective faces satisfying the
+evident pairwise conditions --- is the boundary of an element, with a
+canonical minimal filler.  Second, a \emph{median contraction}
+(Theorem~\ref{thm:median}): for $\varphi, \varphi'$ in one fiber, the
+element
+\[
+  \chi \;=\; (\varphi \wedge \neg k) \vee (k \wedge \varphi') \vee
+  (\varphi \wedge \varphi') \;\in\; \DM_{n+1}
+\]
+in one fresh generator $k$ restricts to $\varphi$ at $k = 0$, to
+$\varphi'$ at $k = 1$, and is \emph{constant in $k$ on every face}
+--- a cylinder connecting the two fillers relative to their common
+boundary, inside the free algebra, with no completeness assumptions.
+The ternary shape is the classical median of Birkhoff--Kiss
+\cite{BirkhoffKiss} adapted to the involutive setting; the fibers are
+in particular median-closed subsets in the sense of median-algebra
+theory \cite{BandeltHedlikova}.  Third, a \emph{classification of
+boundaries} (Theorem~\ref{thm:boundaries}): realizable boundaries are
+in bijection with antichains of \emph{non-diagonal} points of the
+literal cube, via the minimal filler; this reduces the first question
+above to a Dedekind-type antichain enumeration.
+
+Section~\ref{sec:census} reports a complete computational census for
+$n \le 3$ and a targeted construction at $n = 4$.  Writing $B(n)$ for
+the number of realizable boundaries:
+\[
+  B(1) = 4, \qquad B(2) = 82, \qquad B(3) = 4{,}829{,}136,
+\]
+with fiber-size distributions $\{1^2, 2^2\}$,
+$\{1^{28}, 2^{38}, 4^{16}\}$ and
+\[
+  \{1^{2698202},\ 2^{1747364},\ 4^{358284},\ 8^{25286}\}
+\]
+respectively --- all sizes powers of two, as the main theorem
+predicts, with the counting identity
+$M(2n) = \sum_{\text{fibers}} 2^{|D|}$.  None of these sequences
+occur in the OEIS at the time of writing.
+
+\subparagraph*{Motivation from cubical type theory.}  The free De
+Morgan algebra is the interval theory of cubical type theory in the
+style of Cohen--Coquand--Huber--M\"ortberg \cite{CCHM}: an $n$-cube
+context has its cells reparametrized along elements of $\DM_n$, and
+the equations that hold in $\DM_n$ are exactly the equations the
+proof assistant's kernel decides \emph{judgmentally}.  The fiber of
+the boundary map then describes all \emph{strict} fillers of a fixed
+cubical boundary --- the fillers available before any Kan composition
+is invoked.  Non-uniqueness of strict fillers, the median
+interpolation, and the strict contractibility that
+Theorem~\ref{thm:main} refines were first observed, machine-checked,
+in a proof-assistant kernel built by the author
+\cite{Const,Convexity}; the present paper isolates the underlying
+lattice theory, which is independent of type theory and, we believe,
+of interest in its own right.  In the recent literature,
+Dor\'e--Cavallo--M\"ortberg \cite{DCM} automate the \emph{search} for
+a filler of a given boundary over the same algebras; their
+representation of candidate solutions is deliberately lossy about
+the solution \emph{set}, and they isolate --- in two sentences of
+prose on ``consistent'' assignments \cite[\S4.3]{DCM} --- the
+combinatorial subtlety specific to the De Morgan case, namely that
+boundaries constrain only part of the literal cube.  The present
+results resolve that subtlety into a complete structure theorem for
+the solution set: the unconstrained diagonal points are exactly the
+free Boolean degrees of freedom of Theorem~\ref{thm:main}.
+Enumerative prior art on interval sizes in the monotone-function
+lattice is due to Pawelski \cite{Pawelski}; our fibers are particular
+intervals selected by the boundary conditions, and our census
+concerns their distribution.
+
+\section{Preliminaries}
+\label{sec:prelim}
+
+\subsection{Free De Morgan algebras as monotone functions}
+
+A \emph{De Morgan algebra} $(A, \wedge, \vee, 0, 1, \neg)$ is a
+bounded distributive lattice with a unary $\neg$ satisfying
+$\neg\neg a = a$ and $\neg(a \wedge b) = \neg a \vee \neg b$.  We
+write $\DM_n$ for the free De Morgan algebra on generators
+$x_1, \dots, x_n$.  The following classical description is the
+combinatorial engine of everything below.
+
+The description below is stated in
+\cite[Ch.~XI]{BalbesDwinger} and \cite{GWW}, and in sharpest form in
+\cite[Thm.~3.2, Cor.~2.5]{MAfree} (cf.\ \cite{MA}).
+
+Let $\lc_n := \{0,1\}^{2n}$ be the \emph{literal cube}, with
+coordinates grouped in pairs; a point is
+$\alpha = (\alpha_1, \dots, \alpha_n)$ with
+$\alpha_i \in \{0,1\}^2$, the $i$-th pair recording prospective
+values of $(x_i, \neg x_i)$ \emph{independently}.  Order $\lc_n$
+componentwise.  Then $\DM_n$ is isomorphic, as a bounded lattice, to
+the lattice of monotone functions $\lc_n \to \{0,1\}$, equivalently
+of \emph{up-sets} of $\lc_n$, with the generators represented by the
+coordinate projections; the involution is
+$(\neg\varphi)(\alpha) = 1 - \varphi(\sigma\bar\alpha)$, where
+$\bar\alpha$ complements all coordinates and $\sigma$ swaps each
+pair.  In particular $|\DM_n| = M(2n)$, the Dedekind number of
+monotone functions on $2n$ variables \cite{OEIS-Dedekind,DCM}.  We
+identify elements with their up-sets and write $\varphi \subseteq
+\psi$ for the lattice order, $\varphi^c$ for the \emph{pointwise}
+complement of the up-set (a down-set, in general not an element of
+$\DM_n$).
+
+\subsection{Faces, boundaries, and the two kinds of points}
+
+For $i \le n$ and $e \in \{0,1\}$ the \emph{face map}
+$\bnd_i^e : \DM_n \to \DM_{n-1}$ substitutes $x_i := e$, i.e.\ fixes
+the $i$-th pair to $(0,1)$ if $e = 0$ and to $(1,0)$ if $e = 1$, and
+forgets it.  Face maps are surjective lattice homomorphisms and
+satisfy the evident cubical identities
+$\bnd_j^\delta \bnd_i^\varepsilon = \bnd_i^\varepsilon \bnd_j^\delta$
+(indices adjusted).  The \emph{boundary} of $\varphi$ is
+$\bnd\varphi := (\bnd_i^e\varphi)_{i,e}$, and the \emph{fiber} of a
+boundary is the set of all $\psi$ with $\bnd\psi = \bnd\varphi$.
+
+Call $\alpha \in \lc_n$ a \emph{face point} if some pair
+$\alpha_i \in \{(0,1), (1,0)\}$, and a \emph{diagonal point} if every
+pair $\alpha_i \in \{(0,0), (1,1)\}$.  Face points are exactly the
+points lying in some face subcube --- the points that some face map
+sees --- while the $2^n$ diagonal points form a copy of the Boolean
+cube $\{0,1\}^n$ (send $(1,1) \mapsto 1$, $(0,0) \mapsto 0$),
+invisible to every face.  This dichotomy, specific to the paired
+(involutive) situation, is what makes the De Morgan case genuinely
+different from a free distributive lattice with unconstrained
+substitutions; cf.\ the discussion in \cite{DCM}.
+
+\begin{lem}
+  \label{lem:between}
+  If $\alpha < \beta$ are comparable diagonal points, there is a face
+  point $\gamma$ with $\alpha < \gamma \le \beta$.
+\end{lem}
+
+\begin{proof}
+  Some pair has $\alpha_i = (0,0)$ and $\beta_i = (1,1)$.  Let
+  $\gamma$ agree with $\alpha$ except $\gamma_i := (0,1)$.  Then
+  $\alpha < \gamma$, $\gamma \le \beta$, and $\gamma$ is a face
+  point.
+\end{proof}
+
+\section{The structure theorem}
+\label{sec:main}
+
+\begin{lem}
+  \label{lem:interval}
+  Every fiber is an interval: it is closed under $\wedge, \vee$
+  (hence has a least element $m$ and greatest element $M$), and every
+  $\psi$ with $m \subseteq \psi \subseteq M$ lies in the fiber.
+\end{lem}
+
+\begin{proof}
+  Faces are lattice maps, so fibers are sublattices; finiteness gives
+  $m, M$.  If $m \subseteq \psi \subseteq M$ then
+  $\bnd_i^e m \subseteq \bnd_i^e \psi \subseteq \bnd_i^e M$ by
+  monotonicity of $\bnd_i^e$, and the outer terms are equal.
+\end{proof}
+
+\begin{lem}
+  \label{lem:diagonal}
+  For a fiber $[m, M]$, the difference $D := M \setminus m$ contains
+  no face point.
+\end{lem}
+
+\begin{proof}
+  A face point of $M \setminus m$ would make the corresponding faces
+  of $M$ and $m$ differ.
+\end{proof}
+
+\begin{lem}
+  \label{lem:antichain}
+  $D$ is an antichain.
+\end{lem}
+
+\begin{proof}
+  Suppose $\alpha < \beta$ in $D$; both are diagonal by
+  Lemma~\ref{lem:diagonal}.  Pick $\gamma$ as in
+  Lemma~\ref{lem:between}.  Since $\alpha \in M$ and $M$ is an
+  up-set, $\gamma \in M$; since $\gamma$ is a face point,
+  $\gamma \notin D$, so $\gamma \in m$; since $m$ is an up-set and
+  $\gamma \le \beta$, $\beta \in m$, contradicting $\beta \in D$.
+\end{proof}
+
+\begin{thm}[Structure theorem]
+  \label{thm:main}
+  Let $F = [m, M]$ be a fiber of the boundary map on $\DM_n$ and
+  $D = M \setminus m$.  Then $D$ is an antichain of diagonal points,
+  and
+  \[
+    2^{D} \;\longrightarrow\; F, \qquad S \mapsto m \cup S
+  \]
+  is a lattice isomorphism; in particular $F$ is a Boolean lattice,
+  with complementation $g \mapsto m \vee (M \wedge g^{c})$.
+  Conversely, for every antichain $D_0$ of diagonal points there is a
+  fiber with $D = D_0$.  Consequently
+  \[
+    \max_{\text{fibers of } \DM_n} |F|
+    \;=\; 2^{\binom{n}{\lfloor n/2 \rfloor}} .
+  \]
+\end{thm}
+
+\begin{proof}
+  $D$ is a diagonal antichain by
+  Lemmas~\ref{lem:diagonal}--\ref{lem:antichain}.  For $S \subseteq
+  D$, the set $m \cup S$ is an up-set: a point above some
+  $\alpha \in S$ is either $\alpha$ itself or lies above a face point
+  $\gamma > \alpha$ (Lemma~\ref{lem:between} if diagonal; itself if a
+  face point, since $\alpha$'s strict upper covers in $\lc_n$ raise
+  one coordinate, breaking a $(0,0)$ pair to $(0,1)$ or $(1,0)$),
+  and such $\gamma \in M$, being a face point, lies in $m$; up-closure
+  of $m$ finishes.  Since $S$ avoids all face subcubes,
+  $\bnd(m \cup S) = \bnd m$, so $m \cup S \in F$; conversely each
+  $g \in F$ equals $m \cup (g \setminus m)$ with
+  $g \setminus m \subseteq D$.  The correspondence preserves
+  unions and intersections, hence is a lattice isomorphism onto
+  $F$; Boolean complementation transports to the stated formula.
+
+  Realizability: given a diagonal antichain $D_0$, let $m_0$ be the
+  up-closure of the set of face points lying strictly above some
+  point of $D_0$, and $M_0 := m_0 \cup D_0$.  As above $M_0$ is an
+  up-set, no point of $D_0$ lies in $m_0$ (a face point above
+  $\alpha \in D_0$ is strictly above it, and points of $D_0$ are
+  pairwise incomparable, so up-closure cannot reach $\alpha$;
+  formally $\alpha \in m_0$ would give a face point $\gamma$ with
+  $\gamma \le \alpha$ --- impossible since the generators of $m_0$
+  are $> $ some element of the antichain and $\alpha$ is minimal
+  among $\ge$-relations within $M_0$), and
+  $\bnd m_0 = \bnd M_0$ since $D_0$ avoids the faces.  Hence the
+  fiber of $\bnd m_0$ has difference exactly $D_0$.
+
+  The maximum: diagonal points form a copy of $\{0,1\}^n$, whose
+  maximal antichains have $\binom{n}{\lfloor n/2 \rfloor}$ elements
+  by Sperner's theorem \cite{Sperner}; both bound and attainment
+  follow.
+\end{proof}
+
+\begin{rem}
+  The proof of realizability is constructive and cheap to check by
+  machine; at $n = 4$, the middle layer of the diagonal cube is an
+  antichain of size $\binom{4}{2} = 6$ and the construction produces
+  a fiber isomorphic to $2^6$ with all $64$ members sharing their
+  boundary --- see \S\ref{sec:census}.
+\end{rem}
+
+\begin{cor}
+  \label{cor:powers}
+  All fiber cardinalities in $\DM_n$ are powers of two, at most
+  $2^{\binom{n}{\lfloor n/2\rfloor}}$; and
+  $M(2n) = \sum_{\text{fibers}} 2^{|D|}$.
+\end{cor}
+
+\section{Every compatible sphere fills}
+\label{sec:filling}
+
+\begin{defi}
+  A \emph{sphere} in $\DM_n$ is a family
+  $g = (g_i^e)_{i \le n, e \in \{0,1\}}$, $g_i^e \in \DM_{n-1}$,
+  satisfying the compatibility conditions
+  $\bnd_j^\delta g_i^\varepsilon = \bnd_i^\varepsilon g_j^\delta$
+  (for $i \neq j$, indices adjusted as usual).
+\end{defi}
+
+\begin{thm}
+  \label{thm:filling}
+  Every sphere is the boundary of an element of $\DM_n$; a canonical
+  filler is the up-closure $m_g$ of the union of the prescribed
+  $1$-points, which is also the least filler.
+\end{thm}
+
+\begin{proof}
+  Identify each $g_i^e$ with its up-set inside the face subcube
+  $\lc_n^{(i,e)} \subseteq \lc_n$, and let
+  $m_g := \Up \bigl(\bigcup_{i,e}\, g_i^e\bigr)$.  We must show
+  $\bnd_i^e m_g = g_i^e$.  The inclusion $\supseteq$ is immediate.
+  For $\subseteq$, let $\gamma \in \lc_n^{(i,e)}$ lie in $m_g$, say
+  $\gamma \ge \delta$ with $\delta \in g_j^{e'}$.  If $(j,e') =
+  (i,e)$, monotonicity of $g_i^e$ gives $\gamma \in g_i^e$.
+  Otherwise let $\delta'$ agree with $\delta$ except that its $i$-th
+  pair is set to the value prescribed by the face $(i,e)$; from
+  $\delta \le \gamma$ and $\gamma \in \lc_n^{(i,e)}$ one checks
+  $\delta \le \delta' \le \gamma$ componentwise, and $\delta'$ lies
+  in both face subcubes $(i,e)$ and $(j,e')$.  Monotonicity gives
+  $\delta' \in g_j^{e'}$, compatibility transports this to
+  $\delta' \in g_i^e$ (both sides restrict to the same element of
+  $\DM_{n-2}$ on the common subcube), and monotonicity again gives
+  $\gamma \in g_i^e$.  Minimality is clear: any filler's up-set must
+  contain every prescribed $1$-point.
+\end{proof}
+
+\begin{thm}[Classification of boundaries]
+  \label{thm:boundaries}
+  The assignments $g \mapsto m_g$ and $\varphi \mapsto \bnd\varphi$
+  are mutually inverse bijections between spheres and the set of
+  elements of $\DM_n$ all of whose minimal points are face points.
+  Consequently spheres (equivalently, realizable boundaries) are in
+  bijection with antichains of face points of $\lc_n$, and
+  \[
+    B(n) \;=\; \#\{\text{antichains of the poset of face points of }
+    \lc_n\},
+  \]
+  a Dedekind-type quantity for the $(4^n - 2^n)$-point poset of face
+  points.
+\end{thm}
+
+\begin{proof}
+  A least fiber element $m$ contains no removable point, i.e.\ no
+  minimal point that is diagonal (removing a minimal diagonal point
+  preserves up-closure and all faces); conversely if every minimal
+  point of $\varphi$ is a face point then no proper
+  boundary-preserving shrinking exists, and
+  Theorem~\ref{thm:filling} shows every sphere arises.  An up-set is
+  determined by its antichain of minimal points; those with all
+  minimal points facial correspond exactly to antichains inside the
+  subposet of face points.
+\end{proof}
+
+\begin{rem}
+  For $n = 1$ the face points are the two incomparable points
+  $(0,1), (1,0)$, giving $B(1) = 4$; for $n = 2$ the twelve face
+  points give $B(2) = 82$; the machine count of antichains at
+  $n = 3$ (a $56$-point poset) confirms $B(3) = 4{,}829{,}136$,
+  agreeing with the direct census (\S\ref{sec:census}).
+\end{rem}
+
+\section{Median contraction of a fiber}
+\label{sec:median}
+
+The Boolean structure of Theorem~\ref{thm:main} is a statement
+\emph{about} the fiber; cubical applications additionally want paths
+\emph{inside the free algebra} connecting two fillers.  One fresh
+generator suffices.
+
+\begin{thm}
+  \label{thm:median}
+  Let $\varphi, \varphi' \in \DM_n$ have equal boundaries, and let
+  $k$ be a fresh generator.  Then
+  \[
+    \chi \;:=\; (\varphi \wedge \neg k) \vee (k \wedge \varphi')
+    \vee (\varphi \wedge \varphi') \;\in\; \DM_{n+1}
+  \]
+  satisfies
+  \begin{enumerate}
+  \item $\bnd_k^0 \chi = \varphi$ and $\bnd_k^1 \chi = \varphi'$;
+  \item for every face $(i, e)$ of the original generators,
+    $\bnd_i^e \chi$ is the image of the common face
+    $\bnd_i^e \varphi = \bnd_i^e \varphi'$ under the inclusion
+    $\DM_{n-1} \hookrightarrow \DM_{n}$ adding $k$ --- i.e.\ $\chi$
+    is constant in $k$ on the entire boundary.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  (1) Substituting $k := 0$ gives
+  $\varphi \vee (\varphi \wedge \varphi') = \varphi$; $k := 1$ gives
+  $\varphi' \vee (\varphi \wedge \varphi') = \varphi'$ (absorption).
+  (2) Writing $\rho := \bnd_i^e\varphi = \bnd_i^e\varphi'$, the face
+  of $\chi$ is
+  $(\rho \wedge \neg k) \vee (k \wedge \rho) \vee \rho = \rho$,
+  again by absorption.
+\end{proof}
+
+\begin{rem}
+  The shape of $\chi$ is a directed variant of the Birkhoff--Kiss
+  median $(a\wedge b)\vee(b\wedge c)\vee(a\wedge c)$
+  \cite{BirkhoffKiss}; the third term is essential --- the naive
+  interpolation $(\varphi \wedge \neg k) \vee (k \wedge \varphi')$
+  fails (2) precisely because the free De Morgan algebra does not
+  satisfy the excluded middle for $k$.  It also exhibits each fiber
+  as a median-closed set: for $\varphi, \varphi', \psi$ in a fiber,
+  the median of the three lies in the fiber (immediate from
+  Lemma~\ref{lem:interval}, and an instance of majority-closure
+  phenomena classical in the theory of median algebras
+  \cite{BandeltHedlikova}).  In cubical type theory, (1)--(2) say
+  that $\chi$ is a homotopy rel boundary between the strict fillers
+  $\varphi, \varphi'$ that is itself strict; iterating in fresh
+  generators contracts the whole fiber.  This is the lattice content
+  of machine-checked results in \cite{Convexity}.
+\end{rem}
+
+\section{The census}
+\label{sec:census}
+
+All counts below come from exhaustive enumeration in the
+representation by monotone functions ($n \le 3$; at $n = 3$ this is
+the full algebra of $M(6) = 7{,}828{,}354$ elements, with boundaries
+grouped by their $6$-tuples of faces), reproducible from the scripts
+accompanying the artifact; the structure-theorem invariants were
+verified independently: at $n = 2, 3$ every fiber's cardinality is a
+power of two, and the Boolean complement formula of
+Theorem~\ref{thm:main} succeeded in all $2{,}130{,}934$ non-singleton
+fibers at $n = 3$, with no failures.
+
+\begin{center}
+\small
+\begin{tabular}{r|r|r|l|r}
+  $n$ & $|\DM_n| = M(2n)$ & $B(n)$ & fiber sizes (size: count) &
+  max \\
+  \hline
+  $1$ & $6$ & $4$ & $1{:}2,\ 2{:}2$ & $2$\\
+  $2$ & $168$ & $82$ & $1{:}28,\ 2{:}38,\ 4{:}16$ & $4$\\
+  $3$ & $7{,}828{,}354$ & $4{,}829{,}136$ &
+  $1{:}2698202,\ 2{:}1747364,$ & $8$\\
+  & & & $4{:}358284,\ 8{:}25286$ & \\
+  $4$ & $M(8)$ & --- & (not enumerated; see below) & $64$
+\end{tabular}
+\end{center}
+
+At $n \le 3$ the maximum is $2^{\binom{n}{\lfloor n/2\rfloor}} =
+2, 4, 8$; at $n = 4$ full enumeration is out of reach
+($M(8) \approx 5.6 \times 10^{10}$), but the realizability
+construction of Theorem~\ref{thm:main} applied to the middle layer
+of the diagonal cube (an antichain of size $\binom{4}{2} = 6$)
+produces an explicit fiber isomorphic to $2^{6}$, all of whose $64$
+members were verified by machine to share their boundary; with the
+Sperner upper bound this settles $\max = 64$ at $n = 4$.  The
+column $B(3)$ was computed twice, independently: once by direct
+fiber-grouping, and once as the antichain count of
+Theorem~\ref{thm:boundaries}.
+
+The identity of Corollary~\ref{cor:powers} checks:
+$28 + 2\cdot 38 + 4 \cdot 16 = 168$ and
+$2698202 + 2\cdot 1747364 + 4\cdot 358284 + 8 \cdot 25286 =
+7828354$.
+
+None of the sequences
+\[
+  B(n) = 4, 82, 4829136, \dots \qquad
+  \text{(nor the columns } 2,28,2698202;\ 2,16,25286\text{)}
+\]
+matched any entry of the OEIS \cite{OEIS} at the time of writing
+(July 2026); we intend to contribute them.  Interval-size statistics
+for the ambient monotone-function lattices, without the boundary
+grouping, were computed by Pawelski \cite{Pawelski}.
+
+\begin{ques}
+  Is there a closed form or efficient recursion for $B(n)$, i.e.\ for
+  the number of antichains of the face-point poset of $\lc_n$?  The
+  poset is a $2n$-cube minus its diagonal $n$-cube; its antichain
+  count interpolates between Dedekind-type growth and the structure
+  imposed by the excised diagonal.
+\end{ques}
+
+\begin{ques}
+  What is the distribution of $|D|$ over fibers as
+  $n \to \infty$ --- equivalently, of the number of ``free diagonal
+  points'' of a random boundary?  At $n = 3$ about $34.5\%$ of
+  elements lie in non-singleton fibers.
+\end{ques}
+
+\section{Outlook}
+\label{sec:outlook}
+
+Two directions seem worth recording.  First, the results transfer
+verbatim to \emph{sublanguages} of the interval theory: for the free
+bounded distributive lattice on $n$ generators (the ``Dedekind''
+interval theory, no involution) every point of the evaluation cube is
+seen by some face, the difference $D$ is always empty, and fibers are
+singletons --- boundary determines filler.  The Boolean fibers are
+thus a specifically De Morgan phenomenon, quantifying the slack
+introduced by the involution; it would be interesting to treat the
+Kleene case (adding $x \wedge \neg x \le y \vee \neg y$), where the
+diagonal cube is constrained but not excised.  Second, in the
+cubical-presheaf reading, Theorems~\ref{thm:main},
+\ref{thm:filling} and~\ref{thm:median} equip the ``strict layer'' of
+cells over the De Morgan cube category with canonical fillers,
+Boolean fiber decompositions, and strict cylinders; whether this
+organizes into an algebraic weak factorization system with the
+strict layer as a cofibrant skeleton --- a substitute for the
+Eilenberg--Zilber structure that the De Morgan cube category lacks
+--- is the subject of ongoing work.
+
+\subparagraph*{Artifact.}  The enumeration scripts, and the
+machine-checked type-theoretic counterparts of
+Theorems~\ref{thm:main} and~\ref{thm:median} (in a self-contained
+cubical proof kernel), are available in the repository
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived at
+DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961}.
+
+\begin{thebibliography}{10}
+
+\bibitem{BalbesDwinger}
+R.~Balbes, P.~Dwinger.
+\newblock \emph{Distributive Lattices}.
+\newblock University of Missouri Press, 1974.
+
+\bibitem{BandeltHedlikova}
+H.-J.~Bandelt, J.~Hedl\'{\i}kov\'a.
+\newblock Median algebras.
+\newblock \emph{Discrete Math.}\ 45 (1983), 1--30.
+
+\bibitem{BirkhoffKiss}
+G.~Birkhoff, S.~A.~Kiss.
+\newblock A ternary operation in distributive lattices.
+\newblock \emph{Bull.\ Amer.\ Math.\ Soc.}\ 53 (1947), 749--752.
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of the
+  univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{DCM}
+M.~Dor\'e, E.~Cavallo, A.~M\"ortberg.
+\newblock Automating boundary filling in cubical type theories.
+\newblock \emph{Log.\ Methods Comput.\ Sci.}\ 22(2):28, 2026.
+
+\bibitem{GWW}
+M.~Gehrke, C.~Walker, E.~Walker.
+\newblock Normal forms and truth tables for fuzzy logics.
+\newblock \emph{Fuzzy Sets and Systems}\ 138 (2003), 25--51.
+
+\bibitem{MA}
+Yu.~M.~Movsisyan, V.~A.~Aslanyan.
+\newblock A functional completeness theorem for De Morgan functions.
+\newblock \emph{Discrete Appl.\ Math.}\ 162 (2014), 1--16.
+
+\bibitem{MAfree}
+Yu.~M.~Movsisyan, V.~A.~Aslanyan.
+\newblock De Morgan functions and free De Morgan algebras.
+\newblock \emph{Demonstr.\ Math.}\ 47 (2014), 271--283.
+
+\bibitem{OEIS}
+OEIS Foundation Inc.
+\newblock The On-Line Encyclopedia of Integer Sequences.
+\newblock \url{https://oeis.org}.
+
+\bibitem{OEIS-Dedekind}
+OEIS Foundation Inc.
+\newblock Sequence A000372 (Dedekind numbers).
+\newblock \url{https://oeis.org/A000372}.
+
+\bibitem{Pawelski}
+B.~Pawelski.
+\newblock Counting interval sizes in the poset of monotone Boolean
+  functions.
+\newblock Preprint, arXiv:2311.11744, 2023.
+
+\bibitem{Const}
+R.~Shibusawa.
+\newblock Evaluation-time constancy inference for transport in
+  cubical type theory.
+\newblock Preprint, 2026.  Artifact:
+  \url{https://github.com/r-shibusawa/cubical-strict-j}, archived at
+  DOI \href{https://doi.org/10.5281/zenodo.21637898}%
+  {10.5281/zenodo.21637898}.
+
+\bibitem{Convexity}
+R.~Shibusawa.
+\newblock De Morgan convexity and the strict--weak comparison in
+  cubical type theory.
+\newblock Preprint, 2026.  Included in the artifact repository above
+  (from release \texttt{v1.4.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21639454}%
+  {10.5281/zenodo.21639454}).
+
+\bibitem{Sperner}
+E.~Sperner.
+\newblock Ein Satz \"uber Untermengen einer endlichen Menge.
+\newblock \emph{Math.\ Z.}\ 27 (1928), 544--548.
+
+\end{thebibliography}
+
+\end{document}
