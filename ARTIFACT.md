@@ -8,8 +8,9 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.11.0` (adds the paper
   `docs/paperL/unrepairable.{tex,pdf}` — reversal is unrepairable:
   equivariance, elegance, and the test comparison — with the note
-  `docs/Unrepairable.md` and the record `scripts/equivariance.py`);
-  DOI recorded after archiving
+  `docs/Unrepairable.md` and the record `scripts/equivariance.py`),
+  archived at DOI
+  [10.5281/zenodo.21716217](https://doi.org/10.5281/zenodo.21716217)
 - Previous: release `v1.10.0` (the reversal-quotient paper), DOI
   [10.5281/zenodo.21704342](https://doi.org/10.5281/zenodo.21704342)
 - Previous: release `v1.9.0` (the no-go paper), DOI
