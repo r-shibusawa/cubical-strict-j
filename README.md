@@ -25,8 +25,9 @@ Seven self-contained papers have been developed on this artifact; each is indepe
 | 8 | [The Kleene interpolation](docs/paperI/kleene.pdf) | boundary fibers across the subvarieties of De Morgan algebras: Kleene has exactly two non-singleton fibers in every dimension |
 | 9 | [Natural strict fillers do not exist](docs/paperJ/nogo.pdf) | a three-line no-go theorem: no filler choice is substitution-natural; the median correction system is strictly contractible — the weak layer is categorically necessary |
 | 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
+| 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
 
-Papers 2–10 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
+Papers 2–11 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
 ## What the paper shows
 

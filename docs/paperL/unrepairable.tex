@@ -1,0 +1,720 @@
+% To be reformatted in the journal style upon acceptance.
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ques}[thm]{Question}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\cube}{\square_{\mathrm{DM}}}
+\newcommand{\cubeK}{\square_{\mathrm{KL}}}
+\newcommand{\G}{G}
+\newcommand{\el}{\mathrm{el}}
+\newcommand{\Ldash}{L}
+\newcommand{\Weq}{\mathsf{W}_{\mathrm{eq}}}
+\newcommand{\Wtest}{\mathsf{W}_{\mathrm{test}}}
+\newcommand{\Wtype}{\mathsf{W}_{\mathrm{type}}}
+\newcommand{\Wmin}{\mathsf{W}_{\mathrm{min}}}
+\newcommand{\Crown}{\mathrm{Cr}}
+
+\begin{document}
+
+\title[Reversal is unrepairable]{Reversal is unrepairable:\\
+  equivariance, elegance, and the test comparison\\ for De Morgan
+  cubical sets}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{55U35; 18N40, 55U10, 06D30, 03B38}
+\keywords{cubical sets, cubical type theory, model structure,
+  equivariant fibration, test category, Eilenberg--Zilber category,
+  relative elegance, reversal, De Morgan algebra}
+
+\begin{abstract}
+  A companion paper identified the quotient of the interval by the
+  reversal as a $K(\mathbb{Z}/2,1)$ in the cubical-type model
+  structure on De Morgan cubical sets, with contractible geometric
+  realization.  This paper closes the two known repair strategies
+  for such defects, and re-opens the question they were meant to
+  settle.  First, we determine the automorphism groups of De
+  Morgan and Kleene cubes to be the hyperoctahedral groups and show
+  that the equivariant repair of
+  Awodey, Cavallo, Coquand, Riehl and Sattler carries over: a
+  Quillen model structure with hyperoctahedral-equivariant
+  fibrations exists on De Morgan and Kleene cubical sets, models homotopy type theory, and
+  makes every quotient $I^k/H$ contractible --- two modifications
+  are required, since the species-level interval loses all its
+  points and the vertex lemma must be re-proved over orbit
+  groupoids, which in fact simplifies it.  But the repair
+  \emph{overshoots}: by the freeness of the reversal action on
+  cells, the category of elements of $I^k/H$ has the homotopy type
+  of $BH$ for every reversal-containing $H$, so the equivariant
+  model structure contracts objects that the test model structure
+  does not, and --- in exact opposition to the cartesian case ---
+  cannot present spaces via the test comparison.  Second, we prove
+  that the De Morgan and Kleene cube categories admit no relatively
+  elegant embedding into any Reedy category, extending the no-go
+  theorem of Cavallo--Sattler beyond monotone cube maps: the
+  connection-degeneracy freedom that dissolves their winding
+  obstruction at the level of vertices is annihilated by a
+  forcing-and-constancy analysis at the level of free algebras,
+  machine-certified by finite constraint searches; the Boolean cube
+  category, by contrast, stabilizes.  Finally, the folklore witness
+  for the non-coincidence of the cubical-type and test model
+  structures on De Morgan cubes evaporates: the test homotopy type
+  of the reversal quotient is $B\mathbb{Z}/2$, in agreement with
+  the cubical-type answer.  With both repairs closed and the
+  witness void, whether CCHM cubical type theory presents spaces
+  through the test comparison emerges as a genuinely open problem,
+  for which we record a first positive fragment: the cubical-type
+  weak equivalences form a localizer and hence contain the minimal
+  one.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+The cube category $\cube$ of CCHM cubical type theory \cite{CCHM}
+carries connections and a reversal, and its presheaves interpret
+univalent type theory via the cubical-type model structure
+\cite{SattlerEEP, CoqNote}.  A companion paper \cite{Reversal}
+proved the folklore of \cite{CoqML, SatTalk}: the quotient
+$\Ldash = \square^1/(x \sim \neg x)$ of the interval by the
+reversal is not weakly contractible --- indeed it is a
+$K(\mathbb{Z}/2, 1)$ --- although its geometric realization is
+contractible.  The present paper asks whether this defect can be
+\emph{repaired}, by either of the two technologies that have
+succeeded on neighbouring cube categories:
+
+\begin{itemize}
+\item \emph{equivariance}: on cartesian cubes, requiring uniform
+  box-filling structures to be equivariant under the automorphisms
+  of the filling cube repairs the analogous defect (the symmetric
+  quotients $I^n/H$) and yields a model structure that coincides
+  with the test model structure and presents spaces
+  \cite{ACCRS};
+\item \emph{relative elegance}: on cartesian cubes with one
+  connection, a generalized Eilenberg--Zilber theory supplies the
+  cell decompositions on which the comparison with simplicial sets
+  rests \cite{CavalloSattlerElegance}.
+\end{itemize}
+
+Our answer is that \emph{both} repairs fail for the reversal, each
+for a structural reason rooted in the freeness theorem of
+\cite{Reversal}; and that their failure re-opens, rather than
+settles, the question of the test comparison.
+
+\subparagraph*{The equivariant route.}
+\sloppy We determine the symmetry groups first (Theorem~\ref{thm:aut}): in the De Morgan and Kleene
+cube categories, the automorphism group of the $n$-cube is the
+hyperoctahedral $\G_n = \Sigma_n \ltimes (\mathbb{Z}/2)^n$
+--- for De Morgan by Birkhoff duality and a centralizer
+computation, for Kleene because the unmixed-poset dual admits no
+other automorphisms at all.  The equivariant machinery of
+\cite{ACCRS} then transfers (Theorem~\ref{thm:eqms}): a
+$\G$-equivariant Quillen model structure exists on De Morgan and
+Kleene cubical sets, models homotopy type theory, and makes every
+vertex inclusion $1 \to I^k/H$, $H \leq \G_k$, a trivial
+cofibration --- in particular it contracts the reversal quotient
+$\Ldash$.  Two modifications of \cite{ACCRS} are needed, and we
+isolate them precisely: the symmetric-sequence interval loses all
+its global points under the hyperoctahedral action (the reversal
+moves every vertex), so the species-level premodel structure is no
+longer cylindrical and must be demoted to a generation device,
+with cylindricity, the equivalence extension property, and the
+fibrant-universe argument running at the cubical-set level ---
+which is possible because the $\delta$-contractor route to fibrant
+universes is entirely point-free; and the vertex lemma of
+\cite{ACCRS}, whose proof there requires the automorphism to
+\emph{fix} the vertex, is replaced by a colimit over the orbit
+groupoid, which needs no fixing and is in fact a simplification.
+
+The repair succeeds --- and that is exactly its failure.  The test
+model structure on presheaves over a test category has as weak
+equivalences the maps inverted by the nerve of the category of
+elements \cite{Cisinski, ACCRS}; and by the freeness theorem the
+reversal acts freely on the \emph{cells} of the interval, so the
+category of elements of $I^k/H$ is a free quotient of a
+contractible category:
+\[
+  N\,\el(I^k/H) \;\simeq\; BH
+  \qquad (\text{$H \leq \G_k$ acting freely on cells}).
+\]
+Thus the equivariant structure contracts objects whose test
+homotopy type is $BH \not\simeq *$
+(Theorem~\ref{thm:overshoot}): its localizer strictly exceeds the
+test localizer, the two model structures do \emph{not} coincide ---
+in exact opposition to the cartesian case
+\cite[Thm.~6.3.6]{ACCRS} --- and the equivariant model cannot
+present spaces through the test comparison.  The comparison with
+the cartesian case is instructive: there, the symmetric quotients
+are test-contractible because the \emph{diagonal cells are fixed}
+by the symmetries, gluing the quotient category into a contractible
+one; the reversal has no fixed cells --- that is the freeness
+theorem --- and the same freeness that makes the covering of
+\cite{Reversal} a clean fibration makes the equivariant repair
+overshoot.  Equivariance repairs defects born of \emph{fixed}
+cells; the reversal's defect is born of their absence.
+
+\subparagraph*{The elegance route.}  For the second repair we prove
+a no-go theorem (Theorem~\ref{thm:crown}): \emph{the De Morgan and
+Kleene cube categories admit no relatively elegant embedding into
+any Reedy category}.  Cavallo--Sattler proved this for Dedekind
+cubes \cite[Thm.~A.14]{CavalloSattlerElegance} by a winding-number
+argument over crown posets; their proof uses that Dedekind cube
+maps are monotone on vertices, and at the vertex level their
+obstruction genuinely dissolves in $\cube$ --- De Morgan maps have
+arbitrary Boolean vertex actions, so the crown factorizations exist
+as vertex functions.  The obstruction resurfaces one level deeper:
+the required factorization is an equation in free De Morgan
+algebras, the three-branch structure of the crown extensions forces
+the factorizing map into the crown fibers, the fibers are pairwise
+incomparable antichains, and the apparent freedom in the
+negative-literal directions is annihilated by a constancy argument
+--- monotone maps from a connected poset into an antichain are
+constant --- so the winding obstruction returns.  The finite core
+of the argument is machine-certified: exhaustive constraint
+searches over the crown regions ($768$ points for De Morgan, $312$
+for Kleene) find no admissible factorization, while the Boolean
+cube category --- where vertex actions determine everything ---
+\emph{does} stabilize, consistently with its Karoubi envelope being
+the Eilenberg--Zilber category of finite sets \cite{Campion}.
+
+\subparagraph*{The test comparison, re-opened.}  Finally we revisit
+the folklore itself.  The 2018 discussions record the claim that
+the cubical-type and test weak equivalences differ on De Morgan
+cubes \cite{CoqML}, with $\Ldash$ as the counterexample-in-waiting:
+its realization is contractible, its cubical-type homotopy type is
+not.  But the test model structure does not see the topological
+realization; it sees the category of elements, and
+\[
+  N\,\el(\Ldash) \;\simeq\; B\mathbb{Z}/2
+  \;\simeq\; \text{the cubical-type answer of \cite{Reversal}}.
+\]
+The presumed witness is no witness: on $\Ldash$, the cubical-type
+and test structures \emph{agree} (and it is the topological
+realization that is the outlier --- it is not a test functor for
+$\cube$).  With the witness void and both repair routes closed, we
+know of no proof that the cubical-type model structure on De
+Morgan cubical sets differs from the test model structure; we
+therefore regard the question
+\begin{quote}
+  \emph{does CCHM cubical type theory present spaces through the
+  test comparison, i.e.\ is $\Wtype = \Wtest$ on $\cube$?}
+\end{quote}
+as open, and record a first fragment
+(Proposition~\ref{prop:sandwich}): the cubical-type weak
+equivalences form a Cisinski localizer, hence contain the minimal
+localizer.  The corresponding question for cartesian cubes is
+settled in the negative by Coquand's symmetric square
+\cite{CoqNote} --- which is consistent, since there the test
+structure \emph{does} contract the symmetric square (fixed
+diagonal cells again) while the cubical-type structure does not;
+the De Morgan situation is genuinely different because the
+reversal's freeness aligns the two structures on the known test
+objects.
+
+\subparagraph*{Relation to the literature.}  Theorem~\ref{thm:eqms}
+is an application of the architecture of \cite{ACCRS}, and we state
+precisely which components are used unchanged and which are
+modified; the overshoot phenomenon it runs into is the one
+\cite{ACCRS} themselves flag for BCH cubes in §1.7.2 (``equivariance
+is not a catch-all solution''), here given an exact combinatorial
+diagnosis (cell-freeness) and a proof.
+Theorem~\ref{thm:crown} extends \cite[App.~A]{CavalloSattlerElegance}
+beyond monotone cube maps.  The freeness theorem, the fiber
+combinatorics of free De Morgan and Kleene algebras, and the
+identification of $\Ldash$ used throughout are from
+\cite{DMFibers, Kleene, Reversal}.  All finite claims are
+machine-verified (\S\ref{sec:machine}).
+
+\section{Preliminaries}
+\label{sec:prelim}
+
+We freely use: the cube categories $\cube$, $\cubeK$ of the De
+Morgan and Kleene interval theories, with morphisms
+$[m] \to [n]$ the $n$-tuples of free-algebra elements, and the
+literal-cube representations of the free algebras
+\cite{DMFibers, Kleene}; the quotient
+$\Ldash = \square^1/(t \sim \neg t)$ and the freeness theorem ---
+no cell of the interval is fixed by the reversal --- of
+\cite{Reversal}; the equivariant machinery of \cite{ACCRS}
+(uniform box filling along generalized open boxes
+$(c : C \rightarrowtail I^n,\ \zeta : I^n \to I^k)$, with chosen
+lifts natural in pullback squares \emph{and} in automorphisms
+$\sigma$ of the filling cube $I^k$; cubical species; Garner's
+algebraic small object argument); the test model structure on
+presheaves over a test category, with weak equivalences the maps
+$f$ such that $N\,\el(f)$ is a weak homotopy equivalence
+\cite{Cisinski, ACCRS}; the fact that $\cube$, $\cubeK$ and the
+Boolean cube category are strict test categories
+\cite{BuchholtzMorehouse}; and relative elegance
+\cite{CavalloSattlerElegance}: a Reedy category $R$ is elegant
+relative to a fully faithful $i : C \to R$ when the nerve
+$N_i$ preserves pushouts of lowering spans, which yields cell
+decompositions of all monomorphisms of $\mathrm{PSh}(C)$ and, via
+\cite[Lem.~A.5]{CavalloSattlerElegance}, a strictly monotone
+degree on the poset of principal sieves of each object of $C$.
+
+\section{The automorphism groups are hyperoctahedral}
+\label{sec:aut}
+
+\begin{thm}
+  \label{thm:aut}
+  In both the De Morgan and the Kleene cube categories,
+  $\mathrm{Aut}([n]) \cong \G_n = \Sigma_n \ltimes
+  (\mathbb{Z}/2)^n$, generated by the coordinate permutations and
+  the reversals $x_i \mapsto \neg x_i$.
+\end{thm}
+
+\begin{proof}
+  An automorphism of $[n]$ is an automorphism of the free algebra.
+  De Morgan case: by Birkhoff duality, lattice automorphisms of the
+  free De Morgan algebra correspond to order-automorphisms of the
+  literal cube $\{0,1\}^{2n}$, which are exactly the coordinate
+  permutations $\Sigma_{2n}$; compatibility with the involution
+  $\neg$ (complement composed with the pair swap $\tau$) amounts,
+  since complementation is central, to centralizing $\tau$ --- a
+  product of $n$ disjoint transpositions, whose centralizer in
+  $\Sigma_{2n}$ is $\Sigma_n \ltimes (\mathbb{Z}/2)^n$: permute
+  the pairs, swap within a pair, the latter realizing
+  $x_i \mapsto \neg x_i$.  Kleene case: the dual object is the
+  unmixed subposet, and a direct check (machine-verified at
+  $n = 2$: all eight poset automorphisms commute with the
+  involution) shows its automorphisms are exactly the same signed
+  permutations; the general statement follows since an
+  automorphism permutes the $2n$ atoms of the poset of principal
+  up-sets respecting pairs, as in the De Morgan case.
+\end{proof}
+
+\section{The equivariant model structure exists}
+\label{sec:eqms}
+
+\begin{thm}
+  \label{thm:eqms}
+  On De Morgan and on Kleene cubical sets there is a Quillen model
+  structure whose cofibrations are the monomorphisms and whose
+  fibrations are the hyperoctahedral-equivariant uniform
+  fibrations: maps with chosen lifts against the generalized open
+  boxes, uniform in pullback squares and in all
+  $\sigma \in \G_k$ acting on the filling cube.  It is cylindrical
+  and cartesian closed, satisfies the Frobenius condition, the
+  equivalence and fibration extension properties, and has univalent
+  universes with fibrant bases --- a model of homotopy type
+  theory.  Moreover, for every $k \geq 1$, every subgroup
+  $H \leq \G_k$, and every vertex $v$ of $I^k$, the inclusion
+  $v : 1 \to I^k/H$ is a trivial cofibration; in particular
+  $\Ldash \to 1$ is a weak equivalence.
+\end{thm}
+
+\begin{proof}[Proof (outline, with the two modifications)]
+  The construction follows §§2--5 of \cite{ACCRS}, with the
+  groupoid $\Sigma$ replaced by the hyperoctahedral groupoid
+  $\G = \coprod_k \G_k$ (legitimate by
+  Theorem~\ref{thm:aut}): $\G$-species, the symmetric-sequence
+  interval $\I$ (tiny, since the cube categories have finite
+  decidable homs --- free De Morgan and Kleene algebras on finitely
+  many generators are finite), the generating category of
+  boxes, Garner's algebraic small object argument, and the orbit
+  transfer along $L \dashv \Delta$.  Two points do not transfer
+  verbatim.
+
+  \emph{First modification (pointless species interval).}  A global
+  point of $\I$ chooses a $\G_k$-fixed vertex of $I^k$ for each
+  $k$; under the hyperoctahedral action there are none (the
+  reversal moves every vertex --- the freeness theorem at the
+  vertex level), so the species-level premodel structure is not
+  cylindrical, and the species-level model structure of
+  \cite[§4.4]{ACCRS} is unavailable.  It is also unneeded: the
+  cubical-set-level architecture of \cite[§5]{ACCRS} uses the
+  species layer only as a generation device.  Cylindricity at the
+  cubical-set level needs the endpoint inclusions
+  $0, 1 : 1 \to I$ to be trivial cofibrations, which are the
+  $k = 1$ vertex-triangle generators and require no equivariance;
+  the pushout-product axiom transfers along $\Delta$ (which
+  preserves Leibniz exponentials); the equivalence extension
+  property is proved at the cubical-set level from cylindricity
+  (axiomatic); Frobenius transfers along the
+  pushforward-preserving $\Delta$; and the fibrant-universe
+  argument runs through the $\delta$-contractor mechanism of
+  \cite[§3.6]{ACCRS}, which is entirely point-free --- it uses
+  only the generic point $\delta : \I \to \I \times \I$ in the
+  slice, never an endpoint of $\I$.  The fibration extension
+  property and two-out-of-three then follow as in
+  \cite[§5.3]{ACCRS}.
+
+  \emph{Second modification (orbit-groupoid vertex lemma).}  In
+  \cite[Lem.~5.2.5]{ACCRS} the contractibility of $I^k/H$ rests on
+  morphisms of vertex triangles
+  $(\mathrm{id}, \sigma) : (\emptyset \rightarrowtail 1,
+  \sigma^{-1}\vec{v}) \to (\emptyset \rightarrowtail 1, \vec{v})$,
+  and their diagram is constant at one triangle, which requires
+  $\sigma^{-1}\vec{v} = \vec{v}$ --- only the two poles are fixed
+  by all permutations.  We instead organize the $H$-action as a
+  diagram over its \emph{orbit groupoid}: objects the vertex
+  triangles at the vertices of one orbit, morphisms the
+  $(\mathrm{id}, \sigma)$, with no fixing condition (the
+  constraint $\xi = \sigma^{-1}\zeta\alpha$ of the generating
+  category is then the definition of the diagram, not a
+  restriction).  The colimit of this diagram of generating trivial
+  cofibrations has domain
+  $\mathrm{colim}(1) = 1$ (connected groupoid) and codomain
+  $I^k/H$, and coalgebra forgetful functors create colimits
+  \cite{BourkeGarner}, so $v : 1 \to I^k/H$ is a trivial
+  cofibration for \emph{every} vertex --- a simplification as well
+  as a generalization of the original lemma.  For
+  $\Ldash = I/\langle\neg\rangle$ this gives
+  $1 \to \Ldash$ a trivial cofibration, whence
+  $\Ldash \to 1 \in \Weq$ by two-out-of-three.
+\end{proof}
+
+\section{The repair overshoots}
+\label{sec:overshoot}
+
+\begin{lem}
+  \label{lem:elBH}
+  Let $H \leq \G_k$ act freely on the cells of $I^k$ (by the
+  freeness theorem, any $H$ containing a reversal-component acts
+  freely already through that component).  Then
+  $N\,\el(I^k/H) \simeq BH$; in particular
+  $N\,\el(\Ldash) \simeq B\mathbb{Z}/2$.
+\end{lem}
+
+\begin{proof}
+  $\el(-)$ preserves colimits, so
+  $\el(I^k/H) = \el(I^k)/H$, a quotient of a category with
+  terminal object (the slice over a representable) by an action
+  free on objects.  Freeness on objects makes the action free on
+  all composable strings, so the quotient functor is a covering of
+  categories and
+  $N(\el(I^k)/H) = N(\el(I^k))/H$, the quotient of a contractible
+  free $H$-complex: a $BH$.
+\end{proof}
+
+\begin{thm}
+  \label{thm:overshoot}
+  On De Morgan and Kleene cubical sets, the
+  hyperoctahedral-equivariant model structure does not coincide
+  with the test model structure:
+  $\Ldash \to 1 \in \Weq \setminus \Wtest$.  Consequently the
+  equivariant model structure does not present spaces through the
+  test comparison --- in exact opposition to the cartesian case
+  \cite[Thm.~6.3.6]{ACCRS}.
+\end{thm}
+
+\begin{proof}
+  $\Ldash \to 1 \in \Weq$ by Theorem~\ref{thm:eqms};
+  $N\,\el(\Ldash) \simeq B\mathbb{Z}/2 \not\simeq *$ by
+  Lemma~\ref{lem:elBH}, so $\Ldash \to 1 \notin \Wtest$.  Since
+  $\cube$ is a strict test category \cite{BuchholtzMorehouse}, the
+  test model structure presents spaces \cite{Cisinski}; a model
+  structure with the same cofibrations and a strictly larger class
+  of weak equivalences on a contractible-realization object is a
+  different localization.
+\end{proof}
+
+\begin{rem}
+  The diagnosis, in one line: \emph{equivariance repairs defects
+  born of fixed cells, and the reversal has none.}  On cartesian
+  cubes the symmetric quotients $I^n/H$ are test-contractible ---
+  their element categories are glued along the fixed diagonal
+  cells --- so enlarging the localizer to contract them moves the
+  cubical-type structure \emph{toward} the test structure, and
+  \cite{ACCRS} shows it lands exactly on it.  On De Morgan cubes
+  the freeness theorem makes the reversal quotients test-nontrivial
+  ($BH$'s), so the same enlargement moves \emph{past} the test
+  structure.  This realizes, with a proof, the caution of
+  \cite[§1.7.2]{ACCRS} that ``equivariance is not a catch-all
+  solution'': the BCH cube category was their suspected example;
+  the De Morgan cube category is a proven one.
+\end{rem}
+
+\section{No relatively elegant embedding}
+\label{sec:crown}
+
+We now close the second route.  Recall from
+\cite[App.~A]{CavalloSattlerElegance} the crown posets $\Crown_m$
+(cyclic fences of $2m$ elements), the embeddings
+$c_m : \Crown_m \rightarrowtail [1]^m$, the wrapping maps
+$f_a : \Crown_{am} \to \Crown_m$ of winding number $a$, and the
+extensions $\overline{f} : [1]^{am} \to [1]^{m}$ sending
+$c_{am}(i) \mapsto c_m(f(i))$, $\bot \mapsto \bot$, and everything
+else to $\top$; the three branches have disjoint values, so the
+defining square is a pullback.  If some
+$i : \mathcal{C} \to R$ were relatively elegant, principal sieves
+on each object of $\mathcal{C}$ would carry a strictly monotone
+degree \cite[Lem.~A.5]{CavalloSattlerElegance} --- the lemma's
+fullness hypothesis is part of the definition of relative
+elegance, so it applies to any $\mathcal{C}$ --- and the chain
+$\langle\overline{f_2}\rangle \supseteq
+\langle\overline{f_4}\rangle \supseteq \cdots$ of principal sieves
+on $[1]^n$ would stabilize: some
+$\overline{f_a} = \overline{f_b} \circ g$ with $a < b$ and
+$g : [1]^{an} \to [1]^{bn}$ a map of $\mathcal{C}$.
+
+\begin{thm}
+  \label{thm:crown}
+  For $\mathcal{C} \in \{\cube, \cubeK\}$, no such $g$ exists;
+  hence the De Morgan and Kleene cube categories admit no
+  relatively elegant embedding into any Reedy category.
+\end{thm}
+
+\begin{proof}
+  A first phenomenon, absent from the Dedekind case: at the level
+  of \emph{vertex actions} the factorization exists.  De Morgan
+  cube maps have arbitrary Boolean vertex actions (disjunctive
+  normal forms over literals are functionally complete), the three
+  branches of $\overline{f_b}$ are disjoint, and a set-level
+  section of $f_b$ over the crown extended by
+  $\bot \mapsto \bot$, else $\top$, satisfies the vertex-level
+  equation --- no monotonicity, hence no winding number, obstructs
+  it.  The obstruction returns at the free-algebra level, where
+  the required equation
+  $\overline{f_b} \circ g = \overline{f_a}$ holds in
+  free algebras, i.e.\ as monotone functions on the literal cube.
+  Write $G$ for the induced monotone map on literal points and
+  $\mathrm{pos}$ for the projection to positive literals.  Since
+  $\overline{f_b}$ is negation-free, the composite's literal
+  function is $\overline{f_b}$'s vertex action applied to $G$;
+  since $\overline{f_b}^{-1}(\text{crown values}) = $ crown points
+  exactly, $G$ is forced, on the region
+  $\{\alpha : \mathrm{pos}(\alpha) \in c_{an}(\Crown_{an})\}$, to
+  take values in $c_{bn}$ of the fibers
+  $f_b^{-1}(f_a(i))$ --- antichains of $b$ points spaced $2n$
+  apart in $\Crown_{bn}$, pairwise incomparable.  The region is
+  the product of the crown subposet with the Boolean cube of
+  negative literals; the negative directions are connected, and a
+  monotone map from a connected poset into an antichain is
+  constant, so $G$'s crown-region behaviour factors through a
+  monotone $\rho : \Crown_{an} \to \Crown_{bn}$ with
+  $f_b \rho = f_a$ --- and
+  $b \cdot \mathrm{wind}(\rho) = a$ with $a < b$ has no integer
+  solution.  (Machine certificates: the crown-region constraint
+  problems --- $768$ points for De Morgan, $312$ for Kleene, both
+  with domains of size $b = 4$ --- are exhaustively unsatisfiable;
+  \S\ref{sec:machine}.)  For Kleene the same argument runs on the
+  unmixed literal points, whose crown region remains connected in
+  the negative directions.
+\end{proof}
+
+\begin{rem}
+  The Boolean cube category escapes: there the free algebras are
+  determined by vertex actions, the set-level section \emph{is} a
+  cube map, the chain stabilizes immediately, and indeed the
+  Boolean Karoubi envelope is the Eilenberg--Zilber category of
+  finite nonempty sets \cite{Campion}.  The trichotomy
+  Boolean/Kleene--De Morgan reproduces, at the level of elegance,
+  the fiber trichotomy of \cite{Kleene}: what obstructs is
+  precisely the monotone literal structure that the involution
+  fails to collapse.
+\end{rem}
+
+\section{The test comparison, re-opened}
+\label{sec:test}
+
+\begin{prop}
+  \label{prop:sandwich}
+  On any of the three cube categories, the weak equivalences
+  $\Wtype$ of the cubical-type model structure form a Cisinski
+  localizer: they satisfy two-out-of-three, contain the maps with
+  the right lifting property against all monomorphisms, and their
+  monic members are closed under pushout and transfinite
+  composition.  Consequently $\Wmin \subseteq \Wtype$, where
+  $\Wmin$ is the minimal localizer.
+\end{prop}
+
+\begin{proof}
+  All three properties are theorems of model-category theory for a
+  model structure whose cofibrations are the monomorphisms; the
+  minimal localizer is contained in every localizer.
+\end{proof}
+
+\begin{rem}[the folklore witness is void]
+  \label{rem:void}
+  The 2018 record asserts that the cubical-type and test weak
+  equivalences differ on De Morgan (and Boolean) cubes
+  \cite{CoqML}, with the reversal quotient as the underlying
+  example.  But $\Ldash$ separates the cubical-type structure from
+  the \emph{topological realization}, not from the test structure:
+  by Lemma~\ref{lem:elBH} its test homotopy type is
+  $B\mathbb{Z}/2$, which is precisely its cubical-type homotopy
+  type \cite{Reversal}.  (It follows, incidentally, that the
+  topological cocube on $\cube$ is not a test functor: it computes
+  $*$ where the test structure computes $B\mathbb{Z}/2$.)  On the
+  cartesian side the analogous question is genuinely settled in
+  the negative --- Coquand's symmetric square is
+  cubical-type-nontrivial \cite{CoqNote} yet test-trivial (the
+  equivariant structure contracts it and coincides with the test
+  structure \cite{ACCRS}) --- but that argument turns on the fixed
+  diagonal cells, which the reversal lacks.  We know of no
+  surviving proof that $\Wtype \neq \Wtest$ on $\cube$, and we
+  regard the question --- \emph{does CCHM cubical type theory
+  present spaces through the test comparison?} --- as open.
+  Proposition~\ref{prop:sandwich} gives the lower bound; the
+  missing steps for the upper bound
+  $\Wtype \subseteq \Wtest$ are the test-triviality of the
+  generalized open boxes (plausible: their element categories are
+  glued from contractible pieces along fully faithful inclusions)
+  and, for equality, a converse that would necessarily be as hard
+  as the known open Dedekind case \cite{StreicherWeinberger,
+  CavalloSattlerElegance}.
+\end{rem}
+
+\section{Machine verification}
+\label{sec:machine}
+
+Finite claims verified exhaustively (scripts accompany the
+artifact): the automorphism counts of Theorem~\ref{thm:aut}
+($8 = |\G_2|$ coordinate permutations commuting with the
+involution for De Morgan at $n = 2$; all $8$ poset automorphisms
+of the unmixed poset, all commuting, for Kleene); the freeness
+census underlying Lemma~\ref{lem:elBH} ($0$ self-dual cells
+through three generators in both theories, from
+\cite{Reversal}); the non-commutation
+$(\neg x) \wedge e \neq \neg(x \wedge e)$ showing
+hyperoctahedral equivariance is not implied by connections (the
+connection-contraction argument for automatic symmetric-group
+equivariance \cite[Rem.~4.25]{CavalloSattlerElegance} commutes
+with permutations only); and the crown-region constraint
+problems of Theorem~\ref{thm:crown}: for
+$(n, a, b) = (3, 2, 4)$, the De Morgan region has $768$ points
+with $16{,}728$ order constraints and the Kleene region $312$
+points, all domains of size $4$; backtracking with propagation
+finds no solution in either, while the fiber-incomparability and
+three-branch-disjointness lemmas are checked directly.
+
+\section{Outlook}
+\label{sec:outlook}
+
+The results funnel further work toward one question: the upper
+bound $\Wtype \subseteq \Wtest$ of Remark~\ref{rem:void}, whose
+proof would need the test-triviality of the generalized open boxes
+of $\cube$, and whose converse --- equality --- would settle
+whether CCHM cubical type theory presents spaces.  Both halves are
+now unobstructed by any known counterexample.  Independently, the
+equivariant model structure of Theorem~\ref{thm:eqms} presents
+\emph{some} homotopy theory --- a localization of the test theory
+in which the classifying spaces $BH$ of reversal-containing
+subgroups are contracted --- whose identification we leave open;
+and the orbit-groupoid form of the vertex lemma may be of use
+wherever the ACCRS machinery meets non-vertex-fixing symmetries.
+
+\subparagraph*{Artifact.}  The verification scripts and the
+machine-checked companions are available in the artifact
+repository:\\
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived
+at DOI \href{https://doi.org/10.5281/zenodo.21405961}%
+{10.5281/zenodo.21405961}.
+
+\begin{thebibliography}{10}
+
+\bibitem{ACCRS}
+S.~Awodey, E.~Cavallo, T.~Coquand, E.~Riehl, C.~Sattler.
+\newblock The equivariant model structure on cartesian cubical
+  sets.
+\newblock \emph{Adv.\ Math.}\ 495 (2026), 110965.
+
+\bibitem{BourkeGarner}
+J.~Bourke, R.~Garner.
+\newblock Algebraic weak factorisation systems I: accessible AWFS.
+\newblock \emph{J.\ Pure Appl.\ Algebra}\ 220 (2016), 108--147.
+
+\bibitem{BuchholtzMorehouse}
+U.~Buchholtz, E.~Morehouse.
+\newblock Varieties of cubical sets.
+\newblock \emph{RAMiCS 2017}, LNCS 10226, 2017.
+
+\bibitem{Campion}
+T.~Campion.
+\newblock Cubical sites as Eilenberg--Zilber categories.
+\newblock Preprint, arXiv:2303.06206, 2023.
+
+\bibitem{CavalloSattlerElegance}
+E.~Cavallo, C.~Sattler.
+\newblock Relative elegance and cartesian cubes with one
+  connection.
+\newblock \emph{Canad.\ J.\ Math.}, to appear; arXiv:2211.14801.
+
+\bibitem{CCHM}
+C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg.
+\newblock Cubical type theory: a constructive interpretation of
+  the univalence axiom.
+\newblock \emph{TYPES 2015}, LIPIcs 69, 2018.
+
+\bibitem{Cisinski}
+D.-C.~Cisinski.
+\newblock \emph{Les pr\'efaisceaux comme mod\`eles des types
+  d'homotopie}.
+\newblock Ast\'erisque 308, Soc.\ Math.\ France, 2006.
+
+\bibitem{CoqNote}
+T.~Coquand.
+\newblock Trivial cofibration-fibration factorization with one
+  application.
+\newblock Unpublished note, June 2018; circulated on the Homotopy
+  Type Theory mailing list \cite{CoqML}.
+
+\bibitem{CoqML}
+T.~Coquand et al.
+\newblock Quillen model structure.
+\newblock Homotopy Type Theory mailing-list discussion, June 2018.
+\newblock \url{https://groups.google.com/g/homotopytypetheory/c/RQkLWZ_83kQ}.
+
+\bibitem{SatTalk}
+C.~Sattler.
+\newblock Do cubical models of type theory also model homotopy
+  types?
+\newblock Lecture, Hausdorff Trimester Program, Bonn, June 2018.
+
+\bibitem{SattlerEEP}
+C.~Sattler.
+\newblock The equivalence extension property and model structures.
+\newblock Preprint, arXiv:1704.06911, 2017.
+
+\bibitem{StreicherWeinberger}
+T.~Streicher, J.~Weinberger.
+\newblock Simplicial sets inside cubical sets.
+\newblock \emph{Theory Appl.\ Categ.}\ 37 (2021), 276--286.
+
+\bibitem{DMFibers}
+R.~Shibusawa.
+\newblock Boundary fibers in free De Morgan algebras: Boolean
+  intervals, Sperner bounds, and median contractions.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.6.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695307}%
+{10.5281/zenodo.21695307}).
+
+\bibitem{Kleene}
+R.~Shibusawa.
+\newblock The Kleene interpolation: boundary fibers and the strict
+  layer across the subvarieties of De Morgan algebras.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.8.1}, DOI
+  \href{https://doi.org/10.5281/zenodo.21695917}%
+{10.5281/zenodo.21695917}).
+
+\bibitem{Reversal}
+R.~Shibusawa.
+\newblock Cubical models with reversal do not present spaces: the
+  interval quotient is a $K(\mathbb{Z}/2,1)$.
+\newblock Preprint, 2026.  In the artifact repository (release
+  \texttt{v1.10.0}, DOI
+  \href{https://doi.org/10.5281/zenodo.21704342}%
+{10.5281/zenodo.21704342}).
+
+\end{thebibliography}
+
+\end{document}
