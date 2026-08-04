@@ -30,6 +30,8 @@ Twelve self-contained papers have been developed on this artifact; each is indep
 
 Papers 2–12 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
+**Note.** Papers 10–12 have been consolidated into a single, substantially revised journal manuscript (*The test comparison for De Morgan cubical sets: reversal, equivariance, and the join of two projective spaces*). The repository versions remain available as the archived machine-verification record and are superseded by the consolidated manuscript; none of them is separately under journal review.
+
 ## What the paper shows
 
 In cubical type theories the eliminator `J` does not compute definitionally on `refl`, because the transport primitive's constancy formula is fixed when a term is written. Re-detecting constancy at evaluation time is an old informal idea; the paper gives it a metatheory:
