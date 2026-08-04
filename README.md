@@ -24,13 +24,17 @@ Twelve self-contained papers have been developed on this artifact; each is indep
 | 7 | [The strict layer of De Morgan cubical sets](docs/paperH/strictdm.pdf) | the Karoubi envelope via projective De Morgan algebras; the defect formula; a coherence dichotomy |
 | 8 | [The Kleene interpolation](docs/paperI/kleene.pdf) | boundary fibers across the subvarieties of De Morgan algebras: Kleene has exactly two non-singleton fibers in every dimension |
 | 9 | [Natural strict fillers do not exist](docs/paperJ/nogo.pdf) | a three-line no-go theorem: no filler choice is substitution-natural; the median correction system is strictly contractible — the weak layer is categorically necessary |
-| 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
-| 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
-| 12 | [The join of two projective spaces](docs/paperM/isotropy.pdf) | the upper bound W_type ⊆ W_test on any totally aspherical cube category; the element category of the Klein quotient of the square is RP^∞ ⋆ RP^∞; both structures agree on every isotropy quotient of the square — no quotient witness separates the localizers |
+| 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) *(superseded — see the consolidated manuscript below)* | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
+| 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) *(superseded — see the consolidated manuscript below)* | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
+| 12 | [The join of two projective spaces](docs/paperM/isotropy.pdf) *(superseded — see the consolidated manuscript below)* | the upper bound W_type ⊆ W_test on any totally aspherical cube category; the element category of the Klein quotient of the square is RP^∞ ⋆ RP^∞; both structures agree on every isotropy quotient of the square — no quotient witness separates the localizers |
 
 Papers 2–12 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
-**Note.** Papers 10–12 have been consolidated into a single, substantially revised journal manuscript (*The test comparison for De Morgan cubical sets: reversal, equivariance, and the join of two projective spaces*). The repository versions remain available as the archived machine-verification record and are superseded by the consolidated manuscript; none of them is separately under journal review.
+**Consolidated manuscript.** Papers 10–12 have been consolidated into a single, substantially revised and corrected journal manuscript — not a concatenation: the proofs were restructured, several were completed or corrected, and the three papers' claims are reconciled inside one document:
+
+- **[The test comparison for De Morgan cubical sets: reversal, equivariance, and the join of two projective spaces](docs/consolidated/testcomparison.pdf)** (26 pages)
+
+The repository versions of papers 10–12 remain available as the archived machine-verification record and are **superseded** by the consolidated manuscript; none of them is separately published or under journal review.
 
 ## What the paper shows
 
