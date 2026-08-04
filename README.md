@@ -11,7 +11,7 @@
 
 ## 📚 The paper series
 
-Seven self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
+Twelve self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
 
 | # | paper (PDF) | one line |
 |---|---|---|
@@ -26,8 +26,9 @@ Seven self-contained papers have been developed on this artifact; each is indepe
 | 9 | [Natural strict fillers do not exist](docs/paperJ/nogo.pdf) | a three-line no-go theorem: no filler choice is substitution-natural; the median correction system is strictly contractible — the weak layer is categorically necessary |
 | 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
 | 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
+| 12 | [The join of two projective spaces](docs/paperM/isotropy.pdf) | the upper bound W_type ⊆ W_test on any totally aspherical cube category; the element category of the Klein quotient of the square is RP^∞ ⋆ RP^∞; both structures agree on every isotropy quotient of the square — no quotient witness separates the localizers |
 
-Papers 2–11 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
+Papers 2–12 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
 ## What the paper shows
 
