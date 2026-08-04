@@ -8,8 +8,9 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.12.0` (adds the paper
   `docs/paperM/isotropy.{tex,pdf}` — the join of two projective
   spaces: isotropy quotients and the test comparison — with the note
-  `docs/Isotropy.md` and the record `scripts/isotropy.py`), DOI
-  to be recorded on issue
+  `docs/Isotropy.md` and the record `scripts/isotropy.py`),
+  archived at DOI
+  [10.5281/zenodo.21785412](https://doi.org/10.5281/zenodo.21785412)
 - Previous: release `v1.11.0` (the unrepairability paper), DOI
   [10.5281/zenodo.21716217](https://doi.org/10.5281/zenodo.21716217)
 - Previous: release `v1.10.0` (the reversal-quotient paper), DOI
