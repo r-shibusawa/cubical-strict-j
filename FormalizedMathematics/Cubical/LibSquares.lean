@@ -303,4 +303,74 @@ def sqDiagCtrlD : LibDef where
     (.plam "i" (qat vi vi))
     (.plam "i" (qat vi (.ineg vi))))))
 
+/-! ## Fiberwise sharpness probes (algebraic boundaries)
+
+Level 0: a generic loop's two orientations `⟨i⟩p(i)` and `⟨i⟩p(¬i)`
+share their term-level boundary `(a, a)` but lie over distinct
+algebraic boundaries `(0,1)` vs `(1,0)`, and are definitionally
+separated.  Level 1: over a generic 2-loop, with `t = k∧¬k`,
+`dᵢ = i∧¬i`, `dⱼ = j∧¬j`, the 3-cubes
+`H = ⟨k⟩⟨i⟩⟨j⟩ q(t∧dᵢ)(t∧dⱼ)` and `H′ = ⟨k⟩⟨i⟩⟨j⟩ q(t∧dⱼ)(t∧dᵢ)`
+are term-level homotopies between constant squares, every face
+constant, yet definitionally distinct — their formula tuples
+restrict differently on faces (`(0, t∧dⱼ)` vs `(t∧dⱼ, 0)` at
+`i = 0`).  The *impossibility* of a strict homotopy inside each
+pair is the universally quantified pen-and-paper half; the probes
+record the well-typedness controls and the separations. -/
+
+private def ctxP (body : Raw) : Raw :=
+  .pi "A" .univ (.pi "a" (.var "A") (.pi "p" LoopT body))
+
+private def pat (f : Raw) : Raw := .papp pv a a f
+
+/-- Orientation control: `⟨i⟩ p(¬i) : Path A a a` is well typed. -/
+def sqOrientCtrlD : LibDef where
+  name := "sqOrientCtrl"
+  ty := ctxP LoopT
+  tm := lams ["A", "a", "p"] (.plam "i" (pat (.ineg vi)))
+
+#guard sqOrientCtrlD.ok
+
+-- Orientation separation: `⟨i⟩ p(i) ≢ ⟨i⟩ p(¬i)`.
+#guard !(okD
+  (lams ["A", "a", "p"] (.plam "k" (.plam "i" (pat (.ineg vi)))))
+  (ctxP (.path LoopT
+    (.plam "i" (pat vi))
+    (.plam "i" (pat (.ineg vi))))))
+
+private def vk : Raw := .var "k"
+private def tK : Raw := .imin vk (.ineg vk)
+private def dI : Raw := .imin vi (.ineg vi)
+private def dJ : Raw := .imin vj (.ineg vj)
+
+/-- `⟨k⟩⟨i⟩⟨j⟩ q(f)(s)` — a reparametrized 3-cube. -/
+private def cube3 (f s : Raw) : Raw :=
+  .plam "k" (.plam "i" (.plam "j" (qat f s)))
+
+private def T3 : Raw := .path SqT sqConst sqConst
+
+/-- Tower control `H = ⟨k⟩⟨i⟩⟨j⟩ q(t∧dᵢ)(t∧dⱼ)`: a well-typed
+homotopy between constant squares, all faces constant. -/
+def sqTowerHD : LibDef where
+  name := "sqTowerH"
+  ty := ctxQ T3
+  tm := lams ["A", "a", "q"] (cube3 (.imin tK dI) (.imin tK dJ))
+
+#guard sqTowerHD.ok
+
+/-- Tower control `H′` (coordinates swapped). -/
+def sqTowerH2D : LibDef where
+  name := "sqTowerH2"
+  ty := ctxQ T3
+  tm := lams ["A", "a", "q"] (cube3 (.imin tK dJ) (.imin tK dI))
+
+#guard sqTowerH2D.ok
+
+-- Tower separation: `H ≢ H′` (K2: distinct non-degenerate tuples).
+#guard !(okD
+  (lams ["A", "a", "q"] (.plam "l" (cube3 (.imin tK dI) (.imin tK dJ))))
+  (ctxQ (.path T3
+    (cube3 (.imin tK dJ) (.imin tK dI))
+    (cube3 (.imin tK dI) (.imin tK dJ)))))
+
 end Cubical.Library
