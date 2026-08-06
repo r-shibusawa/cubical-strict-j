@@ -16,25 +16,26 @@ Twelve self-contained papers have been developed on this artifact; each is indep
 | # | paper (PDF) | one line |
 |---|---|---|
 | 1 | [Evaluation-time constancy inference for transport](docs/paper/jrefl.pdf) *(superseded — see the consolidated manuscripts below)* | definitional `J d refl ≡ d` in a CCHM kernel: a no-go theorem, an admissible operational rule, canonicity on the core |
-| 2 | [The strict layer of generic cells is a wedge of De Morgan spheres](docs/paperC/strictlayer.pdf) | classification of the judgmental layer of cubical computads |
-| 3 | [Generic cellular contexts realize their cube presheaves on the nose](docs/paperD/realization.pdf) | attachment equations are definitional; the kernel decides presheaf equality |
-| 4 | [De Morgan convexity and the strict–weak comparison](docs/paperE/convexity.pdf) | strict fillers are non-unique but strictly contractible; the third median term is the price of no-LEM |
+| 2 | [The strict layer of generic cells is a wedge of De Morgan spheres](docs/paperC/strictlayer.pdf) *(superseded — see the consolidated manuscripts below)* | classification of the judgmental layer of cubical computads |
+| 3 | [Generic cellular contexts realize their cube presheaves on the nose](docs/paperD/realization.pdf) *(superseded — see the consolidated manuscripts below)* | attachment equations are definitional; the kernel decides presheaf equality |
+| 4 | [De Morgan convexity and the strict–weak comparison](docs/paperE/convexity.pdf) *(superseded — see the consolidated manuscripts below)* | strict fillers are non-unique but strictly contractible; the third median term is the price of no-LEM |
 | 5 | [Word problems across the strict–weak boundary](docs/paperF/wordproblems.pdf) *(superseded — see the consolidated manuscripts below)* | the strict/weak boundary **is** the decidable/undecidable boundary; Sanov invariant at <1 ms per letter; RP² realized faithfully |
 | 6 | [Boundary fibers in free De Morgan algebras](docs/paperG/dmfibers.pdf) *(superseded — see the consolidated manuscripts below)* | fibers are Boolean intervals over antichains of diagonal points; Sperner-extremal; census new to OEIS |
 | 7 | [The strict layer of De Morgan cubical sets](docs/paperH/strictdm.pdf) *(algebraic part superseded — see below)* | the Karoubi envelope via projective De Morgan algebras; the defect formula; a coherence dichotomy |
 | 8 | [The Kleene interpolation](docs/paperI/kleene.pdf) *(superseded — see the consolidated manuscripts below)* | boundary fibers across the subvarieties of De Morgan algebras: Kleene has exactly two non-singleton fibers in every dimension |
-| 9 | [Natural strict fillers do not exist](docs/paperJ/nogo.pdf) | a three-line no-go theorem: no filler choice is substitution-natural; the median correction system is strictly contractible — the weak layer is categorically necessary |
+| 9 | [Natural strict fillers do not exist](docs/paperJ/nogo.pdf) *(superseded — see the consolidated manuscripts below)* | a three-line no-go theorem: no filler choice is substitution-natural; the median correction system is strictly contractible — the weak layer is categorically necessary |
 | 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) *(superseded — see the consolidated manuscript below)* | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
 | 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) *(superseded — see the consolidated manuscript below)* | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
 | 12 | [The join of two projective spaces](docs/paperM/isotropy.pdf) *(superseded — see the consolidated manuscript below)* | the upper bound W_type ⊆ W_test on any totally aspherical cube category; the element category of the Klein quotient of the square is RP^∞ ⋆ RP^∞; both structures agree on every isotropy quotient of the square — no quotient witness separates the localizers |
 
 Papers 2–12 cite paper 1 as the platform; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
-**Consolidated manuscripts.** Papers 1 and 5, papers 10–12, and papers 6 and 8 together with the algebraic part of paper 7, have been consolidated into substantially revised and corrected journal manuscripts — not concatenations: proofs were restructured, several were completed or corrected, and the papers' claims are reconciled inside each document:
+**Consolidated manuscripts.** The papers of the series have been consolidated, in four groups (1+5; 2+3+4+9; 6+8 with the algebraic part of 7; 10–12), into substantially revised and corrected journal manuscripts — not concatenations: proofs were restructured, several were completed or corrected, and the papers' claims are reconciled inside each document:
 
 - **[The test comparison for De Morgan cubical sets: reversal, equivariance, and the join of two projective spaces](docs/consolidated/testcomparison.pdf)** (27 pages; supersedes papers 10–12)
 - **[Boundary fibers of free De Morgan and Kleene algebras: Boolean intervals, Sperner extremality, and Kalman's three grades](docs/consolidated/fibers.pdf)** (19 pages; supersedes papers 6 and 8, and the algebraic part of paper 7)
 - **[Definitional transport in cubical type theory: constancy inference, canonicity, and the decidable–undecidable boundary](docs/consolidated/transport.pdf)** (47 pages; supersedes papers 1 and 5)
+- **[The strict layer of cubical type theory: cellular realization, De Morgan convexity, and the impossibility of natural strict fillers](docs/consolidated/strictlayer.pdf)** (32 pages; supersedes papers 2, 3, 4, and 9)
 
 The repository versions remain available as the archived machine-verification record and are **superseded** by the consolidated manuscripts; none of them is separately published or under journal review.
 
