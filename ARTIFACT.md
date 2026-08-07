@@ -5,10 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.13.0` (adds the fiberwise-sharpness
+- Current snapshot: release `v1.14.0` (the separation-paper suite:
+  canonical face-order sorting in the conversion of `hcomp`
+  systems, the `LibJoinTC.lean` join probes, and the
+  `scripts/collage_type*.py` censuses), archived at DOI
+  [10.5281/zenodo.21834151](https://doi.org/10.5281/zenodo.21834151)
+- Previous: release `v1.13.0` (adds the fiberwise-sharpness
   probe group to `LibSquares.lean` — orientation and tower
   separations accompanying the consolidated strict-layer
-  manuscript), archived at DOI
+  manuscript), DOI
   [10.5281/zenodo.21819833](https://doi.org/10.5281/zenodo.21819833)
 - Previous: release `v1.12.0` (adds the paper
   `docs/paperM/isotropy.{tex,pdf}` — the join of two projective
