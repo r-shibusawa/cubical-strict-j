@@ -6,6 +6,7 @@ import FormalizedMathematics.Cubical.LibNonSubst
 import FormalizedMathematics.Cubical.LibSquares
 import FormalizedMathematics.Cubical.LibGenBoundary
 import FormalizedMathematics.Cubical.LibSharedEdge
+import FormalizedMathematics.Cubical.LibJoinTC
 import FormalizedMathematics.Cubical.LibMixed
 import FormalizedMathematics.Cubical.LibWord
 import FormalizedMathematics.Cubical.LibSanov

@@ -2988,10 +2988,28 @@ def normCof (c : VCof) : VCof :=
   let lits := (c.map fun (r, b) => normCofLit r b).flatten
   lits.foldr cofLitInsert []
 
-/-- Drop identically-false branches and normalize the faces of a system. -/
+/-- Canonical sort key of a normalized face: the concatenation of its
+literal keys.  `normCof` already sorts the literals inside one face, so
+equal faces have equal keys. -/
+def cofSysKey (co : VCof) : List Nat := (co.map cofLitKey).flatten
+
+/-- Insert a system entry in canonical face order. -/
+def sysEntryInsert (e : VCof × Closure) :
+    List (VCof × Closure) → List (VCof × Closure)
+  | [] => [e]
+  | x :: xs =>
+    if IVal.keysLt (cofSysKey e.1) (cofSysKey x.1) then e :: x :: xs
+    else x :: sysEntryInsert e xs
+
+/-- Drop identically-false branches, normalize the faces of a system,
+and sort the entries into canonical face order.  A system denotes a
+compatible partial element indexed by its faces, so presentations
+differing only in entry order must be convertible; sorting here makes
+`convSys` insensitive to the order in which branches are written
+(which substitution permutes, e.g. under a coordinate swap). -/
 def normSys (sys : List (VCof × Closure)) : List (VCof × Closure) :=
-  (sys.filter fun (co, _) => !(cofStatus co == .isFalse)).map
-    fun (co, br) => (normCof co, br)
+  ((sys.filter fun (co, _) => !(cofStatus co == .isFalse)).map
+    fun (co, br) => (normCof co, br)).foldr sysEntryInsert []
 
 /-- Pointer equality on values (sound to use as a conversion
 short-circuit: physically equal values are convertible).  Implemented by
@@ -3157,9 +3175,10 @@ partial def convIBinder (depth : Nat) (c c' : Closure) : Bool :=
   let g : Val := .vi (.var depth)
   conv (depth + 1) (capp (depth + 1) c g) (capp (depth + 1) c' g)
 
-/-- Compare systems branchwise, in order, after dropping identically-false
-branches and normalizing faces (see `normSys`).  (Sound but incomplete:
-systems that differ by permutation are not identified.) -/
+/-- Compare systems branchwise after dropping identically-false
+branches, normalizing faces, and sorting into canonical face order
+(see `normSys`) — so systems differing by a permutation of branches
+are identified, as the spec requires. -/
 partial def convSys (depth : Nat) (sys sys' : List (VCof × Closure)) : Bool :=
   convSysGo depth (normSys sys) (normSys sys')
 
