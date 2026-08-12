@@ -5,7 +5,17 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.14.0` (the separation-paper suite:
+- Current snapshot: release `v1.15.0` (the classification-paper
+  suite: the parity-criterion and stratum scripts
+  `parity_index.py`, `parity_index3.py`, `strata3.py`, the
+  certificate scripts `delta_obstruction.py`,
+  `single_stratum_cert.py`, `certificates3.py`, the group-cohomology
+  scripts `coho_lib.py`, `coho_ranks.py`, the census
+  `collage_type_g2.py`, and the fixed referee versions of the two
+  companion manuscripts, `docs/consolidated/testcomparison.pdf` and
+  `docs/consolidated/separation.pdf`), archived at the
+  version DOI recorded on the release page
+- Previous: release `v1.14.0` (the separation-paper suite:
   canonical face-order sorting in the conversion of `hcomp`
   systems, the `LibJoinTC.lean` join probes, and the
   `scripts/collage_type*.py` censuses), archived at DOI
