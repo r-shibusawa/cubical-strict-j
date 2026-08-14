@@ -5,7 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.15.0` (the classification-paper
+- Current snapshot: release `v1.16.0` (the object-level
+  separation suite: the boundary-constrained CSP solver
+  `scripts/homotopy_csp.py`, the object-level census
+  `scripts/object_census.py` — edge classes, stage-zero rigidity,
+  the invariant-square free-homotopy graph, the Φ-factoring
+  family and its disjointness from the identity component — and
+  the merged manuscript `docs/consolidated/sepobjects.pdf`),
+  archived at the version DOI recorded on the release page
+- Previous: release `v1.15.0` (the classification-paper
   suite: the parity-criterion and stratum scripts
   `parity_index.py`, `parity_index3.py`, `strata3.py`, the
   certificate scripts `delta_obstruction.py`,

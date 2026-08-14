@@ -11,7 +11,7 @@
 
 ## 📚 The paper series
 
-Fourteen self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
+Fifteen self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
 
 | # | paper (PDF) | one line |
 |---|---|---|
@@ -27,10 +27,11 @@ Fourteen self-contained papers have been developed on this artifact; each is ind
 | 10 | [Cubical models with reversal do not present spaces](docs/paperK/reversal.pdf) *(superseded — see the consolidated manuscript below)* | first complete proof of the 2018 folklore (De Morgan/Boolean) and first resolution of the Kleene case; the interval quotient by reversal is a K(ℤ/2,1) |
 | 11 | [Reversal is unrepairable](docs/paperL/unrepairable.pdf) *(superseded — see the consolidated manuscript below)* | the hyperoctahedral-equivariant model structure exists but overshoots the test structure; no relatively elegant embedding exists; the folklore witness against the test comparison is void — "does CCHM present spaces?" is re-opened |
 | 12 | [The join of two projective spaces](docs/paperM/isotropy.pdf) *(superseded — see the consolidated manuscript below)* | the upper bound W_type ⊆ W_test on any totally aspherical cube category; the element category of the Klein quotient of the square is RP^∞ ⋆ RP^∞; both structures agree on every isotropy quotient of the square — no quotient witness separates the localizers |
-| 13 | [An explicit separation of the type and test model structures on De Morgan cubical sets](docs/consolidated/separation.pdf) | **W_type ⊊ W_test**: an explicit map in W_test ∖ W_type, from a Klein quotient of the join □¹⋆□¹ to the Klein quotient of the square, built from the De Morgan median interpolation; the folklore expectation gets its first published proof, by a necessarily map-level witness |
+| 13 | [An explicit separation of the type and test model structures on De Morgan cubical sets](docs/consolidated/separation.pdf) *(superseded — merged into paper 15 below)* | **W_type ⊊ W_test**: an explicit map in W_test ∖ W_type, from a Klein quotient of the join □¹⋆□¹ to the Klein quotient of the square, built from the De Morgan median interpolation; the folklore expectation gets its first published proof, by a necessarily map-level witness |
 | 14 | [The isotropy classification of the type and test model structures on De Morgan cubical sets in dimensions up to three](docs/consolidated/classification.pdf) | complete classification of all 98 subgroups H ≤ B₃: the two structures assign the same homotopy type to □³/H in 78 cases (coverings, contractions, median retractions, products) and are separated by an explicit map in 20 (collage certificates, block transfer, a homological obstruction) — including the full symmetric quotient □³/B₃ |
+| 15 | [An explicit separation of the type and test model structures on De Morgan cubical sets, and their different contractible objects](docs/consolidated/sepobjects.pdf) | merges and supersedes paper 13, extended to the object level: the two natural homotopy theories on the site of cubical type theory disagree already about **which finite objects are contractible** — an explicit finite subdivided mapping cone is test-contractible but not type-contractible; self-contained (equivariant descent, sector pasting, first-exit induction; the collage formula is the only external ingredient) |
 
-Papers 2–12 cite paper 1 as the platform; papers 13 and 14 build on the consolidated test-comparison manuscript below; release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
+Papers 2–12 cite paper 1 as the platform; papers 13–15 build on the consolidated test-comparison manuscript below (paper 15 is self-contained up to the standard collage formula); release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 
 **Consolidated manuscripts.** The papers of the series have been consolidated, in four groups (1+5; 2+3+4+9; 6+8 with the algebraic part of 7; 10–12), into substantially revised and corrected journal manuscripts — not concatenations: proofs were restructured, several were completed or corrected, and the papers' claims are reconciled inside each document:
 
