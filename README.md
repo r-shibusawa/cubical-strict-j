@@ -11,7 +11,7 @@
 
 ## 📚 The paper series
 
-Fifteen self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
+Sixteen self-contained papers have been developed on this artifact; each is independently readable, with all machine-checked claims anchored in this repository.
 
 | # | paper (PDF) | one line |
 |---|---|---|
@@ -30,6 +30,7 @@ Fifteen self-contained papers have been developed on this artifact; each is inde
 | 13 | [An explicit separation of the type and test model structures on De Morgan cubical sets](docs/consolidated/separation.pdf) *(superseded — merged into paper 15 below)* | **W_type ⊊ W_test**: an explicit map in W_test ∖ W_type, from a Klein quotient of the join □¹⋆□¹ to the Klein quotient of the square, built from the De Morgan median interpolation; the folklore expectation gets its first published proof, by a necessarily map-level witness |
 | 14 | [The isotropy classification of the type and test model structures on De Morgan cubical sets in dimensions up to three](docs/consolidated/classification.pdf) | complete classification of all 98 subgroups H ≤ B₃: the two structures assign the same homotopy type to □³/H in 78 cases (coverings, contractions, median retractions, products) and are separated by an explicit map in 20 (collage certificates, block transfer, a homological obstruction) — including the full symmetric quotient □³/B₃ |
 | 15 | [An explicit separation of the type and test model structures on De Morgan cubical sets, and their different contractible objects](docs/consolidated/sepobjects.pdf) | merges and supersedes paper 13, extended to the object level: the two natural homotopy theories on the site of cubical type theory disagree already about **which finite objects are contractible** — an explicit finite subdivided mapping cone is test-contractible but not type-contractible; self-contained (equivariant descent, sector pasting, first-exit induction; the collage formula is the only external ingredient) |
+| 16 | [The phase diagram of cubical sites: connections, reversals, and the separation of the type and test model structures](docs/consolidated/phasediagram.pdf) | which interval operations produce separation: on every site with connections and no reversal, ALL isotropy quotients are contractible in both structures (no witness can exist — why the Dedekind question resists); on every standard site with reversal (De Morgan, Kleene, Boolean) the median-collage separation transfers uniformly, at maps and at finite objects — the site-dependence of the proofs is concentrated in two evaluations at unmixed points |
 
 Papers 2–12 cite paper 1 as the platform; papers 13–15 build on the consolidated test-comparison manuscript below (paper 15 is self-contained up to the standard collage formula); release-by-release DOIs are listed in [`ARTIFACT.md`](ARTIFACT.md).
 

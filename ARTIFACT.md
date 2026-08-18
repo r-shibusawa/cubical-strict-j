@@ -5,7 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.16.0` (the object-level
+- Current snapshot: release `v1.17.0` (the phase-diagram suite:
+  the Kleene-site machinery `scripts/kleene_site.py` (unmixed-poset
+  representation, parity lemmas, stage-zero censuses), the
+  Boolean-site machinery `scripts/boolean_site.py`, and the paper
+  `docs/consolidated/phasediagram.pdf`), archived at the version
+  DOI recorded on the release page
+- Previous: release `v1.16.0` (the object-level
   separation suite: the boundary-constrained CSP solver
   `scripts/homotopy_csp.py`, the object-level census
   `scripts/object_census.py` — edge classes, stage-zero rigidity,
