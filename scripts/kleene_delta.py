@@ -1,4 +1,8 @@
-"""Theorem (S2) machinery: the delta-obstruction certificate.
+"""Kleene-sound delta-obstruction certificate: the De Morgan system
+restricted to the unmixed (proper) middle points (see
+kleene_certificates3.py for the soundness argument).
+
+Original docstring:
 
 Setting: H <= B_n mixed with exactly two reflections h1, h2 (fixed loci
 l1, l2 disjoint), trivial realizable characters.  The join model
@@ -145,7 +149,9 @@ def certify(n, H_gens, name):
 
     # middle level of L_n and the two point maps
     NL = 1 << (2*n)
-    pts = [p for p in range(NL) if bin(p).count('1') == n]
+    pts = [p for p in range(NL) if bin(p).count('1') == n and
+           all(((p >> (2*i)) & 1) != ((p >> (2*i+1)) & 1)
+               for i in range(n))]
     def sub_pt(e, p):
         pm, s = e
         c = [(p >> i) & 1 for i in range(2*n)]

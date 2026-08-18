@@ -5,7 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.17.0` (the phase-diagram suite:
+- Current snapshot: release `v1.18.0` (the landscape suite:
+  the Boolean/Kleene certificate and census machinery
+  `boolean_delta.py`, `boolean_fate.py`, `boolean_landscape.py`,
+  `boolean_certificates3.py`, `kleene_delta.py`,
+  `kleene_certificates3.py` (with the monotone-realizability
+  filter), the discriminant verification `discriminant_check.py`,
+  and the paper `docs/consolidated/landscape.pdf`), archived at
+  the version DOI recorded on the release page
+- Previous: release `v1.17.0` (the phase-diagram suite:
   the Kleene-site machinery `scripts/kleene_site.py` (unmixed-poset
   representation, parity lemmas, stage-zero censuses), the
   Boolean-site machinery `scripts/boolean_site.py`, and the paper
