@@ -5,7 +5,24 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.19.0` (the criterion suite:
+- Current snapshot: release `v1.20.0` (the dichotomy suite:
+  the sieve-landing dichotomy census `rigidity_census.py`
+  (closed form, all 34 reflection-generated mixed classes,
+  n <= 4), the factorization searches
+  `tree_factor_check.py`, `nontree_factor_check.py`,
+  `twostep_factor_check.py`, the witness structure and
+  reduction verification `tree_witness_analysis.py`,
+  `reduction_structure.py`, the collage/Betti engine
+  `el_betti.py` (+ `el_betti_a4.py`, `el_betti_nested.py`,
+  `isotropy_poset.py`), the frontier and degree-4 checks
+  `frontier_census.py`, `frontier_census2.py`, `q4_check.py`,
+  the arrangement-dichotomy computations `etm_library.py`,
+  `etm_decisive.py`, `etm_decisive2.py`, the vertex Cech
+  machinery `strata_retract.py`, `nr_check.py`, and the paper
+  `docs/consolidated/reflection.pdf` — the integrated
+  manuscript with the criterion at every n), archived at the
+  version DOI recorded on the release page
+- Previous: release `v1.19.0` (the criterion suite:
   `separation_criterion.py` (the one-line criterion verified
   against the classification, 78/20 with zero mismatches),
   `boolean_certificates4.py` (dimension-4 primitive groups),

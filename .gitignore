@@ -13,3 +13,4 @@ docs/paper/jrefl_v*_backup.tex
 *.toc
 *.out
 *.synctex.gz
+__pycache__/
