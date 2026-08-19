@@ -5,7 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.18.0` (the landscape suite:
+- Current snapshot: release `v1.19.0` (the criterion suite:
+  `separation_criterion.py` (the one-line criterion verified
+  against the classification, 78/20 with zero mismatches),
+  `boolean_certificates4.py` (dimension-4 primitive groups),
+  `degenerate_search.py` (the five edge groups), and the paper
+  `docs/consolidated/criterion.pdf`), archived at the version DOI
+  recorded on the release page
+- Previous: release `v1.18.0` (the landscape suite:
   the Boolean/Kleene certificate and census machinery
   `boolean_delta.py`, `boolean_fate.py`, `boolean_landscape.py`,
   `boolean_certificates3.py`, `kleene_delta.py`,
