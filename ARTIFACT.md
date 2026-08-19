@@ -20,8 +20,8 @@ This repository is the artifact accompanying the paper
   `etm_decisive.py`, `etm_decisive2.py`, the vertex Cech
   machinery `strata_retract.py`, `nr_check.py`, and the paper
   `docs/consolidated/reflection.pdf` — the integrated
-  manuscript with the criterion at every n), archived at the
-  version DOI recorded on the release page
+  manuscript with the criterion at every n), archived at DOI
+  [10.5281/zenodo.22012992](https://doi.org/10.5281/zenodo.22012992)
 - Previous: release `v1.19.0` (the criterion suite:
   `separation_criterion.py` (the one-line criterion verified
   against the classification, 78/20 with zero mismatches),
