@@ -5,7 +5,24 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.20.0` (the dichotomy suite:
+- Current snapshot: release `v1.21.0` (the completion suite:
+  the equivariant interpolant and DM/Kleene transfer
+  `selfdual_interpolant.py`, `dm_witness_check.py` (exact 2-SAT
+  witnesses for the reduction classes), and the Dedekind
+  engine — `dedekind_site.py` (free distributive lattices,
+  presheaf congruences), `dedekind_sweep.py`/`sweep2`
+  (1533 quotients), `dedekind_stage1/15/2.py` (filler probes),
+  `dedekind_triangulate.py`, `dedekind_pi1.py`,
+  `dedekind_zhomology.py`, `cand05_independent.py` (independent
+  verification), `case4_check.py`, `m4_escape.py` (462,672
+  candidates), `crown_probe.py`, `cubical_homology.py`,
+  `sweep2_candidates.py` (data) — with the papers
+  `docs/consolidated/allsites.pdf` (paper 20: the criterion on
+  every reversal site at every dimension) and
+  `docs/consolidated/dedekind.pdf` (paper 21: Dedekind cubical
+  sets do not present spaces)), archived at the version DOI
+  recorded on the release page
+- Previous: release `v1.20.0` (the dichotomy suite:
   the sieve-landing dichotomy census `rigidity_census.py`
   (closed form, all 34 reflection-generated mixed classes,
   n <= 4), the factorization searches
