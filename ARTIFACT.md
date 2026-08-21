@@ -20,8 +20,8 @@ This repository is the artifact accompanying the paper
   `docs/consolidated/allsites.pdf` (paper 20: the criterion on
   every reversal site at every dimension) and
   `docs/consolidated/dedekind.pdf` (paper 21: Dedekind cubical
-  sets do not present spaces)), archived at the version DOI
-  recorded on the release page
+  sets do not present spaces)), archived at DOI
+  [10.5281/zenodo.22038185](https://doi.org/10.5281/zenodo.22038185)
 - Previous: release `v1.20.0` (the dichotomy suite:
   the sieve-landing dichotomy census `rigidity_census.py`
   (closed form, all 34 reflection-generated mixed classes,
