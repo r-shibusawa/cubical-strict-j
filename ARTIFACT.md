@@ -5,7 +5,37 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.21.0` (the completion suite:
+- Current snapshot: release `v1.22.0` (the chain-approximation
+  suite and the correction of paper 21: the integrated
+  manuscript `docs/consolidated/cubicalsites.pdf` (paper 22,
+  *Which cubical sites present spaces?*, 98 pages, subsuming
+  papers 13-21) with the full Dedekind chain-approximation
+  engine -- the triangulation/singular machinery
+  (`dedekind_triangfunctor.py`, `dedekind_singsort.py`,
+  `dedekind_sortexchange.py`, `dedekind_singtest.py`,
+  `dedekind_singWbetti.py`), the chain stratum and its
+  theorems (`dedekind_chainquot.py`, `dedekind_chaincells.py`,
+  `dedekind_chW.py`, `dedekind_An.py`), the decay/inertness
+  sweeps (`dedekind_decay.py` ... `dedekind_decay9.py`), the
+  shape programme (`dedekind_shapes1.py`,
+  `dedekind_chintersect.py`, `dedekind_chambient.py`,
+  `dedekind_usub.py`, `dedekind_usubH.py`, `dedekind_sgen.py`,
+  `dedekind_universal.py`, `dedekind_chquot2.py`,
+  `dedekind_badbox.py`), the split-pair fold analysis
+  (`dedekind_splitpairs.py`, `dedekind_foldquot.py`,
+  `dedekind_foldquot2.py`, `dedekind_foldwitness.py`,
+  `dedekind_stepcheck.py`, `dedekind_stepcheck2.py`,
+  `dedekind_conedescent.py`), the subatom-order probes
+  (`dedekind_subatomchains.py`, `dedekind_flatpairs.py`,
+  `dedekind_nudetermined.py`, `dedekind_nu3.py`,
+  `dedekind_flatmech.py`, `dedekind_medtower.py`,
+  `dedekind_level5.py`), the shell-contraction certificate
+  (`dedekind_shell.py`, `dedekind_fullshell.py`) and the
+  adversarial-audit counterexample scripts
+  (`referee_measure2.py`, `referee_counterex.py`,
+  `referee_chainreal.py`, `referee_units.py`)), archived at
+  DOI (pending Zenodo processing; see the release page)
+- Previous: release `v1.21.0` (the completion suite:
   the equivariant interpolant and DM/Kleene transfer
   `selfdual_interpolant.py`, `dm_witness_check.py` (exact 2-SAT
   witnesses for the reduction classes), and the Dedekind
