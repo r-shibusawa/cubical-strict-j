@@ -34,7 +34,7 @@ This repository is the artifact accompanying the paper
   adversarial-audit counterexample scripts
   (`referee_measure2.py`, `referee_counterex.py`,
   `referee_chainreal.py`, `referee_units.py`)), archived at
-  DOI (pending Zenodo processing; see the release page)
+  DOI [10.5281/zenodo.22247384](https://doi.org/10.5281/zenodo.22247384)
 - Previous: release `v1.21.0` (the completion suite:
   the equivariant interpolant and DM/Kleene transfer
   `selfdual_interpolant.py`, `dm_witness_check.py` (exact 2-SAT
