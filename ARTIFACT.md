@@ -15,7 +15,7 @@ This repository is the artifact accompanying the paper
   witnesses Sub(C30)->>Sub(V4) and Sub(C2^3)->>Sub(A4)), `oo_completeness.py`
   (computational validation of the canonical construction), the certificates
   `docs/paperLevelshift/certificates.json`, `cert_modularity.json` and the
-  independent checker `verify_certificates.py`), DOI: see the release
+  independent checker `verify_certificates.py`), archived at DOI [10.5281/zenodo.22823775](https://doi.org/10.5281/zenodo.22823775)
 - Previous: release `v1.24.0` (paper 27, *The sameness lattice of a
   category* -- `docs/consolidated/sameness.pdf` -- with its verification
   scripts in `scripts/comparison/`: `sameness_lattice.py`, `same_of_group.py`
@@ -23,7 +23,7 @@ This repository is the artifact accompanying the paper
   (component decomposition; the non-modular Same(A4)), `same_conservative_cx.py`
   (the non-conservative factorization and the groupoid theorem),
   `comparison_galois.py`, `comparison_factorization.py`, `interval_witness.py`,
-  `reflection_witness.py`, `objectoriented.py`, `more_cats.py`), DOI: see the release
+  `reflection_witness.py`, `objectoriented.py`, `more_cats.py`), archived at DOI [10.5281/zenodo.22823772](https://doi.org/10.5281/zenodo.22823772)
 - Previous: release `v1.23.0` (the Dedekind endgame as a
   complexity dichotomy: papers 23-26 -- `docs/consolidated/orderconvexwidth.pdf`,
   `subatomwf.pdf`, `dedekindendgame.pdf` and the integrating
@@ -36,7 +36,7 @@ This repository is the artifact accompanying the paper
   `dedekind_o38_fixedP.py`, `dedekind_o38_alwaysP.py`,
   `dedekind_o38_section.py`, `dedekind_o38_posettaylor.py`,
   `dedekind_o38_boundedwidth.py` (the 882-partition bounded-width
-  theorem on the 3-cube)), DOI: see the release
+  theorem on the 3-cube)), archived at DOI [10.5281/zenodo.22823771](https://doi.org/10.5281/zenodo.22823771)
 - Previous: release `v1.22.0` (the chain-approximation
   suite and the correction of paper 21: the integrated
   manuscript `docs/consolidated/cubicalsites.pdf` (paper 22,
