@@ -5,7 +5,18 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.24.0` (paper 27, *The sameness lattice of a
+- Current snapshot: release `v1.25.0` (paper 28, *The level-shift logic of a
+  category* -- `docs/consolidated/levelshift.pdf` -- with `scripts/comparison/`
+  `level_logic.py` (S4.2/S4.3 and the cyclic p-group criterion),
+  `level_logic2.py` (width/height correspondence), `level_logic2_survey.py`,
+  `level_logic2_pmorph2.py`, `level_logic3.py`, `level_logic3_cert.py`
+  (every bounded poset with at most six elements as a p-morphic image),
+  `level_logic4_modular.py` and `paperB_cert_modularity.py` (the non-definability
+  witnesses Sub(C30)->>Sub(V4) and Sub(C2^3)->>Sub(A4)), `oo_completeness.py`
+  (computational validation of the canonical construction), the certificates
+  `docs/paperLevelshift/certificates.json`, `cert_modularity.json` and the
+  independent checker `verify_certificates.py`), DOI: see the release
+- Previous: release `v1.24.0` (paper 27, *The sameness lattice of a
   category* -- `docs/consolidated/sameness.pdf` -- with its verification
   scripts in `scripts/comparison/`: `sameness_lattice.py`, `same_of_group.py`
   (Same(G)=Sub(G) on V4, C4, S3), `same_functoriality.py`, `same_structure.py`

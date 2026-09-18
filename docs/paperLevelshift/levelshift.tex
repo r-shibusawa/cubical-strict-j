@@ -1,0 +1,839 @@
+% Paper B: the level-shift logic of a category.
+% Integration of Findings 07-09 (docs/comparison/); all claims proved or
+% computationally verified (scripts/comparison/level_logic*.py).
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage{stmaryrd}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Log}{\mathrm{Log}}
+\newcommand{\Fr}{\mathsf{F}}
+\newcommand{\Obs}{\mathsf{Obs}}
+\newcommand{\obs}{\ \mathsf{obs}}
+\newcommand{\bw}{\mathsf{bw}}
+\newcommand{\bd}{\mathsf{bd}}
+\newcommand{\Grz}{\mathrm{Grz}}
+\newcommand{\Cat}{\mathbf{Cat}}
+\DeclareMathOperator{\wid}{width}
+\DeclareMathOperator{\hgt}{height}
+
+\begin{document}
+
+\title[The level-shift logic of a category]{The level-shift logic of a
+  category: modal correspondence for sameness lattices, quotient models with
+  contingent identity, and completeness}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\keywords{modal logic, S4.2, S4.3, Grzegorczyk axiom, bounded width, bounded
+  depth, subgroup lattice, weak equivalence, localization, contingent identity,
+  Structure Identity Principle, behavioural equivalence, p-morphism}
+\subjclass[2020]{03B45 (primary), 18A99, 06B15, 03B70 (secondary)}
+
+\begin{abstract}
+An object is known only up to a chosen notion of sameness. Taking this
+literally, we attach to a small category $C$ its \emph{level-shift frame}
+$\Fr(C)=(\Same(C),\subseteq)$: the worlds are the weak-equivalence structures on
+$C$ (classes of morphisms containing identities, closed under composition,
+satisfying two-out-of-three), ordered by coarsening, and $\Box\varphi$ reads
+``$\varphi$ at every coarser level''. We determine which modal axioms this frame
+validates and what they say about $C$. Every $\Fr(C)$ validates $\mathrm{S4.2}$;
+it validates $\mathrm{S4.3}$ iff $\Same(C)$ is a chain, and for a finite group
+$G$ (where $\Same(G)$ is the subgroup lattice) iff $G$ is a cyclic $p$-group. The
+bounded-width and bounded-depth axioms $\bw_n$, $\bd_n$ correspond exactly to
+$\wid\Same(C)\le n$ and $\hgt\Same(C)\le n$, so every finite bound on the width and
+height of a subgroup lattice is modally detectable; by contrast, distributivity
+and modularity of $\Same(C)$ are provably not modally definable over sameness
+frames, and already between group frames: the Boolean $\Same(C_{30})$ maps
+p-morphically onto $\Same(V_4)\cong M_3$, and the Fano-plane lattice
+$\Same(C_2^3)$ onto the non-modular $\Same(A_4)$.
+The intended models are diagrams of quotients $W\mapsto\Ob(C)/{\sim_W}$ with
+surjective transitions, i.e.\ counterpart-style modal models with contingent,
+monotone identity; the identity/encapsulation fragment of the resulting logic
+is sound and complete for abstract such models (with computational validation
+of the canonical construction), and completeness for the category-generated models
+is controlled by a realization/separation problem for $\Same$. Finally we show that every finite
+bounded poset with at most six elements is a p-morphic image of a finite
+sameness frame, so the logic of finite sameness frames agrees with
+$\mathrm{S4.2Grz}$ on all frames of that size and on all finite chains; the
+logic of all sameness frames is strictly weaker, as infinite ones violate
+$\Grz$. All finite claims are verified by exhaustive computation, with explicit
+p-morphism certificates supplied as supplementary material.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+In an object-oriented reading of mathematics an object is never given
+absolutely: it is observed through an \emph{interface}, and two objects that
+the interface cannot distinguish are, for the purposes of that interface, the
+same. Homotopy theory, categorical logic and the theory of systems each have a
+name for this --- weak equivalence, the Structure Identity Principle, behavioural
+equivalence --- and in each case ``the same'' is a \emph{choice}: a class of
+morphisms declared to be identifications.
+
+The companion paper \cite{SameA} organises all such choices on a small category
+$C$ into a single complete lattice, the \emph{sameness lattice} $\Same(C)$, and
+develops it as a categorical invariant (it is the subgroup lattice on a group,
+and a functor into Galois connections). The present paper asks a different,
+logical question:
+
+\begin{quote}
+\emph{If a level of sameness is a world, and moving to a coarser level is
+accessibility, what is the modal logic of a category --- and what does it say
+about the category?}
+\end{quote}
+
+We call the resulting frame $\Fr(C)=(\Same(C),\subseteq)$ the \emph{level-shift
+frame} and its modal logic the \emph{level-shift logic} of $C$. Since
+$\subseteq$ is a preorder, the logic contains $\mathrm{S4}$; the interest is in
+what lies above $\mathrm{S4}$ and in how the extra axioms read off the
+structure of $C$.
+
+\medskip\noindent\textbf{Contributions.}
+\begin{itemize}
+\item[(1)] \emph{Axioms detect shape} (\S\ref{sec:axioms}). $\Fr(C)$ validates
+$\mathrm{S4.2}$ for every $C$; it validates $\mathrm{S4.3}$ iff $\Same(C)$ is a
+chain; for a finite group $G$ this holds iff $G$ is a cyclic $p$-group, with
+$C_6$ the sharp counterexample. Finite $C$ give $\Grz$, infinite $C$ need not.
+\item[(2)] \emph{Correspondence and its limit} (\S\ref{sec:corr}). The
+bounded-width and bounded-depth axioms correspond to the width and height of
+$\Same(C)$; for a group, every finite bound on the width and height of its
+subgroup lattice is thereby modally definable.
+Distributivity and modularity are \emph{not} modally definable over sameness
+frames, witnessed by p-morphisms between group frames:
+$\Same(C_{30})\twoheadrightarrow\Same(V_4)$ and $\Same(C_2^3)\twoheadrightarrow
+\Same(A_4)$.
+\item[(3)] \emph{Models and proof theory} (\S\ref{sec:models}). The intended
+semantics is a diagram of quotients with surjective transitions --- a
+counterpart-style modal semantics with contingent, monotone identity. With an
+explicit language (levels, individuals, observable symbols, value equality) the
+identity/encapsulation fragment is sound and complete for abstract such models
+by an explicit canonical-model argument, validated computationally;
+completeness for the
+category-generated models is controlled by a realization/separation problem
+for $\Same$.
+\item[(4)] \emph{Completeness up to six elements} (\S\ref{sec:complete}). Every
+finite bounded poset with $\le 6$ elements --- including one that is not a
+lattice --- is a p-morphic image of a finite sameness frame; every finite chain
+is a sameness frame. Hence the finite level-shift logic agrees with
+$\mathrm{S4.2Grz}$ on all such frames; the full equality is left open.
+\end{itemize}
+Every finite assertion is verified by exhaustive computation; the scripts are
+named inline (\S\ref{sec:comp}).
+
+\medskip\noindent\textbf{Related work.} The axioms $\mathrm{S4.2}$,
+$\mathrm{S4.3}$, $\Grz$ and the bounded width/depth families $\bw_n$, $\bd_n$
+and their frame conditions are classical \cite{Fine74,CZ97,BdRV01}; we use them
+as a measuring instrument rather than study them for their own sake. The
+closest kin is van Benthem and Bezhanishvili's modal analysis of groups and
+vector spaces \cite{vBB24}, which equips algebraic structures with modal
+languages and studies definability, axiomatisation and p-morphisms; our frames
+arise differently --- as lattices of weak-equivalence structures, so that modal
+axioms become statements about a category and, via the identification
+$\Same(G)=\Sub(G)$ of \cite{SameA}, about the subgroup lattice of a group ---
+but the programme is the same in spirit, and the results here can be read as
+modal invariants of groups in their sense. Contingent identity in
+first-order modal logic goes back to \cite{HC96}; our models arrive at it from
+the opposite direction, as quotients that only ever collapse. The
+object-oriented reading connects to the Structure Identity Principle
+\cite{Univalent} and to behavioural equivalence in coalgebra \cite{Rutten}.
+Subgroup lattices as an invariant are the subject of \cite{Schmidt}; Ore's
+characterisation of distributivity \cite{Ore} enters through
+Theorem~\ref{thm:group}.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Samenesses}
+A \emph{sameness} on a small category $C$ is a class $W\subseteq\Mor(C)$
+containing all identities, closed under composition, and satisfying
+two-out-of-three (if two of $f,g,g\circ f$ lie in $W$, so does the third).
+$\Same(C)$ is the set of samenesses ordered by inclusion. The following basic
+facts are from \cite{SameA}; we include the short proofs so that this paper is
+self-contained.
+
+\begin{prop}\label{prop:same}
+$\Same(C)$ is a complete lattice, with meet $\cap$, least element
+$\bot=\{\mathrm{id}\}$ and greatest element $\top=\Mor(C)$. For a group $G$
+viewed as a one-object category, $\Same(G)=\Sub(G)$, the subgroup lattice; for
+a groupoid, the lattice of wide subgroupoids. $\Same(C_1\amalg C_2)\cong
+\Same(C_1)\times\Same(C_2)$.
+\end{prop}
+\begin{proof}
+Each of the three defining conditions is preserved by arbitrary intersections
+(if two of $f,g,g\circ f$ lie in every $W_i$, the third lies in each $W_i$), and
+$\Mor(C)$ satisfies them; a meet-complete poset with a top is a complete
+lattice, and $\{\mathrm{id}\}$ is a sameness contained in every other. For a
+group: a subgroup contains $e$, is closed under products and satisfies
+two-out-of-three (the third of $f,g,gf$ is a product of the other two and
+their inverses). Conversely a sameness $W$ contains $e$ and is closed under
+products; for $w\in W$ the composable pair $(w^{-1},w)$ has composite $e\in W$
+and factor $w\in W$, so two-out-of-three gives $w^{-1}\in W$; hence $W$ is a
+subgroup. The same argument, applied at each object, gives the wide-subgroupoid
+statement. Finally, in a coproduct no morphism connects the two summands, so
+composites and two-out-of-three instances stay within a summand, and a sameness
+of $C_1\amalg C_2$ is exactly a pair of samenesses.
+\end{proof}
+
+We write $\sim_W$ for the equivalence relation on $\Ob(C)$ generated by
+zigzags of morphisms in $W$, and $\llbracket C\rrbracket_W=\Ob(C)/{\sim_W}$;
+$W\subseteq W'$ gives a surjection $\llbracket C\rrbracket_W\twoheadrightarrow
+\llbracket C\rrbracket_{W'}$.
+
+\subsection{Modal frames}
+A (reflexive, transitive) frame $(X,R)$ validates $\mathrm{S4}$. We use the
+following standard axioms and their first-order frame conditions
+\cite{CZ97,BdRV01}:
+\begin{itemize}
+\item $.2$ ($\Diamond\Box p\to\Box\Diamond p$): \emph{directedness},
+$wRu\wedge wRv\Rightarrow\exists x\,(uRx\wedge vRx)$;
+\item $.3$ ($\Box(\Box p\to q)\vee\Box(\Box q\to p)$): \emph{weak
+connectedness}, $wRu\wedge wRv\Rightarrow uRv\vee vRu$;
+\item $\bw_n$ ($\bigwedge_{i\le n}\Diamond p_i\to\bigvee_{i\ne j}\Diamond(p_i
+\wedge\Diamond p_j)$): no $(n{+}1)$-antichain inside any $R$-successor set
+$R[w]$; $\bw_1$ is $.3$;
+\item $\bd_n$: no strictly ascending $R$-chain of $n{+}1$ points from any $w$;
+\item $\Grz$ ($\Box(\Box(p\to\Box p)\to p)\to p$): on finite frames, $R$ is a
+partial order.
+\end{itemize}
+A \emph{p-morphism} $f\colon(X,R)\to(Y,S)$ is a map with $wRu\Rightarrow
+f(w)Sf(u)$ and $f(w)Sv\Rightarrow\exists u\,(wRu\wedge f(u)=v)$; a
+\emph{generated subframe} is an $R$-upward-closed subset. Modal validity is
+preserved under p-morphic images and generated subframes, and a finite rooted
+frame is determined up to these operations by its Jankov--Fine formula
+\cite{CZ97}. The logic of a class $\mathcal K$ of frames is
+$\Log\mathcal K=\{\varphi:\mathcal K\models\varphi\}$.
+
+\section{The level-shift frame and its axioms}\label{sec:axioms}
+
+\begin{defi}\label{def:frame}
+The \emph{level-shift frame} of $C$ is $\Fr(C)=(\Same(C),\subseteq)$; the
+\emph{level-shift logic} of $C$ is $\Log\{\Fr(C)\}$. We distinguish
+\[
+\Log_{\mathrm{all}}:=\Log\{\Fr(C):C\text{ small}\},\qquad
+\Log_{\mathrm{fin}}:=\Log\{\Fr(C):C\text{ finite}\},
+\]
+so that $\Log_{\mathrm{all}}\subseteq\Log_{\mathrm{fin}}$.
+\end{defi}
+
+Since $\subseteq$ is a preorder, $\Fr(C)\models\mathrm{S4}$: $\Box\varphi$ holds
+at level $W$ iff $\varphi$ holds at every coarser level $W'\supseteq W$.
+
+\begin{thm}\label{thm:s42}
+For every small category $C$, $\Fr(C)\models\mathrm{S4.2}$.
+\end{thm}
+\begin{proof}
+Directedness: given $W\subseteq U$ and $W\subseteq V$, take $X=U\vee V$, which
+exists since $\Same(C)$ is a complete lattice (Proposition~\ref{prop:same});
+$\top$ would also do.
+\end{proof}
+
+\begin{thm}\label{thm:s43}
+$\Fr(C)\models\mathrm{S4.3}$ iff $\Same(C)$ is a chain.
+\end{thm}
+\begin{proof}
+If $\Same(C)$ is a chain, any two successors of a world are comparable.
+Conversely, put $W=\bot=\{\mathrm{id}\}$, the least sameness: every $U,V$ are
+successors of $\bot$, so weak connectedness at $\bot$ makes every pair
+comparable.
+\end{proof}
+
+\begin{thm}\label{thm:group}
+For a \emph{finite} group $G$, $\Fr(G)\models\mathrm{S4.3}$ iff $G$ is a cyclic
+$p$-group.
+\end{thm}
+\begin{proof}
+By Proposition~\ref{prop:same}, $\Same(G)=\Sub(G)$, so by
+Theorem~\ref{thm:s43} the question is when $\Sub(G)$ is a chain. If two primes
+$p\ne q$ divide $|G|$, Cauchy's theorem gives subgroups of orders $p$ and $q$,
+which are incomparable. So $G$ is a $p$-group; a finite $p$-group whose subgroup
+lattice is a chain has a unique maximal subgroup, hence is cyclic (Burnside's
+basis theorem: $G/\Phi(G)$ is elementary abelian of rank one), and the subgroup
+lattice of a cyclic $p$-group is a chain \cite{Schmidt}.
+\end{proof}
+
+\begin{rem}[infinite groups]
+Finiteness is essential: the Pr\"ufer group $C_{p^\infty}$ has subgroup
+lattice $1<C_p<C_{p^2}<\cdots<C_{p^\infty}$, a chain, so
+$\Fr(C_{p^\infty})\models\mathrm{S4.3}$ although $C_{p^\infty}$ is not cyclic.
+The groups with totally ordered subgroup lattice are exactly the cyclic
+$p$-groups and the Pr\"ufer $p$-groups \cite{Schmidt}; with that classification
+Theorem~\ref{thm:group} extends verbatim to all groups.
+\end{rem}
+
+\begin{ex}\label{ex:c6}
+$C_6$ is cyclic but not a $p$-group: $\Sub(C_6)=\{1,C_2,C_3,C_6\}$ has the
+incomparable pair $C_2,C_3$ (Figure~\ref{fig:c6}), so $\Fr(C_6)\not\models
+\mathrm{S4.3}$ although $\Fr(C_6)\models\mathrm{S4.2}$. By contrast
+$\Sub(C_4)$, $\Sub(C_8)$, $\Sub(C_9)$ are chains.
+\end{ex}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small, column sep=small]
+& C_6 & \\
+C_2\arrow[ur,dash] & & C_3\arrow[ul,dash] \\
+& 1\arrow[ul,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\qquad\qquad
+\begin{tikzcd}[row sep=small]
+C_8 \\ C_4\arrow[u,dash] \\ C_2\arrow[u,dash] \\ 1\arrow[u,dash]
+\end{tikzcd}
+\caption{$\Fr(C_6)$ (left) refutes $.3$ at the root: $C_2$ and $C_3$ are
+incomparable successors of $1$. $\Fr(C_8)$ (right) is a chain and validates
+$\mathrm{S4.3}$.}
+\label{fig:c6}
+\par\smallskip\noindent\textit{Alt text:} Two Hasse diagrams. Left, the four subgroups of $C_6$: $1$ at the bottom,
+$C_2$ and $C_3$ side by side above it and incomparable, $C_6$ at the top.
+Right, the four subgroups of $C_8$ in a single vertical chain $1$, $C_2$,
+$C_4$, $C_8$.
+\end{figure}
+
+\begin{prop}\label{prop:grz}
+For finite $C$, $\Fr(C)\models\Grz$; thus $\Log_{\mathrm{fin}}\supseteq
+\mathrm{S4.2Grz}$, and the level-shift logic of a finite $C$ contains
+$\mathrm{S4.3Grz}$ exactly when $\Same(C)$ is a chain.
+\end{prop}
+\begin{proof}
+$\Fr(C)$ is a finite partial order, and finite partial orders validate $\Grz$
+\cite{CZ97}.
+\end{proof}
+
+\begin{ex}[$\Grz$ fails for infinite $C$]\label{ex:infinite}
+Let $C$ have two objects $x,y$ and countably many parallel arrows
+$f_1,f_2,\dots\colon x\to y$ with no non-identity composites. Every set of
+arrows is a sameness, so $\Same(C)\cong\mathcal P(\mathbb N)$, which contains
+the infinite strictly ascending chain $\{f_1\}\subset\{f_1,f_2\}\subset\cdots$;
+hence $\Fr(C)\not\models\Grz$ \cite{CZ97}. So $\Log_{\mathrm{all}}\not\ni\Grz$,
+while $\Log_{\mathrm{all}}\supseteq\mathrm{S4.2}$ by Theorem~\ref{thm:s42},
+which used only that $\Same(C)$ is a complete lattice. The two logics of
+Definition~\ref{def:frame} are therefore genuinely different, and
+\S\ref{sec:complete} concerns $\Log_{\mathrm{fin}}$.
+\end{ex}
+
+Theorems~\ref{thm:s42}--\ref{thm:group} and Example~\ref{ex:c6} are verified on
+$C_4,C_8,C_9,C_6,V_4,S_3,Q_8$ and two poset categories in
+\texttt{level\_logic.py}.
+
+\section{Correspondence theory and its limit}\label{sec:corr}
+
+\begin{thm}\label{thm:corr}
+For every small $C$ and $n\ge1$:
+$\Fr(C)\models\bw_n$ iff $\wid\Same(C)\le n$, and
+$\Fr(C)\models\bd_n$ iff $\hgt\Same(C)\le n$
+(here $\wid\Same(C)\le n$ means that $\Same(C)$ has no antichain of $n{+}1$
+elements, and $\hgt\Same(C)\le n$ that it has no chain of $n{+}1$ elements;
+for finite $C$ these are the usual width and height).
+\end{thm}
+\begin{proof}
+The frame conditions are local to successor sets $R[w]=\{U:W\subseteq U\}$.
+Since $\bot$ is the least sameness, $R[\bot]=\Same(C)$, so the conditions at
+$\bot$ are the global bounds; conversely every $R[w]\subseteq\Same(C)$ inherits
+them.
+\end{proof}
+
+\begin{cor}
+For a group $G$ and every finite $n$, the properties $\wid\Sub(G)\le n$ and
+$\hgt\Sub(G)\le n$ are modally definable, by $\Fr(G)\models\bw_n$, resp.\
+$\bd_n$; for finite $G$ the width and height themselves are the least such $n$.
+(Infinite widths or heights are not separated by the finitary $\bw_n,\bd_n$.)
+\end{cor}
+
+Table~\ref{tab:frames} records the data; e.g.\ $\Fr(S_3)$ validates
+$\mathrm{S4.2Grz}+\bw_4+\bd_3$ and refutes $\bw_3$, and $\Fr(Q_8)$ validates
+$\mathrm{S4.2Grz}+\bw_3+\bd_4$ and refutes $\bw_2$ and $\bd_3$. (The exact
+logic of a single finite frame requires in addition its Jankov--Fine formula;
+see Remark~\ref{rem:prop}.)
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+$C$ & $|\Same(C)|$ & chain & width & height & first $\bw_n$ / $\bd_n$ \\
+\midrule
+$C_4$ & 3 & yes & 1 & 3 & $\bw_1$ / $\bd_3$ \\
+$C_6$ & 4 & no & 2 & 3 & $\bw_2$ / $\bd_3$ \\
+$C_8$ & 4 & yes & 1 & 4 & $\bw_1$ / $\bd_4$ \\
+$V_4$ & 5 & no & 3 & 3 & $\bw_3$ / $\bd_3$ \\
+$S_3$ & 6 & no & 4 & 3 & $\bw_4$ / $\bd_3$ \\
+$Q_8$ & 6 & no & 3 & 4 & $\bw_3$ / $\bd_4$ \\
+poset $0<1<2$ ($M_3$) & 5 & no & 3 & 3 & $\bw_3$ / $\bd_3$ \\
+poset $0<1<2<3$ & 15 & no & 7 & 4 & $\bw_7$ / $\bd_4$ \\
+\bottomrule
+\end{tabular}
+\caption{Level-shift frames: chain-ness ($.3$), width ($\bw_n$) and height
+($\bd_n$). Computed in \texttt{level\_logic.py}, \texttt{level\_logic2.py};
+the general frame conditions were checked independently of the global
+invariants and agree in every case.}
+\label{tab:frames}
+\end{table}
+
+The order-shape of $\Same(C)$ is thus modally visible. Its lattice-theoretic
+content is not. Since modal validity is preserved under p-morphic images, a
+property $\mathcal P$ of sameness frames is not definable by a modal formula
+(uniformly, over the class of sameness frames) as soon as there is a
+p-morphism $\Fr(C)\twoheadrightarrow\Fr(D)$ with $\Fr(C)\in\mathcal P$ and
+$\Fr(D)\notin\mathcal P$. Both ends must be sameness frames: an image outside
+the class proves nothing (for instance $\Fr(C_{12})$, a $2\times3$ grid, maps
+p-morphically onto the pentagon $N_5$, but $N_5$ is not known to be a sameness
+frame, cf.\ Lemma~\ref{lem:five}).
+
+\begin{thm}[distributivity is not definable]\label{thm:nondef}
+Let $p,q,r$ be distinct primes and $G=C_{pqr}$ (for instance $C_{30}$). Then
+$\Same(G)=\Sub(G)$ is the divisor lattice of $pqr$, the Boolean lattice $2^3$
+with atoms $C_p,C_q,C_r$, which is distributive; $\Same(V_4)\cong M_3$ is not.
+The map $f\colon\Sub(C_{pqr})\to\Sub(V_4)$,
+\[
+\begin{array}{l}
+1\mapsto1;\\[2pt]
+C_p,\ C_q,\ C_r\mapsto\text{the three subgroups of order }2\text{ (bijectively)};\\[2pt]
+H\mapsto V_4\quad\text{if }|H|\text{ is divisible by at least two of }p,q,r,
+\end{array}
+\]
+is a p-morphism. Hence no modal formula defines distributivity of $\Same(C)$
+over sameness frames.
+\end{thm}
+\begin{proof}
+Subgroups of a cyclic group correspond to divisors of its order; for
+square-free $pqr$ the divisor lattice is $2^3$, hence distributive. $f$ is
+order-preserving. Back condition: from $1$ every element of $M_3$ is reached by
+some subgroup; from $C_p$ the successors are its image and $V_4$, reached by
+$C_p$ and $C_{pq}$; from a subgroup whose order is divisible by two of the
+primes the only successor $V_4$ is reached by itself. Surjective. Both frames are subgroup lattices, hence
+sameness frames (Proposition~\ref{prop:same}).
+\end{proof}
+
+\begin{rem}
+The same lattice and the same map arise from the category $D_3$ with two
+objects and three parallel arrows $a,b,c$ and no non-identity composites: every
+set of arrows is a sameness, so $\Same(D_3)\cong2^{\{a,b,c\}}$. The group
+witness is chosen to match Theorem~\ref{thm:nondefmod}: both blind spots are
+then exhibited between subgroup lattices.
+\end{rem}
+
+\begin{thm}[modularity is not definable]\label{thm:nondefmod}
+$\Same(C_2^3)=\Sub(C_2^3)$ is the lattice of subspaces of $\mathbb F_2^3$ ---
+bottom, the seven points and seven lines of the Fano plane, top --- which is
+modular. $\Same(A_4)=\Sub(A_4)$ is not modular. Fix a line $\ell_0$ of the Fano
+plane and define $f\colon\Sub(C_2^3)\to\Sub(A_4)$ by
+\[
+\begin{array}{ll}
+1\mapsto1; & \text{the three points on }\ell_0\mapsto\text{the three
+subgroups of order }2\text{ (bijectively)};\\
+\ell_0\mapsto V_4; & \text{the four points off }\ell_0\mapsto\text{the four
+subgroups of order }3\text{ (bijectively)};\\
+\multicolumn{2}{l}{\text{every other line, and the top}\mapsto A_4.}
+\end{array}
+\]
+Then $f$ is a p-morphism. Hence no modal formula defines modularity of
+$\Same(C)$ over sameness frames.
+\end{thm}
+\begin{proof}
+$\Sub(A_4)$ consists of $1$, the three subgroups $\langle(12)(34)\rangle$,
+$\langle(13)(24)\rangle$, $\langle(14)(23)\rangle$ of order $2$, the unique
+$V_4$ containing them, the four subgroups of order $3$, and $A_4$; it contains
+the pentagon $1<\langle(12)(34)\rangle<V_4<A_4$, $1<\langle(123)\rangle<A_4$, so
+it is not modular. The subspace lattice of $\mathbb F_2^3$ is
+modular, being a projective geometry. Forth: a point $p\le\ell$; if $\ell=\ell_0$
+then $p\in\ell_0$ and $f(p)\le V_4=f(\ell_0)$; otherwise $f(\ell)=A_4$. Back: for
+$f(p)=$ an order-$2$ subgroup, its successors $V_4$ and $A_4$ are reached by
+$\ell_0\ni p$ and by either other line through $p$; for $f(q)=$ an order-$3$
+subgroup ($q\notin\ell_0$), the successor $A_4$ is reached by any line through
+$q$ (none of which is $\ell_0$); for $f(\ell_0)=V_4$ the successor $A_4$ is
+reached by the top; the bottom reaches everything since $f$ is surjective. Both
+frames are subgroup lattices, hence sameness frames. The map is recorded as a
+computationally verified certificate (\S\ref{sec:comp}).
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small, column sep=tiny]
+& & & A_4 & & & \\
+& V_4\arrow[urr,dash] & & C_3\arrow[u,dash] & C_3\arrow[ul,dash] & C_3\arrow[ull,dash] & C_3\arrow[ulll,dash] \\
+C_2\arrow[ur,dash] & C_2\arrow[u,dash] & C_2\arrow[ul,dash] & & & & \\
+& & & 1\arrow[ulll,dash]\arrow[ull,dash]\arrow[ul,dash]\arrow[uu,dash]\arrow[uur,dash]\arrow[uurr,dash]\arrow[uurrr,dash] & & &
+\end{tikzcd}
+\caption{$\Sub(A_4)$, the non-modular target of Theorem~\ref{thm:nondefmod}.
+Under $f$ the three $C_2$ are the images of the points of a line $\ell_0$ of
+the Fano plane, $V_4$ the image of $\ell_0$ itself, the four $C_3$ the images
+of the points off $\ell_0$, and $A_4$ the image of the six other lines and the
+top.}
+\label{fig:a4}
+\par\smallskip\noindent\textit{Alt text:} Hasse diagram of the ten subgroups of $A_4$: the trivial group at the
+bottom; above it, on the left, three subgroups $C_2$ joined to a single $V_4$
+above them, and on the right four subgroups $C_3$; $V_4$ and the four $C_3$
+are all joined to $A_4$ at the top.
+\end{figure}
+
+The dichotomy is clean: \emph{the level-shift logic sees width, height,
+chain-ness and directedness of $\Same(C)$, and provably cannot see its lattice
+identities.} (Each individual finite frame is of course pinned down by its
+Jankov--Fine formula; Theorems~\ref{thm:nondef}--\ref{thm:nondefmod} are about
+a \emph{uniform} axiom.) Both witnesses are group frames: the second says that
+the Fano plane with a distinguished line maps p-morphically onto the subgroup
+lattice of $A_4$.
+
+\section{Quotient models and the logic $\mathrm{OO}(C)$}\label{sec:models}
+
+\subsection{The intended models}
+The object-level semantics of \cite{SameA} is a diagram (copresheaf) of
+quotients over the frame,
+\[
+\Obs_C\colon(\Same(C),\subseteq)\to\mathbf{Set},\qquad
+W\mapsto\llbracket C\rrbracket_W=\Ob(C)/{\sim_W},
+\]
+with surjective, functorial transition maps
+$\pi_{W\le W'}\colon\llbracket C\rrbracket_W\twoheadrightarrow
+\llbracket C\rrbracket_{W'}$ (Figure~\ref{fig:presheaf}). Read
+as a modal model of individuals: an \emph{individual at level $W$} is an object
+up to $\sim_W$; a \emph{$W$-observable} is a predicate on $\llbracket
+C\rrbracket_W$; passing to a coarser level sends every individual forward and
+may identify distinct ones. Hence identity is
+\emph{contingent} --- $a=b$ is world-dependent --- and \emph{monotone}: $a\sim_Wb$
+implies $a\sim_{W'}b$ for $W\subseteq W'$. This is a counterpart-style modal
+semantics with surjective transition maps, in the family of contingent-identity
+systems \cite{HC96}, with the special feature that identity only ever grows;
+we do not add quantifiers here, and treat the identity/observable layer as an
+atomic fragment.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large, row sep=large]
+\Ob(C)\arrow[r,"\pi_W",two heads]\arrow[d,"\pi_{W'}"',two heads]
+ & \llbracket C\rrbracket_W\arrow[dl,"\pi_{W\le W'}",two heads] \\
+\llbracket C\rrbracket_{W'} &
+\end{tikzcd}
+\caption{The quotient model $\Obs_C$: domains collapse along accessibility.
+A $W$-observable factors through $\pi_W$; a $W'$-observable is a
+$W$-observable by pullback along $\pi_{W\le W'}$.}
+\label{fig:presheaf}
+\par\smallskip\noindent\textit{Alt text:} A commutative triangle. The set of objects of $C$ at the top left maps by
+a surjection to the quotient at level $W$ on the right and by a surjection to
+the quotient at level $W'$ below; a third surjection from the level-$W$
+quotient to the level-$W'$ quotient makes the triangle commute.
+\end{figure}
+
+\subsection{Language, abstract models, and the identity/encapsulation fragment}
+\label{sub:frag}
+Fix a finite lattice $L$ of \emph{levels}, a set $X_0$ of \emph{individual
+constants}, and a set $\Phi$ of \emph{observable symbols}. The \emph{atomic
+judgements} are
+\[
+a\equiv_Wb\ (W\in L),\qquad \varphi\obs_W\ (\varphi\in\Phi,\ W\in L),\qquad
+\varphi(a)\doteq\varphi(b)\ (\varphi\in\Phi),
+\]
+read ``$a,b$ are the same at level $W$'', ``$\varphi$ is observable at level
+$W$'', ``$\varphi$ takes the same value at $a$ and $b$''. An \emph{abstract
+model} is $M=(X,(E_W)_{W\in L},(\varphi^M)_{\varphi\in\Phi})$ with $X\supseteq
+X_0$ a set (constants denoting themselves), each $E_W$ an equivalence relation
+on $X$ with $E_W\subseteq E_{W'}$ whenever $W\le W'$, and each $\varphi^M\colon
+X\to V_\varphi$ a function to some value set. Truth:
+$M\models a\equiv_Wb$ iff $(a,b)\in E_W$; $M\models\varphi(a)\doteq\varphi(b)$
+iff $\varphi^M(a)=\varphi^M(b)$; $M\models\varphi\obs_W$ iff $\varphi^M$ is
+constant on every $E_W$-class. Every $\Obs_C$ (with $L=\Same(C)$, $E_W={\sim_W}$,
+and any functions on $\Ob(C)$ as observables) is an abstract model. Over a set
+$\Gamma$ of atomic assumptions the rules are
+\[
+\begin{array}{l}
+\text{(E)}\ \ \equiv_W\text{ is reflexive, symmetric and transitive, for each }W;\\[2pt]
+\text{(V)}\ \ \varphi(\cdot)\doteq\varphi(\cdot)\text{ is reflexive, symmetric and transitive, for each }\varphi;\\[2pt]
+\text{(coarsen)}\ \ a\equiv_Wb,\ W\le W'\ \Rightarrow\ a\equiv_{W'}b;\\[2pt]
+\text{(restrict)}\ \ \varphi\obs_{W'},\ W\le W'\ \Rightarrow\ \varphi\obs_W;\\[2pt]
+\text{(encapsulate)}\ \ \varphi\obs_W,\ a\equiv_Wb\ \Rightarrow\ \varphi(a)\doteq\varphi(b).
+\end{array}
+\]
+$\Gamma\vdash\gamma$ means $\gamma$ is in the closure of $\Gamma$ under these
+rules.
+
+\begin{thm}\label{thm:complete}
+For atomic $\Gamma$ and atomic $\gamma$: $\Gamma\vdash\gamma$ iff
+$M\models\gamma$ for every abstract model $M\models\Gamma$.
+\end{thm}
+\begin{proof}
+\emph{Soundness.} (E), (V) hold because $E_W$ and the kernel of $\varphi^M$
+are equivalence relations; (coarsen) by monotonicity of $(E_W)$; (restrict)
+because a function constant on the classes of $E_{W'}$ is constant on the finer
+classes of $E_W\subseteq E_{W'}$; (encapsulate) by the definition of
+$\varphi\obs_W$.
+
+\emph{Completeness.} Write $D$ for the closure of $\Gamma$. \emph{Canonical
+model $M_0$:} $X=X_0$; $E_W:=\{(a,b):a\equiv_Wb\in D\}$, an equivalence relation
+by (E) and monotone by (coarsen); for each $\varphi$ let $\doteq_\varphi:=
+\{(a,b):\varphi(a)\doteq\varphi(b)\in D\}$, an equivalence relation by (V), and
+put $V_\varphi:=X/{\doteq_\varphi}$ and $\varphi^{M_0}(a):=[a]$. Then
+$M_0\models a\equiv_Wb$ iff $a\equiv_Wb\in D$, and $M_0\models\varphi(a)\doteq
+\varphi(b)$ iff $\varphi(a)\doteq\varphi(b)\in D$, by construction; and
+$M_0\models\Gamma$: its $\equiv$- and $\doteq$-atoms are in $D$, and if
+$\varphi\obs_W\in\Gamma$ then for $(a,b)\in E_W$ (encapsulate) gives
+$\varphi(a)\doteq\varphi(b)\in D$, i.e.\ $[a]=[b]$, so $\varphi^{M_0}$ is
+constant on $E_W$-classes. Hence a non-derivable $a\equiv_Wb$ or
+$\varphi(a)\doteq\varphi(b)$ is refuted by $M_0$.
+
+For a non-derivable $\varphi_0\obs_{W_0}$ the model $M_0$ may still satisfy it
+(e.g.\ when $\Gamma=\varnothing$, all $E_W$ are discrete), so we enlarge it.
+\emph{Model $M_1$:} $X=X_0\cup\{x,y\}$ with $x,y$ fresh; $E'_W:=E_W\cup\{(x,x),
+(y,y)\}\cup\{(x,y),(y,x)\}$ if $W\ge W_0$, and $E'_W:=E_W\cup\{(x,x),(y,y)\}$
+otherwise --- equivalence relations, monotone because $W\ge W_0$ is upward
+closed; $\varphi_0^{M_1}(x),\varphi_0^{M_1}(y)$ two fresh distinct values, and
+$\psi^{M_1}(x)=\psi^{M_1}(y)$ a fresh value for $\psi\ne\varphi_0$; on $X_0$ all
+functions are as in $M_0$. Then $M_1\not\models\varphi_0\obs_{W_0}$, since
+$(x,y)\in E'_{W_0}$ carry different values. And $M_1\models\Gamma$: atoms of
+$\Gamma$ mention only $X_0$ and hold as in $M_0$; for $\psi\obs_W\in\Gamma$ with
+$\psi\ne\varphi_0$ the class $\{x,y\}$ (if present) carries equal values; and if
+$\varphi_0\obs_W\in\Gamma$ then $W\not\ge W_0$ --- otherwise (restrict) would
+derive $\varphi_0\obs_{W_0}$ --- so $x,y$ are not $E'_W$-related and $\varphi_0$
+is constant on the singleton classes $\{x\},\{y\}$.
+\end{proof}
+
+The construction has been validated computationally: over the level lattices
+$3$-chain, $2^2$ and $M_3$, three constants and two observable symbols, for
+$723$ randomly generated $\Gamma$ and every non-derivable atomic goal ($22{,}413$
+goals), the model $M_0$ or $M_1$ satisfies $\Gamma$ and refutes the goal
+(\texttt{oo\_completeness.py}).
+
+\begin{rem}[relation to realization]\label{rem:realize}
+Theorem~\ref{thm:complete} is completeness for abstract models. For the
+category-generated models $\{\Obs_C\}$ less is needed than representing every
+abstract model: it suffices that every non-derivable pair $(\Gamma,\gamma)$ be
+refuted by \emph{some} $\Obs_C$ (a separation property). A sufficient route is a
+representation theorem: if every finite abstract countermodel --- such as $M_0$
+and $M_1$ above --- can be embedded into, or otherwise faithfully represented
+by, some $\Obs_C$ with $\Same(C)\cong L$, preserving the levels, the equivalence
+relations and the observables, then completeness transfers to the
+category-generated semantics. Whether such representations exist is a
+\emph{realization problem} for $\Same$: which lattices $L$, and which monotone
+families of equivalence relations with observables, arise from a category.
+\S\ref{sec:complete} shows the lattice part is non-trivial already at five
+elements. Thus completeness for the category-generated semantics is controlled
+by a realization/separation problem for $\Same$, which we leave open.
+\end{rem}
+
+\begin{rem}[propositional fragment; cut-elimination]\label{rem:prop}
+For fixed finite $C$ the propositional level-shift fragment is the logic of the
+single finite frame $\Fr(C)$: tabular, decidable, with the finite model
+property, and axiomatised over $\mathrm{S4.2Grz}$ by the appropriate $\bw_n$,
+$\bd_n$ and Jankov--Fine formulas \cite{CZ97}. Cut-free presentations are
+inherited: $\mathrm{S4.2}$ has cut-free hypersequent calculi \cite{Lahav13} and
+$\Grz$ a cut-free sequent calculus \cite{Avron84}. We do \emph{not} claim
+cut-elimination for the combined system (modality + identity + observables);
+the fragment of Theorem~\ref{thm:complete} is Horn-style, its only cut being
+transitivity.
+\end{rem}
+
+\section{Completeness of $\mathrm{S4.2Grz}$ up to six elements}\label{sec:complete}
+
+By Theorem~\ref{thm:s42} and Proposition~\ref{prop:grz},
+$\Log_{\mathrm{fin}}\supseteq\mathrm{S4.2Grz}$ (Example~\ref{ex:infinite}
+shows this fails for $\Log_{\mathrm{all}}$). Equality would follow if every
+finite rooted $\mathrm{S4.2Grz}$-frame were a p-morphic image of a generated
+subframe of some $\Fr(C)$ with $C$ finite. Finite rooted $\mathrm{S4.2Grz}$-frames are exactly the finite
+\emph{bounded posets}: $\Grz$ makes a finite frame a partial order, the root is
+its bottom, and directedness with finiteness gives a top \cite{CZ97}. So the
+question is which finite bounded posets are p-morphic images of sameness
+frames. Note that this is weaker than being \emph{isomorphic} to one, and the
+two questions have different answers.
+
+\begin{thm}[chains]\label{thm:chains}
+Every finite chain is a sameness frame: the $(n{+}1)$-chain is $\Fr(C_{p^n})$.
+\end{thm}
+\begin{proof}
+$\Same(C_{p^n})=\Sub(C_{p^n})$ is the chain of subgroups of orders
+$1,p,\dots,p^n$ (Theorem~\ref{thm:group}).
+\end{proof}
+
+\begin{prop}[five elements]\label{prop:five}
+The five bounded posets with five elements are the $5$-chain, $M_3$, $N_5$, and
+the two ``square-plus-a-point'' lattices $1\oplus2^2$, $2^2\oplus1$. All five are
+p-morphic images of rooted generated subframes of sameness frames: the chain by
+Theorem~\ref{thm:chains}, $M_3\cong\Fr(V_4)$, and $N_5$, $1\oplus2^2$,
+$2^2\oplus1$ as images of $\Fr(A_4)$, $\Fr(C_{12})$, $\Fr(Q_8)$ and of ten
+$4$-point-poset categories (\texttt{level\_logic2\_pmorph2.py}).
+\end{prop}
+
+By contrast, none of $N_5$, $1\oplus2^2$, $2^2\oplus1$ is \emph{isomorphic} to
+$\Same(C)$ for any poset category on $\le5$ points, any monoid of order $\le3$,
+or the groups tested (\texttt{level\_logic2\_survey.py}); for groups this is a
+theorem:
+
+\begin{lem}\label{lem:five}
+No group has $\Sub(G)\cong N_5$, $1\oplus2^2$ or $2^2\oplus1$.
+\end{lem}
+\begin{proof}
+Such $G$ has exactly five subgroups. Suppose first that $G$ is a $p$-group of
+order $p^n$. It has a subgroup of every order $p^i$, hence at least $n{+}1$
+subgroups, so $n\le4$; if $G$ is cyclic it has exactly $n{+}1$, and five forces
+$G\cong C_{p^4}$, a chain. If $G$ is not cyclic, then $G/\Phi(G)$ is elementary
+abelian of rank $r\ge2$ (Burnside's basis theorem), so $G$ has
+$(p^r-1)/(p-1)\ge p{+}1\ge3$ maximal subgroups. For $n=2$ the subgroups are $1$,
+$G$ and the $p{+}1$ of order $p$, i.e.\ $p{+}3$, which is five iff $p=2$, i.e.\
+$G\cong V_4$ ($M_3$). For $n\ge3$ the maximal subgroups have order $\ge p^2$, so
+together with $1$, $G$ and a subgroup of order $p$ there are at least six.
+Suppose next that two distinct primes $p,q$ divide $|G|$, and let $P,Q$ be
+Sylow subgroups; $1,P,Q,G$ are four distinct subgroups. If some Sylow subgroup
+is not normal, its conjugates number at least $p{+}1\ge3$ (Sylow), giving at
+least six subgroups. So all Sylow subgroups are normal and $G$ is their direct
+product; if $P$, say, is not of prime order, it contains a subgroup $X$ of
+order $p$, and $X$ and $XQ$ are two further subgroups --- six again. Hence
+every Sylow subgroup has prime order and $G$ is cyclic of square-free order,
+whose subgroup lattice is Boolean with $2^k\ne5$ elements. (All groups computed
+in this paper agree: $C_{16}$ and $V_4$ have five subgroups; $C_6$ has four;
+$C_8$ four; $Q_8,S_3,C_3^2,C_{12}$ six; $C_2\times C_4$ eight; $A_4,D_4$ ten;
+$C_2^3$ sixteen.)
+\end{proof}
+
+\begin{thm}[six elements]\label{thm:six}
+Every finite bounded poset with at most six elements is a p-morphic image of a
+rooted generated subframe of a finite sameness frame. Consequently
+$\Log_{\mathrm{fin}}$ and $\mathrm{S4.2Grz}$ have the same theorems refutable on
+frames of size $\le6$, and on all finite chains; any formula separating the two
+logics is refuted only on frames of size $\ge7$.
+\end{thm}
+\begin{proof}
+Sizes $\le5$: Proposition~\ref{prop:five}. Size $6$: a bounded poset with six
+elements is $\bot+P+\top$ for a poset $P$ on four points; there are sixteen,
+fifteen of them lattices and one not (the butterfly $\bot<0,1<2,3<\top$,
+Figure~\ref{fig:butterfly}). Over $36$ source categories (all posets on $\le4$
+points; $C_6,C_8,C_{12},V_4,S_3,Q_8,A_4,D_4,C_2\times C_4,C_3\times C_3,C_2^3$;
+the parallel pair), with roots pre-filtered by the necessary conditions
+$\hgt R[W]\ge\hgt T$ and $\wid R[W]\ge\wid T$ (which follow from
+$f(R[x])=S[f(x)]$ for a p-morphism $f$), an explicit p-morphism was found for
+fifteen of the sixteen, including the butterfly (from a $4$-point-poset
+category with $|\Same|=8$); each is a finite certificate checked by machine and
+listed explicitly in the supplementary file \texttt{certificates.json}
+(\texttt{level\_logic3\_cert.py}). The sixteenth is the $6$-chain, which is a
+sameness frame by Theorem~\ref{thm:chains}. The consequence for the logics is
+preservation of validity under p-morphic images and generated subframes.
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small, column sep=small]
+& \top & \\
+2\arrow[ur,dash] & & 3\arrow[ul,dash] \\
+0\arrow[u,dash]\arrow[urr,dash] & & 1\arrow[u,dash]\arrow[ull,dash] \\
+& \bot\arrow[ul,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\caption{The butterfly: a bounded poset that is not a lattice ($0\vee1$ does
+not exist), yet a p-morphic image of a sameness frame --- lattice sources have
+non-lattice images, just as modular sources have non-modular ones
+(Theorem~\ref{thm:nondefmod}).}
+\label{fig:butterfly}
+\par\smallskip\noindent\textit{Alt text:} Hasse diagram of a six-element poset: a bottom element; above it two
+incomparable elements $0$ and $1$; above them two incomparable elements $2$
+and $3$, each of $0$ and $1$ lying below each of $2$ and $3$; and a top
+element above $2$ and $3$.
+\end{figure}
+
+\begin{rem}[honest boundary]
+Theorem~\ref{thm:six} does not settle $\Log_{\mathrm{fin}}=\mathrm{S4.2Grz}$. Size
+$\ge7$ needs taller and wider sources (e.g.\ $5$-point-poset categories) and a
+p-morphism search better than backtracking for negative instances; and the
+iso-realization question of Lemma~\ref{lem:five} shows that the sameness
+frames are a proper subclass of finite lattices. Whether some finite bounded
+poset is \emph{not} a p-morphic image of any finite sameness frame --- which
+would make $\Log_{\mathrm{fin}}$ strictly stronger than $\mathrm{S4.2Grz}$ --- is
+the main open question of this paper. The exact identity of
+$\Log_{\mathrm{all}}$, which lies between $\mathrm{S4.2}$ and
+$\Log_{\mathrm{fin}}$, is a second one.
+\end{rem}
+
+\section{Computational record}\label{sec:comp}
+All finite claims are verified by exhaustive computation in
+\texttt{scripts/comparison/}: \texttt{level\_logic.py} (\S\ref{sec:axioms}),
+\texttt{level\_logic2.py} (Theorem~\ref{thm:corr}, Table~\ref{tab:frames}),
+\texttt{level\_logic2\_survey.py} and \texttt{level\_logic2\_pmorph2.py}
+(Proposition~\ref{prop:five}, Lemma~\ref{lem:five}),
+\texttt{level\_logic4\_modular.py} (Theorems~\ref{thm:nondef},
+\ref{thm:nondefmod}; certificate \texttt{cert\_modularity.json}),
+\texttt{oo\_completeness.py} (Theorem~\ref{thm:complete}),
+\texttt{level\_logic3\_cert.py} (Theorem~\ref{thm:six}; the eighteen computed
+p-morphisms for the five- and six-element targets are listed in
+\texttt{certificates.json}). All certificates and scripts are supplied as
+supplementary material.
+
+\section{Conclusion}
+A category has a modal logic, and it is informative: it contains
+$\mathrm{S4.2}$ always, reaches $\mathrm{S4.3}$ exactly on chains --- for finite
+groups, exactly on cyclic $p$-groups --- and reads every finite bound on the
+width and height of $\Same(C)$ off the axioms $\bw_n,\bd_n$, while being
+provably blind to
+distributivity and modularity, with both blind spots witnessed inside the class
+by group frames. Its
+intended models are quotients that collapse along accessibility, a
+counterpart-style modal setting with monotone contingent identity whose
+identity/encapsulation fragment is complete for abstract models. The logic of
+finite sameness frames agrees with $\mathrm{S4.2Grz}$ through size six and on
+all finite chains, while infinite frames drop $\Grz$. Two problems remain: the realization problem --- which lattices, and
+which families of equivalences, come from a category --- which governs
+completeness for the intended models; and the exact identity of the
+level-shift logic, which the same problem controls through p-morphic images.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\noindent\textbf{Corresponding author.}\quad Ryota Shibusawa, Daiichi Institute
+of Technology; e-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}.
+
+\noindent\textbf{Availability of data and materials.}\quad All verification
+scripts and p-morphism certificates named in \S\ref{sec:comp} are provided as
+supplementary material with the submission.
+
+\begin{thebibliography}{9}
+\bibitem{SameA} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+companion manuscript, under review (2026).
+\bibitem{vBB24} J.~van Benthem, N.~Bezhanishvili, \emph{Modal structures in
+groups and vector spaces}, J.\ Logic Comput.\ \textbf{34} (2024), no.~1,
+75--124.
+\bibitem{Fine74} K.~Fine, \emph{Logics containing K4. Part I}, J.\ Symbolic
+Logic \textbf{39} (1974), 31--42.
+\bibitem{CZ97} A.~Chagrov, M.~Zakharyaschev, \emph{Modal Logic}, Oxford Logic
+Guides \textbf{35}, Oxford University Press, 1997.
+\bibitem{BdRV01} P.~Blackburn, M.~de Rijke, Y.~Venema, \emph{Modal Logic},
+Cambridge Tracts in Theoretical Computer Science \textbf{53}, Cambridge
+University Press, 2001.
+\bibitem{HC96} G.~E.~Hughes, M.~J.~Cresswell, \emph{A New Introduction to Modal
+Logic}, Routledge, 1996.
+\bibitem{Lahav13} O.~Lahav, \emph{From frame properties to hypersequent rules in
+modal logics}, Proc.\ LICS 2013, IEEE, 2013, 408--417.
+\bibitem{Avron84} A.~Avron, \emph{On modal systems having arithmetical
+interpretations}, J.\ Symbolic Logic \textbf{49} (1984), 935--942.
+\bibitem{Schmidt} R.~Schmidt, \emph{Subgroup Lattices of Groups}, de Gruyter
+Expositions in Mathematics \textbf{14}, de Gruyter, 1994.
+\bibitem{Ore} O.~Ore, \emph{Structures and group theory. II}, Duke Math.\ J.\
+\textbf{4} (1938), 247--269.
+\bibitem{Rutten} J.~J.~M.~M.~Rutten, \emph{Universal coalgebra: a theory of
+systems}, Theoret.\ Comput.\ Sci.\ \textbf{249} (2000), 3--80.
+\bibitem{Univalent} The Univalent Foundations Program, \emph{Homotopy Type
+Theory: Univalent Foundations of Mathematics}, IAS, 2013.
+\end{thebibliography}
+
+\end{document}
