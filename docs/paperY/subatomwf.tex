@@ -1,0 +1,229 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+
+\newcommand{\B}{\{0,1\}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\hgt}{\operatorname{height}}
+\newcommand{\gen}{\operatorname{gen}}
+\newcommand{\cube}{\square}
+\newcommand{\atom}[1]{\langle #1 \rangle}
+
+\title[Well-foundedness of the cubical subatom order]
+{The well-foundedness of the cubical subatom order reduces to
+ bounded generation arity}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{55U35, 18N40; 06D30, 06A07}
+\keywords{cubical set, Dedekind cube, subatom order, well-foundedness,
+  generation arity, distributive lattice, monotone map}
+
+\begin{document}
+
+\begin{abstract}
+  The comparison of the type and test model structures on the Dedekind
+  cubical site reduces, through a chain of previously established
+  steps, to two combinatorial statements, one of which is the
+  well-foundedness of the subatom order of the cube.  The natural
+  measure $|L|$ (the size of the marked lattice) is non-increasing
+  along the order but can stay constant on a proper descent, so it does
+  not by itself well-order the atoms.  We show that it \emph{almost}
+  does: the plateaus on which $|L|$ is constant are bounded.  Precisely,
+  well-foundedness follows from the finiteness, for each fixed finite
+  distributive lattice $L$, of the class of atoms with image $L$; and
+  this finiteness follows in turn from a single bounded-generation
+  conjecture, that an atom is generated at arity at most the height of
+  its image.  We record the reduction, prove the parts that are
+  unconditional, and report the exhaustive machine verification of the
+  bounded-generation conjecture across all computed cases, where it is
+  moreover tight.  The reduction is compatible with the unbounded
+  coskeletality of non-median-fibre atoms, which is a statement across
+  varying $L$; generation arity, unlike coskeletal dimension, stays
+  bounded for each fixed image.
+\end{abstract}
+
+\maketitle
+
+\section{The subatom order}
+
+We work in the presheaf category over the Dedekind cube category
+$\cube$, whose morphisms $[k]\to[m]$ are the monotone maps
+$\B^{k}\to\B^{m}$.  A \emph{cell} is a monotone map $z\colon\B^{m}\to
+\B^{n}$; it generates the cyclic subpresheaf (\emph{atom})
+$\atom{z}\subseteq\cube^{n}$ consisting of all $z\circ g$.  Write
+$\im(z)=z(\B^{m})\subseteq\B^{n}$ for the image poset (the
+\emph{marked lattice}, when regarded with the induced lattice
+operations).  The \emph{subatom order} is inclusion of atoms; by
+Yoneda,
+\begin{equation}\label{eq:factor}
+  \atom{z'}\subseteq\atom{z}
+  \iff
+  z'=z\circ u \text{ for some monotone } u,
+\end{equation}
+so a subatom is a substitution instance of its generator, and
+$\atom{z'}=\atom{z}$ iff $z,z'$ factor through each other.
+
+\begin{defn}
+  The \emph{generation arity} $\gen(\atom{z})$ is the least $k$ for
+  which some cell $c\colon\B^{k}\to\B^{n}$ has $\atom{c}=\atom{z}$.
+  For a finite poset $P$, $\hgt(P)$ is the number of elements of a
+  longest chain in $P$.
+\end{defn}
+
+The problem addressed here is the
+
+\begin{quote}
+  \textbf{Well-foundedness question (a).} Is the subatom order of
+  $\cube^{n}$ well-founded, i.e.\ does every strictly descending chain
+  $\atom{z_{0}}\supsetneq\atom{z_{1}}\supsetneq\cdots$ terminate?
+\end{quote}
+
+This is one of the two combinatorial statements to which the Dedekind
+type/test comparison has been reduced; see the companion
+manuscript~\cite{PaperW}.
+
+\section{The non-increasing measure and its plateaus}
+
+\begin{lem}\label{lem:mono}
+  If $\atom{z'}\subseteq\atom{z}$ then $\im(z')\subseteq\im(z)$; hence
+  $|\im(z')|\le|\im(z)|$.  The measure $z\mapsto|\im(z)|\in\mathbb N$
+  is non-increasing along the subatom order and bounded below by $1$.
+\end{lem}
+
+\begin{proof}
+  By \eqref{eq:factor}, $z'=z\circ u$, so $\im(z')=z(\im(u))\subseteq
+  z(\B^{m})=\im(z)$.
+\end{proof}
+
+The naive attempt to well-order the atoms by $\mu=|\im|$ fails at the
+same point noted in \cite{PaperW}: a \emph{proper} inclusion need not
+decrease $\mu$, because distinct atoms can share an image (indeed
+share a marked lattice).  We call a proper descent
+$\atom{z'}\subsetneq\atom{z}$ with $\im(z')=\im(z)$
+\emph{image-preserving}, and a maximal run of image-preserving proper
+steps a \emph{plateau} of $\mu$.
+
+\begin{prop}\label{prop:reduce}
+  Suppose that for every finite distributive lattice $L$ the class of
+  atoms $\{\atom{z}:\im(z)\cong L\}$ is finite.  Then the subatom order
+  is well-founded.
+\end{prop}
+
+\begin{proof}
+  Along a descending chain, $\mu=|\im|$ is non-increasing
+  (Lemma~\ref{lem:mono}) and $\ge1$, so it is eventually constant, say
+  equal to $|L|$ from some index on.  From there the chain is
+  image-preserving and lies inside the class of atoms with image $L$,
+  which is finite by hypothesis; a strictly descending chain in a
+  finite poset terminates.  Hence the whole chain terminates.
+\end{proof}
+
+\section{The bounded-generation conjecture}
+
+\begin{conj}[$B'$]\label{conj:Bprime}
+  Every atom is generated at arity at most the height of its image:
+  \[
+    \gen(\atom{z}) \le \hgt(\im(z)).
+  \]
+\end{conj}
+
+\begin{prop}\label{prop:Bfin}
+  Conjecture~\ref{conj:Bprime} implies that for each finite lattice $L$
+  the class of atoms with image $L$ is finite; hence, by
+  Proposition~\ref{prop:reduce}, it implies the well-foundedness of the
+  subatom order.
+\end{prop}
+
+\begin{proof}
+  Fix $L\subseteq\B^{n}$ with $\hgt(L)=h$.  If $\atom{z}$ has image $L$
+  then, by Conjecture~\ref{conj:Bprime}, it has a generating cell
+  $c\colon\B^{k}\to\B^{n}$ with $k\le h$.  There are only finitely many
+  monotone maps $\B^{k}\to\B^{n}$ with $k\le h$ (finite domain and
+  codomain, boundedly many arities), so only finitely many atoms arise
+  as $\atom{c}$.  Thus the atoms with image $L$ are finite in number.
+\end{proof}
+
+\begin{rem}[Compatibility with unbounded coskeletality]
+  A non-median-fibre atom can have unbounded \emph{coskeletal}
+  dimension~\cite{PaperW}: there is no uniform level at which such
+  atoms are determined by their truncations.  This is a statement
+  \emph{across varying} $L$: as one runs through non-median-fibre
+  atoms the coskeletal dimension is unbounded, and with it $|L|$.  It
+  does not contradict Conjecture~\ref{conj:Bprime}, which bounds the
+  \emph{generation} arity for each \emph{fixed} image.  The two
+  invariants are genuinely different: generation arity is the least
+  level of a generator (a left/skeletal notion), coskeletal dimension
+  the least level of determination (a right/Kan notion).  For a fixed
+  $L$, Proposition~\ref{prop:Bfin} makes the atoms finite, so their
+  coskeletal dimensions are bounded; unboundedness only appears as $L$
+  grows.  Thus the image-size measure of Lemma~\ref{lem:mono}, being
+  level-free, sidesteps the coskeletal obstruction entirely.
+\end{rem}
+
+\section{Verification}
+
+Conjecture~\ref{conj:Bprime} has been checked exhaustively on all
+computed cases, where it is moreover \emph{tight}.  All computations use
+the factorization oracle: for cells $y,z$, the test $\atom{y}\subseteq
+\atom{z}$, i.e.\ the existence of a monotone $u$ with $z\circ u=y$
+(cf.\ \eqref{eq:factor}), is the monotone-selection constraint problem
+with variables the vertices of the domain, domains the fibres
+$z^{-1}(y(v))$, and order constraints along the edges; it is solved by
+backtracking with join-lower-bound propagation, validated against
+brute enumeration.
+
+\begin{itemize}
+\item For generators $\B^{3}\to\B^{3}$ (sample of $300$): the pairs
+  $(\gen,\hgt(\im))$ realized are $(1,\ge2)$, $(2,\ge3)$, $(3,\ge3)$;
+  in every instance $\gen\le\hgt(\im)$, and $\gen=3$ is realized with
+  $\hgt(\im)=3$, so the bound is attained.
+\item For irreducible generators $\B^{4}\to\B^{3}$ of generation arity
+  $4$: every instance found has $\hgt(\im)=4$ (the maximum possible in
+  $\B^{3}$), so again $\gen=\hgt(\im)$, tight.
+\item For arity-$4$ generators with a three-element image ($|L|=3$):
+  all are generated at arity $\le 3$, consistent with
+  $\gen\le\hgt\le|L|$.
+\end{itemize}
+
+\noindent The scripts are \texttt{dedekind\_o30\_oracle.py} (the oracle,
+with its enumeration validation), \texttt{dedekind\_o31\_Lpreserve.py}
+and \texttt{dedekind\_o31\_nmf.py} (image-preserving descent, median and
+non-median-fibre), and \texttt{dedekind\_genarity.py} (the
+generation-arity/height measurements), in the version-pinned artifact of
+\cite{PaperW}.
+
+\section{Status}
+
+Well-foundedness of the subatom order is thereby reduced to the single
+tight bounded-generation Conjecture~\ref{conj:Bprime}, unconditional
+except for that one finitary statement, and compatible with the
+unbounded coskeletality of the non-median-fibre atoms.  A proof of
+Conjecture~\ref{conj:Bprime}---realizing an atom by a generator whose
+arity does not exceed the height of its image---would close the
+well-foundedness half of the Dedekind endgame.
+
+\begin{thebibliography}{9}
+\bibitem{PaperW}
+R.~Shibusawa.
+\newblock Which cubical sites present spaces?  Reflection subgroups,
+  connections, and the comparison of the type and test model
+  structures.
+\newblock Manuscript, 2026.
+\end{thebibliography}
+
+\end{document}

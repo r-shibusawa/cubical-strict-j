@@ -1,0 +1,334 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\Pol}{Pol}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\hgt}{height}
+\DeclareMathOperator{\gen}{gen}
+\DeclareMathOperator{\Ch}{Ch}
+\newcommand{\B}{\{0,1\}}
+\newcommand{\cube}{\square}
+\newcommand{\atom}[1]{\langle #1 \rangle}
+
+\title[A complexity dichotomy for order-convex monotone selection]
+{A complexity dichotomy for order-convex monotone selection,\\
+ with applications to Dedekind cubical sets}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{08A70, 68Q25; 08B05, 06D30, 55U35}
+\keywords{constraint satisfaction, complexity dichotomy, bounded width,
+  Taylor polymorphism, Siggers operation, order-convex set, monotone
+  selection, distributive lattice, cubical set, Dedekind cube}
+
+\begin{document}
+
+\begin{abstract}
+  We study the constraint language $L_m$ on the Boolean cube $\B^m$ whose
+  relations are the order and all order-convex sets---the ambient
+  language of \emph{monotone selection}, where one seeks a monotone map
+  into prescribed order-convex fibres.  Its polymorphisms are the
+  monotone, idempotent, order-convex-preserving operations, and they
+  collapse sharply at $m=3$: for $m\le2$ the median is a majority
+  polymorphism, so $L_m$ has bounded width and $\mathrm{CSP}(L_m)\in
+  \mathrm P$; for every $m\ge3$ we prove that $\Pol(L_m)$ has neither a
+  ternary weak near-unanimity nor a Siggers operation, so $L_m$ has
+  \emph{unbounded width} and $\mathrm{CSP}(L_m)$ is
+  $\mathrm{NP}$-complete.  Both obstructions are elementary hand proofs
+  from small unsatisfiable cores that a machine locates (a twelve-cell
+  and an eight-orbit contradiction on $\B^3$), propagated to all $m\ge3$
+  by an order-convex restriction.
+
+  The motivation and the application are homotopy-theoretic.  Monotone
+  selection is the realizability engine of the Dedekind cubical site,
+  whose type/test comparison the companion manuscript reduces to a chain-
+  approximation master statement and two combinatorial cores.
+  Median-closure of the fibres is the boundary for the \emph{canonical}
+  median majority polymorphism---exactly the threshold the companion uses
+  for strict width two---while the full ambient order-convex language
+  undergoes its bounded-width and Taylor collapse at dimension three; we
+  localize the two combinatorial cores onto the master statement:
+  well-foundedness
+  reduces to an $n$-coskeletality of atoms---which the strict-width-two
+  mechanism above reduces, for median-fibre atoms, to a sharp
+  pair-extension property, leaving that and the non-median-fibre residue
+  conjectural---and the anchoring
+  statement is shown \emph{equivalent} to chain approximation on the
+  anchored subobjects of atoms.  Thus one homotopical core and two
+  auxiliaries organize the Dedekind endgame, with the complexity
+  dichotomy explaining why it pivots on median-closure.
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+\subsection*{The phase diagram and its last open entry}
+On each standard cube category the presheaves carry two canonical
+homotopy theories: the cubical-type model structure of cubical type
+theory, and Cisinski's test structure, which presents spaces; the type
+structure presents spaces exactly when the two coincide.  The companion
+manuscript~\cite{PaperW} completes this phase diagram except at the
+\emph{Dedekind} site---the cube category with two connections---where it
+reduces the comparison to a single approximation problem and localizes
+the residue to two sharp combinatorial statements.  This paper studies
+the structure of that residue.
+
+\subsection*{The Dedekind cube and realizability}
+The Dedekind cube category $\cube$ is the Lawvere theory of bounded
+distributive lattices: a morphism $[k]\to[m]$ is a monotone map
+$\B^k\to\B^m$.  A \emph{cell} of a presheaf is a monotone
+$z\colon\B^m\to\B^n$; it generates the cyclic subpresheaf (\emph{atom})
+$\atom{z}\subseteq\cube^n$ of all $z\circ g$, with image the marked
+lattice $\im(z)\subseteq\B^n$.  Whether a cell $a$ is a face of $\atom z$
+is a \emph{realizability} question---does $a$ factor as $z\circ g$ for a
+monotone $g$?---which is, vertexwise, a monotone-selection constraint
+problem: one variable $g(v)$ per vertex of the domain, with domain the
+fibre $z^{-1}(a(v))$ and an order constraint along each edge.  This
+constraint problem is the combinatorial engine of the whole endgame:
+the coskeletal structure of atoms, the finiteness of the atom family,
+and the chain-approximation statement all rest on it.
+
+\subsection*{The master statement and the two cores (after~\cite{PaperW})}
+Through Cisinski's regularity theory, a cosimplicial resolution by
+cubical-simplex retracts, and a singular Quillen adjunction, \cite{PaperW}
+proves the Dedekind comparison equivalent to a single
+\emph{chain-approximation} statement: for every fibrant $X$ the inclusion
+$\Ch(X)\hookrightarrow X$ of the intrinsic chain stratum is a type
+equivalence.  The singular complex computes the test type of every
+presheaf, so this is always a \emph{test} equivalence and only the
+type-level upgrade remains; an audited assembly localizes that upgrade to
+\begin{itemize}
+\item[(a)] the subatom order of $\cube^n$ is well-founded;
+\item[(b)] every subobject $W$ of a cyclic atom $A$, with $\Ch(A)
+  \subseteq W\subseteq A$, is type-contractible (intrinsic
+  chain-anchored asphericity).
+\end{itemize}
+
+\subsection*{Results of this paper}
+The main theorem is the complexity dichotomy of
+\emph{Part~\ref{part:cx}}: the order-convex language $L_m$ has bounded
+width and is tractable for $m\le2$, and has unbounded width and is
+$\mathrm{NP}$-complete for every $m\ge3$.  The full order-convex language
+thus undergoes its bounded-width and Taylor collapse at dimension three,
+while median-closure is exactly the condition that preserves the
+\emph{canonical} median majority polymorphism for a fixed generator (Part
+I is what makes the Dedekind engine pivot on median-closure; the two must
+not be conflated, and \S\ref{sec:unified} keeps them apart).  The two
+algebraic obstructions on $\B^3$---no ternary weak near-unanimity
+operation, and no Siggers operation---are proved by hand from small
+machine-located cores and lifted to all $m\ge3$ by an order-convex
+restriction.  This is a self-contained result in the algebraic theory of
+the CSP, entirely independent of the companion~\cite{PaperW}; the rest of
+the paper is its cubical
+application.  \emph{Part~\ref{part:a}} reduces the well-foundedness
+statement (a) to the $n$-coskeletality of atoms---the naive height bound
+on generation arity being false from $\cube^4$ on---which the
+strict-width-two side of Theorem~\ref{thm:cx} reduces, for median-fibre
+atoms, to a sharp pair-extension property (Proposition~\ref{prop:medred}),
+leaving that and the non-median-fibre residue conjectural,
+and \emph{Part~\ref{part:b}} shows the anchoring statement (b) is not an
+independent obstruction at all: it is chain approximation itself,
+evaluated on the anchored subobjects of atoms.  The logical shape of the
+resulting endgame is drawn in Figure~\ref{fig:dep} and \S\ref{sec:unified};
+Part~\ref{part:cx} is what makes it pivot on median-closure.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>={Latex[length=2mm]},node distance=6mm,
+  every node/.style={font=\footnotesize},
+  box/.style={draw,rounded corners,inner sep=3pt,align=center},
+  proved/.style={box,fill=black!7},
+  imp/.style={->,shorten >=1pt,shorten <=1pt}]
+  \node[box] (ded) {Dedekind comparison};
+  \node[box,below=of ded] (master) {master: $\Ch(X)\hookrightarrow X$ a type\\ equivalence for all fibrant $X$};
+  \node[box,below left=10mm and 2mm of master] (a) {(a) well-foundedness\\ of the subatom order};
+  \node[box,below right=10mm and 2mm of master] (b) {(b) intrinsic chain-\\anchored asphericity};
+  \node[box,below=12mm of a] (bp) {$n$-coskeletality\\ \scriptsize (conj.; strict-width-2 reduction)};
+  \node[box,below=12mm of b] (anch) {master on anchored\\ $W\subseteq$ atoms};
+  \node[proved,right=14mm of master] (cx) {\textbf{Part~\ref{part:cx}:}\\ complexity dichotomy of $L_m$\\ \scriptsize (collapse at $m=3$;};
+  \node[below=0pt of cx.south,font=\scriptsize] {median threshold)};
+  \draw[imp] (master) -- node[right]{$\Leftrightarrow$} (ded);
+  \draw[imp] (a) -- (master); \draw[imp] (b) -- (master);
+  \draw[imp] (bp) -- node[left]{$\Rightarrow$} (a);
+  \draw[imp,<->] (anch) -- (b);
+  \draw[imp,dotted] (cx) to[bend right=12] node[right,pos=.5]{\scriptsize governs} (master.east);
+\end{tikzpicture}
+\caption{The shape of the Dedekind endgame.  The comparison is equivalent
+to one master statement; its type-level upgrade was localized to (a) and
+(b); (a) reduces to the $n$-coskeletality finiteness, and (b) is equivalent to the
+master restricted to anchored subobjects.  Part~\ref{part:cx} governs the
+whole: the order-convex language collapses (bounded width and tractability
+lost) at $m=3$, and median-closure is the threshold that preserves the
+canonical median polymorphism.}
+\label{fig:dep}
+\end{figure}
+
+\subsection*{Related work}
+Part~\ref{part:cx} lives in the algebraic theory of the constraint
+satisfaction problem.  The tractable--intractable dividing line for a
+fixed finite template is the Bulatov--Zhuk dichotomy \cite{Bulatov,Zhuk},
+with tractability equivalent to a Taylor polymorphism, detected by the
+single $4$-ary identity of Siggers \cite{Siggers,KMM}; the finer
+bounded-width line is the Barto--Kozik theorem \cite{BartoKozik},
+equivalent to weak near-unanimity terms of all but finitely many arities,
+or to a linked ternary/quaternary WNU pair \cite{KKVW}.  Our
+template $L_m$ carries \emph{all} order-convex unary relations, so its
+polymorphisms are the monotone idempotent order-convex-preserving
+operations; this places it near, but distinct from, the well-studied
+\emph{conservative} languages (all unary relations present), whose
+dichotomy is due to Bulatov and was reproved through binary structures by
+Kazda and others \cite{BulatovCons,Kazda}.  The distinction is not
+cosmetic: $L_m$ has only the \emph{order-convex} unary relations, a proper
+subset---for instance $\{00,11\}\subseteq\B^2$ is not order-convex,
+missing $01$ and $10$---so $\Pol(L_m)$ contains the polymorphism clone of
+the \emph{conservative expansion} $(\B^m;\le,\text{all unary relations})$,
+and $\mathrm{CSP}(L_m)$ is not an instance of the conservative dichotomy.
+The containment is already \emph{strict} at $m=2$: $\Pol(L_2)$ contains
+genuinely non-conservative operations, for instance the binary
+\[
+  f\bigl((x_1,x_2),(y_1,y_2)\bigr)=\bigl(y_1,\ y_2\vee(x_1\wedge x_2)\bigr)
+\]
+is monotone and idempotent, and lands in $\conv\{x,y\}$ (for $x\ne11$ it
+equals $y$, and $f(11,y)\in[y,11]$), so it is a polymorphism of $L_2$ by
+Lemma~\ref{lem:polchar}; yet $f(11,00)=01$ is neither argument.  Such
+operations lie outside the conservative framework, and it is the
+disappearance of the WNU/Taylor structure at $m=3$---rather than any
+conservative-language obstruction---that Theorem~\ref{thm:cx} isolates.
+Order-convex subsets of posets have also been studied from the
+lattice-theoretic viewpoint---the lattice $\mathrm{Co}(P)$ of order-convex
+sets and its sublattices~\cite{SemenovaWehrung}---whereas our question
+concerns the clone simultaneously preserving the order and all order-convex
+unary relations.
+The novelty here is thus the specific
+clone of order-convex-preserving operations on the Boolean cube, its sharp
+collapse at $m=3$, and its role as the algebraic engine of a
+homotopy-theoretic comparison---a bridge, to our knowledge new, between
+the CSP dichotomy program and cubical model structures.  For the cubical
+and homotopical background we depend on the companion~\cite{PaperW}; the
+definitions and precise statements we use are recalled where needed.
+
+\subsection*{On the use of machine computation}
+The two algebraic obstructions on $\B^3$ are proved by hand, with the
+machine only \emph{locating} a small unsatisfiable core: the
+non-existence of a ternary weak near-unanimity operation reduces to a
+twelve-cell contradiction, and the non-existence of a Siggers operation
+to an eight-orbit one (both with an independent $\B^2$ satisfiability
+check that returns the median resp.\ a Siggers operation).  The $n$-coskeletality of atoms is reduced, for the median-fibre class,
+to a pair-extension property (Proposition~\ref{prop:medred}); it is
+certified in the computed cases---median-fibre and residue alike---by an
+exact interval-constraint factorization solver, not a bounded membership
+search.  The
+scripts are in the version-pinned artifact accompanying~\cite{PaperW}
+(Zenodo, \texttt{doi:10.5281/zenodo.22247384}).  Every homotopical
+statement is either proved or explicitly conjectural.
+
+\part{The complexity dichotomy of order-convex monotone selection}
+\label{part:cx}
+
+\input{part1-complexity}
+
+\bigskip
+\begin{center}\large\bfseries Applications to the Dedekind cubical endgame\end{center}
+\addcontentsline{toc}{part}{Applications to the Dedekind cubical endgame}
+\nopagebreak
+
+\part{Well-foundedness reduces to $n$-coskeletality}
+\label{part:a}
+
+\input{part2-wellfounded}
+
+\part{Anchoring is chain approximation}
+\label{part:b}
+
+\input{part3-anchoring}
+
+\section{The unified endgame}
+\label{sec:unified}
+
+\input{part4-unified}
+
+\section*{Declarations}
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has
+no competing interests.
+
+\noindent\textbf{Funding.}\quad No funding was received for this work.
+
+\noindent\textbf{Ethical approval.}\quad Not applicable.
+
+\noindent\textbf{Authors' contributions.}\quad R.\,Shibusawa is the sole
+author and conceived, carried out, and wrote up the entire work.
+
+\noindent\textbf{Availability of data and materials.}\quad The scripts
+verifying the twelve-cell weak near-unanimity core and the eight-orbit
+Siggers core, the Siggers SAT encodings, the Sperner-width refutation of
+the height bound (Proposition~\ref{prop:nobound}), and the median-fibre and
+non-median-fibre coskeletality checks are in the version-pinned artifact
+accompanying~\cite{PaperW}
+(Zenodo, \texttt{doi:10.5281/zenodo.22247384}).
+
+\begin{thebibliography}{9}
+\bibitem{PaperW}
+R.~Shibusawa. Which cubical sites present spaces? Reflection subgroups,
+connections, and the comparison of the type and test model structures.
+Manuscript, 2026.
+\bibitem{SemenovaWehrung}
+M.~Semenova, F.~Wehrung. Sublattices of lattices of order-convex sets, I.
+The main representation theorem. \emph{J.\ Algebra} \textbf{277} (2004),
+825--860.
+\bibitem{BakerPixley}
+K.~A. Baker, A.~F. Pixley. Polynomial interpolation and the Chinese
+remainder theorem for algebraic systems. \emph{Math.\ Z.} \textbf{143}
+(1975), 165--174.
+\bibitem{BartoKozik}
+L.~Barto, M.~Kozik. Constraint satisfaction problems solvable by local
+consistency methods. \emph{J.\ ACM} \textbf{61} (2014), Art.~3.
+\bibitem{KKVW}
+M.~Kozik, A.~Krokhin, M.~Valeriote, R.~Willard. Characterizations of
+several Maltsev conditions. \emph{Algebra Universalis} \textbf{73}
+(2015), 205--224.
+\bibitem{Bulatov}
+A.~A. Bulatov. A dichotomy theorem for nonuniform CSPs. \emph{58th
+FOCS}, 2017, 319--330.
+\bibitem{Zhuk}
+D.~Zhuk. A proof of the CSP dichotomy conjecture. \emph{J.\ ACM}
+\textbf{67} (2020), Art.~30.
+\bibitem{Siggers}
+M.~H. Siggers. A strong Mal'cev condition for locally finite varieties
+omitting the unary type. \emph{Algebra Universalis} \textbf{64} (2010),
+15--20.
+\bibitem{KMM}
+K.~A. Kearnes, P.~Markovi\'c, R.~McKenzie. Optimal strong Mal'cev
+conditions for omitting type~$1$. \emph{Algebra Universalis} \textbf{72}
+(2014), 91--100.
+\bibitem{BulatovCons}
+A.~A. Bulatov. Complexity of conservative constraint satisfaction
+problems. \emph{ACM Trans.\ Comput.\ Log.} \textbf{12} (2011), Art.~24.
+\bibitem{Kazda}
+A.~Kazda. CSP for binary conservative relational structures.
+\emph{Algebra Universalis} \textbf{75} (2016), 75--84.
+\end{thebibliography}
+
+\end{document}

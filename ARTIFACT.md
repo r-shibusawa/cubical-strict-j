@@ -5,7 +5,20 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.22.0` (the chain-approximation
+- Current snapshot: release `v1.23.0` (the Dedekind endgame as a
+  complexity dichotomy: papers 23-26 -- `docs/consolidated/orderconvexwidth.pdf`,
+  `subatomwf.pdf`, `dedekindendgame.pdf` and the integrating
+  `dichotomy.pdf` (*A complexity dichotomy for order-convex monotone
+  selection, with applications to Dedekind cubical sets*) -- with the
+  verification suite `dedekind_o38_bprime.py` (the Sperner refutation of
+  bounded generation arity), `dedekind_o38_medcosk.py`,
+  `dedekind_o38_residue.py`, `dedekind_o38_pairext.py`,
+  `dedekind_o38_cwidth.py`, `dedekind_o38_medcontract.py`,
+  `dedekind_o38_fixedP.py`, `dedekind_o38_alwaysP.py`,
+  `dedekind_o38_section.py`, `dedekind_o38_posettaylor.py`,
+  `dedekind_o38_boundedwidth.py` (the 882-partition bounded-width
+  theorem on the 3-cube)), DOI: see the release
+- Previous: release `v1.22.0` (the chain-approximation
   suite and the correction of paper 21: the integrated
   manuscript `docs/consolidated/cubicalsites.pdf` (paper 22,
   *Which cubical sites present spaces?*, 98 pages, subsuming

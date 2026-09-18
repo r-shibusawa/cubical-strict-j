@@ -1,0 +1,293 @@
+% Part I: the complexity dichotomy of realizability (from the paperX note)
+
+\section{The order-convex structure and its clone}
+
+Realizability along $z$ has, as the cell $a$ varies, variable domains
+the fibres $z^{-1}(a(v))$, which are \emph{order-convex}, and the single
+binary constraint $\le$.  The natural template collecting all such
+constraints is the following.
+
+\begin{defn}
+  A set $C\subseteq\B^m$ is \emph{order-convex} if $a,b\in C$ and $a\le
+  c\le b$ imply $c\in C$.  Let $L_m$ be the relational structure on
+  $\B^m$ with the order $\le$ and every order-convex subset as a unary
+  relation, and $\Pol(L_m)$ its clone of polymorphisms.
+\end{defn}
+
+\begin{lem}\label{lem:polchar}
+  $f\in\Pol(L_m)$ iff $f$ is monotone, idempotent, and
+  \emph{order-convex-preserving}: $f(x_1,\dots,x_k)\in\conv\{x_1,\dots,
+  x_k\}=\{c:\exists i,j\ x_i\le c\le x_j\}$.
+\end{lem}
+\begin{proof}
+  Preserving $\le$ is monotonicity; singletons $\{a\}=[a,a]$ are
+  order-convex, so preserving them is idempotence.  The convex hull is
+  order-convex and contains the arguments, so preservation forces
+  $f(\vec x)\in\conv\{\vec x\}$; conversely that condition makes $f$
+  preserve every order-convex set containing all the $x_i$.
+\end{proof}
+
+An operation $w$ is a \emph{weak near-unanimity} (WNU) operation if it is
+idempotent and $w(y,x,\dots,x)=w(x,y,x,\dots,x)=\cdots=w(x,\dots,x,y)$; we
+write $m(x,y)=f(x,x,y)=f(x,y,x)=f(y,x,x)$ for a ternary one.  A finite
+idempotent clone has \emph{bounded width} iff it has WNU polymorphisms of
+all but finitely many arities, equivalently a ternary WNU $u$ and a
+$4$-ary WNU $v$ with $u(x,x,y)=v(x,x,x,y)$ \cite{BartoKozik,KKVW}; it is
+\emph{Taylor} (hence its CSP is in $\mathrm P$, by \cite{Bulatov,Zhuk})
+iff it has a $4$-ary Siggers polymorphism $s(a,r,e,a)=s(r,a,r,e)$
+\cite{Siggers,KMM}; otherwise the CSP is $\mathrm{NP}$-complete.  We
+exclude a ternary WNU (Proposition~\ref{prop:base}) and a Siggers
+operation (Proposition~\ref{prop:nosiggers}), so the conclusions below do
+not depend on which equivalent formulation of bounded width one adopts.
+
+\section{Reduction to the cube $\B^3$}
+
+\begin{lem}[Order-convex restriction]\label{lem:restrict}
+  Let $m\ge3$ and $T=\B^3\times\{0\}^{m-3}$, an interval hence
+  order-convex.  Any $f\in\Pol(L_m)$ preserves $T$ and restricts to a
+  polymorphism of $L_3$ on $T\cong\B^3$; the restriction inherits
+  monotonicity, idempotence, and any WNU or Siggers identity of $f$.
+\end{lem}
+\begin{proof}
+  $f$ preserves the order-convex $T$ (Lemma~\ref{lem:polchar}); an
+  order-convex $C\subseteq T$ is order-convex in $\B^m$ (if $a\le c\le
+  b$ with $a,b\in C\subseteq T$ then $c\in T$ by convexity of $T$, then
+  $c\in C$), so $f|_T$ preserves it.  Identities restrict pointwise.
+\end{proof}
+
+Thus non-existence of a WNU or Siggers polymorphism on $\B^3$ propagates
+to all $m\ge3$.
+
+\section{The base case on $\B^3$}
+
+\begin{prop}\label{prop:base}
+  $\Pol(L_3)$ contains no ternary WNU operation.
+\end{prop}
+\begin{proof}[Proof (a twelve-cell contradiction)]
+  Suppose $f$ is one.  For an antichain pair $\{x,y\}$,
+  $\conv\{x,y\}=\{x,y\}$, so $m(x,y)\in\{x,y\}$; and $f(110,101,011)\in
+  \{110,101,011\}$ (the coatoms are a $3$-antichain).  Consider the ten
+  values
+  \[\textstyle
+  \begin{array}{llll}
+  A=m(010,101), & B=m(100,011), & C=m(101,010), & D=m(101,011),\\
+  E=m(101,110), & F=m(001,110), & G=f(110,101,011), & H=m(110,101),\\
+  I=m(110,001), & J=m(110,011), & &
+  \end{array}\]
+  with domains the order-convex hulls
+  ($A,C\in\{010,101\}$, $B\in\{011,100\}$, $D\in\{011,101\}$,
+  $E,H\in\{101,110\}$, $F,I\in\{001,110\}$, $J\in\{011,110\}$,
+  $G\in\{011,101,110\}$), and the monotonicities
+  \[
+    A\le G,H;\quad B\le D,G,J;\quad C\le D,E;\quad F\le E,G;\quad I\le H,J.
+  \]
+  As in Proposition~\ref{prop:nosiggers}, each is witnessed by two
+  representatives comparable coordinatewise (the value is $f$ of any cell
+  in its orbit, by the WNU identities):
+  \begin{center}\small
+  \renewcommand{\arraystretch}{1.05}\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{ccc@{\quad}ccc}
+  \hline
+  ineq. & rep.\ $\le$ & rep. & ineq. & rep.\ $\le$ & rep.\\
+  \hline
+  $A\le G$ & $(010,101,010)$ & $(110,101,011)$ & $C\le E$ & $(010,101,101)$ & $(110,101,101)$\\
+  $A\le H$ & $(101,010,010)$ & $(101,110,110)$ & $F\le E$ & $(110,001,001)$ & $(110,101,101)$\\
+  $B\le D$ & $(011,100,100)$ & $(011,101,101)$ & $F\le G$ & $(110,001,001)$ & $(110,101,011)$\\
+  $B\le G$ & $(100,100,011)$ & $(110,101,011)$ & $I\le H$ & $(001,110,110)$ & $(101,110,110)$\\
+  $B\le J$ & $(011,100,100)$ & $(011,110,110)$ & $I\le J$ & $(001,110,110)$ & $(011,110,110)$\\
+  $C\le D$ & $(010,101,101)$ & $(011,101,101)$ & & &\\
+  \hline
+  \end{tabular}
+  \end{center}
+  If $B=011$ then $D=011$, $C=010$, $E=110$, $F=110$, $G=011$, and $F\le
+  G$ fails ($110\not\le011$).  If $B=100$ then $D=101$, $C=101$,
+  $E=101$, $F=001$, $G=101$, $A=101$, $H=101$, $I=001$, $J=110$, and
+  $I\le J$ fails ($001\not\le110$).  Both cases are impossible.  (The
+  twelve cells are a minimal unsatisfiable core located by machine; the
+  deduction is by hand.)
+\end{proof}
+
+\begin{prop}\label{prop:nosiggers}
+  $\Pol(L_3)$ contains no Siggers operation.
+\end{prop}
+\begin{proof}[Proof (an eight-variable contradiction)]
+  Suppose $s\in\Pol(L_3)$ is a $4$-ary Siggers operation.  The Siggers
+  identity $s(a,r,e,a)=s(r,a,r,e)$ groups the cells of $s$ into orbits;
+  order-convex preservation puts each value in the convex hull of its
+  arguments, and monotonicity relates comparable cells.  Consider the
+  eight orbit-values
+  \[
+    P=s(110,001,001,110),\ Q=s(101,010,010,101),\ R=s(100,011,011,100),
+  \]
+  \[
+    T=s(101,011,011,101),\ U=s(110,011,011,110),\ V=s(100,100,010,100),
+  \]
+  \[
+    W=s(101,110,011,101),\ X=s(101,110,101,101),
+  \]
+  with domains the convex hulls
+  \[
+    P\in\{001,110\},\ Q\in\{010,101\},\ R\in\{011,100\},\ T\in\{011,101\},
+  \]
+  \[
+    U\in\{011,110\},\ V\in\{010,100\},\ W\in\{011,101,110\},\ X\in\{101,110\},
+  \]
+  and the monotonicities
+  \[
+    P\le U,\ P\le W,\ P\le X,\ Q\le T,\ Q\le W,\ R\le T,\ R\le U,\ V\le W,\ V\le X.
+  \]
+  Each of these is witnessed by two orbit representatives that are
+  comparable coordinatewise; since $s$ is constant on each orbit, the
+  named value equals $s$ of the displayed representative, and
+  monotonicity of $s$ gives the inequality.  The witnesses are:
+  \begin{center}\small
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{ccc}
+  \hline
+  inequality & representative $\le$ & representative\\
+  \hline
+  $P\le U$ & $s(110,001,001,110)$ & $s(110,011,011,110)$\\
+  $P\le W$ & $s(110,001,110,001)$ & $s(110,101,110,011)$\\
+  $P\le X$ & $s(110,001,001,110)$ & $s(110,101,101,110)$\\
+  $Q\le T$ & $s(101,010,010,101)$ & $s(101,011,011,101)$\\
+  $Q\le W$ & $s(101,010,010,101)$ & $s(101,110,011,101)$\\
+  $R\le T$ & $s(100,011,011,100)$ & $s(101,011,011,101)$\\
+  $R\le U$ & $s(100,011,011,100)$ & $s(110,011,011,110)$\\
+  $V\le W$ & $s(100,100,010,100)$ & $s(101,110,011,101)$\\
+  $V\le X$ & $s(100,100,010,100)$ & $s(110,101,110,101)$\\
+  \hline
+  \end{tabular}
+  \end{center}
+  (in each row the left argument tuple is $\le$ the right one in each of
+  the four coordinates).  Split on $W$.  If $W=011$ then $P\le W$ forces $P=001$ and $V\le W$
+  forces $V=010$; then $P\le X$ gives $X=101$, and $V\le X$ reads
+  $010\le101$, false.  If $W=101$ then $P=001$, $Q=101$ (from $Q\le W$),
+  $V=100$; $Q\le T$ gives $T=101$, $R\le T$ gives $R=100$, $R\le U$ gives
+  $U=110$, and $P\le U$ reads $001\le110$, false.  If $W=110$ then
+  $P=110$ and $Q=010$; $Q\le T$ gives $T=011$, $R\le T$ gives $R=011$,
+  $R\le U$ gives $U=011$, and $P\le U$ reads $110\le011$, false.  All
+  three cases are impossible.  (These eight orbits are a minimal
+  unsatisfiable core located by machine; the deduction is by hand.  As a
+  check the same search on $\B^2$ returns a Siggers operation.)
+\end{proof}
+
+\section{The dichotomy}
+
+We record first the tractable side, for a single generator with
+median-closed fibres.
+
+\begin{prop}[median-closed fibres, after \cite{PaperW}]\label{prop:sw2}
+  Let $z\colon\B^m\to\B^n$ be monotone with every fibre $z^{-1}(q)$
+  closed under the ternary median $\mathrm{med}(x,y,z)=(x\wedge y)\vee
+  (y\wedge z)\vee(z\wedge x)$.  Then the realizability problem along $z$
+  carries the median as a majority polymorphism.  By the Baker--Pixley
+  theorem \cite{BakerPixley} the solution relation of any instance is then
+  determined by its binary projections; in the terminology of constraint
+  satisfaction, a majority polymorphism yields \emph{strict width two}
+  \cite{BartoKozik}: running the standard $(2,3)$-minimality
+  (path-consistency) procedure on an instance produces a nonempty reduced
+  instance exactly when the instance is solvable, decidable in polynomial
+  time.  In particular the problem is in $\mathrm P$.
+\end{prop}
+\begin{proof}
+  Applied coordinatewise the median preserves each fibre (they are
+  median-closed) and the order $\{(x,y):x\le y\}$ (it is monotone), and
+  satisfies the near-unanimity identities $\mathrm{med}(x,x,y)=
+  \mathrm{med}(x,y,x)=\mathrm{med}(y,x,x)=x$; a ternary majority
+  polymorphism gives strict width two \cite{BakerPixley,BartoKozik}.
+\end{proof}
+
+The contrast is total.
+
+\begin{thm}\label{thm:cx}
+  For $m\le2$ the order-convex language $L_m$ has bounded width (the
+  median is a majority polymorphism) and $\mathrm{CSP}(L_m)\in\mathrm P$.
+  For every $m\ge3$: $L_m$ has \emph{unbounded width}
+  (Prop.~\ref{prop:base}, Lemma~\ref{lem:restrict}), $\Pol(L_m)$ is
+  \emph{not Taylor} (Prop.~\ref{prop:nosiggers}, Lemma~\ref{lem:restrict}),
+  and $\mathrm{CSP}(L_m)$ is $\mathrm{NP}$-complete.
+\end{thm}
+\begin{proof}
+  The language $L_m$ contains every singleton $\{a\}=[a,a]$ (an
+  order-convex set), so every retract of $L_m$ fixes each element:
+  $L_m$ is a core and $\Pol(L_m)$ is idempotent.  The dichotomy
+  \cite{Bulatov,Zhuk} in its idempotent formulation therefore applies
+  directly, with no core reduction needed: $\mathrm{CSP}(L_m)$ is in
+  $\mathrm P$ if $\Pol(L_m)$ is Taylor and $\mathrm{NP}$-complete
+  otherwise.  For $m\le2$ the median is a Taylor (indeed majority)
+  polymorphism: on $\B^{\le2}$ the coordinatewise median of any three
+  vertices is one of the three ($\B^{\le1}$ is a chain, where this is
+  clear; for $\B^2$, if the median differed from all three,
+  each input would disagree with it in at least one of the two
+  coordinates, so by the pigeonhole principle two inputs would disagree
+  with it in the \emph{same} coordinate; but in that coordinate the median
+  bit is the majority of the three input bits, which cannot differ from
+  two of them---a contradiction.)  Being one of its arguments, the median
+  preserves every unary relation, in particular every order-convex one,
+  and it is monotone and idempotent---a majority polymorphism of $L_m$ by
+  Lemma~\ref{lem:polchar}.  For $m\ge3$,
+  by Lemma~\ref{lem:restrict} a ternary WNU
+  or a Siggers operation of $\Pol(L_m)$ would restrict to one of
+  $\Pol(L_3)$, which Propositions~\ref{prop:base} and~\ref{prop:nosiggers}
+  exclude; so $\Pol(L_m)$ has no ternary WNU (unbounded width, by
+  \cite{BartoKozik,KKVW}) and no Siggers operation (not Taylor, by
+  \cite{Siggers,KMM}), and $\mathrm{CSP}(L_m)$ is $\mathrm{NP}$-complete.
+\end{proof}
+
+\begin{cor}[median-closure is the boundary for the canonical polymorphism]\label{cor:boundary}
+  Median-closure of the fibres is the boundary for the \emph{canonical}
+  coordinatewise median majority polymorphism of the realizability engine:
+  \begin{enumerate}
+  \item if a generator $z$ has median-closed fibres, realizability along
+    $z$ has strict width two (Proposition~\ref{prop:sw2}) and is in
+    $\mathrm P$;
+  \item once a fibre is order-convex but not median-closed, the median is
+    no longer a polymorphism, and the ambient order-convex constraint
+    language $L_{m'}$ ($m'\ge3$)---the finite template with all
+    order-convex relations---has unbounded width and is
+    $\mathrm{NP}$-complete (Theorem~\ref{thm:cx}).
+  \end{enumerate}
+\end{cor}
+
+Two cautions keep the statement honest.  First, part~(2) is a property of
+the \emph{template} $L_{m'}$, not of any single generator: realizability
+along a fixed $z$ uses only $z$'s own fibres and was polynomial in every
+computed instance, so transferring the $\mathrm{NP}$-hardness to a uniform
+cubical realizability problem would require a further reduction that we do
+not carry out.  (The image $\im(z)$ need not be a sublattice---a monotone
+$\B^3\to\B^3$ can have an $N_5$ image---so no distributivity is assumed.)  Second, the passage
+from strict width two to a \emph{skeletally coskeletal} atom needs the
+local-consistency step (three-dimensional realizability implies
+$(2,3)$-consistency); Proposition~\ref{prop:medred} reduces it, for
+median-fibre atoms, to a sharp pair-extension property that we verify
+computationally but do not prove, so the coskeletal finiteness stays
+conjectural (Part~\ref{part:a})---what is unconditional here is strict
+width two itself.
+What is unconditional is the algebraic dichotomy of
+Theorem~\ref{thm:cx}, whose threshold is median-closure: Figure~\ref{fig:cube}
+shows the elementary obstruction, the median of the three atoms escaping
+their hull.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1.5cm,y=1.1cm,every node/.style={font=\footnotesize},
+   dot/.style={circle,fill,inner sep=1.2pt},
+   atom/.style={circle,draw,fill=black!12,inner sep=1.5pt}]
+  \node[dot,label=below:$000$](b) at (0,0){};
+  \node[atom,label=below left:$100$](a1) at (-1,1){};
+  \node[atom,label=below:$010$](a2) at (0,1){};
+  \node[atom,label=below right:$001$](a3) at (1,1){};
+  \node[dot,label=above left:$110$](c1) at (-1,2){};
+  \node[dot,label=above:$101$](c2) at (0,2){};
+  \node[dot,label=above right:$011$](c3) at (1,2){};
+  \node[dot,label=above:$111$](t) at (0,3){};
+  \foreach \a/\c in {a1/c1,a1/c2,a2/c1,a2/c3,a3/c2,a3/c3}\draw[gray!55](\a)--(\c);
+  \foreach \a in {a1,a2,a3}\draw[gray!55](b)--(\a);
+  \foreach \c in {c1,c2,c3}\draw[gray!55](\c)--(t);
+  \draw[-{Latex[length=2mm]},red!70!black,thick,dashed](a2) to[bend right=18] node[left,pos=.62]{$\mathrm{med}$}(b);
+\end{tikzpicture}
+\caption{The three atoms of $\B^3$ (shaded) form an antichain equal to
+its own hull, but their median is the bottom $000$: no majority
+operation compatible with the order-convex sets survives.}
+\label{fig:cube}
+\end{figure}

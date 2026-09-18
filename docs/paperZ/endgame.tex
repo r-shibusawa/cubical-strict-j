@@ -1,0 +1,183 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+
+\newcommand{\Ch}{\operatorname{Ch}}
+\newcommand{\cube}{\square}
+\newcommand{\atom}[1]{\langle #1 \rangle}
+
+\title[The structure of the Dedekind endgame]
+{The structure of the Dedekind endgame: one approximation statement and
+ two auxiliaries}
+
+\author{Ryota Shibusawa}
+\address{Daiichi Institute of Technology, Japan}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\subjclass[2020]{55U35, 18N40; 18G55, 06D30}
+\keywords{cubical set, Dedekind cube, chain approximation, chain stratum,
+  subatom order, type/test model structure}
+
+\begin{document}
+
+\begin{abstract}
+  The comparison of the type and test model structures on the Dedekind
+  cubical site was reduced, in the companion manuscript, to a single
+  cubical approximation statement together with two combinatorial
+  statements about the subatom order.  We record a structural
+  clarification that unifies the three: both combinatorial statements
+  feed the \emph{same} chain-approximation master statement.  The first,
+  well-foundedness of the subatom order, reduces to a tight bounded-%
+  generation conjecture (companion note).  The second,
+  intrinsic-chain-anchored asphericity, is shown here to be
+  \emph{equivalent} to chain approximation on the anchored subobjects of
+  atoms: the intrinsic chain stratum of an anchored subobject $W$ with
+  $\Ch(A)\subseteq W\subseteq A$ satisfies $\Ch(W)=\Ch(A)$, so $W$ is
+  type-contractible iff its own chain approximation holds.  Thus the
+  Dedekind endgame has a single homotopical core---chain
+  approximation---and two auxiliaries: a finiteness (securing the
+  well-founded induction) and the anchored instance of the core itself.
+  The anchored instance is test-verified in every computed case.
+\end{abstract}
+
+\maketitle
+
+\section{The endgame after reduction}
+
+In the companion manuscript the Dedekind type/test comparison is proved
+equivalent, through Cisinski regularity, a cosimplicial resolution and a
+singular Quillen adjunction, to a single \emph{chain-approximation}
+statement: for every fibrant $X$ the inclusion of the intrinsic chain
+stratum $\Ch(X)\hookrightarrow X$ is a type equivalence.  The singular
+complex computes the \emph{test} homotopy type of every presheaf, so
+$\Ch(X)\hookrightarrow X$ is always a test equivalence; only the
+type-level upgrade remains.  An adversarially audited assembly then
+localizes that upgrade to two combinatorial statements:
+\begin{itemize}
+\item[(a)] the subatom order of $\cube^n$ is well-founded;
+\item[(b)] every subobject $W$ of a cyclic atom $A$ (or its fold and
+  stabilizer quotients) with $\Ch(A)\subseteq W\subseteq A$ is
+  type-contractible (\emph{intrinsic-chain-anchored asphericity}).
+\end{itemize}
+We record how (a) and (b) both reduce to the chain-approximation core.
+
+\section{(a) reduces to bounded generation}
+
+\begin{thm}[companion note]
+  The measure $|{\operatorname{im}}|$ is non-increasing along the subatom
+  order, and if for each finite lattice $L$ there are finitely many atoms
+  with image $L$ then the order is well-founded.  This finiteness follows
+  from the tight conjecture that an atom is generated at arity at most the
+  height of its image; the conjecture is verified, and tight, in every
+  computed case.
+\end{thm}
+
+So (a) secures the well-founded induction that drives the assembly; it is
+a \emph{finiteness}, orthogonal to the homotopy content.
+
+\section{(b) is the anchored instance of chain approximation}
+
+Write $\Ch(A)$ for the intrinsic chain stratum of an atom $A$: the
+sorted cells of $A$ and their chain instances (equivalently the image of
+$\Ch_n$ under the sort action), which is a subpresheaf.  A subobject $W$
+is \emph{anchored} if $\Ch(A)\subseteq W\subseteq A$.
+
+\begin{lem}\label{lem:chw}
+  For an anchored subobject $W$, $\Ch(W)=\Ch(A)$.
+\end{lem}
+
+\begin{proof}
+  Sortedness is a property of a cell itself, independent of the ambient
+  object; hence the sorted cells of $W$ are exactly the sorted cells of
+  $A$ that lie in $W$.  Since $\Ch(A)\subseteq W$, every sorted cell of
+  $A$ and every chain instance of one already lies in $W$, so the sorted
+  cells of $W$ are all of those of $A$ and their chain instances again
+  lie in $W$.  Therefore $\Ch(W)=\Ch(A)$.  (Machine-checked on the
+  median atom and others: \texttt{dedekind\_o32\_anchor.py}.)
+\end{proof}
+
+\begin{prop}\label{prop:bequiv}
+  Let $A$ be a cyclic atom, so $\Ch(A)\hookrightarrow A$ is a type
+  equivalence and $\Ch(A)$ is type-contractible.  For an anchored $W$,
+  \[
+    W \text{ is type-contractible}
+    \iff
+    \Ch(W)\hookrightarrow W \text{ is a type equivalence.}
+  \]
+  Hence (b) holds iff chain approximation holds on every anchored
+  subobject of every cyclic atom---a sub-case of the master statement.
+\end{prop}
+
+\begin{proof}
+  By Lemma~\ref{lem:chw}, $\Ch(W)=\Ch(A)$, which is type-contractible.
+  If $\Ch(W)\hookrightarrow W$ is a type equivalence then $W\simeq\Ch(W)$
+  is contractible.  Conversely, if $W$ is contractible then both $W$ and
+  $\Ch(W)=\Ch(A)$ are contractible, so the inclusion between them is a
+  type equivalence.
+\end{proof}
+
+\begin{cor}
+  For an anchored $W$, the inclusion $\Ch(W)\hookrightarrow W$ is always
+  a \emph{test} equivalence (the singular complex computes the test type,
+  and $\Ch(W)=\Ch(A)$ is test-contractible), so $W$ is test-contractible.
+  The content of \textup{(b)} is exactly the type-level upgrade---the
+  same type-versus-test gap as the master statement, restricted to
+  anchored subobjects.
+\end{cor}
+
+Thus (b) is not an independent obstruction: it is chain approximation
+itself, evaluated on the anchored subobjects of atoms.
+
+\section{The unified picture}
+
+\[
+  \boxed{\;
+  \begin{array}{c}
+  \textbf{Master: chain approximation on all fibrant }X
+  \iff \text{Dedekind comparison}\\[4pt]
+  \text{(a) well-foundedness}\ \Longleftarrow\ \text{bounded generation (finiteness)}\\[2pt]
+  \text{(b)}\ \Longleftrightarrow\ \text{chain approximation on anchored }W\subseteq\text{ atoms}
+  \end{array}
+  \;}
+\]
+
+The Dedekind endgame therefore has a single homotopical core, chain
+approximation, and two auxiliaries of different character: (a) is a
+finiteness that makes the assembling induction well-founded, and (b) is
+the master statement's own restriction to the anchored subobjects of
+atoms.  The cone mechanism that contracts constant-free atoms does not
+extend to this restriction---it fails already on the median atom---so a
+non-cone, triangulation-level contraction is what remains.
+
+\section{Verification}
+
+For the median atom (where the cone fails) and the constant-free
+five-chain, and across a sweep of sixteen atoms with $|L|\in\{3,4,5\}$,
+median- and non-median-fibre alike, every sampled anchored subobject $W$
+is test-contractible (mod-$2$ Betti $1,0,0$); $\Ch(A)$ is a proper
+subobject in the majority of cases, so the tests are not vacuous.  The
+scripts are \texttt{dedekind\_o32\_conechain.py} (cone (non-)preservation
+of the intrinsic stratum) and \texttt{dedekind\_o32\_anchor.py}
+(anchored-$W$ Betti sweep), in the artifact of the companion manuscript.
+
+\begin{thebibliography}{9}
+\bibitem{PaperW}
+R.~Shibusawa. Which cubical sites present spaces? Manuscript, 2026.
+\bibitem{NoteWF}
+R.~Shibusawa. The well-foundedness of the cubical subatom order reduces
+to bounded generation arity. Note, 2026.
+\end{thebibliography}
+
+\end{document}

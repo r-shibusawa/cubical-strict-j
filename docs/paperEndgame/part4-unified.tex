@@ -1,0 +1,77 @@
+% Part IV: the unified picture
+
+The three parts assemble into a single structure.  The Dedekind
+comparison is, by \cite{PaperW}, equivalent to one homotopical
+statement---chain approximation on all fibrant objects---and the two
+combinatorial statements to which its type-level upgrade was localized
+both feed that same core:
+\[
+  \small
+  \boxed{\;
+  \begin{array}{c}
+  \textbf{master:}\ \ \Ch(X)\hookrightarrow X\ \text{a type equivalence
+  for all fibrant }X\\
+  \Longleftrightarrow\ \text{Dedekind comparison}\\[4pt]
+  \text{(a) well-foundedness of the subatom order}\ \Longleftarrow\
+  n\text{-coskeletality of atoms}\\[2pt]
+  \text{(b) intrinsic chain-anchored asphericity}\ \Longleftrightarrow\
+  \text{master on anchored }W\subseteq\text{atoms}
+  \end{array}\;}
+\]
+Statement (a) is a \emph{finiteness}, orthogonal to the homotopy content:
+it secures the well-founded induction that drives the assembly, and it
+reduces to the $n$-coskeletality of atoms---a skeletal determinacy for
+each fixed cube, untouched by the unbounded \emph{Kan} coskeletality of
+non-median-fibre atoms.  The natural shortcut, a height bound on the
+generation arity, is \emph{false} from $\cube^4$ on
+(Proposition~\ref{prop:nobound}), which is exactly why the finiteness
+must be carried by determinacy rather than by an elementary measure.
+Statement (b) is not independent at all: it is the master statement
+restricted to the anchored subobjects of atoms.  So the Dedekind endgame
+has a single homotopical core and two auxiliaries---one a finiteness, one
+an instance of the core.
+
+Part~\ref{part:cx} explains \emph{why} the whole edifice pivots on
+median-closure.  The realizability engine underlying atoms, coskeleta and
+approximation is a monotone-selection constraint problem, and two
+thresholds meet at the median mechanism.  For a \emph{fixed} generator,
+median-closure of the fibres is exactly the condition that keeps the
+canonical median a majority polymorphism, hence gives strict width two.
+For the \emph{ambient} order-convex template, the bounded-width and Taylor
+structure collapses at dimension three, so its $\mathrm{CSP}$ jumps to
+unbounded width and $\mathrm{NP}$-completeness (Theorem~\ref{thm:cx}).  This is an algebraic dichotomy of the template,
+sitting exactly at the threshold that governs the bounded-width mechanism
+studied in \cite{PaperW}---the median majority polymorphism and its
+strict-width/coskeletality program, whose passage from strict width two to
+bounded coskeletality is itself left conjectural there; whether the
+template dichotomy
+transfers to a hardness statement about cubical realizability itself, or
+whether (as our computations suggest) fixed-generator realizability stays
+tractable, is a separate question we do not settle.  Even so, the
+coincidence of the algebraic threshold with the homotopical one is the
+structural reason the Dedekind site resists the elementary methods that
+settle the other cube sites, and it locates what a resolution must
+overcome: prove the $n$-coskeletality finiteness, and lift chain
+approximation from test to type on the anchored subobjects of atoms---the
+two faces, finite and homotopical, of the same median obstruction.
+
+\begin{table}[ht]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l p{0.34\textwidth}}
+\hline
+statement & status & reduces to\\
+\hline
+Dedekind comparison & open & the master statement \cite{PaperW}\\
+master (chain approximation) & open & ---\\
+(a) well-foundedness & open & $n$-coskeletality (Part~\ref{part:a}); median-fibre reduced to pair-extension\\
+(b) anchored asphericity & open & master on anchored $W$ (Part~\ref{part:b})\\
+median-closed realizability & \textbf{thm} & strict width two (Part~\ref{part:cx})\\
+order-convex language $L_m$, $m\ge3$ & \textbf{thm} & unbounded width, $\mathrm{NP}$-complete (Part~\ref{part:cx})\\
+fixed-generator realizability & \textbf{obs.} & $\mathrm P$ in all computed cases\\
+\hline
+\end{tabular}
+\caption{The endgame at a glance: one homotopical core, two auxiliaries,
+and the complexity dichotomy that pins the median-closure boundary.}
+\end{table}

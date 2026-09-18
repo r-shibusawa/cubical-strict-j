@@ -1,0 +1,312 @@
+% Part II: well-foundedness reduces to n-coskeletality (paperY note)
+
+\section{The subatom order and its measure}
+
+By Yoneda, $\atom{z'}\subseteq\atom z$ iff $z'=z\circ u$ for a monotone
+$u$; a subatom is a substitution instance of its generator.  The
+\emph{generation arity} $\gen(\atom z)$ is the least $k$ with a
+generating cell $\B^k\to\B^n$, i.e.\ the least arity of a cell whose atom
+equals $\atom z$.
+
+\begin{lem}\label{lem:mono}
+  If $\atom{z'}\subseteq\atom z$ then $\im(z')\subseteq\im(z)$, so
+  $|\im|\in\mathbb N$ is non-increasing along the subatom order and
+  bounded below by $1$.  Mutually cofinal atoms have equal image, so
+  $\im$ and its order invariants ($\hgt$, $\operatorname{width}$) are
+  invariants of the atom.
+\end{lem}
+\begin{proof}
+  $z'=z\circ u$ gives $\im(z')=z(\im(u))\subseteq\im(z)$; if in addition
+  $z=z'\circ u'$ then $\im(z)\subseteq\im(z')$, so $\im(z)=\im(z')$.
+\end{proof}
+
+The naive attempt to well-order the atoms by $\mu=|\im|$ fails at the
+point noted in \cite{PaperW}: a proper inclusion need not decrease $\mu$,
+since distinct atoms can share an image, and indeed a proper subatom can
+share \emph{both} image and $|\im|$ with its parent.  What is true is
+that the plateaus are controlled once the number of atoms per image is
+finite.
+
+\begin{prop}\label{prop:reduce}
+  If for every finite bounded poset $L$ the atoms with image $L$ are
+  finite in number, the subatom order is well-founded.
+\end{prop}
+\begin{proof}
+  Along a descending chain $\atom{z_0}\supseteq\atom{z_1}\supseteq\cdots$
+  the number $\mu=|\im|$ is non-increasing (Lemma~\ref{lem:mono}) and
+  $\ge1$, hence eventually constant; from some index $N$ on
+  $\im(z_{i+1})\subseteq\im(z_i)$ with equal cardinality, so
+  $\im(z_{i+1})=\im(z_i)$, and all $z_i$ ($i\ge N$) share one image $L$.
+  From $N$ on the chain lies in the finite class of atoms with image
+  exactly $L$, and a strictly descending chain in a finite poset
+  terminates.
+\end{proof}
+
+Thus a sufficient route to statement \textup{(a)} is finiteness of the
+atom family, image by image.  The remaining sections locate that
+finiteness.
+
+\section{Generation arity is not bounded by height}
+
+It is tempting to bound the generation arity by an order invariant of the
+image, and the height $\hgt(\im z)$ is the natural candidate: it is
+correct for every atom of $\cube^3$.  This bound is \emph{false} from
+$\cube^4$ on, for a Sperner reason, and the failure is instructive
+because it shows the finiteness of \textup{(a)} cannot come from a naive
+arity bound.
+
+Write $\operatorname{width}(L)$ for the largest antichain of $L$ and
+\[
+  \sigma(w)=\min\Bigl\{k:\tbinom{k}{\lfloor k/2\rfloor}\ge w\Bigr\}
+\]
+for the least arity whose cube $\B^k$ carries a $w$-element antichain
+(Sperner).
+
+\begin{prop}\label{prop:genwidth}
+  For every atom, $\gen(\atom z)\ge\sigma\bigl(\operatorname{width}(\im
+  z)\bigr)$.
+\end{prop}
+\begin{proof}
+  Let $w:\B^k\to\B^n$ generate $\atom z$; by Lemma~\ref{lem:mono},
+  $\im(w)=\im(z)$, so $\im(w)$ contains an antichain
+  $a_1,\dots,a_{W}$ of size $W=\operatorname{width}(\im z)$.  Choose
+  $v_i\in w^{-1}(a_i)$.  If $v_i\le v_j$ then $a_i=w(v_i)\le w(v_j)=a_j$,
+  impossible for $i\ne j$; so $v_1,\dots,v_W$ is a $W$-antichain in
+  $\B^k$.  Hence $\binom{k}{\lfloor k/2\rfloor}\ge W$, i.e.\
+  $k\ge\sigma(W)$.
+\end{proof}
+
+\begin{prop}[failure of the height bound]\label{prop:nobound}
+  For each $m\ge2$ let $P_m=\{\bot\}\cup A_m\cup\{\top\}\subseteq\B^{\sigma(m)}$
+  with $A_m$ an $m$-element antichain.  Then $\hgt(P_m)=3$ while
+  $\gen\ge\sigma(m)\to\infty$.  In particular the atom with image
+  $P_4\subseteq\B^4$ has $\gen=4>3=\hgt$: the bound
+  $\gen\le\hgt\circ\im$ fails on $\cube^4$, and generation arity is
+  unbounded over images of bounded height.
+\end{prop}
+\begin{proof}
+  $\hgt(P_m)=3$ (a longest chain is $\bot<a<\top$) and
+  $\operatorname{width}(P_m)=m$, so $\gen\ge\sigma(m)$ by
+  Proposition~\ref{prop:genwidth}.  For $m=4$, $\sigma(4)=4$; the cell
+  $z\colon\B^4\to\B^4$ sending weight-$0$ to $\bot$, each weight-$1$
+  vector to a distinct $a_i$, and everything of weight $\ge2$ to $\top$ is
+  monotone with $\im(z)=P_4$, so $\gen\le4$, whence $\gen=4$.  The
+  matching lower bound is exhaustively confirmed: all $160000$ monotone
+  maps $\B^3\to\B^4$ have image of antichain-width $\le3$, so no cell of
+  arity $\le3$ has a $4$-antichain image.
+
+  For each $m\ge2$, pick an $m$-element antichain $a_1,\dots,a_m$ in the
+  middle layer of $\B^{\sigma(m)}$ (possible as
+  $\binom{\sigma(m)}{\lfloor\sigma(m)/2\rfloor}\ge m$), and define
+  $z\colon\B^{\sigma(m)}\to\B^{\sigma(m)}$ by
+  \[
+    z(x)=\begin{cases}
+    \bot & x<a_i\text{ for some }i,\\
+    a_i & x=a_i,\\
+    \top & \text{otherwise.}
+    \end{cases}
+  \]
+  This is monotone---if $x\le y$ and $z(x)=a_i$ then $y=a_i$ or $y>a_i$,
+  and $y>a_i$ lands in the ``otherwise'' case as no $a_j$ exceeds $a_i$,
+  giving $z(y)=\top$; if $z(x)=\top$ then any $y\ge x$ is again neither
+  below nor equal to an $a_j$, so $z(y)=\top$---and its image is exactly
+  $P_m$.  Hence for every $m\ge2$ an atom with image $P_m$ exists, so
+  generation arity is unbounded over images of height $3$.
+\end{proof}
+
+\begin{rem}[why $\cube^3$ hides the Sperner obstruction]
+  For $n\le3$ every image $L\subseteq\B^n$ has
+  $\operatorname{width}(L)\le3<4=\hgt(\B^3)$, and one checks on the $108$
+  images of $\B^3\to\B^3$ that $\operatorname{width}(L)\le\hgt(L)$
+  throughout; hence $\sigma(\operatorname{width}L)\le\hgt(L)$, so the
+  Sperner lower bound of Proposition~\ref{prop:genwidth} cannot by itself
+  violate the height bound below $\cube^4$.  The obstruction is exactly
+  the first place antichains outgrow chains, $\binom{4}{2}=6>5$.
+\end{rem}
+
+\section{The correct reduction: \texorpdfstring{$n$}{n}-coskeletality}
+
+The finiteness of \textup{(a)} is instead an $n$-\emph{coskeletality}
+statement about the atom viewed as a sieve.  Recall the realizability
+description of atoms: a monotone $h\colon\B^p\to\B^n$ lies in $\atom z$
+iff it factors through $z$---at the level of vertices
+$\im(h)\subseteq\im(z)$, and $h$ lifts monotonically along
+$z\colon\B^m\twoheadrightarrow\im(z)$.
+
+\begin{defn}
+  The atom $\atom z\subseteq\cube^n$ is \emph{$n$-determined} if it is
+  fixed by its cells of arity $\le n$: an $h$ of any arity lies in
+  $\atom z$ as soon as this is forced by the arity-$\le n$ cells.  It is
+  \emph{$d$-coskeletal} if a cell $h$ lies in $\atom z$ whenever every
+  restriction $h\circ\varphi$ along a monotone $\varphi\colon\B^d\to\B^p$
+  does (the forward direction is automatic; the content is the converse).
+\end{defn}
+
+\begin{rem}
+  Testing exactly the arity-$d$ restrictions already sees all the
+  arity-$k$ ones for $k\le d$: a cube projection
+  $\pi\colon\B^d\twoheadrightarrow\B^k$ has a monotone section $s$, so a
+  restriction $h\circ\psi$ ($\psi\colon\B^k\to\B^p$) equals
+  $(h\circ\psi\circ\pi)\circ s$, a restriction of the arity-$d$ cell
+  $h\circ\psi\circ\pi$; as $\atom z$ is a sieve, $h\circ\psi\circ\pi\in
+  \atom z$ forces $h\circ\psi\in\atom z$.  So $d$-coskeletality is the
+  restriction-determinacy of the sieve at level $d$; for these
+  representable sieves it is the usual right-Kan-extension notion of
+  $d$-coskeleton.
+\end{rem}
+
+\begin{rem}
+  The restrictions run over \emph{all} monotone $\varphi\colon\B^d\to\B^p$,
+  not merely the $2p$ facet inclusions.  This is essential: for the median
+  atom below, testing only the eight facets of an arity-$4$ cell admits
+  $104$ non-factoring cells that a non-facet (diagonal) restriction
+  excludes, so facet-gluing alone would be false.
+\end{rem}
+
+\begin{prop}\label{prop:ndet}
+  If every atom of $\cube^n$ is $n$-determined, there are finitely many
+  atoms in $\cube^n$; hence, by Proposition~\ref{prop:reduce}, the
+  subatom order is well-founded---statement \textup{(a)}.
+\end{prop}
+\begin{proof}
+  An $n$-determined atom is fixed by its arity-$\le n$ data, a subset of
+  the finite set $\prod_{k\le n}\mathrm{monotone}(\B^k,\B^n)$; so there
+  are finitely many atoms, the subatom order is a finite poset, and a
+  finite poset is well-founded (a fortiori Proposition~\ref{prop:reduce}
+  applies).
+\end{proof}
+
+\begin{prop}\label{prop:cosk}
+  $n$-coskeletality implies $n$-determinacy.
+\end{prop}
+\begin{proof}
+  By $n$-coskeletality, $h\in\atom z$ iff every restriction $h\circ\varphi$
+  along a monotone $\varphi\colon\B^n\to\B^p$ lies in $\atom z$; these are
+  arity-$n$ cells, so membership of $h$ is a function of the arity-$\le n$
+  part of the sieve.  Hence $\atom z$ is fixed by its arity-$\le n$ cells.
+\end{proof}
+
+Recall the local-consistency procedure used below.  Given a binary
+constraint instance---variables with unary domains and binary constraints
+on pairs---the standard $(2,3)$-\emph{minimality} procedure iteratively
+deletes, from the constraint of each pair $(x,y)$, every admissible pair
+$(a,b)$ for which some third variable admits no value $c$ with $(a,c)$ and
+$(b,c)$ admissible, until a fixed point is reached; a pair \emph{survives}
+if it is never deleted.  For a constraint language with a majority
+polymorphism, the instance is solvable iff the resulting reduced instance
+is nonempty (Proposition~\ref{prop:sw2}).  Nonemptiness of this reduced
+instance is strictly stronger than the solvability of each three-variable
+subproblem in isolation.
+
+The median-closed case is where the tractable side of Part~\ref{part:cx}
+enters, and it reduces $3$-coskeletality to a sharp local-consistency
+question.
+
+\begin{prop}[median-fibre reduction]\label{prop:medred}
+  Let $z\colon\B^m\to\B^n$ be monotone with every fibre $z^{-1}(q)$ closed
+  under the median.  Then the realizability problem along $z$ carries the
+  median as a majority polymorphism, and:
+  \begin{enumerate}
+  \item (Proposition~\ref{prop:sw2}) it has \emph{strict width two}: an
+    instance is solvable iff its $(2,3)$-minimal reduced instance is
+    nonempty;
+  \item the $3$-coskeletality hypothesis on a cell $h$---that
+    $h\circ\varphi\in\atom z$ for every monotone $\varphi\colon\B^3\to\B^p$
+    ---implies that every three-variable subproblem of the instance for
+    $h$ is solvable.
+  \end{enumerate}
+  Consequently the pair-extension property below---that for these
+  instances solvability of all three-variable subproblems forces the
+  $(2,3)$-minimal reduced instance to be nonempty---is a \emph{sufficient}
+  condition for $\atom z$ to be $3$-coskeletal.  \textup{(}The converse is
+  not claimed:
+  $3$-coskeletality constrains the eight-variable restrictions
+  $h\circ\varphi$ directly, which triple-wise solvability need not.\textup{)}
+\end{prop}
+\begin{proof}
+  Membership $a\in\atom z$ is the monotone-selection problem of
+  Part~\ref{part:cx}: a monotone $g$ with $g(v)\in z^{-1}(a(v))$ for each
+  vertex $v$ and $g(u)\le g(v)$ for $u\le v$.  The fibres are median-closed
+  and the order $\{(x,y):x\le y\}$ is preserved by the coordinatewise
+  median, so the median is a majority polymorphism, giving~(1) by
+  Proposition~\ref{prop:sw2}.  For~(2), take any three vertices $u,v,w$ of
+  the domain of $h$; their subposet has at most three elements, hence
+  order-embeds into $\B^3$ by some $\iota$.  The partial monotone map
+  $\iota(t)\mapsto t$ $(t\in\{u,v,w\})$ from a subposet of $\B^3$ into the
+  complete lattice $\B^p$ extends to a monotone
+  $\varphi\colon\B^3\to\B^p$, $\varphi(x)=\bigvee\{\,t\in\{u,v,w\}:
+  \iota(t)\le x\,\}$ \textup{(}join taken in $\B^p$\textup{)}, with
+  $\varphi(\iota(u))=u$, $\varphi(\iota(v))=v$, $\varphi(\iota(w))=w$.  By
+  hypothesis $h\circ\varphi$ is solvable, and the restriction of a
+  solution to $\iota(u),\iota(v),\iota(w)$ solves the subproblem on
+  $\{u,v,w\}$.  The final clause combines~(1) with the definition of the
+  $(2,3)$-minimal reduced instance.
+\end{proof}
+
+The remaining step is genuinely a step: a nonempty $(2,3)$-minimal reduced
+instance asks that every \emph{surviving} pair assignment extend to every
+third variable, which is stronger than the mere solvability of each triple.
+We isolate it.
+
+\begin{conj}[pair-extension for median fibres]\label{conj:pairext}
+  For a median-fibre generator $z$ and a cell $h$ all of whose
+  three-variable subproblems are solvable, the $(2,3)$-minimal reduced
+  instance is nonempty \textup{(}equivalently, every surviving pair
+  assignment extends to every third variable\textup{)}.  By
+  Proposition~\ref{prop:medred} this would imply that every median-fibre
+  atom is $3$-coskeletal.
+\end{conj}
+
+\begin{rem}[evidence]\label{rem:medev}
+  The $3$-coskeletality \emph{conclusion} is machine-verified for the
+  median atom of $\cube^3$: under the correct hypothesis \textup{(}all
+  monotone $\varphi\colon\B^3\to\B^4$\textup{)} every boundary cell
+  factors, with zero exceptions, whereas testing only the eight facets
+  admits $104$ spurious cells that a diagonal restriction excludes.  (This
+  confirms the conclusion of Conjecture~\ref{conj:pairext} for this atom,
+  not the pair-extension property in isolation.)  Granting the conjecture,
+  every
+  atom with a median-fibre generator is $3$-coskeletal, hence
+  $3$-determined; in $\cube^3$ all $174$ atoms generated at arity $\le3$
+  carry a median-fibre generator, so all of them would be $3$-coskeletal,
+  and the subatom order restricted to that class well-founded.
+\end{rem}
+
+The general conjecture below subsumes the median-fibre case; both are open.
+
+\begin{conj}[$n$-coskeletality]\label{conj:cosk}
+  Every atom of $\cube^n$ is $n$-coskeletal.
+\end{conj}
+
+\begin{rem}[Status]
+  By Proposition~\ref{prop:medred} the median-fibre case is reduced to the
+  pair-extension property (Conjecture~\ref{conj:pairext}); the harder
+  residue is the class of atoms \emph{without} a median-fibre generator.
+  Such atoms exist---they first appear at generation arity four, where a
+  machine census finds $35$ of $150$ generators non-median-fibre---so the
+  residue is nonempty and is exactly where the tractable mechanism of
+  Part~\ref{part:cx} is unavailable (median-closure lost, the very
+  threshold of Theorem~\ref{thm:cx}).  For both, the conjecture is
+  supported by exhaustive and exact verification: $n=2$ is complete (all
+  twelve atoms),
+  and in $\cube^3$ the property is confirmed with an exact
+  interval-constraint solver---not a bounded membership search---on
+  several structurally distinct non-cube atoms, including a non-median,
+  bare-variable one $\atom{(u\vee v,\,u\wedge w,\,u)}$ ($196$ of $196$
+  boundary cells factor), and directly on non-median-fibre \emph{arity-four}
+  generators, where membership is decided by the exact lift solver
+  (a further such atom passes on all $2252$ boundary cells sampled).  No
+  counterexample has ever appeared.  A proof for the residue is a
+  local-to-global principle for monotone lifting with order-convex,
+  non-median-closed fibres---precisely the hard regime of
+  Theorem~\ref{thm:cx}---and would discharge \textup{(a)} outright.
+\end{rem}
+
+\begin{rem}[Compatibility with unbounded coskeletality]
+  A non-median-fibre atom can have unbounded \emph{Kan} (right/coskeletal)
+  dimension~\cite{PaperW} as its image grows; Conjecture~\ref{conj:cosk}
+  is a \emph{skeletal} determinacy for each fixed $\cube^n$ and does not
+  contradict it: granting Conjecture~\ref{conj:cosk}, for fixed $n$ the
+  atoms are finite, and the unbounded Kan dimension appears only as
+  $n\to\infty$.
+\end{rem}
