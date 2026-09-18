@@ -1,0 +1,779 @@
+% The sameness lattice of a category.
+% Rewritten for Applied Categorical Structures after external review
+% (Findings 01-06, docs/comparison/). All claims proved or computationally
+% verified (scripts/comparison/).
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath,amssymb}
+\usepackage{stmaryrd}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Wtest}{\mathsf{W}_{\mathrm{test}}}
+\newcommand{\Wtype}{\mathsf{W}_{\mathrm{type}}}
+\newcommand{\Fstar}{F^{*}}
+\newcommand{\Fshriek}{F_{!}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\refl}{\mathrm{Refl}}
+\newcommand{\Ncl}[1]{\langle\!\langle #1 \rangle\!\rangle}
+\newcommand{\obs}{\ \mathsf{obs}}
+\newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\CLat}{\mathbf{CLat}}
+\newcommand{\CLatGal}{\mathbf{CLat}_{\mathrm{Gal}}}
+\DeclareMathOperator{\im}{im}
+
+\begin{document}
+
+\title[The sameness lattice of a category]{The sameness lattice of a category:
+  weak-equivalence structures, Galois functoriality, and comparison intervals}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+
+\keywords{localization, weak equivalence, two-out-of-three, complete lattice,
+  subgroup lattice, Galois connection, comparison of theories, cubical site,
+  Structure Identity Principle, behavioural equivalence}
+\subjclass[2020]{18A99 (primary), 06B15, 18N40, 55U35 (secondary)}
+
+\begin{abstract}
+To each small category $C$ we associate its \emph{sameness lattice} $\Same(C)$:
+the complete lattice of all weak-equivalence structures on $C$, that is, classes
+of morphisms containing the identities, closed under composition, and satisfying
+two-out-of-three. We develop $\Same$ as a categorical invariant. It is a
+complete lattice (Proposition~\ref{prop:lattice}); for a group $G$, viewed as a
+one-object category, it is exactly the subgroup lattice, $\Same(G)=\Sub(G)$, and
+for a groupoid the lattice of wide subgroupoids (Theorems~\ref{thm:subgroup},
+\ref{thm:groupoid}), so that non-distributivity already appears at the Klein
+four-group and the realization problem for $\Same$ contains the subgroup-lattice
+representation problem. It decomposes over connected components
+as a product of lattices, does not determine $C$ within a component (the free
+composition triangle and $V_4$ share the lattice $M_3$), and is in general
+non-modular ($A_4$); on groups its distributivity is Ore's local-cyclicity
+condition (Theorems~\ref{thm:components}--\ref{thm:position}). The assignment is
+functorial: a functor
+$F\colon C\to D$ induces a Galois connection $\Fshriek\dashv\Fstar$ of sameness
+lattices, and $(GF)^{*}=F^{*}G^{*}$, $(GF)_{!}=G_{!}F_{!}$, so that
+$\Same\colon\Cat\to\CLatGal$ lands in Galois connections
+(Theorem~\ref{thm:functorial}). A comparison of two structures on one category
+factors through the interval they span (recording strictly more than the
+comparison of their localizations), and a functor factors through the
+localization at its largest inverted sameness $V_F=\Fstar(\Iso D)$; this
+factorization need not be conservative in general, but is conservative whenever
+$V_F$ admits a calculus of fractions, and is an equivalence exactly when $F$ is
+that localization (Theorem~\ref{thm:pair},
+Propositions~\ref{prop:invert}--\ref{prop:notcons},
+Theorem~\ref{thm:consfrac}, Proposition~\ref{prop:equiv}). We read the
+settled part of the cubical-site phase diagram --- which cube sites present
+spaces --- as a map into $\Same(\Presh(S))$ (\S\ref{sec:cube}), and we sketch an
+object-oriented reading in which the Structure Identity Principle is one level
+(\S\ref{sec:oo}). All structural claims are proved; all finite claims are
+verified by exhaustive computation.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A recurring situation is that one object admits two descriptions, or two
+theories admit a translation, and one asks \emph{whether they present the same
+thing}. In each case ``the same'' means a choice of which morphisms count as
+identifications: a class of weak equivalences, a localization. This paper takes
+\emph{the collection of all such choices} as the primary object and studies it
+as a functorial invariant of a category.
+
+\begin{defi}\label{def:sameness}
+A \emph{sameness} (or \emph{weak-equivalence structure}) on a small category $C$
+is a class $W\subseteq\Mor(C)$ such that
+\begin{enumerate}
+\item[(i)] $W$ contains all identities;
+\item[(ii)] $W$ is closed under composition;
+\item[(iii)] \emph{(two-out-of-three)} for composable $f,g$, if two of
+$\{f,\,g,\,g\circ f\}$ lie in $W$ then so does the third.
+\end{enumerate}
+$\Same(C)$ is the set of samenesses ordered by inclusion; $W_1\subseteq W_2$
+reads ``$W_2$ is coarser''.
+\end{defi}
+
+Our notion is deliberately weaker than the standard homotopical-category one: the
+weak equivalences of a homotopical category are required to satisfy two-out-of-six
+and, in particular, to contain all isomorphisms (Dwyer--Hirschhorn--Kan--Smith
+\cite{DHKS}). We impose only two-out-of-three and do \emph{not} require
+$\Iso(C)\subseteq W$, so that $\{\mathrm{id}\}<\Iso(C)$ is allowed; this is what
+makes $\Same(C)$ a fine invariant --- see the localization discussion below and
+the group case (\S\ref{sec:group}).
+
+The identities form the least sameness $\bot=\{\mathrm{id}\}$; the isomorphisms
+$\Iso(C)$ form a distinguished sameness, in general strictly above $\bot$
+(axiom (iii) makes $\Iso(C)$ a sameness, since two invertible among
+$f,g,g\circ f$ force the third invertible). Each $W$ determines a localization
+$C\to C[W^{-1}]$, but distinct samenesses may present equivalent localizations
+(both $\{\mathrm{id}\}$ and $\Iso(C)$ localize to $C$); thus $\Same(C)$ is the
+lattice of \emph{weak-equivalence structures}, which surjects onto, but is finer
+than, the poset of localizations. It is this finer, purely arrow-theoretic
+object that carries the structure below.
+
+\medskip\noindent\textbf{Contributions.}
+\begin{itemize}
+\item $\Same(C)$ is a complete lattice (\S\ref{sec:lattice}).
+\item $\Same(G)=\Sub(G)$ for a group $G$ (\S\ref{sec:group}); hence $M_3$ (Klein
+four) and non-distributive, non-modular sameness lattices occur, and the
+realization problem for $\Same$ contains that for subgroup lattices.
+\item structure and reconstruction (\S\ref{sec:structure}): a product
+decomposition over connected components, a reconstruction obstruction within a
+component, and the lattice position (non-modular in general; Ore on groups).
+\item $\Same\colon\Cat\to\CLatGal$ is a functor into Galois connections
+(\S\ref{sec:functorial}): $F\mapsto(\Fshriek\dashv\Fstar)$ with
+$(GF)^{*}=F^{*}G^{*}$ and $(GF)_{!}=G_{!}F_{!}$.
+\item comparison intervals, the localization factorization at $V_F=\Fstar(\Iso
+D)$, and a conservativity theorem for it under a calculus of fractions
+(\S\ref{sec:factor}).
+\item the cubical-site phase diagram as a map into $\Same(\Presh(S))$
+(\S\ref{sec:cube}), and an object-oriented reading with the Structure Identity
+Principle as one level (\S\ref{sec:oo}).
+\end{itemize}
+
+Every finite combinatorial claim is verified by exhaustive computation; the
+scripts are named inline and listed in \S\ref{sec:comp}.
+
+\medskip\noindent\textbf{Related work.} Weak equivalences are classically studied
+\emph{together with additional homotopical structure}. A category of fractions
+and its calculus invert a chosen class (Gabriel--Zisman \cite{GZ}); a relative
+category is a category with a distinguished weak-equivalence subcategory
+(Barwick--Kan \cite{BarwickKan}); a homotopical category adds two-out-of-six and
+all isomorphisms (Dwyer--Hirschhorn--Kan--Smith \cite{DHKS}); Cisinski's
+localizers on a presheaf topos form their own hierarchy, closed under
+intersection with a smallest generated localizer \cite{Cisinski}; and Balchin,
+Ormsby, Osorno and Roitzheim \cite{Balchin} \emph{enumerate all model structures}
+on a finite total order $[n]$, a rich collection organised by the Catalan
+triangle. So collections of weak-equivalence data are already studied. What is
+new here is the object of study: we isolate the \emph{bare} identity/composition/
+two-out-of-three classes themselves --- independently of cofibrations,
+fibrations, factorisation systems, or saturation --- and organise \emph{all} of
+them into a single functorial complete lattice
+$\Same\colon\Cat\to\CLatGal$. The subgroup-lattice identification on groups
+(Theorem~\ref{thm:subgroup}) and groupoids (Theorem~\ref{thm:groupoid}), the
+Galois connection a functor induces (Theorem~\ref{thm:functorial}), and the
+localization/conservativity results (\S\ref{sec:factor}) are facts about this
+lattice; the cubical-site comparison (\S\ref{sec:cube}) is an instance within it.
+Subgroup lattices and their representation are themselves a central theme of
+lattice theory (Ore \cite{Ore}; P\'alfy--Pudl\'ak \cite{PalfyPudlak}).
+
+\section{The sameness lattice}\label{sec:lattice}
+
+\begin{prop}\label{prop:lattice}
+$\Same(C)$ is a complete lattice. Meets are intersections, the top is
+$\Mor(C)$, and the join of a family is the sameness generated by its union.
+\end{prop}
+
+\begin{proof}
+Axioms (i)--(iii) are each preserved by arbitrary intersection: if two of
+$\{f,g,g\circ f\}$ lie in every $W_i$ then the third lies in each, hence in the
+intersection; identities and composition-closure are clear. $\Mor(C)$ satisfies
+(i)--(iii). A meet-complete poset with a top is a complete lattice; joins are
+the meets of upper bounds.
+\end{proof}
+
+\begin{ex}[the free composition triangle]\label{ex:triangle}
+Let $C$ be the poset chain $0<1<2$: the non-identity maps are $f\colon0\to1$,
+$g\colon1\to2$ and $h=g\circ f$, with no other relations and no non-identity
+isomorphisms. Two-out-of-three forbids a sameness of exact weight two among
+$\{f,g,h\}$, so, relative to the three non-identity morphisms, the possibilities
+are $\varnothing$, the three singletons $\{f\},\{g\},\{h\}$, and $\{f,g,h\}$ ---
+each taken together with the identities: $\Same(C)\cong M_3$, the five-element
+non-distributive modular lattice
+(Figure~\ref{fig:m3}). Morphisms sharing no composite instead impose no
+constraint and contribute independent Boolean factors; e.g. the parallel pair
+$a\rightrightarrows b$ and the span $c\leftarrow a\rightarrow b$ each give the
+Boolean lattice $2^{2}$. (\texttt{sameness\_lattice.py}: $|\Same(\text{3-chain})|
+=5$, $|\Same(\text{4-chain})|=15$.)
+\end{ex}
+
+\begin{rem}\label{rem:nocompose}
+The $M_3$ of Example~\ref{ex:triangle} arises from the \emph{free} triangle. It
+is not true that every composition triangle produces an $M_3$: on the cyclic
+group $C_4$ (a one-object category with many composites) the sameness lattice is
+a chain (Example~\ref{ex:c4}). Thus $\Same(C)$ detects certain \emph{independent}
+composition configurations rather than all composition; the group case makes the
+correct statement precise.
+\end{rem}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small, column sep=small]
+& \{f,g,h\} & \\
+\{f\}\arrow[ur,dash] & \{g\}\arrow[u,dash] & \{h\}\arrow[ul,dash] \\
+& \bot=\{\mathrm{id}\}\arrow[ul,dash]\arrow[u,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\qquad\qquad
+\begin{tikzcd}[row sep=small, column sep=small]
+& V_4 & \\
+\langle a\rangle\arrow[ur,dash] & \langle b\rangle\arrow[u,dash] &
+  \langle c\rangle\arrow[ul,dash] \\
+& \{e\}\arrow[ul,dash]\arrow[u,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\caption{The same lattice $M_3$ from two sources: the free composition triangle
+$0<1<2$ (left, Example~\ref{ex:triangle}) and the Klein four-group $V_4$ (right,
+$\Same(V_4)=\Sub(V_4)$, Theorem~\ref{thm:subgroup}).}
+\label{fig:m3}
+\end{figure}
+
+\section{The subgroup-lattice theorem}\label{sec:group}
+
+\begin{thm}\label{thm:subgroup}
+Let $G$ be a group, viewed as a one-object category. Then $\Same(G)=\Sub(G)$,
+the lattice of subgroups of $G$.
+\end{thm}
+
+\begin{proof}
+A subgroup $H\le G$ contains $e$, is closed under multiplication, and satisfies
+two-out-of-three (if two of $f,g,gf$ lie in $H$ the third is a product of them
+and their inverses, hence in $H$); so $H$ is a sameness. Conversely let $W$ be a
+sameness. It contains $e$ and is closed under multiplication. It is closed under
+inverses: for $w\in W$, the composable pair $(w^{-1},w)$ has composite
+$w^{-1}w=e\in W$ and factor $w\in W$, so two of $\{w,\,w^{-1},\,e\}$ lie in $W$,
+whence two-out-of-three gives $w^{-1}\in W$. A subset of a group containing $e$
+and closed under multiplication and inverses is a subgroup. Hence $W\in\Sub(G)$.
+The orders coincide with inclusion, so $\Same(G)=\Sub(G)$ as lattices.
+\end{proof}
+
+\begin{ex}\label{ex:c4}
+$\Same(C_4)=\Sub(C_4)$ is the chain $\{e\}<\{e,a^{2}\}<C_4$, hence distributive,
+although $C_4$ has composition triangles (Remark~\ref{rem:nocompose}).
+$\Same(V_4)=\Sub(V_4)\cong M_3$ (Figure~\ref{fig:m3}, right), non-distributive.
+$\Same(S_3)=\Sub(S_3)$ has four atoms (three of order $2$, one of order $3$).
+All verified in \texttt{same\_of\_group.py}.
+\end{ex}
+
+Theorem~\ref{thm:subgroup} is not an accident of the one-object case; it is the
+one-object instance of a groupoid statement.
+
+\begin{thm}\label{thm:groupoid}
+Let $\mathcal{G}$ be a groupoid. Then $\Same(\mathcal{G})$ is the lattice of
+\emph{wide subgroupoids} of $\mathcal{G}$ (subgroupoids containing every object),
+ordered by inclusion.
+\end{thm}
+
+\begin{proof}
+Let $W$ be a sameness. As in Theorem~\ref{thm:subgroup}, two-out-of-three forces
+inverse-closure: for $w\in W$ the pair $(w^{-1},w)$ has composite an identity in
+$W$ and factor $w\in W$, so $w^{-1}\in W$. With (i) all identities, (ii)
+composition-closure and inverse-closure, $W$ is a subgroupoid; and it is wide
+because it contains $\mathrm{id}_x$ for every object $x$. Conversely a wide
+subgroupoid contains the identities, is closed under composition, and satisfies
+two-out-of-three (being closed under composition and inverses), hence is a
+sameness. Order by inclusion agrees. Verified on the walking-isomorphism groupoid
+in \texttt{same\_conservative\_cx.py}.
+\end{proof}
+
+\begin{cor}\label{cor:realize}
+Every subgroup lattice of a group occurs as a sameness lattice
+(Theorem~\ref{thm:subgroup}), so the class $\{\Same(C)\}$ is not contained in the
+distributive (nor the modular) lattices, and the problem of characterising which
+lattices arise as $\Same(C)$ contains the subgroup-lattice representation
+problem.
+\end{cor}
+
+P\'alfy and Pudl\'ak \cite{PalfyPudlak} proved that the finite lattice
+representation problem (whether every finite lattice is the congruence lattice of
+a finite algebra) is equivalent to the question --- still open --- of whether
+every finite lattice occurs as an interval in the subgroup lattice of a finite
+group. Via Theorem~\ref{thm:subgroup} every such interval is an interval of a
+sameness lattice, so the sameness lattices form a class at least as rich as the
+subgroup lattices --- a first structural reason to regard $\Same$ as a genuine
+invariant rather than a formal device.
+
+\section{Structure and reconstruction}\label{sec:structure}
+
+We record what $\Same(C)$ does and does not remember of $C$, and where its
+lattice sits.
+
+\begin{thm}[component decomposition]\label{thm:components}
+If $C=\coprod_{i} C_i$ is the decomposition into connected components, then
+\[
+\Same(C)\ \cong\ \prod_{i}\Same(C_i)
+\]
+as complete lattices.
+\end{thm}
+
+\begin{proof}
+A morphism of $C$ lies in a unique component, and composites and the pairs
+witnessing two-out-of-three stay within a component (there are no morphisms
+between components). Hence $W\subseteq\Mor(C)$ is a sameness iff each
+$W\cap\Mor(C_i)$ is a sameness of $C_i$, and $W\mapsto(W\cap\Mor(C_i))_i$ is an
+order isomorphism onto $\prod_i\Same(C_i)$. Verified on
+$C_1\amalg C_2$ with $C_1$ the $3$-chain and $C_2$ the $2$-chain:
+$|\Same(C_1\amalg C_2)|=10=5\cdot 2$ (\texttt{same\_structure.py}).
+\end{proof}
+
+So $\Same$ turns the coproduct of categories into the product of lattices. It
+does \emph{not} thereby recover the components: a connected category can already
+have a decomposable sameness lattice (the parallel pair and the span give
+$\Same\cong 2^{2}\cong 2\times 2$), so the product factorization of $\Same(C)$ is
+finer than, and does not determine, the component decomposition of $C$. Within a
+single component the invariant is in any case genuinely lossy.
+
+\begin{thm}[reconstruction obstruction]\label{thm:obstruction}
+$\Same$ does not determine $C$, even up to the crudest features. The free
+composition triangle (the $3$-object poset $0<1<2$) and the Klein four-group
+$V_4$ (a one-object group) satisfy
+\[
+\Same(0<1<2)\ \cong\ M_3\ \cong\ \Same(V_4),
+\]
+although the two categories differ in their number of objects, in whether every
+morphism is invertible, and in being a poset versus a group.
+\end{thm}
+
+\begin{proof}
+Example~\ref{ex:triangle} and Theorem~\ref{thm:subgroup} with
+$\Sub(V_4)\cong M_3$; both computed in \texttt{sameness\_lattice.py},
+\texttt{same\_of\_group.py}.
+\end{proof}
+
+Thus a reconstruction theorem for $\Same$ must be relative to extra data (a
+connected, or connected-and-rigid, hypothesis); the raw invariant is a genuine
+lattice-valued measurement, not an encoding of $C$. Its lattice-theoretic
+position is correspondingly broad.
+
+\begin{thm}[lattice position]\label{thm:position}
+The class $\{\Same(C)\}$ is not contained in the modular lattices, hence not in
+the distributive ones. Concretely $\Same(V_4)\cong M_3$ is modular but not
+distributive, and $\Same(A_4)=\Sub(A_4)$ is not modular (it contains a pentagon
+$N_5$). On a group, by Ore's theorem, $\Same(G)=\Sub(G)$ is distributive iff $G$
+is locally cyclic (for finite $G$, iff $G$ is cyclic).
+\end{thm}
+
+\begin{proof}
+$\Same(V_4)\cong M_3$ is modular non-distributive. For $A_4$: with
+$a=\langle(12)(34)\rangle$ (order $2$), $b=V_4\le A_4$ (order $4$, $a\le b$) and
+$x=\langle(123)\rangle$ (order $3$), one has $x\wedge b=\{e\}$ and $a\vee x=A_4$,
+so $a\vee(x\wedge b)=a\neq b=(a\vee x)\wedge b$: the modular law fails, an $N_5$.
+The equality $\Same(A_4)=\Sub(A_4)$, and the failure of modularity, are verified
+exhaustively in \texttt{same\_structure.py}. The distributive characterisation is
+Ore's theorem \cite{Ore} applied through Theorem~\ref{thm:subgroup}; it is
+consistent with $\Same(C_4)$ a chain (cyclic) and $\Same(V_4),\Same(S_3)$
+non-distributive (non-cyclic), all computed in Example~\ref{ex:c4}.
+\end{proof}
+
+\begin{rem}
+Theorems~\ref{thm:components}--\ref{thm:position} answer, in part, the two
+questions the invariant raises. Reconstruction: $\Same(C)$ is \emph{compatible}
+with the connected-component decomposition (it sends it to a lattice product,
+Theorem~\ref{thm:components}) but recovers neither the components nor anything
+finer in general (Theorem~\ref{thm:obstruction}, and the decomposable
+$\Same$ of a connected category). Classification: distributivity of $\Same$ is
+pinned down on groups by Ore (Theorem~\ref{thm:position}), while a full
+category-level characterisation of distributive or modular $\Same(C)$ remains
+open and, by Corollary~\ref{cor:realize}, at least as hard as the corresponding
+subgroup-lattice questions.
+\end{rem}
+
+\section{Galois functoriality}\label{sec:functorial}
+
+\begin{prop}\label{prop:galois}
+For a functor $F\colon C\to D$ and $W\in\Same(D)$ set
+$\Fstar(W)=\{m\in\Mor(C):F(m)\in W\}$. Then $\Fstar(W)\in\Same(C)$, and
+$\Fstar\colon\Same(D)\to\Same(C)$ preserves arbitrary meets; hence it has a left
+adjoint $\Fshriek(V)=\bigwedge\{W:V\subseteq\Fstar(W)\}$, giving a Galois
+connection $\Fshriek\dashv\Fstar$ of complete lattices,
+$V\subseteq\Fstar(W)\Leftrightarrow\Fshriek(V)\subseteq W$.
+\end{prop}
+
+\begin{proof}
+$F(1)=1$; $F(g\circ f)=F(g)\circ F(f)$; and if two of $f,g,g\circ f$ lie in
+$\Fstar(W)$ then two of their images lie in $W$, so the third does, so the
+remaining map lies in $\Fstar(W)$: thus $\Fstar(W)$ is a sameness.
+$\Fstar(\bigcap_i W_i)=\bigcap_i\Fstar(W_i)$, so $\Fstar$ preserves meets; a
+meet-preserving map of complete lattices has the displayed left adjoint.
+\end{proof}
+
+Let $\CLatGal$ be the category whose objects are complete lattices and whose
+morphisms $L\to M$ are Galois connections, i.e. monotone adjunctions
+$\ell\dashv r$ with $\ell\colon L\to M$ left adjoint to $r\colon M\to L$;
+composition is composition of adjunctions, $(\ell'\dashv r')\circ(\ell\dashv
+r)=(\ell'\ell\dashv rr')$, and the identity is $(\mathrm{id}\dashv\mathrm{id})$.
+A morphism is determined by either adjoint, so $\CLatGal$ is isomorphic both to
+the category of complete lattices with left (join-preserving) maps and to its
+opposite via right (meet-preserving) maps.
+
+\begin{thm}\label{thm:functorial}
+$\Same\colon\Cat\to\CLatGal$ is a functor: $C\mapsto\Same(C)$ on objects, and a
+functor $F\colon C\to D$ to the Galois connection $\Fshriek\dashv\Fstar$. In
+particular, for $C\xrightarrow{F}D\xrightarrow{G}E$,
+\[
+(GF)^{*}=F^{*}G^{*},\qquad (GF)_{!}=G_{!}F_{!},\qquad
+(\mathrm{id}_C)^{*}=\mathrm{id}=(\mathrm{id}_C)_{!}.
+\]
+\end{thm}
+
+\begin{proof}
+$\Fshriek\dashv\Fstar$ is a morphism of $\CLatGal$ (Proposition~\ref{prop:galois}).
+$(GF)^{*}(W)=\{m:GF(m)\in W\}=\{m:F(m)\in G^{*}(W)\}=F^{*}(G^{*}(W))$, and
+$(\mathrm{id})^{*}=\mathrm{id}$; so $F\mapsto\Fstar$ is functorial on right
+adjoints. Left adjoints are unique and compose to the composite's left adjoint,
+so $(GF)_{!}=G_{!}F_{!}$ and $(\mathrm{id})_{!}=\mathrm{id}$; this is exactly
+functoriality into $\CLatGal$. Verified exhaustively on
+$(0<1<2)\xrightarrow{}(0<1)\xrightarrow{}\ast$ in
+\texttt{same\_functoriality.py}.
+\end{proof}
+
+Thus ``a functor induces a Galois connection'' is not an isolated observation
+but the action of a functor $\Same$ (Figure~\ref{fig:galois}): $\Fstar$ pulls a
+viewpoint on $D$ back to $C$, $\Fshriek$ pushes forward, and the two compose
+along $\Cat$ as displayed.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large]
+\Same(C)
+  \arrow[r, bend left=25, "\Fshriek"]
+  \arrow[r, phantom, "\bot"]
+& \Same(D)
+  \arrow[l, bend left=25, "\Fstar"]
+  \arrow[r, bend left=25, "G_{!}"]
+  \arrow[r, phantom, "\bot"]
+& \Same(E)
+  \arrow[l, bend left=25, "G^{*}"]
+\end{tikzcd}
+\caption{$\Same\colon\Cat\to\CLatGal$ (Theorem~\ref{thm:functorial});
+composites satisfy $(GF)^{*}=F^{*}G^{*}$,
+$(GF)_{!}=G_{!}F_{!}$.}
+\label{fig:galois}
+\end{figure}
+
+\section{Comparison intervals and the localization factorization}\label{sec:factor}
+
+\begin{thm}[pair comparison]\label{thm:pair}
+For $W_1,W_2\in\Same(C)$ the \emph{comparison interval} is
+$[\,W_1\wedge W_2,\ W_1\vee W_2\,]\subseteq\Same(C)$, with $W_1\wedge W_2$ the
+finest common sameness and $W_1\vee W_2$ the coarsest common coarsening; the two
+agree, $W_1=W_2$, iff the interval is a single point. If $W_1\subseteq W_2$ the
+interval is $[\,W_1,W_2\,]$.
+\end{thm}
+
+\begin{proof}
+Meet and join exist (Proposition~\ref{prop:lattice}) and bound both points;
+$W_1=W_2$ iff meet $=$ join.
+\end{proof}
+
+\begin{prop}[largest inverted sameness]\label{prop:invert}
+Let $F\colon C\to D$ and put $V_F:=\Fstar(\Iso(D))=\{m\in\Mor(C):F(m)\text{ is an
+isomorphism}\}\in\Same(C)$. Then $V_F$ is the largest sameness $F$ sends into
+isomorphisms: $F(V)\subseteq\Iso(D)\iff V\subseteq V_F$. Consequently $F$ factors,
+uniquely up to isomorphism, through the localization,
+$C\xrightarrow{L_{V_F}}C[V_F^{-1}]\xrightarrow{\bar F}D$. The interval
+$[\,\Iso(C),V_F\,]\subseteq\Same(C)$ measures the collapse of $F$ on the
+morphisms of $C$, and is trivial iff $F$ reflects isomorphisms among morphisms of
+$C$.
+\end{prop}
+
+\begin{proof}
+$V_F=\Fstar(\Iso D)$ is a sameness (Proposition~\ref{prop:galois}); $F$ sends a
+sameness $V$ into $\Iso(D)$ iff $V\subseteq V_F$, so $V_F$ is the largest such.
+$F$ inverts $V_F$, so it factors through $L_{V_F}$ by the universal property of
+localization. $\Iso(C)\subseteq V_F$ always, with equality iff $F(m)$ iso implies
+$m$ iso for $m\in\Mor(C)$. Verified ($V_F=\{g\}$ for $(0<1<2)\to(0<1)$) in
+\texttt{comparison\_factorization.py}.
+\end{proof}
+
+The factorising functor $\bar F$ is, however, \emph{not} conservative in general:
+$V_F$ controls only the morphisms of $C$, whereas localization adds new zigzag
+morphisms that $F$ may send to isomorphisms.
+
+\begin{prop}[the factorization need not be conservative]\label{prop:notcons}
+There is a functor $F\colon C\to D$ for which $\bar F\colon C[V_F^{-1}]\to D$
+does not reflect isomorphisms.
+\end{prop}
+
+\begin{proof}
+Let $C$ be freely generated by $g\colon Z\to X$, $f\colon X\to Y$ and
+$v\colon Z\to Y$, and let $D$ present a retract, $i\colon A\to B$, $r\colon B\to
+A$ with $ri=1_A$ and $ir\ne1_B$. Put $F(X)=A$, $F(Y)=F(Z)=B$, $F(f)=i$,
+$F(g)=r$, $F(v)=1_B$. Then $F(v)$ is an isomorphism while $F(f),F(g)$ are not, so
+$V_F=\langle v\rangle$ and $f,g\notin V_F$. In $C[V_F^{-1}]$ the morphism
+$\alpha=g\circ v^{-1}\circ f\colon X\to X$ has
+$\bar F(\alpha)=r\circ 1_B^{-1}\circ i=ri=1_A$, an isomorphism; but $\alpha$ is
+not invertible in $C[V_F^{-1}]$ --- the functor to $\mathbf{Set}$ sending $v$ to a
+bijection and $f$ to a constant map inverts $v$ yet makes $\alpha$ a constant,
+non-bijective map. So $\bar F$ sends the non-isomorphism $\alpha$ to an
+isomorphism. All data are checked in \texttt{same\_conservative\_cx.py}.
+\end{proof}
+
+Conservativity of $\bar F$ is thus a genuine extra condition. The failure in
+Proposition~\ref{prop:notcons} comes from a length-three zigzag that cannot be
+straightened into a single fraction; ruling this out restores conservativity.
+
+\begin{thm}[conservativity under a calculus of fractions]\label{thm:consfrac}
+If $V_F$ admits a calculus of left fractions (or, dually, of right fractions) in
+$C$, then $\bar F\colon C[V_F^{-1}]\to D$ is conservative.
+\end{thm}
+
+\begin{proof}
+Under a left calculus of fractions every morphism of $C[V_F^{-1}]$ is
+$s^{-1}\circ a$ with $a\in\Mor(C)$ and $s\in V_F$ \cite{GZ}. Suppose
+$\bar F(s^{-1}a)=F(s)^{-1}F(a)$ is an isomorphism of $D$. Since $s\in V_F$,
+$F(s)$ is an isomorphism, so $F(a)$ is an isomorphism, i.e. $a\in V_F$. But every
+morphism of $V_F$ is inverted in $C[V_F^{-1}]$, so both $a$ and $s$ become
+isomorphisms there, hence $s^{-1}a$ is an isomorphism of $C[V_F^{-1}]$. Thus
+$\bar F$ reflects isomorphisms. The dual argument covers right fractions.
+\end{proof}
+
+The hypothesis is exactly what the counterexample lacks: for
+$C,V_F=\langle v\rangle$ of Proposition~\ref{prop:notcons} the square-completion
+axiom fails already for $s=v$, $a=g$ (there is no morphism $Y\to X$ to complete
+the square), so $V_F$ admits no calculus of left fractions
+(\texttt{same\_conservative\_cx.py}) --- consistent with $\bar F$ being
+non-conservative there. The extreme case is when the factorization is not merely
+conservative but an equivalence:
+
+\begin{prop}[when the factorization is an equivalence]\label{prop:equiv}
+$\bar F\colon C[V_F^{-1}]\to D$ is an equivalence iff $F$ exhibits $D$ as the
+localization of $C$ at $V_F$ (i.e. $F$ is initial among functors inverting
+$V_F$). In that case $\bar F$ is in particular conservative.
+\end{prop}
+
+\begin{proof}
+$C\to C[V_F^{-1}]$ is initial among functors inverting $V_F$; $F$ inverts $V_F$
+and factors as $\bar F\circ L_{V_F}$. If $F$ is also initial with this property,
+the two initial factorizations are equivalent, so $\bar F$ is an equivalence;
+conversely an equivalence $\bar F$ makes $F=\bar F\circ L_{V_F}$ initial. An
+equivalence reflects isomorphisms.
+\end{proof}
+
+\begin{rem}[two open problems]\label{rem:consopen}
+Theorem~\ref{thm:consfrac} gives a sufficient condition for $\bar F$ to be
+conservative; a full characterisation of the $F$ for which $\bar F$ is
+conservative remains open, and is in our view the central refinement this
+factorization invites. A second, strictly stronger problem is to characterise
+the levels $W\in\Same(D)$ at which $F$ is a \emph{$W$-equivalence}, meaning
+$\bar F_W\colon C[\Fstar W^{-1}]\to D[W^{-1}]$ is an equivalence; this is not the
+same question, since an equivalence is conservative but conservativity is far
+from an equivalence --- it does not even imply faithfulness (the functor
+collapsing a parallel pair $X\rightrightarrows Y$ to one arrow is full,
+essentially surjective and conservative but not faithful, hence not an
+equivalence, \texttt{same\_functoriality.py}).
+\end{rem}
+
+Finally, the pair comparison of Theorem~\ref{thm:pair} is \emph{not} the same as
+comparing localizations, and this is a feature. A pair $W_1\subseteq W_2$ spans a
+possibly non-trivial interval $[W_1,W_2]$ even when $C[W_1^{-1}]$ and
+$C[W_2^{-1}]$ agree: already $W_1=\{\mathrm{id}\}$ and $W_2=\Iso(C)$ are distinct
+samenesses with equivalent localizations. Hence $\Same(C)$ is strictly finer than
+the poset of localizations, and \emph{pair comparison records more than
+localization comparison} --- the extra information being exactly which morphisms,
+not merely which localization, one has chosen to invert.
+
+\section{The cubical-site phase diagram as a map into $\Same$}\label{sec:cube}
+
+Definition~\ref{def:sameness} was stated for a small category, but $\Presh(S)$
+is not small. We fix Grothendieck universes $U\in V$, take $S$ and its presheaves
+to be $U$-small, and read $\Same(\Presh(S))$ as the ($V$-small) lattice of
+$U$-definable samenesses; the two model-structure classes below are of this form,
+so the discussion is size-safe.
+
+This section is an \emph{illustration}, not a source of new theorems: it reads
+results established in the companion manuscript \cite{CS25} through the lattice
+of the present paper. Let $S$ be a cube site and $C=\Presh(S)$; the cubical-type
+and Cisinski test model structures give two samenesses $\Wtype\subseteq\Wtest$
+on every standard site \cite{CS25}. By Theorem~\ref{thm:pair} they span an
+interval, and the classification ``which cube sites present spaces'' becomes a
+single map
+\[
+S\ \longmapsto\ [\,\Wtype,\Wtest\,]\in\Same(\Presh(S)),
+\]
+under which $S$ \emph{presents spaces} iff $\Wtype=\Wtest$, i.e. iff the interval
+is trivial.
+The gap $\Wtest\setminus\Wtype$ is the set of isotropy witnesses. On the three
+reversal sites it is stratified by a reflection-subgroup criterion \cite{CS25}:
+for a mixed $H\le B_n$ (hyperoctahedral group) with $N=\Ncl{\refl(H)}$ the normal
+closure of its coordinate reversals, a test-not-type weak equivalence is attached
+to $H$ iff $N$ is mixed. Running this criterion (\texttt{reflection\_witness.py})
+gives, among subgroups generated by at most two elements, $4$ witness-bearing
+$H\le B_2$ and $26\le B_3$; pure-permutation isotropy never separates the two
+levels. Table~\ref{tab:phase} records the settled entries; two routes to a
+trivial interval are distinguished by the lattice picture: on the one-connection
+site the gap is \emph{emptied by an equivariant contraction}, while on the
+Dedekind site the gap has \emph{no quotient generators} (the monotone dunce hat
+is contractible in both structures), leaving a regularity question --- the one
+open entry.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+cube site $S$ & interval $[\Wtype,\Wtest]$ & presents spaces? \\
+\midrule
+cartesian & non-trivial & No \\
+one connection & trivial (gap emptied) & Yes \\
+Dedekind & open (conj.\ trivial) & open \\
+De Morgan & non-trivial & No \\
+Kleene & non-trivial & No \\
+Boolean & non-trivial & No \\
+\bottomrule
+\end{tabular}
+\caption{The settled part of the phase diagram as values of
+$S\mapsto[\Wtype,\Wtest]$; ``presents spaces'' is a trivial interval. The
+Dedekind entry is open.}
+\label{tab:phase}
+\end{table}
+
+\section{An object-oriented reading}\label{sec:oo}
+
+The lattice supports a reading in which an object is known only up to a chosen
+level, in the spirit of the Structure Identity Principle and of coalgebraic
+behavioural equivalence. Interpret a sameness $W$ by the observation quotient
+\[
+\llbracket C\rrbracket_W:=\Ob(C)/\!\sim_W,
+\]
+where $a\sim_W b$ iff $a,b$ are linked by a zigzag of morphisms in $W$,
+with $\pi_W\colon\Ob(C)\twoheadrightarrow\llbracket C\rrbracket_W$. A
+\emph{$W$-observable} is a map on objects that factors through $\pi_W$
+(is constant on $\sim_W$-classes): observability at level $W$ is factorization
+through the interface $\llbracket C\rrbracket_W$ (Figure~\ref{fig:oo}).
+
+\begin{prop}\label{prop:oo}
+$W\subseteq W'$ makes $\llbracket C\rrbracket_{W'}$ a further quotient of
+$\llbracket C\rrbracket_W$, so every $W'$-observable is a $W$-observable (the
+interface narrows as the level coarsens); the assignment $W\mapsto\pi_W$ is a map
+of posets from $\Same(C)$ to quotients of $\Ob(C)$. At the sameness $W=\Iso(C)$
+the relation $\sim_W$ is ``isomorphic'', and the $\Iso(C)$-observables are the
+isomorphism-invariants: this level is the Structure Identity Principle. For
+$\Wtype\subseteq\Wtest$ on $\Presh(S)$, ``$a,b$ present the same space'' is
+$a\sim_{\Wtest}b$, and if $S$ presents spaces
+($\Wtype=\Wtest$) then $\llbracket C\rrbracket_{\Wtype}=
+\llbracket C\rrbracket_{\Wtest}$; the converse is not automatic, as distinct
+samenesses can induce the same object-level equivalence, and needs the Hom-level
+refinement of Remark~\ref{rem:oohom}.
+\end{prop}
+
+\begin{proof}
+A zigzag in $W$ is a zigzag in $W'\supseteq W$, so $\sim_W$ refines $\sim_{W'}$
+and $\pi_{W'}$ factors through $\pi_W$; a map through $\pi_{W'}$ is a map through
+$\pi_W$. The remaining statements are the definitions, with the cube-site clause
+from \S\ref{sec:cube}. Verified on the $3$-chain in
+\texttt{objectoriented.py} ($\bot\mapsto\{0\}\{1\}\{2\}$ up to
+$\top\mapsto\{012\}$, monotone).
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large, row sep=large]
+\Ob(C) \arrow[r, "\pi_W", two heads] \arrow[d, "\pi_{W'}"', two heads]
+  & \llbracket C\rrbracket_W \arrow[dl, "W\le W'", two heads] \\
+\llbracket C\rrbracket_{W'} &
+\end{tikzcd}
+\caption{Encapsulation and level shift (Proposition~\ref{prop:oo}): a
+$W$-observable factors through the interface $\pi_W$; coarsening quotients
+further. The level $W=\Iso(C)$ is the Structure Identity Principle.}
+\label{fig:oo}
+\end{figure}
+
+\begin{rem}\label{rem:oohom}
+This is a semantic construction, not yet a proof theory. Upgrading $\sim_W$ from
+object zigzags to the full localization $C[W^{-1}]$ (Hom-level behavioural
+equivalence, matching the coalgebraic bisimulation reading) refines the interface
+and, in particular, is what a converse to the object-level ``presents spaces''
+implication of Proposition~\ref{prop:oo} requires. A graded sequent calculus over
+$(\Same(C),\subseteq)$ with an S4 level-shift modality, and its completeness and
+cut-elimination, are developed elsewhere.
+\end{rem}
+
+\section{Computational record}\label{sec:comp}
+
+All finite claims are verified by exhaustive computation in
+\texttt{scripts/comparison/}: \texttt{sameness\_lattice.py}
+(Proposition~\ref{prop:lattice}, Example~\ref{ex:triangle}),
+\texttt{same\_of\_group.py} (Theorem~\ref{thm:subgroup}, Example~\ref{ex:c4}),
+\texttt{same\_structure.py}
+(Theorems~\ref{thm:components}--\ref{thm:position}),
+\texttt{same\_functoriality.py} (Theorem~\ref{thm:functorial} and
+Remark~\ref{rem:consopen}), \texttt{comparison\_factorization.py},
+\texttt{same\_conservative\_cx.py} (Theorem~\ref{thm:groupoid},
+Proposition~\ref{prop:notcons}, and the calculus-of-fractions failure behind
+Theorem~\ref{thm:consfrac}) and
+\texttt{interval\_witness.py} (Theorem~\ref{thm:pair}, Proposition~\ref{prop:invert}),
+\texttt{reflection\_witness.py} (\S\ref{sec:cube}), and
+\texttt{objectoriented.py} (Proposition~\ref{prop:oo}).
+
+\section{Conclusion}
+
+$\Same$ is a functorial invariant of a category: a complete lattice, the subgroup
+lattice on groups (and the wide-subgroupoid lattice on groupoids), and a functor
+into Galois connections, within which a comparison of theories is an interval and
+a functor factors through the localization at its largest inverted sameness.
+Section~\ref{sec:structure} settles the first layer of two natural problems. The
+\emph{reconstruction} problem --- how much of $C$ is determined by $\Same(C)$ ---
+is compatible with the component decomposition (which it sends to a lattice
+product, Theorem~\ref{thm:components}) but does not recover the components, and is
+genuinely lossy within a component (Theorem~\ref{thm:obstruction}); a sharp
+reconstruction under a rigidity hypothesis remains to be found. The
+\emph{classification} problem --- which $C$ have $\Same(C)$ distributive,
+modular, or semidistributive --- is pinned down on groups by Ore
+(Theorem~\ref{thm:position}) but open at the level of categories, and by
+Corollary~\ref{cor:realize} at least as hard as the subgroup-lattice
+representation problem. Both are squarely lattice-theoretic questions raised by a
+categorical construction, and either would deepen the invariant further.
+
+\section*{Declarations}
+
+\noindent\textbf{Funding.}\quad No funding was received for this work.
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has
+no competing interests.
+
+\noindent\textbf{Corresponding author.}\quad Ryota Shibusawa, Daiichi
+Institute of Technology; e-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}.
+
+\noindent\textbf{Availability of data and materials.}\quad The computational
+verification scripts named in \S\ref{sec:comp} are available from the author
+on request.
+
+\begin{thebibliography}{9}
+\bibitem{CS25} R.~Shibusawa, \emph{Which cubical sites present spaces?
+Reflection subgroups, connections, and the comparison of the type and test model
+structures}, companion manuscript, under review (2026).
+\bibitem{GZ} P.~Gabriel, M.~Zisman, \emph{Calculus of Fractions and Homotopy
+Theory}, Ergeb.\ Math.\ Grenzgeb.\ \textbf{35}, Springer, 1967.
+\bibitem{Ore} O.~Ore, \emph{Structures and group theory. II}, Duke Math.\ J.\
+\textbf{4} (1938), 247--269.
+\bibitem{BarwickKan} C.~Barwick, D.~M.~Kan, \emph{Relative categories: another
+model for the homotopy theory of homotopy theories}, Indag.\ Math.\ \textbf{23}
+(2012), 42--68.
+\bibitem{DHKS} W.~G.~Dwyer, P.~S.~Hirschhorn, D.~M.~Kan, J.~H.~Smith,
+\emph{Homotopy Limit Functors on Model Categories and Homotopical Categories},
+Math.\ Surveys Monogr.\ \textbf{113}, Amer.\ Math.\ Soc., 2004.
+\bibitem{Cisinski} D.-C.~Cisinski, \emph{Les pr\'efaisceaux comme mod\`eles des
+types d'homotopie}, Ast\'erisque \textbf{308}, Soc.\ Math.\ France, 2006.
+\bibitem{Balchin} S.~Balchin, K.~Ormsby, A.~M.~Osorno, C.~Roitzheim,
+\emph{Model structures on finite total orders}, Math.\ Z.\ \textbf{304} (2023),
+article no.~40.
+\bibitem{PalfyPudlak} P.~P.~P\'alfy, P.~Pudl\'ak, \emph{Congruence lattices of
+finite algebras and intervals in subgroup lattices of finite groups}, Algebra
+Universalis \textbf{11} (1980), 22--27.
+\bibitem{Rutten} J.~J.~M.~M.~Rutten, \emph{Universal coalgebra: a theory of
+systems}, Theoret.\ Comput.\ Sci.\ \textbf{249} (2000), 3--80.
+\bibitem{Univalent} The Univalent Foundations Program, \emph{Homotopy Type
+Theory: Univalent Foundations of Mathematics}, IAS, 2013.
+\end{thebibliography}
+
+\end{document}

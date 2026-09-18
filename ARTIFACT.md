@@ -5,7 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.23.0` (the Dedekind endgame as a
+- Current snapshot: release `v1.24.0` (paper 27, *The sameness lattice of a
+  category* -- `docs/consolidated/sameness.pdf` -- with its verification
+  scripts in `scripts/comparison/`: `sameness_lattice.py`, `same_of_group.py`
+  (Same(G)=Sub(G) on V4, C4, S3), `same_functoriality.py`, `same_structure.py`
+  (component decomposition; the non-modular Same(A4)), `same_conservative_cx.py`
+  (the non-conservative factorization and the groupoid theorem),
+  `comparison_galois.py`, `comparison_factorization.py`, `interval_witness.py`,
+  `reflection_witness.py`, `objectoriented.py`, `more_cats.py`), DOI: see the release
+- Previous: release `v1.23.0` (the Dedekind endgame as a
   complexity dichotomy: papers 23-26 -- `docs/consolidated/orderconvexwidth.pdf`,
   `subatomwf.pdf`, `dedekindendgame.pdf` and the integrating
   `dichotomy.pdf` (*A complexity dichotomy for order-convex monotone
