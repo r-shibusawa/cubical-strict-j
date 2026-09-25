@@ -1,0 +1,944 @@
+% Postnikov truncations as joins of sheaf and homotopy equivalences.
+% All finite claims verified by scripts/comparison/sheaf_sameness*.py.
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\usepackage{stmaryrd}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Top}{\mathrm{Top}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\Down}{\mathrm{Down}}
+\newcommand{\cosk}{\mathrm{cosk}}
+\newcommand{\sk}{\mathrm{sk}}
+\newcommand{\Wtest}{\mathsf{W}_{\mathrm{test}}}
+\newcommand{\Wtype}{\mathsf{W}_{\mathrm{type}}}
+\newcommand{\sset}{\mathbf{sSet}}
+\newcommand{\Kan}{\mathbf{Kan}}
+\newcommand{\cube}{\square}
+\newcommand{\Idem}{\mathrm{Idl}^{\,2}_{\mathrm{idem}}}
+
+\begin{document}
+
+\title[Postnikov truncations as joins]{Postnikov truncations as joins of
+  sheaf and homotopy equivalences}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{Grothendieck topology, subtopos, sheafification, localization, weak
+  equivalence, two-out-of-three, idempotent ideal, semilattice, coskeleton,
+  Postnikov truncation, Kan complex, modal logic}
+\subjclass[2020]{18F10 (primary), 18F20, 18A99, 06A12, 20M12, 55U10 (secondary)}
+
+\begin{abstract}
+In the complete lattice $\Same(\sset)$ of all two-out-of-three classes of
+morphisms of simplicial sets, let $\Wtest$ be the weak homotopy equivalences
+and $W_{D_k}$ the maps inverted by the $k$-coskeleton, i.e.\ the sheaf
+equivalences of the $k$-th coskeletal subtopos. We prove that for every
+$n\ge-1$ the join $\Wtest\vee W_{D_{n+1}}$ is exactly the class of
+$n$-truncated weak equivalences: the Postnikov truncation is the lattice join
+of sheaf sameness and homotopy sameness, with no fibrancy hypothesis, and
+$\Wtest=\bigcap_n(\Wtest\vee W_{D_n})$ (a sheaf-theoretic Whitehead theorem).
+The proof is an instance of a general join theorem: if an endofunctor $P$ is
+connected to the identity by a natural transformation with components in
+$U\vee V$ and sends $U$ and $V$ into a sameness $W\subseteq U\vee V$, then
+$U\vee V=P^{*}(W)$; for two reflectors $L_1,L_2$ this gives
+$W_{L_1}\vee W_{L_2}=W_{L_2L_1}$ iff $L_2L_1$ inverts $W_{L_2}$. To set this
+up we show that for any Grothendieck topology $J$ on a small category $S$ the
+class $W_J$ of maps inverted by sheafification is an element of
+$\Same(\Presh(S))$, that $J\mapsto W_J$ is an order-embedding whose image
+consists of the saturated samenesses inverted by a left-exact reflector, and
+that, within the embedded sheaf samenesses, joins in the lattice of
+topologies are obtained by saturating joins in the sameness lattice:
+$W_{J\vee J'}=\mathrm{Sat}(W_J\vee W_{J'})$. We also give a short direct proof, in this language, of the
+finite-sieve form of the Kelly--Lawvere correspondence --- the Grothendieck
+topologies on a category with finitely many sieves on each object are its
+idempotent two-sided ideals --- and re-derive from it the classical facts that
+the subtoposes of simplicial and cubical sets are the coskeletal ones; the
+dictionary is used to locate the sheaf chain $W_{D_k}$ inside
+$\Same(\sset)$. All finite claims are verified by exhaustive computation from
+the definitions.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Two theories may agree on what an object \emph{is} and disagree on when two
+objects are \emph{the same}. Homotopy theory identifies simplicial sets along
+weak equivalences; sheaf theory identifies presheaves that have the same
+sheafification. Both notions of sameness are classes of morphisms satisfying
+two-out-of-three, and the companion papers \cite{SameA,SameB} proposed to
+study all such classes at once: for a category $C$, a \emph{sameness} is a
+class $W$ of morphisms containing the identities, closed under composition and
+satisfying two-out-of-three, and $\Same(C)$ is the complete lattice of
+samenesses under inclusion. The present paper compares the sheaf-theoretic
+and the homotopical samenesses of simplicial sets \emph{inside} this lattice.
+
+\medskip\noindent\textbf{Main theorem.} Let $\Wtest\in\Same(\sset)$ be the
+weak homotopy equivalences and, for $k\ge0$, let $W_{D_k}$ be the class of
+maps $f$ with $\cosk_kf$ an isomorphism --- equivalently, bijective in
+dimensions $\le k$ --- which is the class of maps inverted by sheafification
+for the $k$-th coskeletal subtopos. For $n\ge-1$ let $T_n$ be the
+$n$-truncated weak equivalences (maps inducing isomorphisms on $\pi_i$ for
+$i\le n$ at all base points; for $n=-1$, maps whose source and target are
+both empty or both non-empty).
+Then (Theorem~\ref{thm:join} and Corollary~\ref{cor:whitehead})
+\[
+\Wtest\vee W_{D_{n+1}}=T_n\quad(n\ge-1),
+\]
+\[
+\Wtest=\bigcap_{n\ge0}\bigl(\Wtest\vee W_{D_n}\bigr),\qquad
+\Iso=\bigcap_{n\ge0}W_{D_n}.
+\]
+That the coskeleta of a \emph{Kan complex} model its Postnikov sections is
+classical; the point here is the statement about \emph{classes of maps}: the
+Postnikov truncation, which at the $\infty$-level is the $n$-truncation
+modality, is the lattice join of the sheaf sameness of the coskeletal
+topology with the homotopy sameness, on all simplicial sets, and the homotopy
+sameness is the meet of these joins. In words,
+\[
+\text{sheaf localization}\ \vee\ \text{homotopy localization}\ =\ \text{Postnikov localization}.
+\]
+
+\medskip\noindent\textbf{The general join theorem.} The proof is an instance
+of a statement about arbitrary samenesses (Theorem~\ref{thm:generaljoin}):
+if an endofunctor $P$ of $C$ receives a natural transformation from the
+identity whose components lie in $U\vee V$, and $P$ sends $U$ and $V$ into a
+sameness $W\subseteq U\vee V$, then $U\vee V=P^*(W)$, the class of maps sent
+by $P$ into $W$. For two reflectors $L_1,L_2$ onto full subcategories, with
+$W_{L_i}$ the maps they invert, this specialises to
+$W_{L_1}\vee W_{L_2}=W_{L_2L_1}$ iff $L_2L_1$ inverts $W_{L_2}$
+(Corollary~\ref{cor:tworeflectors}); for two Grothendieck topologies $J,J'$
+it shows that $W_{J\vee J'}$ is the saturation of $W_J\vee W_{J'}$
+(Proposition~\ref{prop:topjoin}). The main theorem is the case $U=\Wtest$,
+$V=W_{D_{n+1}}$, $P=\cosk_{n+1}\circ\mathrm{Ex}^\infty$, $W=\Wtest$.
+
+\medskip\noindent\textbf{Sheaf sameness.} To place sheaf theory in the
+lattice we show (Theorem~\ref{thm:embed}) that for every Grothendieck
+topology $J$ on a small category $S$ the class $W_J$ of maps inverted by
+sheafification is a sameness, that $J\mapsto W_J$ is an order-embedding
+$\Top(S)\hookrightarrow\Same(\Presh(S))$, that $W_J$ is the class of $J$-local
+isomorphisms, and that the image consists exactly of the \emph{saturated}
+samenesses that are the full class of maps inverted by a left-exact
+reflector. Saturation is essential: $\{\mathrm{id}\}$ and $\Iso$ are distinct
+samenesses with the same (identity) localization, and only the second is a
+$W_J$.
+
+\medskip\noindent\textbf{The finite-sieve dictionary.} To compute with sheaf
+samenesses on the simplex and cube categories we use an explicit dictionary
+(Theorem~\ref{thm:ideal}): on a category with finitely many sieves on each
+object, Grothendieck topologies correspond, by reverse inclusion, to
+\emph{idempotent two-sided ideals}, the ideal of a topology being the family
+of its least covering sieves. This is the finite-sieve form of the
+correspondence of Kelly and Lawvere \cite{KL89} between essential
+localizations of a presheaf topos and idempotent ideals, and it is closely
+related to the rigidity results of Johnstone \cite[C2.2.21]{Elephant},
+Lindenhovius \cite{Lin14} and Marqu\`es \cite{Marques25}; we include the short
+direct proof because it is elementary, needs no Cauchy completeness, and gives
+the explicit least-cover description used later. Its consequences --- a finite
+poset has $2^{|P|}$ topologies, a group two, a finite meet-semilattice $L$ as
+a monoid has $\Top(L)\cong\Down(L^{\mathrm{op}})$ while $\Same(L)\cong
+L^{\mathrm{op}}$, and the cube and simplex categories have exactly the
+dimension chain of topologies, so that their subtoposes are the coskeletal
+ones --- are re-derivations of, or small additions to, known facts: that the
+essential subtoposes (levels) of simplicial and cubical sets are the
+dimensions is due to Kennett, Riehl, Roy and Zaks \cite{KRRZ}, and that every
+topology on $\Delta$ is rigid is in Marqu\`es \cite{Marques25}. What we add is
+the position of these topologies as the sheaf chain $W_{D_0}\supseteq
+W_{D_1}\supseteq\cdots$ in $\Same(\sset)$, which is what the main theorem
+joins with $\Wtest$.
+
+\medskip\noindent\textbf{Verification.} Every finite assertion (numbers of
+topologies, the bijection with idempotent ideals, the poset, monoid,
+semilattice and cube computations) was verified by enumeration from the
+definition of a Grothendieck topology (\S\ref{sec:comp}).
+
+\medskip\noindent\textbf{Related work.} Subtoposes of presheaf toposes and
+their correspondence with Grothendieck topologies, local isomorphisms and
+left-exact reflections are classical \cite{MLM,Elephant}; subtoposes of
+$\Sh(X)$ for a locale $X$ correspond to nuclei \cite{Stone}. Kelly and
+Lawvere \cite{KL89} showed that the essential localizations of a topos form a
+complete lattice and described those of a presheaf topos $\Presh(S)$ through
+idempotent two-sided ideals of $S$; Kennett, Riehl, Roy and Zaks \cite{KRRZ}
+computed the resulting levels of simplicial, cubical and reflexive globular
+sets and their Aufhebung; Marqu\`es \cite{Marques25} characterised, modulo
+slices, the categories on which every Grothendieck topology is rigid, which
+include finite Cauchy-complete categories, Artinian posets \cite{Lin14} and
+$\Delta$. Toposes of monoid actions are studied by Hemelaer and Rogers
+\cite{HR,Rogers}. Coskeleta, Kan's $\mathrm{Ex}^\infty$ and Postnikov sections
+are in \cite{GJ}; that the coskeleta of a Kan complex model its Postnikov
+sections is folklore, and we include the short proof
+(Lemma~\ref{lem:cosk}). Composites and comparisons of localizations are a
+classical theme of the theory of Bousfield localization and homotopy
+idempotent functors \cite{Bousfield,Hirschhorn}, where localizations are
+typically compared within model or homotopical structures and with
+additional localization or saturation structure; the join theorem (Theorem~\ref{thm:generaljoin}) and
+its corollaries assume none of this --- no model structure, no factorization,
+no saturation --- and hold in the complete lattice of bare two-out-of-three
+classes of an arbitrary category, which is what allows the sheaf-theoretic
+class $W_{D_{n+1}}$ to be joined with $\Wtest$ without first realising both
+as weak equivalences of model structures. Weak-equivalence
+classes, localizers and model structures on presheaf categories are studied
+by Cisinski and others; what is new here is the treatment of the bare
+two-out-of-three classes as a lattice in which sheaf and homotopy
+localizations can be joined, and the resulting identification of the
+Postnikov truncations as such joins.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Samenesses}
+For a small category $C$, a \emph{sameness} is a class $W\subseteq\Mor(C)$
+with (i) all identities in $W$, (ii) $W$ closed under composition, (iii)
+two-out-of-three: for composable $f,g$, if two of $f,g,g\circ f$ lie in $W$ then
+so does the third. $\Same(C)$ is the set of samenesses ordered by inclusion.
+
+\begin{prop}\label{prop:same}
+$\Same(C)$ is a complete lattice (meets are intersections; $\bot=\{\mathrm{id}\}$,
+$\top=\Mor(C)$). For a functor $F\colon C\to D$ and $W\in\Same(D)$,
+$F^*(W)=\{m:F(m)\in W\}$ is a sameness in $C$, and $F^*$ preserves meets. In
+particular $V_F:=F^*(\Iso D)$ is the largest sameness inverted by $F$; $F$
+factors through the localization $C\to C[V_F^{-1}]$, and the induced functor
+$C[V_F^{-1}]\to D$ is an equivalence iff $F$ exhibits $D$ as the localization
+of $C$ at $V_F$. For a group $G$ (as a one-object category), $\Same(G)$ is the
+subgroup lattice $\Sub(G)$.
+\end{prop}
+\begin{proof}
+The three conditions are preserved by intersections and hold for $\Mor(C)$;
+$F^*$ preserves them because $F$ preserves identities and composites, and it
+preserves intersections. The universal property of the localization
+\cite[I.1]{GZ} gives the factorization, and the last assertion is then the
+definition of ``exhibits as the localization''. For a group, two-out-of-three
+applied to $(w^{-1},w)$, whose composite is the identity, forces $w^{-1}\in W$,
+so a sameness is a subgroup; conversely every subgroup satisfies the three
+conditions.
+\end{proof}
+
+\begin{defi}\label{def:sat}
+For $W\in\Same(C)$, an object $Z$ is \emph{$W$-local} if $\mathrm{Hom}(f,Z)$
+is bijective for every $f\in W$; write $\mathrm{Loc}(W)$ for the class of
+$W$-local objects. The \emph{saturation} of $W$ is
+$\mathrm{Sat}(W):=\{f:\mathrm{Hom}(f,Z)\text{ bijective for all }Z\in
+\mathrm{Loc}(W)\}$, a sameness containing $W$; $W$ is \emph{saturated} if
+$W=\mathrm{Sat}(W)$.
+\end{defi}
+
+\begin{lem}\label{lem:loc}
+For $U,V\in\Same(C)$, $\mathrm{Loc}(U\vee V)=\mathrm{Loc}(U)\cap\mathrm{Loc}(V)$;
+hence $\mathrm{Sat}(U\vee V)=\mathrm{Sat}(\mathrm{Sat}(U)\vee\mathrm{Sat}(V))$.
+If $L\colon C\to C$ is a reflector onto a full replete subcategory
+$\mathcal E$ (with unit $\eta$), then $W_L:=L^*(\Iso)$ is saturated,
+$\mathrm{Loc}(W_L)=\mathcal E$, and $C\to\mathcal E$ is the localization of
+$C$ at $W_L$.
+\end{lem}
+\begin{proof}
+$Z$ is local for $U\vee V$ iff for both $U$ and $V$: one direction is
+trivial, and conversely $\{f:\mathrm{Hom}(f,Z)\text{ bijective}\}$ is a
+sameness containing $U$ and $V$, hence the join. The second assertion follows
+since $\mathrm{Loc}(\mathrm{Sat}(U))=\mathrm{Loc}(U)$. For a reflector, $f$ is
+inverted by $L$ iff $\mathrm{Hom}(Lf,Z)$ is bijective for all $Z\in\mathcal
+E$ (Yoneda in $\mathcal E$) iff $\mathrm{Hom}(f,Z)$ is bijective for all
+$Z\in\mathcal E$; so $\mathcal E\subseteq\mathrm{Loc}(W_L)$ and
+$W_L=\{f:\mathrm{Hom}(f,Z)\text{ bij.\ }\forall Z\in\mathcal E\}$. If $Z$ is
+$W_L$-local then $\eta_Z\in W_L$ gives $\mathrm{Hom}(\eta_Z,Z)$ bijective, so
+$\eta_Z$ has a retraction $r$ with $r\eta_Z=\mathrm{id}$; then $\eta_Z r$ and
+$\mathrm{id}_{LZ}$ have the same composite with $\eta_Z$, and
+$\mathrm{Hom}(\eta_Z,LZ)$ is bijective, so $\eta_Z$ is an isomorphism and
+$Z\in\mathcal E$. Hence $\mathrm{Loc}(W_L)=\mathcal E$ and $W_L$ is saturated.
+The localization statement is \cite[I.1.3]{GZ}.
+\end{proof}
+
+\subsection{Sieves, topologies, sheafification}
+A \emph{sieve} on an object $c$ of $S$ is a set of morphisms with codomain $c$
+closed under precomposition; for $h\colon d\to c$ and a sieve $R$ on $c$,
+$h^*R=\{g: h\circ g\in R\}$. A \emph{Grothendieck topology} $J$ assigns to each
+$c$ a set $J(c)$ of sieves such that the maximal sieve is in $J(c)$, $J$ is
+stable ($R\in J(c)\Rightarrow h^*R\in J(d)$) and transitive (if $R\in J(c)$ and
+$Q$ is a sieve on $c$ with $h^*Q\in J(d)$ for all $h\colon d\to c$ in $R$, then
+$Q\in J(c)$) \cite{MLM}. Each $J(c)$ is then upward closed and closed under
+finite intersection. $\Top(S)$ is the set of topologies ordered by $J\le J'$
+iff $J(c)\subseteq J'(c)$ for all $c$; it is a complete lattice. We write
+$a_J\colon\Presh(S)\to\Sh_J(S)$ for sheafification, a left-exact left adjoint to
+the inclusion; $J\le J'$ implies $a_{J'}=a_{J'}\circ a_J$ up to isomorphism.
+A morphism of presheaves is a \emph{$J$-local isomorphism} if it is $J$-locally
+injective and $J$-locally surjective; $a_J f$ is an isomorphism iff $f$ is a
+$J$-local isomorphism \cite[III.7]{MLM}, \cite[C2.2]{Elephant}.
+
+\section{Topologies embed in the sameness lattice}\label{sec:embed}
+
+\begin{thm}\label{thm:embed}
+Let $S$ be a small category. For $J\in\Top(S)$ put
+$W_J:=\{f\in\Mor\Presh(S): a_J f\text{ is an isomorphism}\}$. Then:
+\begin{enumerate}
+\item $W_J\in\Same(\Presh(S))$, and $W_J$ is the class of $J$-local
+isomorphisms; it is stable under pullback and closed under colimits in the
+arrow category;
+\item $J\mapsto W_J$ is an order-embedding $\Top(S)\hookrightarrow
+\Same(\Presh(S))$;
+\item $W_J=V_{a_J}$ is the largest sameness inverted by $a_J$, and the induced
+$\Presh(S)[W_J^{-1}]\to\Sh_J(S)$ is an equivalence;
+\item the image of the embedding is the set of saturated samenesses $W$
+that are the full class of maps inverted by a left-exact reflector onto a
+full replete subcategory of $\Presh(S)$; equivalently, $\mathrm{Loc}(W)$ is a
+subtopos and $W=\mathrm{Sat}(W)$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(1) $W_J=a_J^*(\Iso)$ is a sameness by Proposition~\ref{prop:same}; the local
+isomorphism description is the classical characterisation of the maps
+inverted by sheafification; pullback stability because $a_J$ is left exact,
+colimit closure because it is a left adjoint. (2) Monotone: $J\le J'$ gives
+$a_{J'}=a_{J'}a_J$, so $a_Jf$ iso implies $a_{J'}f$ iso. Injective and
+order-reflecting: the $W_J$-local objects are exactly the $J$-sheaves (for a
+reflective localization the local objects form the reflective subcategory),
+and a subtopos of $\Presh(S)$ determines its topology \cite[V.4]{MLM}, \cite[A4.3]{Elephant}, so $W_J\subseteq
+W_{J'}$ forces $\Sh_{J'}\subseteq\Sh_J$, i.e.\ $J\le J'$. (3) By
+Lemma~\ref{lem:loc}, since $a_J$ is a reflector. (4) If $W=L^*(\Iso)$ for a
+left-exact reflector $L$ onto $\mathcal E\subseteq\Presh(S)$, then
+$\mathcal E$ is a subtopos, hence $\mathcal E=\Sh_J(S)$ for a unique $J$
+\cite[A4.3]{Elephant}, and $W=\{f:\mathrm{Hom}(f,Z)\text{ bij.\ }\forall
+Z\in\mathcal E\}=W_J$ by Lemma~\ref{lem:loc}; conversely $W_J=a_J^*(\Iso)$ is
+of this form and saturated. The condition ``saturated'' cannot be dropped:
+$\{\mathrm{id}\}$ and $\Iso$ have the same localization but only $\Iso=W_{J_{\min}}$
+(trivial topology) is in the image.
+\end{proof}
+
+\begin{rem}
+$\Presh(S)$ is large; as in \cite{SameA} we fix universes $U\in V$, take $S$
+$U$-small and form $\Same$ and the localizations in $V$. Nothing below
+depends on this bookkeeping. Figure~\ref{fig:embed} summarises
+Theorem~\ref{thm:embed}.
+\end{rem}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large,row sep=large]
+\Top(S)\arrow[r,hook,"J\mapsto W_J"]\arrow[d,"J\mapsto\Sh_J(S)"'] &
+\Same(\Presh(S))\arrow[d,"{W\mapsto\Presh(S)[W^{-1}]}"] \\
+\{\text{subtoposes}\}^{\mathrm{op}}\arrow[r,hook] & \{\text{localizations}\}
+\end{tikzcd}
+\qquad
+\begin{tikzcd}[column sep=large,row sep=large]
+\Presh(S)\arrow[r,"a_J"]\arrow[d,"\text{loc.}"'] & \Sh_J(S) \\
+\Presh(S)[W_J^{-1}]\arrow[ur,"\simeq"'] &
+\end{tikzcd}
+\caption{Top: the order-embedding of Theorem~\ref{thm:embed} over the
+classical correspondence between topologies and subtoposes; the right-hand
+column sends a sameness to its localization, and the image of the top row is
+the set of saturated samenesses inverted by a left-exact reflector. Bottom: $W_J$ is the
+largest sameness inverted by $a_J$, and the induced comparison is an
+equivalence.}
+\label{fig:embed}
+\par\smallskip\noindent\textit{Alt text:} Above, a commutative square: the
+lattice of topologies embeds into the sameness lattice along the top, and
+both map down to subtoposes and localizations respectively. Below, a
+triangle: sheafification from presheaves to sheaves factors through the
+localization at the sameness of the topology, and the comparison functor is
+an equivalence.
+\end{figure}
+
+\section{Joins of samenesses and localizations}\label{sec:general}
+
+The main theorem rests on the following formal statement.
+
+\begin{thm}[join theorem]\label{thm:generaljoin}
+Let $U,V,W\in\Same(C)$ with $W\subseteq U\vee V$, and let $P\colon C\to C$ be
+a functor with a natural transformation $\pi\colon\mathrm{id}_C\Rightarrow P$
+such that
+\begin{enumerate}
+\item[(a)] $\pi_X\in U\vee V$ for every object $X$;
+\item[(b)] $P(U)\subseteq W$ and $P(V)\subseteq W$.
+\end{enumerate}
+Then $U\vee V=P^*(W)=\{f:Pf\in W\}$.
+\end{thm}
+\begin{proof}
+$P^*(W)$ is a sameness (Proposition~\ref{prop:same}) containing $U$ and $V$
+by (b), hence containing $U\vee V$. Conversely let $f\colon X\to Y$ with
+$Pf\in W\subseteq U\vee V$. Naturality gives $\pi_Y\circ f=Pf\circ\pi_X$; the
+right-hand side lies in $U\vee V$ by (a), and $\pi_Y\in U\vee V$, so
+two-out-of-three gives $f\in U\vee V$.
+\end{proof}
+
+\begin{cor}[two reflectors]\label{cor:tworeflectors}
+Let $L_1,L_2$ be reflectors of $C$ onto full replete subcategories, with
+$W_{L_i}=L_i^*(\Iso)$, and write $W_{L_2L_1}:=(L_2L_1)^*(\Iso)$ for the class
+of maps inverted by the composite functor (which need not itself be a
+reflector). Then
+\[
+W_{L_1}\vee W_{L_2}=W_{L_2L_1}\quad\Longleftrightarrow\quad
+L_2L_1\text{ inverts }W_{L_2}.
+\]
+In particular the equality holds whenever $L_1$ preserves $L_2$-equivalences,
+or whenever $L_2L_1\cong L_2$ (e.g.\ $\mathrm{Loc}(W_{L_2})\subseteq
+\mathrm{Loc}(W_{L_1})$).
+\end{cor}
+\begin{proof}
+Apply Theorem~\ref{thm:generaljoin} with $U=W_{L_1}$, $V=W_{L_2}$, $W=\Iso$,
+$P=L_2L_1$ and $\pi_X=\eta^2_{L_1X}\circ\eta^1_X$, a composite of a
+$W_{L_1}$-map and a $W_{L_2}$-map; (b) for $U$ holds because $L_2L_1$ inverts
+$W_{L_1}$, and (b) for $V$ is the stated condition. Conversely, if the
+equality holds then $W_{L_2}\subseteq W_{L_2L_1}$.
+\end{proof}
+
+\begin{prop}[joins of topologies]\label{prop:topjoin}
+For Grothendieck topologies $J,J'$ on $S$, with $J\vee J'$ their join in
+$\Top(S)$,
+\[
+W_{J\vee J'}=\mathrm{Sat}(W_J\vee W_{J'}),
+\]
+so $W_{J\vee J'}=W_J\vee W_{J'}$ iff the join $W_J\vee W_{J'}$ is saturated.
+\end{prop}
+\begin{proof}
+A presheaf is a $(J\vee J')$-sheaf iff it is a $J$-sheaf and a $J'$-sheaf,
+because the sieves for which a given presheaf (and all its pullbacks)
+satisfies the sheaf condition form a topology \cite[C2.1]{Elephant}. By
+Lemma~\ref{lem:loc}, $\mathrm{Loc}(W_J\vee W_{J'})=\Sh_J\cap\Sh_{J'}
+=\Sh_{J\vee J'}=\mathrm{Loc}(W_{J\vee J'})$, and $W_{J\vee J'}$ is saturated,
+so $W_{J\vee J'}=\mathrm{Sat}(W_J\vee W_{J'})$.
+\end{proof}
+
+\begin{ex}\label{ex:twochain}
+Let $S$ be the poset $0<1$, so that $\Presh(S)$ is the category of maps of
+sets $X(1)\to X(0)$. The two intermediate topologies (\S\ref{sec:ideal}) have
+sheaf samenesses $W_0=\{f:f_0\text{ bijective}\}$ and $W_1=\{f:f_1\text{
+bijective}\}$, and their join topology is the degenerate one, with
+$W=\Mor$. Here $W_0\vee W_1=\Mor$: any $f=(f_1,f_0)\colon X\to Y$ factors as
+$(X(1)\to X(0))\xrightarrow{(\mathrm{id},f_0)}(X(1)\to Y(0))
+\xrightarrow{(f_1,\mathrm{id})}(Y(1)\to Y(0))$, a $W_1$-map followed by a
+$W_0$-map. Whether $W_J\vee W_{J'}=W_{J\vee J'}$ holds for all pairs of
+topologies on all sites we leave open; Proposition~\ref{prop:topjoin} reduces
+it to the saturation of the join.
+\end{ex}
+
+\section{The finite-sieve dictionary}\label{sec:ideal}
+
+A \emph{two-sided ideal} of $S$ is a class $D$ of morphisms closed under pre-
+and post-composition with arbitrary morphisms of $S$; write $D(c)$ for its
+members with codomain $c$ (a sieve on $c$). $D$ is \emph{idempotent} if
+$D\circ D=D$, i.e.\ every member of $D$ is a composite of two members of $D$.
+Let $\Idem(S)$ be the set of idempotent two-sided ideals.
+
+Kelly and Lawvere \cite{KL89} describe the essential localizations of
+$\Presh(S)$ --- those whose reflector has a left adjoint --- in terms of
+idempotent two-sided ideals of $S$; when every object has finitely many
+sieves, every topology has least covering sieves and the description becomes
+the following elementary dictionary, which we prove directly since it is
+short, requires no Cauchy completeness, and is what we compute with. (For
+categories with finite slices \cite[C2.2.21]{Elephant}, \cite[Prop.~4.10]{KL89},
+and for those in which every arrow factors as a split epimorphism followed by
+a split monomorphism and every object has finitely many subobjects (Menni;
+see criterion (C2) in \cite{Marques25}), every topology is moreover
+\emph{rigid}: its sheaf topos is a presheaf topos on the full subcategory
+of $J$-irreducible objects, i.e.\ the objects $c$ with $\mathrm{id}_c\in D_J$
+below.)
+
+\begin{thm}[ideal theorem]\label{thm:ideal}
+Let $S$ have finitely many sieves on each object (e.g.\ $S$ finite). Then
+\[
+\Top(S)\ \cong\ \Idem(S)^{\mathrm{op}},
+\]
+\[
+J\longmapsto D_J:=\Bigl(\bigcap J(c)\Bigr)_{c},\qquad
+D\longmapsto J_D(c):=\{R\text{ a sieve on }c: R\supseteq D(c)\},
+\]
+mutually inverse order-reversing bijections. The trivial topology corresponds
+to $D=\Mor(S)$ and the degenerate one (all sieves) to $D=\varnothing$.
+\end{thm}
+\begin{proof}
+Let $J$ be a topology. Each $J(c)$ is upward closed and closed under finite
+intersection, so with finitely many sieves $D_J(c):=\bigcap J(c)\in J(c)$ and
+$J(c)=\{R\supseteq D_J(c)\}$. Stability of $D_J(c)$ along $h\colon d\to c$ gives
+$h^*D_J(c)\in J(d)$, hence $h^*D_J(c)\supseteq D_J(d)$, i.e.\ $h\circ g\in
+D_J(c)$ for every $g\in D_J(d)$: $D_J$ is closed under post-composition, and
+being a family of sieves it is closed under pre-composition, so it is a
+two-sided ideal. Transitivity applied to $R=D_J(c)$ and $Q=(D_J\circ D_J)(c)$:
+for $h\in D_J(c)$, $h^*Q\supseteq D_J(d)$ since $h\circ g\in D_J\circ D_J$ for
+$g\in D_J(d)$; hence $Q\in J(c)$, so $Q\supseteq D_J(c)$, i.e.\ $D_J\circ
+D_J\supseteq D_J$; the other inclusion is trivial, so $D_J$ is idempotent.
+
+Conversely let $D$ be an idempotent two-sided ideal. $J_D(c)$ contains the
+maximal sieve. Stability: if $R\supseteq D(c)$ and $g\in D(d)$ then $h\circ
+g\in D(c)\subseteq R$, so $h^*R\supseteq D(d)$. Transitivity: let $R\supseteq
+D(c)$ and $Q$ a sieve with $h^*Q\supseteq D(d)$ for all $h\colon d\to c$ in $R$;
+in particular for $h\in D(c)$, so $h\circ D(d)\subseteq Q$ for all $h\in D(c)$,
+i.e.\ $(D\circ D)(c)\subseteq Q$, whence $D(c)\subseteq Q$ by idempotence and
+$Q\in J_D(c)$. The two assignments are inverse ($D_{J_D}=D$ since $D(c)$ is the
+least sieve containing $D(c)$; $J_{D_J}=J$ as shown) and reverse inclusion.
+\end{proof}
+
+The theorem was checked by enumerating topologies from the definition and
+idempotent two-sided ideals independently, on sixty-one monoids (all of
+order $\le 4$, cyclic groups, thirteen lattices as meet-monoids) and on ten
+categories with several objects, parallel arrows and non-trivial
+endomorphisms; the bijection and its order-reversal held in every case
+(\S\ref{sec:comp}); see Figure~\ref{fig:ideal}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=huge,row sep=large]
+J\arrow[r,mapsto,"{D_J=(\bigcap J(c))_c}"] & D_J \\
+J_D\arrow[u,equal,"{J_{D_J}=J}"] & D\arrow[l,mapsto,"{J_D(c)=\{R\supseteq D(c)\}}"]\arrow[u,equal,"{D_{J_D}=D}"']
+\end{tikzcd}
+\caption{The ideal theorem (Theorem~\ref{thm:ideal}): a topology is recorded
+by its least covering sieves, which form an idempotent two-sided ideal, and
+an idempotent two-sided ideal generates a topology by upward closure; the two
+passages are inverse and reverse the order.}
+\label{fig:ideal}
+\par\smallskip\noindent\textit{Alt text:} A square of assignments. A
+topology $J$ maps right to the ideal of its least covering sieves; an ideal
+$D$ maps left to the topology of sieves containing $D$; the vertical
+equalities record that the two round trips are identities.
+\end{figure}
+
+\begin{cor}[posets]\label{cor:poset}
+For a finite poset $P$ (as a category), $\Top(P)\cong 2^{|P|}$, the Boolean
+lattice on the underlying set: the topologies depend only on the number of
+points, not on the order. (This also follows from rigidity: the topologies on
+an Artinian poset correspond to its subsets \cite{Lin14}, \cite{Marques25}.)
+\end{cor}
+\begin{proof}
+For $Y\subseteq P$ let $D_Y$ be the set of arrows $a\to b$ with $a\le y\le b$
+for some $y\in Y$; it is a two-sided ideal, idempotent since $a\to b$ factors
+as $(y\to b)\circ(a\to y)$ with both factors in $D_Y$, and $Y$ is recovered
+from $D_Y$ as the set of objects whose identity it contains. Conversely let
+$D$ be an idempotent two-sided ideal and $Y$ the set of objects with
+$\mathrm{id}_y\in D$; then $D\supseteq D_Y$. For $a\to b$ in $D$, idempotence
+gives $y_1$ with $a\le y_1\le b$ and $a\to y_1$, $y_1\to b$ in $D$; if $y_1=a$
+or $y_1=b$ an identity of $D$ lies between $a$ and $b$; otherwise repeat with
+$a\to y_1$. Since $P$ is finite the strictly shrinking intervals terminate,
+producing $y\in Y$ with $a\le y\le b$, so $a\to b\in D_Y$. Hence $D=D_Y$, and
+$Y\mapsto D_Y$ is an order-isomorphism $2^P\cong\Idem(P)$. Verified from the
+definition of a topology on eight posets with $\le4$ points (chains,
+antichains, $\mathrm{V}$, $\Lambda$, the square), in each case also matching
+the number of nuclei on the frame $\Down(P)$.
+\end{proof}
+
+\begin{cor}[groups, groupoids, monoids]\label{cor:monoid}
+For a monoid $M$ with finitely many right ideals, $\Top(M)$ is the poset of
+idempotent two-sided ideals of $M$ under reverse inclusion. For a group (or a
+connected groupoid) the only two-sided ideals are $\varnothing$ and everything,
+so $\Top(G)$ is the two-element chain, while $\Same(G)=\Sub(G)$; for a
+groupoid with a set $\pi_0$ of components, $\Top\cong 2^{\pi_0}$.
+\end{cor}
+
+\begin{cor}[semilattices]\label{cor:semilattice}
+Let $L$ be a finite meet-semilattice with top element, viewed as a monoid under
+$\wedge$. Then every ideal (down-set) of $L$ is a two-sided idempotent ideal, so
+\[
+\Top(L)\ \cong\ \Down(L)^{\mathrm{op}}\ \cong\ \Down(L^{\mathrm{op}}),
+\]
+the lattice of up-sets of $L$; in particular the lattice of subtoposes of the
+topos of $L$-sets determines $L$ up to isomorphism (Birkhoff duality). The
+arrow-level sameness lattice is $\Same(L)\cong L^{\mathrm{op}}$ via $a\mapsto
+{\uparrow}a$; hence $\Top(L)\cong\Down(\Same(L))$.
+\end{cor}
+\begin{proof}
+A down-set $D$ satisfies $D\wedge L\subseteq D$ and $d=d\wedge d$, so it is a
+two-sided idempotent ideal; conversely a right ideal is a down-set. For
+$\Same(L)$: a sameness $W$ is a meet-closed submonoid; with $a:=\bigwedge W\in W$
+we have $W\subseteq{\uparrow}a$, and for $y\ge a$ the pair $(y,a)$ has
+composite $y\wedge a=a\in W$, so two-out-of-three gives $y\in W$; each
+${\uparrow}a$ is a sameness, and ${\uparrow}a\subseteq{\uparrow}b$ iff $b\le a$.
+Verified on thirteen lattices ($n$-chains, $2^2$, $2^3$, $M_3$, $N_5$, $2\times3$,
+$1\oplus2^2$, $2^2\oplus1$, $2^2\oplus2$): e.g.\ $|\Top(2^3)|=20$, $|\Top(M_3)|=10$,
+$|\Top(N_5)|=8$.
+\end{proof}
+
+\begin{ex}
+Among the $35$ monoids of order $4$, $\Top(M)$ is a chain for $34$; the unique
+exception is the meet-semilattice $2^2$ (identity, zero, two orthogonal
+idempotents), with $\Top(2^2)\cong\Down(2^2)^{\mathrm{op}}$, six elements
+(Figure~\ref{fig:semilattice}). The pairs $(|\Top M|,|\Same M|)$ take nine
+different values on order $4$; neither invariant determines the other.
+\end{ex}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small, column sep=small]
+& \top & \\
+a\arrow[ur,dash] & & b\arrow[ul,dash] \\
+& 0\arrow[ul,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\qquad\qquad
+\begin{tikzcd}[row sep=small, column sep=small]
+& L & \\
+& \{0,a,b\}\arrow[u,dash] & \\
+\{0,a\}\arrow[ur,dash] & & \{0,b\}\arrow[ul,dash] \\
+& \{0\}\arrow[ul,dash]\arrow[ur,dash] & \\
+& \varnothing\arrow[u,dash] &
+\end{tikzcd}
+\caption{Left: the meet-semilattice $L=2^2$ as a monoid. Right: its six
+topologies, $\Top(L)\cong\Down(L)^{\mathrm{op}}$ (drawn as $\Down(L)$; the
+topology order is the reverse). The arrow-level lattice is $\Same(L)\cong
+L^{\mathrm{op}}$, four elements.}
+\label{fig:semilattice}
+\par\smallskip\noindent\textit{Alt text:} Two Hasse diagrams. Left, a diamond
+with bottom $0$, two incomparable elements $a$ and $b$, and top. Right, a
+six-element lattice: empty set at the bottom, then the singleton of $0$, then
+two incomparable sets $\{0,a\}$ and $\{0,b\}$, then $\{0,a,b\}$, then the whole
+semilattice at the top.
+\end{figure}
+
+\section{Cube and simplex categories}\label{sec:cube}
+
+Let $\cube$ be the cube category generated by faces and degeneracies (Kan's
+cube category, as in \cite{KRRZ}; no connections, reversals or symmetries)
+and $\Delta$ the simplex category. For $k\ge0$ let $D_k$ be the class of
+morphisms that factor through an object of dimension $\le k$. The following
+theorem is a re-derivation, through the dictionary, of known facts: that the
+levels (essential subtoposes) of simplicial and cubical sets are the
+dimensions is \cite[\S1]{KRRZ}, and that every topology on $\Delta$ is rigid
+is \cite[Thm.~2.6]{Marques25}, so that all subtoposes of $\sset$ are levels;
+the same holds for $\cube$, which satisfies the split-epi/split-mono
+factorization criterion of Menni recorded as (C2) in \cite{Marques25}. What we need from it is
+the last sentence: the explicit description of the sheaf samenesses.
+
+\begin{thm}\label{thm:cube}
+The two-sided ideals of $\cube$ (resp.\ $\Delta$) are exactly $\varnothing$,
+the $D_k$ ($k\ge0$) and $\Mor$; all are idempotent. Hence the topologies form
+the chain
+\[
+\text{degenerate}\ \subset\ \cdots\ \subset\ J_{D_1}\ \subset\ J_{D_0}\ \subset\ \text{trivial}
+\]
+(reverse inclusion of ideals), and the $J_{D_k}$-sheaves are the
+$k$-coskeletal presheaves: the subtoposes of cubical sets and of simplicial
+sets are precisely the coskeletal ones. The sheaf samenesses form the
+descending chain $W_{D_0}\supseteq W_{D_1}\supseteq\cdots$ of
+$k$-coskeletal equivalences,
+\[
+W_{D_k}=\{f:\cosk_kf\text{ iso}\}=\{f: f_m\text{ bijective for all }m\le k\},
+\]
+with $\bigcap_kW_{D_k}=\Iso$.
+\end{thm}
+\begin{proof}
+Every morphism $f\colon[m]\to[n]$ factors as a degeneracy $\sigma\colon[m]\twoheadrightarrow[k]$
+followed by a face $\delta\colon[k]\hookrightarrow[n]$, $k$ the rank of $f$;
+degeneracies have sections and faces have retractions among the generators.
+So $\mathrm{id}_{[k]}=r\circ f\circ s$ lies in the two-sided ideal generated by
+$f$, which therefore contains every morphism factoring through $[k]$, i.e.\
+$D_k$, and $f\in D_k$. Hence principal ideals are the $D_k$, two-sided ideals
+are unions of $D_k$'s --- $\varnothing$, some $D_k$, or everything --- and
+each is idempotent since it contains an identity through which its members
+factor. Theorem~\ref{thm:ideal} gives the topologies: its finiteness hypothesis
+holds, a sieve on $[n]$ being a subpresheaf of the representable $y[n]$,
+which is determined by the finitely many non-degenerate cells it contains
+(every cell of $y[n]$ is uniquely a degeneracy of a non-degenerate one). The least
+covering sieve of $J_{D_k}$ on $[n]$ is $D_k([n])$, generated by the maps from
+dimension $\le k$, so a sheaf $X$ satisfies $X([n])\cong\mathrm{Hom}(\sk_ky[n],X)$ for all
+$n$, i.e.\ $X\cong\cosk_kX$; conversely a $k$-coskeletal $X$ is local for
+every sieve $R\supseteq\sk_ky[n]$, since $\mathrm{Hom}(R,\cosk_kX)=
+\mathrm{Hom}(\sk_kR,X)$ and $\sk_kR=\sk_ky[n]$. Since $(\cosk_kX)_m=\mathrm{Hom}(\sk_ky[m],X)$
+depends only on the $k$-truncation of $X$ and equals $X_m$ for $m\le k$,
+$\cosk_kf$ is an isomorphism iff $f$ is bijective in dimensions $\le k$; the
+intersection is therefore $\Iso$.
+\end{proof}
+Verified on the truncations $\cube_{\le1}$ ($7$ morphisms), $\cube_{\le2}$
+($37$), $\Delta_{\le1}$ ($7$), $\Delta_{\le2}$ ($31$): exactly
+$\varnothing,D_0,\dots,D_N$ in each case. Figure~\ref{fig:chain} shows the
+chain together with its sheaves.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small,column sep=small]
+\text{ideal } D & \text{topology } J_D & \text{sheaves} & \text{sameness } W_D\\
+\varnothing & \text{degenerate} & \text{terminal only} & \Mor \\
+D_0\arrow[u,dash] & J_{D_0}\arrow[u,dash] & 0\text{-coskeletal} & W_{D_0}\arrow[u,dash]\\
+D_1\arrow[u,dash] & J_{D_1}\arrow[u,dash] & 1\text{-coskeletal} & W_{D_1}\arrow[u,dash]\\
+\vdots\arrow[u,dash] & \vdots\arrow[u,dash] & \vdots & \vdots\arrow[u,dash]\\
+\Mor\arrow[u,dash] & \text{trivial}\arrow[u,dash] & \text{all presheaves} & \Iso\arrow[u,dash]
+\end{tikzcd}
+\caption{Theorem~\ref{thm:cube}: the four faces of the dimension chain for
+$\cube$ and $\Delta$. Ideals grow downwards, topologies and samenesses grow
+upwards; the sheaves for $J_{D_k}$ are the $k$-coskeletal presheaves.}
+\label{fig:chain}
+\par\smallskip\noindent\textit{Alt text:} A table of four columns aligned as
+a vertical chain: the ideals from empty to everything, the corresponding
+topologies from degenerate to trivial, their sheaves from the terminal object
+through the coskeletal presheaves to all presheaves, and the samenesses from
+all morphisms down to the isomorphisms.
+\end{figure}
+
+\section{Sheaf sameness versus homotopy sameness}\label{sec:join}
+
+On $\sset=\Presh(\Delta)$ the lattice $\Same(\sset)$ contains the homotopy
+sameness $\Wtest$ (weak homotopy equivalences) and the sheaf chain $W_{D_k}$.
+Let $\mathrm{Ex}^\infty\colon\sset\to\sset$ be Kan's fibrant replacement, with
+its natural weak equivalence $X\to\mathrm{Ex}^\infty X$ into a Kan complex
+\cite[III.4]{GJ}. For $n\ge-1$ put
+\[
+P_n:=\cosk_{n+1}\circ\mathrm{Ex}^\infty\colon\sset\to\sset,
+\]
+\[
+T_n:=P_n^*(\Wtest)=\{f: P_nf\text{ is a weak equivalence}\}.
+\]
+By Proposition~\ref{prop:same}, $T_n$ is a sameness. The following lemma is
+standard: the coskeleta of a Kan complex model its Postnikov tower (Duskin
+\cite{Duskin}; cf.\ the Postnikov towers of \cite[VI]{GJ}). We include the
+elementary proof for completeness, since the main theorem rests on it.
+
+\begin{lem}\label{lem:cosk}
+Let $X$ be a Kan complex and $n\ge-1$, and put $K=\cosk_{n+1}X$. Then $K$ is
+a Kan complex; the unit $\eta\colon X\to K$ induces isomorphisms
+$\pi_i(X,x)\to\pi_i(K,x)$ for all $0\le i\le n$ and all vertices $x$; and
+$\pi_i(K,x)=0$ for all $i\ge n+1$ and all $x$ (for $n=-1$: $K$ is empty or
+contractible). Consequently, for $n\ge0$,
+\[
+T_n=\{f:\ \pi_0f\text{ bijective, }\pi_if\text{ iso at every base point, }1\le i\le n\},
+\]
+and $T_{-1}$ is the class of maps $X\to Y$ with $X=\varnothing$ iff
+$Y=\varnothing$.
+\end{lem}
+\begin{proof}
+An $m$-simplex of $K$ is a map $\sk_{n+1}\Delta^m\to X$, and $\eta$ is
+bijective in dimensions $\le n+1$. \emph{Kan condition.} A horn
+$\Lambda^k_m\to K$ is a map $\sk_{n+1}\Lambda^k_m\to X$. If $m\ge n+3$ then
+$\sk_{n+1}\Lambda^k_m=\sk_{n+1}\Delta^m$, so the horn is already an
+$m$-simplex of $K$. If $m\le n+2$ then $\Lambda^k_m$ has dimension $\le n+1$,
+so the horn is a horn in $X$; a filler $\Delta^m\to X$ restricts to
+$\sk_{n+1}\Delta^m\to X$, an $m$-simplex of $K$ extending it.
+\emph{Homotopy groups.} For a Kan complex, $\pi_i(-,x)$ is computed from the
+$i$-simplices with boundary at $x$ modulo the relation given by
+$(i{+}1)$-simplices \cite[I.7]{GJ}; for $i\le n$ these dimensions are
+$\le n+1$, where $\eta$ is bijective, so $\pi_i\eta$ is an isomorphism.
+For $i\ge n+1$, a map $\partial\Delta^{i+1}\to K$ is a map
+$\sk_{n+1}\partial\Delta^{i+1}=\sk_{n+1}\Delta^{i+1}\to X$, i.e.\ an
+$(i{+}1)$-simplex of $K$ extending it; a Kan complex with this extension
+property for all $i\ge n+1$ has $\pi_i=0$ for $i\ge n+1$ at all base points
+\cite[I.7]{GJ}. \emph{The description of $T_n$.} A map of Kan complexes is a
+weak equivalence iff it induces isomorphisms on $\pi_0$ and on all $\pi_i$
+at all base points, and $\mathrm{Ex}^\infty$ preserves homotopy groups
+\cite[III.4]{GJ}; apply this to $\cosk_{n+1}\mathrm{Ex}^\infty f$ using the
+two previous assertions.
+\end{proof}
+
+\begin{thm}[join $=$ truncation]\label{thm:join}
+In $\Same(\sset)$, for every $n\ge-1$,
+\[
+\Wtest\vee W_{D_{n+1}}\ =\ T_n .
+\]
+\end{thm}
+\begin{proof}
+We apply Theorem~\ref{thm:generaljoin} with $U=\Wtest$, $V=W_{D_{n+1}}$,
+$W=\Wtest$ and $P=P_n$, so that $P^*(W)=T_n$ by definition. The natural
+transformation $\pi_X\colon X\to\mathrm{Ex}^\infty X\to\cosk_{n+1}\mathrm{Ex}^\infty X$
+is the Kan replacement, a weak equivalence, followed by the coskeleton unit,
+which is bijective in dimensions $\le n+1$ (Theorem~\ref{thm:cube}); so
+$\pi_X\in V\circ U\subseteq U\vee V$, which is (a). For (b): $P_n$ preserves
+weak equivalences. Indeed $\mathrm{Ex}^\infty$ does; and if $g\colon X\to Y$ is
+a weak equivalence between Kan complexes, then by Lemma~\ref{lem:cosk} the
+units $X\to\cosk_{n+1}X$ and $Y\to\cosk_{n+1}Y$ induce isomorphisms on
+$\pi_i$ for $i\le n$, so naturality shows that $\cosk_{n+1}g$ induces
+isomorphisms on $\pi_i$ for $i\le n$ at all base points, while for $i>n$
+both $\pi_i(\cosk_{n+1}X)$ and $\pi_i(\cosk_{n+1}Y)$ vanish; as
+$\cosk_{n+1}X$ and $\cosk_{n+1}Y$ are Kan, $\cosk_{n+1}g$ is a weak
+equivalence. Thus $P_n(U)\subseteq W$. If $f\in W_{D_{n+1}}$ then $f$ is
+bijective in dimensions $\le n+1$, so $|\sk_{n+1}X|\to|\sk_{n+1}Y|$ is a
+homeomorphism. Now $|\sk_{n+1}X|$ is the $(n{+}1)$-skeleton of the CW complex
+$|X|$ (one cell per non-degenerate simplex), and the inclusion of the
+$(n{+}1)$-skeleton of a CW complex induces isomorphisms on $\pi_i$ for
+$0\le i\le n$ at every base point (the pair $(|X|,|\sk_{n+1}X|)$ is
+$(n{+}1)$-connected \cite[Cor.~4.12]{Hatcher}). In the commutative square of
+$|\sk_{n+1}f|$ and $|f|$ with these inclusions, three maps induce
+isomorphisms on $\pi_i$, $i\le n$, hence so does $|f|$; and $f$ preserves
+emptiness. Hence $f\in T_n$ by Lemma~\ref{lem:cosk}, i.e.\ $P_nf\in W$,
+which is $P_n(V)\subseteq W$. Figure~\ref{fig:join} displays the naturality square used in the proof of
+Theorem~\ref{thm:generaljoin} in this case.
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large,row sep=large]
+X\arrow[r,"f"]\arrow[d,"\Wtest"'] & Y\arrow[d,"\Wtest"] \\
+X'\arrow[r,"f'"]\arrow[d,"\eta_{X'}"',"W_{D_{n+1}}"] & Y'\arrow[d,"\eta_{Y'}","W_{D_{n+1}}"'] \\
+\cosk_{n+1}X'\arrow[r,"P_nf"',"\Wtest"] & \cosk_{n+1}Y'
+\end{tikzcd}
+\caption{Theorem~\ref{thm:join} as an instance of
+Theorem~\ref{thm:generaljoin}: the vertical maps of the upper square are
+weak equivalences (Kan replacement), those of the lower square are
+coskeletal equivalences, and the bottom map is a weak equivalence when
+$f\in T_n$; two-out-of-three moves membership in the join from the bottom row
+to $f$.}
+\label{fig:join}
+\par\smallskip\noindent\textit{Alt text:} Two stacked commutative squares.
+Top row: $f$ from $X$ to $Y$. Middle row: the Kan replacement $f'$ from $X'$
+to $Y'$, reached by vertical weak equivalences. Bottom row: the coskeleton of
+$f'$, labelled as a weak equivalence, reached by vertical coskeletal
+equivalences.
+\end{figure}
+
+So the Postnikov truncations --- at the $\infty$-level the $n$-truncation
+modalities --- are exactly the joins, in the sameness lattice of simplicial
+sets, of the homotopy sameness with the sheaf samenesses of the coskeletal
+topologies; at $n=-1$ the join with the $0$-coskeletal sameness is the
+$(-1)$-truncation, which identifies all non-empty simplicial sets. This is a
+comparison of two theories carried out entirely by a lattice operation, and
+it needs no fibrancy hypothesis: the Kan replacement is itself available
+inside $\Wtest$. Restricting along $\Kan\hookrightarrow\sset$
+(Proposition~\ref{prop:same}) the same identity holds in $\Same(\Kan)$.
+
+\begin{cor}[sheaf-theoretic Whitehead]\label{cor:whitehead}
+In $\Same(\sset)$,
+\[
+\Wtest=\bigcap_{n\ge0}\bigl(\Wtest\vee W_{D_n}\bigr),\qquad
+\Iso=\bigcap_{n\ge0}W_{D_n}.
+\]
+\end{cor}
+\begin{proof}
+By Theorem~\ref{thm:join} the first intersection is $\bigcap_{n\ge-1}T_n$,
+the maps inducing isomorphisms on all homotopy groups at all base points,
+which is $\Wtest$ by Whitehead's theorem (after Kan replacement). The second
+is Theorem~\ref{thm:cube}.
+\end{proof}
+
+Thus the homotopy sameness is the meet of its joins with the sheaf chain,
+while the sheaf chain itself meets down to the isomorphisms: the two families
+are ``transversal'' in $\Same(\sset)$, and the truncations $T_n$ are the
+interval they span (Figure~\ref{fig:lattice}).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small,column sep=small]
+& \Mor & \\
+& T_{-1}=\Wtest\vee W_{D_0}\arrow[u,dash] & \\
+& T_{0}=\Wtest\vee W_{D_1}\arrow[u,dash] & \\
+& T_{n}=\Wtest\vee W_{D_{n+1}}\arrow[u,dash,dotted] & \\
+\Wtest\arrow[ur,dash] & & W_{D_{n+1}}\arrow[ul,dash] \\
+& \Iso=\bigcap_kW_{D_k}\arrow[ul,dash]\arrow[ur,dash] &
+\end{tikzcd}
+\caption{The position of the sheaf chain and the homotopy sameness in
+$\Same(\sset)$ (Theorem~\ref{thm:join} and Corollary~\ref{cor:whitehead}):
+the joins along the chain are the Postnikov truncations, decreasing to
+$\Wtest$; the chain itself decreases to $\Iso$.}
+\label{fig:lattice}
+\par\smallskip\noindent\textit{Alt text:} A Hasse-style diagram. At the
+bottom the isomorphisms; above them, to the left the weak equivalences and
+to the right the coskeletal sameness of level $n+1$; their join, the
+$n$-truncated equivalences, sits above both and is part of a chain of
+truncations rising to the $(-1)$-truncation and then to all morphisms.
+\end{figure} The analogous statement for cubical sets, where the
+$n$-coskeletality of \cite{Cubes} concerns uniformly fibrant objects, is the
+natural next step.
+
+\section{Computational record}\label{sec:comp}
+All finite claims are verified from the definitions by the Python scripts
+supplied as supplementary material:
+\begin{itemize}
+\item \texttt{sheaf\_sameness.py}: topologies on posets from the definition,
+nuclei on $\Down(P)$ (Corollary~\ref{cor:poset});
+\item \texttt{sheaf\_sameness\_monoid.py}, \texttt{sheaf\_sameness\_monoid4.py}:
+monoids of order $\le3$ and all $35$ monoids of order $4$;
+\item \texttt{sheaf\_sameness\_semilattice.py}: thirteen lattices as
+meet-monoids (Corollary~\ref{cor:semilattice});
+\item \texttt{sheaf\_sameness\_ideals.py}: Theorem~\ref{thm:ideal} on $61$
+monoids; \texttt{sheaf\_sameness\_general.py}: Theorem~\ref{thm:ideal} on ten
+categories with several objects;
+\item \texttt{sheaf\_sameness\_cube.py}: Theorem~\ref{thm:cube} on the
+truncations $\cube_{\le2}$ and $\Delta_{\le2}$.
+\end{itemize}
+
+\begin{rem}[the sheaf level-shift logic]
+In \cite{SameB} the modal logic of the frame $(\Same(C),\subseteq)$ was
+studied. Restricting to the sheaf samenesses gives the modal logic of the lattice
+of subtoposes, which by Theorem~\ref{thm:ideal} is, for a category with
+finitely many sieves per object, the logic of its poset of idempotent
+two-sided ideals: a combinatorial invariant of composition, computable without
+forming a presheaf. For $\cube$ and $\Delta$ this frame is the chain of
+Theorem~\ref{thm:cube}, so the logic contains $\mathrm{S4.3}$; for a finite
+poset on $n$ points it is the logic of the Boolean frame $2^n$; for every
+monoid of order $\le4$ except the semilattice $2^2$ it is the logic of a
+finite chain.
+\end{rem}
+
+\section{Conclusion}
+Sheaf theory's notion of sameness is a family of saturated elements of the
+sameness lattice, intrinsically described (local isomorphisms), and within
+these elements the join of two topologies is the saturation of the join of the
+corresponding samenesses. On the cube and simplex categories the sheaf samenesses form the
+dimension chain of coskeletal equivalences, and on simplicial sets the join
+of this chain with the homotopy sameness is exactly the Postnikov truncation,
+for every $n\ge-1$, with the homotopy sameness recovered as the meet of these
+joins; the mechanism is a general join theorem for samenesses. Two questions are natural next steps:
+the cubical version of Theorem~\ref{thm:join}, where the $n$-coskeletality of
+\cite{Cubes} is precisely the sheaf sameness; and the $\infty$-categorical
+statement, where reflective subuniverses (modalities) replace reflective
+samenesses and Theorem~\ref{thm:join} should read ``truncation $=$ homotopy
+$\vee$ coskeleton'' in the lattice of modalities.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\noindent\textbf{Corresponding author.}\quad Ryota Shibusawa, Daiichi Institute
+of Technology; e-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}.
+
+\noindent\textbf{Availability of data and materials.}\quad All verification
+scripts named in \S\ref{sec:comp} are provided as supplementary material.
+
+\begin{thebibliography}{9}
+\bibitem{SameA} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{SameB} R.~Shibusawa, \emph{The level-shift logic of a category: modal
+correspondence for sameness lattices, quotient models with contingent
+identity, and completeness}, manuscript, under review (2026).
+\bibitem{Cubes} R.~Shibusawa, \emph{A complexity dichotomy for order-convex
+monotone selection, with applications to Dedekind cubical sets}, manuscript,
+under review (2026).
+\bibitem{MLM} S.~Mac Lane, I.~Moerdijk, \emph{Sheaves in Geometry and Logic},
+Universitext, Springer, 1992.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Logic Guides \textbf{43--44}, Oxford University
+Press, 2002.
+\bibitem{Stone} P.~T.~Johnstone, \emph{Stone Spaces}, Cambridge Studies in
+Advanced Mathematics \textbf{3}, Cambridge University Press, 1982.
+\bibitem{GJ} P.~G.~Goerss, J.~F.~Jardine, \emph{Simplicial Homotopy Theory},
+Progress in Mathematics \textbf{174}, Birkh\"auser, 1999.
+\bibitem{Bousfield} A.~K.~Bousfield, \emph{The localization of spaces with
+respect to homology}, Topology \textbf{14} (1975), 133--150.
+\bibitem{Duskin} J.~Duskin, \emph{Simplicial methods and the interpretation
+of ``triple'' cohomology}, Mem. Amer. Math. Soc. \textbf{163} (1975).
+\bibitem{Hatcher} A.~Hatcher, \emph{Algebraic Topology}, Cambridge University
+Press, 2002.
+\bibitem{Hirschhorn} P.~S.~Hirschhorn, \emph{Model Categories and Their
+Localizations}, Math. Surveys Monogr. \textbf{99}, Amer. Math. Soc., 2003.
+\bibitem{GZ} P.~Gabriel, M.~Zisman, \emph{Calculus of Fractions and Homotopy
+Theory}, Ergebnisse der Mathematik \textbf{35}, Springer, 1967.
+\bibitem{KL89} G.~M.~Kelly, F.~W.~Lawvere, \emph{On the complete lattice of
+essential localizations}, Bull. Soc. Math. Belg. S\'er. A \textbf{41} (1989),
+289--319.
+\bibitem{KRRZ} C.~Kennett, E.~Riehl, M.~Roy, M.~Zaks, \emph{Levels in the
+toposes of simplicial sets and cubical sets}, J. Pure Appl. Algebra
+\textbf{215} (2011), 949--961.
+\bibitem{Lin14} B.~Lindenhovius, \emph{Grothendieck topologies on posets},
+arXiv:1405.4408 (2014).
+\bibitem{Marques25} J.~Marqu\`es, \emph{A criterion for categories on which
+every Grothendieck topology is rigid}, Appl. Categ. Structures \textbf{33}
+(2025), art.\ 37.
+\bibitem{HR} J.~Hemelaer, M.~Rogers, \emph{Monoid properties as invariants of
+toposes of monoid actions}, Appl. Categ. Structures \textbf{29} (2021),
+379--413.
+\bibitem{Rogers} M.~Rogers, \emph{Toposes of discrete monoid actions},
+arXiv:1905.10277 (2019).
+\end{thebibliography}
+\end{document}

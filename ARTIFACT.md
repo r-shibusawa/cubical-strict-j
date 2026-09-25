@@ -5,7 +5,17 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.25.0` (paper 28, *The level-shift logic of a
+- Current snapshot: release `v1.26.0` (paper 29, *Postnikov truncations as
+  joins of sheaf and homotopy equivalences* -- `docs/consolidated/postnikov.pdf`
+  -- with `scripts/comparison/` `sheaf_sameness.py` (Grothendieck topologies on
+  posets from the definition; nuclei), `sheaf_sameness_monoid.py`,
+  `sheaf_sameness_monoid4.py` (all 35 monoids of order 4),
+  `sheaf_sameness_semilattice.py` (Top(L) = Down(L^op), Same(L) = L^op),
+  `sheaf_sameness_ideals.py` and `sheaf_sameness_general.py` (topologies =
+  idempotent two-sided ideals, on 61 monoids and ten categories),
+  `sheaf_sameness_cube.py` (the dimension chain of the cube and simplex
+  categories)), DOI: pending
+- Previous: release `v1.25.0` (paper 28, *The level-shift logic of a
   category* -- `docs/consolidated/levelshift.pdf` -- with `scripts/comparison/`
   `level_logic.py` (S4.2/S4.3 and the cyclic p-group criterion),
   `level_logic2.py` (width/height correspondence), `level_logic2_survey.py`,
