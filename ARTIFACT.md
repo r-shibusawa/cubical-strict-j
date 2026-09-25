@@ -14,7 +14,7 @@ This repository is the artifact accompanying the paper
   `sheaf_sameness_ideals.py` and `sheaf_sameness_general.py` (topologies =
   idempotent two-sided ideals, on 61 monoids and ten categories),
   `sheaf_sameness_cube.py` (the dimension chain of the cube and simplex
-  categories)), DOI: pending
+  categories)), archived at DOI [10.5281/zenodo.22956181](https://doi.org/10.5281/zenodo.22956181)
 - Previous: release `v1.25.0` (paper 28, *The level-shift logic of a
   category* -- `docs/consolidated/levelshift.pdf` -- with `scripts/comparison/`
   `level_logic.py` (S4.2/S4.3 and the cyclic p-group criterion),
