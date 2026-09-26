@@ -5,7 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.26.0` (paper 29, *Postnikov truncations as
+- Current snapshot: release `v1.27.0` (paper 30, *Meets and joins of
+  Grothendieck topologies in the sameness lattice* -- `docs/consolidated/topjoin.pdf`
+  -- with `scripts/comparison/` `topjoin_poset.py` (alternating sheafification on
+  finite posets), `monoids_small.py` (all monoids of order <= 5), `topjoin_monoid.py`
+  (alternating chains and the meet theorem on M-sets), `tensor_tower.py`,
+  `tensor_multi.py`, `tensor_assoc.py` (tensor towers of idempotent ideals and the
+  three-fold multiplicativity test), `lemmaP_check.py` (the factorisation lemmas
+  P and P')), DOI: pending
+- Previous: release `v1.26.0` (paper 29, *Postnikov truncations as
   joins of sheaf and homotopy equivalences* -- `docs/consolidated/postnikov.pdf`
   -- with `scripts/comparison/` `sheaf_sameness.py` (Grothendieck topologies on
   posets from the definition; nuclei), `sheaf_sameness_monoid.py`,
