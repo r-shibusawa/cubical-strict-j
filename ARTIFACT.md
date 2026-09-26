@@ -12,7 +12,7 @@ This repository is the artifact accompanying the paper
   (alternating chains and the meet theorem on M-sets), `tensor_tower.py`,
   `tensor_multi.py`, `tensor_assoc.py` (tensor towers of idempotent ideals and the
   three-fold multiplicativity test), `lemmaP_check.py` (the factorisation lemmas
-  P and P')), archived at DOI [10.5281/zenodo.22973912](https://doi.org/10.5281/zenodo.22973912) (release `v1.27.0`; the complete archive `v1.27.1`, adding `lemmaP_check.py`, `monoids_small.py` and the README entry, DOI: pending)
+  P and P')), archived at DOI [10.5281/zenodo.22973912](https://doi.org/10.5281/zenodo.22973912) (release `v1.27.0`; the complete archive `v1.27.1`, adding `lemmaP_check.py`, `monoids_small.py` and the README entry, archived at DOI [10.5281/zenodo.22973932](https://doi.org/10.5281/zenodo.22973932) -- cite this one for paper 30)
 - Previous: release `v1.26.0` (paper 29, *Postnikov truncations as
   joins of sheaf and homotopy equivalences* -- `docs/consolidated/postnikov.pdf`
   -- with `scripts/comparison/` `sheaf_sameness.py` (Grothendieck topologies on
