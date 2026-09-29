@@ -5,7 +5,11 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.27.2` (paper 30, corrected text; archived at DOI [10.5281/zenodo.22978446](https://doi.org/10.5281/zenodo.22978446) -- cite this one). Previous: release `v1.27.0` (paper 30, *Meets and joins of
+- Current snapshot: release `v1.28.0` (paper 31, *The EI-reflection of a category,
+  its preorder reflection, and the homomorphism order of graphs* --
+  `docs/consolidated/eireflection.pdf`; small-case checks in
+  `scripts/comparison/antisymmetry.py`, on which no result depends), DOI: pending
+- Previous: release `v1.27.2` (paper 30, corrected text; archived at DOI [10.5281/zenodo.22978446](https://doi.org/10.5281/zenodo.22978446) -- cite this one). Previous: release `v1.27.0` (paper 30, *Meets and joins of
   Grothendieck topologies in the sameness lattice* -- `docs/consolidated/topjoin.pdf`
   -- with `scripts/comparison/` `topjoin_poset.py` (alternating sheafification on
   finite posets), `monoids_small.py` (all monoids of order <= 5), `topjoin_monoid.py`

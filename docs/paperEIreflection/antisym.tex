@@ -1,0 +1,688 @@
+% The EI-reflection of a category, its preorder reflection, and the homomorphism order of graphs.
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{ques}[thm]{Question}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Loc}{\mathrm{Loc}}
+\newcommand{\Sat}{\mathrm{Sat}}
+\newcommand{\supp}{\mathrm{supp}}
+\newcommand{\Wcyc}{W_{\mathrm{cyc}}}
+\newcommand{\Wobj}{W_{\mathrm{obj}}}
+\newcommand{\Wend}{W_{\mathrm{end}}}
+\newcommand{\Wret}{W_{\mathrm{ret}}}
+\newcommand{\Wsupp}{W_{\mathrm{supp}}}
+\newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\sSet}{\mathbf{sSet}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Sub}{\mathrm{Sub}}
+
+\begin{document}
+
+\title[The EI-reflection of a category]{The EI-reflection of a category,
+  its preorder reflection, and the homomorphism order of graphs}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{antisymmetry, preorder reflection, EI-category, localization,
+  two-out-of-three, relative category, subterminal object, homomorphism
+  order, core of a graph}
+\subjclass[2020]{18A32 (primary), 18A20, 06A75, 18B25, 05C60 (secondary)}
+
+\begin{abstract}
+Antisymmetry of an order --- $x\le y$ and $y\le x$ imply $x=y$ --- becomes,
+when equality is replaced by a class $W$ of morphisms declared to be
+``sameness'', the condition that every morphism admitting a morphism back
+lies in $W$. The morphisms admitting a morphism back form a class $\Wcyc(C)$
+of any category $C$, closed under composition and two-out-of-three; it is
+the largest such class inverted by the preorder reflection, it is $\{\mathrm{id}\}$
+exactly for acyclic categories and $\Iso(C)$ exactly for EI-categories, and
+its localization $C\to C[\Wcyc^{-1}]$ is the reflection of $C$ into
+EI-categories. The main theorem is that when $C$ has binary coproducts (or
+binary products) this localization is a preorder: the EI-reflection of $C$
+is its preorder reflection $X\preceq Y\iff\Hom(X,Y)\neq\varnothing$. For the
+topos of graphs this preorder is the homomorphism preorder of Hell and
+Ne\v set\v ril, and on finite graphs the resulting identification is the
+passage to cores. We contrast the localization with the reflection: in any
+topos the objects local for $\Wcyc$ are the subterminal ones, so the
+saturation of $\Wcyc$ is the class of maps with equal support, i.e.\ the
+$(-1)$-truncation; $\Wcyc$ is saturated for sets and simplicial sets, where
+it is the $(-1)$-truncated equivalences, but not for graphs. Finally the
+classes $\Wcyc$, $\Wobj$ (source and target isomorphic), $\Wend$ (identities
+and endomorphisms), $\Aut$, $\Iso$ are shown to be \emph{natural} --- preserved
+by all functors --- and every natural such class other than the class of all
+morphisms is contained in $\Wcyc$. All proofs are elementary and no result
+depends on a computation.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+An ordered set is a preorder in which mutual comparability forces equality.
+Replacing that equality by an isomorphism gives the familiar notion of a
+skeletal category; replacing it by an identification with more structure
+leads to univalent categories and complete Segal spaces. This paper studies
+the intermediate, and elementary, situation in which the equality is
+replaced by an arbitrary class $W$ of morphisms declared to be a
+\emph{sameness}: a class containing the identities, closed under
+composition and satisfying two-out-of-three. Such classes form a complete
+lattice $\Same(C)$ \cite{Same}, and the question ``for which $W$ is $C$
+antisymmetric up to $W$?'' has a canonical answer.
+
+\begin{defi}\label{def:cyc}
+For a category $C$ write $X\preceq Y$ if $\Hom(X,Y)\neq\varnothing$ (the
+\emph{reachability preorder}). A morphism $f\colon X\to Y$ \emph{has a back}
+if $Y\preceq X$. Let
+\[
+\Wcyc(C):=\{f\colon X\to Y\ :\ \Hom(Y,X)\neq\varnothing\}
+\]
+be the class of morphisms with a back (equivalently, the morphisms inside
+the strongly connected classes of $\preceq$). For $W\in\Same(C)$, the
+category $C$ is \emph{$W$-antisymmetric} if $\Wcyc(C)\subseteq W$.
+\end{defi}
+
+Thus a preorder is $\{\mathrm{id}\}$-antisymmetric iff it is a partial order,
+and a category is $\Iso$-antisymmetric iff mutually related objects are
+isomorphic through the relating morphisms. The results are as follows.
+
+\medskip\noindent\textbf{The cycle class and the EI-reflection.} $\Wcyc(C)$
+is a sameness, and it is the largest sameness inverted by the preorder
+reflection $C\to(\Ob C,\preceq)$ (Theorem~\ref{thm:cyc}). It is $\{\mathrm{id}\}$
+iff $C$ is acyclic, $\Iso(C)$ iff $C$ is an EI-category (all endomorphisms
+invertible), and $\Mor(C)$ iff $C$ is a coproduct of strongly connected
+categories (Proposition~\ref{prop:extremes}). The first new result is that
+the localization $C\to C[\Wcyc^{-1}]$ is an EI-category and is the
+\emph{reflection} of $C$ into EI-categories (Theorem~\ref{thm:EI}): inverting
+every morphism that has a morphism back produces the universal EI-category
+under $C$. It is standard that in an EI-category the reachability
+preorder on isomorphism classes of objects is a partial order
+\cite[\S9]{Lueck}; Theorem~\ref{thm:EI} goes in the other direction, from an
+arbitrary category to an EI-category, and identifies the class of
+morphisms that must be inverted.
+
+\medskip\noindent\textbf{Main theorem.} The second new result is that if
+$C$ has binary coproducts, or binary products, then $C[\Wcyc^{-1}]$ is a
+preorder, namely $(\Ob C,\preceq)$ (Theorem~\ref{thm:main}). So for such categories the EI-reflection and the
+preorder reflection coincide, an EI-category with binary coproducts is a
+preorder, and the antisymmetrization of the topos of directed graphs is the
+homomorphism order of graphs \cite{HN}: identifying graphs that map to each
+other is the same as passing to cores (Corollary~\ref{cor:graphs}).
+
+\medskip\noindent\textbf{Localization versus reflection.} In a topos the
+objects local for $\Wcyc$ are exactly the subterminal ones, so the
+saturation of $\Wcyc$ is the class of maps with equal support, the class
+inverted by the $(-1)$-truncation (Theorem~\ref{thm:topos}). Hence
+``antisymmetry up to $\Wcyc$'' has two shadows: the reflection sees only
+supports, the localization sees reachability. They agree, and $\Wcyc$ is
+saturated, for sets and for simplicial sets --- where $\Wcyc$ is the class of
+$(-1)$-truncated equivalences of \cite{Postnikov} --- but not for graphs.
+
+\medskip\noindent\textbf{Natural samenesses.} The third new result
+concerns samenesses defined uniformly for all categories. The classes $\{\mathrm{id}\}$,
+$\Aut$, $\Iso$, $\Wend$ (identities and endomorphisms), $\Wobj$ (source
+isomorphic to target), $\Wret$ (source and target mutual retracts), $\Wcyc$,
+$\Mor$ are samenesses preserved by every functor; they form a lattice, in
+which $\Iso$ and $\Wend$ are incomparable with join $\Wobj$; and every
+natural sameness other than $\Mor$ is contained in $\Wcyc$
+(Theorem~\ref{thm:cut}), so that $\Wcyc$ is the largest proper natural
+sameness: a single constraint on every two-out-of-three class that is
+defined naturally in the category. No result of this paper depends on a
+computation; small cases were explored by computer only to find the
+statements.
+
+\medskip\noindent\textbf{Related work.} EI-categories appear in
+transformation groups \cite{Lueck} and in the representation theory of
+categories \cite{Webb}; we have not seen the observation that they form a
+reflective subcategory of $\Cat$ with the localization at $\Wcyc$ as unit.
+The preorder and partial-order reflections of a category are standard
+constructions; the point here is the intermediate EI-reflection, the class
+of morphisms it inverts, and the fact that under (co)products the two
+reflections coincide.
+Categories with a chosen class of ``weak equivalences'' are the relative
+categories of Barwick and Kan \cite{BK} and the homotopical categories of
+\cite{DHKS}; samenesses are relative categories whose class satisfies
+two-out-of-three, and the lattice $\Same(C)$ is the fibre over $C$ of the
+forgetful functor from relative categories to categories
+(Remark~\ref{rem:relcat}). The homomorphism order of graphs and the theory
+of cores are classical \cite{HN}. Subterminal objects, supports and the
+$(-1)$-truncation are standard topos theory \cite{Elephant,MLM}. The
+companion papers \cite{Same,Postnikov,Topjoin} introduce the sameness
+lattice and study its sheaf-theoretic and homotopical elements; the present
+paper is self-contained.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Conventions}
+Categories are small unless said otherwise (a topos is a large category, and
+for it the statements below are applied objectwise or in a larger universe;
+nothing depends on this). $\Cat$ denotes the category of small categories.
+
+\subsection{Samenesses}
+A \emph{sameness} on a category $C$ is a class $W$ of morphisms with (i)
+$\mathrm{id}_X\in W$ for all $X$, (ii) $g\circ f\in W$ whenever $f,g\in W$ are
+composable, (iii) two-out-of-three: for composable $f,g$, if two of
+$f,g,g\circ f$ lie in $W$ then so does the third. $\Same(C)$ is the set of
+samenesses ordered by inclusion; it is closed under arbitrary
+intersections and contains $\Mor(C)$, hence is a complete lattice with
+$\bot=\{\mathrm{id}\}$ and $\top=\Mor(C)$.
+
+\begin{lem}\label{lem:pullback}
+For a functor $F\colon C\to D$ and $V\in\Same(D)$, $F^*(V):=\{f:F(f)\in V\}$ is a
+sameness on $C$. In particular $F^*(\Iso(D))$ is the largest sameness
+inverted by $F$.
+\end{lem}
+\begin{proof}
+$F$ preserves identities and composites, so the three conditions for $V$
+transfer to $F^*(V)$. Any class inverted by $F$ is contained in
+$F^*(\Iso(D))$, which is itself inverted.
+\end{proof}
+
+\subsection{Localization}
+For $W\subseteq\Mor(C)$ the localization $\gamma\colon C\to C[W^{-1}]$ is the
+initial functor inverting $W$ \cite[I.1]{GZ}. Its morphisms are represented
+by zigzags $X\to A_1\leftarrow A_2\to\cdots\to Y$ in which the backward
+arrows lie in $W$, modulo the relations generated by composition and
+$w\circ w^{-1}=\mathrm{id}$; in particular $\Hom_{C[W^{-1}]}(X,Y)\neq\varnothing$ iff
+such a zigzag exists. Note that $\gamma$ is bijective on objects and that
+$C[W^{-1}]$ is small when $C$ is.
+
+\subsection{Local objects and saturation}
+For $W\in\Same(C)$ an object $Z$ is \emph{$W$-local} if $\Hom(f,Z)\colon
+\Hom(Y,Z)\to\Hom(X,Z)$ is bijective for every $f\colon X\to Y$ in $W$;
+$\Loc(W)$ denotes the class of $W$-local objects and
+$\Sat(W):=\{f:\Hom(f,Z)\text{ bijective for all }Z\in\Loc(W)\}$ the
+\emph{saturation} of $W$, a sameness containing $W$. If $L\colon C\to C$ is a
+reflector onto a full replete subcategory $\mathcal E$ then the class
+$W_L=\{f:L(f)\text{ iso}\}$ is saturated with $\Loc(W_L)=\mathcal E$: a map is
+inverted by $L$ iff $\Hom(f,Z)$ is bijective for all $Z\in\mathcal E$, and a
+$W_L$-local $Z$ has $\Hom(\eta_Z,Z)$ bijective, whence $\eta_Z\colon Z\to LZ$ is
+a split monomorphism with a retraction $r$, and $\eta_Zr=\mathrm{id}_{LZ}$ because
+$\Hom(\eta_Z,LZ)$ is injective; so $Z\cong LZ\in\mathcal E$.
+
+\begin{rem}[relative categories]\label{rem:relcat}
+A pair $(C,W)$ with $W$ a wide subcategory is a relative category
+\cite{BK}; requiring two-out-of-three gives a full subcategory
+$\mathbf{RelCat}_{2/3}$. The forgetful functor $\mathbf{RelCat}_{2/3}\to\Cat$ is a
+bifibration whose fibre over $C$ is $\Same(C)$, with cartesian lifts $F^*$
+and cocartesian lifts $F_!$ (the sameness generated by the image); the
+functor $\Same\colon\Cat\to\mathbf{CLat}_{\mathrm{Gal}}$ of \cite{Same} is its
+Grothendieck construction. Nothing below depends on this remark.
+\end{rem}
+
+\section{The cycle class}\label{sec:cyc}
+
+\begin{thm}\label{thm:cyc}
+For every category $C$, $\Wcyc(C)$ is a sameness, and
+$\Wcyc(C)=P^*(\Iso)$ for the preorder reflection $P\colon C\to(\Ob C,\preceq)$.
+Hence $\Wcyc(C)$ is the largest sameness inverted by the preorder (and by
+the partial-order) reflection of $C$, and
+\[
+\{\mathrm{id}\}\ \subseteq\ \Iso(C)\ \subseteq\ \Wobj(C)\ \subseteq\ \Wcyc(C)\ \subseteq\ \Mor(C),
+\]
+where $\Wobj(C):=\{f\colon X\to Y: X\cong Y\}$.
+\end{thm}
+\begin{proof}
+A morphism of the preorder $(\Ob C,\preceq)$ is invertible iff its endpoints
+are mutually related, so $P(f)$ is an isomorphism iff $f$ has a back:
+$\Wcyc(C)=P^*(\Iso)$, a sameness by Lemma~\ref{lem:pullback}, and the largest
+one inverted by $P$. The partial-order reflection is $P$ followed by the
+skeleton, which inverts the same morphisms. Identities and isomorphisms have
+backs; if $X\cong Y$ then any $f\colon X\to Y$ has a back; so the chain holds
+($\Wobj$ is a sameness by Lemma~\ref{lem:objdet}).
+\end{proof}
+
+Directly: if $f\colon X\to Y$ and $g\colon Y\to Z$ have backs $h,k$ then $gf$ has
+the back $hk$; if $gf$ has a back $m$ and $f$ has a back $h$ then $g$ has the
+back $fm$; if $gf$ has a back $m$ and $g$ has a back $k$ then $f$ has the
+back $mg$. Figure~\ref{fig:cyc} shows the three cases.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large]
+X\arrow[r,"f"] & Y\arrow[r,"g"]\arrow[l,bend left=35,"h"] & Z\arrow[l,bend left=35,"k"]
+\end{tikzcd}
+\qquad
+\begin{tikzcd}[column sep=large]
+X\arrow[r,"f"] & Y\arrow[r,"g"]\arrow[l,bend left=35,"h"] & Z\arrow[ll,bend left=50,"m"]
+\end{tikzcd}
+\caption{Two-out-of-three for $\Wcyc$: backs compose (left); if $gf$ and $f$
+have backs $m$ and $h$, then $f\circ m$ is a back for $g$ (right); the third
+case is symmetric.}
+\label{fig:cyc}
+\par\smallskip\noindent\textit{Alt text:} Two diagrams of three objects in a
+row with forward arrows $f$ and $g$; curved arrows return from $Y$ to $X$ and
+from $Z$ to $Y$ in the first, and from $Y$ to $X$ and from $Z$ to $X$ in the
+second.
+\end{figure}
+
+\begin{prop}[the three extremes]\label{prop:extremes}
+For a category $C$:
+\begin{enumerate}
+\item $\Wcyc(C)=\{\mathrm{id}\}$ iff $C$ is \emph{acyclic}: $X\preceq Y\preceq X$
+implies $X=Y$, and the only endomorphisms are identities;
+\item $\Wcyc(C)=\Iso(C)$ iff $C$ is an \emph{EI-category}: every endomorphism
+is invertible;
+\item $\Wcyc(C)=\Mor(C)$ iff $C$ is a coproduct of strongly connected
+categories, i.e.\ $\preceq$ is symmetric.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+(1) and (3) are restatements. (2) If $C$ is EI and $f\colon X\to Y$ has a back
+$g$, then $gf\in\End(X)$ and $fg\in\End(Y)$ are invertible, so $f$ has the left
+inverse $(gf)^{-1}g$ and the right inverse $g(fg)^{-1}$, which then coincide:
+$f$ is invertible. Conversely every endomorphism has the identity as a back,
+so $\Wcyc(C)=\Iso(C)$ forces endomorphisms to be invertible.
+\end{proof}
+
+\begin{thm}[EI-reflection]\label{thm:EI}
+For every small category $C$ the localization $C[\Wcyc^{-1}]$ is an
+EI-category with the same reachability preorder as $C$, and
+$\gamma\colon C\to C[\Wcyc^{-1}]$ is universal among functors from $C$ to
+EI-categories. Hence the full subcategory of (small) EI-categories is reflective in
+$\Cat$, with unit the localization at $\Wcyc$.
+\end{thm}
+\begin{proof}
+\emph{Convexity.} If $X\preceq A\preceq Y$ and $Y\preceq X$ then $A$ is in the
+$\preceq$-class of $X$. Consequently every zigzag in $C$ between two objects
+of one class, with backward arrows in $\Wcyc$, stays inside that class: a
+backward arrow $A_{i+1}\to A_i$ in $\Wcyc$ has a back, so $A_i\preceq A_{i+1}$
+as well, and inductively all $A_i$ lie between $X$ and $Y$.
+
+\emph{Reachability.} A zigzag from $X$ to $Y$ with backward arrows in $\Wcyc$
+yields $X\preceq Y$ by replacing each backward arrow by a back; conversely a
+morphism $X\to Y$ is a zigzag. So $\Hom_{C[\Wcyc^{-1}]}(X,Y)\neq\varnothing$ iff
+$X\preceq Y$.
+
+\emph{EI.} An endomorphism of $X$ in $C[\Wcyc^{-1}]$ is represented by a
+zigzag from $X$ to $X$, which by convexity lies in the class of $X$; every
+$C$-morphism between objects of that class has a back, hence is inverted by
+$\gamma$; so the zigzag is a composite of isomorphisms and their inverses,
+and is invertible.
+
+\emph{Universality.} Let $G\colon C\to E$ with $E$ an EI-category. If
+$f\colon X\to Y$ has a back $g$, then $G(f)$ has the back $G(g)$, so $G(f)$ is
+invertible by Proposition~\ref{prop:extremes}(2). Thus $G$ inverts $\Wcyc$ and
+factors uniquely through $\gamma$.
+\end{proof}
+
+\begin{rem}
+For $W\supseteq\Wcyc$ the further localization $C[W^{-1}]$ need not be an
+EI-category: in the poset with elements $a<b$, $a<d$, $c<b$, $c<d$ and
+$W=\{a<b,\ c<d\}$ (so $W\supseteq\Wcyc=\{\mathrm{id}\}$), the zigzag
+$a\to d\leftarrow c\to b\leftarrow a$ is an endomorphism of $a$ in
+$C[W^{-1}]$ which is not invertible, as the localization of this poset at
+the two edges is the free category on a loop at $a$ together with the
+remaining arrows. $W$-antisymmetry is a property of the pair $(C,W)$, not of
+the localization.
+\end{rem}
+
+\section{Main theorem: categories with binary coproducts}\label{sec:main}
+
+\begin{thm}\label{thm:main}
+Let $C$ be a category with binary coproducts, or with binary products.
+Then $C[\Wcyc^{-1}]$ is a preorder: it is the reachability preorder
+$(\Ob C,\preceq)$. Consequently the EI-reflection of $C$ is its preorder
+reflection, and the skeleton of $C[\Wcyc^{-1}]$ is the partial-order
+reflection of $C$.
+\end{thm}
+\begin{proof}
+Let $g,g'\colon B\to C'$ be parallel morphisms of $C$, and let
+$j_1,j_2\colon B\to B\sqcup B$ be the coproduct injections and
+$\nabla\colon B\sqcup B\to B$ the fold map, so that
+$\nabla j_1=\nabla j_2=\mathrm{id}_B$. The morphism $\nabla$ has the back $j_1$, so
+$\nabla\in\Wcyc$ is inverted in $C[\Wcyc^{-1}]$, where therefore
+$j_1=\nabla^{-1}=j_2$. Hence
+\[
+g=[g,g']\circ j_1=[g,g']\circ j_2=g'\qquad\text{in }C[\Wcyc^{-1}],
+\]
+where $[g,g']\colon B\sqcup B\to C'$ is the copairing. So any two parallel
+morphisms of $C$ become equal, and then any two parallel zigzags become
+equal as well (a zigzag is a composite of morphisms of $C$ and inverses of
+morphisms of $C$, and inverses of equal morphisms are equal); thus
+$C[\Wcyc^{-1}]$ has at most one morphism between any two objects. By
+Theorem~\ref{thm:EI} it has a morphism $X\to Y$ iff $X\preceq Y$. With
+binary products use instead the projections $p_1,p_2\colon C'\times C'\to C'$,
+which have the common back $\Delta$, so $p_1=\Delta^{-1}=p_2$ and
+$g=p_1\langle g,g'\rangle=p_2\langle g,g'\rangle=g'$
+(Figure~\ref{fig:main}).
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large,row sep=large]
+B\arrow[r,shift left,"j_1"]\arrow[r,shift right,"j_2"'] & B\sqcup B\arrow[l,bend right=45,"\nabla"']\arrow[r,"{[g,g']}"] & C'
+\end{tikzcd}
+\caption{Theorem~\ref{thm:main}: $\nabla$ has the back $j_1$ and is inverted;
+both injections then equal $\nabla^{-1}$, and $g=[g,g']j_1$, $g'=[g,g']j_2$
+coincide.}
+\label{fig:main}
+\par\smallskip\noindent\textit{Alt text:} An object $B$ with two parallel
+arrows into the coproduct of $B$ with itself, a curved fold arrow back to
+$B$, and the copairing arrow from the coproduct to $C'$.
+\end{figure}
+
+\begin{ex}[the hypothesis is needed]
+Let $C$ be the free category on the graph $x\rightleftarrows y$. Every
+non-identity morphism has a back, so $\Wcyc=\Mor(C)$ and $C[\Wcyc^{-1}]$ is the
+free groupoid on the graph, whose endomorphism group at $x$ is $\mathbb Z$.
+It is an EI-category but not a preorder.
+\end{ex}
+
+\begin{cor}\label{cor:EIco}
+An EI-category with binary coproducts (or binary products) is a preorder;
+in particular a groupoid with binary coproducts is equivalent to a discrete
+category, and a monoid with binary coproducts is trivial.
+\end{cor}
+\begin{proof}
+In an EI-category the fold map $\nabla$, having the back $j_1$, is already
+invertible in $C$ (Proposition~\ref{prop:extremes}), so the computation in
+the proof of Theorem~\ref{thm:main} takes place in $C$: $j_1=\nabla^{-1}=j_2$
+and $g=g'$ for all parallel $g,g'$. A groupoid and a monoid are
+EI-categories.
+\end{proof}
+
+\begin{cor}[toposes and presheaf categories]\label{cor:topos}
+For a topos $\mathcal E$, and in particular for every presheaf category
+$\Presh(S)$, the EI-reflection $\mathcal E[\Wcyc^{-1}]$ is the hom-preorder
+of $\mathcal E$: $X\preceq Y$ iff there is a morphism $X\to Y$.
+\end{cor}
+
+\begin{cor}[graphs and cores]\label{cor:graphs}
+Let $\mathbf{Gph}$ be the category of directed graphs (presheaves on the
+category with two objects and two parallel non-identity arrows). Then
+$\mathbf{Gph}[\Wcyc^{-1}]$ is the homomorphism preorder of graphs, $X\preceq Y$
+iff there is a graph homomorphism $X\to Y$; its partial-order reflection is
+the homomorphism order of \cite{HN}. Two finite graphs are identified in
+$\mathbf{Gph}[\Wcyc^{-1}]$ iff they have isomorphic cores.
+\end{cor}
+\begin{proof}
+The first statement is Corollary~\ref{cor:topos}. Finite graphs $X,Y$ are
+mutually reachable iff they are homomorphically equivalent, iff their
+cores are isomorphic \cite[Ch.~1]{HN}.
+\end{proof}
+
+So, for finite graphs, ``antisymmetry up to isomorphism'' is exactly the
+passage from a graph to its core, and the sameness lattice records this
+passage as the single element $\Wcyc\in\Same(\mathbf{Gph})$.
+
+\section{Natural samenesses}\label{sec:natural}
+
+\begin{defi}
+A \emph{natural sameness} is an assignment $C\mapsto W(C)\in\Same(C)$, for all
+small categories $C$, such that $F(W(C))\subseteq W(D)$ for every functor
+$F\colon C\to D$; equivalently, a subfunctor of the functor
+$\Mor\colon\Cat\to\Set$ that is pointwise a sameness.
+\end{defi}
+
+Natural samenesses are closed under pointwise intersection, and under
+pointwise join in $\Same(C)$ (the image of a join is contained in the join
+of the images, because the sameness generated by $F(W\cup W')$ contains
+$F(W\vee W')$: the class $F^*(W(D)\vee W'(D))$ is a sameness containing $W(C)$
+and $W'(C)$). So they form a lattice $\mathbf{NatSame}$ mapping into every
+$\Same(C)$ by lattice homomorphisms.
+
+\begin{lem}\label{lem:objdet}
+Let $R$ be an equivalence relation on the objects of $C$. Then
+$W_R:=\{f\colon X\to Y: X\,R\,Y\}$ is a sameness (\emph{object-determined}); if
+$R$ is preserved by all functors then $W_R$ is natural. Equality gives
+$\bot$, isomorphism gives $\Wobj$, mutual reachability gives $\Wcyc$.
+\end{lem}
+\begin{proof}
+Reflexivity gives the identities, transitivity gives closure under
+composition, and transitivity with symmetry gives two-out-of-three
+($X\,R\,Z$ and $X\,R\,Y$ imply $Y\,R\,Z$, and similarly in the other cases).
+\end{proof}
+
+\begin{prop}\label{prop:naturals}
+The following are natural samenesses:
+\begin{itemize}
+\item $\bot=\{\mathrm{id}\}$, $\Iso$, $\Wobj$ (source isomorphic to target), $\Wcyc$,
+$\top=\Mor$;
+\item $\Wend(C):=\{\mathrm{id}\}\cup\{\text{endomorphisms of }C\}$ and
+$\Aut(C):=\{\mathrm{id}\}\cup\{\text{automorphisms}\}=\Iso\cap\Wend$;
+\item $\Wret(C):=\{f\colon X\to Y: X\text{ and }Y\text{ are retracts of each other}\}$.
+\end{itemize}
+Moreover $\Iso$ and $\Wend$ are incomparable in general, $\Iso\vee\Wend=\Wobj$,
+$\Wobj\subseteq\Wret\subseteq\Wcyc$, and $\Wret=\Wobj$ in every category whose
+endomorphism monoids are finite.
+\end{prop}
+\begin{proof}
+Functors preserve identities, isomorphisms, isomorphic pairs of objects,
+backs, endomorphisms, automorphisms and retractions, so all classes are
+natural once they are samenesses. $\Wobj$, $\Wret$: Lemma~\ref{lem:objdet},
+``mutual retract'' being an equivalence relation containing $\cong$ (a retract
+of a retract is a retract). $\Wend$: composites of endomorphisms of $X$ are
+endomorphisms; if $gf$ and $f$ are endomorphisms of $X$ then $g\colon X\to X$;
+if $gf$ and $g$ are endomorphisms then $\mathrm{dom}\,f=\mathrm{cod}\,gf=\mathrm{cod}\,g
+=\mathrm{dom}\,g=\mathrm{cod}\,f$. $\Aut$ is an intersection. Incomparability: in
+the category with two objects and one isomorphism between them,
+$\Iso\not\subseteq\Wend$; in the monoid $\{1,t,t^2\}$ with $t^3=t^2$,
+$\Wend\not\subseteq\Iso$. Join: $\Wobj$ is a sameness containing both; and if
+$f\colon X\to Y$ with an isomorphism $h\colon Y\to X$, then $f=h^{-1}\circ(hf)$ with
+$hf\in\Wend$, $h^{-1}\in\Iso$, so $f$ lies in the join. If $X$ is a retract of
+$Y$ via $s\colon X\to Y$, $r\colon Y\to X$, $rs=\mathrm{id}$, then $e\mapsto ser$ is an
+injection $\End(X)\to\End(Y)$ (with left inverse $u\mapsto rus$); with finite
+endomorphism monoids, mutual retracts give a bijection, so
+$\mathrm{id}_Y=ser$ for some $e$, and $s$ is a split epimorphism as well as a
+split monomorphism, hence an isomorphism.
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[row sep=small,column sep=small]
+& \top=\Mor & \\
+& \Wcyc\arrow[u,dash] & \\
+& \Wret\arrow[u,dash] & \\
+& \Wobj\arrow[u,dash] & \\
+\Iso\arrow[ur,dash] & & \Wend\arrow[ul,dash] \\
+& \Aut\arrow[ul,dash]\arrow[ur,dash] & \\
+& \bot\arrow[u,dash] &
+\end{tikzcd}
+\caption{Natural samenesses of Proposition~\ref{prop:naturals}; $\Iso$ and
+$\Wend$ are incomparable with meet $\Aut$ and join $\Wobj$. Further natural
+samenesses exist between $\Wobj$ and $\Wcyc$ (Remark~\ref{rem:classify}).}
+\label{fig:nat}
+\par\smallskip\noindent\textit{Alt text:} A Hasse diagram: bottom, then
+automorphisms, then two incomparable elements (isomorphisms; endomorphisms),
+their join (source isomorphic to target), then mutual retracts, then the
+cycle class, then the top.
+\end{figure}
+
+\begin{thm}[the cut lemma]\label{thm:cut}
+Let $W$ be a natural sameness. If for some category $C$ the class $W(C)$
+contains a morphism $f\colon X\to Y$ with $Y\not\preceq X$, then $W=\top$.
+Hence every natural sameness other than $\Mor$ is contained in $\Wcyc$, and
+$\Wcyc$ is the largest proper natural sameness. Dually, if $W(C)$ contains a
+morphism $f\colon X\to Y$ with $X\neq Y$, then $W\supseteq\Iso$.
+\end{thm}
+\begin{proof}
+Let $U:=\{Z: Z\preceq X\}$ and $V:=\Ob C\setminus U$; then $X\in U$, $Y\in V$, and
+no morphism goes from $V$ to $U$ (if $Z'\to Z$ with $Z\preceq X$ then
+$Z'\preceq X$). So $U\mapsto 0$, $V\mapsto1$ defines a functor $F\colon C\to[1]$
+to the arrow category, with $F(f)$ the non-identity arrow $u$ of $[1]$.
+Naturality gives $u\in W([1])$, and every morphism of every category is the
+image of $u$ under a functor $[1]\to D$; so $W=\top$. For the second
+statement let $I$ be the category with two objects $0,1$ and exactly one
+morphism between any two objects (the walking isomorphism). Any assignment
+of objects of $C$ to $\{0,1\}$ extends uniquely to a functor $C\to I$; choose
+$X\mapsto0$, $Y\mapsto1$, so $F(f)$ is the isomorphism $u\colon0\to1$ and
+$u\in W(I)$. An isomorphism $h\colon A\to B$ of any $D$ is the image of $u$
+under the functor $I\to D$ sending $0\mapsto A$, $1\mapsto B$, $u\mapsto h$,
+$u^{-1}\mapsto h^{-1}$ (also when $A=B$). So $W\supseteq\Iso$.
+\end{proof}
+
+\begin{rem}[towards a classification]\label{rem:classify}
+By Lemma~\ref{lem:objdet}, natural equivalence relations on objects give
+natural samenesses $W_R$; by the cut lemma every such relation other than the
+total one is contained in mutual reachability. There are infinitely
+many: the transitive closure of any natural symmetric relation defined by
+a finite pattern (mutual retracts; pairs $u\colon X\to Y$, $v\colon Y\to X$ with
+$uvu=u$ and $vuv=v$; \dots) is one. Not every natural sameness is of this
+form ($\Wend$ is not), and two-out-of-three couples the object part with
+the endomorphism part ($\Iso\vee\Wend=\Wobj$). We do not know the complete list. Restricting a natural sameness
+$W\subseteq\Wend$ to one-object categories yields a natural assignment
+$M\mapsto N(M)$ of two-out-of-three-closed submonoids of monoids, of which we
+know only $\{1\}$, the group of units, and $M$; whether this restriction
+determines $W$ --- i.e.\ whether membership of an endomorphism in $W(C)$
+depends only on its image in $\End_C(X)$ --- is a further classification
+question.
+\end{rem}
+
+\section{Localization versus reflection in a topos}\label{sec:topos}
+
+Let $\mathcal E$ be a topos. Every object $X$ has a \emph{support}
+$\supp X\rightarrowtail1$, the image of $X\to1$; the subterminal objects (subobjects
+of $1$) form a reflective full subcategory $\Sub(1)$ with reflector
+$X\mapsto\supp X$, the $(-1)$-truncation \cite[A1.3]{Elephant}. Put
+$\Wsupp:=\{f\colon X\to Y:\supp X=\supp Y\}$, the class inverted by this
+reflector.
+
+\begin{thm}\label{thm:topos}
+In a topos $\mathcal E$:
+\begin{enumerate}
+\item $\Loc(\Wcyc)=\Sub(1)$, the subterminal objects;
+\item $\Sat(\Wcyc)=\Wsupp$;
+\item $\Wcyc\subseteq\Wsupp$, with equality iff any two objects with the
+same support admit morphisms in both directions.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(1) Let $Z$ be subterminal. For any $Y$, $\Hom(Y,Z)$ is empty or a singleton,
+and it is non-empty iff $\supp Y\le Z$ in $\Sub(1)$ (a map $Y\to Z$ factors
+through the image of $Y\to1$, and conversely). If $f\colon X\to Y$ has a back
+$g$, then $\supp X\le\supp Y$ because of $f$ and $\supp Y\le\supp X$ because of
+$g$; so $\Hom(Y,Z)=\Hom(X,Z)$ and $Z$ is $\Wcyc$-local. Conversely let $Z$ be
+$\Wcyc$-local and $X$ arbitrary. The fold map $\nabla\colon X\sqcup X\to X$
+has the back $j_1$, so $\nabla\in\Wcyc$ and $\Hom(X,Z)\cong\Hom(X\sqcup X,Z)
+=\Hom(X,Z)\times\Hom(X,Z)$ via the diagonal; a set in bijection with its
+square through the diagonal has at most one element. So $\Hom(X,Z)$ has at
+most one element for every $X$, i.e.\ $Z\to1$ is a monomorphism: $Z$ is
+subterminal.
+(2) $\Wsupp$ is the class inverted by the reflector onto $\Sub(1)$, hence is
+saturated with local objects $\Sub(1)$; by (1) it has the same local objects
+as $\Wcyc$, so it is $\Sat(\Wcyc)$.
+(3) The inclusion was shown in (1). If $f\colon X\to Y$ lies in $\Wsupp$ and
+objects with equal support admit maps both ways, then $f$ has a back; the
+converse is the definition.
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzcd}[column sep=large,row sep=large]
+\mathcal E\arrow[r,"\gamma"]\arrow[d,"\supp"'] & \mathcal E[\Wcyc^{-1}]=(\Ob\mathcal E,\preceq)\arrow[dl,dashed] \\
+\Sub(1) &
+\end{tikzcd}
+\caption{Localization versus reflection at $\Wcyc$ in a topos: the
+localization is the hom-preorder (Corollary~\ref{cor:topos}); the reflection
+onto the local objects is the support, i.e.\ the $(-1)$-truncation
+(Theorem~\ref{thm:topos}); the dashed comparison is an equivalence iff
+$\Wcyc$ is saturated.}
+\label{fig:topos}
+\par\smallskip\noindent\textit{Alt text:} A triangle: the topos maps to its
+hom-preorder by the localization and to the subterminal objects by the
+support; a dashed arrow compares the hom-preorder with the subterminals.
+\end{figure}
+
+\begin{ex}[sets and simplicial sets]\label{ex:sset}
+In $\Set$ and in $\sSet$ the supports are $\varnothing$ and $1$, and two
+non-empty objects admit maps in both directions (in $\sSet$ through a
+vertex, $Y\to\Delta^0\to X$). So $\Wcyc=\Wsupp$ is saturated, it is the class
+of maps $f\colon X\to Y$ with ($X=\varnothing$ iff $Y=\varnothing$), i.e.\ the
+$(-1)$-truncated equivalences, and $\mathcal E[\Wcyc^{-1}]\simeq\Sub(1)=\{\varnothing<1\}$.
+For simplicial sets this class is the join of the weak homotopy
+equivalences with the $0$-coskeletal equivalences \cite[Thm.~6.2, $n=-1$]{Postnikov}:
+the antisymmetry sameness of simplicial sets is the $(-1)$-truncation.
+\end{ex}
+
+\begin{ex}[graphs: $\Wcyc$ is not saturated]\label{ex:graphs}
+In $\mathbf{Gph}$ let $X$ be the path $v_0\to v_1$ and $Y$ the graph with one
+vertex and one loop (the terminal graph). Both have support $1$, and there
+is a map $X\to Y$; but $\Hom(Y,X)=\varnothing$, since a loop must map to a
+loop. So $X\to Y$ lies in $\Wsupp\setminus\Wcyc$: $\Wcyc$ is strictly smaller
+than its saturation, the localization $\mathbf{Gph}[\Wcyc^{-1}]$ (the
+homomorphism preorder, Corollary~\ref{cor:graphs}) is strictly finer than
+the reflection $\mathbf{Gph}\to\Sub(1)$, and the comparison of
+Figure~\ref{fig:topos} identifies all graphs with at least one edge.
+\end{ex}
+
+The pattern is the one observed in \cite{Topjoin} for joins of Grothendieck
+topologies: the sameness lattice sees a relation --- here reachability, there
+a pro-limit --- that the saturated, reflective level forgets.
+
+\section{Concluding remarks}
+
+The cycle class $\Wcyc$ answers the question ``antisymmetric up to which
+sameness?'' with a canonical element of $\Same(C)$, whose extremes classify
+acyclic, EI and strongly connected categories, whose localization is the
+EI-reflection, and which under binary coproducts is the preorder reflection
+in disguise. Two questions remain. First, the classification of natural
+samenesses (Remark~\ref{rem:classify}): is every natural sameness generated
+by natural equivalence relations on objects and natural
+two-out-of-three-closed submonoids of endomorphism monoids? Second, for
+which categories without binary coproducts is the EI-reflection still a
+preorder --- the free category on $x\rightleftarrows y$ shows that some
+hypothesis is needed, and finite categories with a zero object satisfy the
+conclusion by the same fold-map argument applied to the zero morphisms.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{9}
+\bibitem{BK} C.~Barwick, D.~M.~Kan, \emph{Relative categories: another model
+for the homotopy theory of homotopy theories}, Indag. Math. (N.S.)
+\textbf{23} (2012), 42--68.
+\bibitem{DHKS} W.~G.~Dwyer, P.~S.~Hirschhorn, D.~M.~Kan, J.~H.~Smith,
+\emph{Homotopy Limit Functors on Model Categories and Homotopical
+Categories}, Math. Surveys Monogr. \textbf{113}, Amer. Math. Soc., 2004.
+\bibitem{GZ} P.~Gabriel, M.~Zisman, \emph{Calculus of Fractions and Homotopy
+Theory}, Ergebnisse der Mathematik \textbf{35}, Springer, 1967.
+\bibitem{HN} P.~Hell, J.~Ne\v set\v ril, \emph{Graphs and Homomorphisms},
+Oxford Lecture Series in Mathematics and its Applications \textbf{28},
+Oxford University Press, 2004.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Logic Guides \textbf{43--44}, Oxford University
+Press, 2002.
+\bibitem{Lueck} W.~L\"uck, \emph{Transformation Groups and Algebraic
+$K$-Theory}, Lecture Notes in Mathematics \textbf{1408}, Springer, 1989.
+\bibitem{MLM} S.~Mac Lane, I.~Moerdijk, \emph{Sheaves in Geometry and Logic},
+Universitext, Springer, 1992.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of
+sheaf and homotopy equivalences}, preprint (2026), archived at DOI
+10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\bibitem{Webb} P.~Webb, \emph{An introduction to the representations and
+cohomology of categories}, in: Group Representation Theory, EPFL Press,
+2007, 149--173.
+\end{thebibliography}
+\end{document}
