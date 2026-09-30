@@ -150,14 +150,18 @@ For a functor $F\colon C\to D$, the class $W_F:=F^*(\Iso)=\{f:Ff\text{ an
 equivalence}\}$ is a sameness, and more generally $F^*(W)$ is a sameness for
 every sameness $W$ of $D$. For a sameness $W$ of $C$ let $\Loc(W)$ be the
 class of $W$-local objects, those $Z$ for which $\Map(f,Z)$ is an equivalence
-for all $f\in W$, and let $\Sat(W)$ be the \emph{saturation}: the class of
-maps inverted by the localization $C\to C[W^{-1}]$; then
+for all $f\in W$, and let $\Sat(W):=\{f:\Map(f,Z)\text{ an equivalence for all }
+Z\in\Loc(W)\}$ be the \emph{saturation} of $W$, the class of maps orthogonal
+to the $W$-local objects \cite[Def.~2.2]{Postnikov}; then
 $W\subseteq\Sat(W)$, $\Loc(W)=\Loc(\Sat(W))$, and $\Loc(U\vee V)=\Loc(U)\cap\Loc(V)$
 ($Z$ is local for $U\vee V$ iff $U\vee V\subseteq\Map(-,Z)^*(\Iso)$, a
 sameness, iff both $U$ and $V$ are contained in it). If $W=W_R$ for a
 reflector $R$ onto a full subcategory, then $W_R$ is saturated and $\Loc(W_R)$
 is the essential image of $R$; and if $\Loc(W)$ is a reflective subcategory
-with reflector $R$, then $\Sat(W)=W_R$ \cite[\S2]{Postnikov}.
+with reflector $R$, then $\Sat(W)=W_R$, since both classes consist of the maps
+orthogonal to the image of $R$ \cite[Lemma~2.3]{Postnikov}. (This saturation
+may be larger than the class of maps inverted by the localization
+$C\to C[W^{-1}]$; only the orthogonality version is used below.)
 
 \begin{thm}[join theorem, {\cite[Thm.~4.1]{Postnikov}}]\label{thm:generaljoin}
 Let $U,V,W\in\Same(C)$ with $W\subseteq U\vee V$, and let $P\colon C\to C$ be
