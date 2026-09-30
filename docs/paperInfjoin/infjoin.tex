@@ -1,0 +1,544 @@
+% Paper0032: Postnikov truncation of simplicial objects in an infinity-topos as a join.
+% Cross-check: scripts/comparison/cosk_const_diag.py, cosk_kan_models.py.
+% No result depends on a computation.
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Sat}{\mathrm{Sat}}
+\newcommand{\Loc}{\mathrm{Loc}}
+\newcommand{\Map}{\mathrm{Map}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\cosk}{\mathrm{cosk}}
+\newcommand{\sk}{\mathrm{sk}}
+\newcommand{\Fun}{\mathrm{Fun}}
+\newcommand{\sS}{\mathcal S}
+\newcommand{\E}{\mathcal E}
+\newcommand{\sP}{\mathcal P}
+\newcommand{\tr}[1]{\tau_{\le #1}}
+\newcommand{\re}{|{-}|}
+\newcommand{\diag}{\mathrm{diag}}
+
+\begin{document}
+
+\title[Postnikov truncation as a join of localizations]{Postnikov truncation
+  of simplicial objects in an $\infty$-topos as a join of localizations}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{$\infty$-topos, simplicial object, geometric realization, coskeleton,
+  Postnikov truncation, left-exact localization, modality, two-out-of-three,
+  localization of $\infty$-categories}
+\subjclass[2020]{18N60 (primary), 55P60, 18N40, 55U10, 18F10 (secondary)}
+
+\begin{abstract}
+Let $\E$ be an $\infty$-topos and $\sP=\Fun(\Delta^{\mathrm{op}},\E)$ its
+$\infty$-category of simplicial objects. Three classes of maps of $\sP$ are
+canonical: the maps inverted by geometric realization $\re=\operatorname{colim}$,
+the maps inverted by the $(n{+}1)$-coskeleton, and, for a left-exact
+localization $L$ of $\E$, the maps inverted by $L$ levelwise. Each is the
+class of equivalences of a reflective localization of $\sP$, and each is closed
+under composition and two-out-of-three. We prove that the smallest class
+closed under composition and two-out-of-three containing the first two is
+exactly the class of maps $f$ with $\tr n|f|$ an equivalence, and that adding
+the third gives exactly the maps with $L\tr n|f|$ an equivalence, the
+$n$-truncated $L$-sheaf of the realization. The identities hold on the nose,
+not merely after saturation, which answers a question left open in earlier
+work. The proof rests on one proposition: the geometric realization of the
+$(n{+}1)$-coskeleton of a constant simplicial object $cK$ is the Postnikov
+section $\tr nK$, with the coskeleton unit realizing to the truncation map.
+For spaces this is proved by a bisimplicial diagonal argument from the
+classical fact that the coskeleton of a Kan complex is its Postnikov section,
+and it passes to every $\infty$-topos because coskeleta are finite limits and
+left-exact localizations commute with finite limits and with truncation.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Throughout, $\E$ is an $\infty$-topos, $\sP:=\Fun(\Delta^{\mathrm{op}},\E)$
+is its $\infty$-category of simplicial objects,
+$\re\colon\sP\to\E$ is the colimit functor (geometric realization), $c\colon\E\to\sP$
+is the constant functor, $\cosk_{n+1}\colon\sP\to\sP$ is the $(n{+}1)$-coskeleton,
+and $\tr n\colon\E\to\E$ is $n$-truncation. For a functor $F$ we write
+$W_F$ for the class of maps $f$ such that $Ff$ is an equivalence. The main
+result is the following identity between classes of maps of $\sP$, where
+$\vee$ denotes the smallest class containing the equivalences, closed under
+composition and two-out-of-three, and containing both arguments.
+
+\begin{thm}[main theorem]\label{thm:main}
+For every $\infty$-topos $\E$, every $n\ge-1$ and every left-exact localization
+$L$ of $\E$ applied levelwise to $\sP$,
+\[
+W_{\re}\vee W_{\cosk_{n+1}}=W_{\tr n\re},\qquad
+W_{\re}\vee W_{\cosk_{n+1}}\vee W_{L}=W_{L\tr n\re}.
+\]
+\end{thm}
+
+\subsection*{What is known.}
+Classes of maps closed under composition and two-out-of-three, called
+samenesses, form a complete lattice $\Same(C)$ whose joins are subtle
+\cite{Same}; the general \emph{join theorem} (Theorem~\ref{thm:generaljoin}
+below) is from \cite{Postnikov}, where the identity
+$W_{\text{weak equivalences}}\vee W_{\cosk_{n+1}}=\{f:\pi_if\text{ iso, }i\le n\}$
+was proved for simplicial \emph{sets}, i.e.\ for $\E=\sS$ and levelwise
+discrete objects, using Kan's $\mathrm{Ex}^\infty$ and the classical fact that
+the $(n{+}1)$-coskeleton of a Kan complex is its $n$-th Postnikov section
+(Duskin \cite{Duskin}; \cite[VI]{GJ}). In \cite{Topjoin} it was shown that
+in an $\infty$-topos the join of a lex modality with the $n$-truncation is
+the $n$-truncated modality, and that in simplicial spaces
+($\E=\sS$) the \emph{saturation} of $W_{\re}\vee W_{\cosk_{n+1}}$ is
+$W_{\tr n\re}$, i.e.\ the two classes have the same local objects; whether the
+join itself is saturated was left open there. The facts about $\infty$-topoi
+that we use --- left-exact localizations commute with truncation, every
+$\infty$-topos is a left-exact localization of a presheaf $\infty$-category ---
+are from \cite{HTT}, and the facts about bisimplicial sets from \cite[IV.1]{GJ}.
+
+\subsection*{What is new.}
+The two identities of Theorem~\ref{thm:main}: the first closes the question
+of \cite[\S8]{Topjoin} and generalizes the theorem of \cite{Postnikov} from
+simplicial sets to simplicial objects in every $\infty$-topos; the second adds
+the sheaf-theoretic sameness. Both follow from the join theorem once one
+knows that the unit $cK\to c\tr nK$ lies in the join, and this is
+Proposition~\ref{prop:const}: \emph{the realization of the coskeleton unit
+$cK\to\cosk_{n+1}cK$ is the truncation $K\to\tr nK$}. The proposition is not
+a formal consequence of the Kan-complex statement, since a constant
+simplicial space has non-discrete levels and its coskeleton has levels
+$K^{|\sk_{n+1}\Delta^m|}$ that are far from truncated; it is proved by
+writing the coskeleton of a constant object as the diagonal of a bisimplicial
+set whose rows are coskeleta of Kan complexes. No result of this paper
+depends on a computation; a small computer check of Proposition~\ref{prop:const}
+in the first non-trivial case accompanies the repository and is mentioned only in
+Remark~\ref{rem:check}.
+
+\subsection*{Outline.}
+Section~\ref{sec:same} recalls samenesses and the join theorem.
+Section~\ref{sec:simp} collects the facts about realization and coskeleta and
+proves Proposition~\ref{prop:const}. Section~\ref{sec:join} proves the first
+identity (Theorem~\ref{thm:A}) and Section~\ref{sec:three} the second
+(Theorem~\ref{thm:B}).
+
+\section{Samenesses and the join theorem}\label{sec:same}
+
+\begin{defi}
+A \emph{sameness} of an $\infty$-category $C$ is a class $W$ of morphisms
+(closed under equivalence of morphisms in the arrow category) containing all
+equivalences, closed under composition, and satisfying two-out-of-three: if two
+of $f$, $g$, $gf$ lie in $W$, so does the third. The samenesses form a complete
+lattice $\Same(C)$ under inclusion; the meet is the intersection and the join
+$U\vee V$ is the smallest sameness containing $U\cup V$.
+\end{defi}
+
+For a functor $F\colon C\to D$, the class $W_F:=F^*(\Iso)=\{f:Ff\text{ an
+equivalence}\}$ is a sameness, and more generally $F^*(W)$ is a sameness for
+every sameness $W$ of $D$. For a sameness $W$ of $C$ let $\Loc(W)$ be the
+class of $W$-local objects, those $Z$ for which $\Map(f,Z)$ is an equivalence
+for all $f\in W$, and let $\Sat(W)$ be the \emph{saturation}: the class of
+maps inverted by the localization $C\to C[W^{-1}]$; then
+$W\subseteq\Sat(W)$, $\Loc(W)=\Loc(\Sat(W))$, and $\Loc(U\vee V)=\Loc(U)\cap\Loc(V)$
+($Z$ is local for $U\vee V$ iff $U\vee V\subseteq\Map(-,Z)^*(\Iso)$, a
+sameness, iff both $U$ and $V$ are contained in it). If $W=W_R$ for a
+reflector $R$ onto a full subcategory, then $W_R$ is saturated and $\Loc(W_R)$
+is the essential image of $R$; and if $\Loc(W)$ is a reflective subcategory
+with reflector $R$, then $\Sat(W)=W_R$ \cite[\S2]{Postnikov}.
+
+\begin{thm}[join theorem, {\cite[Thm.~4.1]{Postnikov}}]\label{thm:generaljoin}
+Let $U,V,W\in\Same(C)$ with $W\subseteq U\vee V$, and let $P\colon C\to C$ be
+a functor with a natural transformation $\pi\colon\mathrm{id}_C\Rightarrow P$
+such that (a) $\pi_X\in U\vee V$ for every $X$, and (b) $P(U)\subseteq W$ and
+$P(V)\subseteq W$. Then $U\vee V=P^*(W)$.
+\end{thm}
+\begin{proof}
+$P^*(W)$ is a sameness containing $U$ and $V$ by (b), hence $U\vee V$.
+Conversely let $Pf\in W$. Naturality gives the square
+\[
+\begin{tikzcd}[column sep=large]
+X\arrow[r,"f"]\arrow[d,"\pi_X"'] & Y\arrow[d,"\pi_Y"]\\
+PX\arrow[r,"Pf"'] & PY
+\end{tikzcd}
+\]
+in which $\pi_X$, $\pi_Y$ and $Pf$ lie in $U\vee V$; two-out-of-three applied
+to $\pi_Y\circ f=Pf\circ\pi_X$ gives $f\in U\vee V$.
+\end{proof}
+
+The theorem is stated for $1$-categories in \cite{Postnikov}; the proof uses
+only that the square commutes in the homotopy category, so it holds for
+$\infty$-categories with the definition above.
+
+\section{Realization, constants and coskeleta}\label{sec:simp}
+
+\subsection{Realization and constants.}
+Since $\Delta^{\mathrm{op}}$ has an initial object, namely $[0]$ (which is
+terminal in $\Delta$), its nerve is contractible and the colimit of a
+constant diagram is its value: $|cK|\simeq K$. Hence $c$ is fully faithful and
+the unit $u_X\colon X\to c|X|$ of $\re\dashv c$ satisfies $|u_X|\simeq
+\mathrm{id}$, i.e.\ $u_X\in W_{\re}$ for every $X$; and a map $X\to cK$
+factors uniquely as $c(g)\circ u_X$ with $g\colon|X|\to K$ its adjunct. Both
+$c\re$ and $\cosk_{n+1}$ are reflectors (onto the constant and the
+$(n{+}1)$-coskeletal objects), so $W_{\re}$ and $W_{\cosk_{n+1}}$ are saturated
+samenesses with these local objects.
+
+\subsection{Coskeleta are finite limits.}
+Let $\Delta_{\le k}\subseteq\Delta$ be the full subcategory on $[0],\dots,[k]$.
+The $k$-coskeleton is the right Kan extension along $\Delta_{\le k}^{\mathrm{op}}
+\hookrightarrow\Delta^{\mathrm{op}}$ of the restriction, so
+\[
+(\cosk_kX)_m\ =\ \lim_{([j]\to[m])\in(\Delta_{\le k}/[m])^{\mathrm{op}}}X_j ,
+\]
+a limit over a \emph{finite} category (there are finitely many maps
+$[j]\to[m]$ with $j\le k$), with unit $X\to\cosk_kX$ an equivalence in levels
+$\le k$. Equivalently, $(\cosk_kX)_m$ is the cotensor
+$\Map_{\sP}(\sk_ky[m],X)$ of $X$ with the $k$-skeleton of the representable.
+
+\begin{lem}\label{lem:lex}
+Let $F\colon\E\to\E'$ be a functor preserving finite limits. Then
+$F\circ\cosk_k\simeq\cosk_k\circ F$ as functors $\Fun(\Delta^{\mathrm{op}},\E)\to
+\Fun(\Delta^{\mathrm{op}},\E')$, compatibly with the units. In particular this
+holds for the inclusion $\iota\colon\E\hookrightarrow\Presh(C)$ of an
+$\infty$-topos into a presheaf $\infty$-category and for its left-exact left
+adjoint $L$.
+\end{lem}
+\begin{proof}
+Both sides are the finite limits displayed above, and $F$ preserves them.
+\end{proof}
+
+\subsection{Constant objects.}
+For $K\in\E$ and a space $A$ write $K^A$ for the cotensor. Then
+$(\cosk_{n+1}cK)_m\simeq K^{|\sk_{n+1}\Delta^m|}$, and the unit $cK\to\cosk_{n+1}cK$
+is, at level $m$, the map $K\to K^{|\sk_{n+1}\Delta^m|}$ induced by
+$|\sk_{n+1}\Delta^m|\to\ast$. The space $|\sk_{n+1}\Delta^m|$ is contractible for
+$m\le n+1$ and $n$-connected for $m\ge n+2$, with
+$|\sk_{n+1}\Delta^{n+2}|=|\partial\Delta^{n+2}|\simeq S^{n+1}$; in particular the
+levels of $\cosk_{n+1}cK$ are not truncated when $K$ is not (for
+$K=S^1$ and $n=0$, level $m$ is $\Map(K_{m+1},S^1)\simeq S^1\times\mathbb Z^{\binom m2}$,
+$K_{m+1}$ the complete graph).
+
+\begin{lem}[{\cite[Lemma~8.2]{Topjoin}}]\label{lem:constcosk}
+$cK$ is $(n{+}1)$-coskeletal iff $K$ is $n$-truncated.
+\end{lem}
+\begin{proof}
+If $K$ is $n$-truncated then $K\to K^A$ is an equivalence for every
+$n$-connected space $A$ (test against $\Map(B,-)$: $\Map(A,\Map(B,K))\simeq
+\Map(\tr nA,\Map(B,K))\simeq\Map(B,K)$). Conversely, if $cK$ is
+$(n{+}1)$-coskeletal, the unit at level $n+2$, $K\to K^{S^{n+1}}$, is an
+equivalence, which says precisely that $K$ is $n$-truncated.
+\end{proof}
+
+The following proposition is the heart of the paper. Although the levels of
+$\cosk_{n+1}cK$ are not truncated, its realization is.
+
+\begin{prop}[coskeleta of constants realize to Postnikov sections]\label{prop:const}
+Let $\E$ be an $\infty$-topos, $K\in\E$ and $n\ge-1$. The realization of the
+coskeleton unit,
+\[
+K\simeq|cK|\longrightarrow|\cosk_{n+1}cK|,
+\]
+is the truncation map $K\to\tr nK$; in particular $|\cosk_{n+1}cK|\simeq\tr nK$,
+naturally in $K$.
+\end{prop}
+\begin{proof}
+\emph{The case $\E=\sS$.} Choose a Kan complex $K'$ with $|K'|\simeq K$.
+For a simplicial set $A$ and a Kan complex $Z$ write $Z^A$ for the simplicial
+mapping space, $(Z^A)_k=\Hom(A\times\Delta^k,Z)$, a Kan complex whose
+homotopy type is $\Map(|A|,|Z|)$ \cite[I.5, I.11]{GJ}. Consider the three
+bisimplicial sets
+\begin{align*}
+S_{m,k}&=\Hom(\Delta^m\times\Delta^k,K'),&
+T_{m,k}&=\Hom(\sk_{n+1}\Delta^m\times\Delta^k,K'),\\
+T'_{m,k}&=\Hom(\Delta^m\times\Delta^k,\cosk_{n+1}K'),
+\end{align*}
+with the maps $S\to T$ (restriction along $\sk_{n+1}\Delta^m\times\Delta^k
+\subseteq\Delta^m\times\Delta^k$) and $T\to T'$ (a map
+$\sk_{n+1}\Delta^m\times\Delta^k\to K'$ restricts to
+$\sk_{n+1}(\Delta^m\times\Delta^k)\subseteq\sk_{n+1}\Delta^m\times\Delta^k$, i.e.\ gives
+a map $\Delta^m\times\Delta^k\to\cosk_{n+1}K'$). Both maps are natural in
+$K'$.
+
+\emph{Columns (fixed $m$).} $k\mapsto S_{m,k}$ is $K'^{\Delta^m}\simeq K'$, and
+$k\mapsto T_{m,k}$ is $K'^{\sk_{n+1}\Delta^m}$, of homotopy type
+$\Map(|\sk_{n+1}\Delta^m|,K)=(\cosk_{n+1}cK)_m$, the simplicial structure in
+$m$ being induced by the coface and codegeneracy maps in both cases. Hence the
+simplicial spaces $m\mapsto|S_{m,\bullet}|$ and $m\mapsto|T_{m,\bullet}|$ are
+$cK$ and $\cosk_{n+1}cK$, and $S\to T$ models the coskeleton unit. The
+realization of the simplicial space obtained by realizing a bisimplicial set
+in one direction is its diagonal \cite[IV.1.7 and IV.1.9]{GJ}, so the
+realization of the unit is $\diag S\to\diag T$.
+
+\emph{Rows (fixed $k$).} By the exponential law,
+$m\mapsto S_{m,k}$ is the Kan complex $K'^{\Delta^k}$, $m\mapsto T_{m,k}$ is
+$\Hom(\sk_{n+1}\Delta^m,K'^{\Delta^k})=(\cosk_{n+1}(K'^{\Delta^k}))_m$, and
+$m\mapsto T'_{m,k}$ is $(\cosk_{n+1}K')^{\Delta^k}$; the row maps are the
+coskeleton unit of $K'^{\Delta^k}$ and the canonical comparison
+$\cosk_{n+1}(K'^{\Delta^k})\to(\cosk_{n+1}K')^{\Delta^k}$. By the Kan-complex
+statement \cite[Lemma~7.1]{Postnikov} (cf.\ \cite{Duskin}), for a Kan complex
+$Z$ the unit $Z\to\cosk_{n+1}Z$ is a map of Kan complexes inducing
+isomorphisms on $\pi_i$ for $i\le n$ at all base points, with
+$\pi_i(\cosk_{n+1}Z)=0$ for $i>n$ (for $n=-1$: $\cosk_0Z$ is empty or
+contractible). Apply this to $Z=K'^{\Delta^k}$ and to $Z=K'$: the row map
+$S_{\bullet,k}\to T_{\bullet,k}$ is an $n$-equivalence to an $n$-truncated Kan
+complex, and the composite $K'^{\Delta^k}\to\cosk_{n+1}(K'^{\Delta^k})\to
+(\cosk_{n+1}K')^{\Delta^k}$ is the $\Delta^k$-exponential of the unit of $K'$,
+again an $n$-equivalence to an $n$-truncated Kan complex (evaluation at a
+vertex identifies $Z^{\Delta^k}\simeq Z$ naturally). Hence
+$T_{\bullet,k}\to T'_{\bullet,k}$ induces isomorphisms on all homotopy groups
+between Kan complexes, i.e.\ is a weak equivalence, for every $k$.
+
+\emph{Diagonals.} A map of bisimplicial sets that is a weak equivalence on
+each row induces a weak equivalence of diagonals \cite[IV.1.7]{GJ}. Applied
+to $T\to T'$ and to the rowwise equivalences $S_{\bullet,k}=K'^{\Delta^k}\to K'$
+and $T'_{\bullet,k}=(\cosk_{n+1}K')^{\Delta^k}\to\cosk_{n+1}K'$ (evaluation at
+the vertex $0$ of $\Delta^k$, which is compatible with the coskeleton units),
+this gives the commutative square
+\[
+\begin{tikzcd}[column sep=large]
+\diag S\arrow[r]\arrow[d,"\simeq"'] & \diag T\arrow[r,"\simeq"] & \diag T'\arrow[d,"\simeq"]\\
+K'\arrow[rr,"\text{unit}"'] & & \cosk_{n+1}K'
+\end{tikzcd}
+\]
+in which the bottom map is the coskeleton unit of the Kan complex $K'$, an
+$n$-equivalence to an $n$-truncated Kan complex, i.e.\ the Postnikov
+$n$-section $K\to\tr nK$. This proves the proposition for $\E=\sS$, and the
+identification is natural in $K$ because all maps are natural in $K'$ and
+an objectwise equivalence between natural transformations is a natural
+equivalence.
+
+\emph{Presheaf $\infty$-topoi.} For a small $\infty$-category $C$ and
+$\E=\Presh(C)=\Fun(C^{\mathrm{op}},\sS)$, the functors $c$, $\cosk_{n+1}$ (a
+finite limit), $\re$ (a colimit) and $\tr n$ are computed objectwise, i.e.\
+are postcomposition with their $\sS$-versions. The natural map
+$\tr nK\to|\cosk_{n+1}cK|$ of $\sS$-valued functors, which is an equivalence by
+the first case, therefore induces an objectwise equivalence for presheaves of
+spaces on any $C$.
+
+\emph{General $\infty$-topoi.} Write $\E=L\,\Presh(C)$ for a small
+$\infty$-category $C$ and an accessible left-exact localization $L$ with
+fully faithful right adjoint $\iota$ \cite[6.1.0.6]{HTT}. For $K\in\E$, the
+coskeleton $\cosk_{n+1}cK$ is computed in $\Presh(C)$ (Lemma~\ref{lem:lex}
+for $\iota$), and the colimit in $\E$ is $L$ of the colimit in $\Presh(C)$, so
+\[
+|\cosk_{n+1}cK|_{\E}\simeq L\,|\cosk_{n+1}c\,\iota K|_{\Presh(C)}
+\simeq L\,\tr n\iota K\simeq\tr nL\iota K\simeq\tr nK
+\]
+by the presheaf case and $L\tr n\simeq\tr nL$ \cite[5.5.6.28]{HTT}; under
+these identifications the realized unit is $L$ applied to the truncation map
+of $\iota K$, which is the truncation map of $K$.
+\end{proof}
+
+\begin{rem}\label{rem:check}
+The first non-trivial instance is $n=0$, $K=S^1$: the simplicial space
+$m\mapsto\Map(|\sk_1\Delta^m|,S^1)$, whose levels are
+$S^1\times\mathbb Z^{\binom m2}$, has contractible realization. Since
+$B\mathbb Z$ is a simplicial abelian group, the diagonal
+$\diag T$ of the proof is one too, with $m$-simplices the normalized
+$\mathbb Z$-valued $1$-cocycles on $\sk_1\Delta^m\times\Delta^m$, and its
+homotopy groups are the homology of its Moore complex. A script in the
+repository computes the ranks of this Moore complex over $\mathbb Q$ through
+degree $4$ (all rational homotopy groups $\pi_0,\dots,\pi_3$ vanish, while the
+same computation with $\Delta^m$ in place of $\sk_1\Delta^m$, which models
+$S^1$ itself, gives $\pi_1\otimes\mathbb Q=\mathbb Q$). Nothing in the paper
+depends on it.
+\end{rem}
+
+\section{The first identity}\label{sec:join}
+
+\begin{thm}\label{thm:A}
+Let $\E$ be an $\infty$-topos and $n\ge-1$. In $\Same(\Fun(\Delta^{\mathrm{op}},\E))$,
+\[
+W_{\re}\vee W_{\cosk_{n+1}}\ =\ W_{\tr n\re},
+\]
+and the local objects of this class are the constant simplicial objects on
+$n$-truncated objects of $\E$.
+\end{thm}
+\begin{proof}
+Apply the join theorem with $U=W_{\re}$, $V=W_{\cosk_{n+1}}$, $W=\Iso$ and
+$P=c\tr n\re$, with $\pi_X$ the composite $X\xrightarrow{u_X}c|X|
+\xrightarrow{t_{|X|}}c\tr n|X|$, where $t_K:=c(K\to\tr nK)$. Condition (b):
+$P$ inverts $W_{\re}$ trivially, and it inverts $W_{\cosk_{n+1}}$ because
+$W_{\cosk_{n+1}}\subseteq W_{\tr n\re}$: by Lemma~\ref{lem:constcosk} the local
+objects of $W_{\re}\vee W_{\cosk_{n+1}}$ are the constant objects on
+$n$-truncated objects, a reflective subcategory with reflector $c\tr n\re$,
+so $\Sat(W_{\re}\vee W_{\cosk_{n+1}})=W_{\tr n\re}$ (\cite[Thm.~8.3]{Topjoin},
+whose proof holds in $\E$), and $W_{\cosk_{n+1}}$ is contained in it.
+Condition (a): $u_X\in W_{\re}$, so it suffices that $t_K$ lies in the join
+for every $K\in\E$. Consider
+\[
+\begin{tikzcd}[column sep=large]
+cK\arrow[r,"\in W_{\cosk_{n+1}}"]\arrow[drr,"t_K"'] & \cosk_{n+1}cK\arrow[r,"u\ \in W_{\re}"] &
+c\,|\cosk_{n+1}cK|\arrow[d,"\simeq"]\\
+& & c\,\tr nK
+\end{tikzcd}
+\]
+where the top row $h$ is the coskeleton unit followed by the unit of
+$\re\dashv c$, and the vertical equivalence is $c$ of
+Proposition~\ref{prop:const}. Since $c$ is fully faithful, $h=c(h')$ for
+$h'=|h|$ composed with $|c|\cosk_{n+1}cK||\simeq|\cosk_{n+1}cK|$, and $h'$ is
+the realization of the coskeleton unit, which by Proposition~\ref{prop:const}
+is the truncation map $K\to\tr nK$. So the triangle commutes and
+$t_K\simeq h$ is a composite of a $W_{\cosk_{n+1}}$-map, a $W_{\re}$-map and an
+equivalence, hence lies in the join. The join theorem gives
+$W_{\re}\vee W_{\cosk_{n+1}}=P^*(\Iso)=W_{\tr n\re}$; the local objects were
+identified above.
+\end{proof}
+
+\begin{rem}
+For $\E=\sS$ and levelwise discrete objects the theorem recovers
+\cite[Thm.~7.2]{Postnikov}. There the proof used Kan replacement; here no
+fibrancy condition appears, because the coskeleton is applied to a constant
+object and Proposition~\ref{prop:const} absorbs the Kan-complex input.
+Theorem~\ref{thm:A} also shows that the zigzag needed to connect $cK$ to
+$c\tr nK$ inside the join has length two, a $W_{\cosk_{n+1}}$-map followed by a
+$W_{\re}$-map.
+\end{rem}
+
+\section{The three-fold join}\label{sec:three}
+
+Let $L'\colon\E\to\E$ be a left-exact localization (the reflector of a
+subtopos; in the language of \cite{ABFJ}, a lex modality), applied levelwise
+to $\sP$, where it is again a lex reflector; write $W_{L'}$ for the class of
+maps $f$ with $L'f_m$ an equivalence for all $m$.
+
+\begin{prop}\label{prop:pairs}
+$W_{\re}\vee W_{L'}=W_{L'\re}$ and $W_{\cosk_{n+1}}\vee W_{L'}=W_{\cosk_{n+1}L'}$,
+the classes inverted by the reflectors $cL'\re$ (onto constant objects on
+$L'$-local objects) and $\cosk_{n+1}L'$ (onto $(n{+}1)$-coskeletal levelwise
+$L'$-local objects).
+\end{prop}
+\begin{proof}
+Both are instances of \cite[Cor.~4.2]{Postnikov}: for two reflectors $R_1,R_2$
+such that $R_2R_1$ inverts $W_{R_2}$, one has $W_{R_1}\vee W_{R_2}=W_{R_2R_1}$
+(the join theorem with $P=R_2R_1$ and $\pi$ the composite of the two units).
+For the first identity take $R_1=L'$ (levelwise) and $R_2=c\re$: since $L'$
+preserves colimits, $|L'f|\simeq L'|f|$, so $cL'\re=R_2R_1$ inverts $W_{L'}$,
+and the join is $W_{R_2R_1}=W_{L'\re}$; its local objects are the constant
+objects on $L'$-local objects, the essential image of $cL'\re$. For the
+second take $R_1=L'$ and $R_2=\cosk_{n+1}$: $\cosk_{n+1}L'\simeq L'\cosk_{n+1}$
+by Lemma~\ref{lem:lex}, so $R_2R_1$ inverts $W_{R_2}$ and the join is
+$W_{\cosk_{n+1}L'}$, with local objects the $(n{+}1)$-coskeletal levelwise
+$L'$-local objects.
+\end{proof}
+
+\begin{thm}\label{thm:B}
+In $\Same(\Fun(\Delta^{\mathrm{op}},\E))$, for every $n\ge-1$,
+\[
+W_{\re}\vee W_{\cosk_{n+1}}\vee W_{L'}\ =\ W_{L'\tr n\re}
+=\{f:\ L'\tr n|f|\text{ an equivalence}\},
+\]
+and the local objects of this class are the constant simplicial objects on
+$n$-truncated $L'$-local objects of $\E$.
+\end{thm}
+\begin{proof}
+By Theorem~\ref{thm:A} the left side is $W_{\tr n\re}\vee W_{L'}$. Apply the
+join theorem with $U=W_{\tr n\re}$, $V=W_{L'}$, $W=\Iso$,
+$P=cL'\tr n\re$ and $\pi_X$ the composite
+\[
+X\xrightarrow{\ \in W_{\tr n\re}\ }c\tr n|X|\xrightarrow{\ \in W_{L'}\ }cL'\tr n|X|,
+\]
+the first map being $t_{|X|}u_X$ and the second the levelwise $L'$-unit of the
+constant object $c\tr n|X|$. This gives (a). For (b), $P$ inverts $U$
+trivially; and if $f\in W_{L'}$ then
+$L'\tr n|f|\simeq\tr nL'|f|\simeq\tr n|L'f|$ is an equivalence, because $L'$
+commutes with truncation and, being a left adjoint, with colimits. Hence the
+join is $P^*(\Iso)=W_{L'\tr n\re}$. The local objects are those of
+$W_{\tr n\re}$ and of $W_{L'}$ simultaneously: constant objects on
+$n$-truncated objects that are also levelwise $L'$-local.
+\end{proof}
+
+\begin{cor}
+$\bigcap_n\bigl(W_{\re}\vee W_{\cosk_{n+1}}\vee W_{L'}\bigr)$
+is the class of maps $f$ with $L'|f|$ $\infty$-connective; if the subtopos of
+$L'$ is hypercomplete, this is $W_{L'\re}$, the class of maps whose realization
+becomes an equivalence after $L'$-sheafification.
+\end{cor}
+\begin{proof}
+$L'\tr n|f|\simeq\tr nL'|f|$ is an equivalence for all $n$ iff $L'|f|$ is
+$\infty$-connective, and $\infty$-connective maps of a hypercomplete
+$\infty$-topos are equivalences.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[row sep=normal, column sep=small]
+& & W_{L'\tr n\re} & & \\
+& W_{\tr n\re}\arrow[ur,dash] & W_{L'\re}\arrow[u,dash] & W_{\cosk_{n+1}L'}\arrow[ul,dash] & \\
+& W_{\re}\arrow[u,dash]\arrow[ur,dash] & W_{\cosk_{n+1}}\arrow[ul,dash]\arrow[ur,dash] & W_{L'}\arrow[ul,dash]\arrow[u,dash] & \\
+& & \Iso\arrow[ul,dash]\arrow[u,dash]\arrow[ur,dash] & &
+\end{tikzcd}
+\]
+\caption{The sublattice of $\Same(\Fun(\Delta^{\mathrm{op}},\E))$ generated by
+the three classes: every join is the class of equivalences of a reflector
+(Theorem~\ref{thm:A}, Proposition~\ref{prop:pairs}, Theorem~\ref{thm:B}).
+Lines are joins, read upwards; incomparabilities are not asserted.}\label{fig:lattice}
+\end{figure}
+
+\section{Conclusion}
+
+For simplicial objects in an $\infty$-topos, the three canonical reflective
+localizations --- onto constant objects, onto coskeletal objects, onto
+levelwise sheaves --- have classes of equivalences whose joins in the lattice
+of samenesses are again classes of equivalences of reflectors, and the top
+join is the $n$-truncated $L'$-sheaf of the realization
+(Figure~\ref{fig:lattice}). The identities hold on the nose, which is
+stronger than the corresponding statement about local objects (equivalently,
+about saturations): two-out-of-three closure alone already reaches every map
+inverted by the composite reflector. The proof isolates one fact,
+Proposition~\ref{prop:const}: although the coskeleton of a constant simplicial
+object has highly non-truncated levels, its realization is the Postnikov
+section, and the coskeleton unit realizes to the truncation map. Its proof is a
+bisimplicial diagonal argument that converts the statement into the classical
+one about Kan complexes, and it passes to every $\infty$-topos because
+coskeleta are finite limits.
+
+Two questions remain. First, whether the analogous identity holds for
+\emph{cubical} objects in an $\infty$-topos with the cubical coskeleta; for
+cubical sets it does \cite{Postnikov}, and the argument above reduces the
+general case to a cubical analogue of Proposition~\ref{prop:const}. Second,
+which other pairs of reflectors of $\Fun(\Delta^{\mathrm{op}},\E)$ have joins
+computed by a composite reflector; the coskeleta $\cosk_{k}$ and $\cosk_{l}$
+themselves form a chain, and the interaction of $\cosk_{n+1}$ with the
+levelwise truncation $\tr m$ for $m\neq n$ is not treated here.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{9}
+\bibitem{ABFJ} M.~Anel, G.~Biedermann, E.~Finster, A.~Joyal, \emph{Left-exact
+localizations of $\infty$-topoi I: Higher sheaves}, Adv. Math. \textbf{400}
+(2022), 108268.
+\bibitem{Duskin} J.~Duskin, \emph{Simplicial methods and the interpretation
+of ``triple'' cohomology}, Mem. Amer. Math. Soc. \textbf{163} (1975).
+\bibitem{GJ} P.~G.~Goerss, J.~F.~Jardine, \emph{Simplicial Homotopy Theory},
+Progress in Mathematics \textbf{174}, Birkh\"auser, 1999.
+\bibitem{HTT} J.~Lurie, \emph{Higher Topos Theory}, Annals of Mathematics
+Studies \textbf{170}, Princeton University Press, 2009.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\end{thebibliography}
+
+\end{document}
