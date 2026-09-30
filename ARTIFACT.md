@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.29.0` (paper 32, *Postnikov truncation of simplicial
   objects in an ∞-topos as a join of localizations* -- `docs/consolidated/infjoin.pdf`;
   Moore-complex checks in `scripts/comparison/cosk_const_diag.py` and
-  `cosk_kan_models.py`, on which no result depends)
+  `cosk_kan_models.py`, on which no result depends), archived at DOI [10.5281/zenodo.23049588](https://doi.org/10.5281/zenodo.23049588)
 - Previous: release `v1.28.0` (paper 31, *The EI-reflection of a category,
   its preorder reflection, and the homomorphism order of graphs* --
   `docs/consolidated/eireflection.pdf`; small-case checks in
