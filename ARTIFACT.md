@@ -10,7 +10,7 @@ This repository is the artifact accompanying the paper
   `docs/consolidated/samenessjoins.pdf`, the integrated paper superseding papers 27 and
   29--32; search and check scripts `scripts/comparison/cycle_monoid.py`, `tower_search*.py`,
   `threefold_*.py`, `stab_S.py`, `cotower_invariant.py`, `join_closure.py`, on which no
-  result depends)
+  result depends), archived at DOI [10.5281/zenodo.23200684](https://doi.org/10.5281/zenodo.23200684)
 - Previous: release `v1.29.1` (paper 32, corrected text: the saturation of a
   two-out-of-three class in §2 is defined by orthogonality to the local objects, as in
   paper 29, not as the class inverted by the localization; no proof is affected), archived at DOI [10.5281/zenodo.23051875](https://doi.org/10.5281/zenodo.23051875) -- cite this one.
