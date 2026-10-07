@@ -1,0 +1,958 @@
+% Cross-checks: scripts/comparison/.
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Top}{\mathrm{Top}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\Sat}{\mathrm{Sat}}
+\newcommand{\Loc}{\mathrm{Loc}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Map}{\mathrm{Map}}
+\newcommand{\cosk}{\mathrm{cosk}}
+\newcommand{\sk}{\mathrm{sk}}
+\newcommand{\Fun}{\mathrm{Fun}}
+\newcommand{\sS}{\mathcal S}
+\newcommand{\E}{\mathcal E}
+\newcommand{\tr}[1]{\tau_{\le #1}}
+\newcommand{\re}{|{-}|}
+\newcommand{\Wcyc}{W_{\mathrm{cyc}}}
+\newcommand{\Wtest}{W_{\mathrm{test}}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Idem}{\mathrm{Idem}}
+\newcommand{\sset}{\mathbf{sSet}}
+\newcommand{\diag}{\mathrm{diag}}
+
+\begin{document}
+
+\title[Sheaves, truncations and reflections in the sameness lattice]{Sheaf equivalences, Postnikov truncations and preorder reflections in the lattice of two-out-of-three classes}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{two-out-of-three, localization, Grothendieck topology, subtopos,
+  sheafification, Postnikov truncation, coskeleton, $\infty$-topos, lex modality,
+  EI-category, preorder reflection, homomorphism order of graphs, finite monoid,
+  tensor product of bisets}
+\subjclass[2020]{18A32 (primary), 18F10, 18F20, 18N60, 55P60, 06B23, 20M12, 05C60 (secondary)}
+
+\begin{abstract}
+For a category $C$ let $\Same(C)$ be the complete lattice of classes of
+morphisms that contain the identities and are closed under composition and
+two-out-of-three. Every reflector $R$ contributes the element
+$W_R=\{f:Rf\text{ invertible}\}$, and the question studied here is how the
+lattice operations of $\Same(C)$ interact with the reflectors that arise in
+sheaf theory, homotopy theory and order theory. Three results are proved.
+(1) In the simplicial objects of any $\infty$-topos, the join of the
+realization equivalences, the $(n{+}1)$-coskeletal equivalences and the
+levelwise equivalences of a left-exact localization $L$ is exactly the class of
+maps inverted by the $n$-truncated $L$-sheaf of the realization; for
+simplicial sets this says that weak homotopy equivalences and coskeletal
+equivalences generate the Postnikov $n$-equivalences under two-out-of-three.
+(2) The sheaf equivalences $W_J$ of the Grothendieck topologies $J$ on a small
+category $S$ form a meet-subsemilattice of $\Same(\Presh(S))$; joins are
+preserved for finite acyclic categories and for finite categories whose two
+topologies have an idempotent intersection of ideals, but not in general: on the
+poset $\mathbb N$ the join of two sheaf classes is a proper class inverted by a
+pro-limit. For finite categories the tower of bimodules representing the
+alternating plus-construction tower is pro-isomorphic to the bimodule
+representing the join sheafification, so that the plus tower has the join
+sheafification as its colimit and this obstruction disappears; yet the tower
+need not stabilize: an explicit monoid of order $12$
+has a non-stabilizing tower, and a conjectured three-fold multiplicativity of
+tensor products of ideals is refuted by the contracted monoid of a diamond
+poset. (3) The morphisms $f\colon X\to Y$ admitting a morphism $Y\to X$ form the
+largest element of $\Same(C)$ inverted by the preorder reflection; localizing
+at it is the reflection into EI-categories, which for categories with binary
+products or coproducts is the preorder reflection itself, so that the
+EI-reflection of the category of graphs is the homomorphism preorder, whose
+partial-order reflection is the homomorphism order.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A \emph{sameness} on a category $C$ is a class $W$ of morphisms containing the
+identities and closed under composition and two-out-of-three: if two of $f$,
+$g$, $gf$ lie in $W$, so does the third. Weak equivalences of model categories,
+the equivalences inverted by a reflector, the local isomorphisms of a
+Grothendieck topology, and the morphisms with a morphism back are examples.
+Samenesses form a complete lattice $\Same(C)$ under inclusion \cite{Same}, and
+every functor $F\colon C\to D$ contributes the element
+$F^*(\Iso)=\{f:Ff\text{ invertible}\}$, the largest sameness that $F$ inverts.
+This paper studies the joins of such elements for the reflectors of sheaf
+theory, homotopy theory and order theory. The join of two samenesses is the
+smallest sameness containing both; it is in general much smaller than the class
+of maps inverted by the composite reflector, and the results below identify
+when the two coincide. Three theorems are proved.
+
+\begin{thm}[Postnikov truncation as a join]\label{thm:I}
+Let $\E$ be an $\infty$-topos, $\mathcal P=\Fun(\Delta^{\mathrm{op}},\E)$ its
+simplicial objects, $\re$ the geometric realization, $\cosk_{n+1}$ the
+coskeleton, $L$ a left-exact localization of $\E$ applied levelwise. In
+$\Same(\mathcal P)$, for every $n\ge-1$,
+\[
+W_{\re}\vee W_{\cosk_{n+1}}\vee W_{L}=W_{L\tr n\re}.
+\]
+For simplicial sets: $\Wtest\vee W_{\cosk_{n+1}}=T_n$, where for $n\ge0$ $T_n$ is
+the class of maps inducing isomorphisms on $\pi_i$ for $i\le n$ at all base
+points, and $T_{-1}$ is the class of maps $X\to Y$ with $X=\varnothing$ iff
+$Y=\varnothing$.
+\end{thm}
+
+\begin{thm}[topologies in the sameness lattice]\label{thm:II}
+For a small category $S$ the assignment $J\mapsto W_J=\{f:a_Jf\text{ iso}\}$
+is an order-embedding $\Top(S)\hookrightarrow\Same(\Presh(S))$ preserving all
+meets. It preserves binary joins for finite acyclic categories and for finite
+categories whose topologies have an idempotent intersection of ideals, but not
+for the poset $\mathbb N$. For every finite category the tower of bimodules
+representing the alternating plus-construction tower is pro-isomorphic to the
+bimodule representing the join sheafification, so the plus tower has colimit
+the join sheafification; the tower need not stabilize on the nose.
+\end{thm}
+
+\begin{thm}[the cycle class]\label{thm:III}
+For every category $C$ the morphisms with a morphism back form the largest
+sameness $\Wcyc$ inverted by the preorder reflection of $C$, and localizing at
+$\Wcyc$ is the reflection into EI-categories. If $C$ has binary products or
+binary coproducts, $C[\Wcyc^{-1}]$ is the reachability preorder of $C$; for
+the category of graphs it is the homomorphism preorder, identifying finite
+graphs with isomorphic cores.
+\end{thm}
+
+\subsection*{What is known.}
+The lattice $\Same(C)$, its Galois functoriality and the comparison intervals
+$[\Iso,F^*(\Iso)]$ are from \cite{Same}. The embedding of topologies, the
+finite-sieve dictionary between topologies and idempotent ideals (for finite
+$S$), and the simplicial-set case of Theorem~\ref{thm:I} are from
+\cite{Postnikov}; meets, the two positive join theorems and the $\mathbb N$
+counterexample from \cite{Topjoin}; the cycle class and its localization from
+\cite{EI}; and the $\infty$-topos form of Theorem~\ref{thm:I} from
+\cite{Infjoin}. The facts about localizations of $\infty$-topoi are in
+\cite{HTT,ABFJ}; sheaf theory follows \cite{MLM,Elephant}; simplicial homotopy
+theory \cite{GJ}; EI-categories \cite{Lueck}; the homomorphism order of graphs
+\cite{HN}.
+
+\subsection*{Related work.}
+The lattice of Grothendieck topologies, or of subtoposes, is classical
+\cite{MLM,Elephant}; its description by idempotent ideals for essential
+localizations goes back to Kelly and Lawvere \cite{KL89}, and rigid topologies
+on finite and Cauchy-complete categories, including the simplex category, are
+characterized in \cite{Marques25}. The levels of the toposes of simplicial and
+cubical sets, i.e.\ the coskeletal essential subtoposes, are determined in
+\cite{KRRZ}. For $\infty$-topoi, Anel, Biedermann, Finster and Joyal describe
+left-exact localizations by congruences and Grothendieck topologies
+\cite{ABFJ,ABFJ2}. All of these concern the lattice of \emph{saturated}
+classes, i.e.\ of localizations themselves. The focus here is different: the
+bare two-out-of-three join of two such classes, before any saturation, and the
+question of when it is already the class of a reflector. Theorems~\ref{thm:I}
+and \ref{thm:II} answer it positively in the homotopical setting and for two
+families of finite categories, and Section~\ref{sec:limits} shows what goes
+wrong in general.
+
+\subsection*{Provenance.}
+Proposition~\ref{prop:lattice} is from \cite{Same}; Lemma~\ref{lem:loc},
+Theorem~\ref{thm:join}, Theorem~\ref{thm:embed} (first part),
+Lemma~\ref{lem:cosk} and Theorem~\ref{thm:sset} from \cite{Postnikov};
+Theorem~\ref{thm:embed} (meets), Lemma~\ref{lem:reduction},
+Theorems~\ref{thm:acyclic} and \ref{thm:monoid}, Lemma~\ref{lem:P} and
+Theorem~\ref{thm:N} from \cite{Topjoin}; Proposition~\ref{prop:const} from
+\cite{Infjoin}; and Section~\ref{sec:order} from \cite{EI}. Proofs of all these results are included, so that the paper is
+self-contained; the remaining statements are new.
+
+\subsection*{What is new.}
+This paper supersedes and consolidates the preprints \cite{Same,Postnikov,Topjoin,EI,Infjoin}.
+Besides the integration, the paper contains three results not in the cited
+preprints: the three-fold multiplicativity conjecture of \cite[Conj.~6.12]{Topjoin}
+is false (Proposition~\ref{prop:diamond}); for every finite category the
+representing tower of the alternating plus construction is pro-isomorphic to
+the representing object of the join sheafification, so that the plus tower has
+the join sheafification as its colimit (Theorem~\ref{thm:essconst},
+Corollary~\ref{cor:essconst}), which shows that the pro-limit
+invariant of the $\mathbb N$ counterexample cannot occur for finite
+categories; and there are finite monoids whose alternating tower does not
+stabilize (Proposition~\ref{prop:cyclic}), so that
+the finite join question is sharper than the stabilization criterion and remains
+open. The proofs are self-contained.
+
+\subsection*{Outline.}
+Section~\ref{sec:lattice} sets up the lattice and the join theorem.
+Sections~\ref{sec:sheaf}, \ref{sec:homotopy} and \ref{sec:order} prove
+Theorems~\ref{thm:II}, \ref{thm:I} and \ref{thm:III}. Section~\ref{sec:limits}
+collects the limits: the $\mathbb N$ example, the refuted conjecture, essential
+constancy and the oscillating tower, and the open problems.
+
+\section{The lattice of samenesses}\label{sec:lattice}
+
+\begin{defi}
+A \emph{sameness} of a category $C$ is a class $W\subseteq\Mor(C)$ containing
+the identities, closed under composition, and satisfying two-out-of-three
+\cite[Def.~2.1]{Same}. $\Same(C)$ is the set of samenesses ordered by inclusion.
+For an $\infty$-category the same definition is applied to the morphisms of its
+homotopy category. The isomorphisms form a sameness $\Iso(C)$, and every class
+of the form $F^*(\Iso)$ below contains it; but a sameness need not contain
+non-identity isomorphisms (Section~\ref{sec:order}).
+\end{defi}
+
+\begin{prop}\label{prop:lattice}
+$\Same(C)$ is a complete lattice: meets are intersections, the top is $\Mor(C)$,
+the bottom is $\{\mathrm{id}\}$, and the join of a family is the sameness generated by
+its union. For a functor $F\colon C\to D$ and $W\in\Same(D)$ the class
+$F^*(W)=\{f:Ff\in W\}$ is a sameness, and $F^*(\Iso)$ is the largest sameness
+inverted by $F$; $F^*$ preserves meets and has a left adjoint $F_!$, so that
+$\Same$ is a functor from $\mathbf{Cat}$ to complete lattices with Galois
+connections.
+\end{prop}
+\begin{proof}
+The three axioms are preserved by intersections, and $\Mor(C)$ satisfies them,
+so $\Same(C)$ is a complete lattice with joins the meets of upper bounds. For
+$F^*(W)$: $F$ preserves identities and composition, and if two of $f,g,gf$ lie
+in $F^*(W)$ then two of $Ff,Fg,F(gf)$ lie in $W$, hence the third. A functor
+inverts a sameness $V$ iff $V\subseteq F^*(\Iso)$. Meet preservation is
+$F^*(\bigcap W_i)=\bigcap F^*(W_i)$, and a meet-preserving map of complete
+lattices has a left adjoint.
+\end{proof}
+
+\begin{defi}\label{def:sat}
+For $W\in\Same(C)$ an object $Z$ is \emph{$W$-local} if $\Hom(f,Z)$ is bijective
+for all $f\in W$; $\Loc(W)$ is the class of local objects and
+$\Sat(W):=\{f:\Hom(f,Z)\text{ bijective for all }Z\in\Loc(W)\}\supseteq W$ the
+\emph{saturation}. $W$ is \emph{saturated} if $W=\Sat(W)$.
+\end{defi}
+
+\begin{lem}\label{lem:loc}
+$\Loc(U\vee V)=\Loc(U)\cap\Loc(V)$. If $R$ is a reflector onto a full replete
+subcategory $\mathcal R$ then $W_R:=R^*(\Iso)$ is saturated with
+$\Loc(W_R)=\mathcal R$; consequently, if $\Loc(W)$ is reflective with reflector
+$R$, then $\Sat(W)=W_R$.
+\end{lem}
+\begin{proof}
+$\{f:\Hom(f,Z)\text{ bijective}\}$ is a sameness, so $Z$ is local for $U\vee V$
+iff it is local for $U$ and for $V$. For a reflector with unit $\eta$: $Rf$ is
+invertible iff $\Hom(Rf,Z)$ is bijective for all $Z\in\mathcal R$ iff
+$\Hom(f,Z)$ is bijective for all $Z\in\mathcal R$, so
+$W_R=\{f:\Hom(f,Z)\text{ bij.\ }\forall Z\in\mathcal R\}$ and
+$\mathcal R\subseteq\Loc(W_R)$; if $Z$ is $W_R$-local then $\eta_Z\in W_R$ gives
+a retraction $r$ of $\eta_Z$, and $\Hom(\eta_Z,RZ)$ bijective forces
+$\eta_Zr=\mathrm{id}$, so $Z\in\mathcal R$. The last assertion is the
+description of $W_R$ by orthogonality to $\mathcal R=\Loc(W)$.
+\end{proof}
+
+The saturation of Definition~\ref{def:sat} is orthogonality to the local
+objects. It is in general larger than the class of maps inverted by the
+localization functor $C\to C[W^{-1}]$: Theorem~\ref{thm:N} below gives a sameness
+whose local objects are the terminal objects only, whose saturation in this
+sense is therefore $\Mor$, but which is inverted by a limit functor that does not
+invert every map.
+
+\begin{thm}[join theorem]\label{thm:join}
+Let $U,V,W\in\Same(C)$ with $W\subseteq U\vee V$, and let $P\colon C\to C$ be a
+functor with a natural transformation $\pi\colon\mathrm{id}\Rightarrow P$ such
+that (a) $\pi_X\in U\vee V$ for every $X$ and (b) $P(U)\cup P(V)\subseteq W$.
+Then $U\vee V=P^*(W)$.
+\end{thm}
+\begin{proof}
+$P^*(W)$ is a sameness containing $U$ and $V$ by (b), hence $U\vee V$. If
+$Pf\in W$, the naturality square $\pi_Yf=Pf\,\pi_X$ has three of its four
+sides in $U\vee V$, so $f\in U\vee V$ by two-out-of-three.
+\end{proof}
+
+\begin{cor}[two reflectors]\label{cor:two}
+For reflectors $R_1,R_2$: $W_{R_1}\vee W_{R_2}=W_{R_2R_1}$ iff $R_2R_1$ inverts
+$W_{R_2}$; in particular whenever $R_1$ preserves $R_2$-equivalences.
+\end{cor}
+\begin{proof}
+Apply the theorem with $P=R_2R_1$, $W=\Iso$ and $\pi_X$ the composite of the
+two units, a $W_{R_1}$-map followed by a $W_{R_2}$-map. Conversely the equality
+gives $W_{R_2}\subseteq W_{R_2R_1}$.
+\end{proof}
+
+\section{Sheaf equivalences}\label{sec:sheaf}
+
+Let $S$ be a small category, $\Top(S)$ the complete lattice of Grothendieck
+topologies (ordered by inclusion of covering sieves), $a_J$ the sheafification
+for $J$, a left-exact reflector onto $\Sh_J(S)$, and
+$W_J:=a_J^*(\Iso)$, the class of $J$-local isomorphisms \cite[III.7]{MLM}.
+
+\begin{thm}[{\cite[Thm.~3.1]{Postnikov}, \cite[Thm.~3.1]{Topjoin}}]\label{thm:embed}
+$J\mapsto W_J$ is an order-embedding $\Top(S)\hookrightarrow\Same(\Presh(S))$
+which preserves arbitrary meets: $W_{\bigwedge J_i}=\bigcap W_{J_i}$. Its image
+consists of the saturated samenesses whose local objects form a subtopos. For
+all $J,J'$, $W_{J\vee J'}=\Sat(W_J\vee W_{J'})$, so $W_J\vee W_{J'}\subseteq
+W_{J\vee J'}$ with equality iff the join is saturated.
+\end{thm}
+\begin{proof}
+$W_J$ is a sameness by Proposition~\ref{prop:lattice}, saturated with
+$\Loc(W_J)=\Sh_J$ by Lemma~\ref{lem:loc}; the map is injective and monotone
+because $J\le J'$ iff $\Sh_{J'}\subseteq\Sh_J$, and a saturated sameness is
+determined by its local objects. For meets: a map $f$ is a $J$-local
+isomorphism iff for every object $c$ and every $x\in X(c)$, $y\in Y(c)$ the
+sieves $\{u: X(u)x=X(u)x'\}$ (for $x'$ with $fx=fx'$) and
+$\{u: Y(u)y\in\mathrm{im}f\}$ are $J$-covering; these sieves do not depend on
+$J$, and a sieve is covering for $\bigwedge J_i$ iff it is covering for every
+$J_i$; hence $W_{\bigwedge J_i}=\bigcap W_{J_i}$. For the image: a saturated
+sameness whose local objects are a subtopos $\Sh_J$ equals $W_J$ by
+Lemma~\ref{lem:loc}. Finally $\Loc(W_J\vee W_{J'})=\Sh_J\cap\Sh_{J'}=\Sh_{J\vee J'}$,
+so the saturation is $W_{J\vee J'}$.
+\end{proof}
+
+\subsection{The finite dictionary.}
+Call a two-sided ideal $D$ of $S$ (a class of morphisms closed under
+composition with arbitrary morphisms on both sides) \emph{idempotent} if every
+member is a composite of two members. When $S$ has finitely many sieves on each
+object, $\Top(S)\cong\Idem(S)^{\mathrm{op}}$ via $J\mapsto D_J=(\bigcap J(c))_c$
+and $D\mapsto J_D(c)=\{R\supseteq D(c)\}$ \cite[Thm.~5.1]{Postnikov}. For a
+finite monoid $M$ the topologies are thus the idempotent two-sided ideals under
+reverse inclusion; for a finite acyclic category (no cycles, no non-identity
+endomorphisms) they are the subsets $Y$ of objects, $D_Y$ the morphisms
+factoring through $Y$, $\Sh_{J_Y}\simeq\Presh(Y)$ and
+$W_Y=\{f: f_y\text{ bijective for }y\in Y\}$ \cite[\S5]{Topjoin}. The join
+$J_D\vee J_E$ corresponds to the largest idempotent ideal $I'$ contained in
+$D\cap E$; for a finite monoid $I'=(DE)^m$ for $m$ large.
+
+\subsection{The alternating plus-construction tower.}
+For topologies $J,J'$ write $\Phi_kX$ for the $k$-fold alternating plus
+construction $X^{+J+J'+J\cdots}$, with units $u_k\colon X\to\Phi_kX$, each a
+composite of maps of $W_J\cup W_{J'}$. For a finite monoid $M$ with idempotent
+ideals $D,E$ (viewed as $M$--$M$-bisets), $X^{+D}=\Hom_M(D,X)$ and
+$\Phi_kX=\Hom_M(T_k,X)$ with $T_k=D_k\otimes_M\cdots\otimes_MD_1$ the
+alternating tensor tower ($D_1=D$, $D_2=E$, \dots), the units being induced by
+the multiplications $\mu_k\colon T_k\to T_{k-1}$; and $a_DX=\Hom_M(D\otimes D,X)$.
+
+\begin{lem}[reduction]\label{lem:reduction}
+If for every $X$ there is $k=k(X)$ such that $\Phi_kX$ is a $(J\vee J')$-sheaf,
+then $W_J\vee W_{J'}=W_{J\vee J'}$. For a finite monoid, the tower is
+\emph{uniformly} stable, i.e.\ there is $k_0$ with $\Phi_kX\to\Phi_{k+1}X$
+bijective for all $X$ and all $k\ge k_0$, iff $\mu_k$ is bijective for all
+$k\ge k_0$; either condition implies join preservation.
+\end{lem}
+\begin{proof}
+For $f\colon X\to X'$ in $W_{J\vee J'}$ take $k$ working for both; $\Phi_kf$ is a
+map of $(J\vee J')$-sheaves inverted by $a_{J\vee J'}$, hence an isomorphism,
+and $u_{X'}f=\Phi_kf\,u_X$ gives $f\in W_J\vee W_{J'}$. By Yoneda, $\Hom(\mu_{k+1},X)$
+is bijective for all $X$ iff $\mu_{k+1}$ is; and if the units are eventually
+bijective then $\Phi_{k_0}X$ is a $J$-sheaf and a $J'$-sheaf, hence a
+$(J\vee J')$-sheaf, for every $X$.
+\end{proof}
+
+\begin{thm}[finite acyclic categories]\label{thm:acyclic}
+For a finite acyclic category $S$ and all $Y,Y'\subseteq\Ob S$,
+$W_Y\vee W_{Y'}=W_{Y\cap Y'}$; thus $\Top(S)\cong(2^{\Ob S})^{\mathrm{op}}$ is a
+sublattice of $\Same(\Presh(S))$.
+\end{thm}
+\begin{proof}
+Let $f\colon X\to X'$ be bijective on $Y\cap Y'$. Choose a linear extension
+$p_1,\dots,p_m$ of the reachability preorder and put $S_i=\{p_1,\dots,p_i\}$.
+Define the mixed presheaf $X_i$ by $X_i(q)=X'(q)$ for $q\in S_i$ and $X(q)$
+otherwise, with restriction along $u\colon q\to q'$ equal to $X'(u)$, $X(u)$, or
+$f_q\circ X(u)$ according as both, neither, or only $q$ lies in $S_i$ (the
+remaining case cannot occur since $S_i$ is closed under predecessors);
+functoriality is the naturality of $f$. The maps $\varphi_i\colon X_{i-1}\to X_i$
+(identity away from $p_i$, $f_{p_i}$ there) are natural,
+$f=\varphi_m\cdots\varphi_1$, and $\varphi_i$ is bijective away from $p_i$: it
+lies in $W_Y$ if $p_i\notin Y$, in $W_{Y'}$ if $p_i\notin Y'$, and is an
+isomorphism if $p_i\in Y\cap Y'$. Hence $f\in W_Y\vee W_{Y'}$; the reverse
+inclusion is Theorem~\ref{thm:embed}.
+\end{proof}
+
+For finite monoids the argument is replaced by the tensor tower. Two facts about
+a proper idempotent ideal $D$ of a finite monoid are used: every $d\in D$ can be
+written $d=pgq$ with $p\in D$, $g\in D$ idempotent, $pg=p$ (write $d$ as a long
+product of elements of $D$; two prefixes coincide, $p_i=p_iw$, and $g=w^\omega$),
+and symmetrically $d=p'g'q'$ with $q'\in D$, $g'q'=q'$.
+
+\begin{lem}[merging]\label{lem:P}
+Let $X,Y,Z$ be two-sided ideals of a finite monoid with $Y$ idempotent, and
+consider $X\otimes Y\otimes Z\otimes\cdots$ (further slots unaffected).
+\begin{enumerate}
+\item[(P)] If $c\in Y\cdot Z$, the class $[x,y,c,\dots]$ depends only on
+$(xy,c,\dots)$. (P$'$) Mirror image: if $x\in X\cdot Y$, the class
+$[x,y,c,\dots]$ depends only on $(x,yc,\dots)$.
+\item[(A)] (Absorption) If the ideal of a slot is idempotent, an element $w$
+of that slot may be replaced by $w'$ with $w=w'w''$, the factor $w''$ being
+multiplied into the next slot to the right; so an interior slot may be assumed
+to lie in the product of its ideal with the ideal to its right.
+\item[(M)] If the conclusion of (P) holds for all tuples, then the
+multiplication $X\otimes Y\otimes Z\otimes\cdots\to XY\otimes Z\otimes\cdots$ is
+bijective; likewise for (P$'$) and $X\otimes YZ\otimes\cdots$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(P) Write $c=y_1z_1$ with $y_1\in Y$, $z_1\in Z$, and $y_1=y'gy''$ with $g$
+idempotent in $Y$, $y'g=y'$ (prefix factorization); moving $y'g$ to the left
+and then $yy'$ to the left,
+$[x,y,c]=[x,\,yy'g,\,y''z_1]=[xyy',\,g,\,y''z_1]$, each move legitimate because
+the remaining entries lie in their slot ideals; the result depends on $xy$ and
+on data determined by $c$. (P$'$) is the mirror image, with the suffix
+factorization. (A) is the defining relation of the tensor product. (M) The
+map is surjective; $[w,c,\dots]\mapsto[x,y,c,\dots]$ for any factorization
+$w=xy$ is well defined by hypothesis and respects the relations of the target
+(for $[wm,c]\sim[w,mc]$ use the factorization $wm=x(ym)$), so it is a section,
+and $\mu$ is injective.
+\end{proof}
+
+\begin{thm}[idempotent intersections]\label{thm:monoid}
+Let $M$ be a finite monoid and $D,E$ idempotent two-sided ideals with
+$I:=D\cap E$ idempotent. Then $T_k\cong I\otimes_MI$ for $k\ge4$ by the
+multiplication maps, $\Phi_4X\cong a_IX$ for every $M$-set $X$, and
+$W_D\vee W_E=W_{D\cap E}$. The same holds for finite categories, with
+profunctor tensors.
+\end{thm}
+\begin{proof}
+Every product of two or more alternating factors $D,E$ lies between $I=I^2$
+and $D\cap E=I$, hence equals $I$. Write the tuples of $T_k$ as
+$[x_1,\dots,x_k]$ with slot ideals $D_k,\dots,D_1$ from left to right.
+
+\emph{Step 1: merging slots $1,2$.} Let $t,t'$ be tuples differing only in
+slots $1,2$ with $x_1x_2=x_1'x_2'$. Absorb slot $4$ into slot $3$ in both,
+with the same factorization $x_4=pq$ (Lemma~\ref{lem:P}(A); here $k\ge4$ is
+used): slot $3$ becomes $x_3p\in D_{k-2}D_{k-3}=I\subseteq D_{k-1}D_{k-2}$.
+Lemma~\ref{lem:P}(P) for the slots $1,2,3$ shows that the classes of $t$ and
+$t'$ agree, and (M) gives a bijection
+$T_k\to I\otimes D_{k-2}\otimes\cdots\otimes D_1$.
+
+\emph{Step 2: merging slots $2,3$ repeatedly.} In $I\otimes Y\otimes Z\otimes\cdots$
+with $Y$ idempotent every element of the first slot lies in $I=I\cdot I\subseteq
+I\cdot Y$, so (P$'$) applies to every tuple and (M) gives a bijection onto
+$I\otimes YZ\otimes\cdots$; since $YZ=I$ and $I$ is idempotent this repeats
+until two slots remain. All maps are multiplications, so the composite
+$T_k\to I\otimes I$ is the canonical one and is an isomorphism of bisets.
+
+Hence $\Phi_kX=\Hom_M(T_k,X)\cong\Hom_M(I\otimes I,X)=a_IX$, an $I$-sheaf, and
+Lemma~\ref{lem:reduction} gives $W_D\vee W_E=W_I$.
+
+\emph{Finite categories.} For a finite category $S$, ideals are
+sub-profunctors $D\subseteq\Hom_S$, the tensor is the composite profunctor
+(classes of composable chains modulo moving a morphism across a tensor sign),
+$X^{+D}=\Hom(D,X)$ with $\Hom(P,X)(c)=\Hom_{\Presh(S)}(P(-,c),X)$, and
+$a_DX=\Hom(D\otimes_SD,X)$. The factorization fact used in Lemma~\ref{lem:P}
+holds for an idempotent ideal $Y$ of $S$: writing $y\in Y(a,c)$ as a composite
+of more members of $Y$ than $S$ has morphisms, two partial composites with
+domain $a$ coincide, $p_i=p_j=m\circ p_i$ with $m\in Y$ an endomorphism, and a
+power $g=m^r$ is an idempotent of $Y$ with $g\circ p_i=p_i$; this gives
+$y=y'\circ g\circ y''$ with $g\circ y''=y''$, and dually. The proofs of
+Lemma~\ref{lem:P} and of Steps 1--2 use only the tensor relations, closure of
+ideals under composition and this factorization, so they apply verbatim.
+\end{proof}
+
+The hypothesis fails already for the chain $a<b$ ($D_{\{a\}}\cap D_{\{b\}}$ is not
+idempotent), which is covered by Theorem~\ref{thm:acyclic} instead. What
+happens beyond both theorems is the subject of Section~\ref{sec:limits}.
+
+\section{Postnikov truncations}\label{sec:homotopy}
+
+\subsection{Coskeletal equivalences.}
+For the simplex category $\Delta$ (and the cube category with faces and
+degeneracies) the two-sided ideals are $\varnothing$, the ideals $D_k$ of
+morphisms factoring through an object of dimension $\le k$, and $\Mor$; all are
+idempotent, so the topologies form a chain and the $J_{D_k}$-sheaves are the
+$k$-coskeletal presheaves \cite[Thm.~6.1]{Postnikov}. The sheaf samenesses are
+the coskeletal equivalences
+$W_{D_k}=\{f:\cosk_kf\text{ iso}\}=\{f: f_m\text{ bijective for }m\le k\}$,
+a descending chain with $\bigcap_kW_{D_k}=\Iso$.
+
+\begin{lem}\label{lem:cosk}
+For a Kan complex $K$ and $n\ge-1$, $\cosk_{n+1}K$ is a Kan complex, the unit
+$K\to\cosk_{n+1}K$ induces isomorphisms on $\pi_i$ for $i\le n$ at all base
+points, and $\pi_i(\cosk_{n+1}K)=0$ for $i\ge n+1$ (for $n=-1$: empty or
+contractible).
+\end{lem}
+\begin{proof}
+An $m$-simplex of $\cosk_{n+1}K$ is a map $\sk_{n+1}\Delta^m\to K$. A horn
+$\Lambda^k_m\to\cosk_{n+1}K$ is a map $\sk_{n+1}\Lambda^k_m\to K$; for $m\ge n+3$
+this skeleton is $\sk_{n+1}\Delta^m$ and the horn is already a simplex, for
+$m\le n+2$ it is a horn in $K$ whose filler restricts to the required simplex.
+Homotopy groups of a Kan complex are computed from simplices of dimension
+$i,i+1$ with boundary at the base point, where the unit is bijective for
+$i\le n$; for $i\ge n+1$ every map $\partial\Delta^{i+1}\to\cosk_{n+1}K$ is a map
+$\sk_{n+1}\Delta^{i+1}\to K$, i.e.\ extends to $\Delta^{i+1}$, so $\pi_i=0$.
+\end{proof}
+
+\begin{thm}\label{thm:sset}
+In $\Same(\sset)$, with $\Wtest$ the weak equivalences,
+$T_n=\{f:\pi_if\text{ iso for }i\le n\text{ at all base points}\}$ for $n\ge0$ and
+$T_{-1}=\{f\colon X\to Y: X=\varnothing\Leftrightarrow Y=\varnothing\}$:
+$\Wtest\vee W_{D_{n+1}}=T_n$ for all $n\ge-1$, and $\Wtest=\bigcap_n(\Wtest\vee W_{D_n})$.
+\end{thm}
+\begin{proof}
+Apply Theorem~\ref{thm:join} with $P=\cosk_{n+1}\mathrm{Ex}^\infty$ and
+$W=\Wtest$: $\pi_X$ is the Kan replacement followed by a coskeleton unit,
+$P$ preserves weak equivalences (Lemma~\ref{lem:cosk} and Whitehead's theorem
+for Kan complexes), and for $f\in W_{D_{n+1}}$, $\mathrm{Ex}^\infty f$ is again
+bijective in dimensions $\le n+1$ (as $\mathrm{Ex}^\infty$ is computed
+dimensionwise from the same low-dimensional data), so $Pf$ is a weak equivalence
+by Lemma~\ref{lem:cosk}. Thus the join is $P^*(\Wtest)=T_n$ by
+Lemma~\ref{lem:cosk}. The intersection statement is Whitehead's theorem.
+\end{proof}
+
+\subsection{Simplicial objects of an $\infty$-topos.}
+Let $\E$ be an $\infty$-topos, $\mathcal P=\Fun(\Delta^{\mathrm{op}},\E)$,
+$\re=\operatorname{colim}$, $c$ the constant functor (fully faithful, since
+$\Delta^{\mathrm{op}}$ has an initial object), $\cosk_{n+1}$ the coskeleton
+(a right Kan extension computed by finite limits, hence commuting with every
+functor preserving finite limits), and $\tr n$ the truncation. $W_{\re}$ and
+$W_{\cosk_{n+1}}$ are the saturated samenesses of the reflectors $c\re$ and
+$\cosk_{n+1}$. A constant object $cK$ is $(n{+}1)$-coskeletal iff $K$ is
+$n$-truncated, since the unit at level $n+2$ is $K\to K^{S^{n+1}}$
+\cite[Lemma~8.2]{Topjoin}; but the levels $K^{|\sk_{n+1}\Delta^m|}$ of
+$\cosk_{n+1}cK$ are not truncated. The key fact is that its realization is.
+
+\begin{prop}\label{prop:const}
+For $K\in\E$ and $n\ge-1$ the realization of the coskeleton unit
+$cK\to\cosk_{n+1}cK$ is the truncation $K\to\tr nK$; so
+$|\cosk_{n+1}cK|\simeq\tr nK$ naturally in $K$.
+\end{prop}
+\begin{proof}
+For $\E=\sS$ choose a Kan complex $K'$ with $|K'|\simeq K$ and consider the
+bisimplicial sets $S_{m,k}=\Hom(\Delta^m\times\Delta^k,K')$,
+$T_{m,k}=\Hom(\sk_{n+1}\Delta^m\times\Delta^k,K')$ and
+$T'_{m,k}=\Hom(\Delta^m\times\Delta^k,\cosk_{n+1}K')$ with the restriction maps
+$S\to T\to T'$. For fixed $m$ the columns $S_{m,\bullet}=K'^{\Delta^m}$ and
+$T_{m,\bullet}=K'^{\sk_{n+1}\Delta^m}$ are simplicial mapping spaces into a Kan
+complex, of homotopy types $K$ and $\Map(|\sk_{n+1}\Delta^m|,K)$, so $S\to T$
+models the coskeleton unit $cK\to\cosk_{n+1}cK$, and the realization of a
+simplicial space obtained by realizing a bisimplicial set columnwise is the
+diagonal of the bisimplicial set \cite[IV.1.9 and Ex.~IV.1.7]{GJ}; thus the
+realized unit is $\diag S\to\diag T$. For fixed
+$k$ the rows are $K'^{\Delta^k}\to\cosk_{n+1}(K'^{\Delta^k})\to(\cosk_{n+1}K')^{\Delta^k}$;
+by Lemma~\ref{lem:cosk} the first map is an $n$-equivalence to an
+$n$-truncated Kan complex, and so is the composite (the exponential of the unit
+of $K'$), whence the second map is a weak equivalence. A map of bisimplicial sets that is a weak equivalence in each row induces a
+weak equivalence of diagonals \cite[IV.1.7]{GJ}; applied to $T\to T'$ and to
+the rowwise equivalences $K'^{\Delta^k}\to K'$ and
+$(\cosk_{n+1}K')^{\Delta^k}\to\cosk_{n+1}K'$ (evaluation at the vertex $0$ of
+$\Delta^k$, which has a section and is a weak equivalence of Kan complexes),
+this identifies $\diag S\simeq K'$ and $\diag T\simeq\diag T'\simeq\cosk_{n+1}K'$
+compatibly with the units, so that $\diag S\to\diag T$ is the coskeleton unit
+of $K'$, i.e.\ the Postnikov section by Lemma~\ref{lem:cosk}.
+For a presheaf $\infty$-topos everything is computed objectwise, and for
+$\E=L\,\Presh(C)$ the coskeleton is computed in $\Presh(C)$ while
+$|{-}|_\E=L|{-}|$ and $L\tr n=\tr nL$ \cite[5.5.6.28]{HTT}, so the identification
+is transported by $L$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:I}]
+First $W_{\re}\vee W_{\cosk_{n+1}}=W_{\tr n\re}$: apply Theorem~\ref{thm:join}
+with $P=c\tr n\re$ and $\pi_X\colon X\to c|X|\to c\tr n|X|$. Condition (b):
+$P$ inverts $W_{\re}$, and inverts $W_{\cosk_{n+1}}$ because the local objects
+of the join are the constant objects on $n$-truncated objects, a reflective
+subcategory with reflector $P$, so $P$ inverts the whole join. Condition (a):
+the first map is the unit of $\re\dashv c$, in $W_{\re}$; the second is
+$c(K\to\tr nK)$ for $K=|X|$, and by Proposition~\ref{prop:const} it is, up to
+the equivalence $c|\cosk_{n+1}cK|\simeq c\tr nK$, the composite of the
+coskeleton unit $cK\to\cosk_{n+1}cK$ (in $W_{\cosk_{n+1}}$) with the unit of
+$\re\dashv c$ at $\cosk_{n+1}cK$ (in $W_{\re}$). Then apply
+Corollary~\ref{cor:two} to the reflectors $c\tr n\re$ and levelwise $L$: their
+composite inverts $W_L$ because $L$ commutes with truncation and with colimits.
+For simplicial sets, Theorem~\ref{thm:sset}.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[row sep=normal, column sep=small]
+& & W_{L\tr n\re} & & \\
+& W_{\tr n\re}\arrow[ur,dash] & W_{L\re}\arrow[u,dash] & W_{\cosk_{n+1}L}\arrow[ul,dash] & \\
+& W_{\re}\arrow[u,dash]\arrow[ur,dash] & W_{\cosk_{n+1}}\arrow[ul,dash]\arrow[ur,dash] & W_{L}\arrow[ul,dash]\arrow[u,dash] & \\
+& & \Iso\arrow[ul,dash]\arrow[u,dash]\arrow[ur,dash] & &
+\end{tikzcd}
+\]
+\caption{Theorem~\ref{thm:I}: the sublattice of $\Same(\Fun(\Delta^{\mathrm{op}},\E))$
+generated by the three reflector classes; every join is again a reflector
+class (lines are joins, read upwards).}\label{fig:cube}
+\end{figure}
+
+\section{The cycle class and preorder reflection}\label{sec:order}
+
+Write $X\preceq Y$ if $\Hom(X,Y)\neq\varnothing$ (the reachability preorder of
+$C$) and let $\Wcyc(C)=\{f\colon X\to Y:\ Y\preceq X\}$, the morphisms with a
+morphism back. A category is an \emph{EI-category} if all its endomorphisms
+are invertible \cite{Lueck}.
+
+\begin{thm}\label{thm:cyc}
+$\Wcyc(C)$ is a sameness, equal to $P^*(\Iso)$ for the preorder reflection
+$P\colon C\to(\Ob C,\preceq)$; it is $\{\mathrm{id}\}$ iff $C$ is acyclic, $\Iso$ iff
+$C$ is an EI-category, and $\Mor$ iff $\preceq$ is symmetric. The localization
+$C[\Wcyc^{-1}]$ is an EI-category with the same reachability preorder, and
+$C\to C[\Wcyc^{-1}]$ is universal among functors to EI-categories.
+\end{thm}
+\begin{proof}
+$Pf$ is an isomorphism in the preorder iff $X\preceq Y\preceq X$ iff $f$ has a
+back, so $\Wcyc=P^*(\Iso)$ is a sameness. The three extremes are immediate. For
+the localization: a zigzag $X\to\cdots\to Y$ in $C[\Wcyc^{-1}]$ exists iff
+$X\preceq Y$ (backward arrows are in $\Wcyc$, hence reversible in $\preceq$), so
+the preorder is preserved; an endomorphism of $X$ in the localization is a
+zigzag whose forward arrows all lie in strongly connected classes reachable from
+and reaching $X$, so each forward arrow has a back and is inverted; hence the
+zigzag is invertible and the localization is EI. Conversely a functor to an
+EI-category $D$ sends $f\colon X\to Y$ with back $g$ to $F(f)$ with
+$F(g)F(f)$ and $F(f)F(g)$ invertible endomorphisms, so $F(f)$ is invertible; so
+$F$ inverts $\Wcyc$ and factors uniquely through the localization.
+\end{proof}
+
+\begin{thm}\label{thm:preorder}
+If $C$ has binary coproducts or binary products, $C[\Wcyc^{-1}]$ is the
+reachability preorder $(\Ob C,\preceq)$: the EI-reflection is the preorder
+reflection.
+\end{thm}
+\begin{proof}
+For parallel $g,g'\colon B\to C'$ let $j_1,j_2\colon B\to B\sqcup B$ be the
+injections and $\nabla$ the fold map, with $\nabla j_1=\nabla j_2=\mathrm{id}$. Then
+$\nabla$ has the back $j_1$, so it is inverted in $C[\Wcyc^{-1}]$, where
+$j_1=\nabla^{-1}=j_2$ and $g=[g,g']j_1=[g,g']j_2=g'$. Parallel zigzags are then
+equal too, so the localization is a preorder, and by Theorem~\ref{thm:cyc} it
+is $\preceq$. With products use the projections and the diagonal.
+\end{proof}
+
+\begin{cor}\label{cor:graphs}
+In a topos, and in every presheaf category, $\E[\Wcyc^{-1}]$ is the hom-preorder.
+For directed graphs it is the homomorphism preorder, whose partial-order
+reflection is the homomorphism order of \cite{HN}; two finite graphs are
+identified iff their cores are isomorphic. An EI-category with binary
+(co)products is a preorder; a groupoid with binary coproducts is equivalent to a
+discrete category.
+\end{cor}
+
+\begin{prop}[natural samenesses]\label{prop:natural}
+Call $C\mapsto W(C)$ natural if $F(W(C))\subseteq W(D)$ for all functors $F$.
+Then $\{\mathrm{id}\}$, $\Iso$, $W_{\mathrm{obj}}$ (source isomorphic to target), $\Wcyc$,
+$\Mor$, the endomorphism class $W_{\mathrm{end}}$ and its intersection with
+$\Iso$ are natural; $\Iso$ and $W_{\mathrm{end}}$ are incomparable with join
+$W_{\mathrm{obj}}$; and every natural sameness other than $\Mor$ is contained in
+$\Wcyc$.
+\end{prop}
+\begin{proof}
+Each listed class is preserved by every functor (functors preserve identities,
+isomorphisms, endomorphisms and the existence of a morphism back), and each is
+a sameness: for $W_{\mathrm{obj}}$ and $\Wcyc$ this is the object-determined
+criterion (a class of the form $\{f\colon X\to Y: X\,R\,Y\}$ for an equivalence
+relation $R$ on objects is a sameness), for $W_{\mathrm{end}}$ two-out-of-three
+holds because a composite of two morphisms is an endomorphism iff both are,
+when one of them is. An isomorphism between distinct objects lies in $\Iso$
+but not in $W_{\mathrm{end}}$, and a non-invertible endomorphism in
+$W_{\mathrm{end}}$ but not in $\Iso$, so the two are incomparable; both lie in
+$W_{\mathrm{obj}}$, and conversely $f\colon X\to Y$ with an isomorphism
+$\varphi\colon X\to Y$ is $\varphi\circ(\varphi^{-1}f)$ with $\varphi^{-1}f$ an
+endomorphism, so $W_{\mathrm{obj}}=\Iso\vee W_{\mathrm{end}}$. Finally let $W$
+be natural and $f\colon X\to Y$ in $W(C)$ with $Y\not\preceq X$; for any
+morphism $u\colon A\to B$ of any category $D$ there is a functor $F$ from the
+category generated by $f$ (an acyclic category with two objects, since
+$Y\not\preceq X$ and the only endomorphisms are identities) to $D$ with
+$F(f)=u$, so $u\in W(D)$ and $W=\Mor$. Hence a proper natural sameness
+contains only morphisms with a back, i.e.\ $W\subseteq\Wcyc$.
+\end{proof}
+
+\begin{prop}\label{prop:toposcyc}
+In a topos, $\Loc(\Wcyc)$ is the class of subterminal objects and
+$\Sat(\Wcyc)$ the class of maps between objects with the same support; $\Wcyc$ is
+saturated in $\mathbf{Set}$ and in $\sset$ but not in graphs.
+\end{prop}
+\begin{proof}
+If $U$ is subterminal then $\Hom(X,U)$ has at most one element and is non-empty
+iff $X\to U$ exists; for $f\colon X\to Y$ with a back, $X\to U$ exists iff
+$Y\to U$ exists, so $\Hom(f,U)$ is bijective and $U$ is local. Conversely let
+$Z$ be local and apply $\Hom(-,Z)$ to the projection $p_1\colon Z\times Z\to Z$,
+which has the back $\Delta$: bijectivity means every map $Z\times Z\to Z$
+factors through $p_1$; for $p_2=hp_1$ composing with $\Delta$ gives $h=\mathrm{id}$,
+so $p_1=p_2$ and $Z\to1$ is a monomorphism. Thus $\Loc(\Wcyc)=\mathrm{Sub}(1)$.
+A map $f\colon X\to Y$ is orthogonal to all subterminals iff for every
+subterminal $U$ a map $X\to U$ exists iff a map $Y\to U$ exists, i.e.\ iff
+$X$ and $Y$ have the same support (the support of $X$ being the least $U$ with
+$X\to U$). Maps with a back preserve supports, so $\Wcyc\subseteq\Sat(\Wcyc)$,
+with equality iff any two objects with the same support admit morphisms in
+both directions: true in $\mathbf{Set}$ and in $\sset$ (all non-empty objects
+have support $1$ and admit maps both ways), false for graphs (the graph with
+one vertex and no edge and the graph with one vertex and a loop have the same
+support, but there is no morphism from the looped graph to the loopless one).
+\end{proof}
+
+\section{Limits, counterexamples and open problems}\label{sec:limits}
+
+\subsection{Joins are not preserved in general.}
+
+\begin{thm}\label{thm:N}
+On the poset $\mathbb N$ let $J_{\mathrm{ev}},J_{\mathrm{od}}$ be the topologies
+of the ideals of morphisms passing through an even, resp.\ odd, number. Their
+join is the degenerate topology, so $W_{J_{\mathrm{ev}}\vee J_{\mathrm{od}}}=\Mor$,
+but $W_{\mathrm{ev}}\vee W_{\mathrm{od}}$ is contained in the class of maps
+inverted by $\lim_{\mathbb N^{\mathrm{op}}}$, which does not contain the map from
+the presheaf of final segments to the terminal presheaf.
+\end{thm}
+\begin{proof}
+Degeneracy: $\varnothing$ covers $0$ for $J_{\mathrm{od}}$, and inductively the
+least covering sieve of $m$ for the topology of the other parity consists of
+arrows from smaller objects, which are covered by $\varnothing$; transitivity
+gives $\varnothing\in J(m)$. $W_{\mathrm{ev}}=\{f:f_y\text{ bijective for even }y\}$
+and the evens are cofinal, so $\lim_{\mathbb N^{\mathrm{op}}}$ inverts
+$W_{\mathrm{ev}}$; likewise $W_{\mathrm{od}}$; hence it inverts their join. For
+$X(n)=\{x\ge n\}$ the limit is empty, while the limit of the terminal presheaf
+is a point.
+\end{proof}
+
+\subsection{A refuted conjecture.}
+\cite[Conj.~6.12]{Topjoin} proposed that for idempotent ideals $X,Y,Z\ne M$ of a
+finite monoid the multiplication $X\otimes Y\otimes Z\to XY\otimes Z$ is always
+bijective, which by Lemma~\ref{lem:P} would give join preservation for all
+finite monoids. It holds for all monoids of order $\le5$ but fails in general.
+
+\begin{prop}\label{prop:diamond}
+Let $P$ be the diamond poset $0<1,2<3$ (with $1,2$ incomparable) and $M$ its
+contracted monoid: an identity, the nine morphisms $a\to b$ ($a\le b$), and a
+zero, with product the composite when defined and $0$ otherwise. Let
+$X=Y$ be the ideal of all morphisms except the identities of $0$ and $3$, and
+$Z=M\,1_3\,M$, all proper idempotent ideals. Then
+$[0\to1,\,1\to3]\ne[0\to2,\,2\to3]$ in $X\otimes_MY$ although both have product
+$0\to3$, and the classes $[0\to1,1\to3,1_3]$ and $[0\to2,2\to3,1_3]$ remain
+distinct in $X\otimes Y\otimes Z$, so $X\otimes Y\otimes Z\to XY\otimes Z$ is not
+injective.
+\end{prop}
+\begin{proof}
+Write $x=0\to1$, $y=1\to3$. A tensor move replaces $(x,y)$ by $(x',my)$ with
+$x=x'm$, $x'\in X$, or by $(xm,y')$ with $y=my'$, $y'\in Y$. The factorizations
+of $x$ in $M$ are $x\cdot1_1$ and $1_0\cdot x$ with $1_0\notin X$, and those of
+$y$ are $1_1\cdot y$ and $y\cdot1_3$ with $1_3\notin Y$; so all moves are trivial
+and the class of $(x,y)$ is the singleton $\{(x,y)\}$; likewise for
+$(0\to2,2\to3)$. Let $Z=M\,1_3\,M=\{0\to3,1\to3,2\to3,1_3,0\}$, an idempotent
+proper ideal, and $c=1_3$. In $X\otimes Y\otimes Z$ the additional moves act on
+the last two slots: $(y,c)\mapsto(y',mc)$ with $y=y'm$, $y'\in Y$, and
+$(y,c)\mapsto(ym,c')$ with $c=mc'$, $c'\in Z$. Since $1_1\in Y$, the
+factorization $y=1_1\cdot y$ gives the move $(x,y,1_3)\mapsto(x,1_1,y)$, and
+from $(x,1_1,y)$ the only non-trivial move is the inverse one; so the class of
+$(x,y,c)$ is $\{(x,y,1_3),(x,1_1,y)\}$, and likewise the class of
+$(0\to2,2\to3,1_3)$ is $\{(0\to2,2\to3,1_3),(0\to2,1_2,2\to3)\}$. The two classes
+are disjoint but both map to $[0\to3,1_3]$ in $XY\otimes Z$.
+\end{proof}
+
+\begin{rem}
+The conjecture was a sufficient condition applied to all triples of ideals,
+whereas only the triples along the alternating pattern $D,E,D,E,\dots$ enter
+the tower; a finite enumeration suggests that on this monoid the towers of all
+pairs stabilize, so the conjecture is stronger than what join preservation
+requires.
+\end{rem}
+
+\subsection{Essential constancy for finite categories.}
+The obstruction in Theorem~\ref{thm:N} is a pro-limit invariant of the
+alternating plus-construction tower. For finite categories no such invariant
+exists. We use the Yoneda lemma for pro-objects: for a small category
+$\mathcal A$, the functor $\mathrm{Pro}(\mathcal A)^{\mathrm{op}}\to\Fun(\mathcal A,\mathbf{Set})$,
+$(T_k)_k\mapsto\operatorname{colim}_k\Hom(T_k,-)$, is fully faithful, so that
+$\Hom_{\mathrm{Pro}(\mathcal A)}((T_k)_k,X)=\operatorname{colim}_k\Hom(T_k,X)$ for
+$X\in\mathcal A$ and two pro-objects with naturally isomorphic functors are
+isomorphic \cite[\S6.1]{KS}.
+
+\begin{thm}\label{thm:essconst}
+Let $M$ be a finite monoid, $D,E$ idempotent ideals, $I'$ the largest
+idempotent ideal in $D\cap E$, and $m\ge1$ such that $(DE)^m=(ED)^m=I'$ (the
+descending chains $(DE)^j$, $(ED)^j$ stabilize at idempotent ideals contained in
+$D\cap E$, which contain $I'=I'^{2j}$, hence equal $I'$). Put
+$P=I'\otimes_MI'$, so that $a_{I'}X=\Hom(P,X)$. For every $M$-set $X$,
+$\operatorname{colim}_k\Phi_kX\cong a_{I'}X$ naturally; hence the pro-object
+$(T_k,\mu_k)$ is pro-isomorphic to the constant object $P$, and for $k$ large
+$a_{I'}X$ is a natural retract of $\Phi_kX$ compatibly with the units. Moreover
+$\mathrm{im}(T_{k+l}\to T_k)=I'\cdot T_k$ for $l\ge2m$, so the tower stabilizes
+($\mu_k$ bijective for large $k$) iff $T_k=I'\cdot T_k$ for large $k$, iff every
+class of $T_k$ has a representative whose first slot lies in $I'$; in that case
+$W_D\vee W_E=W_{I'}$.
+\end{thm}
+\begin{proof}
+Let $L=\operatorname{colim}_k\Phi_kX$. Since $D$ is a finite $M$-set,
+$\Hom_M(D,-)$ commutes with filtered colimits, so
+$L^{+D}=\operatorname{colim}_k(\Phi_kX)^{+D}=\operatorname{colim}_{D_{k+1}=D}\Phi_{k+1}X=L$
+with the unit of $L$ the identity of the colimit; thus $L$ is a $D$-sheaf,
+likewise an $E$-sheaf, hence an $I'$-sheaf. The maps $X\to\Phi_kX$ are composites of maps of
+$W_D\cup W_E$, hence lie in $W_D\vee W_E\subseteq W_{I'}$, and $a_{I'}=\Hom(P,-)$ commutes with filtered
+colimits, so $a_{I'}L=a_{I'}X$ and $L=a_{I'}L=a_{I'}X$; no finiteness of $X$ is
+used. Restricting to finite $X$, the functors
+$\operatorname{colim}_k\Hom(T_k,-)$ and $\Hom(P,-)$ on finite $M$-sets are naturally
+isomorphic, and by the Yoneda lemma for pro-objects $(T_k)_k\cong P$ in
+$\mathrm{Pro}(\mathrm{Fin}M)$. Explicitly, the isomorphism consists of compatible maps
+$b_k\colon P\to T_k$ and a map $a\colon T_{k_0}\to P$ with $ab_{k_0}=\mathrm{id}_P$
+and, for each $j$ and all $k\gg j$, $b_j\,a\,\mu^k_{k_0}=\mu^k_j\colon T_k\to T_j$;
+applying $\Hom(-,X)$ gives the retraction $\rho_k=b_k^*$ of
+$\sigma_k=(a\mu^k_{k_0})^*\colon a_{I'}X\to\Phi_kX$ and the factorization of
+$\Phi_{k_0}X\to\Phi_kX$ through $a_{I'}X$. Finally the image of
+$T_{k+l}=D_{k+l}\otimes\cdots\otimes D_{k+1}\otimes T_k$ in $T_k$ is
+$(D_{k+l}\cdots D_{k+1})\cdot T_k=I'\cdot T_k$ for $l\ge2m$, since the product of
+$2m$ alternating ideals is $I'$; if $T_k=I'T_k\subseteq D_{k+1}T_k$ then
+$\mu_{k+1}$ is surjective, the sizes $|T_k|$ are eventually non-increasing, hence
+constant, and $\mu_k$ is eventually bijective; conversely eventual bijectivity
+gives $T_k=\mathrm{im}(T_{k+2m}\to T_k)=I'T_k$. In that case
+Lemma~\ref{lem:reduction} gives $W_D\vee W_E=W_{I'}$.
+\end{proof}
+
+\begin{cor}[finite categories]\label{cor:essconst}
+Theorem~\ref{thm:essconst} holds for a finite category $S$ in place of $M$,
+with $D,E$ idempotent two-sided ideals of $S$, $\otimes_M$ replaced by the
+tensor product of $S$--$S$-bimodules (functors $S^{\mathrm{op}}\times S\to\mathbf{Set}$),
+and $\Hom_M(T,X)$ replaced by the presheaf $c\mapsto\Hom_{\Presh(S)}(T(-,c),X)$.
+\end{cor}
+\begin{proof}
+The ideals $D,E,I'$ and the tensors $T_k$, $P=I'\otimes_SI'$ are finite bimodules
+(finitely many morphisms in each value), $X^{+D}(c)=\Hom(D(-,c),X)$ is the plus
+construction for the covering sieve $D(-,c)$, and $a_{I'}X=\Hom(P,X)$ by
+\cite[Thm.~6.10]{Topjoin}. Each $D(-,c)$ and $T_k(-,c)$ is a finite presheaf, so
+$\Hom(D(-,c),-)$ and $\Hom(T_k(-,c),-)$ commute with filtered colimits, and the
+first paragraph of the proof applies verbatim, objectwise in $c$ and for every
+presheaf $X$: $L=\operatorname{colim}_k\Phi_kX$ is a $D$-sheaf and an $E$-sheaf, and
+$L\cong a_{I'}X$. The functor $T\mapsto\Hom(T,-)$
+from finite bimodules to functors $\mathrm{Fin}\Presh(S)\to\Presh(S)$ is fully
+faithful: for each $c$ the functor $X\mapsto\Hom(T(-,c),X)$ on finite presheaves
+is represented by the finite presheaf $T(-,c)$, so the Yoneda lemma on
+$\mathrm{Fin}\Presh(S)$ recovers $T(-,c)$ together with the maps between such
+functors, and naturality in $c$ recovers the bimodule structure. Hence the
+Yoneda lemma for pro-objects applies in
+$\mathrm{Pro}(\text{finite bimodules})$ and gives $(T_k)_k\cong P$ with the same
+retract structure. Finally the product of $l\ge2m$ consecutive alternating
+ideals is $I'$, so $\mathrm{im}(T_{k+l}\to T_k)=I'\cdot T_k$ as before, and
+Lemma~\ref{lem:reduction} holds for presheaves on $S$ with the same proof.
+\end{proof}
+
+\subsection{The tower need not stabilize.}
+
+\begin{prop}\label{prop:cyclic}
+Let $\mathcal C$ be the category with two objects $a,b$, arrows $u\colon a\to b$,
+$v\colon b\to a$, freely generated subject to the identification of all
+composites of length $\ge3$ with the same endpoints; it has $10$ arrows. Let
+$M$ be its contracted monoid ($12$ elements), $D$ the ideal of arrows factoring
+through $b$ and $E$ that through $a$. Then $T_k\ne I'\cdot T_k$ for every even
+$k$: the alternating plus-construction tower of $(D,E)$ never stabilizes.
+\end{prop}
+\begin{proof}
+The identification of long words is a congruence because lengths add under
+composition, so $\mathcal C$ is a category with, for each ordered pair of
+objects, the words of length $\le2$ between them and one long arrow; $D$ and $E$
+are idempotent (they contain identities), proper and incomparable, and
+$I'$ is the ideal of long arrows and $0$. By Theorem~\ref{thm:essconst} it
+suffices to exhibit, for every even $k$, a class of $T_k$ with no representative
+whose first slot lies in $I'$. Take $k=2j$ and
+$t=(1_a,uv,1_a,uv,\dots,1_a,uv)\in T_k$, whose slots alternate between $E$ and
+$D$ as required. Every tuple of short arrows with product the word $w=(uv)^j$ of
+the free category is a \emph{cut configuration} of $w$: cut points
+$0=c_0\le c_1\le\dots\le c_k=2j$, the $i$-th slot being the subword between
+$c_{i-1}$ and $c_i$, and an empty slot being the identity of the object at its
+cut point, which must be $a$ (even cut point) for an $E$-slot ($i$ odd) and $b$
+(odd cut point) for a $D$-slot ($i$ even). A tensor move between two tuples of
+short arrows moves one cut point and preserves $w$. Put $d_i:=i-c_i$, so
+$d_0=d_k=0$, a slot of length $\ell$ changes $d$ by $1-\ell$, and an empty slot
+raises $d$ by one and is allowed only when $d_i$ is odd, i.e.\ only from an even
+value of $d$. From an odd value $d$ cannot rise, since the next slot must be
+non-empty; hence $d\le1$ throughout, and once $d\le-1$ it can never return to
+$0$ (from an even value it rises by one to an odd value and is then stuck).
+A slot of length $\ge3$ would lower $d$ from at most $1$ to at most $-1$, so no
+cut configuration of $w$ has a slot of length $\ge3$. Consequently no tensor
+move applied to a cut configuration produces a long slot (the target would be a
+cut configuration with a slot of length $\ge3$) or a zero slot (adjacent slots
+of a configuration are composable), and the class of $t$ consists of cut
+configurations only; its first slot is never in $I'$.
+\end{proof}
+
+\begin{rem}
+Enumerating the tensor relations gives $|T_1|=10$ and $|T_k|=9$ for $k\ge2$,
+with $|I'T_k|=5$: four classes of short tuples survive at every level. For the
+analogous monoid with three objects in a cycle and words of length $\ge4$
+identified ($|M|=23$) the sizes oscillate, $19,19,16,19,16,\dots$.
+\end{rem}
+
+Whether $W_D\vee W_E=W_{J_D\vee J_E}$ holds on the monoids of
+Proposition~\ref{prop:cyclic} is not decided by Lemma~\ref{lem:reduction}, which
+is only sufficient; by Theorem~\ref{thm:essconst} no pro-limit of the tower can
+obstruct it, and the dual tower $\lim_kX\otimes_M(D\otimes D)\otimes(E\otimes E)\otimes\cdots$,
+which inverts $W_D$ and $W_E$, is $X\otimes P$ and does not obstruct it either.
+
+\begin{que}\label{que:finite}
+Is $\Top(S)$ a sublattice of $\Same(\Presh(S))$ for every finite category $S$?
+Equivalently, is the unit $X\to a_{J\vee J'}X$ in $W_J\vee W_{J'}$ for all $X$?
+The first undecided cases are the monoids of Proposition~\ref{prop:cyclic}.
+\end{que}
+
+\begin{que}
+Classify the natural samenesses (Proposition~\ref{prop:natural}); is the
+interval $[\Iso,\Wcyc]$ of natural samenesses finite?
+\end{que}
+
+\begin{que}
+Does Theorem~\ref{thm:I} hold for cubical objects of an $\infty$-topos with the
+cubical coskeleta? For cubical sets it does \cite{Postnikov}; the missing
+ingredient is a cubical form of Proposition~\ref{prop:const}.
+\end{que}
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{CRediT authorship contribution statement.}\quad Ryota Shibusawa:
+Conceptualization, Methodology, Formal analysis, Investigation, Software,
+Validation, Visualization, Writing -- original draft, Writing -- review \& editing.
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{99}
+\bibitem{ABFJ} M.~Anel, G.~Biedermann, E.~Finster, A.~Joyal, \emph{Left-exact
+localizations of $\infty$-topoi I: Higher sheaves}, Adv. Math. \textbf{400}
+(2022), 108268.
+\bibitem{ABFJ2} M.~Anel, G.~Biedermann, E.~Finster, A.~Joyal, \emph{Left-exact
+localizations of $\infty$-topoi II: Grothendieck topologies}, J. Pure Appl.
+Algebra \textbf{228} (2024), 107597.
+\bibitem{Duskin} J.~Duskin, \emph{Simplicial methods and the interpretation
+of ``triple'' cohomology}, Mem. Amer. Math. Soc. \textbf{163} (1975).
+\bibitem{GJ} P.~G.~Goerss, J.~F.~Jardine, \emph{Simplicial Homotopy Theory},
+Progress in Mathematics \textbf{174}, Birkh\"auser, 1999.
+\bibitem{HN} P.~Hell, J.~Ne\v{s}et\v{r}il, \emph{Graphs and Homomorphisms},
+Oxford Lecture Series in Mathematics and its Applications \textbf{28}, Oxford
+University Press, 2004.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford University Press, 2002.
+\bibitem{Lueck} W.~L\"uck, \emph{Transformation Groups and Algebraic $K$-Theory},
+Lecture Notes in Mathematics \textbf{1408}, Springer, 1989.
+\bibitem{KS} M.~Kashiwara, P.~Schapira, \emph{Categories and Sheaves},
+Grundlehren der mathematischen Wissenschaften \textbf{332}, Springer, 2006.
+\bibitem{KL89} G.~M.~Kelly, F.~W.~Lawvere, \emph{On the complete lattice of
+essential localizations}, Bull. Soc. Math. Belg. S\'er. A \textbf{41} (1989),
+289--319.
+\bibitem{KRRZ} C.~Kennett, E.~Riehl, M.~Roy, M.~Zaks, \emph{Levels in the
+toposes of simplicial sets and cubical sets}, J. Pure Appl. Algebra
+\textbf{215} (2011), 949--961.
+\bibitem{HTT} J.~Lurie, \emph{Higher Topos Theory}, Annals of Mathematics
+Studies \textbf{170}, Princeton University Press, 2009.
+\bibitem{Marques25} J.~Marqu\`es, \emph{A criterion for categories on which
+every Grothendieck topology is rigid}, Appl. Categ. Structures \textbf{33}
+(2025), art.\ 37.
+\bibitem{MLM} S.~Mac Lane, I.~Moerdijk, \emph{Sheaves in Geometry and Logic},
+Springer, 1992.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\bibitem{EI} R.~Shibusawa, \emph{The EI-reflection of a category, its preorder
+reflection, and the homomorphism order of graphs}, preprint (2026), archived at
+DOI 10.5281/zenodo.23029859.
+\bibitem{Infjoin} R.~Shibusawa, \emph{Postnikov truncation of simplicial objects
+in an $\infty$-topos as a join of localizations}, preprint (2026), archived at
+DOI 10.5281/zenodo.23049588.
+\end{thebibliography}
+
+\end{document}
