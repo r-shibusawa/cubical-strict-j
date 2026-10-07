@@ -1,0 +1,509 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Top}{\mathrm{Top}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\sD}{\mathcal D}
+\newcommand{\sE}{\mathcal E}
+\newcommand{\sJ}{\mathcal J}
+\newcommand{\sK}{\mathcal K}
+
+\begin{document}
+
+\title[Topologies on a finite category and the sameness lattice]{Grothendieck topologies on a finite category form a sublattice of the lattice of two-out-of-three classes}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{Grothendieck topology, subtopos, sheafification, local isomorphism,
+  two-out-of-three, separated presheaf, plus construction, finite category,
+  finite monoid, idempotent ideal}
+\subjclass[2020]{18F10 (primary), 18F20, 18A32, 20M12 (secondary)}
+
+\begin{abstract}
+For a small category $S$ every Grothendieck topology $J$ determines the class
+$W_J$ of maps of presheaves inverted by sheafification, an element of the
+complete lattice $\Same(\Presh(S))$ of all classes of morphisms containing the
+identities and closed under composition and two-out-of-three. The map
+$J\mapsto W_J$ preserves all meets, and it was known to preserve binary joins
+for finite acyclic categories and for finite categories whose two topologies
+have an idempotent intersection of ideals, but not for the poset of natural
+numbers. We prove that it preserves binary joins for \emph{every} finite
+category: $W_{J\vee J'}=W_J\vee W_{J'}$, the join on the right being the
+smallest class closed under composition and two-out-of-three containing both.
+The proof has two steps. Alternating separated quotients for the two
+topologies reach, in a bounded number of steps, the quotient of a presheaf by
+the equivalence relation of agreement on the join-covering sieves; and on such
+separated presheaves the alternating plus-construction tower is a chain of
+injections into the join sheafification, which it reaches because the join
+sheafification is, by an explicit retraction of the representing bimodules, a
+retract of every sufficiently late stage of the tower. The second step alone does not suffice: a monoid of
+order $8$ is exhibited on which the alternating plus-construction tower never
+stabilizes, although the join is preserved.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $S$ be a small category, $\Top(S)$ the lattice of Grothendieck topologies
+on $S$, and for $J\in\Top(S)$ let $a_J$ be the sheafification and
+$W_J=\{f:a_Jf\text{ is an isomorphism}\}$ the class of $J$-local isomorphisms
+of presheaves \cite[III.7]{MLM}. A \emph{sameness} on a category $C$ is a
+class of morphisms containing the identities, closed under composition and
+under two-out-of-three; samenesses form a complete lattice $\Same(C)$, whose
+joins are the smallest samenesses containing the union \cite{Same}. Each
+$W_J$ is a sameness, $J\mapsto W_J$ is an order-embedding
+$\Top(S)\hookrightarrow\Same(\Presh(S))$ preserving all meets, and always
+$W_J\vee W_{J'}\subseteq W_{J\vee J'}$ with equality iff the join on the left
+is saturated \cite[Thms.~3.1, 4.2]{Topjoin}. Equality holds for finite acyclic
+categories and for finite categories whose topologies have an idempotent
+intersection of ideals \cite[Thms.~5.1, 6.10]{Topjoin}, and fails for the
+poset $\mathbb N$ \cite[Thm.~7.1]{Topjoin}; whether it holds for all finite
+categories was left open there and in \cite[Question~6.8]{Integrated}. We
+answer this.
+
+\begin{thm}\label{thm:main}
+For every finite category $S$ and all topologies $J,J'$ on $S$,
+\[
+W_J\vee W_{J'}=W_{J\vee J'}\quad\text{in }\Same(\Presh(S)).
+\]
+Hence $J\mapsto W_J$ is a lattice embedding $\Top(S)\hookrightarrow\Same(\Presh(S))$.
+\end{thm}
+
+\subsection*{What is known.}
+The finite-sieve dictionary identifies $\Top(S)$, for finite $S$, with the
+idempotent two-sided ideals of $S$ under reverse inclusion
+\cite[Thm.~5.1]{Postnikov}; the join $J_D\vee J_E$ corresponds to the largest
+idempotent ideal $I'$ contained in $D\cap E$. The \emph{reduction lemma}
+\cite[Lemma~4.3]{Topjoin} shows that $W_D\vee W_E=W_{I'}$ as soon as the
+alternating tower of plus constructions $X\to X^{+D}\to X^{+D+E}\to\cdots$
+reaches an $I'$-sheaf for every presheaf $X$, and the two positive results
+above were proved by showing that it does. The tower is represented by the
+alternating tensor tower $T_k=D_k\otimes\cdots\otimes D_1$ of bimodules
+($\Phi_kX=\Hom(T_k,X)$); in \cite[\S6.3]{Integrated} it is shown that for
+every finite category $(T_k)_k$ is pro-isomorphic to $I'\otimes I'$, the
+bimodule representing $a_{I'}$. The present paper does not use that result:
+the only consequence needed, that $a_{I'}X$ is a retract of the late stages of
+the tower, is proved here directly by an explicit retraction
+(Lemma~\ref{lem:section}).
+
+\subsection*{Related work.}
+The lattice of subtoposes, or of local operators, of a presheaf topos is
+classical \cite{MLM,Elephant}; for essential localizations it is described by
+Kelly and Lawvere through idempotent ideals \cite{KL89}, and every
+Grothendieck topology on a finite Cauchy-complete category is rigid
+\cite{Marques25}, which is the background of the object-generated ideals used
+below. For $\infty$-topoi, Anel, Biedermann, Finster and Joyal describe
+left-exact localizations by Grothendieck topologies \cite{ABFJ2}. All of this
+concerns the lattice of \emph{saturated} classes, i.e.\ of the localizations
+themselves. The question here is different: after associating to each topology
+its class of local isomorphisms, does the bare two-out-of-three join, before any
+saturation, already coincide with the class of local isomorphisms of the joined
+topology? For finite categories the answer is yes, and the proof shows which
+maps outside the canonical plus-construction units are needed.
+
+\subsection*{What is new.}
+Theorem~\ref{thm:main}, and the mechanism of its proof. The plus tower alone
+does not always stabilize: Section~\ref{sec:example} gives a monoid of order
+$8$ on which it never does. The missing ingredient is a second, dual tower of
+\emph{separated quotients}, each of which identifies the elements of a
+presheaf that agree on one of the two topologies. Three facts combine:
+local isomorphisms for a topology whose ideal is generated by objects are the
+maps bijective at those objects (Lemma~\ref{lem:objectwise}); the alternating
+separated quotients reach, in a bounded number of steps, the quotient by
+agreement on the join-covering sieves (Lemma~\ref{lem:quotient}); and on a
+presheaf separated for the join topology, plus constructions preserve
+separatedness, so the plus tower is a chain of injections into the join
+sheafification $a_{I'}X$, which it reaches because $a_{I'}X$ is a retract of
+every stage beyond $4m$ (Lemmas~\ref{lem:section} and \ref{lem:plus}). The proofs are self-contained.
+
+\section{Preliminaries}\label{sec:prelim}
+
+Throughout, $S$ is a finite category. Presheaves are functors
+$S^{\mathrm{op}}\to\mathbf{Set}$; for $a\colon x\to c$ and $v\in X(c)$ we write
+$v\cdot a:=X(a)v\in X(x)$. A \emph{two-sided ideal} of $S$ is a class of
+morphisms closed under composition with arbitrary morphisms on either side; it
+is \emph{idempotent} if every member is a composite of two members. By the
+dictionary \cite[Thm.~5.1]{Postnikov}, topologies on $S$ correspond to
+idempotent ideals: $J_D$ has as covering sieves on $c$ the sieves containing
+$D(-,c)=\{a\colon x\to c\text{ in }D\}$, and $J_D\le J_E$ iff $D\supseteq E$.
+For the plus construction and sheafification of $J_D$ we have
+$X^{+}(c)=\Hom(D(-,c),X)$ (maps of presheaves from the sieve) and
+$a_DX=X^{++}$ \cite[III.5]{MLM}.
+
+\subsection{Cauchy completion and generating objects.}
+Every element $d$ of an idempotent ideal $D$ of a finite category is a
+composite $d=d_N\cdots d_1$ of members for every $N$; for $N$ larger than the
+number of morphisms two partial composites $d_i\cdots d_1$, $d_j\cdots d_1$
+($i<j$) coincide, so $d_i\cdots d_1=w\cdot d_i\cdots d_1$ for the endomorphism
+$w=d_j\cdots d_{i+1}\in D$, and a power $g=w^r$ is an idempotent of $D$ with
+$d=(d_N\cdots d_{j+1})\,g\,(d_i\cdots d_1)$. Hence $D$ is the ideal generated
+by the idempotent endomorphisms it contains. Passing to the Karoubi envelope
+$\sK$ of $S$ (idempotents split; presheaf categories are equivalent, and
+topologies, local isomorphisms and sheafifications correspond), every
+idempotent ideal $D$ becomes the ideal generated by the set of objects
+\[
+\sD:=\{d\in\operatorname{Ob}\sK:\ \mathrm{id}_d\in D\},
+\]
+in the sense that $D(-,c)$ is the set of morphisms into $c$ factoring through
+an object of $\sD$. We may therefore, and do, assume that $S$ is Cauchy
+complete and that $D$, $E$ are the ideals generated by the object sets
+$\sD=\{d:\mathrm{id}_d\in D\}$ and $\sE=\{e:\mathrm{id}_e\in E\}$; the join
+$J_D\vee J_E$ is then $J_{I'}$ where $I'$ is the ideal generated by
+$\sJ:=\sD\cap\sE=\{j:\mathrm{id}_j\in D\cap E\}$ (the idempotent ideal generated
+by the idempotents of $D\cap E$ is the largest idempotent ideal in $D\cap E$).
+Each of the descending chains $(DE)^r$ and $(ED)^r$, $r\ge1$, stabilizes at an
+idempotent ideal contained in $D\cap E$ and containing $I'=I'^{2r}$, hence at
+$I'$; we fix $m\ge1$ with $(DE)^m=(ED)^m=I'$, so that every product of $2m$
+alternating factors $D,E$, in either order, equals $I'$.
+
+\subsection{Samenesses and the join theorem.}
+For a functor $P$ write $W_P=\{f:Pf\text{ invertible}\}$, a sameness.
+
+\begin{thm}[join theorem, {\cite[Thm.~4.1]{Postnikov}}]\label{thm:join}
+Let $U,V$ be samenesses on $C$ whose join contains the isomorphisms of $C$
+(as is the case when $U$ or $V$ is of the form $W_F$), and let $P\colon C\to C$
+be a functor with a natural transformation $\pi\colon\mathrm{id}\Rightarrow P$
+such that $\pi_X\in U\vee V$ for all $X$ and $P$ inverts $U$ and $V$. Then
+$U\vee V=W_P$.
+\end{thm}
+\begin{proof}
+$W_P\supseteq U\vee V$ since $W_P$ is a sameness containing $U$ and $V$. If
+$Pf$ is invertible, then $Pf\in U\vee V$ by hypothesis, so the naturality
+square $\pi_Y f=Pf\,\pi_X$ has three sides in $U\vee V$, hence the fourth.
+\end{proof}
+
+\subsection{The plus tower and its representing bimodules.}\label{sub:tower}
+An $S$--$S$-bimodule is a functor $S^{\mathrm{op}}\times S\to\mathbf{Set}$; ideals
+are sub-bimodules of $\Hom_S$, and for bimodules $A,B$ the tensor
+$(A\otimes B)(x,z)=\coprod_yA(y,z)\times B(x,y)/\bigl((a\cdot m,b)\sim(a,m\cdot b)\bigr)$
+is a bimodule. For a bimodule $A$ and a presheaf $X$ the presheaf
+$\Hom(A,X)(c):=\Hom_{\Presh(S)}(A(-,c),X)$ satisfies the adjunction
+$\Hom(A\otimes B,X)\cong\Hom(A,\Hom(B,X))$ and, for $A=\Hom_S$, $\Hom(\Hom_S,X)\cong X$;
+a map of bimodules $\alpha\colon A\to A'$ induces $\alpha^*\colon\Hom(A',X)\to\Hom(A,X)$,
+and by the Yoneda lemma $\alpha$ is an isomorphism iff $\alpha^*$ is bijective
+for all $X$. Elements of $(A_k\otimes\cdots\otimes A_1)(x,c)$ are classes
+$[a_k,\dots,a_1]$ of composable chains $x\to\cdots\to c$ with $a_i\in A_i$,
+modulo moving a morphism of $S$ across a tensor sign.
+
+Write $D_1=D$, $D_2=E$, $D_3=D,\dots$. Since $D(-,c)$ is the least
+$J_D$-covering sieve, $X^{+D}=\Hom(D,X)$, with unit $x\mapsto(d\mapsto x\cdot d)$
+induced by the multiplication $D\to\Hom_S$. Hence the alternating plus tower is
+\[
+\Phi_kX:=X^{+D_1+D_2\cdots+D_k}=\Hom(T_k,X),\qquad T_k:=D_k\otimes\cdots\otimes D_1,
+\]
+with unit $u_k\colon X\to\Phi_kX$, $u_k(x)=(t\mapsto x\cdot\bar t)$, where
+$\bar t=d_k\cdots d_1$ is the composite of the chain $t$; $u_k$ is a composite
+of plus-construction units, hence of maps of $W_D\cup W_E$. Likewise
+$a_{I'}X=X^{+I'+I'}=\Hom(P,X)$ for $P:=I'\otimes I'$, with unit
+$\eta_X(x)=(p\mapsto x\cdot\bar p)$.
+
+\begin{lem}\label{lem:mult}
+Let $m_k\colon P\otimes T_k\to P$ be the bimodule map
+$[i,i',d_k,\dots,d_1]\mapsto[i,\,i'd_k\cdots d_1]$ (well defined since $I'$ is a
+right ideal). Then $m_k$ is an isomorphism of bimodules, and
+$m_k^*=a_{I'}(u_k)\colon a_{I'}X\to a_{I'}\Phi_kX$ under the identification
+$a_{I'}\Phi_kX=\Hom(P,\Hom(T_k,X))=\Hom(P\otimes T_k,X)$.
+\end{lem}
+\begin{proof}
+For $\psi\in a_{I'}X=\Hom(P,X)$ the map $a_{I'}(u_k)(\psi)=u_k\circ\psi$ sends
+$p$ to $(t\mapsto\psi(p)\cdot\bar t)=(t\mapsto\psi(p\cdot\bar t))$, i.e.\
+corresponds to $[p,t]\mapsto\psi(m_k[p,t])$; so $a_{I'}(u_k)=m_k^*$. Since
+$u_k\in W_D\vee W_E\subseteq W_{I'}$ ($J_D,J_E\le J_{I'}$), $a_{I'}(u_k)$ is
+bijective for every $X$, and $m_k$ is an isomorphism by Yoneda.
+\end{proof}
+
+Let $\iota_k\colon\Phi_kX\to a_{I'}X$ be the sheafification unit of $\Phi_kX$
+followed by $(a_{I'}u_k)^{-1}$; thus $\iota_k=(m_k^{*})^{-1}\circ\varepsilon_k^*$
+where $\varepsilon_k\colon P\otimes T_k\to T_k$, $[p,t]\mapsto\bar p\cdot t$, is
+the bimodule map inducing the unit $\Phi_kX\to a_{I'}\Phi_kX$. By naturality of
+units, $\iota_ku_k=\eta_X$.
+
+\begin{lem}[retraction]\label{lem:section}
+Let $k\ge4m$ and choose $j$ with $2m\le j\le k-2m$. The map
+\[
+r_k\colon T_k\to P,\qquad[d_k,\dots,d_1]\mapsto[d_k\cdots d_{j+1},\ d_j\cdots d_1],
+\]
+is a well-defined map of bimodules (both products lie in $I'$, being products
+of at least $2m$ alternating factors), and $r_k\circ\varepsilon_k=m_k$.
+Consequently $\sigma_k:=r_k^*\colon a_{I'}X\to\Phi_kX$ satisfies
+$\iota_k\sigma_k=\mathrm{id}$; in particular $\iota_k$ is surjective for every
+presheaf $X$ and every $k\ge4m$.
+\end{lem}
+\begin{proof}
+A tensor move inside one of the two blocks does not change its product; a move
+across the boundary, $[\dots,d_{j+1}m,d_j,\dots]\sim[\dots,d_{j+1},md_j,\dots]$,
+changes the pair of products from $(Am,B)$ to $(A,mB)$, which are identified in
+$P=I'\otimes I'$. So $r_k$ is well defined, and it is clearly a bimodule map.
+For $[p,t]\in P\otimes T_k$ with $p=[i,i']$,
+$r_k\varepsilon_k[p,t]=[ii'd_k\cdots d_{j+1},\,d_j\cdots d_1]
+=[i,\,i'd_k\cdots d_1]=m_k[p,t]$, the middle equality being a tensor move in
+$P$ (both $i$ and $d_j\cdots d_1$ lie in $I'$). Hence
+$\iota_k\sigma_k=(m_k^*)^{-1}\varepsilon_k^*r_k^*=(m_k^*)^{-1}(r_k\varepsilon_k)^*=\mathrm{id}$.
+\end{proof}
+
+\section{Local isomorphisms are objectwise bijections}\label{sec:objectwise}
+
+\begin{lem}\label{lem:objectwise}
+Let $D$ be the ideal generated by a set of objects $\sD$ of the Cauchy complete
+category $S$. A map of presheaves $f\colon X\to Y$ is a $J_D$-local isomorphism
+iff $f_d\colon X(d)\to Y(d)$ is bijective for every $d\in\sD$. Consequently
+$W_D=\{f:f\text{ bijective at }\sD\}$, $W_E=\{f:f\text{ bijective at }\sE\}$
+and $W_{I'}=\{f:f\text{ bijective at }\sJ\}$.
+\end{lem}
+\begin{proof}
+$f$ is $J_D$-locally injective iff for all $c$ and $x,x'\in X(c)$ with
+$fx=fx'$ the sieve $\{a:x\cdot a=x'\cdot a\}$ contains $D(-,c)$, and
+$J_D$-locally surjective iff for all $y\in Y(c)$ the sieve
+$\{a:y\cdot a\in\im f\}$ contains $D(-,c)$ \cite[III.7]{MLM}. Every
+$a\in D(-,c)$ factors as $a=p\circ q$ with $p\colon d\to c$, $d\in\sD$. If
+$f_d$ is injective, then $f(x\cdot p)=(fx)\cdot p=(fx')\cdot p=f(x'\cdot p)$
+gives $x\cdot p=x'\cdot p$, hence $x\cdot a=x'\cdot a$; conversely local
+injectivity with $c=d$ and $a=\mathrm{id}_d$ gives injectivity at $d$. If $f_d$
+is surjective then $y\cdot p=f(x)$ for some $x\in X(d)$ and
+$y\cdot a=f(x\cdot q)$; conversely local surjectivity with $a=\mathrm{id}_d$
+gives surjectivity at $d$. The last assertion uses that $I'$ is generated by
+$\sJ$.
+\end{proof}
+
+For a finite monoid $M$ and an idempotent two-sided ideal $D$: a map of right
+$M$-sets $f$ is a $J_D$-local isomorphism iff $f|_{Xe}\colon Xe\to Ye$ is
+bijective for every idempotent $e\in D$.
+
+\section{Separated quotients}\label{sec:quotient}
+
+\begin{defi}
+For a presheaf $X$ and an ideal $D$ generated by objects $\sD$, let
+$x\approx_Dx'$ (for $x,x'\in X(c)$) iff $x\cdot a=x'\cdot a$ for all
+$a\in D(-,c)$; equivalently, iff $x\cdot p=x'\cdot p$ for all $p\colon d\to c$
+with $d\in\sD$. The \emph{$D$-separated quotient} is $Q_DX:=X/{\approx_D}$.
+\end{defi}
+
+If $x\approx_Dx'$ then $x\cdot b\approx_Dx'\cdot b$ for every $b\colon c'\to c$
+(as $(x\cdot b)\cdot a=x\cdot(ba)$ and $ba\in D(-,c)$), so $Q_DX$ is a presheaf
+and $q\colon X\twoheadrightarrow Q_DX$ is a map; $Q_DX$ is $J_D$-separated, and
+$q$ is bijective at every $d\in\sD$ (take $a=\mathrm{id}_d$), so $q\in W_D$ by
+Lemma~\ref{lem:objectwise}.
+
+\begin{lem}\label{lem:quotient}
+Let $X_0=X$ and $X_{k+1}=Q_{D_{k+1}}X_k$ with the alternation $D_1=D$, $D_2=E,\dots$.
+Then two elements of $X(c)$ have the same image in $X_k$ iff they agree on
+restriction along every morphism of the product ideal $D_k\circ\cdots\circ D_1$;
+in particular $X_k=Q_{I'}X$ for $k\ge2m$, where $Q_{I'}X$ is the quotient by
+agreement along all morphisms from objects of $\sJ$. The composite
+$X\twoheadrightarrow Q_{I'}X$ lies in $W_D\vee W_E$.
+\end{lem}
+\begin{proof}
+Induction on $k$: $x,x'\in X(c)$ have the same image in $X_{k+1}$ iff
+$x\cdot b$ and $x'\cdot b$ have the same image in $X_k$ for all
+$b\in D_{k+1}(-,c)$, i.e.\ iff $x\cdot(ba)=x'\cdot(ba)$ for all such $b$ and
+all $a\in(D_k\cdots D_1)(-,\operatorname{dom}b)$; the morphisms $ba$ are
+exactly those of $D_{k+1}D_k\cdots D_1$. For $k\ge2m$ this ideal is $I'$, and
+agreement along $I'$ is agreement along the morphisms $p\colon j\to c$ with
+$j\in\sJ$ (every $a\in I'(-,c)$ is $p\circ q$ with such a $p$). Each quotient
+map $X_k\to X_{k+1}$ lies in $W_{D_{k+1}}$.
+\end{proof}
+
+\section{The plus tower on a separated presheaf}\label{sec:plus}
+
+Call a presheaf \emph{$\sJ$-separated} if it is $J_{I'}$-separated, i.e.\
+$x\cdot p=x'\cdot p$ for all $p\colon j\to c$, $j\in\sJ$, implies $x=x'$.
+
+\begin{lem}\label{lem:plus}
+Let $Y$ be $\sJ$-separated and $\sJ\subseteq\sD$. Then $Y^{+D}$ is
+$\sJ$-separated. Consequently every stage $\Phi_kY$ of the alternating plus
+tower is $\sJ$-separated, the maps $\iota_k\colon\Phi_kY\to a_{I'}Y$ are
+injective, and for $k\ge4m$ they are bijective; the unit $Y\to a_{I'}Y$ lies
+in $W_D\vee W_E$.
+\end{lem}
+\begin{proof}
+For $j\in\sJ\subseteq\sD$ the sieve $D(-,j)$ is maximal, so $Y^{+D}(j)=Y(j)$,
+and for $\varphi\in Y^{+D}(c)=\Hom(D(-,c),Y)$ and $p\colon j\to c$ the
+restriction is $\varphi\cdot p=\varphi(p)$. Let $\varphi,\psi\in Y^{+D}(c)$
+satisfy $\varphi(p)=\psi(p)$ for all $p\colon j\to c$ with $j\in\sJ$. For any
+$n\colon x\to c$ in $D(-,c)$ and any $b\colon j\to x$ with $j\in\sJ$,
+$\varphi(n)\cdot b=\varphi(nb)=\psi(nb)=\psi(n)\cdot b$, and $Y$ is
+$\sJ$-separated, so $\varphi(n)=\psi(n)$; thus $\varphi=\psi$. The same holds
+for $E$. Hence all $\Phi_kY$ are $\sJ$-separated. The map $\iota_k$ is the
+sheafification unit of $\Phi_kY$ followed by an isomorphism
+(Section~\ref{sub:tower}), and the unit of a separated presheaf is injective
+\cite[III.5]{MLM}; so $\iota_k$ is injective. By Lemma~\ref{lem:section},
+$\iota_k$ is surjective for $k\ge4m$. So $\iota_k$ is an isomorphism; isomorphisms lie in
+$W_D\cap W_E\subseteq W_D\vee W_E$ (a sameness need only contain the
+identities, but $W_D$ and $W_E$ are classes of maps inverted by a functor), so
+the unit $Y\to a_{I'}Y=\iota_ku_k$ lies in $W_D\vee W_E$.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[column sep=large]
+X\arrow[r,"W_D",two heads]\arrow[rrrr,bend left=22,"\eta_X"] & Q_DX\arrow[r,"W_E",two heads] & \cdots\arrow[r,two heads] & Q_{I'}X\arrow[r,"u_k\ \in W_D\vee W_E"] & \Phi_kQ_{I'}X\arrow[d,"\iota_k","\simeq"']\\
+& & & & a_{I'}X
+\end{tikzcd}
+\]
+\caption{The proof of Theorem~\ref{thm:main}: separated quotients (at most $2m$)
+followed by plus constructions ($4m$) connect every presheaf to its join
+sheafification inside the join.}
+\end{figure}
+
+\section{Proof of the theorem}\label{sec:proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+By Section~\ref{sec:prelim} we may assume $S$ Cauchy complete, $J=J_D$,
+$J'=J_E$ with $D,E$ generated by objects, and $J\vee J'=J_{I'}$. Apply the
+join theorem with $U=W_D$, $V=W_E$, $P=a_{I'}$ and $\pi$ the unit
+$\eta\colon\mathrm{id}\Rightarrow a_{I'}$. $P$ inverts $W_D$ and $W_E$ since
+$J_D,J_E\le J_{I'}$. For a presheaf $X$ the unit factors as
+\[
+X\twoheadrightarrow Q_{I'}X\xrightarrow{\ \eta\ }a_{I'}Q_{I'}X\cong a_{I'}X,
+\]
+the first map in the join by Lemma~\ref{lem:quotient}, the second by
+Lemma~\ref{lem:plus} ($Q_{I'}X$ is $\sJ$-separated), and the isomorphism
+induced by the quotient map, which $a_{I'}$ inverts. Hence
+$\eta_X\in W_D\vee W_E$ for all $X$, and $W_D\vee W_E=W_{a_{I'}}=W_{I'}$.
+Since $W_{J\vee J'}=\mathrm{Sat}(W_J\vee W_{J'})\supseteq W_J\vee W_{J'}$
+always, and $J\mapsto W_J$ preserves meets \cite[Thm.~3.1]{Topjoin}, the map
+is a lattice embedding.
+\end{proof}
+
+\begin{rem}
+The number of steps is uniform: $2m$ quotients and $4m$ plus constructions,
+depending only on $(S,D,E)$. The proof uses finiteness of $S$ only through the
+existence of $m$, the stabilization of the alternating products of the two
+ideals at $I'$; this fails for $\mathbb N$, where the join is not preserved
+\cite[Thm.~7.1]{Topjoin}. The number $2m$ of quotients is also the number of
+alternating iterations of the two Lawvere--Tierney local operators needed to
+reach their join, since $j_D j_E(R)=\{a: a\cdot DE\subseteq R\}$ on sieves $R$.
+\end{rem}
+
+\begin{rem}
+Nothing in the argument requires $S$ to be Cauchy complete except the
+description of ideals by objects; for a finite category $S$ the statement is
+transported along the equivalence $\Presh(S)\simeq\Presh(\sK)$.
+\end{rem}
+
+\section{The plus tower alone does not suffice}\label{sec:example}
+
+The reduction lemma of \cite{Topjoin} proves join preservation whenever the
+alternating plus tower reaches an $I'$-sheaf. The following example shows that
+Lemma~\ref{lem:quotient} cannot be dispensed with.
+
+\begin{prop}\label{prop:nil}
+Let $\overline M=\{1,1_a,1_b,u,v,uv,vu,0\}$ be the contracted monoid of the
+category with two objects $a,b$, arrows $u\colon a\to b$, $v\colon b\to a$, in
+which all composites of length $\ge3$ are identified with $0$; $|\overline M|=8$.
+Let $D$ be the ideal generated by $1_b$ and $E$ the ideal generated by $1_a$;
+then $D\cap E=\{u,v,uv,vu,0\}$ is not idempotent and $I'=\{0\}$. The
+alternating plus-construction tower of $(D,E)$ never stabilizes: for every
+even $k$ the composite multiplication map $T_{k+4}\to T_k$ of the
+representing tensor tower is not surjective. In particular the maps
+$T_{k+1}\to T_k$ are not eventually bijective, and there is no $k$ with
+$\Phi_kX$ an $I'$-sheaf for all $X$. Nevertheless $W_D\vee W_E=W_{I'}$ by
+Theorem~\ref{thm:main}.
+\end{prop}
+\begin{proof}
+Here $m=2$, so the image of the composite $T_{k+4}\to T_k$ is
+$(D_{k+4}\cdots D_{k+1})\cdot T_k=I'\cdot T_k$ (Section~\ref{sec:prelim}),
+the set of classes with a representative whose first slot lies in
+$I'=\{0\}$. We show that $T_k\ne I'\cdot T_k$ for every even $k$; the last
+two assertions then follow, since bijectivity of $\mu_{k+1}$ for all $k\ge K$
+would make $T_{K+4}\to T_K$ bijective, and since, if $\Phi_kX$ were an
+$I'$-sheaf for all $X$, then $\Phi_kX$ would be a $D$-sheaf and an $E$-sheaf
+($J_D,J_E\le J_{I'}$), all later plus-construction units on it would be
+isomorphisms and $\Phi_kX\to\Phi_{k+l}X$ would be bijective for all $l$ and
+$X$: for even $k$ this makes $T_{k+4}\to T_k$ an isomorphism of bimodules by
+Yoneda, and for odd $k$ it makes $\Phi_{k+1}X\cong\Phi_kX$ an $I'$-sheaf for
+all $X$ with $k+1$ even. Consider, for even $k=2j$, the class
+of $t=(1_a,uv,1_a,uv,\dots)\in T_k$, whose slots alternate between $E$ and $D$
+as required. Tuples of non-zero elements with product the word $w=(uv)^j$ of
+the free category are \emph{cut configurations} of $w$: cut points
+$0=c_0\le\dots\le c_k=2j$, the $i$-th slot being the subword between $c_{i-1}$
+and $c_i$, an empty slot being the identity at its cut point, which must be
+$a$ (even cut point) for an $E$-slot ($i$ odd) and $b$ (odd cut point) for a
+$D$-slot ($i$ even); the slots have length $\le2$, since longer words are $0$.
+A tensor move between tuples of non-zero elements moves one cut point. Put
+$d_i=i-c_i$; a slot of length $\ell$ changes $d$ by $1-\ell$, and an empty
+slot raises $d$ by one and is allowed only from an even value of $d$ (the
+parity condition on $c_i$). From an odd value $d$ cannot rise, so $d\le1$
+throughout; a slot of length $\ge3$ would send $d$ to a value $\le-1$, from
+which $d_k=0$ can no longer be reached. Hence no cut configuration has a slot
+of length $\ge3$, and no tensor move applied to a cut configuration produces a
+zero slot (a zero would have to arise as a composite of length $\ge3$ or as a
+non-composable pair, and adjacent slots of a configuration are composable). So
+the class of $t$ consists of cut configurations only and has no representative
+with a zero slot; thus $T_k\ne I'\cdot T_k$ for every even $k$.
+\end{proof}
+
+\begin{rem}
+Enumerating the tensor relations gives $|T_1|=6$ and $|T_k|=5$ for $k\ge2$:
+besides the zero class, four classes of cut configurations of non-zero words
+persist at every level, and no multiplication map is surjective.
+\end{rem}
+
+By contrast, the separated quotients collapse these classes at once: on
+$\overline M$-sets the quotient $Q_E$ identifies two elements that agree
+under $1_a$, $u$, $v$, $uv$, $vu$ and $0$, and since $m=2$ here, four
+alternating quotients produce the $I'$-separated quotient, which is already the
+$I'$-sheaf: the set of elements fixed by $0$. The derivation of the unit
+$X\to a_{I'}X$ inside $W_D\vee W_E$ is thus a composite of quotient maps,
+none of which is a plus-construction unit.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{CRediT authorship contribution statement.}\quad Ryota Shibusawa:
+Conceptualization, Methodology, Formal analysis, Investigation, Software,
+Validation, Visualization, Writing -- original draft, Writing -- review \& editing.
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{9}
+\bibitem{ABFJ2} M.~Anel, G.~Biedermann, E.~Finster, A.~Joyal, \emph{Left-exact
+localizations of $\infty$-topoi II: Grothendieck topologies}, J. Pure Appl.
+Algebra \textbf{228} (2024), 107597.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford University Press, 2002.
+\bibitem{KL89} G.~M.~Kelly, F.~W.~Lawvere, \emph{On the complete lattice of
+essential localizations}, Bull. Soc. Math. Belg. S\'er. A \textbf{41} (1989),
+289--319.
+\bibitem{MLM} S.~Mac Lane, I.~Moerdijk, \emph{Sheaves in Geometry and Logic},
+Springer, 1992.
+\bibitem{Marques25} J.~Marqu\`es, \emph{A criterion for categories on which
+every Grothendieck topology is rigid}, Appl. Categ. Structures \textbf{33}
+(2025), art.\ 37.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\bibitem{Integrated} R.~Shibusawa, \emph{Sheaf equivalences, Postnikov
+truncations and preorder reflections in the lattice of two-out-of-three
+classes}, preprint (2026), archived at DOI 10.5281/zenodo.23200684.
+\end{thebibliography}
+
+\end{document}
