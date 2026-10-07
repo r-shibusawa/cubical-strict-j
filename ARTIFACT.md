@@ -9,7 +9,7 @@ This repository is the artifact accompanying the paper
   category form a sublattice of the lattice of two-out-of-three classes* --
   `docs/consolidated/finitejoin.pdf`; the finite join theorem answering the question left
   open in paper 33; checks `scripts/comparison/sep_then_plus.py`, `retraction_check.py`,
-  `nilcycle.py`, `mset_closure.py`, `sep_plus_tower.py`), archived at DOI PENDING
+  `nilcycle.py`, `mset_closure.py`, `sep_plus_tower.py`), archived at DOI [10.5281/zenodo.23204943](https://doi.org/10.5281/zenodo.23204943)
 - Previous: release `v1.30.0` (paper 33, *Sheaf equivalences, Postnikov
   truncations and preorder reflections in the lattice of two-out-of-three classes* --
   `docs/consolidated/samenessjoins.pdf`, the integrated paper superseding papers 27 and
