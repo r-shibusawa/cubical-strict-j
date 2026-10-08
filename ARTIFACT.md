@@ -7,7 +7,7 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.33.1` (paper 36, revised: the finite model property, decidability
   and completeness for complete Heyting algebras and Grothendieck toposes of the lax logic of the
-  join are added as Section 6), archived at DOI PENDING -- cite this one.
+  join are added as Section 6), archived at DOI [10.5281/zenodo.23232356](https://doi.org/10.5281/zenodo.23232356) -- cite this one.
 - Previous: release `v1.33.0` (paper 36, *The join of two nuclei as a lax modality:
   axiomatization, finite sites, and inexpressibility* -- `docs/consolidated/laxjoin.pdf`;
   checks `scripts/comparison/nuclei_join_axiom.py`, `nuclei_filtration2.py`,
