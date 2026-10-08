@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.32.0` (paper 35, *Lattices of subvarieties and of logics as
   sublattices of the lattice of two-out-of-three classes* -- `docs/consolidated/varieties.pdf`;
   checks `scripts/comparison/variety_counterexamples.py`, `variety_join.py`,
-  `lattice_variety_join.py`), archived at DOI PENDING
+  `lattice_variety_join.py`), archived at DOI [10.5281/zenodo.23226702](https://doi.org/10.5281/zenodo.23226702)
 - Previous: release `v1.31.0` (paper 34, *Grothendieck topologies on a finite
   category form a sublattice of the lattice of two-out-of-three classes* --
   `docs/consolidated/finitejoin.pdf`; the finite join theorem answering the question left
