@@ -53,6 +53,11 @@ and prove algebraic completeness. On a finite poset $P$ the nuclei of $\Up(P)$
 are the relativized necessities $\lax_C$ over subsets $C\subseteq P$, the join
 of $\lax_C$ and $\lax_{C'}$ is $\lax_{C\cap C'}$, and the join equals the
 $|P|$-fold iterate of the composite, which gives the finite-site axiom. The
+logic has the finite model property, by a selective filtration of the
+prime-filter model in which each nucleus is represented by its closed prime
+filters and the induction scheme forces the points isolated from above to be
+closed under the join; hence it is decidable and complete for complete Heyting
+algebras and for Grothendieck toposes. The
 join is nevertheless not expressible in the bimodal lax logic: on the chain
 $\omega+2$ with the two nuclei stepping from even to odd and from odd to even
 ordinals, every closed term of the two-nucleus language takes a value in
@@ -101,7 +106,7 @@ the Heyting algebras with nuclei $j_1,j_2,j$ in which $ja$ is the least common
 fixed point of $j_1$ and $j_2$ above $a$, for every $a$; on complete and on
 finite Heyting algebras this says that $j$ is the join of $j_1$ and $j_2$ in
 the lattice of nuclei, so every complete Heyting algebra with two nuclei and
-their join, in particular every topos with two Lawvere--Tierney topologies and
+their join, in particular every Grothendieck topos with two Lawvere--Tierney topologies and
 their join, is such an algebra (Theorem~\ref{thm:complete}).
 \item[(b)] On a finite poset $P$ the nuclei of $\Up(P)$ are the relativized
 necessities $\lax_C\varphi$ $=$ ``$\varphi$ at every point of $C$ above the
@@ -115,6 +120,11 @@ every poset with at most $N$ points.
 $\laxa,\laxb$ such that $\lax\bot\leftrightarrow\chi$ holds in all
 $\LLJ$-algebras, and a fortiori no $\chi(p)$ with
 $\lax p\leftrightarrow\chi(p)$ (Theorem~\ref{thm:inexp}).
+\item[(d)] $\LLJ$ has the finite model property: every non-theorem is refuted
+on a finite poset with two subsets. Hence $\LLJ$ is decidable and complete for
+complete Heyting algebras with two nuclei and their join, in particular for
+Grothendieck toposes with two Lawvere--Tierney topologies and their join
+(Theorem~\ref{thm:fmp}, Corollary~\ref{cor:size}).
 \end{enumerate}
 \end{thm}
 
@@ -145,7 +155,8 @@ idempotent ideal in the intersection, reached by $2m$ alternating products
 \cite{Finitejoin}; part (b) is the poset case of this dictionary.
 
 \subsection*{What is new.}
-The deductive system $\LLJ$, its algebraic completeness, the alternation bound
+The deductive system $\LLJ$, its algebraic completeness, finite model property
+and decidability, the alternation bound
 of Theorem~\ref{thm:poset}(ii) with its sharpness, and the inexpressibility
 Theorem~\ref{thm:inexp}: the join of two geometric modalities is a genuinely
 new connective, uniquely determined by the two but not definable from them,
@@ -269,16 +280,12 @@ iteration of the composite, Lemma~\ref{lem:lfp}).
 \end{proof}
 
 \begin{rem}\label{rem:frames}
-Theorem~\ref{thm:complete} leaves open whether $\LLJ$ is complete for the
-\emph{complete} Heyting algebras with two nuclei, i.e.\ whether every
-$\LLJ$-algebra embeds, as a Heyting algebra with nuclei $j_1,j_2$, into a
-complete one in which the join of the extended nuclei restricts to $j$.
-Nuclei extend to the MacNeille completion (Goldblatt \cite[\S4]{Goldblatt}) and
-to the canonical extension, but the join of the extensions may be larger than
-the extension of the join, since the completion has more common fixed points
-below $ja$ than the original algebra has. The finite model property would
-settle this, as finite algebras are complete (Question~\ref{que:fmp}); the
-poset semantics of the next section is then the intended one.
+Theorem~\ref{thm:complete} is completeness for a variety; completeness for the
+intended complete algebras, where $\lax$ is the join in the lattice of nuclei,
+follows from the finite model property (Theorem~\ref{thm:fmp}), since finite
+algebras are complete. The direct route, embedding an $\LLJ$-algebra into a
+completion so that the join of the extended nuclei restricts to $j$, is not
+needed.
 \end{rem}
 
 \section{Finite posets and finite sites}\label{sec:poset}
@@ -419,8 +426,10 @@ connective, satisfying the same axioms relative to $\laxa,\laxb$. Then
 $\LLJ^{\lax,\lax'}\vdash\lax\varphi\leftrightarrow\lax'\varphi$ for all
 $\varphi$, while no formula $\chi(p)$ of $\PLLt$ satisfies
 $\LLJ\vdash\lax p\leftrightarrow\chi(p)$. Thus the join connective is
-implicitly but not explicitly definable over $\PLLt$: the Beth definability
-property for connectives fails for this extension.
+implicitly but not explicitly definable over $\PLLt$, in the sense in which
+a connective is implicitly defined by a set of axioms when any two connectives
+satisfying them are provably equivalent; the analogue for connectives of the
+Beth definability property thus fails for this extension.
 \end{cor}
 \begin{proof}
 In an algebra of the extended logic both $j$ and $j'$ send $a$ to the least
@@ -440,25 +449,156 @@ chain of Theorem~\ref{thm:inexp} with $r-2$ identity nuclei added shows
 inexpressibility.
 \end{rem}
 
-\begin{que}\label{que:fmp}
-Does $\LLJ$ have the finite model property, i.e.\ is every non-theorem
-refuted on a finite poset with two subsets $C,C'$ (Theorem~\ref{thm:poset})?
-Is $\LLJ$ decidable, and is it complete for complete Heyting algebras
-(Remark~\ref{rem:frames})? For the logic of common knowledge the first two
-hold, by finite canonical models \cite{HM}. A natural attempt is an algebraic
-filtration: the values of the subformulas of a non-theorem generate a finite
-sublattice $D$ of the refuting algebra, closed under $d\mapsto d\to s$ for
-$s$ in the finite set $S$ of values of modal subformulas; on $D$ the closure
-operators whose fixed sets are the meet-closures of $\{d\to s:d\in D,\ s\in S_i\}$
-are nuclei agreeing with $j_i$ on subformula values, and their join agrees with
-$j$ on subformula values. The gap is the finiteness of $D$: for one $s$ the closure of a finite set
-under $\wedge$, $\vee$ and $d\mapsto d\to s$ is finite (it lives in the
-Boolean algebra of elements of the form $x\to s$, as for pseudocomplemented
-lattices), but for two elements $s,s'$ we do not know whether it is, and in
-the free Heyting algebra on $p,s,s'$ the number of pairwise inequivalent terms
-produced in three rounds of closure already exceeds $30{,}000$, so the
-argument does not apply as it stands.
-\end{que}
+\section{The finite model property}\label{sec:fmp}
+
+Let $L$ be a Heyting algebra and $X$ the set of its prime filters, ordered by
+inclusion and with the Priestley topology generated by the sets
+$\hat V=\{x:V\in x\}$ and their complements, $V\in L$; $X$ is an Esakia space,
+$V\mapsto\hat V$ is an isomorphism of $L$ onto the clopen up-sets of $X$, and
+$\widehat{V\to W}=\{x:\forall y\supseteq x\,(V\in y\Rightarrow W\in y)\}$
+\cite[Ch.~11]{DP}.
+
+\begin{lem}\label{lem:max}
+Every nonempty closed subset $F$ of $X$ has a maximal element above each of
+its points.
+\end{lem}
+\begin{proof}
+Let $x\in F$. By Zorn's lemma it suffices that every chain $\mathcal C$ in
+$F\cap\uparrow\!x$ has an upper bound in $F\cap\uparrow\!x$. For $y\in X$
+the set $\uparrow\!y=\bigcap_{V\in y}\hat V$ is closed, and the family
+$\{F\cap\uparrow\!y:y\in\mathcal C\}$ of closed sets has the finite
+intersection property (it is a chain of nonempty sets), so by compactness its
+intersection is nonempty; any of its points is an upper bound.
+\end{proof}
+
+\begin{lem}[nuclei as relativized necessities]\label{lem:rep}
+Let $j$ be a nucleus on $L$ and $S_j=\{z\in X: jV\in z\Rightarrow V\in z\text{ for all }V\in L\}$,
+the \emph{$j$-closed} prime filters. Then for every $V\in L$,
+\[
+\widehat{jV}=\{x\in X:\forall z\supseteq x\,(z\in S_j\Rightarrow V\in z)\}=\lax_{S_j}\hat V .
+\]
+\end{lem}
+\begin{proof}
+If $jV\in x\subseteq z\in S_j$ then $jV\in z$, so $V\in z$. Conversely let
+$jV\notin x$ and let $z\supseteq x$ be a filter maximal with $jV\notin z$. Then
+$z$ is prime, $V\notin z$, and $z$ is $j$-closed: if $jW\in z$ and $W\notin z$,
+the filter generated by $z$ and $W$ contains $jV$, so $w\wedge W\le jV$ for
+some $w\in z$, whence $jw\wedge jW\le jV$ and $jV\in z$, a contradiction.
+\end{proof}
+
+For an $\LLJ$-algebra $(L,j_1,j_2,j)$ write $S_1,S_2,S$ for the sets of
+$j_1$-, $j_2$-, $j$-closed prime filters. Always $S\subseteq S_1\cap S_2$, since
+$j_iV\le jV$; the inclusion can be strict: on the chain $\omega+2$ of
+Theorem~\ref{thm:inexp} the filter $\uparrow\!\omega$ is $j_1$- and
+$j_2$-closed, but $j(0)=\omega\in\uparrow\!\omega$ while $0\notin\uparrow\!\omega$.
+The following lemma, which is where the induction scheme does its work, says
+that a point of $S_1\cap S_2$ which is isolated from above by an element of $L$
+lies in $S$.
+
+\begin{lem}[isolated points are closed]\label{lem:key}
+Let $m\in S_1\cap S_2$ and suppose there is $G\in L$ with $G\notin m$ such that
+$G\in y$ for every prime filter $y\supsetneq m$. Then $m\in S$.
+\end{lem}
+\begin{proof}
+Let $U\notin m$; we show $jU\notin m$. Put $b=U\vee G$; then $b\notin m$ since
+$m$ is prime. We claim $j_ib\to b\in m$ for $i=1,2$ and $U\to b\in m$. The
+last is clear as $U\le b$. For the first, let $y\supseteq m$ with $j_ib\in y$:
+if $y\supsetneq m$ then $G\in y$, so $b\in y$; if $y=m$ then $b\in m$ because
+$m$ is $j_i$-closed. Hence $m\in\widehat{j_ib\to b}$. By (JL$'$),
+$(j_1b\to b)\wedge(j_2b\to b)\wedge(U\to b)\le jU\to b$, so $jU\to b\in m$;
+if $jU\in m$ then $b\in m$, a contradiction.
+\end{proof}
+
+\begin{thm}\label{thm:fmp}
+If $\LLJ\nvdash\varphi$, then $\varphi$ is refuted on a finite poset $W$ with
+two subsets $C_1,C_2$, with $\laxa,\laxb,\lax$ interpreted as
+$\lax_{C_1},\lax_{C_2},\lax_{C_1\cap C_2}$ on $\Up(W)$. Consequently $\LLJ$ is
+decidable, and it is complete for the finite, and for the complete, Heyting
+algebras with two nuclei and their join, and for Grothendieck toposes with two
+Lawvere--Tierney topologies and their join.
+\end{thm}
+\begin{proof}
+Let $\varphi$ be refuted in an $\LLJ$-algebra $L$ under a valuation, and let
+$\mathrm{Cl}$ be the finite set of subformulas of $\varphi$. For a prime filter
+$x$ put $T(x)=\{\gamma\in\mathrm{Cl}:\llbracket\gamma\rrbracket\in x\}$; the set
+$Q(x)=\{y\supseteq x:T(y)=T(x)\}$ is closed, and $T$ is monotone. Call a
+prime filter $m$ \emph{settled} if it is a maximal element of $Q(y)$ for some
+$y$; then every $z\supsetneq m$ has $T(z)\supsetneq T(m)$, so with
+$G_m=\bigvee\{\llbracket\gamma\rrbracket:\gamma\in\mathrm{Cl}\setminus T(m)\}$
+(which is $\bot$ if $T(m)=\mathrm{Cl}$) we have $G_m\notin m$ and $G_m\in z$ for
+all $z\supsetneq m$; by Lemma~\ref{lem:key}, \emph{a settled point of
+$S_1\cap S_2$ lies in $S$}.
+
+Settled points exist above every point by Lemma~\ref{lem:max}, $Q(x)$
+being closed. Choose $x_0$ with $\llbracket\varphi\rrbracket\notin x_0$ and a
+settled $m_0\in Q(x_0)$. We select a finite set $W$ of settled prime filters by
+recursion: having selected $m$, for each formula of $\mathrm{Cl}$ not in
+$T(m)$ we select a witness as follows, each with a strictly larger $T$.
+\begin{itemize}
+\item $\alpha\to\beta\notin T(m)$ with $\alpha\notin T(m)$: there is
+$y\supseteq m$ with $\alpha\in T(y)$, $\beta\notin T(y)$; select a settled
+$m'\in Q(y)$. (If $\alpha\in T(m)$ then $\beta\notin T(m)$ and $m$ itself is
+the witness.)
+\item $\lax_i\beta\notin T(m)$ with $m\notin S_i$ ($i=1,2$): by
+Lemma~\ref{lem:rep} there is $y\supseteq m$ in $S_i$ with $\beta\notin T(y)$;
+if $T(y)=T(m)$ then $y\in Q(m)$, so $y=m$ by maximality, contradicting
+$m\notin S_i$; hence $T(y)\supsetneq T(m)$. Let $m'$ be a settled point of $Q(y)$;
+if $m'\notin S_i$, repeat from $m'$ (still $\lax_i\beta\notin T(m')$, since
+$y\in S_i$ and $\beta\notin T(y)=T(m')$). As $T$ strictly increases, this stops
+at a settled point $m''\in S_i$ with $T(m'')\supsetneq T(m)$ and
+$\beta\notin T(m'')$; select $m''$ (the intermediate points are not
+selected). (If $m\in S_i$, $m$ is its own witness, as $\beta\notin T(m)$.)
+\item $\lax\alpha\notin T(m)$ with $m\notin S$: the same with $S$ in place of
+$S_i$, using Lemma~\ref{lem:rep} for $j$.
+\end{itemize}
+Each selected point has at most $|\mathrm{Cl}|$ selected witnesses, each
+with a strictly larger $T$, so the recursion has depth at most $|\mathrm{Cl}|$
+and $W$ is finite. Order $W$ by inclusion and put
+$C_i=W\cap S_i$; then $W\cap S\subseteq C_1\cap C_2$, and $C_1\cap C_2\subseteq S$
+because selected points are settled. Interpret the variables by
+$V(p)=\{m\in W:p\in T(m)\}$. We claim that for all $\gamma\in\mathrm{Cl}$ and
+$m\in W$: $m\Vdash\gamma$ iff $\gamma\in T(m)$. Variables, $\wedge$ and $\vee$
+are clear, $T(m)$ coming from a prime filter. For $\alpha\to\beta$: if
+$\alpha\to\beta\in T(m)$ and $n\supseteq m$ in $W$ with $n\Vdash\alpha$, then
+$\alpha,\alpha\to\beta\in T(n)$, so $\beta\in T(n)$; the converse is the
+selected witness. For $\lax_i\beta$: if $\lax_i\beta\in T(m)$ and
+$n\in C_i$, $n\supseteq m$, then $\lax_i\beta\in T(n)$ and $n$ is $j_i$-closed,
+so $\beta\in T(n)$; the converse is the selected witness, which lies in $C_i$.
+For $\lax\alpha$: if $\lax\alpha\in T(m)$ and $n\in C_1\cap C_2$,
+$n\supseteq m$, then $n\in S$, so $\alpha\in T(n)$; the converse is the
+selected witness, which lies in $W\cap S\subseteq C_1\cap C_2$. By
+Theorem~\ref{thm:poset}, $(\Up(W),\lax_{C_1},\lax_{C_2},\lax_{C_1\cap C_2})$
+is a finite $\LLJ$-algebra, and it refutes $\varphi$ at $m_0$.
+
+Decidability follows since $\LLJ$ is finitely axiomatized and validity on a
+finite poset with two subsets is decidable; the completeness statements follow
+because finite Heyting algebras are complete and are the algebras of
+subterminal objects of presheaf toposes on finite posets, on which
+$\lax_C$ is the Grothendieck topology generated by $C$.
+\end{proof}
+
+\begin{cor}\label{cor:size}
+If $\LLJ\nvdash\varphi$ and $n$ is the number of subformulas of $\varphi$,
+then $\varphi$ is refuted on a poset with at most $1+n+n^2+\dots+n^n$ points
+and two subsets. Hence $\LLJ\vdash\varphi$ can be decided by checking $\varphi$
+on all posets of that size with all pairs of subsets and all valuations.
+\end{cor}
+\begin{proof}
+In the proof of Theorem~\ref{thm:fmp} each selected point has at most $n$
+selected witnesses and the depth of the recursion is at most $n$, as $T$
+increases strictly within the $n$-element set $\mathrm{Cl}$.
+\end{proof}
+
+\begin{rem}
+The induction scheme enters only through Lemma~\ref{lem:key}, and there only
+for the elements $b=U\vee G_m$ with $G_m$ definable from $\mathrm{Cl}$. This
+is the lax counterpart of the finite canonical model construction for common
+knowledge \cite{HM}, where the induction axiom is applied to the
+characteristic formula of a finite set of worlds; here the characteristic
+formula is replaced by the element $G_m$ which isolates a settled point from
+above.
+\end{rem}
+
 
 \begin{figure}[ht]
 \[
@@ -491,6 +631,8 @@ Dragalin frames}, in: Advances in Modal Logic 11, College Publications, 2016,
 177--196.
 \bibitem{BP} W.~J.~Blok, D.~Pigozzi, \emph{Algebraizable logics}, Mem. Amer.
 Math. Soc. \textbf{396} (1989).
+\bibitem{DP} B.~A.~Davey, H.~A.~Priestley, \emph{Introduction to Lattices and
+Order}, 2nd ed., Cambridge University Press, 2002.
 \bibitem{Escardo} M.~H.~Escard\'o, \emph{Joins in the frame of nuclei}, Appl.
 Categ. Structures \textbf{11} (2003), 117--124.
 \bibitem{FM} M.~Fairtlough, M.~Mendler, \emph{Propositional lax logic}, Inform.
