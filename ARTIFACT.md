@@ -5,7 +5,11 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.32.0` (paper 35, *Lattices of subvarieties and of logics as
+- Current snapshot: release `v1.33.0` (paper 36, *The join of two nuclei as a lax modality:
+  axiomatization, finite sites, and inexpressibility* -- `docs/consolidated/laxjoin.pdf`;
+  checks `scripts/comparison/nuclei_join_axiom.py`, `nuclei_filtration2.py`,
+  `relimp_closure.py`), archived at DOI PENDING
+- Previous: release `v1.32.0` (paper 35, *Lattices of subvarieties and of logics as
   sublattices of the lattice of two-out-of-three classes* -- `docs/consolidated/varieties.pdf`;
   checks `scripts/comparison/variety_counterexamples.py`, `variety_join.py`,
   `lattice_variety_join.py`), archived at DOI [10.5281/zenodo.23226702](https://doi.org/10.5281/zenodo.23226702)

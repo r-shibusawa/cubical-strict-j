@@ -1,0 +1,521 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,stmaryrd}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Fix}{\mathrm{Fix}}
+\newcommand{\Up}{\mathrm{Up}}
+\newcommand{\Down}{\mathrm{Down}}
+\newcommand{\Nuc}{\mathrm{N}}
+\newcommand{\LLJ}{\mathbf{LJ}}
+\newcommand{\PLL}{\mathbf{PLL}}
+\newcommand{\PLLt}{\mathbf{PLL}_2}
+\newcommand{\lax}{\bigcirc}
+\newcommand{\laxa}{\bigcirc_1}
+\newcommand{\laxb}{\bigcirc_2}
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Presh}{\mathrm{Presh}}
+
+\begin{document}
+
+\title[The lax logic of the join of two nuclei]{The join of two nuclei as a lax modality: axiomatization, finite sites, and inexpressibility}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{lax logic, nucleus, Lawvere--Tierney topology, Grothendieck topology,
+  join of nuclei, intuitionistic modal logic, common knowledge, finite poset}
+\subjclass[2020]{03B45 (primary), 03B20, 06D20, 18F10, 18B25 (secondary)}
+
+\begin{abstract}
+Propositional lax logic is the intuitionistic modal logic of a nucleus on a
+Heyting algebra, equivalently of a Lawvere--Tierney topology on a topos. Two
+nuclei have a join in the lattice of nuclei, whose fixed points are the common
+fixed points; on a finite algebra it is a finite iterate of the composite, on a
+site it is the join of the two Grothendieck topologies. We axiomatize the
+trimodal logic of two lax modalities together with their join by adding to the
+lax axioms the inclusions $\laxa\varphi\to\lax\varphi$, $\laxb\varphi\to\lax\varphi$
+and one induction scheme,
+$(\laxa\psi\to\psi)\to(\laxb\psi\to\psi)\to(\varphi\to\psi)\to(\lax\varphi\to\psi)$,
+and prove algebraic completeness. On a finite poset $P$ the nuclei of $\Up(P)$
+are the relativized necessities $\lax_C$ over subsets $C\subseteq P$, the join
+of $\lax_C$ and $\lax_{C'}$ is $\lax_{C\cap C'}$, and the join equals the
+$|P|$-fold iterate of the composite, which gives the finite-site axiom. The
+join is nevertheless not expressible in the bimodal lax logic: on the chain
+$\omega+2$ with the two nuclei stepping from even to odd and from odd to even
+ordinals, every closed term of the two-nucleus language takes a value in
+$\mathbb N\cup\{\omega+1\}$, while the join of the two nuclei sends $\bot$ to
+$\omega$. The induction scheme is the lax analogue of the induction axiom of
+common knowledge, with the join playing the role of the common-knowledge
+operator and the iterates that of ``everybody knows'' to depth $n$.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A \emph{nucleus} on a Heyting algebra $H$ is a map $j\colon H\to H$ with
+$a\le ja$, $jja=ja$ and $j(a\wedge b)=ja\wedge jb$. Nuclei are the
+Lawvere--Tierney topologies of topos theory restricted to the algebra of
+subobjects of $1$, the ``geometric modalities'' of Goldblatt \cite{Goldblatt},
+and the algebraic semantics of the propositional lax logic $\PLL$ of
+Fairtlough and Mendler \cite{FM}: intuitionistic propositional logic with a
+modality $\lax$ satisfying $\varphi\to\lax\varphi$,
+$\lax\lax\varphi\to\lax\varphi$ and
+$\lax\varphi\wedge\lax\psi\to\lax(\varphi\wedge\psi)$.
+
+The nuclei of a complete Heyting algebra form a complete lattice under the
+pointwise order; meets are pointwise, and the join $j_1\vee j_2$ is the nucleus
+whose fixed points are the common fixed points of $j_1$ and $j_2$
+\cite[II.2]{Johnstone}. The join is harder to compute: Macnab \cite{Macnab}
+obtains it as a transfinite iterate of the composite $j_1j_2$, and on a finite
+algebra it is a finite iterate. For Grothendieck topologies on a site the join
+of nuclei is the join of topologies, so a statement about $j_1\vee j_2$ is a
+statement about ``locally for $J\vee J'$''.
+
+This paper treats the join as a modality. Let $\PLLt$ be the bimodal lax logic
+with two lax modalities $\laxa,\laxb$, and let $\LLJ$ (Definition~\ref{def:LJ})
+be the trimodal logic obtained by adding a third lax modality $\lax$ with the
+axioms $\laxa\varphi\to\lax\varphi$, $\laxb\varphi\to\lax\varphi$ and the
+\emph{induction scheme}
+\[
+\mathrm{(JL)}\qquad(\laxa\psi\to\psi)\to(\laxb\psi\to\psi)\to(\varphi\to\psi)\to(\lax\varphi\to\psi).
+\]
+
+\begin{thm}\label{thm:main}
+\begin{enumerate}
+\item[(a)] $\LLJ$ is algebraizable, its equivalent algebraic semantics being
+the Heyting algebras with nuclei $j_1,j_2,j$ in which $ja$ is the least common
+fixed point of $j_1$ and $j_2$ above $a$, for every $a$; on complete and on
+finite Heyting algebras this says that $j$ is the join of $j_1$ and $j_2$ in
+the lattice of nuclei, so every complete Heyting algebra with two nuclei and
+their join, in particular every topos with two Lawvere--Tierney topologies and
+their join, is such an algebra (Theorem~\ref{thm:complete}).
+\item[(b)] On a finite poset $P$ the nuclei of $\Up(P)$ are the relativized
+necessities $\lax_C\varphi$ $=$ ``$\varphi$ at every point of $C$ above the
+current one'', $C\subseteq P$; the join of $\lax_C$ and $\lax_{C'}$ is
+$\lax_{C\cap C'}$ and equals $(\lax_C\lax_{C'})^{|P|}$ (Theorem~\ref{thm:poset}).
+Hence $\LLJ$ together with the scheme
+$(\laxa\laxb)^{N+1}\varphi\to(\laxa\laxb)^N\varphi$ proves
+$\lax\varphi\leftrightarrow(\laxa\laxb)^N\varphi$, and the scheme holds on
+every poset with at most $N$ points.
+\item[(c)] The join is not expressible in $\PLLt$: there is no formula $\chi$ in
+$\laxa,\laxb$ such that $\lax\bot\leftrightarrow\chi$ holds in all
+$\LLJ$-algebras, and a fortiori no $\chi(p)$ with
+$\lax p\leftrightarrow\chi(p)$ (Theorem~\ref{thm:inexp}).
+\end{enumerate}
+\end{thm}
+
+The induction scheme is the intuitionistic, inflationary counterpart of the
+induction axiom of the logic of common knowledge \cite{HM}: common knowledge
+$C\varphi$ is the greatest fixed point of $X\mapsto E(\varphi\wedge X)$, where
+$E$ is ``everybody knows'', and is not a finite iterate $E^n\varphi$; the join
+$\lax\varphi$ is the least fixed point of $X\mapsto\varphi\vee\laxa X\vee\laxb X$
+(Lemma~\ref{lem:lfp}) and is not a finite iterate $(\laxa\laxb)^n\varphi$.
+
+\subsection*{What is known.}
+Lax logic and its algebraic, Kripke and cover semantics are in \cite{FM,
+Goldblatt,GoldblattCover}. That the join of nuclei on a frame has as fixed
+points the common fixed points is classical \cite[II.2]{Johnstone}; Macnab
+\cite{Macnab} computes the join by transfinite iteration of the composite, and
+Escard\'o \cite{Escardo} computes joins of arbitrary families of nuclei as
+least fixed points of inflationary operators on prenuclei and deduces, from
+Pataraia's fixed-point theorem, an induction principle for joins of nuclei.
+The scheme (JL) is a formula-level internalization, inside the Heyting
+algebra, of the common-fixed-point description of the join; what is added here
+is the deductive system built on it and the study of its expressive power. Nuclei of the form
+$\lax_C$ on the up-sets of a finite poset are the finite case of the
+representation of nuclear Heyting algebras and nuclear implicative semilattices
+by posets with a distinguished subset \cite{BH,BBCGGJ}. For a finite category the Grothendieck
+topologies correspond to idempotent two-sided ideals (Kelly--Lawvere
+\cite{KL89}, Marqu\`es \cite{Marques25}), and the join topology to the largest
+idempotent ideal in the intersection, reached by $2m$ alternating products
+\cite{Finitejoin}; part (b) is the poset case of this dictionary.
+
+\subsection*{What is new.}
+The deductive system $\LLJ$, its algebraic completeness, the alternation bound
+of Theorem~\ref{thm:poset}(ii) with its sharpness, and the inexpressibility
+Theorem~\ref{thm:inexp}: the join of two geometric modalities is a genuinely
+new connective, uniquely determined by the two but not definable from them,
+in the same way as common knowledge is new relative to the individual knowledge
+operators (Corollary~\ref{cor:beth}).
+
+\section{Nuclei and their joins}\label{sec:nuclei}
+
+Let $H$ be a Heyting algebra and $\Nuc(H)$ the set of its nuclei, ordered
+pointwise. For $j\in\Nuc(H)$ write $\Fix(j)=\{a:ja=a\}$; it is closed under
+meets and under $b\to(-)$ for every $b\in H$, i.e.\ $b\to a\in\Fix(j)$ whenever
+$a\in\Fix(j)$, since $j(b\to a)\le jb\to ja=jb\to a\le b\to a$. Conversely a
+subset $S\subseteq H$ closed under finite meets and under $b\to(-)$ is the
+fixed set of at most one nucleus, $j_S(a)=\bigwedge\{s\in S:a\le s\}$ when this
+meet exists for all $a$ (always if $H$ is complete or finite).
+
+\begin{lem}\label{lem:join}
+Let $j_1,j_2\in\Nuc(H)$. If the meet
+$ja:=\bigwedge\{s\in\Fix(j_1)\cap\Fix(j_2):a\le s\}$ exists for every $a\in H$,
+then $j$ is a nucleus, $\Fix(j)=\Fix(j_1)\cap\Fix(j_2)$, and $j$ is the least
+nucleus above $j_1$ and $j_2$ in $\Nuc(H)$. If $H$ is complete the meet always
+exists, and $j=j_1\vee j_2$ in the complete lattice $\Nuc(H)$.
+\end{lem}
+\begin{proof}
+$S=\Fix(j_1)\cap\Fix(j_2)$ is closed under meets and under $b\to(-)$, so $j=j_S$
+is a nucleus with fixed set $S$ (the standard argument: $j$ is inflationary,
+monotone and idempotent; $j(a\wedge b)\ge ja\wedge jb$ because
+$a\to j(a\wedge b)\in S$ contains $b$, hence $jb$, so $a\wedge jb\le j(a\wedge b)$,
+then $jb\to j(a\wedge b)\in S$ contains $a$, hence $ja$). Any nucleus $k\ge j_1,j_2$
+has $\Fix(k)\subseteq S$, so $ja\le ka$; and $j\ge j_i$ since $\Fix(j)\subseteq\Fix(j_i)$.
+For complete $H$ see \cite[II.2.3]{Johnstone}.
+\end{proof}
+
+\begin{lem}\label{lem:lfp}
+In a complete Heyting algebra, $(j_1\vee j_2)(a)$ is the least fixed point of
+$X\mapsto a\vee j_1X\vee j_2X$, and it is $\bigvee_\alpha(j_1j_2)^\alpha(a)$ over
+the transfinite iterates (Macnab \cite{Macnab}); on a finite algebra it is
+$(j_1j_2)^n(a)$ for some $n$.
+\end{lem}
+\begin{proof}
+A fixed point $X$ of the operator is above $a$ and fixed by $j_1$ and $j_2$,
+so $X\ge(j_1\vee j_2)(a)$; and $(j_1\vee j_2)(a)$ is a fixed point. The iterates
+$(j_1j_2)^\alpha(a)$ form an increasing chain of elements below
+$(j_1\vee j_2)(a)$ which stabilizes at a common fixed point.
+\end{proof}
+
+\section{The logic $\LLJ$}\label{sec:logic}
+
+Formulas are built from propositional variables with $\wedge,\vee,\to,\bot,\top$
+and three unary connectives $\laxa,\laxb,\lax$. For a unary connective $\square$
+the \emph{lax axioms} are
+\[
+\varphi\to\square\varphi,\qquad\square\square\varphi\to\square\varphi,\qquad
+\square\varphi\wedge\square\psi\to\square(\varphi\wedge\psi),
+\]
+with the rule: from $\varphi\to\psi$ infer $\square\varphi\to\square\psi$.
+$\PLL$ is intuitionistic propositional logic with one lax connective
+\cite{FM}, $\PLLt$ has two, $\laxa$ and $\laxb$.
+
+\begin{defi}\label{def:LJ}
+$\LLJ$ is intuitionistic propositional logic with the lax axioms and rules for
+$\laxa$, $\laxb$ and $\lax$, the axioms $\laxa\varphi\to\lax\varphi$ and
+$\laxb\varphi\to\lax\varphi$, and the induction scheme (JL).
+\end{defi}
+
+An \emph{$\LLJ$-algebra} is a Heyting algebra $H$ with nuclei $j_1,j_2,j$ such
+that $j\ge j_1$, $j\ge j_2$ and, for all $a,b\in H$,
+\[
+(j_1b\to b)\wedge(j_2b\to b)\wedge(a\to b)\le ja\to b.\tag{JL$'$}
+\]
+Since (JL$'$) is an identity, $\LLJ$-algebras form a variety. $\LLJ$ is
+algebraizable in the sense of Blok and Pigozzi \cite{BP} with this variety as
+equivalent algebraic semantics, with defining equation $\varphi\approx\top$
+and equivalence formulas $\{\varphi\to\psi,\ \psi\to\varphi\}$: this is the
+algebraizing pair of intuitionistic propositional logic, and it remains one for
+an axiomatic extension by unary connectives $\square$ that are
+\emph{congruential}, i.e.\ for which $\varphi\leftrightarrow\psi$ yields
+$\square\varphi\leftrightarrow\square\psi$; the monotonicity rule gives this
+for $\laxa,\laxb,\lax$. The axioms translate into the identities defining
+$\LLJ$-algebras, (JL) into (JL$'$).
+
+\begin{prop}\label{prop:least}
+In an $\LLJ$-algebra, $ja$ is the least element of $\Fix(j_1)\cap\Fix(j_2)$
+above $a$; hence $j$ is the least nucleus above $j_1$ and $j_2$, and
+$\Fix(j)=\Fix(j_1)\cap\Fix(j_2)$. Conversely, if $H$ is a Heyting algebra with
+nuclei $j_1,j_2$ for which the meets of Lemma~\ref{lem:join} exist (in
+particular if $H$ is complete), then $(H,j_1,j_2,j_1\vee j_2)$ is an
+$\LLJ$-algebra.
+\end{prop}
+\begin{proof}
+Let $b\ge a$ be fixed by $j_1$ and $j_2$. The left side of (JL$'$) is $\top$, so
+$ja\le b$. As $j\ge j_1,j_2$, $\Fix(j)\subseteq\Fix(j_1)\cap\Fix(j_2)$, and
+$ja$ is fixed by $j_1,j_2$; so $ja$ is the least common fixed point above $a$
+and the rest follows as in Lemma~\ref{lem:join}. For the converse, let
+$j=j_1\vee j_2$ and $c\le(j_1b\to b)\wedge(j_2b\to b)\wedge(a\to b)$. Then
+$c\wedge j_ib\le b$, so $j_ib\le c\to b$ and
+$j_i(c\to b)\le j_ic\to j_ib\le c\to j_ib\le c\to(c\to b)=c\to b$: the element
+$c\to b$ is fixed by $j_1$ and $j_2$, and it is above $a$ because $c\le a\to b$.
+Hence $ja\le c\to b$, i.e.\ $c\le ja\to b$.
+\end{proof}
+
+\begin{thm}\label{thm:complete}
+$\LLJ\vdash\varphi$ if and only if $\varphi$ is valid in every $\LLJ$-algebra.
+Every complete Heyting algebra with two nuclei $j_1,j_2$, with $\lax$
+interpreted as $j_1\vee j_2$, is an $\LLJ$-algebra; in particular every
+Grothendieck topos equipped with two Lawvere--Tierney topologies and their join
+validates $\LLJ$ on its subterminal objects, where the topologies act as nuclei
+and the join of topologies as the join of nuclei.
+\end{thm}
+\begin{proof}
+Soundness for $\LLJ$-algebras is Proposition~\ref{prop:least} together with
+the lax axioms, and completeness is the Lindenbaum--Tarski algebra, which is an
+$\LLJ$-algebra because the axioms are identities in it. Complete Heyting
+algebras with two nuclei are $\LLJ$-algebras by Proposition~\ref{prop:least}.
+For the topos statement, the subterminal objects of a Grothendieck topos form a
+complete Heyting algebra, a Lawvere--Tierney topology restricts to a nucleus on
+it, and the join of two topologies restricts to the join of the two nuclei,
+since the restriction $\Omega\to\mathrm{Sub}(1)$ preserves the lattice
+structure of local operators (both are computed by the same transfinite
+iteration of the composite, Lemma~\ref{lem:lfp}).
+\end{proof}
+
+\begin{rem}\label{rem:frames}
+Theorem~\ref{thm:complete} leaves open whether $\LLJ$ is complete for the
+\emph{complete} Heyting algebras with two nuclei, i.e.\ whether every
+$\LLJ$-algebra embeds, as a Heyting algebra with nuclei $j_1,j_2$, into a
+complete one in which the join of the extended nuclei restricts to $j$.
+Nuclei extend to the MacNeille completion (Goldblatt \cite[\S4]{Goldblatt}) and
+to the canonical extension, but the join of the extensions may be larger than
+the extension of the join, since the completion has more common fixed points
+below $ja$ than the original algebra has. The finite model property would
+settle this, as finite algebras are complete (Question~\ref{que:fmp}); the
+poset semantics of the next section is then the intended one.
+\end{rem}
+
+\section{Finite posets and finite sites}\label{sec:poset}
+
+Let $P$ be a finite poset and $H=\Up(P)$ its Heyting algebra of up-sets. For
+$C\subseteq P$ put
+\[
+\lax_C U=\{x\in P:\ \uparrow\!x\cap C\subseteq U\},
+\]
+``$U$ holds at every point of $C$ above $x$''.
+
+\begin{thm}\label{thm:poset}
+\begin{enumerate}
+\item[(i)] $\lax_C$ is a nucleus on $\Up(P)$, $C\mapsto\lax_C$ is an
+order-reversing bijection from the subsets of $P$ onto $\Nuc(\Up(P))$, and
+$\lax_C\wedge\lax_{C'}=\lax_{C\cup C'}$, $\lax_C\vee\lax_{C'}=\lax_{C\cap C'}$.
+\item[(ii)] $\lax_C\vee\lax_{C'}=(\lax_C\lax_{C'})^N$ for every $N$ with $2N>|P|$,
+in particular for $N=|P|$; and for every $N$ there is a poset with $2N$ points
+on which $N-1$ iterations do not suffice.
+\item[(iii)] For $2N>|P|$ the scheme $(\laxa\laxb)^{N+1}\varphi\to(\laxa\laxb)^N\varphi$
+is valid on $(\Up(P),\lax_C,\lax_{C'})$, and $\LLJ$ plus this scheme proves
+$\lax\varphi\leftrightarrow(\laxa\laxb)^N\varphi$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(i) $\lax_C$ preserves intersections and is inflationary and idempotent
+(if $x\in\lax_C\lax_CU$ and $c\in C$ is above $x$, then $c\in\lax_CU$ and $c\in C$
+above $c$ gives $c\in U$). For the bijection we use the dictionary of
+\cite[\S2]{Finitejoin}: the nuclei on $\Up(P)$ are the Lawvere--Tierney
+topologies of the presheaf topos on $P$, which correspond to Grothendieck
+topologies on $P$, hence (Kelly--Lawvere, Marqu\`es, \cite[Thm.~5.1]{Postnikov})
+to idempotent two-sided ideals of the category $P$, and for a finite poset an
+idempotent ideal is generated by the identities it contains, i.e.\ by a subset
+$C\subseteq P$: the ideal $D_C=\{(x,y):x\le c\le y\text{ for some }c\in C\}$.
+The nucleus of $D_C$ on sieves (down-sets) is $S\mapsto\{y:D_C(-,y)\subseteq S\}
+=\{y:\downarrow\!y\cap C\subseteq S\}$, which is $\lax_C$ after passing from
+down-sets to up-sets. Meets of nuclei are pointwise, and
+$\lax_CU\cap\lax_{C'}U=\lax_{C\cup C'}U$. Joins: $\Fix(\lax_C)=\{U:\forall x\,
+(\uparrow\!x\cap C\subseteq U\Rightarrow x\in U)\}$, and
+$\Fix(\lax_C)\cap\Fix(\lax_{C'})=\Fix(\lax_{C\cap C'})$: the inclusion
+$\supseteq$ holds because $\uparrow\!x\cap C\subseteq U$ implies
+$\uparrow\!x\cap(C\cap C')\subseteq U$; for $\subseteq$, let $U$ be fixed by both
+and $x\notin U$ with $\uparrow\!x\cap C\cap C'\subseteq U$; choose $x$ maximal
+with these properties; as $U$ is $\lax_C$-fixed there is $c\in C$ above $x$
+with $c\notin U$, and $c\notin C'$ (else $c\in U$); as $c\notin U$ is
+$\lax_{C'}$-fixed-violating, there is $c'\in C'$ above $c$ with $c'\notin U$,
+$c'\notin C$; then $c'>x$ has the same properties, contradicting maximality
+(note $\uparrow\!c'\cap C\cap C'\subseteq\uparrow\!x\cap C\cap C'\subseteq U$).
+By Lemma~\ref{lem:join} the join is $\lax_{C\cap C'}$.
+
+(ii) By induction, $x\in(\lax_C\lax_{C'})^nU$ iff every alternating chain
+$x\le c_1\le c_1'\le c_2\le\dots\le c_n'$ with $c_i\in C$, $c_i'\in C'$ ends in
+$U$. If $x\notin\lax_{C\cap C'}U$, there is $z\in C\cap C'$ above $x$ with
+$z\notin U$, and the constant chain $c_i=c_i'=z$ shows $x\notin(\lax_C\lax_{C'})^nU$
+for all $n$. Conversely let $x\in\lax_{C\cap C'}U$ and $2N>|P|$, and let
+$x\le c_1\le c_1'\le\dots\le c_N'$ be an alternating chain. Its $2N>|P|$
+entries cannot all be distinct, and since the chain is monotone two adjacent
+entries coincide: $c_i=c_i'$ or $c_i'=c_{i+1}$, a point of $C\cap C'$ above
+$x$, hence in $U$; the chain stays above it and ends in $U$. For the second
+claim take $P$ the chain $1<2<\dots<2N$, $C$ the odd points together with
+$2N$, $C'$ the even points, and $U=\{2N\}$: then $C\cap C'=\{2N\}$ and
+$1\in\lax_{C\cap C'}U$, while the chain $1\le1\le2\le3\le4\le\dots\le2N-2$
+of $2(N-1)$ entries ends outside $U$, so $1\notin(\lax_C\lax_{C'})^{N-1}U$.
+
+(iii) The first claim is (ii). In $\LLJ$ plus the scheme, $\theta:=(\laxa\laxb)^N\varphi$
+satisfies $\varphi\to\theta$, $\laxa\theta\to\theta$ (as $\laxa\theta=\laxa(\laxa\laxb)^N\varphi$
+is provably equivalent to $(\laxa\laxb)^N\varphi$ by idempotence of $\laxa$) and
+$\laxb\theta\to\theta$ (as $\laxb(\laxa\laxb)^N\varphi\to\laxa\laxb(\laxa\laxb)^N\varphi=(\laxa\laxb)^{N+1}\varphi\to\theta$
+by the scheme), so (JL) gives $\lax\varphi\to\theta$; and $\theta\to\lax\varphi$
+since $\laxa,\laxb\le\lax$ and $\lax$ is idempotent.
+\end{proof}
+
+\begin{rem}
+For a finite category $S$ in place of a poset, the nuclei on the subterminal
+objects of $\Presh(S)$ are again the Grothendieck topologies, i.e.\ the
+idempotent ideals $D$, with $\lax_D$ given by $D(-,c)\subseteq S$; the join
+of $\lax_D$ and $\lax_E$ is $\lax_{I'}$ for the largest idempotent ideal
+$I'\subseteq D\cap E$, and it is reached by $2m$ alternating composites, where
+$m$ is the length of the chain $DE\supseteq DEDE\supseteq\cdots$
+\cite[\S2]{Finitejoin}. The sameness-lattice theorem of \cite{Finitejoin},
+$W_D\vee W_E=W_{I'}$, is the statement that the maps of presheaves
+$f$ with $\lax_{I'}\llbracket f\text{ is an isomorphism}\rrbracket=\top$ are
+exactly the two-out-of-three combinations of maps $g$ with
+$\lax_D\llbracket g\text{ is an isomorphism}\rrbracket=\top$ or
+$\lax_E\llbracket g\text{ is an isomorphism}\rrbracket=\top$; it is a
+statement about maps and does not reduce to the propositional logic $\LLJ$.
+\end{rem}
+
+\section{Inexpressibility}\label{sec:inexp}
+
+\begin{thm}\label{thm:inexp}
+There is no formula $\chi$ of $\PLLt$ (in the connectives $\wedge,\vee,\to,
+\bot,\top,\laxa,\laxb$ and propositional variables) such that
+$\lax\bot\leftrightarrow\chi$ is valid in all $\LLJ$-algebras, nor in all
+complete chains with two nuclei. Consequently no $\chi(p)$ defines $\lax p$,
+and for every $n$ the formula $\lax\bot\leftrightarrow(\laxa\laxb)^n\bot$ fails
+in some complete chain.
+\end{thm}
+\begin{proof}
+Let $H$ be the chain $\omega+2=\{0<1<2<\dots<\omega<\omega+1\}$, a complete
+Heyting algebra with $a\to b=\top$ if $a\le b$ and $a\to b=b$ otherwise. On a
+chain every inflationary idempotent monotone map is a nucleus. Let
+\[
+j_1(2k)=2k+1,\quad j_1(2k+1)=2k+1,\qquad j_2(2k+1)=2k+2,\quad j_2(2k)=2k,
+\]
+and $j_1(\omega)=j_2(\omega)=\omega$, $j_1(\omega+1)=j_2(\omega+1)=\omega+1$.
+Then $\Fix(j_1)=\{\text{odd}\}\cup\{\omega,\omega+1\}$,
+$\Fix(j_2)=\{\text{even}\}\cup\{\omega,\omega+1\}$, so by Lemma~\ref{lem:join}
+$(j_1\vee j_2)(a)=\omega$ for all $a\le\omega$, in particular
+$(j_1\vee j_2)(\bot)=\omega$. The set $A=\mathbb N\cup\{\omega+1\}$ contains
+$\bot=0$ and $\top=\omega+1$, is closed under $j_1,j_2$, under $\wedge,\vee$,
+and under $\to$ (as $a\to b\in\{\top,b\}$). If $\chi$ had the stated property,
+then, whatever values in $H$ are assigned to its variables --- assign $\bot$ to
+all of them --- the value of $\chi$ would be $\omega$; but the value of a
+formula all of whose variables take values in $A$ lies in $A$, and
+$\omega\notin A$. The second statement follows by substituting $\bot$ for $p$;
+the third because $(j_1j_2)^n(0)=2n\ne\omega$.
+\end{proof}
+
+\begin{rem}
+The join is implicitly definable: in any Heyting algebra with nuclei $j_1,j_2$
+there is at most one nucleus $j$ satisfying the $\LLJ$-axioms
+(Proposition~\ref{prop:least}). Theorem~\ref{thm:inexp} is thus a failure of
+explicit definability for a connective, of the same kind as the
+inexpressibility of common knowledge by finite iterations of ``everybody
+knows'' \cite{HM}: there $C\varphi=\bigwedge_nE^n\varphi$ is a greatest fixed
+point of a deflationary operator and the induction axiom
+$C(\varphi\to E\varphi)\to(\varphi\to C\varphi)$ expresses it; here
+$\lax\varphi=\bigvee_n(\laxa\laxb)^n\varphi$ (on complete algebras, with
+transfinite iteration in general) is a least fixed point of an inflationary
+operator and (JL) expresses it. In the chain of Theorem~\ref{thm:inexp} the
+join needs exactly $\omega$ iterations.
+\end{rem}
+
+\begin{cor}[uniqueness without definability]\label{cor:beth}
+Let $\LLJ^{\lax,\lax'}$ be $\LLJ$ with a second copy $\lax'$ of the join
+connective, satisfying the same axioms relative to $\laxa,\laxb$. Then
+$\LLJ^{\lax,\lax'}\vdash\lax\varphi\leftrightarrow\lax'\varphi$ for all
+$\varphi$, while no formula $\chi(p)$ of $\PLLt$ satisfies
+$\LLJ\vdash\lax p\leftrightarrow\chi(p)$. Thus the join connective is
+implicitly but not explicitly definable over $\PLLt$: the Beth definability
+property for connectives fails for this extension.
+\end{cor}
+\begin{proof}
+In an algebra of the extended logic both $j$ and $j'$ send $a$ to the least
+common fixed point of $j_1,j_2$ above $a$ (Proposition~\ref{prop:least}), so
+$j=j'$ and the equivalence is valid, hence provable by algebraic completeness.
+The second claim is Theorem~\ref{thm:inexp}.
+\end{proof}
+
+\begin{rem}
+Everything extends to $r$ lax modalities $\lax_1,\dots,\lax_r$ and their
+join $\lax$: the axioms are $\lax_i\varphi\to\lax\varphi$ and
+$(\lax_1\psi\to\psi)\to\dots\to(\lax_r\psi\to\psi)\to(\varphi\to\psi)\to(\lax\varphi\to\psi)$,
+the algebras are those in which $\lax a$ is the least common fixed point of
+$\lax_1,\dots,\lax_r$ above $a$, on a finite poset the join of
+$\lax_{C_1},\dots,\lax_{C_r}$ is $\lax_{C_1\cap\dots\cap C_r}$, and the
+chain of Theorem~\ref{thm:inexp} with $r-2$ identity nuclei added shows
+inexpressibility.
+\end{rem}
+
+\begin{que}\label{que:fmp}
+Does $\LLJ$ have the finite model property, i.e.\ is every non-theorem
+refuted on a finite poset with two subsets $C,C'$ (Theorem~\ref{thm:poset})?
+Is $\LLJ$ decidable, and is it complete for complete Heyting algebras
+(Remark~\ref{rem:frames})? For the logic of common knowledge the first two
+hold, by finite canonical models \cite{HM}. A natural attempt is an algebraic
+filtration: the values of the subformulas of a non-theorem generate a finite
+sublattice $D$ of the refuting algebra, closed under $d\mapsto d\to s$ for
+$s$ in the finite set $S$ of values of modal subformulas; on $D$ the closure
+operators whose fixed sets are the meet-closures of $\{d\to s:d\in D,\ s\in S_i\}$
+are nuclei agreeing with $j_i$ on subformula values, and their join agrees with
+$j$ on subformula values. The gap is the finiteness of $D$: for one $s$ the closure of a finite set
+under $\wedge$, $\vee$ and $d\mapsto d\to s$ is finite (it lives in the
+Boolean algebra of elements of the form $x\to s$, as for pseudocomplemented
+lattices), but for two elements $s,s'$ we do not know whether it is, and in
+the free Heyting algebra on $p,s,s'$ the number of pairwise inequivalent terms
+produced in three rounds of closure already exceeds $30{,}000$, so the
+argument does not apply as it stands.
+\end{que}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[column sep=large]
+\varphi\arrow[r,"\laxa"]\arrow[rrr,bend left=25,"\lax=\laxa\vee\laxb"] & \laxa\varphi\arrow[r,"\laxb"] & \laxb\laxa\varphi\arrow[r,"\cdots"] & (\laxa\laxb)^N\varphi
+\end{tikzcd}
+\]
+\caption{The join as the limit of alternating iterates: finite on a finite
+poset ($N=|P|$, Theorem~\ref{thm:poset}), transfinite in general, and not a
+$\PLLt$-formula (Theorem~\ref{thm:inexp}).}
+\end{figure}
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{CRediT authorship contribution statement.}\quad Ryota Shibusawa:
+Conceptualization, Methodology, Formal analysis, Investigation, Software,
+Validation, Visualization, Writing -- original draft, Writing -- review \& editing.
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{99}
+\bibitem{BBCGGJ} G.~Bezhanishvili, N.~Bezhanishvili, L.~Carai, D.~Gabelaia,
+S.~Ghilardi, M.~Jibladze, \emph{Diego's theorem for nuclear implicative
+semilattices}, Indag. Math. \textbf{32} (2021), 498--535.
+\bibitem{BH} G.~Bezhanishvili, W.~H.~Holliday, \emph{Locales, nuclei, and
+Dragalin frames}, in: Advances in Modal Logic 11, College Publications, 2016,
+177--196.
+\bibitem{BP} W.~J.~Blok, D.~Pigozzi, \emph{Algebraizable logics}, Mem. Amer.
+Math. Soc. \textbf{396} (1989).
+\bibitem{Escardo} M.~H.~Escard\'o, \emph{Joins in the frame of nuclei}, Appl.
+Categ. Structures \textbf{11} (2003), 117--124.
+\bibitem{FM} M.~Fairtlough, M.~Mendler, \emph{Propositional lax logic}, Inform.
+and Comput. \textbf{137} (1997), 1--33.
+\bibitem{Goldblatt} R.~Goldblatt, \emph{Grothendieck topology as geometric
+modality}, Z. Math. Logik Grundlag. Math. \textbf{27} (1981), 495--529.
+\bibitem{GoldblattCover} R.~Goldblatt, \emph{Cover semantics for quantified lax
+logic}, J. Logic Comput. \textbf{21} (2011), 1035--1063.
+\bibitem{HM} J.~Y.~Halpern, Y.~Moses, \emph{Knowledge and common knowledge in a
+distributed environment}, J. ACM \textbf{37} (1990), 549--587.
+\bibitem{Johnstone} P.~T.~Johnstone, \emph{Stone Spaces}, Cambridge University
+Press, 1982.
+\bibitem{KL89} G.~M.~Kelly, F.~W.~Lawvere, \emph{On the complete lattice of
+essential localizations}, Bull. Soc. Math. Belg. S\'er. A \textbf{41} (1989),
+289--319.
+\bibitem{Macnab} D.~S.~Macnab, \emph{Modal operators on Heyting algebras},
+Algebra Universalis \textbf{12} (1981), 5--29.
+\bibitem{Marques25} J.~Marqu\`es, \emph{A criterion for categories on which
+every Grothendieck topology is rigid}, Appl. Categ. Structures \textbf{33}
+(2025), art.\ 37.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Finitejoin} R.~Shibusawa, \emph{Grothendieck topologies on a finite
+category form a sublattice of the lattice of two-out-of-three classes},
+preprint (2026), archived at DOI 10.5281/zenodo.23204943.
+\end{thebibliography}
+
+\end{document}
