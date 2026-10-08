@@ -1,0 +1,563 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\Con}{\mathrm{Con}}
+\newcommand{\Cg}{\mathrm{Cg}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\NExt}{\mathrm{NExt}}
+\newcommand{\Ext}{\mathrm{Ext}}
+\newcommand{\sV}{\mathcal V}
+\newcommand{\sW}{\mathcal W}
+\newcommand{\sR}{\mathcal R}
+\newcommand{\sS}{\mathcal S}
+\newcommand{\lT}{\lambda\mathcal T}
+\newcommand{\var}{\mathrm{var}}
+
+\begin{document}
+
+\title[Subvarieties and logics in the sameness lattice]{Lattices of subvarieties and of logics as sublattices of the lattice of two-out-of-three classes}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{variety, subvariety lattice, verbal congruence, reflective subcategory,
+  two-out-of-three, congruence distributive, congruence permutable, Jónsson's lemma,
+  lattice of modal logics, substructural logic, lambda theories}
+\subjclass[2020]{08B15 (primary), 08B10, 18A40, 03B45, 03B47, 03B40 (secondary)}
+
+\begin{abstract}
+For a category $C$ let $\Same(C)$ be the complete lattice of classes of
+morphisms that contain the identities and are closed under composition and
+two-out-of-three. Every reflective subcategory $\sR$ contributes the element
+$W_{\sR}$ of maps inverted by the reflector. We study this assignment on the
+lattice $\Sub(\sV)$ of subvarieties of a variety $\sV$ of algebras. The meet of
+two subvarieties always goes to the join of the two classes,
+$W_{V\wedge V'}=W_V\vee W_{V'}$, because the reflector into $V\wedge V'$ is the
+composite of the two reflectors; for Grothendieck topologies the corresponding
+statement requires towers of plus constructions and can fail. The join of two
+subvarieties goes to the meet of the classes, $W_{V\vee V'}=W_V\cap W_{V'}$,
+whenever $\sV$ is congruence distributive and congruence permutable, by
+Jónsson's lemma and a Chinese remainder argument; so for arithmetical
+varieties $V\mapsto W_V$ is a lattice embedding of $\Sub(\sV)^{\mathrm{op}}$
+into $\Same(\sV)$. Neither hypothesis can be dropped: the modular group of order
+$16$ gives a counterexample in groups, and the three-element chain inside the
+four-element Boolean lattice gives one in bounded lattices with a constant.
+Through algebraizability the lattices of normal modal logics, of intermediate
+logics, of substructural logics over $\mathbf{FL}$ and of fuzzy logics are
+therefore sublattices of the sameness lattices of their algebras; the lattice
+of $\lambda$-theories embeds as a join-semilattice, and whether it embeds as a
+lattice is left open.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A \emph{sameness} on a category $C$ is a class of morphisms containing the
+identities and closed under composition and two-out-of-three; the samenesses
+form a complete lattice $\Same(C)$ under inclusion, with meets given by
+intersection and joins by closure \cite{Same}. Every functor $F$ out of $C$
+gives a sameness $W_F=\{f: Ff\text{ invertible}\}$, and in earlier work the
+elements $W_{a_J}$ contributed by the sheafification functors $a_J$ of the
+Grothendieck topologies $J$ on a small category were studied: $J\mapsto W_{a_J}$
+preserves all meets, preserves binary joins for every finite category, and
+fails to preserve them on the poset of natural numbers
+\cite{Topjoin,Finitejoin}. The positive results are proved by showing that
+alternating towers of plus constructions, or of separated quotients, connect a
+presheaf to its sheafification for the join topology inside the join of the two
+classes.
+
+This paper carries out the same programme for the other classical lattice of
+reflective subcategories: the lattice $\Sub(\sV)$ of subvarieties of a variety
+$\sV$ of algebras. Each subvariety $V$ is reflective, with reflector
+$a_V(A)=A/\theta_V(A)$ for the verbal congruence $\theta_V(A)$, and we write
+$W_V:=W_{a_V}=\{f:a_Vf\text{ is an isomorphism}\}$. The two lattice operations
+behave differently.
+
+\begin{thm}\label{thm:A}
+For every variety $\sV$ and all subvarieties $V,V'$,
+$W_{V\wedge V'}=W_V\vee W_{V'}$ in $\Same(\sV)$.
+\end{thm}
+
+\begin{thm}\label{thm:B}
+For subvarieties $V,V'$ of any variety, $W_{V\vee V'}=W_V\cap W_{V'}$ if and only if
+\begin{enumerate}
+\item[(i)] every algebra of $V\vee V'$ is a subdirect product of its $V$-reflection and
+its $V'$-reflection, and
+\item[(ii)] no algebra of $V\vee V'$ has a proper subalgebra that is both $V$-dense and
+$V'$-dense, where a subalgebra is $V$-dense if its inclusion is inverted by the
+$V$-reflector.
+\end{enumerate}
+Condition (ii) holds whenever the verbal congruences $\theta_V(A)$ and $\theta_{V'}(A)$
+permute for every $A\in V\vee V'$; together with (i) this says that $A$ is the pullback
+of its $V$- and $V'$-reflections over its $V\wedge V'$-reflection.
+\end{thm}
+
+\begin{cor}\label{cor:arith}
+If $\sV$ is congruence distributive and congruence permutable, then
+$W_{V\vee V'}=W_V\cap W_{V'}$ for all subvarieties $V,V'$, and
+$V\mapsto W_V$ is a lattice embedding $\Sub(\sV)^{\mathrm{op}}\hookrightarrow\Same(\sV)$.
+Neither hypothesis can be omitted: the equality fails for the subvarieties
+$\var(\mathbb Z_8)$ and $\var(D_8)$ of groups (Example~\ref{ex:groups}), and
+for the subvarieties $c=0$ and $c=1$ of bounded lattices with a constant $c$
+(Example~\ref{ex:lattices}); permutability, on the other hand, is not necessary
+(Example~\ref{ex:unary}).
+\end{cor}
+
+Theorem~\ref{thm:A} is elementary: because a subvariety is closed under
+quotients, the reflector into $V\wedge V'$ is the composite $a_{V'}a_V$, so the
+unit of $V\wedge V'$ is a composite of a $V$-unit and a $V'$-unit and the join
+theorem of \cite{Postnikov} applies. The contrast with sheaf theory is the
+point: sheafification for $J'$ does not preserve $J$-sheaves, the reflector
+into $J\vee J'$ is not a composite of the two, and the towers of
+\cite{Topjoin,Finitejoin} are the substitute, which exists for finite
+categories and does not exist on $\mathbb N$. Theorem~\ref{thm:B} is where the
+algebra enters. A map $g$ of $V\vee V'$ lies in $W_{V\vee V'}$ only if it is an
+isomorphism, while $g\in W_V\cap W_{V'}$ only sees the two reflections of $g$;
+so the question is whether the pair of reflectors $(a_V,a_{V'})$ reflects
+isomorphisms on $V\vee V'$, i.e.\ whether the ``fracture'' functor
+$V\vee V'\to V\times_{V\wedge V'}V'$ of Figure~\ref{fig:fracture} is
+conservative. Condition (i) is injectivity, (ii) surjectivity. In a
+congruence distributive variety (i) holds for all pairs by Jónsson's lemma
+\cite{Jonsson}, since the subdirectly irreducible algebras of $V\vee V'$ lie in
+$V\cup V'$; in a congruence permutable variety (ii) holds by a Chinese remainder
+argument. In an arithmetical variety every algebra of $V\vee V'$ is therefore
+the pullback of its $V$- and $V'$-reflections over its $V\wedge V'$-reflection,
+the algebraic analogue of a fracture square.
+
+\subsection*{What is known.}
+The reflector of a subvariety, verbal congruences, Jónsson's lemma and the
+Mal'cev condition for permutability are standard \cite{BS}. That a join of two
+subvarieties of a congruence permutable variety is the direct product of the
+two when they are disjoint is due to Jónsson and Tsinakis; joins that are
+subdirect products are studied by Kowalski and Paoli \cite{KP}. The lattice of
+samenesses, the join theorem and the results for Grothendieck topologies are
+from \cite{Same,Postnikov,Topjoin,Finitejoin}.
+
+\subsection*{What is new.}
+Theorems~\ref{thm:A} and~\ref{thm:B}, the three examples, and the
+consequences for logic (Section~\ref{sec:logic}): since the lattice of
+axiomatic extensions of an algebraizable logic is dually isomorphic to the
+subvariety lattice of its equivalent algebraic semantics \cite{BP}, the lattices
+of normal modal logics, of intermediate logics, of substructural logics over
+$\mathbf{FL}$ and of the usual fuzzy logics are sublattices of the sameness
+lattices of modal algebras, Heyting algebras, $\mathbf{FL}$-algebras and
+their subvarieties (Corollary~\ref{cor:logics}); the lattice of
+$\lambda$-theories, which is isomorphic to the lattice of equational theories
+of lambda abstraction algebras \cite{Salibra00}, embeds as a join-semilattice
+(Corollary~\ref{cor:lambda}), and the question whether it embeds as a lattice is
+left open, as lambda abstraction algebras satisfy no non-trivial congruence
+lattice identity \cite{LS04}.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Samenesses.}
+For a category $C$, $\Same(C)$ is the set of samenesses ordered by inclusion;
+it is a complete lattice, $U\wedge U'=U\cap U'$, and $U\vee U'$ is the smallest
+sameness containing $U\cup U'$ \cite{Same}. For a functor $P\colon C\to C$ put
+$W_P=\{f:Pf\text{ invertible}\}$; it is a sameness containing all
+isomorphisms.
+
+\begin{thm}[join theorem, {\cite[Thm.~4.1]{Postnikov}}]\label{thm:join}
+Let $U,V$ be samenesses on $C$ whose join contains the isomorphisms, and let
+$P\colon C\to C$ be a functor with a natural transformation
+$\pi\colon\mathrm{id}\Rightarrow P$ such that $\pi_X\in U\vee V$ for all $X$
+and $P$ inverts $U$ and $V$. Then $U\vee V=W_P$.
+\end{thm}
+\begin{proof}
+$W_P\supseteq U\vee V$ since $W_P$ is a sameness containing $U$ and $V$. If
+$Pf$ is invertible then $Pf\in U\vee V$, so the naturality square
+$\pi_Yf=Pf\,\pi_X$ has three sides in $U\vee V$, hence the fourth.
+\end{proof}
+
+\subsection{Subvarieties and verbal congruences.}
+Let $\sV$ be a variety of algebras of a fixed signature and $\Sub(\sV)$ its
+lattice of subvarieties; $V\wedge V'=V\cap V'$ and $V\vee V'$ is the variety
+generated by $V\cup V'$. For $A\in\sV$ and $V\in\Sub(\sV)$ the \emph{verbal
+congruence} $\theta_V(A)$ is the smallest congruence of $A$ whose quotient lies
+in $V$; it is the congruence generated by the pairs $(s(\bar a),t(\bar a))$ for
+the identities $s=t$ of $V$ and tuples $\bar a$ of $A$, and a homomorphism
+$f\colon A\to B$ satisfies $f(\theta_V(A))\subseteq\theta_V(B)$. Thus
+$a_V(A)=A/\theta_V(A)$ is a reflector of $\sV$ onto $V$ with unit the quotient
+map $u_A\colon A\to a_VA$, and we put
+\[
+W_V:=\{f\in\Mor(\sV):a_Vf\text{ is an isomorphism}\}\in\Same(\sV).
+\]
+If $V\subseteq V'$ then $a_V=a_Va_{V'}$ and $W_{V'}\subseteq W_V$. The map
+$V\mapsto W_V$ is an order-embedding $\Sub(\sV)^{\mathrm{op}}\hookrightarrow\Same(\sV)$:
+if $V\not\subseteq V'$, pick $A\in V\setminus V'$; its $V'$-unit is in
+$W_{V'}$, not an isomorphism, and $a_V$ sends it to itself (as $a_VA=A$ and
+$a_V(A/\theta_{V'}(A))=A/\theta_{V'}(A)$ because both lie in $V$, which is closed under quotients), so it is not in
+$W_V$. We write $\Mor(\sV)$ for the class of homomorphisms between algebras of
+$\sV$.
+
+\begin{lem}\label{lem:composite}
+For $V,V'\in\Sub(\sV)$ and $A\in\sV$ the composite $A\to A/\theta_V(A)\to
+(A/\theta_V(A))/\theta_{V'}(A/\theta_V(A))$ is the $V\wedge V'$-unit of $A$;
+that is, $a_{V\wedge V'}=a_{V'}a_V$ and
+$\theta_{V\wedge V'}(A)=\theta_V(A)\vee\theta_{V'}(A)$.
+\end{lem}
+\begin{proof}
+The target lies in $V'$ by construction and in $V$ because $V$ is closed under
+quotients. Any homomorphism $A\to C$ with $C\in V\cap V'$ factors through
+$A/\theta_V(A)$ since $C\in V$, and the factor through
+$(A/\theta_V(A))/\theta_{V'}$ since $C\in V'$. By the correspondence theorem the
+kernel of the composite is $\theta_V(A)\vee\theta_{V'}(A)$.
+\end{proof}
+
+\section{Meets of subvarieties}\label{sec:meets}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A}]
+Apply Theorem~\ref{thm:join} with $U=W_V$, $V=W_{V'}$ (the join contains the
+isomorphisms because each does), $P=a_{V\wedge V'}$ and $\pi$ the unit. By
+Lemma~\ref{lem:composite}, $\pi_A$ is the composite of the $V$-unit of $A$,
+which lies in $W_V$ because $a_V$ of a unit is an isomorphism, and the
+$V'$-unit of $A/\theta_V(A)$, which lies in $W_{V'}$; so $\pi_A\in W_V\vee
+W_{V'}$. Since $a_{V\wedge V'}=a_{V\wedge V'}a_V=a_{V\wedge V'}a_{V'}$, the
+functor $a_{V\wedge V'}$ inverts $W_V$ and $W_{V'}$. Hence
+$W_V\vee W_{V'}=W_{a_{V\wedge V'}}=W_{V\wedge V'}$.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[column sep=large]
+A\arrow[r,"u_A\in W_V",two heads]\arrow[rr,bend right=25,"\pi_A"'] & A/\theta_V(A)\arrow[r,"u'\in W_{V'}",two heads] & A/(\theta_V(A)\vee\theta_{V'}(A))=a_{V\wedge V'}A
+\end{tikzcd}
+\]
+\caption{The unit of $V\wedge V'$ is a composite of two units (Lemma~\ref{lem:composite}); this
+single step replaces the towers needed for Grothendieck topologies.}
+\end{figure}
+
+The argument uses only that each subvariety is closed under the reflections
+into the other; it holds verbatim for reflective subcategories $\sR,\sR'$ of
+any category with $a_{\sR'}(\sR)\subseteq\sR$, where then
+$a_{\sR\cap\sR'}=a_{\sR'}a_{\sR}$ and $W_{\sR}\vee W_{\sR'}=W_{\sR\cap\sR'}$.
+Full subcategories of sheaves do not have this property: for two Grothendieck
+topologies $J,J'$ the $J'$-sheafification of a $J$-sheaf need not be a
+$J$-sheaf, $a_{J\vee J'}$ is not the composite $a_{J'}a_J$, and the join
+$W_{a_J}\vee W_{a_{J'}}$ is the class $W_{a_{J\vee J'}}$ only when a tower of
+alternating constructions reaches the join sheafification, which it does for
+finite categories \cite{Finitejoin} and does not on the poset $\mathbb N$
+\cite[Thm.~7.1]{Topjoin}.
+
+\section{Joins of subvarieties}\label{sec:joins}
+
+The inclusion $W_{V\vee V'}\subseteq W_V\cap W_{V'}$ always holds, since
+$a_V=a_Va_{V\vee V'}$ and $a_{V'}=a_{V'}a_{V\vee V'}$. For the converse we
+reduce to maps inside $V\vee V'$.
+
+\begin{lem}\label{lem:reduce}
+$W_{V\vee V'}=W_V\cap W_{V'}$ holds if and only if every homomorphism
+$g\colon A\to B$ with $A,B\in V\vee V'$ for which $a_Vg$ and $a_{V'}g$ are
+isomorphisms is itself an isomorphism.
+\end{lem}
+\begin{proof}
+If $f\in W_V\cap W_{V'}$, then $g:=a_{V\vee V'}f$ is a map in $V\vee V'$ with
+$a_Vg=a_Vf$ and $a_{V'}g=a_{V'}f$ isomorphisms; if the condition holds, $g$ is an
+isomorphism and $f\in W_{V\vee V'}$. Conversely, a map $g$ in $V\vee V'$ has
+$a_{V\vee V'}g=g$, so $g\in W_{V\vee V'}$ iff $g$ is an isomorphism.
+\end{proof}
+
+\begin{defi}
+A subalgebra $C\subseteq B$ is \emph{$V$-dense} if the inclusion lies in $W_V$,
+i.e.\ if $C$ meets every class of $\theta_V(B)$ and $\theta_V(B)\cap C^2=\theta_V(C)$.
+\end{defi}
+
+\begin{proof}[Proof of Theorem~\ref{thm:B}]
+Suppose (i) and (ii) and let $g\colon A\to B$ be a map in $V\vee V'$ with $a_Vg$,
+$a_{V'}g$ isomorphisms; by Lemma~\ref{lem:reduce} we must show that $g$ is
+bijective. If $g(x)=g(y)$ then $x\,\theta_V(A)\,y$ and $x\,\theta_{V'}(A)\,y$
+because $a_Vg$ and $a_{V'}g$ are injective, so $x=y$ by (i): $g$ is injective.
+Its image $C:=g(A)$ is a subalgebra of $B$ with $C\cong A$, and the inclusion
+$C\hookrightarrow B$ is inverted by $a_V$ and $a_{V'}$ (it is $g$ composed with
+an isomorphism); so $C$ is $V$-dense and $V'$-dense and $C=B$ by (ii).
+
+Conversely suppose $W_{V\vee V'}=W_V\cap W_{V'}$. If (i) fails for some
+$A\in V\vee V'$, let $\theta:=\theta_V(A)\cap\theta_{V'}(A)\ne\Delta$ and
+$g\colon A\to B:=A/\theta$ the quotient map; $B\in V\vee V'$ as a subdirect
+product of $A/\theta_V(A)\in V$ and $A/\theta_{V'}(A)\in V'$. By the
+correspondence theorem $\theta_V(B)=(\theta_V(A)\vee\theta)/\theta
+=\theta_V(A)/\theta$, so $a_Vg$ is the identity of $A/\theta_V(A)$, and likewise
+for $V'$; thus $g\in W_V\cap W_{V'}$, but $g$ is not injective, contradicting
+Lemma~\ref{lem:reduce}. If (ii) fails, a $V$-dense and $V'$-dense proper
+subalgebra $C\subsetneq B$ with $B\in V\vee V'$ gives an inclusion in
+$W_V\cap W_{V'}$ which is not an isomorphism, again contradicting
+Lemma~\ref{lem:reduce}.
+
+Finally let the verbal congruences permute on every algebra of $V\vee V'$ and
+let $C\subseteq B$ be $V$-dense and $V'$-dense, $B\in V\vee V'$; we show $C=B$.
+Write $\theta_V,\theta_{V'}$ for the verbal congruences of $B$. Given $b\in B$,
+density gives $c_1,c_2\in C$ with $c_1\,\theta_V\,b$ and $c_2\,\theta_{V'}\,b$.
+Then $c_1$ and $c_2$ are related by $\theta_V\vee\theta_{V'}=\theta_{V\wedge V'}$
+(Lemma~\ref{lem:composite}), hence, as $a_{V\wedge V'}=a_{V'}a_V$ inverts the
+inclusion, by $\theta_{V\wedge V'}(C)=\theta_V(C)\vee\theta_{V'}(C)$ inside $C$;
+by permutability in $C$ (also an algebra of $V\vee V'$) there is $c\in C$ with
+$c_1\,\theta_V(C)\,c\,\theta_{V'}(C)\,c_2$. Then $c\,\theta_V\,c_1\,\theta_V\,b$
+and $c\,\theta_{V'}\,c_2\,\theta_{V'}\,b$, so $c\,(\theta_V\cap\theta_{V'})\,b$
+and $c=b$ by (i) for $B$.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}
+A\arrow[r,two heads]\arrow[d,two heads]\arrow[dr,phantom,"\lrcorner",very near start] & A/\theta_V(A)\arrow[d,two heads]\\
+A/\theta_{V'}(A)\arrow[r,two heads] & A/(\theta_V(A)\vee\theta_{V'}(A))
+\end{tikzcd}
+\]
+\caption{The fracture square of $A\in V\vee V'$. Condition (i) of Theorem~\ref{thm:B}
+is injectivity of the comparison map
+$A\to A/\theta_V\times_{A/(\theta_V\vee\theta_{V'})}A/\theta_{V'}$, and
+permutability of $\theta_V(A)$, $\theta_{V'}(A)$ is its surjectivity; the
+square is a pullback for every $A$ in an arithmetical variety.}
+\label{fig:fracture}
+\end{figure}
+
+\begin{proof}[Proof of Corollary~\ref{cor:arith}]
+Let $\sV$ be congruence distributive and congruence permutable. The verbal
+congruences permute, so (ii) holds by Theorem~\ref{thm:B}. For (i), let
+$A\in V\vee V'$. By Jónsson's lemma \cite{Jonsson} every subdirectly
+irreducible algebra of $V\vee V'$ lies in $HSP_u(V\cup V')$; an ultraproduct of
+algebras each in $V$ or in $V'$ lies in $V$ or in $V'$ (one of the two index
+sets belongs to the ultrafilter), and $V$, $V'$ are closed under $H$ and $S$, so
+the subdirectly irreducibles of $V\vee V'$ lie in $V\cup V'$. Writing $A$ as a
+subdirect product of subdirectly irreducible quotients $A/\kappa_i$, each
+$\kappa_i$ contains $\theta_V(A)$ or $\theta_{V'}(A)$, hence contains
+$\theta_V(A)\cap\theta_{V'}(A)$; as $\bigcap_i\kappa_i$ is the identity, so is
+$\theta_V(A)\cap\theta_{V'}(A)$, which is (i). Theorem~\ref{thm:B} gives
+$W_{V\vee V'}=W_V\cap W_{V'}$, and with Theorem~\ref{thm:A} and the
+order-embedding of Section~\ref{sec:prelim} the map $V\mapsto W_V$ is a lattice
+embedding. The examples below show that the hypotheses cannot be dropped and
+that permutability is not necessary.
+\end{proof}
+
+\begin{ex}[permutable, not distributive]\label{ex:groups}
+In the variety of groups let $V=\var(\mathbb Z_8)$, the abelian groups of
+exponent dividing $8$, and $V'=\var(D_8)$, the variety generated by the
+dihedral group of order $8$. Let $M_{16}=\langle a,b\mid a^8=b^2=1,\
+bab=a^5\rangle$ be the modular group of order $16$. It lies in $V\vee V'$: in
+$\mathbb Z_8\times D_8$, with $r$ a rotation of order $4$ and $s$ a reflection,
+the subgroup $K$ generated by $x=(1,r)$ and $y=(0,s)$ contains
+$x\cdot yxy=(1,r)(1,r^{-1})=(2,1)$, hence $x^2(2,1)^{-1}=(0,r^2)$ and
+$n:=x^4(0,r^2)=(4,r^2)$, a central element of order $2$. In $K/\langle n\rangle$
+the image of $x$ has order $8$ (as $x^4=(4,1)\notin\langle n\rangle$), the image
+of $y$ has order $2$, and $yxy=(1,r^{-1})=(5,r)(4,r^2)=x^5n\equiv x^5$. So
+$K/\langle n\rangle$, which has order $16$ because $K=\{(i,r^js^k):i\equiv j
+\pmod 2\}$ has order $32$, is generated by two elements satisfying the defining
+relations of $M_{16}$, whence $K/\langle n\rangle\cong M_{16}$ and $M_{16}\in HS(\mathbb Z_8\times
+D_8)\subseteq V\vee V'$. The group $M_{16}$ is subdirectly irreducible, its
+unique minimal normal subgroup being $\langle a^4\rangle$, and it is in neither
+$V$ (non-abelian) nor $V'$ (exponent $8$, while $V'$ has exponent $4$). The
+verbal subgroups are $\theta_V(M_{16})=M_{16}'M_{16}^8=\langle a^4\rangle$ and
+$\theta_{V'}(M_{16})\supseteq M_{16}^4=\langle a^4\rangle$, with equality
+because $M_{16}/\langle a^4\rangle\cong\mathbb Z_4\times\mathbb Z_2\in V'$.
+Thus condition (i) fails for $A=M_{16}$, and by Theorem~\ref{thm:B}
+the quotient map $M_{16}\to\mathbb Z_4\times\mathbb Z_2$ lies in
+$W_V\cap W_{V'}$ but not in $W_{V\vee V'}$. Groups are congruence permutable,
+so it is distributivity that is missing.
+\end{ex}
+
+\begin{ex}[distributive, not permutable]\label{ex:lattices}
+Let $\sV$ be the variety of bounded lattices $(L,\wedge,\vee,0,1)$ with an
+additional constant $c$, which is congruence distributive, and let $V$ and $V'$
+be the subvarieties defined by $c=0$ and by $c=1$. Let $B=\mathbf 2\times\mathbf 2$
+with $c=(0,1)$; it is the product of a $V$-algebra and a $V'$-algebra, so
+$B\in V\vee V'$, and $\theta_V(B)=\Cg((0,1),(0,0))$ is the kernel of the first
+projection while $\theta_{V'}(B)=\Cg((0,1),(1,1))$ is the kernel of the second.
+Let $C=\{(0,0),(0,1),(1,1)\}$ be the three-element chain, a subalgebra of $B$
+containing $c$. Then $\theta_V(C)$ identifies $(0,0)$ with $(0,1)$ and
+$\theta_{V'}(C)$ identifies $(0,1)$ with $(1,1)$, so the inclusion
+$g\colon C\hookrightarrow B$ induces bijections $C/\theta_V(C)\to B/\theta_V(B)$
+and $C/\theta_{V'}(C)\to B/\theta_{V'}(B)$, both two-element lattices, while $g$
+is not surjective: $C$ is a $V$-dense and $V'$-dense proper subalgebra, (ii)
+fails, and $g\in W_V\cap W_{V'}\setminus W_{V\vee V'}$. Condition (i) holds
+for all algebras of $V\vee V'$ by distributivity. The verbal congruences of
+$C$ do not permute: $(1,1)$ and $(0,0)$ are related by
+$\theta_V(C)\vee\theta_{V'}(C)$ but not by $\theta_V(C)\circ\theta_{V'}(C)$,
+and $C$ is a proper subalgebra of its pullback, which is $B$.
+\end{ex}
+
+\begin{ex}[non-permuting verbal congruences, equality holds]\label{ex:unary}
+Let $\sV$ be the variety of mono-unary algebras $(A,f)$ with $f^4=f^2$, and
+$V\colon f^2x=x$, $V'\colon f^2x=fx$. The identities $f^px=f^qx$ true in both
+are those with $p\equiv q\pmod 2$ and $p,q\ge1$ (or $p=q$), so
+$V\vee V'$ is defined by $f^3x=fx$. An algebra $B$ of $V\vee V'$ consists of its
+\emph{core} $f(B)$, on which $f$ is an involution, and \emph{hairs}
+$x\notin f(B)$ with $f(x)\in f(B)$. The congruence $\theta_V(B)$, generated by
+the pairs $(f^2x,x)$, identifies each hair $x$ with the core element $f^2x$ and
+nothing else; $\theta_{V'}(B)$, generated by the pairs $(f^2x,fx)$, collapses
+each $2$-cycle of the core to a point and nothing else. Hence
+$\theta_V(B)\cap\theta_{V'}(B)=\Delta$, which is (i). For (ii), let
+$C\subseteq B$ be $V$-dense and $V'$-dense. Density for $V$ means that
+$C/\theta_V(C)$, which is the core of $C$, maps onto the core of $B$, so
+$C\supseteq f(B)$; density for $V'$ means that the hairs of $C$ are all the
+hairs of $B$, since hairs are not identified by $\theta_{V'}$. Thus $C=B$, and
+$W_{V\vee V'}=W_V\cap W_{V'}$ by Theorem~\ref{thm:B}. Yet the verbal
+congruences do not permute on the three-element algebra $A=\{0,1,2\}$ with
+$f(0)=1$, $f(1)=2$, $f(2)=1$: $\theta_V(A)$ identifies $0$ with $2$,
+$\theta_{V'}(A)$ identifies $1$ with $2$, and $(1,0)\in\theta_{V'}\circ\theta_V$
+but $(1,0)\notin\theta_V\circ\theta_{V'}$; $A$ is a proper subalgebra of its
+pullback $A/\theta_V\times A/\theta_{V'}$, which has four elements and in
+which $A$ is not $V'$-dense.
+\end{ex}
+
+\begin{rem}
+Condition (i) for all $A\in V\vee V'$ says that $V\vee V'$ consists of
+subdirect products of algebras of $V$ and of $V'$, which Kowalski and Paoli
+\cite{KP} study for disjoint subvarieties; in the congruence distributive case
+it holds for all pairs by Jónsson's lemma. Condition (ii) is a statement about
+dense subalgebras which permutability implies but which, by
+Example~\ref{ex:unary}, is weaker. We do not know a characterization of the
+pairs $(V,V')$ with $W_{V\vee V'}=W_V\cap W_{V'}$ in terms of the lattice
+$\Sub(\sV)$ alone.
+\end{rem}
+
+\section{Lattices of logics and of $\lambda$-theories}\label{sec:logic}
+
+For an algebraizable logic $\mathcal L$ with equivalent algebraic semantics the
+variety $\sV_{\mathcal L}$, the lattice of axiomatic extensions of $\mathcal L$
+is dually isomorphic to $\Sub(\sV_{\mathcal L})$, an extension $L$ corresponding
+to the subvariety $\sV_L$ of algebras validating its theorems \cite{BP}. Write
+$W_L:=W_{\sV_L}$, the class of homomorphisms of $\sV_{\mathcal L}$-algebras
+inverted by the reflection into $\sV_L$; $L\le L'$ gives $W_L\subseteq W_{L'}$.
+
+\begin{cor}\label{cor:logics}
+Let $\mathcal L$ be an algebraizable logic whose equivalent algebraic semantics
+$\sV_{\mathcal L}$ is congruence distributive and congruence permutable. Then
+$L\mapsto W_L$ is a lattice embedding of the lattice of axiomatic extensions of
+$\mathcal L$ into $\Same(\sV_{\mathcal L})$: $W_{L\wedge L'}=W_L\cap W_{L'}$ and
+$W_{L\vee L'}=W_L\vee W_{L'}$. This applies to
+\begin{enumerate}
+\item the lattice $\NExt(\mathbf K)$ of normal modal logics, with
+$\sV_{\mathcal L}$ the modal algebras \cite{CZ};
+\item the lattice of intermediate logics, with Heyting algebras;
+\item the lattice of substructural logics over the full Lambek calculus
+$\mathbf{FL}$, with $\mathbf{FL}$-algebras, and its intervals of fuzzy logics
+over $\mathbf{MTL}$, $\mathbf{BL}$, \L{}ukasiewicz and G\"odel logic, with
+$\mathbf{MTL}$-, $\mathbf{BL}$-, $\mathbf{MV}$- and Gödel algebras.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+Theorem~\ref{thm:A} and Corollary~\ref{cor:arith} with $\sV=\sV_{\mathcal L}$, using the
+dual isomorphism $L\mapsto\sV_L$; the meet of logics is the join of varieties
+and conversely. Each of the varieties listed has a lattice reduct, hence is
+congruence distributive, and a Mal'cev term: for modal algebras, which have a
+Boolean reduct, $x\oplus y\oplus z$ with $\oplus$ symmetric difference; for
+Heyting algebras and their expansions the standard term; for
+$\mathbf{FL}$-algebras $p(x,y,z)=x/(z\backslash y\wedge 1)\wedge z/(x\backslash
+y\wedge 1)$ \cite{JT,BT,GJKO}, which also serves all their subvarieties.
+\end{proof}
+
+\begin{rem}
+In the framework of \cite{Levelshift}, where $(\Same(C),\subseteq)$ is read as
+a Kripke frame whose worlds are the levels of sameness, Corollary~\ref{cor:logics}
+says that the lattice of normal modal logics sits inside the frame of modal
+algebras as a sublattice: the logics themselves are levels of sameness for the
+algebras of the base logic.
+\end{rem}
+
+\begin{cor}\label{cor:lambda}
+Let $\lT$ be the lattice of $\lambda$-theories and $\mathbf{LAA}$ the variety of
+lambda abstraction algebras. The assignment $T\mapsto W_T:=W_{\sV_T}$, where
+$\sV_T$ is the subvariety generated by the term algebra $\Lambda/T$, is an
+injective map $\lT\to\Same(\mathbf{LAA})$ preserving order and binary joins:
+$W_{T\vee T'}=W_T\vee W_{T'}$; and always $W_{T\wedge T'}\subseteq W_T\cap W_{T'}$.
+\end{cor}
+\begin{proof}
+By \cite{Salibra00} the lattice $\lT$ is isomorphic to the lattice of
+equational theories of $\mathbf{LAA}$, i.e.\ dually isomorphic to
+$\Sub(\mathbf{LAA})$, by $T\mapsto\sV_T$; joins of theories correspond to meets
+of varieties, and Theorem~\ref{thm:A} applies.
+\end{proof}
+
+\begin{que}\label{que:lambda}
+Is $T\mapsto W_T$ a lattice embedding $\lT\hookrightarrow\Same(\mathbf{LAA})$,
+i.e.\ does $W_{T\wedge T'}=W_T\cap W_{T'}$ hold for all $\lambda$-theories? By
+Theorem~\ref{thm:B} this requires every subdirectly irreducible algebra
+of $\sV_T\vee\sV_{T'}$ to satisfy $T$ or $T'$. Corollary~\ref{cor:arith} does not
+apply: lambda abstraction algebras satisfy no non-trivial lattice identity in
+their congruence lattices \cite{LS04}, and $\lT$ itself is not modular
+\cite{Salibra01}.
+\end{que}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[row sep=small]
+\NExt(\mathbf K)\arrow[r,hook,"\text{lattice}"] & \Same(\mathbf{MA}) &
+\Ext(\mathbf{FL})\arrow[r,hook,"\text{lattice}"] & \Same(\mathbf{FL})\\
+\lT\arrow[r,hook,"\vee\text{-semilattice}"'] & \Same(\mathbf{LAA}) &
+\mathrm{Top}(S)\arrow[r,hook,"{\text{lattice}, S\text{ finite}}"'] & \Same(\Presh(S))
+\end{tikzcd}
+\]
+\caption{Lattices of theories inside sameness lattices: logics (Corollary~\ref{cor:logics}),
+$\lambda$-theories (Corollary~\ref{cor:lambda}), Grothendieck topologies \cite{Finitejoin}.}
+\end{figure}
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+\noindent\textbf{CRediT authorship contribution statement.}\quad Ryota Shibusawa:
+Conceptualization, Methodology, Formal analysis, Investigation, Software,
+Validation, Visualization, Writing -- original draft, Writing -- review \& editing.
+
+\noindent\textbf{Competing interests.}\quad The author declares that he has no
+competing interests.
+
+\begin{thebibliography}{99}
+\bibitem{BP} W.~J.~Blok, D.~Pigozzi, \emph{Algebraizable logics}, Mem. Amer.
+Math. Soc. \textbf{396} (1989).
+\bibitem{BT} K.~Blount, C.~Tsinakis, \emph{The structure of residuated
+lattices}, Internat. J. Algebra Comput. \textbf{13} (2003), 437--461.
+\bibitem{BS} S.~Burris, H.~P.~Sankappanavar, \emph{A Course in Universal
+Algebra}, Springer, 1981.
+\bibitem{CZ} A.~Chagrov, M.~Zakharyaschev, \emph{Modal Logic}, Oxford University
+Press, 1997.
+\bibitem{GJKO} N.~Galatos, P.~Jipsen, T.~Kowalski, H.~Ono, \emph{Residuated
+Lattices: An Algebraic Glimpse at Substructural Logics}, Elsevier, 2007.
+\bibitem{Jonsson} B.~Jónsson, \emph{Algebras whose congruence lattices are
+distributive}, Math. Scand. \textbf{21} (1967), 110--121.
+\bibitem{JT} P.~Jipsen, C.~Tsinakis, \emph{A survey of residuated lattices},
+in: Ordered Algebraic Structures (J.~Martínez, ed.), Kluwer, 2002, 19--56.
+\bibitem{KP} T.~Kowalski, F.~Paoli, \emph{Joins and subdirect products of
+varieties}, Algebra Universalis \textbf{65} (2011), 371--391.
+\bibitem{LS04} S.~Lusin, A.~Salibra, \emph{The lattice of lambda theories},
+J. Logic Comput. \textbf{14} (2004), 373--394.
+\bibitem{Salibra00} A.~Salibra, \emph{On the algebraic models of lambda
+calculus}, Theoret. Comput. Sci. \textbf{249} (2000), 197--240.
+\bibitem{Salibra01} A.~Salibra, \emph{Nonmodularity results for lambda
+calculus}, Fund. Inform. \textbf{45} (2001), 379--392.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Levelshift} R.~Shibusawa, \emph{The level-shift logic of a category: modal correspondence for sameness lattices, quotient models with contingent identity, and completeness},
+preprint (2026), archived at DOI 10.5281/zenodo.22823775.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\bibitem{Finitejoin} R.~Shibusawa, \emph{Grothendieck topologies on a finite
+category form a sublattice of the lattice of two-out-of-three classes},
+preprint (2026), archived at DOI 10.5281/zenodo.23204943.
+\end{thebibliography}
+
+\end{document}

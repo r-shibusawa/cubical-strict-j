@@ -5,7 +5,11 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.31.0` (paper 34, *Grothendieck topologies on a finite
+- Current snapshot: release `v1.32.0` (paper 35, *Lattices of subvarieties and of logics as
+  sublattices of the lattice of two-out-of-three classes* -- `docs/consolidated/varieties.pdf`;
+  checks `scripts/comparison/variety_counterexamples.py`, `variety_join.py`,
+  `lattice_variety_join.py`), archived at DOI PENDING
+- Previous: release `v1.31.0` (paper 34, *Grothendieck topologies on a finite
   category form a sublattice of the lattice of two-out-of-three classes* --
   `docs/consolidated/finitejoin.pdf`; the finite join theorem answering the question left
   open in paper 33; checks `scripts/comparison/sep_then_plus.py`, `retraction_check.py`,
