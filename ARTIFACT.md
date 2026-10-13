@@ -7,7 +7,7 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.33.2` (paper 36, *The join of two nuclei as a lax modality:
   axiomatization, finite models, and inexpressibility*: title changed from "finite sites" to
-  "finite models", one step of the finite-model-property proof clarified), archived at DOI [DOI-1332] -- cite this one.
+  "finite models", one step of the finite-model-property proof clarified), archived at DOI [10.5281/zenodo.23330576](https://doi.org/10.5281/zenodo.23330576) -- cite this one.
 - Previous: release `v1.33.1` (paper 36, revised: the finite model property, decidability
   and completeness for complete Heyting algebras and Grothendieck toposes of the lax logic of the
   join are added as Section 6), archived at DOI [10.5281/zenodo.23232356](https://doi.org/10.5281/zenodo.23232356)
