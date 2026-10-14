@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.32.1` (paper 35 revised, *Lattices of subvarieties and of logics as
   sublattices of the lattice of two-out-of-three classes*: a lattice embedding of Sub(V)^op forces
   distributivity of Sub(V), so the lattice of lambda-theories embeds as a join-semilattice but not as a
-  lattice, with an explicit witness map; the exposition revised), archived at DOI [pending] -- cite this one.
+  lattice, with an explicit witness map; the exposition revised), archived at DOI [10.5281/zenodo.23354399](https://doi.org/10.5281/zenodo.23354399) -- cite this one.
 - Previous: release `v1.33.2` (paper 36, *The join of two nuclei as a lax modality:
   axiomatization, finite models, and inexpressibility*: title changed from "finite sites" to
   "finite models", one step of the finite-model-property proof clarified), archived at DOI [10.5281/zenodo.23330576](https://doi.org/10.5281/zenodo.23330576)
