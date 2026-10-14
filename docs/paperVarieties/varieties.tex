@@ -55,17 +55,23 @@ $W_{V\wedge V'}=W_V\vee W_{V'}$, because the reflector into $V\wedge V'$ is the
 composite of the two reflectors; for Grothendieck topologies the corresponding
 statement requires towers of plus constructions and can fail. The join of two
 subvarieties goes to the meet of the classes, $W_{V\vee V'}=W_V\cap W_{V'}$,
-whenever $\sV$ is congruence distributive and congruence permutable, by
-Jónsson's lemma and a Chinese remainder argument; so for arithmetical
-varieties $V\mapsto W_V$ is a lattice embedding of $\Sub(\sV)^{\mathrm{op}}$
-into $\Same(\sV)$. Neither hypothesis can be dropped: the modular group of order
+exactly when the two reflectors jointly reflect isomorphisms on $V\vee V'$,
+and we characterize this: every algebra of $V\vee V'$ must be a subdirect
+product of its two reflections, and no algebra of $V\vee V'$ may have a
+proper subalgebra dense for both reflectors. The first condition holds in
+every congruence distributive variety by Jónsson's lemma, the second in
+every congruence permutable variety by a Chinese remainder argument; so for
+arithmetical varieties $V\mapsto W_V$ is a lattice embedding of
+$\Sub(\sV)^{\mathrm{op}}$ into $\Same(\sV)$. Neither hypothesis can be dropped: the modular group of order
 $16$ gives a counterexample in groups, and the three-element chain inside the
 four-element Boolean lattice gives one in bounded lattices with a constant.
 Through algebraizability the lattices of normal modal logics, of intermediate
 logics, of substructural logics over $\mathbf{FL}$ and of fuzzy logics are
-therefore sublattices of the sameness lattices of their algebras; the lattice
-of $\lambda$-theories embeds as a join-semilattice, and whether it embeds as a
-lattice is left open.
+therefore sublattices of the sameness lattices of their algebras. A lattice
+embedding of $\Sub(\sV)^{\mathrm{op}}$ forces every subdirectly irreducible
+algebra to generate a join-prime subvariety and hence $\Sub(\sV)$ to be
+distributive; so the lattice of $\lambda$-theories, which is not modular,
+embeds as a join-semilattice but not as a lattice.
 \end{abstract}
 
 \maketitle
@@ -123,6 +129,16 @@ for the subvarieties $c=0$ and $c=1$ of bounded lattices with a constant $c$
 (Example~\ref{ex:unary}).
 \end{cor}
 
+\begin{thm}\label{thm:C}
+For subvarieties $V,V'$ of a variety $\sV$, condition (i) of Theorem~\ref{thm:B}
+holds if and only if every subdirectly irreducible algebra of $V\vee V'$ lies in
+$V\cup V'$. Consequently, if $W_{V\vee V'}=W_V\cap W_{V'}$ for all pairs of
+subvarieties, then every subdirectly irreducible algebra of $\sV$ generates a
+join-prime element of $\Sub(\sV)$, and $\Sub(\sV)$ is distributive. More
+precisely, if $\Sub(\sV)$ contains a pentagon $P\subsetneq Q$, $R$ with
+$P\vee R=Q\vee R$ and $P\wedge R=Q\wedge R$, then $W_{P\vee R}\ne W_P\cap W_R$.
+\end{thm}
+
 Theorem~\ref{thm:A} is elementary: because a subvariety is closed under
 quotients, the reflector into $V\wedge V'$ is the composite $a_{V'}a_V$, so the
 unit of $V\wedge V'$ is a composite of a $V$-unit and a $V'$-unit and the join
@@ -154,8 +170,14 @@ samenesses, the join theorem and the results for Grothendieck topologies are
 from \cite{Same,Postnikov,Topjoin,Finitejoin}.
 
 \subsection*{What is new.}
-Theorems~\ref{thm:A} and~\ref{thm:B}, the three examples, and the
-consequences for logic (Section~\ref{sec:logic}): since the lattice of
+The main result is Theorem~\ref{thm:B}: an exact characterization of the
+pairs of subvarieties whose reflectors jointly reflect isomorphisms, with
+condition (i) the injectivity and condition (ii) the surjectivity of the
+comparison map of Figure~\ref{fig:fracture}; the arithmetical case
+(Corollary~\ref{cor:arith}) is the instance where both conditions hold for
+all pairs, and the examples show that each condition can fail on its own.
+Further new are Theorem~\ref{thm:A}, Theorem~\ref{thm:C}, the three examples,
+and the consequences for logic (Section~\ref{sec:logic}): since the lattice of
 axiomatic extensions of an algebraizable logic is dually isomorphic to the
 subvariety lattice of its equivalent algebraic semantics \cite{BP}, the lattices
 of normal modal logics, of intermediate logics, of substructural logics over
@@ -164,9 +186,14 @@ lattices of modal algebras, Heyting algebras, $\mathbf{FL}$-algebras and
 their subvarieties (Corollary~\ref{cor:logics}); the lattice of
 $\lambda$-theories, which is isomorphic to the lattice of equational theories
 of lambda abstraction algebras \cite{Salibra00}, embeds as a join-semilattice
-(Corollary~\ref{cor:lambda}), and the question whether it embeds as a lattice is
-left open, as lambda abstraction algebras satisfy no non-trivial congruence
-lattice identity \cite{LS04}.
+(Corollary~\ref{cor:lambda}) but, by Theorem~\ref{thm:C} and the
+non-modularity of the lattice of $\lambda$-theories \cite{Salibra01}, not as
+a lattice (Corollary~\ref{cor:lambdano}). Theorem~\ref{thm:C} is the
+observation that condition (i) is a statement about subdirectly irreducible
+algebras, so that the lattice embedding, which holds for arithmetical
+varieties by Jónsson's lemma, conversely imposes Jónsson's conclusion on the
+subdirectly irreducibles of every join and thereby distributivity on
+$\Sub(\sV)$.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -331,18 +358,43 @@ square is a pullback for every $A$ in an arithmetical variety.}
 \label{fig:fracture}
 \end{figure}
 
+\begin{proof}[Proof of Theorem~\ref{thm:C}]
+Suppose (i) and let $A\in V\vee V'$ be subdirectly irreducible. Then
+$\theta_V(A)\cap\theta_{V'}(A)=\Delta$, and $\Delta$ is meet-irreducible in
+the congruence lattice of $A$, so $\theta_V(A)=\Delta$ or
+$\theta_{V'}(A)=\Delta$, i.e.\ $A\in V$ or $A\in V'$. Conversely suppose every
+subdirectly irreducible algebra of $V\vee V'$ lies in $V\cup V'$ and let
+$A\in V\vee V'$. Writing $A$ as a subdirect product of subdirectly irreducible
+quotients $A/\kappa_i$ (Birkhoff), each $\kappa_i$ contains $\theta_V(A)$ or
+$\theta_{V'}(A)$, hence contains $\theta_V(A)\cap\theta_{V'}(A)$; as
+$\bigcap_i\kappa_i=\Delta$, so is $\theta_V(A)\cap\theta_{V'}(A)$, which is (i).
+
+Now let $W_{V\vee V'}=W_V\cap W_{V'}$ for all pairs, so that (i) holds for all
+pairs by Theorem~\ref{thm:B}. If $A$ is subdirectly irreducible and
+$\var(A)\subseteq V\vee V'$, then $A\in V\vee V'$, so $A\in V$ or $A\in V'$,
+i.e.\ $\var(A)\subseteq V$ or $\var(A)\subseteq V'$: $\var(A)$ is join-prime.
+For distributivity let $X,Y,Z\in\Sub(\sV)$; the variety $(X\vee Y)\wedge Z$ is
+generated by its subdirectly irreducible members, each of which lies in $X$ or
+in $Y$ and in $Z$, hence in $(X\wedge Z)\vee(Y\wedge Z)$; so
+$(X\vee Y)\wedge Z\subseteq(X\wedge Z)\vee(Y\wedge Z)$, and the reverse
+inclusion always holds.
+
+Finally let $P\subsetneq Q$, $R$ be a pentagon. Since $Q\not\subseteq P$,
+some subdirectly irreducible $A\in Q$ is not in $P$; then
+$A\in Q\subseteq Q\vee R=P\vee R$, and $A\notin R$, for otherwise
+$A\in Q\wedge R=P\wedge R\subseteq P$. So (i) fails for the pair $(P,R)$ by
+the first part, and $W_{P\vee R}\ne W_P\cap W_R$ by Theorem~\ref{thm:B}.
+\end{proof}
+
 \begin{proof}[Proof of Corollary~\ref{cor:arith}]
 Let $\sV$ be congruence distributive and congruence permutable. The verbal
-congruences permute, so (ii) holds by Theorem~\ref{thm:B}. For (i), let
-$A\in V\vee V'$. By Jónsson's lemma \cite{Jonsson} every subdirectly
-irreducible algebra of $V\vee V'$ lies in $HSP_u(V\cup V')$; an ultraproduct of
-algebras each in $V$ or in $V'$ lies in $V$ or in $V'$ (one of the two index
-sets belongs to the ultrafilter), and $V$, $V'$ are closed under $H$ and $S$, so
-the subdirectly irreducibles of $V\vee V'$ lie in $V\cup V'$. Writing $A$ as a
-subdirect product of subdirectly irreducible quotients $A/\kappa_i$, each
-$\kappa_i$ contains $\theta_V(A)$ or $\theta_{V'}(A)$, hence contains
-$\theta_V(A)\cap\theta_{V'}(A)$; as $\bigcap_i\kappa_i$ is the identity, so is
-$\theta_V(A)\cap\theta_{V'}(A)$, which is (i). Theorem~\ref{thm:B} gives
+congruences permute, so (ii) holds by Theorem~\ref{thm:B}. For (i), by
+Jónsson's lemma \cite{Jonsson} every subdirectly irreducible algebra of
+$V\vee V'$ lies in $HSP_u(V\cup V')$; an ultraproduct of algebras each in $V$
+or in $V'$ lies in $V$ or in $V'$ (one of the two index sets belongs to the
+ultrafilter), and $V$, $V'$ are closed under $H$ and $S$, so the subdirectly
+irreducibles of $V\vee V'$ lie in $V\cup V'$, and (i) holds by
+Theorem~\ref{thm:C}. Theorem~\ref{thm:B} gives
 $W_{V\vee V'}=W_V\cap W_{V'}$, and with Theorem~\ref{thm:A} and the
 order-embedding of Section~\ref{sec:prelim} the map $V\mapsto W_V$ is a lattice
 embedding. The examples below show that the hypotheses cannot be dropped and
@@ -425,9 +477,15 @@ subdirect products of algebras of $V$ and of $V'$, which Kowalski and Paoli
 \cite{KP} study for disjoint subvarieties; in the congruence distributive case
 it holds for all pairs by Jónsson's lemma. Condition (ii) is a statement about
 dense subalgebras which permutability implies but which, by
-Example~\ref{ex:unary}, is weaker. We do not know a characterization of the
-pairs $(V,V')$ with $W_{V\vee V'}=W_V\cap W_{V'}$ in terms of the lattice
-$\Sub(\sV)$ alone.
+Example~\ref{ex:unary}, is weaker. Theorem~\ref{thm:C} gives a necessary
+condition for the lattice embedding in terms of $\Sub(\sV)$ alone,
+distributivity; it is not sufficient, since the variety of
+Example~\ref{ex:lattices} is congruence distributive, so that its subvariety
+lattice is distributive by Jónsson's lemma, while (ii) fails there. We do not
+know a characterization of the pairs $(V,V')$ with $W_{V\vee V'}=W_V\cap W_{V'}$
+in terms of $\Sub(\sV)$ alone. In the language of Theorem~\ref{thm:C},
+Example~\ref{ex:groups} says that $\var(M_{16})$ is not join-prime in the
+lattice of varieties of groups.
 \end{rem}
 
 \section{Lattices of logics and of $\lambda$-theories}\label{sec:logic}
@@ -461,7 +519,10 @@ dual isomorphism $L\mapsto\sV_L$; the meet of logics is the join of varieties
 and conversely. Each of the varieties listed has a lattice reduct, hence is
 congruence distributive, and a Mal'cev term: for modal algebras, which have a
 Boolean reduct, $x\oplus y\oplus z$ with $\oplus$ symmetric difference; for
-Heyting algebras and their expansions the standard term; for
+Heyting algebras and their expansions
+$p(x,y,z)=((x\to y)\to z)\wedge((z\to y)\to x)\wedge(x\vee z)$, which
+satisfies $p(x,x,z)=z$ because $z\le(z\to x)\to x$ and
+$p(x,z,z)=x$ because $x\le(x\to z)\to z$; for
 $\mathbf{FL}$-algebras $p(x,y,z)=x/(z\backslash y\wedge 1)\wedge z/(x\backslash
 y\wedge 1)$ \cite{JT,BT,GJKO}, which also serves all their subvarieties.
 \end{proof}
@@ -488,27 +549,81 @@ $\Sub(\mathbf{LAA})$, by $T\mapsto\sV_T$; joins of theories correspond to meets
 of varieties, and Theorem~\ref{thm:A} applies.
 \end{proof}
 
-\begin{que}\label{que:lambda}
-Is $T\mapsto W_T$ a lattice embedding $\lT\hookrightarrow\Same(\mathbf{LAA})$,
-i.e.\ does $W_{T\wedge T'}=W_T\cap W_{T'}$ hold for all $\lambda$-theories? By
-Theorem~\ref{thm:B} this requires every subdirectly irreducible algebra
-of $\sV_T\vee\sV_{T'}$ to satisfy $T$ or $T'$. Corollary~\ref{cor:arith} does not
-apply: lambda abstraction algebras satisfy no non-trivial lattice identity in
-their congruence lattices \cite{LS04}, and $\lT$ itself is not modular
-\cite{Salibra01}.
-\end{que}
+\begin{cor}\label{cor:lambdano}
+The map $T\mapsto W_T$ is not a lattice embedding: there are
+$\lambda$-theories $T,T'$ with $W_{T\wedge T'}\subsetneq W_T\cap W_{T'}$. For
+every pentagon $T_0\subsetneq T_1$, $T'$ in $\lT$ with $T_0\vee T'=T_1\vee T'$
+and $T_0\wedge T'=T_1\wedge T'$, the pair $(T_1,T')$ is such a pair.
+\end{cor}
+\begin{proof}
+The lattice $\lT$ is not modular \cite{Salibra01}, so by Dedekind's theorem it
+contains a pentagon $T_0\subsetneq T_1$, $T'$ as stated. Under the dual
+isomorphism $\lT^{\mathrm{op}}\cong\Sub(\mathbf{LAA})$ it becomes the pentagon
+$P=\sV_{T_1}\subsetneq Q=\sV_{T_0}$, $R=\sV_{T'}$ with $P\vee R=Q\vee R$ and
+$P\wedge R=Q\wedge R$, and Theorem~\ref{thm:C} gives
+$W_{P\vee R}\ne W_P\cap W_R$, i.e.\ $W_{T_1\wedge T'}\ne W_{T_1}\cap W_{T'}$;
+the inclusion $\subseteq$ always holds.
+\end{proof}
+
+\begin{prop}\label{prop:witness}
+Let $T_0\subsetneq T_1$, $T'$ be a pentagon in $\lT$ as in
+Corollary~\ref{cor:lambdano}, and let $S$ be a completely meet-irreducible
+$\lambda$-theory with $T_0\subseteq S$ and $T_1\not\subseteq S$. Then the term
+algebra $\Lambda/S$ is a subdirectly irreducible lambda abstraction algebra
+lying in $\sV_{T_1\wedge T'}$ but in neither $\sV_{T_1}$ nor $\sV_{T'}$, and
+the quotient map
+\[
+\Lambda/S\longrightarrow\Lambda/\bigl((S\vee T_1)\cap(S\vee T')\bigr)
+\]
+lies in $W_{T_1}\cap W_{T'}$ but not in $W_{T_1\wedge T'}$. Such theories $S$
+exist: for an equation $e\in T_1\setminus T_0$, the $\lambda$-theories
+containing $T_0$ but not $e$ form a nonempty family closed under unions of
+chains, and any maximal member is completely meet-irreducible.
+\end{prop}
+\begin{proof}
+By \cite{Salibra00} the lattice $\lT$ is isomorphic to the lattice of
+equational theories of $\mathbf{LAA}$ via $T\mapsto\sV_T$, and for every
+$\lambda$-theory $S$ the congruence lattice of $\Lambda/S$ is isomorphic to
+the interval $\{R\in\lT: R\supseteq S\}$, a quotient $\Lambda/R$ lying in
+$\sV_T$ exactly when $R\supseteq T$. Hence $\Lambda/S$ is subdirectly
+irreducible when $S$ is completely meet-irreducible (its congruence lattice
+then has a least nonzero element), $\Lambda/S\in\sV_T$ iff $S\supseteq T$,
+and the $\sV_T$-reflection of $\Lambda/S$ is $\Lambda/(S\vee T)$. Now
+$S\supseteq T_0\supseteq T_0\wedge T'=T_1\wedge T'$, $S\not\supseteq T_1$ by
+choice, and $S\not\supseteq T'$ since otherwise
+$S\supseteq T_0\vee T'=T_1\vee T'\supseteq T_1$. The theories $S\vee T_1$ and
+$S\vee T'$ therefore both lie strictly above $S$, so their intersection $R$
+lies strictly above $S$ as $S$ is completely meet-irreducible, and the
+quotient map $g\colon\Lambda/S\to\Lambda/R$ is not an isomorphism. Its
+$\sV_{T_1}$-reflection is $\Lambda/(S\vee T_1)\to\Lambda/(R\vee T_1)$, an
+isomorphism because $R\vee T_1=S\vee T_1$; likewise for $T'$; so
+$g\in W_{T_1}\cap W_{T'}$. Its $\sV_{T_1\wedge T'}$-reflection is $g$ itself,
+as $S$ and $R$ contain $T_1\wedge T'$; so $g\notin W_{T_1\wedge T'}$.
+For the existence of $S$: the family is nonempty as $T_0$ belongs to it, the
+union of a chain of $\lambda$-theories is a $\lambda$-theory and omits $e$ if
+each member does, and a maximal member $S$ is completely meet-irreducible
+because every $\lambda$-theory strictly containing $S$ contains $e$, so the
+intersection of all of them is not $S$.
+\end{proof}
+
+\begin{rem}
+Proposition~\ref{prop:witness} describes the failure of
+Corollary~\ref{cor:lambdano} up to the choice of a pentagon and of a
+completely meet-irreducible theory $S$; we do not know an explicit such $S$
+for the pentagons of \cite{Salibra01,LS04}.
+\end{rem}
 
 \begin{figure}[ht]
 \[
 \begin{tikzcd}[row sep=small]
 \NExt(\mathbf K)\arrow[r,hook,"\text{lattice}"] & \Same(\mathbf{MA}) &
 \Ext(\mathbf{FL})\arrow[r,hook,"\text{lattice}"] & \Same(\mathbf{FL})\\
-\lT\arrow[r,hook,"\vee\text{-semilattice}"'] & \Same(\mathbf{LAA}) &
+\lT\arrow[r,hook,"\vee\text{-semilattice, not lattice}"'] & \Same(\mathbf{LAA}) &
 \mathrm{Top}(S)\arrow[r,hook,"{\text{lattice}, S\text{ finite}}"'] & \Same(\Presh(S))
 \end{tikzcd}
 \]
 \caption{Lattices of theories inside sameness lattices: logics (Corollary~\ref{cor:logics}),
-$\lambda$-theories (Corollary~\ref{cor:lambda}), Grothendieck topologies \cite{Finitejoin}.}
+$\lambda$-theories (Corollaries~\ref{cor:lambda} and~\ref{cor:lambdano}), Grothendieck topologies \cite{Finitejoin}.}
 \end{figure}
 
 \section*{Funding}
