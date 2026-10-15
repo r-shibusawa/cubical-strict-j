@@ -71,7 +71,10 @@ therefore sublattices of the sameness lattices of their algebras. A lattice
 embedding of $\Sub(\sV)^{\mathrm{op}}$ forces every subdirectly irreducible
 algebra to generate a join-prime subvariety and hence $\Sub(\sV)$ to be
 distributive; so the lattice of $\lambda$-theories, which is not modular,
-embeds as a join-semilattice but not as a lattice.
+embeds as a join-semilattice but not as a lattice: over the pentagon of
+Berarducci-tree theories of Severi and de Vries, the quotient map between two
+term algebras is inverted by two reflections but not by the reflection into
+their meet.
 \end{abstract}
 
 \maketitle
@@ -188,7 +191,9 @@ $\lambda$-theories, which is isomorphic to the lattice of equational theories
 of lambda abstraction algebras \cite{Salibra00}, embeds as a join-semilattice
 (Corollary~\ref{cor:lambda}) but, by Theorem~\ref{thm:C} and the
 non-modularity of the lattice of $\lambda$-theories \cite{Salibra01}, not as
-a lattice (Corollary~\ref{cor:lambdano}). Theorem~\ref{thm:C} is the
+a lattice (Corollary~\ref{cor:lambdano}); over the explicit pentagon of
+$\lambda$-theories found by Severi and de Vries \cite{SdV}, the failure is
+the quotient map of term algebras of Example~\ref{ex:sdv}. Theorem~\ref{thm:C} is the
 observation that condition (i) is a statement about subdirectly irreducible
 algebras, so that the lattice embedding, which holds for arithmetical
 varieties by Jónsson's lemma, conversely imposes Jónsson's conclusion on the
@@ -557,13 +562,79 @@ and $T_0\wedge T'=T_1\wedge T'$, the pair $(T_1,T')$ is such a pair.
 \end{cor}
 \begin{proof}
 The lattice $\lT$ is not modular \cite{Salibra01}, so by Dedekind's theorem it
-contains a pentagon $T_0\subsetneq T_1$, $T'$ as stated. Under the dual
+contains a pentagon $T_0\subsetneq T_1$, $T'$ as stated (Example~\ref{ex:sdv}
+gives one explicitly). Under the dual
 isomorphism $\lT^{\mathrm{op}}\cong\Sub(\mathbf{LAA})$ it becomes the pentagon
 $P=\sV_{T_1}\subsetneq Q=\sV_{T_0}$, $R=\sV_{T'}$ with $P\vee R=Q\vee R$ and
 $P\wedge R=Q\wedge R$, and Theorem~\ref{thm:C} gives
 $W_{P\vee R}\ne W_P\cap W_R$, i.e.\ $W_{T_1\wedge T'}\ne W_{T_1}\cap W_{T'}$;
 the inclusion $\subseteq$ always holds.
 \end{proof}
+
+\begin{lem}\label{lem:termalg}
+Let $S,T$ be $\lambda$-theories and $\Lambda/S$ the term algebra of $S$. The
+congruence lattice of $\Lambda/S$ is isomorphic to the interval
+$\{R\in\lT:R\supseteq S\}$ of $\lT$, a quotient $\Lambda/R$ lies in $\sV_T$
+exactly when $R\supseteq T$, and the $\sV_T$-reflection of $\Lambda/S$ is the
+quotient map $\Lambda/S\to\Lambda/(S\vee T)$.
+\end{lem}
+\begin{proof}
+The first statement is the congruence correspondence for the term algebra:
+the congruences of $\Lambda/S$ are the congruences of $\Lambda$ containing
+$S$, i.e.\ the $\lambda$-theories containing $S$ \cite{Salibra00,LS04}. The
+second follows from Salibra's dual isomorphism
+$T\mapsto\sV_T=\var(\Lambda/T)$ between $\lT$ and $\Sub(\mathbf{LAA})$
+\cite{Salibra00}, used in Corollary~\ref{cor:lambda}: if $\Lambda/R\in\sV_T$
+then $\sV_R\subseteq\sV_T$, so $R\supseteq T$; conversely $\Lambda/R$ is a
+quotient of $\Lambda/T$ when $R\supseteq T$. Hence the
+least congruence of $\Lambda/S$ with quotient in $\sV_T$ is the least
+$\lambda$-theory containing $S$ and $T$.
+\end{proof}
+
+\begin{prop}\label{prop:explicit}
+Let $T_0\subsetneq T_1$, $T'$ be a pentagon in $\lT$ as in
+Corollary~\ref{cor:lambdano}. The quotient map
+$g\colon\Lambda/T_0\to\Lambda/T_1$ lies in $W_{T_1}\cap W_{T'}$ but not in
+$W_{T_1\wedge T'}$; equivalently, the term algebra $\Lambda/T_0$ of
+$\sV_{T_1\wedge T'}=\sV_{T_1}\vee\sV_{T'}$ is not a subdirect product of its
+$\sV_{T_1}$- and $\sV_{T'}$-reflections, so that condition (i) of
+Theorem~\ref{thm:B} fails for the pair $(\sV_{T_1},\sV_{T'})$.
+\end{prop}
+\begin{proof}
+By Lemma~\ref{lem:termalg} the $\sV_{T_1}$-reflection of $g$ is
+$\Lambda/(T_0\vee T_1)\to\Lambda/(T_1\vee T_1)$, the identity of
+$\Lambda/T_1$; its $\sV_{T'}$-reflection is
+$\Lambda/(T_0\vee T')\to\Lambda/(T_1\vee T')$, an isomorphism because
+$T_0\vee T'=T_1\vee T'$; and its $\sV_{T_1\wedge T'}$-reflection is $g$
+itself, because $T_1\wedge T'=T_0\wedge T'\subseteq T_0\subseteq T_1$, and
+$g$ is not an isomorphism because $T_0\ne T_1$. For the second statement, the
+kernels of the two reflections of $\Lambda/T_0$ are the congruences $T_1$ and
+$T_0\vee T'=T_1\vee T'$, whose intersection is $T_1\ne T_0$.
+\end{proof}
+
+\begin{ex}\label{ex:sdv}
+Severi and de Vries \cite[Thm.~44]{SdV} exhibit a pentagon in $\lT$. Let
+$T_R$ be the $\lambda$-theory equating two terms when they have the same
+Berarducci tree, let $\Theta=(\lambda xy.y(xxy))(\lambda xy.y(xxy))$ be
+Turing's fixed-point combinator and $F=\Theta(\lambda x.xK)$, whose Berarducci
+tree is the infinite left spine $((\cdots K)K)K$, and let
+$\Omega=(\lambda x.xx)(\lambda x.xx)$. Then
+\[
+T_0=T_R+\{\Omega=FI\},\qquad
+T_1=T_R+\{\Omega=FI,\ \Omega=\Omega I\},\qquad
+T'=T_R+\{\Omega=F,\ \Omega=\Omega K\}
+\]
+satisfy $T_0\subsetneq T_1$, $T_0\vee T'=T_1\vee T'=T_R+\{\Omega=F,\
+\Omega=\Omega I,\ \Omega=\Omega K\}$ and $T_0\wedge T'=T_1\wedge T'=T_R$, all
+five theories being consistent; in the notation of \cite[Thm.~44]{SdV},
+$T_0$, $T_1$ and $T'$ are their $T_2$, $T_4$ and $T_3$, and $\Theta$ is their
+$\mathrm{Fix}$. By Proposition~\ref{prop:explicit} the
+quotient map $\Lambda/T_0\to\Lambda/T_1$, which identifies $\Omega$ with
+$\Omega I$, is inverted by the reflections into $\sV_{T_1}$ and $\sV_{T'}$ but
+not by the reflection into $\sV_{T_R}$: $W_{T_R}\subsetneq W_{T_1}\cap W_{T'}$.
+(The non-modularity of $\lT$ was first proved in \cite{Salibra01} with a
+different counterexample.)
+\end{ex}
 
 \begin{prop}\label{prop:witness}
 Let $T_0\subsetneq T_1$, $T'$ be a pentagon in $\lT$ as in
@@ -581,14 +652,10 @@ containing $T_0$ but not $e$ form a nonempty family closed under unions of
 chains, and any maximal member is completely meet-irreducible.
 \end{prop}
 \begin{proof}
-By \cite{Salibra00} the lattice $\lT$ is isomorphic to the lattice of
-equational theories of $\mathbf{LAA}$ via $T\mapsto\sV_T$, and for every
-$\lambda$-theory $S$ the congruence lattice of $\Lambda/S$ is isomorphic to
-the interval $\{R\in\lT: R\supseteq S\}$, a quotient $\Lambda/R$ lying in
-$\sV_T$ exactly when $R\supseteq T$. Hence $\Lambda/S$ is subdirectly
-irreducible when $S$ is completely meet-irreducible (its congruence lattice
-then has a least nonzero element), $\Lambda/S\in\sV_T$ iff $S\supseteq T$,
-and the $\sV_T$-reflection of $\Lambda/S$ is $\Lambda/(S\vee T)$. Now
+By Lemma~\ref{lem:termalg}, $\Lambda/S$ is subdirectly irreducible when $S$
+is completely meet-irreducible (its congruence lattice then has a least
+nonzero element), $\Lambda/S\in\sV_T$ iff $S\supseteq T$, and the
+$\sV_T$-reflection of $\Lambda/S$ is $\Lambda/(S\vee T)$. Now
 $S\supseteq T_0\supseteq T_0\wedge T'=T_1\wedge T'$, $S\not\supseteq T_1$ by
 choice, and $S\not\supseteq T'$ since otherwise
 $S\supseteq T_0\vee T'=T_1\vee T'\supseteq T_1$. The theories $S\vee T_1$ and
@@ -607,10 +674,14 @@ intersection of all of them is not $S$.
 \end{proof}
 
 \begin{rem}
-Proposition~\ref{prop:witness} describes the failure of
-Corollary~\ref{cor:lambdano} up to the choice of a pentagon and of a
-completely meet-irreducible theory $S$; we do not know an explicit such $S$
-for the pentagons of \cite{Salibra01,LS04}.
+Proposition~\ref{prop:explicit} is the direction ``$\Leftarrow$'' of
+Theorem~\ref{thm:C} made concrete: the term algebra $\Lambda/T_0$ is the
+algebra of $V\vee V'$ that is not a subdirect product of its two reflections.
+Proposition~\ref{prop:witness} is the direction ``$\Rightarrow$'': the
+subdirectly irreducible algebra outside $V\cup V'$. For the pentagon of
+Example~\ref{ex:sdv} the first is explicit, while the second still requires a
+completely meet-irreducible theory containing $T_R+\{\Omega=FI\}$ but not
+$\Omega=\Omega I$, for which we know no explicit description.
 \end{rem}
 
 \begin{figure}[ht]
@@ -660,6 +731,9 @@ J. Logic Comput. \textbf{14} (2004), 373--394.
 calculus}, Theoret. Comput. Sci. \textbf{249} (2000), 197--240.
 \bibitem{Salibra01} A.~Salibra, \emph{Nonmodularity results for lambda
 calculus}, Fund. Inform. \textbf{45} (2001), 379--392.
+\bibitem{SdV} P.~Severi, F.-J.~de Vries, \emph{Decomposing the lattice of
+meaningless sets in the infinitary lambda calculus}, in: WoLLIC 2011, Lecture
+Notes in Comput. Sci. \textbf{6642}, Springer, 2011, pp.~210--227.
 \bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
 weak-equivalence structures, Galois functoriality, and comparison intervals},
 preprint (2026), archived at DOI 10.5281/zenodo.22823772.
