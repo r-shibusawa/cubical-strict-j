@@ -62,9 +62,10 @@ frame condition, the criterion is exactly the validity of the induction scheme
 of the trimodal lax logic of two nuclei and their join on the frame
 $(P,C,C')$ with the join interpreted as $\lax_{C\cap C'}$; the condition is
 not first-order definable, as for the induction axiom of common knowledge,
-whose role the join plays. Finally, every nucleus on $\Up(P)$ is a join of
-relativized necessities, with explicit generators, although the double
-negation nucleus on the binary tree is not a join of finitely many.
+whose role the join plays. Finally, since finite meets of open and closed nuclei on $\Up(P)$ are
+relativized necessities, every nucleus on $\Up(P)$ is a join of relativized
+necessities, although the double negation nucleus on the binary tree is not
+a join of finitely many.
 \end{abstract}
 
 \maketitle
@@ -164,9 +165,12 @@ the preservation of arbitrary joins when every nonempty subset has a maximal
 element (Corollary~\ref{cor:embed}, which with Lindenhovius's classification
 makes $C\mapsto\lax_C$ an isomorphism of complete lattices there) and the
 non-definability of the frame condition (Proposition~\ref{prop:nonfo}) are
-supporting results; Theorem~\ref{thm:dense}, that every nucleus on $\Up(P)$
-is a join of relativized necessities, places the two main results in the
-whole lattice of nuclei.
+supporting results. Theorem~\ref{thm:dense}, that every nucleus on $\Up(P)$
+is a join of relativized necessities, is the classical generation of the
+lattice of nuclei by open and closed nuclei \cite{Johnstone} together with
+the observation that on $\Up(P)$ the finite meets of open and closed nuclei
+are relativized necessities; the binary-tree example showing that finitely
+many do not suffice is new.
 
 \section{Relativized necessities}\label{sec:rel}
 
@@ -453,9 +457,23 @@ relativized necessities \cite[Thm.~2.12]{Lindenhovius}; the join of the two
 nuclei of Example~\ref{ex:examples}(a) is one. They are, however, joins of
 relativized necessities, and the generators can be written down.
 
+For $a\in H$ the \emph{closed} and \emph{open} nuclei are $c_a(b)=a\vee b$
+and $u_a(b)=a\to b$; they generate $\Nuc(H)$ as a frame, and every nucleus
+is the join of the nuclei $u_a\wedge c_{ja}$, $a\in H$ \cite[Ch.~II, \S2]{Johnstone}.
+On $\Up(P)$ these generators are relativized necessities: for up-sets $U,V$,
+\[
+\lax_{U\cup(P\setminus V)}=u_U\wedge c_V,
+\]
+since $\upa x\cap(U\cup(P\setminus V))\subseteq W$ iff $\upa x\cap U\subseteq W$
+and $\upa x\subseteq V\cup W$, i.e.\ $x\in(U\to W)\cap(V\cup W)$. In
+particular $u_U=\lax_U$ and $c_V=\lax_{P\setminus V}$. The following
+theorem is therefore the classical presentation in Alexandrov form, with a
+direct proof.
+
 \begin{thm}\label{thm:dense}
 Let $P$ be a poset and $j$ a nucleus on $\Up(P)$. For $U\in\Up(P)$ and
-$x\in jU\setminus U$ put $C(U,x)=P\setminus(\upa x\setminus U)$. Then
+$x\in jU\setminus U$ put $C(U,x)=P\setminus(\upa x\setminus U)=U\cup(P\setminus\upa x)$,
+so that $\lax_{C(U,x)}=u_U\wedge c_{\upa x}$. Then
 $\lax_{C(U,x)}\le j$, $U\notin\Fix(\lax_{C(U,x)})$, and
 \[
 j=\bigvee\{\lax_{C(U,x)}:\ U\in\Up(P),\ x\in jU\setminus U\}
@@ -475,7 +493,9 @@ $\upa z\setminus V\subseteq\upa x\setminus U$. Then $z$ itself lies in
 $\upa x\setminus U$, so $z\ge x$ and therefore $z\in jU$; and
 $\upa z\cap U\subseteq V$, i.e.\ $z\in U\to V$, where $U\to V=\{w:\upa w\cap U
 \subseteq V\}$ is the Heyting implication of $\Up(P)$. As $V$ is fixed by
-$j$, so is $U\to V$, because $j(U\to V)\le jU\to jV=jU\to V\le U\to V$. Hence
+$j$, so is $U\to V$: since $j$ preserves binary meets, $j(a\to b)\wedge ja
+=j((a\to b)\wedge a)\le jb$ gives $j(a\to b)\le ja\to jb$, whence
+$j(U\to V)\le jU\to jV=jU\to V\le U\to V$. Hence
 $z\in jU\cap j(U\to V)=j(U\cap(U\to V))\subseteq jV=V$, a contradiction. So
 every $z\notin V$ has a point of $C\setminus V$ above it, $V\in\Fix(\lax_C)$,
 and $\lax_C\le j$.
@@ -493,31 +513,56 @@ proved as Proposition~\ref{prop:gfp}, with $X\subseteq\dn(X\cap C_i)$ required
 for every $i$.
 \end{proof}
 
+\begin{rem}
+The generators $\lax_{C(U,x)}=u_U\wedge c_{\upa x}$ refine the classical
+generators $u_U\wedge c_{jU}$: as $jU=\bigcup_{x\in jU}\upa x$ and closed
+nuclei turn joins into joins, $u_U\wedge c_{jU}=\bigvee_{x\in jU}(u_U\wedge
+c_{\upa x})$ by frame distributivity, and the terms with $x\in U$ are below
+the identity nucleus. What is specific to $\Up(P)$ is that these generators,
+and hence all finite meets of open and closed nuclei, are induced by subsets
+of $P$.
+\end{rem}
+
 \begin{ex}\label{ex:tree}
 Finite joins do not suffice. For any poset, $\lax_C\le\neg\neg$ if and only
 if $C$ is cofinal, i.e.\ every point has a point of $C$ above it: if
 $\lax_C\le\neg\neg$ then $\lax_C\varnothing\subseteq\neg\neg\varnothing=
-\varnothing$, so no point has $\upa x\cap C=\varnothing$; conversely, if $V$ is
-regular and $x\notin V=\neg\neg V$, there is $y\ge x$ with $\upa y\cap V=
-\varnothing$, and a point of $C$ above $y$ lies above $x$ and outside $V$. Let
+\varnothing$, so no point has $\upa x\cap C=\varnothing$; conversely, if $C$ is cofinal and $x\in\lax_CU$, then every $y\ge x$ has
+a point $z\ge y$ in $C$, which lies in $U$, so $\upa y\cap U\ne\varnothing$
+for all $y\ge x$, i.e.\ $x\in\neg\neg U$. Let
 $T$ be the full binary tree, ordered by extension of finite $0$--$1$ words.
 Given cofinal $C_1,\dots,C_n$, choose $x_1<x_2<\cdots$ with $x_k\in C_i$ for
 $k\equiv i\pmod n$; then $B=\dn\{x_k\}$ is an infinite branch and $U=T\setminus
 B$ is an up-set fixed by every $\lax_{C_i}$, each $C_i$ being cofinal in $B$.
-But $\neg U=\varnothing$, because every node of $B$ has a child off $B$, so
+But $\neg U=\{t:\upa t\cap U=\varnothing\}$ is empty: a node $t\notin B$
+lies in $U$, and a node $t\in B$ has two children, of which the one not on
+$B$ lies in $U$; so every node has a descendant in $U$, and
 $\neg\neg U=T\ne U$. Hence $\neg\neg$ on $\Up(T)$ is not a join of finitely
 many relativized necessities, while by Theorem~\ref{thm:dense} it is the join
-of all $\lax_C$ with $C$ cofinal. On the chain $\omega$, by contrast,
-$\neg\neg=\lax_{\mathrm{even}}\vee\lax_{\mathrm{odd}}$, since the fixed points
-of $\neg\neg$ are $\varnothing$ and $\omega$ and those of $\lax_C$ are
-$\omega$, the sets $\upa(c+1)$ for $c\in C$, and $\varnothing$ when $C$ is
-infinite.
-\end{ex}
+of all $\lax_C$ with $C$ cofinal. \end{ex}
+
+\begin{prop}\label{prop:omega}
+Every nucleus on $\Up(\omega)$ is a join of at most two relativized
+necessities; for instance $\neg\neg=\lax_{\mathrm{even}}\vee\lax_{\mathrm{odd}}$.
+\end{prop}
+\begin{proof}
+The up-sets of $\omega$ are $\varnothing$ and the tails $\upa n$, and
+$\Fix(\lax_C)$ consists of $\omega$, the tails $\upa(c+1)$ for $c\in C$, and
+$\varnothing$ exactly when $C$ is infinite. The fixed-point set $S$ of a
+nucleus contains $\omega$ and is closed under intersections, so if it
+contains infinitely many tails it contains $\varnothing$. Let $A=\{c:\upa(c+1)
+\in S\}$. If $A$ is infinite, or if $A$ is finite and $\varnothing\notin S$,
+then $S=\Fix(\lax_A)$. If $A$ is finite and $\varnothing\in S$, split
+$\omega\setminus A$ into two disjoint infinite sets $E$ and $O$; then
+$\Fix(\lax_{A\cup E})\cap\Fix(\lax_{A\cup O})=S$, so the nucleus is
+$\lax_{A\cup E}\vee\lax_{A\cup O}$. For $\neg\neg$, $S=\{\varnothing,\omega\}$
+and $A=\varnothing$.
+\end{proof}
 
 \begin{que}
 Which nuclei on $\Up(P)$ are joins of finitely many relativized necessities?
-On $\omega$ two always suffice; on the binary tree $\neg\neg$ needs infinitely
-many.
+On $\omega$ two always suffice (Proposition~\ref{prop:omega}); on the binary
+tree $\neg\neg$ needs infinitely many (Example~\ref{ex:tree}).
 \end{que}
 
 \section*{Funding}
