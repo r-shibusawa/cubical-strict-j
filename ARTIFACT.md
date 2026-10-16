@@ -5,9 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.32.2` (paper 35 revised again: over any pentagon of lambda-theories the
+- Current snapshot: release `v1.32.3` (paper 35 revised: whether joins of subvarieties go to meets
+  of samenesses is not determined by the subvariety lattice, two congruence distributive varieties with
+  subvariety lattice 2 x 2 behaving differently), archived at DOI [pending] -- cite this one.
+- Previous: release `v1.32.2` (paper 35 revised again: over any pentagon of lambda-theories the
   quotient map of term algebras is an explicit witness that the embedding is not a lattice embedding,
-  made concrete on the pentagon of Severi and de Vries), archived at DOI [10.5281/zenodo.23382630](https://doi.org/10.5281/zenodo.23382630) -- cite this one.
+  made concrete on the pentagon of Severi and de Vries), archived at DOI [10.5281/zenodo.23382630](https://doi.org/10.5281/zenodo.23382630)
 - Previous: release `v1.32.1` (paper 35 revised, *Lattices of subvarieties and of logics as
   sublattices of the lattice of two-out-of-three classes*: a lattice embedding of Sub(V)^op forces
   distributivity of Sub(V), so the lattice of lambda-theories embeds as a join-semilattice but not as a
