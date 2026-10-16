@@ -5,9 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.32.3` (paper 35 revised: whether joins of subvarieties go to meets
+- Current snapshot: release `v1.34.0` (paper 37, *Joins of relativized necessities on a poset: an
+  alternating-chain criterion and the induction scheme of lax logic* -- `docs/consolidated/relnec.pdf`;
+  check `scripts/comparison/relnec_join.py`), archived at DOI [pending] -- cite this one.
+- Previous: release `v1.32.3` (paper 35 revised: whether joins of subvarieties go to meets
   of samenesses is not determined by the subvariety lattice, two congruence distributive varieties with
-  subvariety lattice 2 x 2 behaving differently), archived at DOI [10.5281/zenodo.23407364](https://doi.org/10.5281/zenodo.23407364) -- cite this one.
+  subvariety lattice 2 x 2 behaving differently), archived at DOI [10.5281/zenodo.23407364](https://doi.org/10.5281/zenodo.23407364)
 - Previous: release `v1.32.2` (paper 35 revised again: over any pentagon of lambda-theories the
   quotient map of term algebras is an explicit witness that the embedding is not a lattice embedding,
   made concrete on the pentagon of Severi and de Vries), archived at DOI [10.5281/zenodo.23382630](https://doi.org/10.5281/zenodo.23382630)
