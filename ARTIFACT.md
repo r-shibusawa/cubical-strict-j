@@ -7,7 +7,7 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.35.0` (paper 38, *Nuclei on the algebra of truth values and the
   sameness lattice of fuzzy sets: meets, joins and the finite-iteration axiom* -- `docs/consolidated/fuzzysame.pdf`;
-  check `scripts/comparison/fuzzy_same.py`), archived at DOI [pending] -- cite this one.
+  check `scripts/comparison/fuzzy_same.py`), archived at DOI [10.5281/zenodo.23413073](https://doi.org/10.5281/zenodo.23413073) -- cite this one.
 - Previous: release `v1.34.2` (paper 37 revised: the generators of Section 5 are meets of open
   and closed nuclei; every nucleus on Up(omega) is a join of at most two relativized necessities),
   archived at DOI [10.5281/zenodo.23411203](https://doi.org/10.5281/zenodo.23411203)
