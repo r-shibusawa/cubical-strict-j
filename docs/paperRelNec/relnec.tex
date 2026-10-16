@@ -62,7 +62,9 @@ frame condition, the criterion is exactly the validity of the induction scheme
 of the trimodal lax logic of two nuclei and their join on the frame
 $(P,C,C')$ with the join interpreted as $\lax_{C\cap C'}$; the condition is
 not first-order definable, as for the induction axiom of common knowledge,
-whose role the join plays.
+whose role the join plays. Finally, every nucleus on $\Up(P)$ is a join of
+relativized necessities, with explicit generators, although the double
+negation nucleus on the binary tree is not a join of finitely many.
 \end{abstract}
 
 \maketitle
@@ -162,7 +164,9 @@ the preservation of arbitrary joins when every nonempty subset has a maximal
 element (Corollary~\ref{cor:embed}, which with Lindenhovius's classification
 makes $C\mapsto\lax_C$ an isomorphism of complete lattices there) and the
 non-definability of the frame condition (Proposition~\ref{prop:nonfo}) are
-supporting results.
+supporting results; Theorem~\ref{thm:dense}, that every nucleus on $\Up(P)$
+is a join of relativized necessities, places the two main results in the
+whole lattice of nuclei.
 
 \section{Relativized necessities}\label{sec:rel}
 
@@ -442,11 +446,78 @@ is valid under the intersection reading exactly when the alternating chains
 are absent, and this class is not first-order definable.
 \end{rem}
 
+\section{Every nucleus is a join of relativized necessities}\label{sec:dense}
+
+On a poset with an infinite ascending chain some nuclei on $\Up(P)$ are not
+relativized necessities \cite[Thm.~2.12]{Lindenhovius}; the join of the two
+nuclei of Example~\ref{ex:examples}(a) is one. They are, however, joins of
+relativized necessities, and the generators can be written down.
+
+\begin{thm}\label{thm:dense}
+Let $P$ be a poset and $j$ a nucleus on $\Up(P)$. For $U\in\Up(P)$ and
+$x\in jU\setminus U$ put $C(U,x)=P\setminus(\upa x\setminus U)$. Then
+$\lax_{C(U,x)}\le j$, $U\notin\Fix(\lax_{C(U,x)})$, and
+\[
+j=\bigvee\{\lax_{C(U,x)}:\ U\in\Up(P),\ x\in jU\setminus U\}
+=\bigvee\{\lax_C:\ C\subseteq P,\ \lax_C\le j\}.
+\]
+Hence the relativized necessities are join-dense in $\Nuc(\Up(P))$, and the
+sublattice they generate consists of the finite joins
+$\lax_{C_1}\vee\dots\vee\lax_{C_n}$, each given by the greatest fixed point of
+Proposition~\ref{prop:gfp} with $n$ conditions.
+\end{thm}
+\begin{proof}
+Write $C=C(U,x)$. Since $\upa x\cap C\subseteq U$ we have $x\in\lax_CU\setminus U$,
+so $U$ is not fixed by $\lax_C$. For $\lax_C\le j$ we show
+$\Fix(j)\subseteq\Fix(\lax_C)$. Let $V\in\Fix(j)$ and $z\notin V$, and suppose
+that no point of $C$ above $z$ lies outside $V$, i.e.\
+$\upa z\setminus V\subseteq\upa x\setminus U$. Then $z$ itself lies in
+$\upa x\setminus U$, so $z\ge x$ and therefore $z\in jU$; and
+$\upa z\cap U\subseteq V$, i.e.\ $z\in U\to V$, where $U\to V=\{w:\upa w\cap U
+\subseteq V\}$ is the Heyting implication of $\Up(P)$. As $V$ is fixed by
+$j$, so is $U\to V$, because $j(U\to V)\le jU\to jV=jU\to V\le U\to V$. Hence
+$z\in jU\cap j(U\to V)=j(U\cap(U\to V))\subseteq jV=V$, a contradiction. So
+every $z\notin V$ has a point of $C\setminus V$ above it, $V\in\Fix(\lax_C)$,
+and $\lax_C\le j$.
+
+Consequently $\Fix(j)\subseteq\Fix(\lax_{C(U,x)})$ for all $(U,x)$, with
+$U\notin\Fix(\lax_{C(U,x)})$ for every $U\notin\Fix(j)$; so
+$\Fix(j)=\bigcap_{(U,x)}\Fix(\lax_{C(U,x)})$, which is the first equality, and
+the second follows since every $\lax_C\le j$ lies between $\lax_{C(U,x)}$'s
+join and $j$. For the sublattice, meets of relativized necessities are
+relativized necessities (Lemma~\ref{lem:basic}(ii)), and since $\Nuc(H)$ is a
+frame \cite{Johnstone}, binary meets distribute over joins:
+$(\lax_{C_1}\vee\dots\vee\lax_{C_n})\wedge\lax_E=\lax_{C_1\cup E}\vee\dots\vee
+\lax_{C_n\cup E}$. The greatest-fixed-point description of an $n$-fold join is
+proved as Proposition~\ref{prop:gfp}, with $X\subseteq\dn(X\cap C_i)$ required
+for every $i$.
+\end{proof}
+
+\begin{ex}\label{ex:tree}
+Finite joins do not suffice. For any poset, $\lax_C\le\neg\neg$ if and only
+if $C$ is cofinal, i.e.\ every point has a point of $C$ above it: if
+$\lax_C\le\neg\neg$ then $\lax_C\varnothing\subseteq\neg\neg\varnothing=
+\varnothing$, so no point has $\upa x\cap C=\varnothing$; conversely, if $V$ is
+regular and $x\notin V=\neg\neg V$, there is $y\ge x$ with $\upa y\cap V=
+\varnothing$, and a point of $C$ above $y$ lies above $x$ and outside $V$. Let
+$T$ be the full binary tree, ordered by extension of finite $0$--$1$ words.
+Given cofinal $C_1,\dots,C_n$, choose $x_1<x_2<\cdots$ with $x_k\in C_i$ for
+$k\equiv i\pmod n$; then $B=\dn\{x_k\}$ is an infinite branch and $U=T\setminus
+B$ is an up-set fixed by every $\lax_{C_i}$, each $C_i$ being cofinal in $B$.
+But $\neg U=\varnothing$, because every node of $B$ has a child off $B$, so
+$\neg\neg U=T\ne U$. Hence $\neg\neg$ on $\Up(T)$ is not a join of finitely
+many relativized necessities, while by Theorem~\ref{thm:dense} it is the join
+of all $\lax_C$ with $C$ cofinal. On the chain $\omega$, by contrast,
+$\neg\neg=\lax_{\mathrm{even}}\vee\lax_{\mathrm{odd}}$, since the fixed points
+of $\neg\neg$ are $\varnothing$ and $\omega$ and those of $\lax_C$ are
+$\omega$, the sets $\upa(c+1)$ for $c\in C$, and $\varnothing$ when $C$ is
+infinite.
+\end{ex}
+
 \begin{que}
-On a finite poset every nucleus is a relativized necessity. Which nuclei on
-$\Up(P)$ for infinite $P$ are joins of relativized necessities, and is the
-sublattice of $\Nuc(\Up(P))$ generated by the $\lax_C$ described by the
-greatest fixed points of Proposition~\ref{prop:gfp} for finite families?
+Which nuclei on $\Up(P)$ are joins of finitely many relativized necessities?
+On $\omega$ two always suffice; on the binary tree $\neg\neg$ needs infinitely
+many.
 \end{que}
 
 \section*{Funding}

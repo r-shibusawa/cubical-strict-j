@@ -65,3 +65,34 @@ for trial in range(300):
         assert j == nec(rel, C & Cp, U)
         tests += 1
 print("checked", tests, "cases: meet = O_{C u C'}, join = gfp formula = O_{C n C'} on finite posets")
+
+# 4. Every nucleus j on Up(P) is the join of the relativized necessities
+#    O_{P \ (up(x) \ U)} over up-sets U and points x in j(U) \ U.  On a finite
+#    poset every nucleus is some O_C, so we test the formula for j = O_C.
+
+def nec_join(rel, Cs, U):
+    V = U
+    while True:
+        W = V
+        for C in Cs: W = nec(rel, C, W)
+        if W == V: return V
+        V = W
+
+random.seed(2)
+tests = 0
+for trial in range(200):
+    n = random.randint(1, 6); rel = random_poset(n, random.random())
+    C = frozenset(i for i in range(n) if random.random() < 0.5)
+    allU = list(upsets(rel)); P = frozenset(range(n))
+    gens = []
+    for U in allU:
+        jU = nec(rel, C, U)
+        for x in jU - U:
+            gens.append(P - (up(rel, {x}) - U))
+    for g in gens:  # each generator is below j: Fix(j) subset Fix(O_g)
+        for U in allU:
+            if nec(rel, C, U) == U: assert nec(rel, g, U) == U
+    for U in allU:
+        assert nec_join(rel, gens, U) == nec(rel, C, U) if gens else nec(rel, C, U) == U
+        tests += 1
+print("checked", tests, "cases: j = join of O_{P \\ (up x \\ U)} over x in jU \\ U")
