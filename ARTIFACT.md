@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.36.2` (paper 39 revised again, now for Lawvere--Tierney topologies on arbitrary
   toposes, *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three classes: the finite-iteration
   criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
-  `scripts/comparison/join_factor.py`), archived at DOI [pending] -- cite this one.
+  `scripts/comparison/join_factor.py`), archived at DOI [10.5281/zenodo.23486604](https://doi.org/10.5281/zenodo.23486604) -- cite this one.
 - Previous: release `v1.36.1` (paper 39 second version, presheaf toposes: *Joins of
   Grothendieck topologies in the lattice of two-out-of-three classes: the finite-iteration criterion*),
   archived at DOI [10.5281/zenodo.23468327](https://doi.org/10.5281/zenodo.23468327)
