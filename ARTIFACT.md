@@ -5,10 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.36.1` (paper 39 revised and generalised to arbitrary topologies, *Joins of
-  Grothendieck topologies in the lattice of two-out-of-three classes: the finite-iteration criterion* --
-  `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`, `scripts/comparison/join_factor.py`),
-  archived at DOI [10.5281/zenodo.23468327](https://doi.org/10.5281/zenodo.23468327) -- cite this one.
+- Current snapshot: release `v1.36.2` (paper 39 revised again, now for Lawvere--Tierney topologies on arbitrary
+  toposes, *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three classes: the finite-iteration
+  criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
+  `scripts/comparison/join_factor.py`), archived at DOI [pending] -- cite this one.
+- Previous: release `v1.36.1` (paper 39 second version, presheaf toposes: *Joins of
+  Grothendieck topologies in the lattice of two-out-of-three classes: the finite-iteration criterion*),
+  archived at DOI [10.5281/zenodo.23468327](https://doi.org/10.5281/zenodo.23468327)
 - Previous: release `v1.36.0` (paper 39, first version, ideal topologies only: *Joins of Grothendieck topologies of ideal type in
   the lattice of two-out-of-three classes: the stabilisation criterion*), archived at DOI [10.5281/zenodo.23467281](https://doi.org/10.5281/zenodo.23467281)
 - Previous: release `v1.35.0` (paper 38, *Nuclei on the algebra of truth values and the
