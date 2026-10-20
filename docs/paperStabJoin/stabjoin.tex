@@ -60,7 +60,17 @@ $A,B$ it decides when the join of ``bijective at $A$'' and ``bijective at $B$''
 is ``bijective at $A\cap B$''; on the natural numbers, the join of the classes
 of maps bijective at the even and at the odd points is the class of maps of
 towers that are bijective up to a uniform shift, a proper subclass of the
-isomorphisms of pro-sets.
+isomorphisms of pro-sets. For the topos of sheaves on a locale and two
+nuclei $n,n'$ the condition is $(nn')^k=n\vee n'$ in the frame of nuclei;
+on the chain $[0,1]$, the frame of opens of a spatial non-Alexandrov space,
+two nuclei with fixed sets $\{0,1\}\cup\{1/2k\}$ and $\{0,1\}\cup\{1/(2k+1)\}$
+have join with fixed set $\{0,1\}$, the double-negation nucleus, but violate
+the condition, so the join of the two classes is strictly smaller than the
+class of maps inverted by the double-negation sheafification; on the real
+line, the classes of maps of sheaves that are isomorphisms over the
+rationals and over the irrationals have a join strictly smaller than the
+class of the meet of the two subtoposes, the obstruction being the
+unbounded length of an alternating Cantor--Bendixson derivation.
 \end{abstract}
 
 \maketitle
@@ -166,7 +176,12 @@ of $A\cap B$, on a locally finite poset iff the strictly alternating chains
 avoiding $A\cap B$ have bounded size. On $\mathbb N$ with the even and the odd
 points the join is the class of maps of towers that are bijective up to a
 uniform shift, a proper subclass of the isomorphisms of pro-sets
-(Example~\ref{ex:pro}).
+(Example~\ref{ex:pro}). For a localic topos $\Sh(L)$ the topologies are the
+nuclei on the frame $L$, and Corollary~\ref{cor:localic} reads: $W_n\vee
+W_{n'}=W_{n\vee n'}$ iff $(nn')^k=n\vee n'$ in the frame of nuclei. Open and
+closed nuclei always satisfy this with $k=1$; nuclei on the chain $[0,1]$,
+the frame of opens of a spatial space whose sheaf topos is not a presheaf
+topos, need not (Example~\ref{ex:chain}).
 
 The proofs are elementary and use only the calculus of closure operators on
 subobjects. The inclusion $U_k\subseteq W_j\vee W_{j'}$ is a peeling
@@ -214,13 +229,23 @@ Theorem~\ref{thm:B}, the finite-iteration criterion, which decides the
 question for every pair of subtoposes of every Grothendieck topos, whereas
 \cite{Finitejoin} proves the positive answer under a finiteness hypothesis;
 Corollary~\ref{cor:ideal} with its short proof; Proposition~\ref{prop:objects}
-and Example~\ref{ex:pro}. The results do not follow from the theory of
+and Example~\ref{ex:pro}; Corollary~\ref{cor:localic} and
+Example~\ref{ex:chain}. The results do not follow from the theory of
 localisations or of the subtopos lattice alone: the meet of the two
 subtoposes, i.e.\ the join topology, is determined by $j$ and $j'$, but the
 join of the two classes in $\Same(\cE)$ is a finer invariant (the uniform
 version of bidensity), and Example~\ref{ex:pro} exhibits two subtoposes whose
 meet is the degenerate subtopos while the join of their classes is a proper
-sameness.
+sameness. In the localic case (Section~\ref{sec:localic}) the meet of two
+sublocales is classical, for instance the meet of the sublocales $\mathbb Q$
+and $\mathbb I$ of $\mathbb R$ is a nonempty dense sublocale
+\cite[II.2]{StoneSpaces}; what is new is the statement at the level of
+maps of sheaves, that the join of ``isomorphism over $\mathbb Q$'' and
+``isomorphism over $\mathbb I$'' is strictly smaller than the class of the
+meet, and the identification of the obstruction with the unbounded length
+of the alternating Cantor--Bendixson derivation
+$F\mapsto\operatorname{cl}(\operatorname{cl}(F\cap\mathbb I)\cap\mathbb Q)$
+(Example~\ref{ex:QI}).
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -442,8 +467,15 @@ one of the two topologies.}
 
 \begin{rem}
 In general the join of two samenesses requires the two-out-of-three
-saturation of the compositional closure \cite{Same}; here no cancellation is
-needed. The number of steps is controlled in both directions: a composite of
+saturation of the compositional closure \cite{Same}: on the poset
+$0<1<2$ viewed as a category, the classes $W_1=\{0\to1\}$ and
+$W_2=\{0\to2\}$ (with the identities) are samenesses, their compositional
+closure is $\{0\to1,0\to2\}$, and two-out-of-three forces $1\to2$ into the
+join, which is therefore the class of all morphisms. For two classes of
+local isomorphisms no cancellation is needed, and this is the content of
+the peeling lemma rather than a formal consequence of the join theorem of
+\cite[Thm.~4.1]{Postnikov}, which only identifies the join with the class
+inverted by a composite reflector when such a reflector exists. The number of steps is controlled in both directions: a composite of
 $n$ maps of $W_j\cup W_{j'}$ lies in $U_n$ by Lemma~\ref{lem:U}, and a map of
 $U_k$ is a composite of $4k$ such maps. Theorem~\ref{thm:A} and its proof
 hold in every elementary topos.
@@ -828,6 +860,148 @@ the samenesses is not $W_\emptyset$ but the class of maps bijective up to a
 uniform shift.
 \end{rem}
 
+\section{Localic toposes}\label{sec:localic}
+
+Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. The Lawvere--Tierney
+topologies on $\Sh(L)$ correspond, as an ordered set, to the nuclei on $L$
+(the sublocales of $L$) \cite[II.2]{StoneSpaces}, \cite[A4.5]{Elephant}: a
+nucleus is a map $n\colon L\to L$ that is inflationary, monotone, idempotent
+and preserves finite meets, and the join $n\vee n'$ in the frame of nuclei
+corresponds to the join of the topologies. For $U\in L$ the subobjects of
+the representable sheaf $y(U)$ are the $V\le U$, so $\Omega(U)=\mathord\downarrow U$.
+
+\begin{lem}\label{lem:localic}
+Let $j$ be the topology of the nucleus $n$ and $c$ its closure operator.
+For $V\le U$ in $L$, the closure of $V$ in $y(U)$ is $n(V)\wedge U$. Hence
+for nuclei $n,n'$ and $V\le U$, $(cc')^k(V)=(nn')^k(V)\wedge U$ in
+$\Sub(y(U))$, and the closure for $j\vee j'$ is $(n\vee n')(V)\wedge U$.
+\end{lem}
+\begin{proof}
+The sheafification for $j$ is the direct image along the sublocale
+inclusion followed by its inverse image, so a subobject $V\hookrightarrow W$
+of $y(U)$ is $j$-dense iff $n(V)=n(W)$; the largest $W\le U$ with $n(W)=n(V)$
+is $n(V)\wedge U$, since $n(n(V)\wedge U)=n(V)\wedge n(U)=n(V)$ and any such $W$
+satisfies $W\le n(W)=n(V)$. Thus $c(V)=n(V)\wedge U$. If $W=(nn')^k(V)\wedge U$
+then $c'(W)=n'(W)\wedge U=n'((nn')^kV)\wedge n'(U)\wedge U=n'((nn')^kV)\wedge U$
+and $c(c'(W))=n(n'((nn')^kV))\wedge n(U)\wedge U=(nn')^{k+1}(V)\wedge U$, as
+$U\le n(U),n'(U)$. The last assertion is the first one for $n\vee n'$.
+\end{proof}
+
+\begin{cor}\label{cor:localic}
+For nuclei $n,n'$ on a frame $L$, $W_n\vee W_{n'}=W_{n\vee n'}$ in
+$\Same(\Sh(L))$ if and only if $(nn')^k=n\vee n'$ for some $k$.
+\end{cor}
+\begin{proof}
+By Theorem~\ref{thm:B} and Lemma~\ref{lem:localic}, the join is preserved
+iff there is $k$ with $(nn')^k(V)\wedge U=(n\vee n')(V)\wedge U$ for all
+$V\le U$; taking $U=\top$ gives $(nn')^k=n\vee n'$, and conversely.
+\end{proof}
+
+\begin{ex}
+For $U,U'\in L$ let $o(U)(V)=U\to V$ and $c(U')(V)=U'\vee V$ be the open and
+the closed nucleus. The composite $o(U)c(U')$, $V\mapsto U\to(U'\vee V)$, is
+idempotent: $U\to(U'\vee(U\to W))=U\to W$ for $W\ge U'$, because
+$U\wedge(U'\vee(U\to W))\le W$. It is therefore a nucleus above both, and
+the least one, so $o(U)\vee c(U')=o(U)c(U')$ with $k=1$; likewise
+$o(U)o(U')=o(U\wedge U')$ and $c(U)c(U')=c(U\vee U')$. For open and closed
+sublocales the join of the two classes is always the class of the meet of
+the sublocales.
+\end{ex}
+
+\begin{ex}\label{ex:chain}
+Let $X=[0,1]$ with the open sets $\emptyset$, $X$ and $(a,1]$ for
+$0\le a<1$; its frame of opens is the chain $[0,1]$ (via $(a,1]\mapsto1-a$,
+$\emptyset\mapsto0$), a spatial frame in which no element other than the top
+is a join of completely join-prime elements, so $\Sh(X)$ is not a presheaf
+topos. A nucleus on a chain is determined by its set $F$ of fixed points,
+closed under meets and containing the top, $n_F(x)=\min\{f\in F:f\ge x\}$,
+and $n_F\vee n_G=n_{F\cap G}$. Take $F=\{0,1\}\cup\{1/2k:k\ge1\}$ and
+$G=\{0,1\}\cup\{1/(2k+1):k\ge1\}$ \cite[Ex.~5.3]{Fuzzysame}. Then
+$n_F\vee n_G=n_{\{0,1\}}$, the double-negation nucleus of the chain (its
+fixed points form the two-element frame, so its sublocale is a single point
+and the corresponding subtopos is $\mathbf{Set}$), but
+for $x=1/2m$ one has $n_Fn_G(x)=1/(2m-2)$, so $(n_Fn_G)^k(x)<1$ for
+$k<m-1$: the identity $(n_Fn_G)^k=n_F\vee n_G$ fails for every $k$, although
+$(n_Fn_G)^k(x)$ reaches $(n_F\vee n_G)(x)$ for each fixed $x$. By
+Corollary~\ref{cor:localic}, in $\Same(\Sh(X))$ the join of the two classes
+of local isomorphisms is strictly smaller than the class of maps inverted by
+the double-negation sheafification; by Theorem~\ref{thm:A} it
+is the class of maps whose image and kernel pair are reached in a bounded
+number of alternating closures. With $F=\{1\}\cup\{1-1/2k\}$ and
+$G=\{1\}\cup\{1-1/(2k+1)\}$ the identity fails even pointwise. Finite fixed
+sets give $k\le|F|+|G|$, so the join is preserved.
+\end{ex}
+
+\subsection*{Subspaces.}
+Let $X$ be a topological space and $A\subseteq X$ a subspace with inclusion
+$i\colon A\to X$; we write $i$ also for the induced geometric morphism
+$\Sh(A)\to\Sh(X)$, with inverse image $i^*$. The image of this geometric
+morphism is
+the subtopos of the sublocale determined by $A$, whose nucleus is
+$n_A(V)=\bigcup\{W\in O(X):W\cap A\subseteq V\}=\operatorname{int}(V\cup
+(X\setminus A))$ \cite[II.2]{StoneSpaces}; since the inverse image of a
+geometric surjection is conservative, $W_A:=W_{n_A}$ is the class of maps
+$f$ of sheaves on $X$ with $i^*f$ an isomorphism. On complements, writing
+$V=X\setminus F$ with $F$ closed, $n_A(X\setminus F)=X\setminus
+\operatorname{cl}(F\cap A)$.
+
+\begin{prop}\label{prop:subspace}
+Let $A,B\subseteq X$ be subspaces and, for closed $F\subseteq X$, let
+$T(F)=\operatorname{cl}(\operatorname{cl}(F\cap B)\cap A)$, with transfinite
+iterates $T^\alpha$ (intersections at limits). Then
+$(n_An_B)^k(X\setminus F)=X\setminus T^k(F)$, the join nucleus is
+$X\setminus F\mapsto X\setminus T^\infty(F)$, and $W_A\vee W_B=
+W_{n_A\vee n_B}$ in $\Same(\Sh(X))$ iff there is $k$ with
+$T^k(F)=T^\infty(F)$ for every closed $F$. If $A$ and $B$ are both closed
+then $T(F)=F\cap A\cap B$, if both are open then $n_An_B=n_{A\cap B}$, and in
+both cases $k=1$.
+\end{prop}
+\begin{proof}
+The formula for $(n_An_B)^k$ is the formula for $n_A$, $n_B$ on complements;
+the join nucleus is the transfinite iterate by Lemma~\ref{lem:joinK}
+(unions of opens are intersections of closed sets), and the criterion is
+Corollary~\ref{cor:localic}. For closed $A,B$, $F\cap B$ and
+$\operatorname{cl}(F\cap B)\cap A$ are closed; for open $A,B$, $n_A$ is the
+open nucleus $V\mapsto A\to V$, and $o(A)o(B)=o(A\cap B)$.
+\end{proof}
+
+\begin{ex}\label{ex:QI}
+Let $X=\mathbb R$, $A=\mathbb Q$ and $B=\mathbb I=\mathbb R\setminus\mathbb Q$.
+Both are dense, so both sublocales contain the least dense sublocale of
+$\mathbb R$ \cite[II.2]{StoneSpaces}, and the meet $\mathbb Q\wedge\mathbb I$
+of the two sublocales is a nonempty dense sublocale although the subspaces
+are disjoint. Here $T(F)=\operatorname{cl}(\operatorname{cl}(F\cap\mathbb I)
+\cap\mathbb Q)$. Let $C$ be a countable closed subset of $\mathbb R$ of
+finite Cantor--Bendixson rank $r$ whose points of even rank are rational
+and whose points of odd rank are irrational. Such sets exist for every $r$:
+start with $C_0=\{0\}$ and, given $C_{r}$, choose $t=0$ if $r+1$ is even
+and $t=\sqrt2$ if $r+1$ is odd, disjoint intervals $I_n$ of length tending
+to $0$ accumulating only at $t$, and rationals $p_n$, $q_n>0$ with
+$p_n+q_nC_r\subseteq I_n$; then $C_{r+1}=\{t\}\cup\bigcup_n(p_n+q_nC_r)$ is
+countable and closed, the affine maps with rational coefficients preserve
+rationality, and $t$ is the unique point of rank $r+1$. Since $C$ is
+scattered, the isolated points of each derived set $C^{(m)}$, which are
+exactly the points of rank $m$, are dense in $C^{(m)}$; hence every point
+of rank $m+1$ is a limit of points of rank $m$. Therefore
+$\operatorname{cl}(C\cap\mathbb I)=C'$: the isolated points of $C$ are
+rational, every point of odd rank is irrational, and every point of even
+rank $\ge2$ is a limit of irrational points of rank one less; likewise
+$\operatorname{cl}(C'\cap\mathbb Q)=C''$, and in general
+$\operatorname{cl}(C^{(m)}\cap\mathbb I)=C^{(m+1)}$ for even $m$ and
+$\operatorname{cl}(C^{(m)}\cap\mathbb Q)=C^{(m+1)}$ for odd $m$; so
+$T^j(C)=C^{(2j)}$, the $2j$-th derived set, which is nonempty for $2j<r$,
+while $T^\infty(C)=\emptyset$ because iterated derived sets of a countable
+closed set are eventually empty. Taking $r>2k$ shows that $(n_{\mathbb Q}
+n_{\mathbb I})^k\ne n_{\mathbb Q}\vee n_{\mathbb I}$ for every $k$: by
+Proposition~\ref{prop:subspace}, in $\Same(\Sh(\mathbb R))$ the join of the
+class of maps of sheaves that are isomorphisms over $\mathbb Q$ and the
+class of those that are isomorphisms over the irrationals is strictly
+smaller than the class of maps inverted by the sheafification onto the
+subtopos $\Sh(\mathbb Q)\wedge\Sh(\mathbb I)$; by Theorem~\ref{thm:A} it is
+the class of maps whose image and kernel pair are reached by a bounded
+number of the alternating derivatives $T$.
+\end{ex}
+
 \section{Remarks and questions}\label{sec:rem}
 
 \begin{rem}
@@ -838,6 +1012,26 @@ pullback-stable, and for the necessity of a uniform $k$ a countable
 coproduct of witnesses; in an elementary topos one still has, for each
 fixed $k$, that $W_{j\vee j'}\subseteq U_k$ iff $c^{(k)}$ is the closure
 operator of $j\vee j'$, by the same proof.
+\end{rem}
+
+\begin{rem}
+The classical sufficient condition for $W_j\vee W_{j'}=W_{j\vee j'}$ is
+that the tower of alternating sheafifications $(a_{j'}a_j)^kX$ reach
+$\Sh_{j\vee j'}(\cE)$ for one $k$ and all $X$ \cite[Thm.~4.1]{Postnikov},
+since then $(a_{j'}a_j)^k$ is the reflector onto the meet of the two
+subtoposes and its unit is a composite of maps of $W_j\cup W_{j'}$.
+Theorem~\ref{thm:B} shows that the relevant iteration is that of the
+closure operators, not of the reflectors, and the two differ: on the
+contracted monoid of order $8$ of \cite[\S7]{Finitejoin}, with the ideals
+$D,E$ generated by its two non-trivial idempotents, the chain $(DE)^k$
+stabilises at $m=2$ with $I'=\{0\}$, so the join of the two classes is
+preserved by Corollary~\ref{cor:ideal}, whereas the strictly alternating
+plus tower never reaches the $J_{I'}$-sheaves uniformly
+\cite[Prop.~7.1]{Finitejoin}, and a computation on all right $M$-sets with
+at most three elements (\texttt{scripts/comparison/sheaf\_tower.py} in the
+repository) shows that neither $(a_Ea_D)^kX$ nor $(a_Da_E)^kX$, $k\le2$, nor
+any other composite of at most eight plus constructions, is a
+$J_{I'}$-sheaf for all of them.
 \end{rem}
 
 \begin{que}
@@ -861,6 +1055,8 @@ The author has no competing interests to declare.
 Theory Compendium}, Oxford Logic Guides 43--44, Oxford University Press, 2002.
 \bibitem{Escardo} M.~H.~Escard\'o, \emph{Joins in the frame of nuclei}, Appl.
 Categ. Structures \textbf{11} (2003), 117--124.
+\bibitem{StoneSpaces} P.~T.~Johnstone, \emph{Stone Spaces}, Cambridge
+Studies in Advanced Mathematics 3, Cambridge University Press, 1982.
 \bibitem{KM} Z.~Khanjanzadeh, A.~Madanshekaf, \emph{Weak topologies on
 toposes}, Bull. Iranian Math. Soc. \textbf{47} (2021), 461--486;
 arXiv:1808.06104.

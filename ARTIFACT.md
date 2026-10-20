@@ -5,10 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.36.2` (paper 39 revised again, now for Lawvere--Tierney topologies on arbitrary
-  toposes, *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three classes: the finite-iteration
-  criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
-  `scripts/comparison/join_factor.py`), archived at DOI [10.5281/zenodo.23486604](https://doi.org/10.5281/zenodo.23486604) -- cite this one.
+- Current snapshot: release `v1.36.3` (paper 39 with the localic section: nuclei, subspaces, the rationals and
+  the irrationals in the real line; *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three
+  classes: the finite-iteration criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
+  `scripts/comparison/join_factor.py`, `scripts/comparison/sheaf_tower.py`), archived at DOI [pending] -- cite this one.
+- Previous: release `v1.36.2` (paper 39 for Lawvere--Tierney topologies on arbitrary toposes, without the
+  localic section), archived at DOI [10.5281/zenodo.23486604](https://doi.org/10.5281/zenodo.23486604)
 - Previous: release `v1.36.1` (paper 39 second version, presheaf toposes: *Joins of
   Grothendieck topologies in the lattice of two-out-of-three classes: the finite-iteration criterion*),
   archived at DOI [10.5281/zenodo.23468327](https://doi.org/10.5281/zenodo.23468327)
