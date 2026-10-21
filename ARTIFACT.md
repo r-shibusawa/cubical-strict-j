@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.37.0` (paper 40, *Joins of localisations in the lattice of two-out-of-three
   classes: the finite-iteration criterion for closure operators on exact categories, with applications to toposes,
   torsion theories and fuzzy sets* -- `docs/consolidated/fijoin.pdf`; check `scripts/comparison/persistence_filtration.py`),
-  archived at DOI [pending] -- cite this one.
+  archived at DOI [10.5281/zenodo.23527592](https://doi.org/10.5281/zenodo.23527592) -- cite this one.
 - Previous: release `v1.36.3` (paper 39 with the localic section: nuclei, subspaces, the rationals and
   the irrationals in the real line; *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three
   classes: the finite-iteration criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
