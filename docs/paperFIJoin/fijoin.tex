@@ -1,0 +1,1097 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Presh}{\mathrm{Presh}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\Nuc}{\mathrm{Nuc}}
+
+\begin{document}
+
+\title[Joins of localisations and the sameness lattice]{Joins of localisations in the lattice of two-out-of-three classes: the finite-iteration criterion for closure operators on exact categories, with applications to toposes, torsion theories and fuzzy sets}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{closure operator, exact category, Lawvere--Tierney topology, hereditary torsion theory, Gabriel localisation, nucleus, sheafification, two-out-of-three, fuzzy set, join of localisations, finite iteration}
+\subjclass[2020]{18E08 (primary), 18F10, 18E40, 18B25, 06D22, 03E72 (secondary)}
+
+\begin{abstract}
+A closure operator $c$ on the subobjects of an exact category, stable under
+pullback and preserving finite intersections, determines the class $W_c$ of
+\emph{$c$-bidense} maps, those whose image is $c$-dense and whose kernel
+pair lies in the closure of the diagonal. For a Lawvere--Tierney topology on
+a topos this is the class of maps inverted by sheafification; for a
+hereditary torsion theory on a Grothendieck abelian category, whose
+closure operators are exactly the hereditary torsion theories, it is the
+class of maps with torsion kernel and cokernel, inverted by the Gabriel
+quotient; for a nucleus on a frame viewed as a category it is the class of
+inequalities identified by the nucleus. These classes are elements of the
+complete lattice $\Same(\cC)$ of classes of morphisms closed under
+composition and two-out-of-three. We prove that for two closure operators
+$c,c'$ the join $W_c\vee W_{c'}$ is the class of maps whose image and kernel
+pair are reached by a bounded number of alternating applications of $c$ and
+$c'$, and that every such map is a composite of maps of $W_c\cup W_{c'}$, so
+that the join is the closure of the union under composition alone. In a
+Grothendieck topos and in a Grothendieck abelian category the least closure
+operator $\bar c$ above $c$ and $c'$ is the transfinite iterate of $cc'$, and
+$W_c\vee W_{c'}=W_{\bar c}$ if and only if $(cc')^k=\bar c$ for some $k$: for
+subtoposes this is the identity $(jj')^k=j\vee j'$ on the subobject
+classifier, for torsion theories $T,T'$ it says that every object of the
+join torsion class has an alternating $T'/T$-filtration of bounded length.
+For persistence modules, representations of the ordinal $\omega$, with the
+torsion classes of modules supported on the even and on the odd vertices,
+the join torsion class is everything but the interval modules need
+filtrations of unbounded length, so the join of the classes of maps that
+are isomorphisms at the odd vertices and at the even vertices is a proper
+class, the linear analogue of the known failure for sheaves on $\mathbb N$.
+In a frame viewed as a poset the witnesses that force uniformity are
+absent and the join is governed by the pointwise identity, as it is for
+isomorphisms up to a nucleus of fuzzy sets by a monomorphism version of
+the same argument; the paper thus places the joins of sheaf-equivalence
+classes, of torsion-theoretic localisations, of nuclei on a frame and of
+isomorphisms up to a nucleus of fuzzy sets under one theorem.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $\cC$ be a category. A \emph{sameness} on $\cC$ is a class of morphisms
+containing the identities and closed under composition and two-out-of-three;
+samenesses form a complete lattice $\Same(\cC)$ under inclusion, meets being
+intersections and the join of two classes the least sameness containing both
+\cite{Same}. Every localisation of $\cC$, in particular every reflective
+subcategory, contributes the class $W$ of maps it inverts. For a family of
+localisations closed under joins, the question studied in
+\cite{Topjoin,Finitejoin,Stabjoin} is whether $W$ sends the join of two
+localisations to the join of the two classes: whether every map inverted by
+the join localisation is obtained from maps inverted by the two
+localisations by finitely many compositions and cancellations. For subtoposes
+of a presheaf topos the answer was known to be yes on every finite category
+\cite{Finitejoin} and no on the poset $\mathbb N$ \cite{Topjoin}, and
+\cite{Stabjoin} gave the exact criterion for subtoposes of a Grothendieck
+topos: $W_j\vee W_{j'}=W_{j\vee j'}$ iff $(jj')^k=j\vee j'$ for some $k$, an
+identity between endomorphisms of the subobject classifier. The same
+identity, $(j_2j_1)^N=j_1\vee j_2$ for nuclei on a Heyting algebra, is the
+finite-iteration axiom of the lax logic of the join of two nuclei
+\cite{Laxjoin}, and it is the exact condition for the join of the classes
+of isomorphisms up to the two nuclei in the sameness lattice of fuzzy sets
+to be the class of the join nucleus \cite{Fuzzysame}, whereas in the
+sameness lattice of the Heyting algebra itself the pointwise identity
+suffices.
+
+This paper proves one theorem behind these results and applies it to a
+setting not covered by them, the Gabriel localisations of abelian
+categories. The common structure is a \emph{closure operator} $c$ on the
+subobjects of an exact category $\cC$: a pullback-stable,
+intersection-preserving closure on each $\Sub(X)$. It determines the
+sameness $W_c$ of \emph{$c$-bidense} maps, the maps $f\colon X\to Y$ with
+$c(\im f)=Y$ and $\ker f\subseteq c(\Delta_X)$. For two closure operators
+$c,c'$ let $U_k$ be the class of maps with
+\[
+(cc')^k(\im f)=Y\qquad\text{and}\qquad\ker f\subseteq(cc')^k(\Delta_X),
+\]
+the maps that are bidense \emph{uniformly} for the $k$-fold alternation of
+the two closures.
+
+\begin{thm}\label{thm:A}
+Let $c,c'$ be closure operators on an exact category $\cC$. Then
+\[
+W_c\vee W_{c'}=\bigcup_kU_k
+\]
+in $\Same(\cC)$; $U_0$ is the class of isomorphisms, and for $k\ge1$ every
+map in $U_k$ is a composite of $2k$ regular epimorphisms followed by $2k$
+monomorphisms lying alternately in $W_{c'}$ and $W_c$. In particular the
+join is the closure of $W_c\cup W_{c'}$ under composition.
+\end{thm}
+
+\begin{thm}\label{thm:B}
+Let $\cC$ be a Grothendieck topos or a Grothendieck abelian category, and
+$c,c'$ closure operators on $\cC$. Then the least closure operator $\bar c$
+above $c$ and $c'$ is the transfinite iterate of $cc'$, and
+$W_c\vee W_{c'}=W_{\bar c}$ if and only if $(cc')^k=\bar c$ for some $k$.
+\end{thm}
+
+Theorem~\ref{thm:B} is proved under axioms (Section~\ref{sec:criterion})
+that isolate what is used: chains of subobjects have pullback-stable
+unions, and the \emph{fold map} of two copies of an object glued along a
+subobject $S$ witnesses whether $S$ is reached in $k$ steps; the two classes
+of categories named in the statement are the ones in which we verify the
+axioms, by different arguments.
+
+In a Grothendieck topos the closure operators are the Lawvere--Tierney
+topologies and $W_c$ is the class of maps inverted by sheafification; this is
+the main theorem of \cite{Stabjoin}, whose proofs are reproduced here in the
+generality in which they were written, and whose consequences for
+presheaf toposes, ideal topologies, locales and subspaces we summarise
+(Section~\ref{sub:topos}, \ref{sub:locale}). In a Grothendieck abelian
+category $\mathcal A$ the closure operators are exactly the hereditary
+torsion theories $T$ (Proposition~\ref{prop:torsion}): $c_T(A)$ is the
+preimage of the torsion part of $X/A$, $W_{c_T}$ is the class of maps with
+kernel and cokernel in $T$, the maps inverted by the quotient functor
+$\mathcal A\to\mathcal A/T$, and $\bar c$ is the closure operator of the join
+torsion theory $T\vee T'$. Theorems~\ref{thm:A} and~\ref{thm:B} read:
+
+\begin{cor}\label{cor:abelian}
+Let $T,T'$ be hereditary torsion theories on a Grothendieck abelian category
+$\mathcal A$ and let $E_k$ be the class of objects having a filtration
+$0=M_0\subseteq M_1\subseteq\cdots\subseteq M_{2k}=M$ with $M_{2i+1}/M_{2i}
+\in T'$ and $M_{2i+2}/M_{2i+1}\in T$. Then $W_T\vee W_{T'}$ is the class of
+maps whose kernel and cokernel lie in $\bigcup_kE_k$, the closure of
+$W_T\cup W_{T'}$ under composition; and $W_T\vee W_{T'}=W_{T\vee T'}$ iff
+$T\vee T'=E_k$ for some $k$, i.e.\ iff the objects of the join torsion class
+have alternating $T'/T$-filtrations of bounded length.
+\end{cor}
+
+For persistence modules, i.e.\ representations $\cdots\to M_2\to M_1\to M_0$
+of the ordinal $\omega$ in vector spaces, with $T$ and $T'$ the modules
+supported on the even and on the odd vertices, $W_T$ is the class of maps
+that are isomorphisms at the odd vertices, $T\vee T'$ is everything, and the
+interval module $k[0,N]$ needs an alternating filtration of length $N+2$;
+so $W_T\vee W_{T'}$ is a proper class, the class of maps whose kernel and
+cokernel are ``bounded in alternation'' (Example~\ref{ex:persistence}). This
+is the linear analogue of the failure for sheaves on $\mathbb N$
+\cite{Topjoin}, and, as far as we know, the first statement of this kind
+about Gabriel localisations.
+
+The frame $L$ itself, viewed as a poset category, is an exact category in
+which every morphism is a monomorphism, with closure operators
+$c_n(x\le y)=n(x)\wedge y$ for nuclei $n$; Theorem~\ref{thm:A} applies and
+gives $W_n\vee W_{n'}=\{x\le y:(nn')^kx\ge y\text{ for some }k\}$, so that the
+join is the class of the join nucleus iff the identity $(nn')^kx=(n\vee n')x$
+holds \emph{pointwise}; the witnesses of Theorem~\ref{thm:B} do not exist in
+a poset, and indeed the uniform identity is not needed there
+(Section~\ref{sub:frame}). Fuzzy sets are handled by a monomorphism version
+of Theorem~\ref{thm:A} (Proposition~\ref{prop:mono}), since the maps
+inverted by the reflection onto $j$-closed fuzzy sets are bijections; this
+recovers the description of their joins by bounded alternating chains
+\cite{Fuzzysame} (Section~\ref{sub:fuzzy}).
+
+The proofs are elementary and use only the calculus of closure operators on
+subobjects. The inclusion $U_k\subseteq W_c\vee W_{c'}$ is a peeling argument:
+a regular epimorphism whose kernel pair lies in the $k$-fold alternating
+closure of the diagonal is divided by the equivalence relation ``kernel pair
+intersected with the $c'$-closure of the diagonal'', which is a
+$c'$-bidense map, and the induced map needs one closure fewer; dually a
+monomorphism is enlarged to the $c'$-closure of its image. The failure
+direction of Theorem~\ref{thm:B} uses, for a $\bar c$-dense subobject $S$
+of $Y$ that is not reached in $k$ steps, the fold map of two copies of $Y$
+glued along $S$; the coproduct of these maps over all $k$ is $\bar c$-bidense
+but lies in no $U_k$. The criterion is uniform in the subobject, and it is
+the iteration of the closure operators, not of the reflectors, that
+matters: on a monoid of order $8$ the alternating sheafification tower
+never stabilises although the join is preserved
+(Remark~\ref{rem:tower}).
+
+The quotient-closed regime is different. For subvarieties $R,R'$ of a
+variety of algebras, $W_R\vee W_{R'}=W_{R\cap R'}$ always holds, because the
+composite of the two reflectors is the reflector onto $R\cap R'$, while the
+meet $W_R\cap W_{R'}$ is the class of the join variety only under a fracture
+condition \cite{Varieties}; the natural closure operators there are not
+pullback-stable, and we explain in Section~\ref{sec:dual} why no common
+mechanism exists.
+
+\subsection*{What is known.}
+Samenesses and the join theorem for a composite reflector are from
+\cite{Same,Postnikov}; the meet theorem, the reduction lemma and the
+$\mathbb N$ counterexample from \cite{Topjoin}; the finite case from
+\cite{Finitejoin}; the criterion for subtoposes of Grothendieck toposes,
+with the presheaf, ideal-type, object-generated, localic and subspace
+cases, from \cite{Stabjoin}. Closure operators on categories are the subject
+of \cite{DT}; universal closure operators on a topos, their correspondence
+with Lawvere--Tierney topologies and the bidense description of the maps
+inverted by sheafification are in \cite[V.1, V.3]{MLM},
+\cite[A4.3--A4.4]{Elephant}. Hereditary torsion theories, Gabriel's quotient
+categories and the characterisation of the maps they invert are in
+\cite{Gabriel,Stenstrom}; the correspondence between hereditary torsion
+theories and closure operators on module categories is discussed in
+\cite{DT}, and its extension to normal and homological categories in
+\cite{CDT}; the join of hereditary torsion theories and its description
+by transfinite extensions go back to \cite{Dickson}. Joins of nuclei as transfinite iterates are in \cite{Escardo};
+the weak topologies of \cite{KM} compute the join of two Lawvere--Tierney
+topologies as such an iterate. The lax logic of the join of two nuclei and
+its finite-iteration axiom are in \cite{Laxjoin}; the sameness lattice of
+fuzzy sets and the uniform and pointwise criteria in \cite{Fuzzysame}; the
+quotient-closed regime in \cite{Varieties}.
+
+\subsection*{What is new.}
+The main new result is Corollary~\ref{cor:abelian}: for hereditary torsion
+theories $T,T'$ on a Grothendieck abelian category, the join of the classes
+of maps inverted by the two Gabriel quotients is the class of maps whose
+kernel and cokernel have finite alternating $T'/T$-filtrations, it is
+generated by composition alone, and it is the class of the join torsion
+theory exactly when the lengths are bounded; Example~\ref{ex:persistence}
+shows that the bound can fail even when the join torsion theory is the
+whole category. The description of $T\vee T'$ by transfinite alternating
+filtrations and the dictionary between closure operators and hereditary
+torsion theories (Proposition~\ref{prop:torsion}) are classical; the
+statement about the join of the inverted classes, and its failure, are
+new as far as we know. The general Theorems~\ref{thm:A} and~\ref{thm:B}, in
+exact categories with closure operators and with the witness axioms
+verified in toposes and in abelian categories, are the tool; the
+topos-theoretic, localic, frame and fuzzy-set statements of
+\cite{Stabjoin,Fuzzysame} are recovered as instances, with the
+pointwise/uniform difference explained by the presence or absence of
+witnesses (Section~\ref{sec:instances}), and the quotient-closed regime is
+contrasted in Section~\ref{sec:dual}.
+
+\section{Closure operators on exact categories}\label{sec:prelim}
+
+Throughout, $\cC$ is an \emph{exact} category in the sense of Barr
+\cite{Barr}: it has finite limits, every morphism factors as a regular
+epimorphism followed by a monomorphism, regular epimorphisms are stable under
+pullback, and every equivalence relation is the kernel pair of its
+coequaliser. We write $\im f\subseteq Y$ for the image of $f\colon X\to Y$,
+$\ker f\subseteq X\times X$ for its kernel pair, $\Delta_X\subseteq X\times X$
+for the diagonal, $g^{-1}(B)$ for the pullback of a subobject and $g(A)$ for
+the image of a subobject. We use freely the calculus of subobjects in a
+regular category: $\im(gh)=g(\im h)$; $\ker(gh)=(h\times h)^{-1}(\ker g)$;
+for a regular epimorphism $e$, $e(e^{-1}(B))=B$; products of regular
+epimorphisms are regular epimorphisms; and for $g\colon Y\to Z$ and
+$A\subseteq Y$,
+\[
+g^{-1}(g(A))=\pi_1\bigl(\ker g\cap(Y\times A)\bigr),
+\]
+as both are the image of $Y\times_ZA\to Y$.
+
+\begin{defi}
+A \emph{closure operator} on $\cC$ assigns to each object $X$ a map
+$A\mapsto c(A)$ on $\Sub(X)$ that is inflationary, monotone, idempotent,
+preserves binary intersections, and is stable under pullback:
+$g^{-1}(c(B))=c(g^{-1}(B))$ for every $g\colon X\to Y$ and $B\subseteq Y$.
+Closure operators are ordered pointwise. A subobject $A\subseteq X$ is
+\emph{$c$-dense} if $c(A)=X$.
+\end{defi}
+
+These are idempotent closure operators in the sense of \cite{DT}, with
+the additional requirements that they preserve binary intersections and
+commute with pullbacks along all morphisms (the hereditary property of
+\cite{DT} concerns pullbacks along monomorphisms only). On a topos they are
+exactly the universal closure operators, which correspond to the
+Lawvere--Tierney topologies \cite[V.1]{MLM}; on a Grothendieck abelian
+category they are exactly the hereditary torsion theories
+(Proposition~\ref{prop:torsion}). A \emph{word} is a composite
+$w=c_1c_2\cdots c_n$ of closure operators, $c_n$ applied first; words are
+inflationary, monotone, pullback-stable and preserve binary intersections,
+but need not be idempotent.
+
+\begin{lem}\label{lem:calc}
+Let $w$ be a word, $g\colon X\to Y$, $A,K\subseteq X$, $B\subseteq Y$.
+\begin{enumerate}
+\item[(i)] $g(w(A))\subseteq w(g(A))$.
+\item[(ii)] $w(A)\cap K\subseteq w(A\cap K)$.
+\item[(iii)] $w(A\times B)=w(A)\times w(B)$ in $\Sub(X\times Y)$.
+\item[(iv)] For a closure operator $c$, $c(\Delta_X)$ is an equivalence
+relation on $X$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+It suffices to treat a single closure operator $c$ in (i)--(iii) and to
+iterate. (i) $A\subseteq g^{-1}(g(A))$, so $c(A)\subseteq c(g^{-1}(g(A)))=
+g^{-1}(c(g(A)))$. (ii) Let $m\colon K\hookrightarrow X$; then $A\cap K=
+m(m^{-1}(A))$ and $c(A)\cap K=m(m^{-1}(c(A)))=m(c_K(m^{-1}(A)))\subseteq
+c(m(m^{-1}(A)))$ by (i), where $c_K$ is the closure on $\Sub(K)$, the
+pullback of $c$. (iii) $A\times B=\pi_1^{-1}(A)\cap\pi_2^{-1}(B)$, and $c$
+preserves intersections and pullbacks. (iv) Reflexivity and symmetry are
+clear (the twist map preserves $\Delta_X$ and commutes with $c$). The
+composite of the relation $c(\Delta_X)$ with itself is
+$\pi_{13}\bigl(\pi_{12}^{-1}c(\Delta_X)\cap\pi_{23}^{-1}c(\Delta_X)\bigr)=
+\pi_{13}\bigl(c(\pi_{12}^{-1}\Delta_X\cap\pi_{23}^{-1}\Delta_X)\bigr)\subseteq
+c(\pi_{13}(\delta))=c(\Delta_X)$ by (i), where $\delta\subseteq X^3$ is the
+image of the triple diagonal.
+\end{proof}
+
+\begin{defi}
+A map $f\colon X\to Y$ is \emph{$c$-bidense} if $\im f$ is $c$-dense in $Y$
+and $\ker f\subseteq c(\Delta_X)$. Write $W_c$ for the class of $c$-bidense
+maps.
+\end{defi}
+
+A monomorphism is $c$-bidense iff it is $c$-dense, and a regular
+epimorphism iff its kernel pair lies in $c(\Delta_X)$. On a topos with the
+closure operator of a Lawvere--Tierney topology $j$, $W_c$ is the class of
+maps inverted by the sheafification $a_j$ \cite[A4.3]{Elephant}; in general
+$W_c$ is defined by the closure operator alone, and Lemma~\ref{lem:U}
+below (with $c'=c$) shows that it is a sameness.
+
+\section{Uniform bidensity and the join}\label{sec:uniform}
+
+Fix closure operators $c,c'$ on $\cC$ and write $c^{(k)}:=(cc')^k$, a word
+of length $2k$ ending with $c'$, $c^{(0)}$ being the identity; since
+closures are inflationary, $c^{(k)}\le c^{(k+1)}$ and $c,c'\le c^{(1)}$.
+Write $V:=W_c\vee W_{c'}$.
+
+\begin{defi}
+For $k\ge0$ let $U_k$ be the class of maps $f\colon X\to Y$ with
+$c^{(k)}(\im f)=Y$ and $\ker f\subseteq c^{(k)}(\Delta_X)$. Put
+$U=\bigcup_kU_k$.
+\end{defi}
+
+$U_0$ is the class of isomorphisms: $\im f=Y$ means that the monic part of
+$f$ is an isomorphism, and $\ker f=\Delta_X$ that $f$ is a monomorphism, so
+$f$ is a monic regular epimorphism.
+
+\begin{lem}\label{lem:U}
+$U_k\subseteq U_{k+1}$, $W_c\cup W_{c'}\subseteq U_1$, and $U$ is a sameness.
+Hence $V\subseteq U$. With $c'=c$ the same proof shows that $W_c$ is a
+sameness.
+\end{lem}
+\begin{proof}
+The first two assertions follow from $c^{(k)}\le c^{(k+1)}$ and
+$c,c'\le c^{(1)}$. Identities lie in $U_0$. Let $h\colon X\to Y$ and
+$g\colon Y\to Z$; we use Lemma~\ref{lem:calc} for the words $c^{(k)}$.
+
+\emph{Composition.} Let $h\in U_k$, $g\in U_l$. Then $\im(gh)=g(\im h)$ and
+$c^{(k+l)}(\im gh)\supseteq c^{(l)}\bigl(g(c^{(k)}(\im h))\bigr)=c^{(l)}(g(Y))
+=c^{(l)}(\im g)=Z$ by (i). And $\ker(gh)=(h\times h)^{-1}(\ker g)\subseteq
+(h\times h)^{-1}(c^{(l)}(\Delta_Y))=c^{(l)}((h\times h)^{-1}\Delta_Y)=
+c^{(l)}(\ker h)\subseteq c^{(l+k)}(\Delta_X)$.
+
+\emph{Cancellation of $g$.} Let $gh\in U_k$ and $g\in U_k$. Then
+$\ker h\subseteq\ker(gh)\subseteq c^{(k)}(\Delta_X)$. Let $B:=g^{-1}(\im gh)
+\subseteq Y$; then $c^{(k)}(B)=g^{-1}(c^{(k)}(\im gh))=g^{-1}(Z)=Y$. Moreover
+$B=\pi_1\bigl(\ker g\cap(Y\times\im h)\bigr)$, and
+\begin{align*}
+\pi_1\bigl(\ker g\cap(Y\times\im h)\bigr)&\subseteq
+\pi_1\bigl(c^{(k)}(\Delta_Y)\cap(Y\times\im h)\bigr)\\
+&\subseteq\pi_1\bigl(c^{(k)}(\Delta_Y\cap(Y\times\im h))\bigr)\\
+&\subseteq c^{(k)}\bigl(\pi_1(\Delta_Y\cap(Y\times\im h))\bigr)=c^{(k)}(\im h)
+\end{align*}
+by (ii) and (i). Hence $Y=c^{(k)}(B)\subseteq c^{(2k)}(\im h)$.
+
+\emph{Cancellation of $h$.} Let $gh\in U_k$ and $h\in U_k$. Then
+$\im g\supseteq\im(gh)$, so $c^{(k)}(\im g)=Z$. Since $h\times h\colon
+X\times X\to\im h\times\im h$ is a regular epimorphism,
+$\ker g\cap(\im h\times\im h)=(h\times h)(\ker gh)\subseteq
+(h\times h)(c^{(k)}(\Delta_X))\subseteq c^{(k)}(\Delta_Y)$ by (i); and
+$c^{(k)}(\im h\times\im h)=Y\times Y$ by (iii). So
+$\ker g=\ker g\cap c^{(k)}(\im h\times\im h)\subseteq
+c^{(k)}\bigl(\ker g\cap(\im h\times\im h)\bigr)\subseteq c^{(2k)}(\Delta_Y)$
+by (ii).
+
+For $c'=c$ one has $c^{(k)}=c$ for all $k\ge1$, so $U_k=W_c$ and the
+argument shows that $W_c$ is closed under composition and cancellation.
+\end{proof}
+
+\begin{lem}[peeling]\label{lem:peel}
+Let $w=c_1c_2\cdots c_n$ be a word in closure operators.
+\begin{enumerate}
+\item[(a)] If $f\colon X\to Y$ is a regular epimorphism with $\ker f
+\subseteq w(\Delta_X)$, then $f=f_1\circ\cdots\circ f_n\circ u$ with $u$ an
+isomorphism and $f_i$ a regular epimorphism in $W_{c_i}$.
+\item[(b)] If $f\colon X\to Y$ is a monomorphism with $w(X)=Y$, then
+$f=f_1\circ\cdots\circ f_n\circ u$ with $u$ an isomorphism and $f_i$ a
+monomorphism in $W_{c_i}$.
+\end{enumerate}
+For $n\ge1$ the isomorphism $u$ can be absorbed into $f_n$.
+\end{lem}
+\begin{proof}
+Induction on $n$; for $n=0$ the hypothesis says that $f$ is an isomorphism.
+Write $w=w'c_n$.
+(a) Let $R:=\ker f\cap c_n(\Delta_X)$, an equivalence relation on $X$ by
+Lemma~\ref{lem:calc}(iv), and let $q\colon X\twoheadrightarrow X/R$ be its
+coequaliser, which has $\ker q=R$ by exactness; so $\ker q\subseteq
+c_n(\Delta_X)$ and $q\in W_{c_n}$. Since $R\subseteq\ker f$, $f$ coequalises
+the two projections of $R$ and $f=\bar f\circ q$ with $\bar f$ a regular
+epimorphism, and $\ker\bar f=(q\times q)(\ker f)$ because $q\times q$ is a
+regular epimorphism and $\ker f=(q\times q)^{-1}(\ker\bar f)$. Now
+\begin{align*}
+(q\times q)(\ker f)&=(q\times q)\bigl(w'(c_n\Delta_X)\cap\ker f\bigr)
+\subseteq(q\times q)\bigl(w'(c_n\Delta_X\cap\ker f)\bigr)\\
+&=(q\times q)(w'(R))\subseteq w'\bigl((q\times q)(R)\bigr)=w'(\Delta_{X/R})
+\end{align*}
+by Lemma~\ref{lem:calc}(ii) and (i), as $(q\times q)(\ker q)=\Delta_{X/R}$.
+Induction applied to $\bar f$ and $w'$ gives the factorisation.
+(b) Regard $X$ as a subobject of $Y$ and let $Z:=c_n(X)\subseteq Y$. The
+inclusion $X\hookrightarrow Z$ is $c_n$-dense (the closure of $X$ in $Z$ is
+$c_n(X)\cap Z=Z$ by pullback stability), hence in $W_{c_n}$, and
+$w'(Z)=w(X)=Y$. Induction applied to $Z\hookrightarrow Y$ and $w'$ gives the
+factorisation.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A}]
+Let $C$ be the closure of $W_c\cup W_{c'}$ under composition. Then
+$C\subseteq V\subseteq U$ by Lemma~\ref{lem:U}. Let $f\in U_k$, $k\ge1$, and
+factor $f=m\circ e$ with $e\colon X\twoheadrightarrow\im f$ a regular
+epimorphism and $m\colon\im f\hookrightarrow Y$ a monomorphism. Then
+$\ker e=\ker f\subseteq c^{(k)}(\Delta_X)$ and $c^{(k)}(\im f)=Y$, and
+$c^{(k)}$ is a word of length $2k$ ending with $c'$. By
+Lemma~\ref{lem:peel}, $e$ is a composite of $2k$ regular epimorphisms and
+$m$ a composite of $2k$ monomorphisms, alternately in $W_{c'}$ and $W_c$,
+beginning with $W_{c'}$. So $U\subseteq C$, and $C=V=U$.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[column sep=normal,row sep=large]
+X\arrow[r,two heads,"W_{c'}"]\arrow[rrr,bend left=25,"e"] & X/R_1\arrow[r,two heads,"W_c"] & \cdots\arrow[r,two heads,"W_c"] & \im f\arrow[d,hook,"W_{c'}"]\arrow[ddlll,bend left=35,"m"{near start}]\\
+& & & Z_1\arrow[d,hook,"W_c"]\\
+Y & \cdots\arrow[l,hook',"W_c"'] & & Z_2\arrow[ll,hook',"W_{c'}"']
+\end{tikzcd}
+\]
+\caption{Theorem~\ref{thm:A}: a map in $U_k$ is $2k$ quotients by ``kernel
+pair intersected with the closure of the diagonal'' followed by $2k$
+alternating closures of its image, each step bidense for one of the two
+closure operators.}
+\end{figure}
+
+\begin{rem}\label{rem:cancel}
+In general the join of two samenesses requires the two-out-of-three
+saturation of the compositional closure \cite{Same}: on the poset $0<1<2$
+viewed as a category, the classes $W_1=\{0\to1\}$ and $W_2=\{0\to2\}$ (with
+the identities) are samenesses, their compositional closure is
+$\{0\to1,0\to2\}$, and two-out-of-three forces $1\to2$ into the join, which
+is therefore the class of all morphisms. For two bidense classes no
+cancellation is needed. The number of steps is controlled in both
+directions: a composite of $n$ maps of $W_c\cup W_{c'}$ lies in $U_n$, and a
+map of $U_k$ is a composite of $4k$ such maps.
+\end{rem}
+
+\begin{prop}[monomorphisms]\label{prop:mono}
+Let $\cC$ be a category with finite limits and $c,c'$ closure operators on
+$\cC$ (pullback-stable, intersection-preserving closures on the subobject
+lattices); exactness is not assumed. For monomorphisms $m\colon X\hookrightarrow
+Y$ let $M_k$ be the class of those with $c^{(k)}(X)=Y$ and $M=\bigcup_kM_k$.
+Then $M$ contains the $c$-dense and the $c'$-dense monomorphisms, is closed
+under composition, and under cancellation among monomorphisms: if $gh\in M_k$
+then $h\in M_k$ and $g\in M_k$; and every $m\in M_k$ is
+a composite of $2k$ monomorphisms alternately $c'$-dense and $c$-dense.
+Consequently, if $B$ is a sameness consisting of monomorphisms such that for
+$m\colon X\hookrightarrow Y$ in $B$ the inclusions $X\hookrightarrow c(X)$ and
+$X\hookrightarrow c'(X)$ are in $B$, then the join in $\Same(\cC)$ of the
+$c$-dense and the $c'$-dense members of $B$ is $M\cap B$.
+\end{prop}
+\begin{proof}
+For $h\colon X\hookrightarrow Y$ in $M_k$ and $g\colon Y\hookrightarrow Z$ in
+$M_l$, pullback stability along $Y\hookrightarrow Z$ gives
+$c^{(k)}_Z(X)\cap Y=c^{(k)}_Y(X)=Y$, so $c^{(k)}_Z(X)\supseteq Y$ and
+$c^{(k+l)}_Z(X)\supseteq c^{(l)}_Z(Y)=Z$. If $gh\in M_k$, then $c^{(k)}_Y(X)=c^{(k)}_Z(X)\cap Y=Z\cap Y=Y$, so
+$h\in M_k$, and $c^{(k)}_Z(Y)\supseteq c^{(k)}_Z(X)=Z$, so $g\in M_k$; neither
+cancellation needs the other factor to be in $M$. The
+factorisation is Lemma~\ref{lem:peel}(b), whose proof uses only pullback
+stability. For the last assertion, $M\cap B$ is a sameness containing the
+two classes, and each $m\in M_k\cap B$ is a composite of its peeling
+factors, which lie in $B$ by hypothesis and by two-out-of-three in $B$.
+\end{proof}
+
+\section{The finite-iteration criterion}\label{sec:criterion}
+
+In this section $\cC$ satisfies
+\begin{enumerate}
+\item[(H1)] every $\Sub(X)$ is a set and has unions of chains, these are
+stable under pullback, and $A\cap\bigcup_\alpha B_\alpha=\bigcup_\alpha(A\cap
+B_\alpha)$ for chains $(B_\alpha)$.
+\end{enumerate}
+Let $c,c'$ be closure operators and define the transfinite iterates
+$c^{(0)}(A)=A$, $c^{(\alpha+1)}(A)=c^{(1)}(c^{(\alpha)}(A))$ and
+$c^{(\lambda)}(A)=\bigcup_{\alpha<\lambda}c^{(\alpha)}(A)$ for limit
+$\lambda$; they increase with $\alpha$, are constant from some ordinal
+$\gamma_A$ on since $\Sub(X)$ is a set, commute with pullback by (H1), and
+$c^{(\alpha)}(c^{(\beta)}(A))=c^{(\beta+\alpha)}(A)$.
+
+\begin{lem}\label{lem:joinK}
+Under (H1), $\bar c(A):=\bigcup_\alpha c^{(\alpha)}(A)$ is a closure
+operator, the least one above $c$ and $c'$.
+\end{lem}
+\begin{proof}
+$\bar c$ is inflationary and monotone; $\bar c(A)=c^{(\gamma)}(A)$ for
+$\gamma=\gamma_A$ is a fixed point of $c^{(1)}$, hence of $c$ and $c'$ (as
+$c'(B)\subseteq c(c'(B))=B$ for a fixed point $B$) and of $\bar c$; it
+commutes with pullback because each $c^{(\alpha)}$ does and pullback
+preserves unions of chains; and it preserves binary intersections because
+each $c^{(\alpha)}$ does and, by (H1),
+$\bigcup_\alpha c^{(\alpha)}(A)\cap\bigcup_\beta c^{(\beta)}(B)=
+\bigcup_{\alpha,\beta}c^{(\alpha)}(A)\cap c^{(\beta)}(B)=\bigcup_\gamma
+c^{(\gamma)}(A\cap B)$. It lies above $c$ and $c'$, and if $d$ is a closure
+operator above $c$ and $c'$ then $c^{(\alpha)}(A)\subseteq d(A)$ for all
+$\alpha$ by induction, $d$ being monotone and idempotent, with unions at
+limits.
+\end{proof}
+
+A map in $U_k$ is $\bar c$-bidense, since $c^{(k)}\le\bar c$; so
+$V\subseteq U\subseteq W_{\bar c}$. The converse inclusion $W_{\bar c}\subseteq U$
+is what the criterion is about, and its failure is detected by
+\emph{witnesses}.
+
+\begin{defi}\label{def:witness}
+A \emph{witness} for a subobject $S\subseteq Y$ is a regular epimorphism
+$f_S\colon X_S\to Y$ such that, for every word $w$ and for $w=\bar c$,
+$\ker f_S\subseteq w(\Delta_{X_S})$ iff $w(S)=Y$. A \emph{sum} of a sequence
+of maps $f_k\colon X_k\to Y_k$ is a map $F\colon X\to Y$ with monomorphisms
+$\sigma_k\colon X_k\hookrightarrow X$, $\tau_k\colon Y_k\hookrightarrow Y$,
+$F\sigma_k=\tau_kf_k$, such that $(\sigma_k\times\sigma_k)^{-1}(\ker F)=
+\ker f_k$ and $\tau_k^{-1}(\im F)=\im f_k$ for every $k$, and such that
+$F$ is $\bar c$-bidense whenever every $f_k$ is.
+\end{defi}
+
+\begin{thm}\label{thm:Bax}
+Assume (H1), that every subobject has a witness, and that every sequence
+of witnesses has a sum. Then $W_c\vee W_{c'}=W_{\bar c}$ iff $c^{(k)}=\bar c$
+for some $k$.
+\end{thm}
+\begin{proof}
+If $c^{(k)}=\bar c$, a $\bar c$-bidense map lies in $U_k\subseteq V$, and
+$V\subseteq W_{\bar c}$ always. If $c^{(k)}\ne\bar c$ for every $k$, choose
+for each $k$ a subobject $S_k\subseteq Y_k$ with $c^{(k)}(S_k)\ne\bar c(S_k)$;
+replacing $Y_k$ by $\bar c(S_k)$ we may assume that $S_k$ is $\bar c$-dense in
+$Y_k$ but $c^{(k)}(S_k)\ne Y_k$, as $c^{(k)}\le\bar c$ and both commute with
+pullback along $\bar c(S_k)\hookrightarrow Y_k$. Let $f_k$ be a witness for
+$S_k$ and $F$ a sum of the $f_k$. Each $f_k$ is $\bar c$-bidense, being a
+regular epimorphism with $\ker f_k\subseteq\bar c(\Delta)$, so $F\in W_{\bar c}$.
+But $F\notin U_k$ for every $k$: pulling back along $\sigma_k$ and $\tau_k$,
+the conditions $c^{(k)}(\im F)=Y$ and $\ker F\subseteq c^{(k)}(\Delta_X)$
+restrict, by pullback stability of $c^{(k)}$ and the definition of a sum,
+to $c^{(k)}(\im f_k)=Y_k$ and $\ker f_k\subseteq c^{(k)}(\Delta_{X_k})$,
+i.e.\ to $f_k\in U_k$, which fails since $c^{(k)}(S_k)\ne Y_k$. So
+$F\in W_{\bar c}\setminus U=W_{\bar c}\setminus V$ by Theorem~\ref{thm:A}.
+\end{proof}
+
+It remains to produce witnesses and sums. The witness is always the
+\emph{fold map} $f_S\colon Y\amalg_SY\to Y$ of the pushout of
+$Y\hookleftarrow S\hookrightarrow Y$; what has to be checked is the description
+of its kernel pair, and this is where the two classes of categories differ.
+
+\subsection*{Coherent categories with effective unions.}
+Assume
+\begin{enumerate}
+\item[(T)] finite unions of subobjects exist, are stable under pullback and
+are \emph{effective}: $A\cup B$ is the pushout of $A\hookleftarrow A\cap B
+\hookrightarrow B$; pushouts of monomorphisms along monomorphisms exist, are
+pullback squares and have monic injections; and countable coproducts exist
+and are disjoint and universal.
+\end{enumerate}
+Every Grothendieck topos satisfies (T) \cite[A1.4, A2.4, C2.2]{Elephant},
+and (H1) as well, subobject lattices being frames. The category of groups
+does not: pushouts of monomorphisms are amalgamated free products, which are
+pullbacks with monic injections, but the union of the two factors in
+$\mathbb Z*\mathbb Z$ is not the whole group, and coproducts are not
+universal.
+
+\begin{prop}\label{prop:witnessT}
+Assume (T). For $S\subseteq Y$ the fold map $f_S\colon X_S:=Y\amalg_SY\to Y$
+is a witness, and the coproduct $\coprod_kf_k$ of a sequence of witnesses
+is a sum.
+\end{prop}
+\begin{proof}
+Let $\iota_1,\iota_2\colon Y\hookrightarrow X_S$ be the injections, monomorphisms
+with intersection $S$, which is also the equaliser of $\iota_1,\iota_2$.
+The union $\iota_1Y\cup\iota_2Y\subseteq X_S$ is the pushout of
+$\iota_1Y\hookleftarrow S\hookrightarrow\iota_2Y$ by effectiveness, hence the
+inclusion $\iota_1Y\cup\iota_2Y\hookrightarrow X_S$ is an isomorphism: the two
+injections \emph{cover} $X_S$. The map $f_S$ is a regular epimorphism,
+being split by $\iota_1$. Since unions are pullback-stable, subobject
+lattices are distributive and $X_S\times X_S=\bigcup_{a,b}\iota_aY\times
+\iota_bY$; hence $\ker f_S=\bigcup_{a,b}\ker f_S\cap(\iota_aY\times\iota_bY)$,
+and $\ker f_S\cap(\iota_aY\times\iota_bY)=(\iota_a\times\iota_b)
+\bigl((\iota_a\times\iota_b)^{-1}\ker f_S\bigr)=(\iota_a\times\iota_b)(\Delta_Y)$,
+as $f_S\iota_a=f_S\iota_b=\mathrm{id}_Y$. For $a=b$ this is contained in
+$\Delta_{X_S}$; for $a\ne b$ it is the image of $(\iota_1,\iota_2)$ or
+$(\iota_2,\iota_1)$. Now $(\iota_1,\iota_2)^{-1}(\Delta_{X_S})=S$, so by
+pullback stability $(\iota_1,\iota_2)^{-1}(w(\Delta_{X_S}))=w(S)$, and the
+image of $(\iota_1,\iota_2)$ lies in $w(\Delta_{X_S})$ iff $w(S)=Y$; the
+same holds for $(\iota_2,\iota_1)$ by symmetry. So $\ker f_S\subseteq
+w(\Delta_{X_S})$ iff $w(S)=Y$.
+
+For the sum, let $F=\coprod_kf_k\colon\coprod X_k\to\coprod Y_k$ with the
+coproduct injections $\sigma_k,\tau_k$, monomorphisms since coproducts are
+disjoint. Since coproducts are universal, $(\coprod X_k)^2=\coprod_{k,l}
+X_k\times X_l$, the pullback of $\ker F$ along $\sigma_k\times\sigma_k$ is
+$\ker f_k$ and the pullback of $\im F$ along $\tau_k$ is $\im f_k$ (images
+are stable under pullback). If every $f_k$ is $\bar c$-bidense then $F$ is a
+regular epimorphism, and $\ker F$ is the union of the images of the
+$\ker f_k$ (countable unions being images of coproducts), which lie in the
+images of $\bar c(\Delta_{X_k})$, hence in $\bar c(\Delta_{\coprod X_k})$ by
+Lemma~\ref{lem:calc}(i), as $\Delta_{\coprod X_k}$ is the union of the images
+of the $\Delta_{X_k}$.
+\end{proof}
+
+\subsection*{Abelian categories.}
+Let $\mathcal A$ be a Grothendieck abelian category; it is exact, satisfies
+(H1) (subobject lattices are sets, unions of chains are directed colimits,
+exact and pullback-stable by AB5, and distribute over finite intersections),
+and has countable coproducts, but these are not disjoint and pushouts of
+monomorphisms are not unions in the sense of (T). For a map $f\colon X\to Y$
+write $d\colon X\times X\to X$ for $(x,x')\mapsto x-x'$, a split epimorphism
+with $d^{-1}(0)=\Delta_X$ and $d^{-1}(K)=\ker f$ for the kernel object
+$K=\operatorname{Ker}f\subseteq X$. For a word $w$, pullback stability gives
+$w(\Delta_X)=d^{-1}(w(0))$, and since $d$ is a split epimorphism,
+$d^{-1}(K)\subseteq d^{-1}(w(0))$ iff $K\subseteq w(0)$; so
+\begin{equation}\label{eq:ab}
+\ker f\subseteq w(\Delta_X)\quad\text{iff}\quad\operatorname{Ker}f\subseteq
+w(0\subseteq X)\quad\text{iff}\quad w(0\subseteq\operatorname{Ker}f)=
+\operatorname{Ker}f,
+\end{equation}
+the last step by pullback stability along $\operatorname{Ker}f\hookrightarrow
+X$. Call an object $M$ \emph{$w$-torsion} if $w(0\subseteq M)=M$; by
+pullback stability along a quotient map, $w(S)=Y$ iff $Y/S$ is $w$-torsion.
+
+\begin{prop}\label{prop:witnessA}
+In a Grothendieck abelian category, for $S\subseteq Y$ the fold map
+$f_S\colon Y\amalg_SY\to Y$ is a witness, and the direct sum $\bigoplus_kf_k$
+of a sequence of witnesses is a sum.
+\end{prop}
+\begin{proof}
+$X_S=(Y\oplus Y)/\{(s,-s):s\in S\}$ and $f_S[(y_1,y_2)]=y_1+y_2$ is an
+epimorphism with kernel object $\{[(y,-y)]\}\cong Y/S$. By \eqref{eq:ab},
+$\ker f_S\subseteq w(\Delta_{X_S})$ iff $Y/S$ is $w$-torsion iff $w(S)=Y$. For
+the sum, $F=\bigoplus f_k$ has $\operatorname{Ker}F=\bigoplus\operatorname{Ker}
+f_k$ and $\operatorname{Coker}F=\bigoplus\operatorname{Coker}f_k$; the
+pullbacks of $\ker F$ and $\im F$ along the summand inclusions are
+$\ker f_k$ and $\im f_k$ by \eqref{eq:ab} and the corresponding statement
+for images. If every $f_k$ is $\bar c$-bidense, then $F$ is an epimorphism
+and $\operatorname{Ker}F=\bigoplus\operatorname{Ker}f_k$ is $\bar c$-torsion,
+because $\bar c(0\subseteq\bigoplus K_k)\supseteq\bigoplus\bar c(0\subseteq
+K_k)$ by Lemma~\ref{lem:calc}(i) applied to the summand inclusions and the
+fact that unions of subobjects are sums; so $F\in W_{\bar c}$ by
+\eqref{eq:ab}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:B}]
+Theorem~\ref{thm:Bax} with Lemma~\ref{lem:joinK} and
+Proposition~\ref{prop:witnessT}, respectively~\ref{prop:witnessA}.
+\end{proof}
+
+\begin{figure}[ht]
+\[
+\begin{tikzcd}[column sep=large]
+S\arrow[r,hook]\arrow[d,hook] & Y\arrow[d,"\iota_2"]\arrow[ddr,bend left=15,"\mathrm{id}"]\\
+Y\arrow[r,"\iota_1"]\arrow[drr,bend right=15,"\mathrm{id}"'] & X_S\arrow[dr,"f_S"]\\
+& & Y
+\end{tikzcd}
+\]
+\caption{The witness: two copies of $Y$ glued along $S$; the kernel pair
+of the fold map lies in $w(\Delta)$ exactly when $w(S)=Y$. In a topos the
+two copies cover $X_S$; in an abelian category the kernel of the fold map is
+$Y/S$.}
+\end{figure}
+
+\begin{rem}\label{rem:elem}
+Theorem~\ref{thm:A} needs only exactness, and Proposition~\ref{prop:mono}
+only finite limits. In Theorem~\ref{thm:Bax}, (H1) serves to identify
+$\bar c$ with the transfinite iterate, witnesses to detect a single failure
+and sums to combine infinitely many; without sums one still has, for each
+fixed $k$, that $W_{\bar c}\subseteq U_k$ iff $c^{(k)}=\bar c$, provided
+$\bar c$ exists and witnesses do.
+\end{rem}
+
+\section{Instances}\label{sec:instances}
+
+\subsection{Toposes}\label{sub:topos}
+Let $\cE$ be a Grothendieck topos. Closure operators on $\cE$ are the
+universal closure operators, in bijection with Lawvere--Tierney topologies
+$j\colon\Omega\to\Omega$ (the closure of $A\subseteq X$ is classified by
+$j\circ\chi_A$) and with subtoposes, and $W_{c_j}$ is the class of maps
+inverted by the sheafification $a_j$ \cite[V.1]{MLM}, \cite[A4.3]{Elephant}.
+The hypotheses (H1) and (T) hold, and the identity $c^{(k)}=\bar c$ on all
+subobject lattices is the identity $(jj')^k=j\vee j'$ on $\Omega$ (apply
+both sides to the generic subobject). Theorems~\ref{thm:A} and~\ref{thm:B}
+specialise to \cite[Thms.~1.1, 1.2]{Stabjoin}:
+
+\begin{cor}\label{cor:topos}
+For Lawvere--Tierney topologies $j,j'$ on a Grothendieck topos,
+$W_j\vee W_{j'}$ is the class of maps whose image and kernel pair are reached
+by a bounded number of alternating closures, the closure of $W_j\cup W_{j'}$
+under composition, and $W_j\vee W_{j'}=W_{j\vee j'}$ iff $(jj')^k=j\vee j'$
+for some $k$.
+\end{cor}
+
+For a presheaf topos $\Presh(S)$ and Grothendieck topologies $J,J'$ on the
+small category $S$ the conditions are conditions on sieves: a map $f$ is in
+$U_k$ iff its image sieves $\{b:y\cdot b\in\im f\}$ and its equaliser sieves
+$\{b:x\cdot b=x'\cdot b\}$, $f(x)=f(x')$, are sent to the maximal sieve by
+$(jj')^k$. For topologies of ideal type, $J_D$ and $J_E$ for idempotent
+two-sided ideals $D,E$ of $S$, this is local bijectivity along the ideal
+$(DE)^k$, and the criterion is the stabilisation of the chain $DE\supseteq
+DEDE\supseteq\cdots$, which holds on every finite category and fails on
+$(\mathbb N,\le)$ for the ideals of the even and of the odd points
+\cite[\S5]{Stabjoin}. For ideals generated by two sets of objects $A,B$,
+the join of ``bijective at the objects of $A$'' and ``bijective at the
+objects of $B$'' is ``bijective at $A\cap B$'' iff every morphism through
+a long enough alternating zigzag of $B$ and $A$ factors through $A\cap B$;
+on $\mathbb N$ with the even and the odd points the join is the class of maps
+of towers bijective up to a uniform shift, a proper subclass of the
+isomorphisms of pro-sets \cite[\S6]{Stabjoin}.
+
+\begin{rem}\label{rem:tower}
+The classical sufficient condition for $W_j\vee W_{j'}=W_{j\vee j'}$ is that
+the alternating tower of sheafifications $(a_{j'}a_j)^kX$ reach the
+$(j\vee j')$-sheaves for one $k$ and all $X$ \cite[Thm.~4.1]{Postnikov}. The
+criterion of Theorem~\ref{thm:B} is the iteration of the closure operators,
+and the two differ: on the contracted monoid of order $8$ of
+\cite[\S7]{Finitejoin} the chain stabilises, so the join is preserved, while
+the strictly alternating plus tower never reaches the sheaves uniformly
+\cite[Prop.~7.1]{Finitejoin}, and a computation on the right $M$-sets with
+at most three elements shows that no composite of at most eight plus
+constructions, in particular no $(a_Ea_D)^k$ with $k\le2$, is a sheaf for all
+of them \cite[\S8]{Stabjoin}.
+\end{rem}
+
+\subsection{Locales}\label{sub:locale}
+Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. Closure operators on
+$\Sh(L)$ correspond to the nuclei on $L$ (sublocales), ordered as the
+nuclei \cite[II.2]{StoneSpaces}, \cite[A4.5]{Elephant}; the subobjects of
+the representable $y(U)$ are the $V\le U$; and for the nucleus $n$ with
+sublocale inclusion $i$, the sheafification is $i_*i^*$ with $i^*(y(V))=
+y(n(V))$, so $V\hookrightarrow W$ is dense iff $n(V)=n(W)$, and the closure of
+$V$ in $y(U)$ is $n(V)\wedge U$, the largest $W\le U$ with $n(W)=n(V)$. By
+induction, using $U\le n(U),n'(U)$, $(cc')^k(V)=(nn')^k(V)\wedge U$ and
+$\bar c(V)=(n\vee n')(V)\wedge U$ \cite[Lemma~7.1]{Stabjoin}.
+
+\begin{cor}\label{cor:localic}
+For nuclei $n,n'$ on a frame $L$, $W_n\vee W_{n'}=W_{n\vee n'}$ in
+$\Same(\Sh(L))$ iff $(nn')^k=n\vee n'$ in the frame of nuclei for some $k$.
+\end{cor}
+\begin{proof}
+Theorem~\ref{thm:B} and the formula above with $U=\top$.
+\end{proof}
+
+Open and closed nuclei satisfy the condition with $k=1$: $o(U)c(U')$,
+$V\mapsto U\to(U'\vee V)$, is idempotent and hence the join. For a
+topological space $X$ and subspaces $A,B$, with nuclei $n_A(V)=
+\operatorname{int}(V\cup(X\setminus A))$, the class $W_{n_A}$ consists of the
+maps of sheaves whose inverse image to $A$ is an isomorphism, and the
+condition reads: the alternating derivation $T(F)=\operatorname{cl}
+(\operatorname{cl}(F\cap B)\cap A)$ on closed sets reaches its transfinite
+limit in a uniform number of steps \cite[Prop.~7.5]{Stabjoin}. It holds for
+closed and for open subspaces with $k=1$ and fails for the rationals and
+the irrationals in $\mathbb R$: for a countable closed set $C$ whose points
+of even Cantor--Bendixson rank are rational and of odd rank irrational,
+$T^j(C)$ is the $2j$-th derived set, nonempty for $2j$ below the rank, while
+the transfinite limit is empty; so in $\Same(\Sh(\mathbb R))$ the join of
+``isomorphism over $\mathbb Q$'' and ``isomorphism over the irrationals'' is
+strictly smaller than the class of the meet subtopos, although the two
+sublocales meet in a nonempty dense sublocale \cite[Ex.~7.6]{Stabjoin}.
+
+\subsection{Frames as categories: the pointwise criterion}\label{sub:frame}
+Let $L$ be a frame, or just a meet-semilattice with top, viewed as a
+category. It is exact: every morphism $x\le y$ is a monomorphism, the only
+regular epimorphisms are the identities, and the (regular epi, mono)
+factorisation of $x\le y$ is $x\le y$ itself; kernel pairs are diagonals and
+equivalence relations trivial. $\Sub(y)=\mathord\downarrow y$, and the
+pullback of $z\le y$ along $x\le y$ is $z\wedge x$. For a nucleus $n$ on $L$
+put $c_n(z\le y):=n(z)\wedge y$; this is a closure operator: inflationary,
+monotone, idempotent ($n(n(z)\wedge y)\wedge y=n(z)\wedge n(y)\wedge y=n(z)
+\wedge y$), intersection-preserving, and pullback-stable
+($c_n(z\wedge x)=n(z)\wedge n(x)\wedge x=c_n(z)\wedge x$). The $c_n$-bidense
+maps are the $x\le y$ with $n(x)\wedge y=y$, i.e.\ $n(x)\ge y$, i.e.\
+$n(x)=n(y)$: $W_{c_n}$ is the class $W_n^L=\{x\le y:nx=ny\}$ of
+\cite[Thm.~1.1]{Fuzzysame}.
+
+\begin{cor}\label{cor:frame}
+For nuclei $n,n'$ on $L$, in $\Same(L)$,
+\[
+W_n^L\vee W_{n'}^L=\{x\le y:\ (nn')^kx\ge y\text{ for some }k\},
+\]
+every such $x\le y$ being the composite of the chain $x\le n'x\wedge y\le
+nn'x\wedge y\le\cdots\le y$ of inequalities alternately in $W_{n'}^L$ and
+$W_n^L$; and $W_n^L\vee W_{n'}^L=W_{n\vee n'}^L$ iff for every $x$ some
+iterate $(nn')^kx$ equals $(n\vee n')x$.
+\end{cor}
+\begin{proof}
+Theorem~\ref{thm:A}: $x\le y$ is in $U_k$ iff $c^{(k)}(x)=(nn')^kx\wedge y=y$,
+and the peeling factorisation is the displayed chain. For the last
+assertion, $W^L_{n\vee n'}=\{x\le y:(n\vee n')x\ge y\}$; if the pointwise
+identity holds, then $(n\vee n')x\ge y$ gives $(nn')^kx\ge y$ for the $k$ of
+$x$; conversely take $y=(n\vee n')x$.
+\end{proof}
+
+Here Theorem~\ref{thm:Bax} does not apply: in a poset the pushout of
+$y\hookleftarrow s\hookrightarrow y$ is $y$ with both injections the identity,
+its fold map is $\mathrm{id}_y$, and no witnesses exist (the only regular
+epimorphisms are identities, whose kernel pair is the diagonal). Accordingly the criterion is pointwise, as in
+\cite[Thm.~1.1]{Fuzzysame}, and the examples there of nuclei on the
+G\"odel chain $[0,1]$ that stabilise pointwise but not uniformly separate
+$\Same(L)$ from $\Same(\Sh(L))$: with $F=\{0,1\}\cup\{1/2k\}$ and
+$G=\{0,1\}\cup\{1/(2k+1)\}$ as fixed sets, $W_{n_F}\vee W_{n_G}=W_{n_F\vee
+n_G}$ in $\Same(L)$ by Corollary~\ref{cor:frame} but not in
+$\Same(\Sh([0,1]))$ by Corollary~\ref{cor:localic} \cite[Ex.~7.4]{Stabjoin}.
+
+\subsection{Fuzzy sets}\label{sub:fuzzy}
+Let $L$ be a complete lattice and $\Set(L)$ Goguen's category of $L$-fuzzy
+sets: objects $(X,\mu)$ with $\mu\colon X\to L$, morphisms $f\colon(X,\mu)
+\to(Y,\nu)$ maps with $\mu\le\nu f$. It has finite limits (computed on
+underlying sets with the initial structure) but is not exact: for the
+three-element chain $L=\{0<a<1\}$ and $X=\{x_0,x_1\}$ with $\mu\equiv1$, the
+relation on $X\times X$ with degree $1$ on the diagonal and $a$ off it is an
+internal equivalence relation that is the kernel pair of no map, as kernel
+pairs of maps out of $(X,\mu)$ have degree $1$ wherever they are nonempty.
+For a nucleus $j$ on $L$ preserving binary meets, the $j$-closed fuzzy sets
+($\mu=j\mu$) form a reflective subcategory with reflector $(X,\mu)\mapsto
+(X,j\mu)$, and the class $W_j$ of maps inverted by it consists of the
+bijections $f$ with $j\mu=j\nu f$ \cite{Fuzzysame}. Subobjects of $(Y,\nu)$
+are the $(A,\alpha)$ with $A\subseteq Y$ and $\alpha\le\nu|_A$, pulled back
+along $f$ to $(f^{-1}A,\alpha f\wedge\mu)$; put
+\[
+c_j(A,\alpha):=(Y,\ j\bar\alpha\wedge\nu),
+\]
+where $\bar\alpha$ extends $\alpha$ by the bottom element outside $A$. This
+is inflationary, monotone, idempotent, preserves binary intersections (as
+$j$ preserves binary meets) and is pullback-stable: both
+$f^{-1}(c_j(A,\alpha))$ and $c_j(f^{-1}(A,\alpha))$ are
+$(X,j(\bar\alpha f)\wedge\mu)$, using $\mu\le\nu f$ and $\mu\le j\mu$. A
+bijection $f\colon(X,\mu)\to(Y,\nu)$ is a monomorphism with image
+$(Y,\mu f^{-1})$, so it is $c_j$-dense iff $j(\mu f^{-1})\ge\nu$ iff
+$j\mu=j\nu f$: on bijections, $c_j$-density is membership in $W_j$, and
+$f\in M_k$ iff $(jj')^k\mu\ge\nu f$. Bijections form a sameness $B$, and for
+a bijection $f$ the inclusions $\im f\hookrightarrow c_j(\im f)$ are
+bijections, since $c_j(\im f)$ has underlying set $Y$. Hence
+Proposition~\ref{prop:mono} gives
+\[
+W_j\vee W_{j'}=\{f\text{ bijective}:\ (jj')^k\mu\ge\nu f\text{ for some }k\},
+\]
+the description of \cite[Lemma~4.1, Thm.~4.3]{Fuzzysame} by uniformly
+bounded alternating chains, each such $f$ being a composite of bijections
+alternately in $W_{j'}$ and $W_j$. The uniform criterion
+$(j'j)^k=j\vee j'$ of \cite[Thm.~1.1(ii)]{Fuzzysame} is proved there with
+witnesses that glue fuzzy sets along a common part and sums of such
+witnesses, in the pattern of Theorem~\ref{thm:Bax}; we do not claim
+$\Set(L)$ as an instance of Theorem~\ref{thm:B}. (For non-bijective maps the
+class of $c_j$-bidense maps is larger than $W_j$: the fold map of two points
+of degree $\bot$ onto one is $c_j$-bidense for every $j$. The join of two
+classes of bijections is computed among bijections, so this does not affect
+the statement.)
+
+\subsection{Abelian categories and torsion theories}\label{sub:abelian}
+Let $\mathcal A$ be a Grothendieck abelian category. A \emph{hereditary
+torsion theory} is given by a class $T$ of objects closed under subobjects,
+quotients, extensions and coproducts; equivalently by its radical
+$t\colon\mathcal A\to\mathcal A$, the subfunctor of the identity with $t(M)$ the
+largest subobject of $M$ in $T$, which is left exact ($t(N)=N\cap t(M)$ for
+$N\subseteq M$) and idempotent ($t(M/t(M))=0$) \cite{Gabriel,Stenstrom}.
+
+\begin{prop}\label{prop:torsion}
+Closure operators on $\mathcal A$ correspond bijectively to hereditary
+torsion theories (this is classical, cf.\ \cite{DT,Stenstrom}; we include
+the proof to fix the dictionary): $T$ gives $c_T(A):=\pi^{-1}(t(X/A))$ for $A\subseteq X$ with
+$\pi\colon X\to X/A$, and $c$ gives $T_c=\{M:c(0\subseteq M)=M\}$ with radical
+$t_c(M)=c(0\subseteq M)$. Under this correspondence $c_T\le c_{T'}$ iff
+$T\subseteq T'$, $W_{c_T}$ is the class of maps with kernel and cokernel in
+$T$, the maps inverted by the quotient functor $\mathcal A\to\mathcal A/T$,
+and the least closure operator above $c_T$ and $c_{T'}$ is $c_{T\vee T'}$ for
+the least hereditary torsion theory $T\vee T'$ containing $T$ and $T'$.
+\end{prop}
+\begin{proof}
+$c_T$ is inflationary, monotone (the image of $t(X/A)$ in $X/B$ lies in
+$t(X/B)$ for $A\subseteq B$) and idempotent ($X/c_T(A)=(X/A)/t(X/A)$ is
+torsion-free). It preserves intersections: $X/(A\cap B)$ embeds in
+$X/A\oplus X/B$, and as $t$ is left exact and additive, $x+(A\cap B)$ is
+torsion iff $x+A$ and $x+B$ are. It is pullback-stable: for $f\colon X'\to X$,
+$X'/f^{-1}(A)$ embeds in $X/A$, so $t(X'/f^{-1}(A))$ is the preimage of
+$t(X/A)$ by left exactness, i.e.\ $c_T(f^{-1}A)=f^{-1}(c_TA)$. Conversely, for
+a closure operator $c$, $t_c(M)=c(0)$ is a subfunctor (by
+Lemma~\ref{lem:calc}(i)), left exact (pullback stability along
+monomorphisms), and idempotent ($c(0\subseteq M/c(0))$ pulls back to $c(c(0))=
+c(0)$), so $T_c$ is a hereditary torsion theory, and $c(A)=\pi^{-1}(c(0
+\subseteq X/A))=c_{T_c}(A)$ by pullback stability along $\pi$; and
+$t_{c_T}=t$. Order: $c_T\le c_{T'}$ iff $t\le t'$ iff $T\subseteq T'$. A map
+$f\colon X\to Y$ has $c_T(\im f)=Y$ iff $Y/\im f=\operatorname{Coker}f$ is
+torsion, and $\ker f\subseteq c_T(\Delta_X)$ iff $\operatorname{Ker}f\subseteq
+t(X)$ iff $\operatorname{Ker}f\in T$ by \eqref{eq:ab}; these are the maps
+inverted by the quotient functor \cite[III]{Gabriel}. The last assertion
+follows from the order isomorphism.
+\end{proof}
+
+For a word $w$ in $c_T,c_{T'}$ the $w$-torsion objects are those with a
+filtration by the canonical subobjects $0\subseteq t'(M)\subseteq
+\pi^{-1}t(M/t'(M))\subseteq\cdots$; so an object is $c^{(k)}$-torsion iff it
+lies in the class $E_k$ of Corollary~\ref{cor:abelian}, any alternating
+filtration being dominated by the canonical one, and $E_k$ is closed under
+subobjects and quotients. By \eqref{eq:ab} and pullback stability along
+$Y\to Y/\im f$, a map is in $U_k$ iff its kernel and cokernel lie in $E_k$.
+
+\begin{proof}[Proof of Corollary~\ref{cor:abelian}]
+Theorems~\ref{thm:A} and~\ref{thm:B} with Proposition~\ref{prop:torsion}
+and the description of $U_k$; the identity $c^{(k)}=\bar c$ says that every
+$c_{T\vee T'}$-torsion object, i.e.\ every object of $T\vee T'$, is
+$c^{(k)}$-torsion.
+\end{proof}
+
+By Lemma~\ref{lem:joinK}, $T\vee T'$ is the class of objects with a
+transfinite alternating filtration, the classical description of the join
+of two hereditary torsion theories; the corollary says that the join of
+the two classes of maps inverted by the Gabriel quotients is the class of
+the join torsion theory exactly when a finite bound on the length exists.
+When $T$ and $T'$ commute in the sense that $t(t'(M))=t'(t(M))$ and the
+join is the class of extensions of a $T$-object by a $T'$-object, $k=1$:
+for instance the $p$-torsion and the $q$-torsion abelian groups for distinct
+primes.
+
+\begin{ex}\label{ex:persistence}
+Let $\mathcal A$ be the category of persistence modules over a field $k$:
+representations $\cdots\to M_2\to M_1\to M_0$ of the ordinal $\omega$ with
+arrows $n+1\to n$, a Grothendieck abelian category. Let $T$ and $T'$ be the
+classes of modules supported on the even, respectively on the odd, vertices;
+each is closed under subobjects, quotients, extensions and direct sums,
+hence a hereditary torsion theory, with $t(M)_n=0$ for $n$ odd and
+$t(M)_n=\operatorname{Ker}(M_n\to M_{n-1})$ for $n$ even ($t(M)_0=M_0$), and
+symmetrically $t'$. A map $f$ has kernel and cokernel in $T$ iff $f_n$ is an
+isomorphism for every odd $n$, so $W_T$ is the class of maps that are
+isomorphisms at the odd vertices and $W_{T'}$ at the even vertices, the
+linear analogue of the classes of \cite[Thm.~7.1]{Topjoin}. The join
+torsion theory is everything: a module that is torsion-free for both has
+$M_0=0$ and all maps $M_n\to M_{n-1}$ injective, hence is $0$. The
+interval module $I=k[0,N]$, with $I_n=k$ for $n\le N$, identities as maps
+and $I_n=0$ for $n>N$, has $t'(I)=0$, $t(I)=k[0,0]$, then $t'(I/k[0,0])=
+k[1,1]$, and so on: its canonical alternating filtration is
+$0\subseteq0\subseteq k[0,0]\subseteq k[0,1]\subseteq\cdots\subseteq k[0,N]$,
+of length $N+2$, and $I\in E_k$ iff $2k\ge N+2$. So $E_k\ne T\vee T'$ for
+every $k$, and by Corollary~\ref{cor:abelian} the join of ``isomorphism at
+the odd vertices'' and ``isomorphism at the even vertices'' is a proper
+class of maps, although the join localisation is the zero category and
+$W_{T\vee T'}$ is the class of all maps; it is the class of maps whose kernel
+and cokernel have alternating filtrations of bounded length, for instance
+it contains $0\to k[0,N]$ for each $N$ but not $0\to\bigoplus_Nk[0,N]$. The
+witness of Proposition~\ref{prop:witnessA} for $S=0\subseteq k[0,N]$ is the
+fold map $k[0,N]\oplus k[0,N]\to k[0,N]$, in $W_{T\vee T'}$ but not in
+$U_k$ for $2k<N+2$, and the direct sum of these fold maps over $N$ lies in
+no $U_k$.
+\end{ex}
+
+\subsection{Summary}
+The settings are instances of one theorem, and the identity
+$(cc')^k=\bar c$ that governs them is, for nuclei, the finite-iteration
+axiom of the lax logic of the join of two nuclei \cite{Laxjoin}: uniform in
+the subobject in toposes, locales, abelian categories and fuzzy sets, where
+witnesses and sums exist, and pointwise in the frame itself, where they do
+not. The pointwise condition is also the one that characterises
+$\Box_C\vee\Box_{C'}=\Box_{C\cap C'}$ for relativized necessities on the
+frame of up-sets of a poset (absence of infinite alternating chains
+\cite{Relnec}), and a disjoint union of finite alternating chains of
+unbounded length satisfies it but not the uniform one.
+
+\section{The dual regime: quotient-closed reflections}\label{sec:dual}
+
+Let $\mathcal V$ be a variety of algebras and $R\subseteq\mathcal V$ a
+subvariety, with reflector $a_R(A)=A/\rho_R(A)$, $\rho_R(A)$ the least
+congruence with quotient in $R$. A homomorphism $f\colon A\to B$ is
+inverted by $a_R$ iff $\im f$ meets every $\rho_R(B)$-class and
+$(f\times f)^{-1}(\rho_R(B))\subseteq\rho_R(A)$. This looks like bidensity,
+but the candidate closure operators are not pullback-stable: for
+$R$ the abelian groups, $\rho_R(A)$ is the commutator congruence, and the
+inclusion $A_3\hookrightarrow S_3$ has $\rho_R(A_3)$ trivial while
+$\rho_R(S_3)$ restricted to $A_3$ is everything; likewise the
+$\rho_R(B)$-saturation of a subalgebra is not stable under intersection
+with subalgebras (in $S_3$, with $K=\{e,(13)\}$ and $A=\{e,(12)\}$, the
+saturation of $A$ contains $(13)$ but $A\cap K$ is trivial). Accordingly
+the mechanism is different: because $R$ is closed under quotients, the
+composite $a_{R'}a_R$ is already the reflector onto $R\cap R'$, and the
+join theorem of \cite[Thm.~4.1]{Postnikov} gives $W_R\vee W_{R'}=
+W_{R\cap R'}$ for all subvarieties, with no condition
+\cite[Thm.~1.1]{Varieties}: at the level of reflectors, $k=1$. The hard
+direction there is the meet, $W_R\cap W_{R'}=W_{R\vee R'}$, which holds iff
+a fracture condition is satisfied (subdirect representation and absence of
+dense proper subalgebras \cite[Thm.~1.2]{Varieties}). The two regimes are
+thus dual: for closure-type reflections (subtoposes) the meet of classes
+is automatic and the join is governed by finite iteration of closures;
+for quotient-closed reflections (subvarieties) the join is automatic and
+the meet is governed by fracture. Remark~\ref{rem:tower} shows that in the
+closure-type regime the reflector-level condition ($k=1$ or any uniform
+$k$ for the tower of reflectors) is not the right one.
+
+\section{Questions}
+
+\begin{que}
+Theorem~\ref{thm:B} reduces join preservation to the identity
+$(cc')^k=\bar c$. For subspaces this is the uniform termination of the
+alternating derivation on closed sets, for ideal topologies the
+stabilisation of the ideal chain. Is there a structural description of the
+pairs of nuclei, or of subtoposes, satisfying it, for instance in terms of
+the lattice of sublocales?
+\end{que}
+
+\begin{que}
+Does Theorem~\ref{thm:B} hold in an elementary topos, where (H1) and the
+coproducts in (T) may be unavailable? By Remark~\ref{rem:elem} the obstacle
+is the existence of $\bar c$ and the combination of infinitely many
+witnesses. Likewise, which exact categories beyond toposes and abelian
+categories have witnesses and sums?
+\end{que}
+
+\begin{que}
+Is there a common generalisation of the closure-type and the
+quotient-closed regimes, for reflective subcategories of an exact category
+whose reflector is determined by a closure operator that is only
+\emph{weakly} hereditary in the sense of \cite{DT}?
+\end{que}
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{9}
+\bibitem{Barr} M.~Barr, \emph{Exact categories}, in: Exact Categories and
+Categories of Sheaves, Lecture Notes in Math. 236, Springer, 1971, 1--120.
+\bibitem{CDT} M.~M.~Clementino, D.~Dikranjan, W.~Tholen, \emph{Torsion
+theories and radicals in normal categories}, J. Algebra \textbf{305} (2006),
+98--129.
+\bibitem{DT} D.~Dikranjan, W.~Tholen, \emph{Categorical Structure of Closure
+Operators}, Mathematics and its Applications 346, Kluwer, 1995.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Logic Guides 43--44, Oxford University Press, 2002.
+\bibitem{Gabriel} P.~Gabriel, \emph{Des cat\'egories ab\'eliennes}, Bull.
+Soc. Math. France \textbf{90} (1962), 323--448.
+\bibitem{Dickson} S.~E.~Dickson, \emph{A torsion theory for abelian
+categories}, Trans. Amer. Math. Soc. \textbf{121} (1966), 223--235.
+\bibitem{Escardo} M.~H.~Escard\'o, \emph{Joins in the frame of nuclei}, Appl.
+Categ. Structures \textbf{11} (2003), 117--124.
+\bibitem{StoneSpaces} P.~T.~Johnstone, \emph{Stone Spaces}, Cambridge
+Studies in Advanced Mathematics 3, Cambridge University Press, 1982.
+\bibitem{KM} Z.~Khanjanzadeh, A.~Madanshekaf, \emph{Weak topologies on
+toposes}, Bull. Iranian Math. Soc. \textbf{47} (2021), 461--486;
+arXiv:1808.06104.
+\bibitem{MLM} S.~Mac Lane, I.~Moerdijk, \emph{Sheaves in Geometry and Logic},
+Springer, 1992.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Postnikov} R.~Shibusawa, \emph{Postnikov truncations as joins of sheaf
+and homotopy equivalences}, preprint (2026), archived at DOI 10.5281/zenodo.22956181.
+\bibitem{Topjoin} R.~Shibusawa, \emph{Meets and joins of Grothendieck
+topologies in the sameness lattice}, preprint (2026), archived at DOI
+10.5281/zenodo.22978446.
+\bibitem{Finitejoin} R.~Shibusawa, \emph{Grothendieck topologies on a finite
+category form a sublattice of the lattice of two-out-of-three classes},
+preprint (2026), archived at DOI 10.5281/zenodo.23204943.
+\bibitem{Varieties} R.~Shibusawa, \emph{Lattices of subvarieties and of
+logics as sublattices of the lattice of two-out-of-three classes}, preprint
+(2026), archived at DOI 10.5281/zenodo.23407364.
+\bibitem{Laxjoin} R.~Shibusawa, \emph{The join of two nuclei as a lax modality:
+axiomatization, finite models, and inexpressibility}, preprint (2026),
+archived at DOI 10.5281/zenodo.23330576.
+\bibitem{Relnec} R.~Shibusawa, \emph{Joins of relativized necessities on a
+poset: an alternating-chain criterion and the induction scheme of lax logic},
+preprint (2026), archived at DOI 10.5281/zenodo.23411203.
+\bibitem{Fuzzysame} R.~Shibusawa, \emph{Nuclei on the algebra of truth values
+and the sameness lattice of fuzzy sets: meets, joins and the
+finite-iteration axiom}, preprint (2026), archived at DOI 10.5281/zenodo.23413073.
+\bibitem{Stenstrom} B.~Stenstr\"om, \emph{Rings of Quotients}, Grundlehren
+der mathematischen Wissenschaften 217, Springer, 1975.
+\bibitem{Stabjoin} R.~Shibusawa, \emph{Joins of Lawvere--Tierney topologies
+in the lattice of two-out-of-three classes: the finite-iteration criterion},
+preprint (2026), archived at DOI 10.5281/zenodo.23487202.
+\end{thebibliography}
+
+\end{document}
