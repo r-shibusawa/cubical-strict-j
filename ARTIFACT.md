@@ -5,10 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.37.2` (paper 40 revised again: two-step factorisation W_{T v T'} = W_{T'} o W_T for
+- Current snapshot: release `v1.37.3` (paper 40 revised: the open, the closed and the double-negation topologies
+  satisfy the criterion with k = 1 against every topology, two-step factorisation for open topologies, and the
+  nuclei on a frame whose join with every nucleus is the composite -- `docs/consolidated/fijoin.pdf`; check
+  `scripts/comparison/open_closed_join.py`), archived at Zenodo (DOI to be recorded) -- cite this one.
+- Previous: release `v1.37.2` (paper 40 revised again: two-step factorisation W_{T v T'} = W_{T'} o W_T for
   stable pairs through the pullback along the localisation -- `docs/consolidated/fijoin.pdf`; check
   `scripts/comparison/two_step_factor.py`),
-  archived at DOI [10.5281/zenodo.23583981](https://doi.org/10.5281/zenodo.23583981) -- cite this one.
+  archived at DOI [10.5281/zenodo.23583981](https://doi.org/10.5281/zenodo.23583981).
 - Previous: release `v1.37.1` (paper 40 revised: stable hereditary torsion theories satisfy the
   criterion with k = 1, the specialisation-closed subsets of Spec R of a commutative Noetherian ring embed
   in Same(Mod R), Noetherian counterexample from the quiver 1 ⇄ 2 -- `docs/consolidated/fijoin.pdf`;
