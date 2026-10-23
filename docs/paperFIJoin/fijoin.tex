@@ -68,8 +68,9 @@ class, the linear analogue of the known failure for sheaves on $\mathbb N$.
 When the torsion theories are \emph{stable}, closed under injective hulls,
 as are all hereditary torsion theories over a commutative Noetherian ring,
 the two closure operators commute and the criterion holds with $k=1$: every
-map inverted by the join localisation is a composite of four maps
-alternately inverted by the two localisations, and $Y\mapsto W_{T_Y}$ embeds
+map inverted by the join localisation is a composite of a map inverted by
+the first localisation followed by a map inverted by the second, obtained
+by pulling back along the first localisation, and $Y\mapsto W_{T_Y}$ embeds
 the lattice of specialisation-closed subsets of $\operatorname{Spec}R$ into
 $\Same(\operatorname{Mod}R)$; over the Noetherian path algebra of the quiver
 with two vertices and two opposite arrows the criterion fails.
@@ -191,11 +192,13 @@ Let $T,T'$ be hereditary torsion theories on a Grothendieck abelian category
 such that $T'$ and $T\vee T'$ are stable. Then every object $M$ of $T\vee T'$
 has $M/t(M)\in T'$; hence $c_{T'}c_T=c_{T\vee T'}$, and
 \[
-W_T\vee W_{T'}=W_{T\vee T'}=W_{T'}\circ W_T\circ W_{T'}\circ W_T,
+W_T\vee W_{T'}=W_{T\vee T'}=W_{T'}\circ W_T,
 \]
-every map inverted by the join localisation being a composite of four maps
-alternately inverted by the two localisations. If $T$ and $T'$ are both
-stable, so is $T\vee T'$, and $c_T$ and $c_{T'}$ commute.
+every map $f\colon X\to Y$ inverted by the join localisation being the
+composite of a map inverted by $Q_T$ followed by a map inverted by $Q_{T'}$,
+namely, once the $T$-torsion of the kernel is divided out, through the
+pullback of $Y\to Q_T(Y)$ along $Q_T(f)$ (Proposition~\ref{prop:twostep}). If $T$ and $T'$ are both stable, so is
+$T\vee T'$, and $c_T$ and $c_{T'}$ commute.
 \end{thm}
 
 The commutation concerns the closure operators on subobjects, not the
@@ -215,9 +218,10 @@ homomorphisms whose associated map of quasi-coherent sheaves is an
 isomorphism over the complement of $Y$. So $Y\mapsto W_{T_Y}$ is a lattice
 embedding of the specialisation-closed subsets of $\operatorname{Spec}R$ into
 $\Same(\operatorname{Mod}R)$, and a homomorphism of $R$-modules which is an
-isomorphism of sheaves over the complement of $Y\cup Y'$ is a composite of
-four homomorphisms alternately isomorphisms over the complement of $Y$ and
-over that of $Y'$ (Corollary~\ref{cor:noeth}). Noetherianness alone does not
+isomorphism of sheaves over the complement of $Y\cup Y'$ is the composite
+of a homomorphism which is an isomorphism over the complement of $Y$
+followed by one which is an isomorphism over the complement of $Y'$
+(Corollary~\ref{cor:noeth}). Noetherianness alone does not
 suffice: for the path algebra of the quiver $1\rightleftarrows2$, a
 Noetherian ring, the torsion theories of the modules vanishing at one vertex
 are not stable, and the string modules need alternating filtrations of
@@ -299,14 +303,20 @@ new as far as we know. Theorem~\ref{thm:stable} rests on the classical
 decomposition of injectives for stable torsion theories
 \cite[Ch.~VI, \S7]{Stenstrom}, \cite{Golan76,Golan}, and the commutation of
 the closure operators is a direct consequence of it; the new content is
-that stable pairs satisfy the criterion with $k=1$, the resulting four-map
-factorisation of the maps inverted by the join localisation, the embedding
+that stable pairs satisfy the criterion with $k=1$, the resulting two-step
+factorisation of the maps inverted by the join localisation through the
+pullback along the first localisation (Proposition~\ref{prop:twostep}), the
+embedding
 of the specialisation-closed subsets of $\operatorname{Spec}R$ into
 $\Same(\operatorname{Mod}R)$ for $R$ commutative Noetherian
 (Corollary~\ref{cor:noeth}), and the Noetherian counterexample
-(Example~\ref{ex:cycle}). The general Theorems~\ref{thm:A} and~\ref{thm:B}, in
-exact categories with closure operators and with the witness axioms
-verified in toposes and in abelian categories, are the tool; the
+(Example~\ref{ex:cycle}). The general Theorems~\ref{thm:A} and~\ref{thm:B}
+are the tool: Theorem~\ref{thm:A} is the peeling argument of
+\cite[Thm.~A]{Stabjoin} carried out in an exact category instead of a
+topos, and Theorem~\ref{thm:B} replaces the subobject classifier used in
+\cite[Thm.~B]{Stabjoin} by the witness and sum axioms, which is what makes
+the abelian case accessible; neither adds anything in the topos case, and
+their contribution is the generality; the
 topos-theoretic, localic, frame and fuzzy-set statements of
 \cite{Stabjoin,Fuzzysame} are recovered as instances, with the
 pointwise/uniform difference explained by the presence or absence of
@@ -1083,10 +1093,109 @@ $t(K)\in T$ and $K/t(K)\in T'$, and with $Y_1\subseteq Y$ the preimage of
 $t(C)$ the inclusions $\im f\subseteq Y_1\subseteq Y$ have cokernels
 $t(C)\in T$ and $C/t(C)\in T'$; the composite of the four is $f$, and the
 closure of $W_T\cup W_{T'}$ under composition is the join by
-Theorem~\ref{thm:A}. If both theories are stable, $T\vee T'$ is stable by
+Theorem~\ref{thm:A}. Proposition~\ref{prop:twostep} below reduces the four
+maps to two. If both theories are stable, $T\vee T'$ is stable by
 Lemma~\ref{lem:stable}(iii), the argument applies to both orders, and
 $c_Tc_{T'}=\bar c=c_{T'}c_T$.
 \end{proof}
+
+For the two-step factorisation we use the localisation functor. Let
+$q_T\colon\mathcal A\to\mathcal A/T$ be Gabriel's exact quotient functor and
+$s_T\colon\mathcal A/T\to\mathcal A$ its fully faithful right adjoint, which
+exists because $\mathcal A$ is a Grothendieck category and $T$ is closed
+under coproducts \cite[Ch.~III]{Gabriel}, \cite[Ch.~IX--X]{Stenstrom}; put
+$Q_T:=s_Tq_T$ with unit $\ell_M\colon M\to Q_T(M)$. We collect the facts we
+need, in the form valid in any Grothendieck abelian category.
+
+\begin{lem}\label{lem:loc}
+(i) $Q_T$ is left exact, and $Q_T(N)=0$ for $N\in T$; hence $Q_T(M)\cong
+Q_T(M/t(M))$ for every $M$. (ii) $\operatorname{Ker}\ell_M=t(M)$ and
+$\operatorname{Coker}\ell_M\in T$. (iii) If $M$ is $T$-torsion-free then
+$\ell_M$ is a monomorphism and $Q_T(M)$ embeds in the injective hull $E(M)$.
+(iv) $Q_T$ has right derived functors $R^nQ_T$, computable from any
+injective resolution, with the usual long exact sequences.
+\end{lem}
+\begin{proof}
+(i) $q_T$ is exact and $s_T$, a right adjoint, is left exact; $q_T$ kills
+$T$, and applying $Q_T$ to $0\to t(M)\to M\to M/t(M)\to0$ gives
+$Q_T(M)\cong Q_T(M/t(M))$ by exactness of $q_T$ and full faithfulness of
+$s_T$. (ii) is in \cite[Ch.~III]{Gabriel} and \cite[Ch.~IX,
+\S1]{Stenstrom}: $\operatorname{Ker}\ell_M$ and $\operatorname{Coker}\ell_M$
+are killed by $q_T$, i.e.\ lie in $T$, and $\operatorname{Ker}\ell_M\supseteq
+t(M)$ while $\operatorname{Ker}\ell_M/t(M)$ embeds in $Q_T(M)$, which is
+torsion-free. (iii) By Lemma~\ref{lem:stable}(i) $E(M)$ is torsion-free,
+and being injective it is $T$-closed (torsion-free with
+$\operatorname{Ext}^1(N,E(M))=0$ for $N\in T$), so $\ell_{E(M)}$ is an
+isomorphism \cite[Ch.~IX, \S1]{Stenstrom}; applying the left exact $Q_T$ to
+$M\hookrightarrow E(M)$ gives $Q_T(M)\hookrightarrow Q_T(E(M))\cong E(M)$,
+and $\ell_M$ is a monomorphism by (ii). (iv) $\mathcal A$ has enough
+injectives and $Q_T$ is left exact.
+\end{proof}
+
+\begin{prop}\label{prop:twostep}
+Let $T,T'$ be hereditary torsion theories on a Grothendieck abelian
+category with $T'$ and $T\vee T'$ stable.
+\begin{enumerate}
+\item[(i)] If $N\in T'$ then $Q_T(N)\in T'$ and $R^nQ_T(N)\in T'$ for all
+$n\ge0$; if $C\in T\vee T'$ then $Q_T(C)\in T'$.
+\item[(ii)] Let $f\colon X\to Y$ lie in $W_{T\vee T'}$ and have
+$T$-torsion-free kernel, let $Z:=Y\times_{Q_T(Y)}Q_T(X)$ be the pullback of
+$\ell_Y$ along $Q_T(f)$, with projections $h\colon Z\to Y$ and $p\colon Z\to
+Q_T(X)$, and let $g\colon X\to Z$ be the map with $hg=f$ and $pg=\ell_X$.
+Then $g\in W_T$ and $h\in W_{T'}$.
+\item[(iii)] $W_{T\vee T'}=W_{T'}\circ W_T$: every map inverted by
+$Q_{T\vee T'}$ is a map inverted by $Q_T$ followed by a map inverted by
+$Q_{T'}$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+(i) By Lemma~\ref{lem:loc}(i),(iii), $Q_T(N)\cong Q_T(N/t(N))$ is a
+subobject of $E(N/t(N))$, which lies in $T'$ since $N/t(N)\in T'$ and $T'$
+is stable; so $Q_T(N)\in T'$. As $T'$ is stable, $N$ has an injective
+resolution $0\to N\to E^0\to E^1\to\cdots$ with all $E^n\in T'$ (take
+$E^0=E(N)$, then the hull of $E^0/N\in T'$, and so on), and $R^nQ_T(N)$ is
+a subquotient of $Q_T(E^n)\in T'$ by Lemma~\ref{lem:loc}(iv). If
+$C\in T\vee T'$ then $C/t(C)\in T'$ by Theorem~\ref{thm:stable} and
+$Q_T(C)=Q_T(C/t(C))\in T'$.
+
+(ii) Let $K$, $I$ and $C$ be the kernel, image and cokernel of $f$; $K\in
+T'$ since $K\in T\vee T'$ is $T$-torsion-free, and $C\in T\vee T'$. The map
+$h$ is the pullback of $Q_T(f)$ along $\ell_Y$, so $\operatorname{Ker}h\cong
+\operatorname{Ker}Q_T(f)=Q_T(K)$ (Lemma~\ref{lem:loc}(i)), which lies in $T'$
+by (i), and
+$\operatorname{Coker}h$ embeds in $C':=\operatorname{Coker}Q_T(f)$. The
+sequence $0\to K\to X\to I\to0$ gives the exact sequence $Q_T(X)\to Q_T(I)
+\to R^1Q_T(K)$, so $Q_T(I)/\im Q_T(f)$ embeds in $R^1Q_T(K)\in T'$; the
+sequence $0\to I\to Y\to C\to0$ gives $Q_T(Y)/Q_T(I)\hookrightarrow Q_T(C)
+\in T'$. Hence $C'$ is an extension of two objects of $T'$, $C'\in T'$, and
+$h\in W_{T'}$. The map $p$ is the pullback of $\ell_Y$ along $Q_T(f)$, so
+$\operatorname{Ker}p\cong t(Y)\in T$ and $\operatorname{Coker}p$ embeds in
+$\operatorname{Coker}\ell_Y\in T$. Since $pg=\ell_X$ has kernel $t(X)$ and
+cokernel in $T$ (Lemma~\ref{lem:loc}(ii)), the exact sequence
+\[
+0\to\operatorname{Ker}g\to\operatorname{Ker}\ell_X\to\operatorname{Ker}p\to
+\operatorname{Coker}g\to\operatorname{Coker}\ell_X\to\operatorname{Coker}p\to0
+\]
+of the composite shows that $\operatorname{Ker}g$ and $\operatorname{Coker}g$
+lie in $T$, i.e.\ $g\in W_T$.
+
+(iii) The inclusion $W_{T'}\circ W_T\subseteq W_{T\vee T'}$ is clear. For
+$f\colon X\to Y$ in $W_{T\vee T'}$ with kernel $K$, the quotient map
+$q\colon X\to X/t(K)$ lies in $W_T$ and $f=f'q$ with $f'\in W_{T\vee T'}$
+having the $T$-torsion-free kernel $K/t(K)$; by (ii) $f'=hg$ with $g\in W_T$,
+$h\in W_{T'}$, and $f=h(gq)$ with $gq\in W_T$.
+\end{proof}
+
+\begin{rem}\label{rem:twostep}
+For arbitrary hereditary torsion theories the two-step factorisation
+implies the first assertion of Theorem~\ref{thm:stable}: if
+$W_{T\vee T'}=W_{T'}\circ W_T$ and $M\in T\vee T'$, write $0\to M$ as
+$h\circ g$ with $g\colon0\to Z$ in $W_T$, so $Z\in T$, and $h\colon Z\to M$
+in $W_{T'}$; then $h(Z)\in T$ and $M/h(Z)=\operatorname{Coker}h\in T'$, so
+$M/t(M)\in T'$. Thus $W_{T\vee T'}=W_{T'}\circ W_T$ iff $c_{T'}c_T=\bar c$
+whenever $T'$ and $T\vee T'$ are stable, and the implication from left to
+right holds in general; whether the converse needs stability we do not know.
+\end{rem}
 
 \begin{cor}\label{cor:noeth}
 Let $R$ be a commutative Noetherian ring. For a specialisation-closed subset
@@ -1096,7 +1205,7 @@ localisation $f_{\mathfrak p}$ is an isomorphism for every prime
 $\mathfrak p\notin Y$, i.e.\ whose associated map of quasi-coherent sheaves
 is an isomorphism over $\operatorname{Spec}R\setminus Y$. Then
 \[
-W_Y\vee W_{Y'}=W_{Y\cup Y'}=W_{Y'}\circ W_Y\circ W_{Y'}\circ W_Y,\qquad
+W_Y\vee W_{Y'}=W_{Y\cup Y'}=W_{Y'}\circ W_Y,\qquad
 W_Y\cap W_{Y'}=W_{Y\cap Y'},
 \]
 so $Y\mapsto W_Y$ is a lattice embedding of the lattice of
@@ -1117,8 +1226,8 @@ $\mathfrak p$ as an associated prime, hence a support not contained in $Y$,
 so $E(R/\mathfrak p)$ is $T_Y$-torsion-free; and since every injective
 module is a direct sum of such hulls and $t_Y$ commutes with direct sums,
 $t_Y(E)$ is a direct sum of injectives, hence injective as $R$ is
-Noetherian, so $E(M)=t_Y(E(M))$ for $M\in T_Y$. Theorem~\ref{thm:stable}
-gives the join; for the meet, a map has kernel and cokernel in
+Noetherian, so $E(M)=t_Y(E(M))$ for $M\in T_Y$. Theorem~\ref{thm:stable} and
+Proposition~\ref{prop:twostep} give the join; for the meet, a map has kernel and cokernel in
 $T_Y\cap T_{Y'}=T_{Y\cap Y'}$ iff it lies in $W_Y\cap W_{Y'}$.
 \end{proof}
 
@@ -1128,8 +1237,10 @@ of $M/t_Y(M)$ lies in $Y$, and since over a Noetherian ring every prime in
 the support of a module contains an associated prime,
 $\operatorname{Supp}(M/t_Y(M))\subseteq Y'$. For $Y=V(I)$ and $Y'=V(J)$ the
 corollary says that a homomorphism inducing an isomorphism of sheaves over
-$D(I)\cap D(J)=D(IJ)$ is a composite of four homomorphisms alternately
-inducing isomorphisms over $D(I)$ and over $D(J)$.
+$D(I)\cap D(J)=D(IJ)$ is the composite of a homomorphism inducing an
+isomorphism over $D(I)$ followed by one inducing an isomorphism over
+$D(J)$; the intermediate module is the pullback of the target along the
+localisation of the source at $D(I)$.
 
 \begin{ex}\label{ex:cycle}
 Let $Q$ be the quiver with vertices $1,2$ and arrows $a\colon1\to2$,
@@ -1160,7 +1271,14 @@ $T'$ is not stable ($E(S_2)=(k\to k)$): stability is sufficient, not
 necessary. The order of the layers matters there, since
 $c_{T'}c_T\neq\bar c$: for $M=(k\to k)$ with $a$ an isomorphism, $t(M)=0$
 and $M/t'(M)=S_1\notin T'$; this is what Theorem~\ref{thm:stable} applied
-to the pair $(T',T)$ predicts, $T$ being stable ($E(S_1)=S_1$).
+to the pair $(T',T)$ predicts, $T$ being stable ($E(S_1)=S_1$). The order
+in Proposition~\ref{prop:twostep}(iii) is forced as well: for $A_2$ one has
+$W_{T\vee T'}=W_T\circ W_{T'}$ (the localisation at $T'$ is $M\mapsto
+(M_1\to0)$, and the pullback factorisation of a map $f$ has middle term
+$(X_1\to Y_2)$), but $0\to(k\xrightarrow{\ \cong\ }k)$ is not a map of
+$W_T$ followed by a map of $W_{T'}$: the middle term would lie in $T$, and
+a map $(Z_1\to0)\to(k\to k)$ is zero at the vertex $1$, hence not an
+isomorphism there.
 \end{ex}
 
 \subsection{Summary}
@@ -1216,9 +1334,7 @@ the lattice of sublocales?
 \end{que}
 
 \begin{que}
-In the situation of Theorem~\ref{thm:stable}, is every map of
-$W_{T\vee T'}$ a composite of two maps, one of $W_T$ followed by one of
-$W_{T'}$? Which pairs of non-stable hereditary torsion theories, beyond
+Which pairs of non-stable hereditary torsion theories, beyond
 those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
 alternation? And is there an analogue of stability for nuclei or
 subtoposes that forces $nn'=n'n=n\vee n'$, as it does for an open and a

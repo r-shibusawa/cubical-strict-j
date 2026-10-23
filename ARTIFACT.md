@@ -5,11 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.37.1` (paper 40 revised: stable hereditary torsion theories satisfy the
+- Current snapshot: release `v1.37.2` (paper 40 revised again: two-step factorisation W_{T v T'} = W_{T'} o W_T for
+  stable pairs through the pullback along the localisation -- `docs/consolidated/fijoin.pdf`; check
+  `scripts/comparison/two_step_factor.py`), DOI pending -- cite this one.
+- Previous: release `v1.37.1` (paper 40 revised: stable hereditary torsion theories satisfy the
   criterion with k = 1, the specialisation-closed subsets of Spec R of a commutative Noetherian ring embed
   in Same(Mod R), Noetherian counterexample from the quiver 1 ⇄ 2 -- `docs/consolidated/fijoin.pdf`;
   check `scripts/comparison/cycle_filtration.py`),
-  archived at DOI [10.5281/zenodo.23583825](https://doi.org/10.5281/zenodo.23583825) -- cite this one.
+  archived at DOI [10.5281/zenodo.23583825](https://doi.org/10.5281/zenodo.23583825).
 - Previous: release `v1.37.0` (paper 40, *Joins of localisations in the lattice of two-out-of-three
   classes: the finite-iteration criterion for closure operators on exact categories, with applications to toposes,
   torsion theories and fuzzy sets* -- `docs/consolidated/fijoin.pdf`; check `scripts/comparison/persistence_filtration.py`),
