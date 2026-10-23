@@ -33,7 +33,7 @@
 \thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
 \address{Daiichi Institute of Technology}
 \email{r-shibusawa@daiichi-koudai.ac.jp}
-\keywords{closure operator, exact category, Lawvere--Tierney topology, hereditary torsion theory, Gabriel localisation, nucleus, sheafification, two-out-of-three, fuzzy set, join of localisations, finite iteration}
+\keywords{closure operator, exact category, Lawvere--Tierney topology, hereditary torsion theory, stable torsion theory, Gabriel localisation, nucleus, sheafification, two-out-of-three, fuzzy set, join of localisations, finite iteration}
 \subjclass[2020]{18E08 (primary), 18F10, 18E40, 18B25, 06D22, 03E72 (secondary)}
 
 \begin{abstract}
@@ -65,6 +65,14 @@ the join torsion class is everything but the interval modules need
 filtrations of unbounded length, so the join of the classes of maps that
 are isomorphisms at the odd vertices and at the even vertices is a proper
 class, the linear analogue of the known failure for sheaves on $\mathbb N$.
+When the torsion theories are \emph{stable}, closed under injective hulls,
+as are all hereditary torsion theories over a commutative Noetherian ring,
+the two closure operators commute and the criterion holds with $k=1$: every
+map inverted by the join localisation is a composite of four maps
+alternately inverted by the two localisations, and $Y\mapsto W_{T_Y}$ embeds
+the lattice of specialisation-closed subsets of $\operatorname{Spec}R$ into
+$\Same(\operatorname{Mod}R)$; over the Noetherian path algebra of the quiver
+with two vertices and two opposite arrows the criterion fails.
 In a frame viewed as a poset the witnesses that force uniformity are
 absent and the join is governed by the pointwise identity, as it is for
 isomorphisms up to a nucleus of fuzzy sets by a monomorphism version of
@@ -173,7 +181,47 @@ so $W_T\vee W_{T'}$ is a proper class, the class of maps whose kernel and
 cokernel are ``bounded in alternation'' (Example~\ref{ex:persistence}). This
 is the linear analogue of the failure for sheaves on $\mathbb N$
 \cite{Topjoin}, and, as far as we know, the first statement of this kind
-about Gabriel localisations.
+about Gabriel localisations. Stability settles the question for the pairs
+that arise in commutative algebra. A hereditary torsion theory is
+\emph{stable} if its torsion class is closed under injective hulls
+\cite[Ch.~VI, \S7]{Stenstrom}.
+
+\begin{thm}\label{thm:stable}
+Let $T,T'$ be hereditary torsion theories on a Grothendieck abelian category
+such that $T'$ and $T\vee T'$ are stable. Then every object $M$ of $T\vee T'$
+has $M/t(M)\in T'$; hence $c_{T'}c_T=c_{T\vee T'}$, and
+\[
+W_T\vee W_{T'}=W_{T\vee T'}=W_{T'}\circ W_T\circ W_{T'}\circ W_T,
+\]
+every map inverted by the join localisation being a composite of four maps
+alternately inverted by the two localisations. If $T$ and $T'$ are both
+stable, so is $T\vee T'$, and $c_T$ and $c_{T'}$ commute.
+\end{thm}
+
+The commutation concerns the closure operators on subobjects, not the
+radicals: the radicals of any two hereditary torsion theories commute,
+$t\,t'(M)=t(M)\cap t'(M)=t'\,t(M)$ by left exactness, whereas
+$c_Tc_{T'}(A)=\pi^{-1}t(\pi'^{-1}t'(X/A))$ involves the torsion of
+successive quotients, and Example~\ref{ex:persistence} shows that these
+closure operators need not commute. The ingredients of the proof, the
+decomposition of an injective object into its torsion part and a
+torsion-free complement for a stable theory, are classical
+\cite[Ch.~VI, \S7]{Stenstrom}, \cite{Golan76}; what is new is the
+consequence for the join of the inverted classes and its sharpness.
+Over a commutative Noetherian ring $R$ every hereditary torsion theory is
+stable and is the class $T_Y$ of modules supported in a specialisation-closed
+subset $Y$ of $\operatorname{Spec}R$ (Gabriel), and $W_{T_Y}$ is the class of
+homomorphisms whose associated map of quasi-coherent sheaves is an
+isomorphism over the complement of $Y$. So $Y\mapsto W_{T_Y}$ is a lattice
+embedding of the specialisation-closed subsets of $\operatorname{Spec}R$ into
+$\Same(\operatorname{Mod}R)$, and a homomorphism of $R$-modules which is an
+isomorphism of sheaves over the complement of $Y\cup Y'$ is a composite of
+four homomorphisms alternately isomorphisms over the complement of $Y$ and
+over that of $Y'$ (Corollary~\ref{cor:noeth}). Noetherianness alone does not
+suffice: for the path algebra of the quiver $1\rightleftarrows2$, a
+Noetherian ring, the torsion theories of the modules vanishing at one vertex
+are not stable, and the string modules need alternating filtrations of
+unbounded length (Example~\ref{ex:cycle}).
 
 The frame $L$ itself, viewed as a poset category, is an exact category in
 which every morphism is a monomorphism, with closure operators
@@ -247,7 +295,16 @@ whole category. The description of $T\vee T'$ by transfinite alternating
 filtrations and the dictionary between closure operators and hereditary
 torsion theories (Proposition~\ref{prop:torsion}) are classical; the
 statement about the join of the inverted classes, and its failure, are
-new as far as we know. The general Theorems~\ref{thm:A} and~\ref{thm:B}, in
+new as far as we know. Theorem~\ref{thm:stable} rests on the classical
+decomposition of injectives for stable torsion theories
+\cite[Ch.~VI, \S7]{Stenstrom}, \cite{Golan76,Golan}, and the commutation of
+the closure operators is a direct consequence of it; the new content is
+that stable pairs satisfy the criterion with $k=1$, the resulting four-map
+factorisation of the maps inverted by the join localisation, the embedding
+of the specialisation-closed subsets of $\operatorname{Spec}R$ into
+$\Same(\operatorname{Mod}R)$ for $R$ commutative Noetherian
+(Corollary~\ref{cor:noeth}), and the Noetherian counterexample
+(Example~\ref{ex:cycle}). The general Theorems~\ref{thm:A} and~\ref{thm:B}, in
 exact categories with closure operators and with the witness axioms
 verified in toposes and in abelian categories, are the tool; the
 topos-theoretic, localic, frame and fuzzy-set statements of
@@ -965,7 +1022,145 @@ it contains $0\to k[0,N]$ for each $N$ but not $0\to\bigoplus_Nk[0,N]$. The
 witness of Proposition~\ref{prop:witnessA} for $S=0\subseteq k[0,N]$ is the
 fold map $k[0,N]\oplus k[0,N]\to k[0,N]$, in $W_{T\vee T'}$ but not in
 $U_k$ for $2k<N+2$, and the direct sum of these fold maps over $N$ lies in
-no $U_k$.
+no $U_k$. Neither torsion theory is stable: the injective hull of the simple
+module $k[n,n]$ is $k[n,\infty)$, supported on both parities.
+\end{ex}
+
+\subsubsection*{Stable torsion theories.}
+Recall that a hereditary torsion theory $T$ is \emph{stable} if $T$ is closed
+under injective hulls \cite[Ch.~VI, \S7]{Stenstrom}. Parts (i) and (ii) of
+the following lemma are classical for module categories
+\cite[Ch.~VI]{Stenstrom}, and the decomposition of injectives in (iii) is
+the standard tool for stable theories, cf.\ \cite{Golan76}; we include the
+short proofs since we work in a Grothendieck abelian category.
+
+\begin{lem}\label{lem:stable}
+Let $T,T'$ be hereditary torsion theories on a Grothendieck abelian
+category $\mathcal A$. (i) The torsion-free class $F$ of $T$ is closed under
+injective hulls. (ii) If $T$ is stable then $t(E)$ is injective, hence a
+direct summand, for every injective $E$. (iii) If $T$ and $T'$ are stable
+then so are $T\cap T'$ and $T\vee T'$.
+\end{lem}
+\begin{proof}
+(i) If $N\in F$ and $t(E(N))\neq0$ then $t(E(N))\cap N\neq0$, and it lies in
+$T$ as a subobject of a torsion object. (ii) $E(t(E))$ embeds in $E$ and lies
+in $T$, so it is contained in $t(E)$. (iii) For $E$ injective,
+$t_{T\cap T'}(E)=t(t'(E))$ is injective by (ii) applied twice. Write
+$E=t(E)\oplus E_1$ with $E_1$ injective and $T$-torsion-free, and
+$E_1=t'(E_1)\oplus E_2$ with $E_2$ $T'$-torsion-free; $E_2$ is also
+$T$-torsion-free as a subobject of $E_1$, hence torsion-free for $T\vee T'$,
+whose torsion-free class is $F\cap F'$. Then $D:=t(E)\oplus t'(E_1)$ lies in
+$T\vee T'$ and $\bar t(E)/D$ embeds in $E/D\cong E_2$, so $\bar t(E)=D$ is
+injective. For $M\in T\vee T'$ the injective subobject $\bar t(E(M))$ of
+$E(M)$ contains the essential subobject $M$, so $E(M)=\bar t(E(M))\in T\vee
+T'$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:stable}]
+Let $M\in T\vee T'$, $N:=M/t(M)$, which is $T$-torsion-free, and $E:=E(N)$.
+By Lemma~\ref{lem:stable}(i) $E$ is $T$-torsion-free, and $E\in T\vee T'$
+because $T\vee T'$ is stable. By Lemma~\ref{lem:stable}(ii) for $T'$,
+$E=t'(E)\oplus E''$ with $E''$ $T'$-torsion-free, and $E''$ is
+$T$-torsion-free as a subobject of $E$; so $E''$ is torsion-free for
+$T\vee T'$, while it is a quotient of $E\in T\vee T'$. Hence $E''=0$ and
+$N\subseteq E=t'(E)\in T'$.
+
+For the closure operators let $A\subseteq X$. Since $T\subseteq T\vee T'$,
+$t(X/A)\subseteq\bar t(X/A)=\bar c(A)/A$, so $c_T(A)\subseteq\bar c(A)$ and
+$c_T(A)$ is the $c_T$-closure of $A$ computed in $\bar c(A)$; likewise
+$c_{T'}(c_T(A))\subseteq\bar c(A)$ is the $c_{T'}$-closure of $c_T(A)$
+computed in $\bar c(A)$. As $\bar c(A)/A\in T\vee T'$, the first part gives
+$\bar c(A)/c_T(A)=(\bar c(A)/A)/t(\bar c(A)/A)\in T'$, i.e.\
+$c_{T'}(c_T(A))=\bar c(A)$. Thus $c'c=\bar c$ in the notation of
+Section~\ref{sec:criterion}, so $(cc')^2=\bar c$ and the criterion of
+Theorem~\ref{thm:B} holds; every object of $T\vee T'$ has the filtration
+$0\subseteq t(M)\subseteq M$, which is the filtration of
+Corollary~\ref{cor:abelian} with the roles of $T$ and $T'$ exchanged and
+$k=1$. The four-map factorisation is the peeling of
+Lemma~\ref{lem:peel}: for $f\in W_{T\vee T'}$ with kernel $K$ and cokernel
+$C$, the maps $X\to X/t(K)$ and $X/t(K)\to X/K\cong\im f$ have kernels
+$t(K)\in T$ and $K/t(K)\in T'$, and with $Y_1\subseteq Y$ the preimage of
+$t(C)$ the inclusions $\im f\subseteq Y_1\subseteq Y$ have cokernels
+$t(C)\in T$ and $C/t(C)\in T'$; the composite of the four is $f$, and the
+closure of $W_T\cup W_{T'}$ under composition is the join by
+Theorem~\ref{thm:A}. If both theories are stable, $T\vee T'$ is stable by
+Lemma~\ref{lem:stable}(iii), the argument applies to both orders, and
+$c_Tc_{T'}=\bar c=c_{T'}c_T$.
+\end{proof}
+
+\begin{cor}\label{cor:noeth}
+Let $R$ be a commutative Noetherian ring. For a specialisation-closed subset
+$Y\subseteq\operatorname{Spec}R$ let $T_Y$ be the class of modules with
+support in $Y$ and $W_Y:=W_{T_Y}$, the class of homomorphisms $f$ whose
+localisation $f_{\mathfrak p}$ is an isomorphism for every prime
+$\mathfrak p\notin Y$, i.e.\ whose associated map of quasi-coherent sheaves
+is an isomorphism over $\operatorname{Spec}R\setminus Y$. Then
+\[
+W_Y\vee W_{Y'}=W_{Y\cup Y'}=W_{Y'}\circ W_Y\circ W_{Y'}\circ W_Y,\qquad
+W_Y\cap W_{Y'}=W_{Y\cap Y'},
+\]
+so $Y\mapsto W_Y$ is a lattice embedding of the lattice of
+specialisation-closed subsets of $\operatorname{Spec}R$ into
+$\Same(\operatorname{Mod}R)$.
+\end{cor}
+\begin{proof}
+By Gabriel's theorem the hereditary torsion theories on
+$\operatorname{Mod}R$ are exactly the classes $T_Y$, and the join of $T_Y$
+and $T_{Y'}$ is $T_{Y\cup Y'}$ \cite[Ch.~VII]{Stenstrom}; $W_Y$ is as
+described because $\operatorname{Supp}(\operatorname{Ker}f)\cup
+\operatorname{Supp}(\operatorname{Coker}f)\subseteq Y$ iff $f_{\mathfrak p}$
+is an isomorphism for all $\mathfrak p\notin Y$. Every $T_Y$ is stable: every
+element of the injective hull $E(R/\mathfrak p)$ is annihilated by a power of
+$\mathfrak p$, so $E(R/\mathfrak p)\in T_Y$ if $\mathfrak p\in Y$; if
+$\mathfrak p\notin Y$, every nonzero submodule of $E(R/\mathfrak p)$ has
+$\mathfrak p$ as an associated prime, hence a support not contained in $Y$,
+so $E(R/\mathfrak p)$ is $T_Y$-torsion-free; and since every injective
+module is a direct sum of such hulls and $t_Y$ commutes with direct sums,
+$t_Y(E)$ is a direct sum of injectives, hence injective as $R$ is
+Noetherian, so $E(M)=t_Y(E(M))$ for $M\in T_Y$. Theorem~\ref{thm:stable}
+gives the join; for the meet, a map has kernel and cokernel in
+$T_Y\cap T_{Y'}=T_{Y\cap Y'}$ iff it lies in $W_Y\cap W_{Y'}$.
+\end{proof}
+
+In this case the first assertion of Theorem~\ref{thm:stable} has a direct
+proof: if $\operatorname{Supp}M\subseteq Y\cup Y'$ then no associated prime
+of $M/t_Y(M)$ lies in $Y$, and since over a Noetherian ring every prime in
+the support of a module contains an associated prime,
+$\operatorname{Supp}(M/t_Y(M))\subseteq Y'$. For $Y=V(I)$ and $Y'=V(J)$ the
+corollary says that a homomorphism inducing an isomorphism of sheaves over
+$D(I)\cap D(J)=D(IJ)$ is a composite of four homomorphisms alternately
+inducing isomorphisms over $D(I)$ and over $D(J)$.
+
+\begin{ex}\label{ex:cycle}
+Let $Q$ be the quiver with vertices $1,2$ and arrows $a\colon1\to2$,
+$b\colon2\to1$, and $\Lambda=kQ$ its path algebra over a field $k$, a
+Noetherian ring (it is finitely generated as a module over its central
+subalgebra $k[ab+ba]$). A $\Lambda$-module is a pair of vector spaces
+$M_1\rightleftarrows M_2$; let $T$ be the class of modules with $M_2=0$ and
+$T'$ that with $M_1=0$, hereditary torsion theories with $t(M)=
+(\operatorname{Ker}a,0)$ and $t'(M)=(0,\operatorname{Ker}b)$. For $N\ge1$ let
+$M_N$ be the string module with basis $e_1,\dots,e_N$, the $e_i$ placed
+alternately at the vertices $1,2,1,\dots$, each arrow sending $e_i$ to
+$e_{i+1}$ and $e_N$ to $0$. It is uniserial with composition factors the
+simple modules $S_1,S_2$ at the two vertices, so $M_N\in T\vee T'$, and its
+canonical alternating filtration peels off one basis vector at a time and
+has length $N$ or $N+1$. Hence $T\vee T'\not\subseteq E_k$ for every $k$,
+and $W_T\vee W_{T'}\subsetneq W_{T\vee T'}$ although $\Lambda$ is
+Noetherian; the map $0\to\bigoplus_NM_N$ lies in the second class but not
+in the first. In accordance with Theorem~\ref{thm:stable}, $T$ is not
+stable: $M_N$ with $e_N$ at the vertex $1$ is an essential extension of its
+socle $S_1=ke_N$ and does not lie in $T$, so neither does $E(S_1)$. (The
+join class is not everything: the module $k\rightleftarrows k$ with both
+arrows the identity is simple and torsion-free for both theories.) A
+computer check over $\mathbb F_2$ finds, among the modules of dimension
+vector $(d,d)$ with $d\le5$ in the join class, the maximal length $2d+1$,
+attained by $M_{2d}$. For the quiver $A_2$ (the case $b=0$) one has
+$t'(M)=(0,M_2)$ with quotient in $T$, so every module lies in $E_1$ although
+$T'$ is not stable ($E(S_2)=(k\to k)$): stability is sufficient, not
+necessary. The order of the layers matters there, since
+$c_{T'}c_T\neq\bar c$: for $M=(k\to k)$ with $a$ an isomorphism, $t(M)=0$
+and $M/t'(M)=S_1\notin T'$; this is what Theorem~\ref{thm:stable} applied
+to the pair $(T',T)$ predicts, $T$ being stable ($E(S_1)=S_1$).
 \end{ex}
 
 \subsection{Summary}
@@ -1021,6 +1216,19 @@ the lattice of sublocales?
 \end{que}
 
 \begin{que}
+In the situation of Theorem~\ref{thm:stable}, is every map of
+$W_{T\vee T'}$ a composite of two maps, one of $W_T$ followed by one of
+$W_{T'}$? Which pairs of non-stable hereditary torsion theories, beyond
+those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
+alternation? And is there an analogue of stability for nuclei or
+subtoposes that forces $nn'=n'n=n\vee n'$, as it does for an open and a
+closed sublocale? The lattice of hereditary torsion theories is itself a
+frame, and nuclei on it are studied in \cite{GolanSimmons}; the relation
+between those nuclei and the closure operators considered here is not
+clear to us.
+\end{que}
+
+\begin{que}
 Does Theorem~\ref{thm:B} hold in an elementary topos, where (H1) and the
 coproducts in (T) may be unavailable? By Remark~\ref{rem:elem} the obstacle
 is the existence of $\bar c$ and the combination of infinitely many
@@ -1053,6 +1261,14 @@ Operators}, Mathematics and its Applications 346, Kluwer, 1995.
 Theory Compendium}, Oxford Logic Guides 43--44, Oxford University Press, 2002.
 \bibitem{Gabriel} P.~Gabriel, \emph{Des cat\'egories ab\'eliennes}, Bull.
 Soc. Math. France \textbf{90} (1962), 323--448.
+\bibitem{Golan76} J.~S.~Golan, \emph{Some functors arising from the
+consideration of torsion theories over noncommutative rings}, Bull.
+Austral. Math. Soc. 15 (1976) 455--460.
+\bibitem{Golan} J.~S.~Golan, \emph{Torsion Theories}, Pitman Monographs
+and Surveys in Pure and Applied Mathematics 29, Longman, Harlow, 1986.
+\bibitem{GolanSimmons} J.~S.~Golan, H.~Simmons, \emph{Derivatives, Nuclei
+and Dimensions on the Frame of Torsion Theories}, Pitman Research Notes in
+Mathematics 188, Longman, Harlow, 1988.
 \bibitem{Dickson} S.~E.~Dickson, \emph{A torsion theory for abelian
 categories}, Trans. Amer. Math. Soc. \textbf{121} (1966), 223--235.
 \bibitem{Escardo} M.~H.~Escard\'o, \emph{Joins in the frame of nuclei}, Appl.

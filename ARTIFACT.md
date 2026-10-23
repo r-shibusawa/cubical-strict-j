@@ -5,10 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.37.0` (paper 40, *Joins of localisations in the lattice of two-out-of-three
+- Current snapshot: release `v1.37.1` (paper 40 revised: stable hereditary torsion theories satisfy the
+  criterion with k = 1, the specialisation-closed subsets of Spec R of a commutative Noetherian ring embed
+  in Same(Mod R), Noetherian counterexample from the quiver 1 ⇄ 2 -- `docs/consolidated/fijoin.pdf`;
+  check `scripts/comparison/cycle_filtration.py`), DOI pending -- cite this one.
+- Previous: release `v1.37.0` (paper 40, *Joins of localisations in the lattice of two-out-of-three
   classes: the finite-iteration criterion for closure operators on exact categories, with applications to toposes,
   torsion theories and fuzzy sets* -- `docs/consolidated/fijoin.pdf`; check `scripts/comparison/persistence_filtration.py`),
-  archived at DOI [10.5281/zenodo.23527592](https://doi.org/10.5281/zenodo.23527592) -- cite this one.
+  archived at DOI [10.5281/zenodo.23527592](https://doi.org/10.5281/zenodo.23527592).
 - Previous: release `v1.36.3` (paper 39 with the localic section: nuclei, subspaces, the rationals and
   the irrationals in the real line; *Joins of Lawvere--Tierney topologies in the lattice of two-out-of-three
   classes: the finite-iteration criterion* -- `docs/consolidated/stabjoin.pdf`; checks `scripts/comparison/stab_chain.py`,
