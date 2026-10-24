@@ -42,8 +42,8 @@ A pullback-stable, intersection-preserving closure operator $c$ on an exact
 category determines the class $W_c$ of $c$-bidense
 maps: for a Lawvere--Tierney topology the maps inverted by sheafification,
 for a hereditary torsion theory on a Grothendieck abelian category the maps
-inverted by the Gabriel quotient, for a nucleus on a frame the inequalities
-it identifies. In the lattice of classes closed under composition and
+inverted by the Gabriel quotient, for a nucleus the inequalities it
+identifies. In the lattice of classes closed under composition and
 two-out-of-three, the join $W_c\vee W_{c'}$ consists of the maps whose
 image and kernel pair are reached by a bounded number of alternating
 applications of $c$ and $c'$, and in a Grothendieck topos or Grothendieck
@@ -51,11 +51,13 @@ abelian category $W_c\vee W_{c'}=W_{\bar c}$, for $\bar c$ the least
 closure operator above both, iff $(cc')^k=\bar c$ for some $k$. It
 fails for persistence modules and holds with $k=1$ for stable
 torsion theories, in particular over commutative Noetherian rings, with a
-two-step factorisation of the maps inverted by the join localisation, and
-fails over the path algebra of the quiver with two vertices and two
-opposite arrows. Open, closed and double-negation topologies satisfy it
-with $k=1$ against every topology, each with a two-step factorisation; in a localic topos these are exactly the topologies whose
-nucleus has its join with every nucleus equal to the composite.\end{abstract}
+two-step factorisation, and fails over the path algebra of the quiver with
+two opposite arrows. Open, closed and double-negation topologies satisfy it
+with $k=1$ against every topology, each with a two-step factorisation;
+in a localic topos the topologies with this property are those whose
+nucleus has its join with every nucleus equal to the composite, in one
+order, and the closed ones in the other.
+\end{abstract}
 
 \maketitle
 
@@ -998,8 +1000,58 @@ $A\cap B=0$ then $A\cap c_jB\subseteq c_jA\cap c_jB=c_j(A\cap B)=c_j(0_G)
 By Lemma~\ref{lem:kp}, whether $c'c\le cc'$ alone implies $W_{\bar c}=
 W_c\circ W_{c'}$ on a topos comes down to the $c$-density of the image of
 $a'(f)$ for $f\in W_{\bar c}$, which in (iii), (iv) and (v) was obtained
-from the particular shape of the sheafification; we do not know whether
-it holds in general (Question~\ref{que:two}).
+from the particular shape of the sheafification. This density condition
+is a statement about the two reflectors alone.
+
+\begin{prop}\label{prop:reflectors}
+Let $c,c'$ be universal closure operators on an elementary topos with
+$c'c\le cc'$, and let $a,a'$ be the sheafifications for $c$ and $c'$.
+\begin{enumerate}
+\item[(a)] For every $c'$-sheaf $G$ the $c$-sheaf $aG$ is
+$c'$-separated.
+\item[(b)] The following are equivalent: (1) $a'(f)\in W_c$ for every
+$f\in W_{\bar c}$; (2) $aG$ is a $c'$-sheaf for every $c'$-sheaf $G$; (3)
+the unit $G\to\bar aG$ induces an isomorphism $aG\cong\bar aG$ for
+every $c'$-sheaf $G$, where $\bar a$ is the sheafification for $\bar c=
+cc'$, i.e.\ $aa'\cong\bar a$ naturally, compatibly with the units. They
+imply
+$W_{\bar c}=W_c\circ W_{c'}$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+(a) Let $\ell\colon G\to aG$ be the unit; $\ker\ell=c(\Delta_G)$ as in the
+proof of Lemma~\ref{lem:kp}, and $c'(\Delta_G)=\Delta_G$ as $G$ is
+$c'$-separated. Hence $(\ell\times\ell)^{-1}c'(\Delta_{aG})=c'(\ker\ell)=
+c'c(\Delta_G)\subseteq cc'(\Delta_G)=c(\Delta_G)=(\ell\times\ell)^{-1}
+(\Delta_{aG})$. With $I=\im(\ell\times\ell)$, which is $c$-dense in
+$aG\times aG$, this gives $c'(\Delta_{aG})\cap I\subseteq\Delta_{aG}$, so
+$c'(\Delta_{aG})\subseteq c(c'(\Delta_{aG})\cap I)\subseteq c(\Delta_{aG})
+=\Delta_{aG}$, using $c(S)=c(S)\cap c(I)=c(S\cap I)$ and the
+$c$-separatedness of $aG$.
+
+(b) (2)$\Leftrightarrow$(3): a $c$-sheaf that is a $c'$-sheaf is a
+$\bar c$-sheaf, since $\Sh_{\bar c}=\Sh_c\cap\Sh_{c'}$, and the unit
+$G\to aG$ is $c$-bidense, hence $\bar c$-bidense, so $aG\cong\bar aG$;
+conversely $\bar aG$ is a $c'$-sheaf. (3)$\Rightarrow$(1): for $f\in
+W_{\bar c}$ put $\varphi=a'(f)\colon F\to G$, a map of $c'$-sheaves. By
+(3), $a(\varphi)\cong\bar a(\varphi)\cong\bar a(f)$, the last because
+$\bar a$ inverts the units of $a'$, which lie in $W_{c'}\subseteq
+W_{\bar c}$; and $\bar a(f)$ is an isomorphism. So $a(\varphi)$ is an
+isomorphism, i.e.\ $\varphi\in W_c$. (1)$\Rightarrow$(2): let $G$ be a
+$c'$-sheaf and $f\colon G\to\bar aG$ the unit, which lies in $W_{\bar c}$;
+as $G$ and $\bar aG$ are $c'$-sheaves, $a'(f)\cong f$, so $f\in W_c$ by
+(1). Then $a(f)$ is an isomorphism, and so is $a(\bar aG)\to\bar aG$, as
+$\bar aG$ is a $c$-sheaf; the composite $aG\xrightarrow{a(f)}a(\bar aG)
+\xrightarrow{\ \cong\ }\bar aG$ is the map induced by the unit, so
+$aG\cong\bar aG$ is a $c'$-sheaf. Finally (1) gives $W_{\bar c}=
+W_c\circ W_{c'}$ by Lemma~\ref{lem:kp}.
+\end{proof}
+
+Thus Proposition~\ref{prop:openclosed}(iii)--(v) say that the open, the
+closed and the double-negation sheafifications are preserved by, or
+preserve, every other sheafification in the sense of (2); whether (2)
+follows from $c'c\le cc'$ in general we do not know
+(Question~\ref{que:two}).
 
 \subsection{Locales}\label{sub:locale}
 Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. Closure operators on
@@ -1604,9 +1656,10 @@ those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
 alternation? Which topologies on a non-localic topos satisfy $cc'=c\vee
 c'$ for every $c'$ (the condition of Proposition~\ref{prop:openclosed}(i)
 is sufficient, and in a localic topos the property is decided by the
-nucleus, Corollary~\ref{cor:localick1}), and does $c'c\le cc'$ alone imply $W_{\bar c}=W_c\circ W_{c'}$ on a
-topos, i.e.\ is the image of $a'(f)$ always $c$-dense in
-Lemma~\ref{lem:kp}? The lattice of
+nucleus, Corollary~\ref{cor:localick1}), and does $c'c\le cc'$ alone imply that the $c$-sheafification
+preserves $c'$-sheaves, equivalently (Proposition~\ref{prop:reflectors})
+that $W_{\bar c}=W_c\circ W_{c'}$ is witnessed by the pullback along
+$a'$? The lattice of
 hereditary torsion theories is itself a frame, and nuclei on it are
 studied in \cite{GolanSimmons}; the relation between those nuclei and the
 closure operators considered here is not clear to us.
