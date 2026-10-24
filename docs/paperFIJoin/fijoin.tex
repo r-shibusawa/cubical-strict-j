@@ -18,6 +18,7 @@
 \newcommand{\Same}{\mathrm{Same}}
 \newcommand{\Presh}{\mathrm{Presh}}
 \newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\tv}[1]{[\![#1]\!]}
 \newcommand{\im}{\mathrm{im}}
 \newcommand{\Sh}{\mathrm{Sh}}
 \newcommand{\Sub}{\mathrm{Sub}}
@@ -37,29 +38,25 @@
 \subjclass[2020]{18E08 (primary), 18F10, 18E40, 18B25, 06D22, 03E72 (secondary)}
 
 \begin{abstract}
-A pullback-stable, intersection-preserving closure operator $c$ on the
-subobjects of an exact category determines the class $W_c$ of $c$-bidense
-maps: for a Lawvere--Tierney topology on a topos the maps
-inverted by sheafification, for a hereditary torsion theory on a
-Grothendieck abelian category the maps inverted by the Gabriel quotient,
-for a nucleus on a frame the inequalities identified by the nucleus. These
-classes live in the lattice of classes closed under composition and
-two-out-of-three. We prove that the join $W_c\vee W_{c'}$
-consists of the maps whose image and kernel pair are reached by a bounded
-number of alternating applications of $c$ and $c'$, and that in a
-Grothendieck topos or a Grothendieck abelian category $W_c\vee W_{c'}=
-W_{\bar c}$, for $\bar c$ the least closure operator above both, if and
-only if $(cc')^k=\bar c$ for some $k$. The criterion fails for persistence
-modules. It holds with $k=1$ for stable torsion theories, in particular over
-commutative Noetherian rings, where every map inverted by the join
-localisation factors through a pullback along the first localisation, and
-it fails over the path algebra of the
-quiver with two vertices and two opposite arrows. On the topos side the
-open, the closed and the double-negation topologies satisfy it with $k=1$
-against every topology, which on a frame characterises the nuclei whose
-join with every nucleus is the composite. For frames viewed as posets and
-for fuzzy sets the join is governed by the pointwise identity.
-\end{abstract}
+A pullback-stable, intersection-preserving closure operator $c$ on an exact
+category determines the class $W_c$ of $c$-bidense
+maps: for a Lawvere--Tierney topology the maps inverted by sheafification,
+for a hereditary torsion theory on a Grothendieck abelian category the maps
+inverted by the Gabriel quotient, for a nucleus on a frame the inequalities
+it identifies. In the lattice of classes closed under composition and
+two-out-of-three, the join $W_c\vee W_{c'}$ consists of the maps whose
+image and kernel pair are reached by a bounded number of alternating
+applications of $c$ and $c'$, and in a Grothendieck topos or Grothendieck
+abelian category $W_c\vee W_{c'}=W_{\bar c}$, for $\bar c$ the least
+closure operator above both, iff $(cc')^k=\bar c$ for some $k$. It
+fails for persistence modules and holds with $k=1$ for stable
+torsion theories, in particular over commutative Noetherian rings, with a
+two-step factorisation of the maps inverted by the join localisation, and
+fails over the path algebra of the quiver with two vertices and two
+opposite arrows. Open, closed and double-negation topologies satisfy it
+with $k=1$ against every topology, with two-step factorisations for the
+first two; in a localic topos these are exactly the topologies whose
+nucleus has its join with every nucleus equal to the composite.\end{abstract}
 
 \maketitle
 
@@ -208,11 +205,15 @@ unbounded length (Example~\ref{ex:cycle}). On the topos side the
 counterpart of stability is a one-sided commutation: the identity
 $cc'=\bar c$ holds iff $c'c\le cc'$ (Lemma~\ref{lem:k1}), the open and the
 double-negation topologies satisfy it against every topology, the closed
-topologies satisfy the reverse one, and for an open topology the two-step
-factorisation holds as well (Proposition~\ref{prop:openclosed}); on a frame
-these one-sided commutations with all nuclei characterise the nuclei with
-$n(x)\in\{y\to x\}$, which are the open ones when the frame is finite, and
-the closed nuclei (Proposition~\ref{prop:nucchar}).
+topologies satisfy the reverse one, and for open and for closed
+topologies the two-step factorisation holds as well
+(Proposition~\ref{prop:openclosed}); on a frame these one-sided
+commutations with all nuclei characterise the nuclei with $n(x)\in\{y\to
+x\}$, which are the open ones when the frame is finite, and the closed
+nuclei (Proposition~\ref{prop:nucchar}), and in a localic topos the
+identity $cc'=c\vee c'$ holds iff it holds for the nuclei, so that these
+are exactly the topologies satisfying it, respectively its reverse,
+against every topology (Corollary~\ref{cor:localick1}).
 
 The frame $L$ itself, viewed as a poset category, is an exact category in
 which every morphism is a monomorphism, with closure operators
@@ -299,7 +300,9 @@ $\Same(\operatorname{Mod}R)$ for $R$ commutative Noetherian
 (Corollary~\ref{cor:noeth}), and the Noetherian counterexample
 (Example~\ref{ex:cycle}); its topos-side counterpart is
 Proposition~\ref{prop:openclosed}, with the characterisation of
-Proposition~\ref{prop:nucchar}. The general Theorems~\ref{thm:A} and~\ref{thm:B}
+Proposition~\ref{prop:nucchar} and its localic form,
+Corollary~\ref{cor:localick1}, which decides the identity $cc'=c\vee c'$
+on a localic topos at the level of the nuclei. The general Theorems~\ref{thm:A} and~\ref{thm:B}
 are the tool: Theorem~\ref{thm:A} is the peeling argument of
 \cite[Thm.~A]{Stabjoin} carried out in an exact category instead of a
 topos, and Theorem~\ref{thm:B} replaces the subobject classifier used in
@@ -843,6 +846,11 @@ $W_{o\vee j}=W_o\circ W_j$: a map $f\colon X\to Y$ inverted by the
 sheafification for $o\vee j$ is the composite of the induced map
 $X\to Y\times_{a_jY}a_jX$, which is $j$-bidense, and the projection to $Y$,
 which is $o$-bidense.
+\item[(iv)] For the closed topology $c=c(U)$ and any topology $j$,
+$W_{c\vee j}=W_j\circ W_c$: a map $f\colon X\to Y$ inverted by the
+sheafification for $c\vee j$ is the composite of the induced map
+$X\to Y\times_{a_cY}a_cX$, which is $c$-bidense, and the projection to $Y$,
+which is $j$-bidense.
 \end{enumerate}
 \end{prop}
 \begin{proof}
@@ -890,6 +898,45 @@ the open subtopos $\cE/U\hookrightarrow\cE$ pulls back along the inclusion
 $i\colon\Sh_j(\cE)\hookrightarrow\cE$ to $\Sh_j(\cE)/i^*U\simeq
 \Sh_{j_U}(\cE/U)$, cf.\ \cite[A4.5]{Elephant}; the argument above does not
 depend on this.
+
+(iv) The $c$-sheaves are the objects $F$ with $F\times U\cong U$, and
+$a_cX$ is the pushout of $X\hookleftarrow X\times U\to U$ \cite[A4.5]
+{Elephant}: slicing over $U$ preserves pushouts and $U\times U=U$, so the
+pushout is trivial over $U$, and a map $X\to F$ with $F$ trivial over $U$
+restricts to $X\times U$ as the composite $X\times U\to U\to F$, the only
+map $X\times U\to F$, since $\Hom(X\times U,F)=\Hom_{/U}(X\times U,F\times
+U)=\Hom_{/U}(X\times U,U)$. Let $q=\ell_X\colon X\to a_cX$ and $u\colon U\to
+a_cX$ be the coprojections, which are jointly epimorphic, $q',u'$ those of
+$Y$; then $a_c(f)q=q'f$ and $a_c(f)u=u'$. By (ii) the closure operator of
+$c\vee j$ is $c_jc_c$, so $f\in W_{c\vee j}$ means $c_j(\im f\cup U_Y)=Y$
+and $\ker f\subseteq c_j(\Delta_X\cup U_{X\times X})$. We show that
+$a_c(f)\in W_j$; the factorisation then follows as in (iii), with $h\colon
+Z:=Y\times_{a_cY}a_cX\to Y$ a pullback of $a_c(f)$, hence in $W_j$, and
+$g\in W_c$ by two-out-of-three from $pg=\ell_X$, $p$ a pullback of
+$\ell_Y\in W_c$. Recall that for a jointly epimorphic family $(e_i)$ with
+codomain $B$ and subobjects $A,A'$ of $B$, $A\subseteq A'$ iff
+$e_i^{-1}(A)\subseteq e_i^{-1}(A')$ for all $i$, as $A=\bigcup_ie_i
+(e_i^{-1}(A))$. Image: let $B=\im a_c(f)$. Then $q'^{-1}(B)\supseteq\im f$,
+since $a_c(f)q=q'f$, and $q'^{-1}(B)\supseteq U_Y$, since $q'$ restricted to
+$U_Y=Y\times U$ factors through $u'$ and $u'(U)=a_c(f)(u(U))\subseteq B$;
+so $q'^{-1}(c_jB)=c_j(q'^{-1}B)\supseteq c_j(\im f\cup U_Y)=Y$, and $u'$
+factors through $B\subseteq c_jB$; hence $c_jB=a_cY$. Kernel pair: the four
+maps $q\times q$, $q\times u$, $u\times q$, $u\times u$ are jointly
+epimorphic onto $a_cX\times a_cX$, and it suffices to check $\ker a_c(f)
+\subseteq c_j(\Delta)$ after pulling back along each, where the pullback
+of $c_j(\Delta)$ is the $j$-closure of the pullback of $\Delta$. Along
+$q\times u$ and $u\times q$ the pullback of $\Delta$ is all of $X\times U$,
+because $qp_X=up_U$ on $X\times U$; along $u\times u$ the domain $U\times
+U=U$ maps into $\Delta$. Along $q\times q$: $(q\times q)^{-1}\ker a_c(f)=
+(f\times f)^{-1}\ker q'$, and $\ker q'\subseteq c_c(\Delta_Y)=\Delta_Y\cup
+U_{Y\times Y}$ because $q'=\ell_Y$ is $c$-bidense; so
+\[
+(q\times q)^{-1}\ker a_c(f)\subseteq\ker f\cup U_{X\times X}\subseteq
+c_j(\Delta_X\cup U_{X\times X})\subseteq c_j(\ker q)=(q\times q)^{-1}
+c_j(\Delta_{a_cX}),
+\]
+using $\Delta_X\cup U_{X\times X}\subseteq\ker q$, which holds because $q$
+restricted to $U_X$ factors through $u$. Hence $a_c(f)\in W_j$.
 \end{proof}
 
 \subsection{Locales}\label{sub:locale}
@@ -996,6 +1043,42 @@ $mnmn=mmn=mn$, and conversely $mnmn=mn$ at a fixed point $t$ of $n$ gives
 $nm(t)\le mnm(t)=m(t)$, so $m(t)\in\operatorname{Fix}(n)$. Taking $m=c_y$
 shows that $\operatorname{Fix}(n)$ is an up-set, i.e.\ $n$ is closed, and
 closed sublocales are preserved by every nucleus.
+\end{proof}
+
+The characterisation transfers to the sheaf topos, because on the
+subobjects of a sheaf the closure operators compose as the nuclei do.
+
+\begin{cor}\label{cor:localick1}
+Let $n,m$ be nuclei on a frame $L$ and $c_n,c_m$ the corresponding closure
+operators on $\Sh(L)$. Then $c_mc_n\le c_nc_m$ on the subobjects of every
+sheaf iff $mn\le nm$ on $L$; hence $c_nc_m=c_{n\vee m}$, and $W_n\vee W_m=
+W_{n\vee m}$ with $k=1$, iff $nm=n\vee m$. Consequently the topologies $j$
+on $\Sh(L)$ with $jj'=j\vee j'$ for every topology $j'$ are exactly those
+whose nucleus satisfies $n(x)\in b(x)$ for all $x$ (the open topologies,
+the double-negation topology and their joins, which are their composites;
+only the open ones when the $n$-dense elements have a least one), and
+those with $j'j=j\vee j'$ for every $j'$ are exactly the closed
+topologies.
+\end{cor}
+\begin{proof}
+For a subsheaf $A$ of a sheaf $X$ and $s\in X(u)$ put $\tv{s\in A}:=\bigvee\{v\le u:s|_v\in A(v)\}$; since $A$ is a subsheaf, the
+set $\{v\le u:s|_v\in A(v)\}$ is a down-set closed under joins, so it is
+the principal down-set of $\tv{s\in A}$, and $\tv{s|_v\in A}=\tv{s\in A}\wedge v$. The topology of
+$n$ acts on $\Omega(u)=\mathord\downarrow u$ by $v\mapsto n(v)\wedge u$, so
+$s\in c_n(A)(u)$ iff $n(\tv{s\in A})\ge u$, and
+\[
+\tv{s\in c_n(A)}=\bigvee\{v\le u:n(\tv{s\in A}\wedge v)\ge v\}=n(\tv{s\in A})\wedge u,
+\]
+because $n(a\wedge v)=n(a)\wedge n(v)\ge v$ iff $n(a)\ge v$. Hence $s\in
+c_mc_n(A)(u)$ iff $m(n(\tv{s\in A})\wedge u)\ge u$ iff
+$mn(\tv{s\in A})\ge u$, and likewise for $c_nc_m$. If $mn\le
+nm$, the inclusion $c_mc_n\le c_nc_m$ follows. Conversely, given $a\in L$,
+apply it to $A=y(a)\subseteq X=y(mn(a))$ and $s=\mathrm{id}$, for which
+$\tv{s\in A}=a$: $s\in c_mc_n(A)$ as $mn(a)\ge mn(a)$, so
+$nm(a)\ge mn(a)$. The second assertion is Lemma~\ref{lem:k1}, and the rest
+is Proposition~\ref{prop:nucchar}, every topology on $\Sh(L)$ coming from a
+nucleus; two nuclei with the property $n(S)\subseteq S$ for all sublocales
+have a join $n\vee n'=nn'$ with the same property.
 \end{proof}
 
 Here Theorem~\ref{thm:Bax} does not apply: in a poset the pushout of
@@ -1451,10 +1534,12 @@ the lattice of sublocales?
 \begin{que}
 Which pairs of non-stable hereditary torsion theories, beyond
 those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
-alternation? Which topologies on a topos satisfy $cc'=c\vee c'$ for every
-$c'$ (the condition of Proposition~\ref{prop:openclosed}(i) is sufficient),
-and does the two-step factorisation of Proposition~\ref{prop:openclosed}(iii)
-hold for the closed and the double-negation topologies? The lattice of
+alternation? Which topologies on a non-localic topos satisfy $cc'=c\vee
+c'$ for every $c'$ (the condition of Proposition~\ref{prop:openclosed}(i)
+is sufficient, and in a localic topos the property is decided by the
+nucleus, Corollary~\ref{cor:localick1}), and does the two-step
+factorisation of Proposition~\ref{prop:openclosed}(iii),(iv) hold for the
+double-negation topology? The lattice of
 hereditary torsion theories is itself a frame, and nuclei on it are
 studied in \cite{GolanSimmons}; the relation between those nuclei and the
 closure operators considered here is not clear to us.
