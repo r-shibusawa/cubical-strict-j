@@ -7,7 +7,7 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.37.5` (paper 40 revised: two-step factorisation for the double-negation topology;
   the kernel-pair half of "k = 1 implies two-step" holds in any topos -- `docs/consolidated/fijoin.pdf`),
-  archived at Zenodo (DOI to be recorded) -- cite this one.
+  archived at DOI [10.5281/zenodo.23607749](https://doi.org/10.5281/zenodo.23607749) -- cite this one.
 - Previous: release `v1.37.4` (paper 40 revised: two-step factorisation for closed topologies, and in a
   localic topos the k = 1 identity and the universal one-sided commutations are decided by the nuclei --
   `docs/consolidated/fijoin.pdf`),
