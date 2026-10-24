@@ -54,8 +54,7 @@ torsion theories, in particular over commutative Noetherian rings, with a
 two-step factorisation of the maps inverted by the join localisation, and
 fails over the path algebra of the quiver with two vertices and two
 opposite arrows. Open, closed and double-negation topologies satisfy it
-with $k=1$ against every topology, with two-step factorisations for the
-first two; in a localic topos these are exactly the topologies whose
+with $k=1$ against every topology, each with a two-step factorisation; in a localic topos these are exactly the topologies whose
 nucleus has its join with every nucleus equal to the composite.\end{abstract}
 
 \maketitle
@@ -205,9 +204,8 @@ unbounded length (Example~\ref{ex:cycle}). On the topos side the
 counterpart of stability is a one-sided commutation: the identity
 $cc'=\bar c$ holds iff $c'c\le cc'$ (Lemma~\ref{lem:k1}), the open and the
 double-negation topologies satisfy it against every topology, the closed
-topologies satisfy the reverse one, and for open and for closed
-topologies the two-step factorisation holds as well
-(Proposition~\ref{prop:openclosed}); on a frame these one-sided
+topologies satisfy the reverse one, and for all three the two-step
+factorisation holds as well (Proposition~\ref{prop:openclosed}); on a frame these one-sided
 commutations with all nuclei characterise the nuclei with $n(x)\in\{y\to
 x\}$, which are the open ones when the frame is finite, and the closed
 nuclei (Proposition~\ref{prop:nucchar}), and in a localic topos the
@@ -828,7 +826,45 @@ topologies, which satisfy the criterion with $k=1$ against \emph{every}
 topology. For a subobject $A$ of $X$ write $b(A):=\{B\Rightarrow A:B\in
 \Sub(X)\}$, the smallest sublocale of the Heyting algebra $\Sub(X)$
 containing $A$; the fixed points of any nucleus on $\Sub(X)$ form a
-sublocale.
+sublocale. The two-step factorisations below all arise from the following
+lemma, which reduces them to the density of one image.
+
+\begin{lem}\label{lem:kp}
+Let $c,c'$ be universal closure operators on an elementary topos with
+$c'c\le cc'$, so that $cc'=\bar c$ by Lemma~\ref{lem:k1}; let $a'$ be the
+sheafification for $c'$, with units $\ell$, and let $f\colon X\to Y$ lie
+in $W_{\bar c}$. Then the kernel pair of $a'(f)$ lies in $c(\Delta_{a'X})$.
+Consequently, if the image of $a'(f)$ is $c$-dense, then $a'(f)\in W_c$,
+and $f$ is the composite of the induced map $g\colon X\to Z:=Y\times_{a'Y}
+a'X$, which lies in $W_{c'}$, and the projection $h\colon Z\to Y$, which
+lies in $W_c$; so $W_{\bar c}=W_c\circ W_{c'}$ as soon as the image of
+$a'(f)$ is $c$-dense for every $f\in W_{\bar c}$.
+\end{lem}
+\begin{proof}
+Put $F=a'X$, $G=a'Y$, $\varphi=a'(f)$ and $\ell=\ell_X$. Since $F$ is
+$c'$-separated, $\Delta_F$ is $c'$-closed, and $\ker\ell=c'(\Delta_X)$:
+``$\subseteq$'' because $\ell\in W_{c'}$, and ``$\supseteq$'' because
+$(\ell\times\ell)(c'(\Delta_X))\subseteq c'((\ell\times\ell)(\Delta_X))
+\subseteq c'(\Delta_F)=\Delta_F$. Hence
+\begin{align*}
+(\ell\times\ell)^{-1}(\ker\varphi)&=\ker(\ell_Yf)=(f\times f)^{-1}(\ker\ell_Y)
+\subseteq(f\times f)^{-1}c'(\Delta_Y)\\
+&=c'(\ker f)\subseteq c'cc'(\Delta_X)\subseteq cc'(\Delta_X)\\
+&=c(\ker\ell)=(\ell\times\ell)^{-1}c(\Delta_F).
+\end{align*}
+The image $I$ of $\ell\times\ell$ is $\im\ell\times\im\ell$, which is
+$c'$-dense in $F\times F$, and $\ker\varphi\cap I=(\ell\times\ell)
+((\ell\times\ell)^{-1}\ker\varphi)\subseteq(\ell\times\ell)((\ell\times\ell)^{-1}
+c(\Delta_F))\subseteq c(\Delta_F)$; so
+$\ker\varphi\subseteq c'(\ker\varphi)\cap c'(I)=c'(\ker\varphi\cap I)
+\subseteq c'c(\Delta_F)\subseteq cc'(\Delta_F)=c(\Delta_F)$. For the
+factorisation, $h$ is a pullback of $\varphi\in W_c$ and $W_c$ is stable
+under pullback (dense subobjects and closures are), so $h\in W_c$; the
+other projection $p\colon Z\to a'X$ is a pullback of $\ell_Y\in W_{c'}$, so
+$p\in W_{c'}$, and $pg=\ell_X\in W_{c'}$, so $g\in W_{c'}$ by
+two-out-of-three. The reverse inclusion $W_c\circ W_{c'}\subseteq W_{\bar
+c}$ is clear.
+\end{proof}
 
 \begin{prop}\label{prop:openclosed}
 Let $\cE$ be an elementary topos and $c,c'$ universal closure operators.
@@ -851,6 +887,9 @@ $W_{c\vee j}=W_j\circ W_c$: a map $f\colon X\to Y$ inverted by the
 sheafification for $c\vee j$ is the composite of the induced map
 $X\to Y\times_{a_cY}a_cX$, which is $c$-bidense, and the projection to $Y$,
 which is $j$-bidense.
+\item[(v)] For the double-negation topology and any topology $j$,
+$W_{\neg\neg\vee j}=W_{\neg\neg}\circ W_j$, with the middle term
+$Y\times_{a_jY}a_jX$ of (iii).
 \end{enumerate}
 \end{prop}
 \begin{proof}
@@ -887,13 +926,9 @@ extends uniquely to $B\to F$ and hence to $B\to F\times U$ over $U$; and
 $\ell_X\times U\colon X\times U\to a_jX\times U$ is $j_U$-bidense as a
 pullback of the unit $\ell_X\in W_j$, hence is inverted by $a_{j_U}$.
 Now let $f\in W_{o\vee j}$. By (2) and (3), $a_j(f)\times U\cong a_{j_U}
-(f\times U)$ is an isomorphism, so $a_j(f)\in W_o$ by (1). The projection
-$h\colon Z:=Y\times_{a_jY}a_jX\to Y$ is a pullback of $a_j(f)$ and $W_o$ is
-stable under pullback (dense subobjects and closures are), so $h\in W_o$;
-the other projection $p\colon Z\to a_jX$ is a pullback of the unit
-$\ell_Y\in W_j$, so $p\in W_j$, and $pg=\ell_X\in W_j$ for the induced
-$g\colon X\to Z$, so $g\in W_j$ by two-out-of-three. The reverse inclusion
-$W_o\circ W_j\subseteq W_{o\vee j}$ is clear. Conceptually, (3) says that
+(f\times U)$ is an isomorphism, so $a_j(f)\in W_o$ by (1), and
+Lemma~\ref{lem:kp} (with $c=c_o$, $c'=c_j$, for which $c'c\le cc'$ by (i))
+gives the factorisation. Conceptually, (3) says that
 the open subtopos $\cE/U\hookrightarrow\cE$ pulls back along the inclusion
 $i\colon\Sh_j(\cE)\hookrightarrow\cE$ to $\Sh_j(\cE)/i^*U\simeq
 \Sh_{j_U}(\cE/U)$, cf.\ \cite[A4.5]{Elephant}; the argument above does not
@@ -910,10 +945,9 @@ a_cX$ be the coprojections, which are jointly epimorphic, $q',u'$ those of
 $Y$; then $a_c(f)q=q'f$ and $a_c(f)u=u'$. By (ii) the closure operator of
 $c\vee j$ is $c_jc_c$, so $f\in W_{c\vee j}$ means $c_j(\im f\cup U_Y)=Y$
 and $\ker f\subseteq c_j(\Delta_X\cup U_{X\times X})$. We show that
-$a_c(f)\in W_j$; the factorisation then follows as in (iii), with $h\colon
-Z:=Y\times_{a_cY}a_cX\to Y$ a pullback of $a_c(f)$, hence in $W_j$, and
-$g\in W_c$ by two-out-of-three from $pg=\ell_X$, $p$ a pullback of
-$\ell_Y\in W_c$. Recall that for a jointly epimorphic family $(e_i)$ with
+$a_c(f)\in W_j$; the factorisation then follows from Lemma~\ref{lem:kp},
+applied to the pair $(c_j,c_c)$, for which $c_cc_j\le c_jc_c$ by (ii).
+Recall that for a jointly epimorphic family $(e_i)$ with
 codomain $B$ and subobjects $A,A'$ of $B$, $A\subseteq A'$ iff
 $e_i^{-1}(A)\subseteq e_i^{-1}(A')$ for all $i$, as $A=\bigcup_ie_i
 (e_i^{-1}(A))$. Image: let $B=\im a_c(f)$. Then $q'^{-1}(B)\supseteq\im f$,
@@ -930,14 +964,42 @@ because $qp_X=up_U$ on $X\times U$; along $u\times u$ the domain $U\times
 U=U$ maps into $\Delta$. Along $q\times q$: $(q\times q)^{-1}\ker a_c(f)=
 (f\times f)^{-1}\ker q'$, and $\ker q'\subseteq c_c(\Delta_Y)=\Delta_Y\cup
 U_{Y\times Y}$ because $q'=\ell_Y$ is $c$-bidense; so
-\[
-(q\times q)^{-1}\ker a_c(f)\subseteq\ker f\cup U_{X\times X}\subseteq
-c_j(\Delta_X\cup U_{X\times X})\subseteq c_j(\ker q)=(q\times q)^{-1}
-c_j(\Delta_{a_cX}),
-\]
+\begin{align*}
+(q\times q)^{-1}\ker a_c(f)&\subseteq\ker f\cup U_{X\times X}\subseteq
+c_j(\Delta_X\cup U_{X\times X})\\
+&\subseteq c_j(\ker q)=(q\times q)^{-1}c_j(\Delta_{a_cX}),
+\end{align*}
 using $\Delta_X\cup U_{X\times X}\subseteq\ker q$, which holds because $q$
 restricted to $U_X$ factors through $u$. Hence $a_c(f)\in W_j$.
+
+(v) By (i) the closure operator of $\neg\neg\vee j$ is $\neg\neg c_j$ and
+$c_j\neg\neg\le\neg\neg c_j$, so by Lemma~\ref{lem:kp} it suffices to show
+that for $f\in W_{\neg\neg\vee j}$ the image $B$ of $\varphi:=a_j(f)\colon
+F:=a_jX\to G:=a_jY$ is $\neg\neg$-dense, i.e.\ $\neg B=0$. First,
+$\neg\neg c_j(B)=G$: from $\varphi\ell_X=\ell_Yf$ we get $\im f\subseteq
+\ell_Y^{-1}(B)$, so $Y=\neg\neg c_j(\im f)\subseteq\neg\neg c_j(\ell_Y^{-1}
+B)=\ell_Y^{-1}(\neg\neg c_jB)$, i.e.\ $\im\ell_Y\subseteq\neg\neg c_jB$,
+and as $\im\ell_Y$ is $j$-dense, $G=c_j(\im\ell_Y)\subseteq c_j\neg\neg c_j
+B\subseteq\neg\neg c_j\neg\neg c_jB=\neg\neg c_jB$. Second, $c_j(0_G)
+\subseteq B$, where $0_G$ is the least subobject of $G$: the closed
+subobject $c_j(0_1)$ of the sheaf $1$ is a sheaf receiving a dense
+monomorphism from $0$, hence is the initial object $a_j(0)$ of
+$\Sh_j(\cE)$; $c_j(0_G)=G\times c_j(0_1)$ and $c_j(0_F)=F\times c_j(0_1)$
+are then initial objects of $\Sh_j(\cE)$ too, since they are sheaves
+mapping to $a_j(0)$ and the initial object of the topos $\Sh_j(\cE)$ is
+strict; so $\varphi$, which maps $c_j(0_F)$ into
+$c_j(\varphi(0_F))=c_j(0_G)$, restricts to a map between initial objects,
+an isomorphism, and $c_j(0_G)=\varphi(c_j(0_F))\subseteq B$. Third, if
+$A\cap B=0$ then $A\cap c_jB\subseteq c_jA\cap c_jB=c_j(A\cap B)=c_j(0_G)
+\subseteq B$, so $A\cap c_jB\subseteq A\cap B=0$ and $A\subseteq\neg c_jB=
+0$. Hence $\neg B=0$.
 \end{proof}
+
+By Lemma~\ref{lem:kp}, whether $c'c\le cc'$ alone implies $W_{\bar c}=
+W_c\circ W_{c'}$ on a topos comes down to the $c$-density of the image of
+$a'(f)$ for $f\in W_{\bar c}$, which in (iii), (iv) and (v) was obtained
+from the particular shape of the sheafification; we do not know whether
+it holds in general (Question~\ref{que:two}).
 
 \subsection{Locales}\label{sub:locale}
 Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. Closure operators on
@@ -1452,8 +1514,11 @@ $M_N$ be the string module with basis $e_1,\dots,e_N$, the $e_i$ placed
 alternately at the vertices $1,2,1,\dots$, each arrow sending $e_i$ to
 $e_{i+1}$ and $e_N$ to $0$. It is uniserial with composition factors the
 simple modules $S_1,S_2$ at the two vertices, so $M_N\in T\vee T'$, and its
-canonical alternating filtration peels off one basis vector at a time and
-has length $N$ or $N+1$. Hence $T\vee T'\not\subseteq E_k$ for every $k$,
+canonical alternating filtration, which begins with $t'(M_N)$ and peels
+off one basis vector at a time, has length $N$ if $N$ is even and $N+1$ if
+$N$ is odd, when $e_N$ lies at the vertex $1$ and the first step
+$t'(M_N)=0$ is trivial (lengths are counted as in
+Example~\ref{ex:persistence}, trivial steps included). Hence $T\vee T'\not\subseteq E_k$ for every $k$,
 and $W_T\vee W_{T'}\subsetneq W_{T\vee T'}$ although $\Lambda$ is
 Noetherian; the map $0\to\bigoplus_NM_N$ lies in the second class but not
 in the first. In accordance with Theorem~\ref{thm:stable}, $T$ is not
@@ -1463,7 +1528,9 @@ join class is not everything: the module $k\rightleftarrows k$ with both
 arrows the identity is simple and torsion-free for both theories.) A
 computer check over $\mathbb F_2$ finds, among the modules of dimension
 vector $(d,d)$ with $d\le5$ in the join class, the maximal length $2d+1$,
-attained by $M_{2d}$. For the quiver $A_2$ (the case $b=0$) one has
+attained by the string module with $2d$ basis vectors whose first vector
+lies at the vertex $2$, so that its socle $ke_{2d}$ is $S_1$ and its first
+step is trivial; $M_{2d}$ itself has length $2d$. For the quiver $A_2$ (the case $b=0$) one has
 $t'(M)=(0,M_2)$ with quotient in $T$, so every module lies in $E_1$ although
 $T'$ is not stable ($E(S_2)=(k\to k)$): stability is sufficient, not
 necessary. The order of the layers matters there, since
@@ -1531,15 +1598,15 @@ pairs of nuclei, or of subtoposes, satisfying it, for instance in terms of
 the lattice of sublocales?
 \end{que}
 
-\begin{que}
+\begin{que}\label{que:two}
 Which pairs of non-stable hereditary torsion theories, beyond
 those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
 alternation? Which topologies on a non-localic topos satisfy $cc'=c\vee
 c'$ for every $c'$ (the condition of Proposition~\ref{prop:openclosed}(i)
 is sufficient, and in a localic topos the property is decided by the
-nucleus, Corollary~\ref{cor:localick1}), and does the two-step
-factorisation of Proposition~\ref{prop:openclosed}(iii),(iv) hold for the
-double-negation topology? The lattice of
+nucleus, Corollary~\ref{cor:localick1}), and does $c'c\le cc'$ alone imply $W_{\bar c}=W_c\circ W_{c'}$ on a
+topos, i.e.\ is the image of $a'(f)$ always $c$-dense in
+Lemma~\ref{lem:kp}? The lattice of
 hereditary torsion theories is itself a frame, and nuclei on it are
 studied in \cite{GolanSimmons}; the relation between those nuclei and the
 closure operators considered here is not clear to us.
