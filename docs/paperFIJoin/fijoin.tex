@@ -41,20 +41,18 @@
 A pullback-stable, intersection-preserving closure operator $c$ on an exact
 category determines the class $W_c$ of $c$-bidense
 maps: for a Lawvere--Tierney topology the maps inverted by sheafification,
-for a hereditary torsion theory on a Grothendieck abelian category the maps
-inverted by the Gabriel quotient, for a nucleus the inequalities it
+for a hereditary torsion theory the maps inverted by the Gabriel quotient, for a nucleus the inequalities it
 identifies. In the lattice of classes closed under composition and
 two-out-of-three, the join $W_c\vee W_{c'}$ consists of the maps whose
-image and kernel pair are reached by a bounded number of alternating
+image and kernel pair are reached by boundedly many alternating
 applications of $c$ and $c'$, and in a Grothendieck topos or Grothendieck
 abelian category $W_c\vee W_{c'}=W_{\bar c}$, for $\bar c$ the least
 closure operator above both, iff $(cc')^k=\bar c$ for some $k$. It
-fails for persistence modules and holds with $k=1$ for stable
-torsion theories, in particular over commutative Noetherian rings, with a
-two-step factorisation, and fails over the path algebra of the quiver with
-two opposite arrows. Open, closed and double-negation topologies satisfy it
-with $k=1$ against every topology, each with a two-step factorisation;
-in a localic topos the topologies with this property are those whose
+fails for persistence modules and over the path algebra of the quiver with
+two opposite arrows, and holds with $k=1$ and a two-step factorisation for
+stable torsion theories, in particular over commutative Noetherian rings.
+Open, closed and double-negation topologies satisfy it with $k=1$ and a
+two-step factorisation against every topology; in a localic topos the topologies with this property are those whose
 nucleus has its join with every nucleus equal to the composite, in one
 order, and the closed ones in the other.
 \end{abstract}
@@ -1014,8 +1012,9 @@ $f\in W_{\bar c}$; (2) $aG$ is a $c'$-sheaf for every $c'$-sheaf $G$; (3)
 the unit $G\to\bar aG$ induces an isomorphism $aG\cong\bar aG$ for
 every $c'$-sheaf $G$, where $\bar a$ is the sheafification for $\bar c=
 cc'$, i.e.\ $aa'\cong\bar a$ naturally, compatibly with the units. They
-imply
-$W_{\bar c}=W_c\circ W_{c'}$.
+imply $W_{\bar c}=W_c\circ W_{c'}$.
+\item[(c)] If a $c'$-sheaf $G$ is $c$-separated, then $aG\cong\bar aG$ is
+a $c'$-sheaf.
 \end{enumerate}
 \end{prop}
 \begin{proof}
@@ -1045,13 +1044,67 @@ $\bar aG$ is a $c$-sheaf; the composite $aG\xrightarrow{a(f)}a(\bar aG)
 \xrightarrow{\ \cong\ }\bar aG$ is the map induced by the unit, so
 $aG\cong\bar aG$ is a $c'$-sheaf. Finally (1) gives $W_{\bar c}=
 W_c\circ W_{c'}$ by Lemma~\ref{lem:kp}.
+
+(c) Let $f\colon G\to S:=\bar aG$ be the unit and $G_0=\im f$. Its kernel
+pair is $\bar c(\Delta_G)=cc'(\Delta_G)=c(\Delta_G)=\Delta_G$, so $f$ is a
+monomorphism, and $cc'(G_0)=S$ as $f$ is $\bar c$-bidense. Now $S$ is a
+$c'$-sheaf, being a $\bar c$-sheaf, and $G_0\cong G$ is a $c'$-sheaf; a
+subobject of a $c'$-sheaf is a $c'$-sheaf iff it is $c'$-closed
+\cite[V.3]{MLM}, \cite[A4.3]{Elephant} (the closure $c'(G_0)$ is a
+$c'$-sheaf and $G_0\hookrightarrow c'(G_0)$ is a $c'$-dense monomorphism of
+$c'$-sheaves, hence an isomorphism). So $c'(G_0)=G_0$ and $c(G_0)=
+cc'(G_0)=S$: $f$ is a $c$-dense monomorphism into a $c$-sheaf, i.e.\ the
+$c$-sheafification of $G$.
 \end{proof}
 
 Thus Proposition~\ref{prop:openclosed}(iii)--(v) say that the open, the
 closed and the double-negation sheafifications are preserved by, or
-preserve, every other sheafification in the sense of (2); whether (2)
-follows from $c'c\le cc'$ in general we do not know
-(Question~\ref{que:two}).
+preserve, every other sheafification in the sense of (2), and (c) says
+that (2) can only fail for $c'$-sheaves that are not $c$-separated;
+the next lemma makes this precise. Whether (2) follows from $c'c\le cc'$
+in general we do not know (Question~\ref{que:two}).
+
+\begin{lem}\label{lem:sepquot}
+Let $c'c\le cc'$ and let $G$ be a $c'$-sheaf, with $c$-separated quotient
+$G^s=G/c(\Delta_G)$.
+\begin{enumerate}
+\item[(i)] $G^s$ is $c$-separated and $c'$-separated, and $aG\cong a(G^s)$.
+\item[(ii)] If $H$ is $c$-separated and $c'$-separated, then $a'H$ is
+$c$-separated (for any $c,c'$).
+\item[(iii)] $aG$ is a $c'$-sheaf iff $G^s$ is $c$-dense in $a'(G^s)$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(i) Put $R=c(\Delta_G)$ and let $q\colon G\to G^s$ be the quotient, with
+kernel pair $R$. The unit $G\to aG$ has kernel pair $R$ and factors
+through $q$, so $q$ lies in $W_c$ and $aG\cong a(G^s)$. As $q\times q$ is
+an epimorphism, a subobject of $G^s\times G^s$ is determined by its
+pullback along $q\times q$, and pullback commutes with $c$ and $c'$; the
+pullback of $\Delta_{G^s}$ is $R$, so $G^s$ is $c$-separated because
+$c(R)=R$, and $c'$-separated because $c'(R)=c'c(\Delta_G)\subseteq
+cc'(\Delta_G)=c(\Delta_G)=R$, using $c'(\Delta_G)=\Delta_G$.
+
+(ii) The unit $\ell\colon H\to a'H$ is a $c'$-dense monomorphism. Let
+$x,y\colon U\to a'H$ agree on a $c$-dense $U_1\subseteq U$. Then
+$U_2=x^{-1}(H)\cap y^{-1}(H)$ is $c'$-dense in $U$ and $x|_{U_2}=\ell x'$,
+$y|_{U_2}=\ell y'$; $x',y'$ agree on $U_1\cap U_2$, which is $c$-dense in
+$U_2$, hence on $U_2$ as $H$ is $c$-separated. So $x,y$ agree on the
+$c'$-dense $U_2$, hence $x=y$ as $a'H$ is $c'$-separated.
+
+(iii) Put $H=a'(G^s)$; by (i) and (ii) $H$ is a $c$-separated $c'$-sheaf
+and $G^s\hookrightarrow H$ is a monomorphism. By Proposition~\ref{prop:reflectors}(c), $aH\cong\bar aH$ is a
+$c'$-sheaf, and $\bar aH\cong\bar a(G^s)$ as $\bar a$ inverts the units of
+$a'$. If $G^s$ is $c$-dense in $H$, then $aG\cong a(G^s)\cong aH$ is a
+$c'$-sheaf. Conversely, if $aG\cong a(G^s)$ is a $c'$-sheaf, it is a
+$\bar c$-sheaf and the $c$-bidense unit $G^s\to a(G^s)$ is $\bar c$-bidense,
+so $a(G^s)\cong\bar a(G^s)\cong\bar aH$, and the unit $G^s\to\bar aH$
+factors as $G^s\hookrightarrow H\to\bar aH$, where $H\to\bar aH$ is a
+monomorphism, its kernel pair being $cc'(\Delta_H)=c(\Delta_H)=\Delta_H$.
+A generalised element $y\colon U\to H$ composed with $H\to\bar aH$ lies in
+$c(G^s)=\bar aH$, so on a $c$-dense $U_1\subseteq U$ it factors through
+$G^s\to\bar aH$; as $H\to\bar aH$ is monic, $y|_{U_1}$ factors through
+$G^s$, i.e.\ $y\in c(G^s)$. Hence $G^s$ is $c$-dense in $H$.
+\end{proof}
 
 \subsection{Locales}\label{sub:locale}
 Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. Closure operators on
@@ -1685,6 +1738,13 @@ No funding was received for this work.
 
 \section*{Declarations}
 The author has no competing interests to declare.
+The scripts for the computer checks mentioned in the text (the
+alternating filtrations over $\mathbb F_2$ for the $2$-cycle, and the
+plus-construction towers on the contracted monoid) are the files
+\texttt{cycle\_filtration.py} and \texttt{cycle\_monoid.py} in the directory
+\texttt{scripts/comparison} of the repository
+\url{https://github.com/r-shibusawa/cubical-strict-j}, archived on Zenodo
+under the concept DOI 10.5281/zenodo.21405961.
 
 \begin{thebibliography}{9}
 \bibitem{Barr} M.~Barr, \emph{Exact categories}, in: Exact Categories and

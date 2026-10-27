@@ -5,9 +5,12 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.37.6` (paper 40 revised: under the k = 1 identity the two-step factorisation is
+- Current snapshot: release `v1.37.7` (paper 40 revised: c-separated c'-sheaves are preserved by the
+  c-sheafification; the separated-quotient lemma -- `docs/consolidated/fijoin.pdf`),
+  archived at Zenodo (DOI to be recorded) -- cite this one.
+- Previous: release `v1.37.6` (paper 40 revised: under the k = 1 identity the two-step factorisation is
   equivalent to the c-sheafification preserving c'-sheaves -- `docs/consolidated/fijoin.pdf`),
-  archived at DOI [10.5281/zenodo.23608402](https://doi.org/10.5281/zenodo.23608402) -- cite this one.
+  archived at DOI [10.5281/zenodo.23608402](https://doi.org/10.5281/zenodo.23608402).
 - Previous: release `v1.37.5` (paper 40 revised: two-step factorisation for the double-negation topology;
   the kernel-pair half of "k = 1 implies two-step" holds in any topos -- `docs/consolidated/fijoin.pdf`),
   archived at DOI [10.5281/zenodo.23607749](https://doi.org/10.5281/zenodo.23607749).
