@@ -7,7 +7,8 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.37.8` (paper 40 revised: the c'-sheafification preserves c-dense
   monomorphisms under c'c <= cc'; a topos counterexample to the two-step factorisation for commuting
-  topologies -- `docs/consolidated/fijoin.pdf`), archived at Zenodo (DOI to be recorded) -- cite this one.
+  topologies -- `docs/consolidated/fijoin.pdf`),
+  archived at DOI [10.5281/zenodo.23691896](https://doi.org/10.5281/zenodo.23691896) -- cite this one.
 - Previous: release `v1.37.7` (paper 40 revised: c-separated c'-sheaves are preserved by the
   c-sheafification; the separated-quotient lemma -- `docs/consolidated/fijoin.pdf`),
   archived at DOI [10.5281/zenodo.23681104](https://doi.org/10.5281/zenodo.23681104).
