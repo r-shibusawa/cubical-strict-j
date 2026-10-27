@@ -48,13 +48,13 @@ image and kernel pair are reached by boundedly many alternating
 applications of $c$ and $c'$, and in a Grothendieck topos or Grothendieck
 abelian category $W_c\vee W_{c'}=W_{\bar c}$, for $\bar c$ the least
 closure operator above both, iff $(cc')^k=\bar c$ for some $k$. It
-fails for persistence modules and over the path algebra of the quiver with
-two opposite arrows, and holds with $k=1$ and a two-step factorisation for
-stable torsion theories, in particular over commutative Noetherian rings.
-Open, closed and double-negation topologies satisfy it with $k=1$ and a
-two-step factorisation against every topology; in a localic topos the topologies with this property are those whose
-nucleus has its join with every nucleus equal to the composite, in one
-order, and the closed ones in the other.
+fails for persistence modules and for the path algebra of the quiver with
+two opposite arrows, and holds with $k=1$ for stable torsion theories, so over commutative Noetherian rings.
+Alone, $k=1$ does not give a two-step factorisation of the inverted
+maps, for topologies or torsion theories; in a topos it does when the
+second sheafification preserves the sheaves of the first, as for open,
+closed and double-negation topologies against every topology, and on a
+locale such topologies are characterised by their nuclei.
 \end{abstract}
 
 \maketitle
@@ -204,8 +204,20 @@ unbounded length (Example~\ref{ex:cycle}). On the topos side the
 counterpart of stability is a one-sided commutation: the identity
 $cc'=\bar c$ holds iff $c'c\le cc'$ (Lemma~\ref{lem:k1}), the open and the
 double-negation topologies satisfy it against every topology, the closed
-topologies satisfy the reverse one, and for all three the two-step
-factorisation holds as well (Proposition~\ref{prop:openclosed}); on a frame these one-sided
+topologies satisfy the reverse one (Proposition~\ref{prop:openclosed}),
+and in these three cases the maps inverted by the join sheafification
+factor in two steps through the pullback along one of the two
+sheafifications (Proposition~\ref{prop:openclosed}). The identity alone
+does not give the factorisation, neither for topologies
+(Example~\ref{ex:t5}) nor for torsion theories (Example~\ref{ex:a3}), so
+that stability is needed in Theorem~\ref{thm:stable}: in both examples
+the closure operators commute and the factorisation holds in one order
+only. In a topos the factorisation through the pullback along the
+$c'$-sheafification holds iff the $c$-sheafification preserves
+$c'$-sheaves, iff the $c'$-sheafification preserves $c$-bidense maps
+(Proposition~\ref{prop:reflectors}); under $c'c\le cc'$ it always
+preserves the $c$-dense monomorphisms (Proposition~\ref{prop:densemono}),
+and the $c$-bidense epimorphisms are where it can fail. On a frame these one-sided
 commutations with all nuclei characterise the nuclei with $n(x)\in\{y\to
 x\}$, which are the open ones when the frame is finite, and the closed
 nuclei (Proposition~\ref{prop:nucchar}), and in a localic topos the
@@ -296,7 +308,15 @@ embedding
 of the specialisation-closed subsets of $\operatorname{Spec}R$ into
 $\Same(\operatorname{Mod}R)$ for $R$ commutative Noetherian
 (Corollary~\ref{cor:noeth}), and the Noetherian counterexample
-(Example~\ref{ex:cycle}); its topos-side counterpart is
+(Example~\ref{ex:cycle}). On the topos side,
+Proposition~\ref{prop:reflectors} characterises the two-step factorisation
+through the pullback along the $c'$-sheafification by the preservation of
+$c'$-sheaves under the $c$-sheafification, equivalently of $c$-bidense
+maps under the $c'$-sheafification, Proposition~\ref{prop:densemono} shows
+that the latter preserves $c$-dense monomorphisms whenever $c'c\le cc'$,
+and Example~\ref{ex:t5} shows that commuting topologies need not have the
+factorisation, as Example~\ref{ex:a3} shows for torsion theories; the
+particular cases are
 Proposition~\ref{prop:openclosed}, with the characterisation of
 Proposition~\ref{prop:nucchar} and its localic form,
 Corollary~\ref{cor:localick1}, which decides the identity $cc'=c\vee c'$
@@ -827,7 +847,7 @@ topology. For a subobject $A$ of $X$ write $b(A):=\{B\Rightarrow A:B\in
 \Sub(X)\}$, the smallest sublocale of the Heyting algebra $\Sub(X)$
 containing $A$; the fixed points of any nucleus on $\Sub(X)$ form a
 sublocale. The two-step factorisations below all arise from the following
-lemma, which reduces them to the density of one image.
+lemma.
 
 \begin{lem}\label{lem:kp}
 Let $c,c'$ be universal closure operators on an elementary topos with
@@ -995,12 +1015,6 @@ $A\cap B=0$ then $A\cap c_jB\subseteq c_jA\cap c_jB=c_j(A\cap B)=c_j(0_G)
 0$. Hence $\neg B=0$.
 \end{proof}
 
-By Lemma~\ref{lem:kp}, whether $c'c\le cc'$ alone implies $W_{\bar c}=
-W_c\circ W_{c'}$ on a topos comes down to the $c$-density of the image of
-$a'(f)$ for $f\in W_{\bar c}$, which in (iii), (iv) and (v) was obtained
-from the particular shape of the sheafification. This density condition
-is a statement about the two reflectors alone.
-
 \begin{prop}\label{prop:reflectors}
 Let $c,c'$ be universal closure operators on an elementary topos with
 $c'c\le cc'$, and let $a,a'$ be the sheafifications for $c$ and $c'$.
@@ -1008,7 +1022,8 @@ $c'c\le cc'$, and let $a,a'$ be the sheafifications for $c$ and $c'$.
 \item[(a)] For every $c'$-sheaf $G$ the $c$-sheaf $aG$ is
 $c'$-separated.
 \item[(b)] The following are equivalent: (1) $a'(f)\in W_c$ for every
-$f\in W_{\bar c}$; (2) $aG$ is a $c'$-sheaf for every $c'$-sheaf $G$; (3)
+$f\in W_{\bar c}$; (1$'$) $a'(f)\in W_c$ for every $f\in W_c$, i.e.\ $a'$
+preserves $c$-bidense maps; (2) $aG$ is a $c'$-sheaf for every $c'$-sheaf $G$; (3)
 the unit $G\to\bar aG$ induces an isomorphism $aG\cong\bar aG$ for
 every $c'$-sheaf $G$, where $\bar a$ is the sheafification for $\bar c=
 cc'$, i.e.\ $aa'\cong\bar a$ naturally, compatibly with the units. They
@@ -1028,7 +1043,11 @@ $c'(\Delta_{aG})\subseteq c(c'(\Delta_{aG})\cap I)\subseteq c(\Delta_{aG})
 =\Delta_{aG}$, using $c(S)=c(S)\cap c(I)=c(S\cap I)$ and the
 $c$-separatedness of $aG$.
 
-(b) (2)$\Leftrightarrow$(3): a $c$-sheaf that is a $c'$-sheaf is a
+(b) (1)$\Rightarrow$(1$'$) as $W_c\subseteq W_{\bar c}$. (1$'$)$\Rightarrow$(1):
+by Lemma~\ref{lem:k1} and Theorem~\ref{thm:A} with $k=1$, a map $f\in
+W_{\bar c}=U_1$ is a composite $m_2m_1e_2e_1$ with $e_1,m_1\in W_{c'}$ and
+$e_2,m_2\in W_c$; $a'$ inverts $e_1$ and $m_1$, and $a'(e_2),a'(m_2)\in
+W_c$ by (1$'$), so $a'(f)\in W_c$. (2)$\Leftrightarrow$(3): a $c$-sheaf that is a $c'$-sheaf is a
 $\bar c$-sheaf, since $\Sh_{\bar c}=\Sh_c\cap\Sh_{c'}$, and the unit
 $G\to aG$ is $c$-bidense, hence $\bar c$-bidense, so $aG\cong\bar aG$;
 conversely $\bar aG$ is a $c'$-sheaf. (3)$\Rightarrow$(1): for $f\in
@@ -1061,8 +1080,45 @@ Thus Proposition~\ref{prop:openclosed}(iii)--(v) say that the open, the
 closed and the double-negation sheafifications are preserved by, or
 preserve, every other sheafification in the sense of (2), and (c) says
 that (2) can only fail for $c'$-sheaves that are not $c$-separated;
-the next lemma makes this precise. Whether (2) follows from $c'c\le cc'$
-in general we do not know (Question~\ref{que:two}).
+Lemma~\ref{lem:sepquot} makes this precise, and Example~\ref{ex:t5} shows
+that (2) does fail in general, even for commuting $c,c'$. What the
+$c'$-sheafification always preserves under $c'c\le cc'$ is the
+$c$-dense monomorphisms.
+
+\begin{prop}\label{prop:densemono}
+Let $c,c'$ be universal closure operators on an elementary topos with
+$c'c\le cc'$, and let $a'$ be the sheafification for $c'$, with unit
+$\eta$. Then $\eta^{-1}(a'(I))=c'(I)$ for every subobject $I$ of every
+$Y$, and $a'$ preserves $c$-dense monomorphisms: if $I\subseteq Y$ is
+$c$-dense, then $a'(I)$ is $c$-dense in $a'(Y)$.
+\end{prop}
+\begin{proof}
+Let $\eta\colon Y\to a'Y$ be the unit. We first check that
+$\eta^{-1}(a'(I))=c'(I)$ for every subobject $I$ of $Y$. The pullback
+contains $I$, by naturality of $\eta$, and is $c'$-closed, as $a'(I)$ is a
+$c'$-sheaf, hence a $c'$-closed subobject of the $c'$-sheaf $a'Y$
+\cite[V.3]{MLM}, \cite[A4.3]{Elephant}, and closed subobjects pull back to
+closed subobjects. Conversely let $y\colon U\to Y$ have $\eta y\in a'(I)$.
+The image of the unit $I\to a'(I)$ is $c'$-dense, so there are a
+$c'$-dense $V\subseteq U$ and an epimorphism $p\colon V'\to V$ with
+$\eta y p=\eta x$ for some $x\colon V'\to I\subseteq Y$; then $(yp,x)$ lies
+in $\ker\eta=c'(\Delta_Y)$ (proof of Lemma~\ref{lem:kp}), so $yp$ and $x$
+agree on a $c'$-dense subobject of $V'$, on which $yp$ factors through
+$I$; hence $yp$ factors through $c'(I)$, so does $y|_V$ as $p$ is
+epimorphic, and $y^{-1}(c'(I))=c'(y^{-1}(I))$ is closed and contains the
+dense $V$, so $y\in c'(I)$.
+
+Now let $I$ be $c$-dense and put $T:=c(a'(I))\subseteq a'Y$. Since
+$a'(I)$ is $c'$-closed, $c'(T)=c'c\,c'(a'(I))\subseteq cc'c'(a'(I))=T$: $T$
+is $c'$-closed. By universality, $\eta^{-1}(T)=c(\eta^{-1}(a'(I)))=
+cc'(I)\supseteq c(I)=Y$, so the image of $\eta$ lies in $T$; it is
+$c'$-dense, so $a'Y=c'(\im\eta)\subseteq T$, i.e.\ $a'(I)$ is $c$-dense.
+\end{proof}
+
+So under $c'c\le cc'$ the $c'$-sheafification preserves the monomorphisms
+in $W_c$, and by Proposition~\ref{prop:reflectors}(b) the two-step
+factorisation $W_{\bar c}=W_c\circ W_{c'}$ holds iff it also preserves the
+$c$-bidense epimorphisms. It need not, even when $c$ and $c'$ commute:
 
 \begin{lem}\label{lem:sepquot}
 Let $c'c\le cc'$ and let $G$ be a $c'$-sheaf, with $c$-separated quotient
@@ -1105,6 +1161,64 @@ $c(G^s)=\bar aH$, so on a $c$-dense $U_1\subseteq U$ it factors through
 $G^s\to\bar aH$; as $H\to\bar aH$ is monic, $y|_{U_1}$ factors through
 $G^s$, i.e.\ $y\in c(G^s)$. Hence $G^s$ is $c$-dense in $H$.
 \end{proof}
+
+\begin{ex}\label{ex:t5}
+Let $\cC$ be the category with two objects $a,b$, $\cC(a,a)=\{1,u,v\}$
+with $gu=u$ and $gv=v$ for all $g$, $\cC(a,b)=\{h\}$ with $hu=hv=h$,
+$\cC(b,b)=\{1\}$ and $\cC(b,a)=\emptyset$, and let $\cE$ be the presheaf
+topos on $\cC$. A presheaf $X$ is a set $X(a)$ with a right action of the
+monoid $\{1,u,v\}$, a set $X(b)$ and a map $X(b)\to X(a)$, $y\mapsto yh$,
+whose image consists of common fixed points of $u$ and $v$. Let $c$ be the
+Grothendieck topology whose least covering sieves are $\{u,v\}$ on $a$ and
+the maximal sieve on $b$, and $c'$ the one with the maximal sieve on $a$
+and $\{h\}$ on $b$; these are sieves, stable under pullback and
+transitive, because $\{u,v\}$ is closed under composition on either side
+and $h\{1,u,v\}=\{h\}$. The closure operators are
+\begin{align*}
+c(A)(a)&=\{x:xu,xv\in A(a)\},& c(A)(b)&=A(b),\\
+c'(A)(a)&=A(a),& c'(A)(b)&=\{y:yh\in A(a)\};
+\end{align*}
+they commute, $cc'=c'c=\bar c$, because $hu=hv=h$, and they are
+incomparable, because $\{u,v\}$ is not a $c'$-cover and $\{h\}$ is not a
+$c$-cover. A presheaf $X$ is a $c$-sheaf iff $x\mapsto(xu,xv)$ is
+injective on $X(a)$, with no condition on $X(b)$: a matching family on
+$\{u,v\}$ is a pair $(x_u,x_v)$ with $x_uu=x_u$, $x_uv=x_v$, $x_vu=x_u$,
+$x_vv=x_v$, and it is the restriction of $x_u$. It is a $c'$-sheaf iff
+$y\mapsto yh$ is a bijection from $X(b)$ onto the set of common fixed
+points of $u$ and $v$ in $X(a)$, with no condition on $X(a)$.
+
+Let $P$ be the presheaf with $P(a)=\{x_u,x_v,w\}$, $xu=x_u$ and $xv=x_v$
+for all $x\in P(a)$, and $P(b)=\emptyset$. It is a $c'$-sheaf, as no
+element of $P(a)$ is fixed by both $u$ and $v$. Its $c$-sheafification is
+the subterminal object $V$ with $V(a)=1$ and $V(b)=\emptyset$: the map
+$P\to V$ is $c$-bidense, all elements of $P(a)$ having the same images
+under $u$ and $v$, and $V$ is a $c$-sheaf. But $V$ is not a $c'$-sheaf,
+its element at $a$ being fixed while $V(b)=\emptyset$. So $a$ does not
+preserve $c'$-sheaves, and (1)--(3) of Proposition~\ref{prop:reflectors}(b)
+fail; explicitly, $\bar aP=1$, as $P\to1$ is $\bar c$-bidense ($V$ is
+$c'$-dense in $1$), while $aa'P=aP=V$.
+
+The two-step factorisation fails as well: $f\colon P\to1$ lies in
+$W_{\bar c}$ but not in $W_c\circ W_{c'}$. Suppose $f=qp$ with $p\colon
+P\to Z$ in $W_{c'}$ and $q\colon Z\to1$ in $W_c$. Since the only
+$c$-cover of $b$ is the maximal sieve, $c(S)(b)=S(b)$ for every subobject
+$S$ of every presheaf; so $q\in W_c$ forces $Z(b)$ to be a singleton
+$\{z\}$, and $zh\in Z(a)$ is fixed by $u$ and $v$. The $c'$-sheafification
+of $Z$ is the presheaf $Z'$ with $Z'(a)=Z(a)$ and $Z'(b)$ the set of
+common fixed points of $u,v$ in $Z(a)$, the unit being the identity at $a$
+and $z\mapsto zh$ at $b$. As $p\in W_{c'}$, $a'(p)\colon a'P=P\to Z'$ is
+an isomorphism; but $P(b)=\emptyset$ and $zh\in Z'(b)$. In the other order
+$f$ is the composite of the $c$-bidense map $P\to V$ and the $c'$-dense
+monomorphism $V\hookrightarrow1$; in fact $W_{\bar c}=W_{c'}\circ W_c$, by
+Proposition~\ref{prop:reflectors}(b) for the pair $(c',c)$, since $a'$
+preserves $c$-sheaves, the $c$-sheaf condition concerning $X(a)$ only,
+which $a'$ does not change. As in Example~\ref{ex:a3} the closure
+operators commute and the factorisation holds in exactly one order. In
+terms of Lemma~\ref{lem:sepquot}(iii), the $c$-separated quotient $P^s=V$
+of $P$ is not $c$-dense in $a'(P^s)=1$; and $a'$ does not preserve the
+$c$-bidense epimorphism $P\to V$, since $a'(P\to V)$ is the map $P\to1$,
+whose image $V$ is not $c$-dense.
+\end{ex}
 
 \subsection{Locales}\label{sub:locale}
 Let $L$ be a frame and $\Sh(L)$ its topos of sheaves. Closure operators on
@@ -1559,8 +1673,40 @@ $h\circ g$ with $g\colon0\to Z$ in $W_T$, so $Z\in T$, and $h\colon Z\to M$
 in $W_{T'}$; then $h(Z)\in T$ and $M/h(Z)=\operatorname{Coker}h\in T'$, so
 $M/t(M)\in T'$. Thus $W_{T\vee T'}=W_{T'}\circ W_T$ iff $c_{T'}c_T=\bar c$
 whenever $T'$ and $T\vee T'$ are stable, and the implication from left to
-right holds in general; whether the converse needs stability we do not know.
+right holds in general; the converse fails without stability
+(Example~\ref{ex:a3}), and Example~\ref{ex:t5} is the analogous failure
+for topologies.
 \end{rem}
+
+\begin{ex}\label{ex:a3}
+Let $\Lambda$ be the path algebra over a field $k$ of the quiver
+$1\xrightarrow{a}2\xrightarrow{b}3$ with the relation $ba=0$, let $S_i$ be
+the simple representation at the vertex $i$, and let $T=\operatorname{Add}
+S_1$ and $T'=\operatorname{Add}S_3$, the classes of all direct sums of
+copies of $S_1$, resp.\ of $S_3$, be the hereditary torsion theories of
+the representations supported at $1$, resp.\ at $3$. A representation with
+$M_2=0$ is $S_1^{(I)}\oplus S_3^{(J)}$, so $T\vee T'$ is the class of
+these, $M/t(M)\in T'$ and $M/t'(M)\in T$ for all $M\in T\vee T'$, and
+$c_{T'}c_T=\bar c=c_Tc_{T'}$: the closure operators commute, and the
+criterion holds with $k=1$ in both orders. Nevertheless $W_{T\vee T'}\neq
+W_{T'}\circ W_T$. Because of the relation, the projective $P_2=(0\to k\to
+k)$ is the injective hull of $S_3$ and $P_1=(k\to k\to0)$ is the injective
+hull of $S_2$; let $m\colon P_2\to P_1$ be the composite $P_2\twoheadrightarrow
+S_2\hookrightarrow P_1$, with kernel $S_3\in T'$ and cokernel $S_1\in T$, so
+that $m\in W_{T\vee T'}$. Suppose $m=hg$ with $g\colon P_2\to Z$ in $W_T$
+and $h\colon Z\to P_1$ in $W_{T'}$. As $\Hom(S_1,P_2)=0$, $g$ is a
+monomorphism with cokernel in $\operatorname{Add}S_1$, and as $P_2$ is
+injective, $Z\cong P_2\oplus S_1^{(I)}$; as $\Hom(S_1,P_1)=0$, $h$ vanishes
+on $S_1^{(I)}$, so $S_1^{(I)}\subseteq\operatorname{Ker}h\in T'$ forces
+$I=\emptyset$, $Z=P_2$ and $h=m$, whose cokernel $S_1$ is not in $T'$.
+Hence $m\notin W_{T'}\circ W_T$; here $T'$ is not stable, $E(S_3)=P_2\notin
+T'$. In the other order $m=(S_2\hookrightarrow P_1)\circ(P_2\twoheadrightarrow
+S_2)$ lies in $W_T\circ W_{T'}$. Example~\ref{ex:t5} is the analogue for
+topologies. Here the localisation $Q_T$ does not preserve epimorphisms,
+the cokernel of $Q_T(X)\to Q_T(\im f)$ embedding in
+$R^1Q_T(\operatorname{Ker}f)$; there the $c'$-sheafification preserves the
+epimorphisms of sheaves but not the $c$-bidense epimorphisms of the topos.
+\end{ex}
 
 \begin{cor}\label{cor:noeth}
 Let $R$ be a commutative Noetherian ring. For a specialisation-closed subset
@@ -1706,13 +1852,18 @@ the lattice of sublocales?
 \begin{que}\label{que:two}
 Which pairs of non-stable hereditary torsion theories, beyond
 those of the quiver $A_2$ in Example~\ref{ex:cycle}, have bounded
-alternation? Which topologies on a non-localic topos satisfy $cc'=c\vee
-c'$ for every $c'$ (the condition of Proposition~\ref{prop:openclosed}(i)
-is sufficient, and in a localic topos the property is decided by the
-nucleus, Corollary~\ref{cor:localick1}), and does $c'c\le cc'$ alone imply that the $c$-sheafification
-preserves $c'$-sheaves, equivalently (Proposition~\ref{prop:reflectors})
-that $W_{\bar c}=W_c\circ W_{c'}$ is witnessed by the pullback along
-$a'$? The lattice of
+alternation, and which of them have the two-step factorisation, which
+the identity $c_{T'}c_T=\bar c$ alone does not give
+(Example~\ref{ex:a3})? Likewise, for which pairs of topologies with
+$c'c\le cc'$ does the $c$-sheafification preserve $c'$-sheaves, so that
+$W_{\bar c}=W_c\circ W_{c'}$ (Proposition~\ref{prop:reflectors})? Not for
+all commuting pairs (Example~\ref{ex:t5}); in a search over all
+Grothendieck topologies on the categories with two objects and at most six
+morphisms, testing random $c'$-sheaves, the preservation failed only for
+commuting pairs. Which topologies on a non-localic topos
+satisfy $cc'=c\vee c'$ for every $c'$ (the condition of
+Proposition~\ref{prop:openclosed}(i) is sufficient, and in a localic topos
+the property is decided by the nucleus, Corollary~\ref{cor:localick1})? The lattice of
 hereditary torsion theories is itself a frame, and nuclei on it are
 studied in \cite{GolanSimmons}; the relation between those nuclei and the
 closure operators considered here is not clear to us.
