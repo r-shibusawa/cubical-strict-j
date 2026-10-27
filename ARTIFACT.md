@@ -7,7 +7,7 @@ This repository is the artifact accompanying the paper
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.37.7` (paper 40 revised: c-separated c'-sheaves are preserved by the
   c-sheafification; the separated-quotient lemma -- `docs/consolidated/fijoin.pdf`),
-  archived at Zenodo (DOI to be recorded) -- cite this one.
+  archived at DOI [10.5281/zenodo.23681104](https://doi.org/10.5281/zenodo.23681104) -- cite this one.
 - Previous: release `v1.37.6` (paper 40 revised: under the k = 1 identity the two-step factorisation is
   equivalent to the c-sheafification preserving c'-sheaves -- `docs/consolidated/fijoin.pdf`),
   archived at DOI [10.5281/zenodo.23608402](https://doi.org/10.5281/zenodo.23608402).
