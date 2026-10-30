@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.38.0` (paper 41: abstract domains and cut points in the lattice of
   two-out-of-three classes -- joins of closure operators on a complete lattice and of cut-point
   topologies on the path category of a control-flow graph, with the strongly-connected-component
-  criterion -- `docs/consolidated/cutpoints.pdf`), archived at DOI (pending) -- cite this one.
+  criterion -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23788746](https://doi.org/10.5281/zenodo.23788746) -- cite this one.
 - Previous: release `v1.37.8` (paper 40 revised: the c'-sheafification preserves c-dense
   monomorphisms under c'c <= cc'; a topos counterexample to the two-step factorisation for commuting
   topologies -- `docs/consolidated/fijoin.pdf`),
