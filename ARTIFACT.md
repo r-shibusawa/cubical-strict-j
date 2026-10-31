@@ -5,10 +5,14 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.38.0` (paper 41: abstract domains and cut points in the lattice of
+- Current snapshot: release `v1.38.1` (paper 41 revised: the join of two cut-point topologies is the
+  topology of the common cut points iff no infinite backward walk alternates between the two sets, and
+  the join sheafification is exactly a+1 rounds of alternating reconstruction --
+  `docs/consolidated/cutpoints.pdf`), archived at DOI (pending) -- cite this one.
+- Previous: release `v1.38.0` (paper 41: abstract domains and cut points in the lattice of
   two-out-of-three classes -- joins of closure operators on a complete lattice and of cut-point
   topologies on the path category of a control-flow graph, with the strongly-connected-component
-  criterion -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23788746](https://doi.org/10.5281/zenodo.23788746) -- cite this one.
+  criterion -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23788746](https://doi.org/10.5281/zenodo.23788746).
 - Previous: release `v1.37.8` (paper 40 revised: the c'-sheafification preserves c-dense
   monomorphisms under c'c <= cc'; a topos counterexample to the two-step factorisation for commuting
   topologies -- `docs/consolidated/fijoin.pdf`),

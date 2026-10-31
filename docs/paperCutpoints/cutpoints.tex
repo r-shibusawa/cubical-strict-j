@@ -35,24 +35,24 @@
 \subjclass[2020]{18F10 (primary), 06A15, 68Q55, 18B25 (secondary)}
 
 \begin{abstract}
-An abstract domain of Cousot and Cousot, a closure operator $\rho$ on a
-complete lattice, determines the class $W_\rho$ of pairs
-$x\le y$ that $\rho$ does not distinguish, an element of the lattice of
-two-out-of-three classes. We show that
+An abstract domain, a closure operator $\rho$ on a complete lattice,
+determines the class $W_\rho$ of pairs $x\le y$ that it collapses, an
+element of the lattice of two-out-of-three classes. We show that
 $W_\rho\cap W_{\rho'}$ is the class of the reduced product, that
 $W_\rho\vee W_{\rho'}$ is the class of pairs with $y\le(\rho\rho')^kx$ for
-some $k$, and that it is the class of the least common abstraction iff the
-alternation $\rho\rho'\rho\rho'\cdots$ stops at a finite stage at every
-point; cancellation is needed when the closures do not preserve meets, as
-for reachability closures. On the presheaf
-topos of the path category of a directed graph, a set $S$ of vertices gives
-the topology whose sheaves are the presheaves determined by their values at
-$S$. For two such sets the join of the two classes inverted by
-sheafification is the class of the join topology iff the alternations
-between $S$ and $T$ along paths avoiding $S\cap T$ are bounded; for a
-finite graph, iff no strongly connected component of the graph with
-$S\cap T$ removed meets both $S$ and $T$, a linear-time test, and then the
-join topology is that of $S\cap T$.
+some $k$, and that it is the class of the least common abstraction iff
+the alternation $\rho\rho'\rho\rho'\cdots$ is finite at every point;
+cancellation is needed when meets are not preserved. On presheaves on
+the path category of a directed graph, a set $S$ of vertices gives the
+topology whose sheaves are determined at $S$. For two sets $S,T$ the join
+of the two inverted classes is the class of the join topology iff the
+alternations between $S$ and $T$ along paths avoiding $S\cap T$ are
+bounded; for a finite graph, iff no strongly connected component of the
+graph minus $S\cap T$ meets both sets, a linear-time test. The join
+topology is that of $S\cap T$ iff no infinite backward walk avoiding
+$S\cap T$ alternates between the two sets. When the alternation is
+bounded by $a$, exactly $a+1$ rounds of alternating reconstruction from
+the values at $T$ and at $S$ give the reconstruction from $S\cap T$.
 \end{abstract}
 
 \maketitle
@@ -121,7 +121,17 @@ is bounded; for a finite graph, iff no closed walk avoiding $S\cap T$ meets
 both $S$ and $T$, i.e.\ no strongly connected component of $G$ with
 $S\cap T$ removed meets both, a condition decided in linear time; the
 bound is then $\min(|S\setminus T|,|T\setminus S|)$ and the join topology
-is $J_{S\cap T}$. The theorem interpolates between two known
+is $J_{S\cap T}$. Theorem~\ref{thm:topjoin} identifies the join topology
+in general: it is $J_{S\cap T}$ iff no infinite backward walk avoiding
+$S\cap T$ visits both sets infinitely often, a condition weaker than
+bounded alternation which coincides with it on finite graphs.
+Theorem~\ref{thm:iter} describes the iterated reconstructions
+$(a_Sa_T)^kX$ as limits over the paths with $k$ alternations and shows
+that, when the alternation is bounded by $a$, the sheafification for the
+join is $(a_Sa_T)^{a+1}$, with $a+1$ sharp: for cut-point topologies the
+finite-step factorisation of the join sheafification asked for in
+\cite{Fijoin} holds with exactly the number of steps of the closure
+operators. The theorem interpolates between two known
 facts: on a finite category every pair of topologies has a preserved join
 \cite{Finitejoin}, which is the acyclic case, and on the poset
 $\mathbb N$ the topologies of the even and of the odd numbers do not
@@ -153,8 +163,12 @@ meet preservation: meet, join as alternating chains plus one cancellation,
 criterion, necessity of cancellation),
 Proposition~\ref{prop:reach} (reachability closures) and
 Theorem~\ref{thm:cut} (cut-point topologies on the path category of a
-graph, with the closed-walk criterion, its linear-time test and the
-identification of the join topology), together with the dictionary of Section~\ref{sec:monoid}. The
+graph, with the closed-walk criterion and its linear-time test),
+Theorem~\ref{thm:topjoin} (the join of two cut-point topologies is the
+topology of $S\cap T$ iff no infinite backward walk alternates between
+the two sets; on a finite graph this is the same condition),
+Theorem~\ref{thm:iter} (the join sheafification is $a+1$ rounds of
+alternating reconstruction), together with the dictionary of Section~\ref{sec:monoid}. The
 engine is the criterion of \cite{Fijoin}; what is added is its application
 to closures that are not nuclei and to the object-generated topologies of
 infinite path categories, where the combinatorics of alternation along
@@ -552,13 +566,247 @@ $G^{\mathrm{op}}$, so the criterion of Theorem~\ref{thm:cut} and the
 bound are the same in both directions.
 \end{rem}
 
-\begin{que}
-Is $\Sh(J_S)\cap\Sh(J_T)=\Sh(J_{S\cap T})$ for all $S,T$, i.e.\ $J_S\vee
-J_T=J_{S\cap T}$ also when the alternation is unbounded? The intersection
-of the ideals $(D_S\circ D_T)^k$ is $D_{S\cap T}$ in all cases, and for the
-infinite path with $S$ the even and $T$ the odd vertices the join is
-degenerate \cite{Topjoin}, which is $J_\emptyset$.
-\end{que}
+\begin{thm}\label{thm:topjoin}
+Let $G$ be a directed graph and $S,T\subseteq V$. Say that a path
+\emph{avoids} $S\cap T$ if none of its vertices, endpoints included, lies
+in $S\cap T$, and call a vertex $d$ \emph{reconstructible} if it lies in
+the least set $\mathcal R$ of vertices such that $d\in\mathcal R$ whenever
+all vertices of $S$, or all vertices of $T$, joined to $d$ by a path
+avoiding $S\cap T$ (the empty path included) lie in $\mathcal R$; so the
+vertices of $S\cap T$ and the vertices with no $S$-vertex, or no
+$T$-vertex, upstream are reconstructible. The following are equivalent:
+\begin{enumerate}
+\item[(i)] $J_S\vee J_T=J_{S\cap T}$, i.e.\ $\Sh(J_S)\cap\Sh(J_T)=
+\Sh(J_{S\cap T})$;
+\item[(ii)] every vertex is reconstructible;
+\item[(iii)] there is no infinite backward walk $v_0\leftarrow v_1\leftarrow
+v_2\leftarrow\cdots$ in $G$ avoiding $S\cap T$ that visits $S$ and $T$
+infinitely often.
+\end{enumerate}
+For finite $G$ they hold iff no strongly connected component of
+$G-(S\cap T)$ meets both $S$ and $T$, the condition of
+Theorem~\ref{thm:cut}: on a finite graph the join topology is $J_{S\cap
+T}$ exactly when the join of the two classes is preserved. In general,
+bounded alternation implies (i)--(iii), and not conversely.
+\end{thm}
+\begin{proof}
+Since $D_{S\cap T}\subseteq D_S,D_T$, always $J_S,J_T\le J_{S\cap T}$, and
+(i) says that $D_{S\cap T}(d)$ is a covering sieve of $J_S\vee J_T$ for
+every vertex $d$.
+
+(ii)$\Rightarrow$(i), by induction along the stages of the least fixed
+point: suppose that all $S$-vertices $s$ joined to $d$ by a path avoiding
+$S\cap T$ already have $D_{S\cap T}(s)$ a join-cover (the case of $T$ is
+symmetric). $D_S(d)$ is a $J_S$-cover; for $h\in D_S(d)$ write $h=uv$
+with $u\colon s\to d$, $s\in S$. If $u$ meets $S\cap T$ then $h\in
+D_{S\cap T}(d)$ and $h^*D_{S\cap T}(d)$ is the maximal sieve. Otherwise
+$u$ avoids $S\cap T$, $D_{S\cap T}(s)$ is a join-cover, and
+$u^*D_{S\cap T}(d)\supseteq D_{S\cap T}(s)$, so $h^*D_{S\cap T}(d)=
+v^*u^*D_{S\cap T}(d)$ is a join-cover by stability. By transitivity
+$D_{S\cap T}(d)$ is a join-cover.
+
+(i)$\Rightarrow$(ii). Let $B=V\setminus\mathcal R$. As $\mathcal R$ is the
+least fixed point, every $d\in B$ has a vertex of $S\cap B$ and a vertex of
+$T\cap B$ joined to $d$ by paths avoiding $S\cap T$. Call a path a
+\emph{$B$-path} if it starts in $B$ and avoids $S\cap T$, and let $K(d)$
+be the set of sieves $R$ on $d$ such that for every $e\in B$ and every
+path $f\colon e\to d$ there is a $B$-path $g$ into $e$ with $fg\in R$.
+$K$ is a Grothendieck topology: it is upward closed and contains the
+maximal sieves; it is stable, since for $h\colon d'\to d$ and $f\colon
+e\to d'$ a $B$-path $g$ with $hfg\in R$ gives $fg\in h^*R$; it is
+transitive, since if $Q\in K(d)$ and $h^*R\in K(\mathrm{dom}\,h)$ for all
+$h\in Q$, then for $f\colon e\to d$ with $e\in B$ there is a $B$-path
+$g_1\colon e_1\to e$ with $fg_1\in Q$, and applying $(fg_1)^*R\in K(e_1)$
+to the identity of $e_1\in B$ a $B$-path $g_2$ into $e_1$ with
+$fg_1g_2\in R$, where $g_1g_2$ is a $B$-path. $K$ contains $J_S$: for
+$f\colon e\to d$ with $e\in B$ take $s\in S\cap B$ and a path $g\colon
+s\to e$ avoiding $S\cap T$; $fg$ passes through $s$, so $fg\in D_S(d)$.
+Likewise $K\supseteq J_T$, so $J_S\vee J_T\le K$. If $d\in B$ then
+$D_{S\cap T}(d)\notin K(d)$, because for $f=\mathrm{id}_d$ a $B$-path $g$
+avoids $S\cap T$ and is not in $D_{S\cap T}(d)$. So $B\ne\emptyset$
+implies $J_{S\cap T}\not\le K$ and (i) fails.
+
+(ii)$\Leftrightarrow$(iii). $B$ is the greatest set of vertices outside
+$S\cap T$ in which every vertex has an $S$-vertex and a $T$-vertex of the
+set upstream along paths avoiding $S\cap T$. From $d\in B$, choosing
+alternately such a $T$-vertex and such an $S$-vertex produces a walk as in
+(iii); conversely the vertices of such a walk form a set with the
+property, hence lie in $B$. For finite $G$ a walk as in (iii) visits some
+$s\in S$ twice with a visit to $T$ in between, giving a closed walk
+avoiding $S\cap T$ through $S$ and $T$, and such a closed walk, traversed
+repeatedly, is a walk as in (iii); so the condition is that of
+Theorem~\ref{thm:cut}. Finally, bounded alternation gives
+$(D_S\circ D_T)^{a+1}=D_{S\cap T}$ by Lemma~\ref{lem:alt}, so
+$c_{S\cap T}=(c_Sc_T)^{a+1}$ is the least closure operator above $c_S$
+and $c_T$ and the join topology is $J_{S\cap T}$; Example~\ref{ex:topjoin}
+shows that the converse fails.
+\end{proof}
+
+\begin{ex}\label{ex:topjoin}
+(a) For the two-cycle of Example~\ref{ex:graphs}(b) the comma category
+of paths from $s$ into $t$ has the edge $s\to t$ as terminal object, so a
+$J_S$-sheaf is a presheaf whose restriction along $s\to t$ is a bijection,
+a $J_T$-sheaf one whose restriction along $t\to s$ is a bijection, and the
+common sheaves are the pairs of bijections between two sets, not only the
+terminal presheaf of $\Sh(J_\emptyset)$: $J_S\vee J_T\ne J_{S\cap T}$,
+as no vertex is reconstructible. (b) On the infinite path
+$0\to1\to2\to\cdots$ with $S$ the even and $T$ the odd vertices every
+vertex is reconstructible, by induction along the path, so $J_S\vee
+J_T=J_\emptyset$ is degenerate, as computed in \cite{Topjoin}, although
+the alternation is unbounded and the join of the two classes is not
+preserved. (c) On the reversed path $\cdots\to2\to1\to0$ with the same
+$S,T$ no vertex is reconstructible, and the common sheaves are the
+sequences of bijections $X(0)\cong X(1)\cong X(2)\cong\cdots$.
+\end{ex}
+
+\begin{rem}
+Theorems~\ref{thm:cut} and~\ref{thm:topjoin} separate two questions that
+coincide on finite graphs: whether the join of the two topologies is the
+topology of $S\cap T$, a condition on infinite backward walks, and
+whether the join of the two classes of inverted maps is the class of the
+join topology, a uniform bound on finite paths. The first is a
+co-inductive condition (the greatest set $B$ of the proof), the second
+an inductive one.
+\end{rem}
+
+\subsection*{Iterated reconstruction.}
+For a presheaf $X$ the $J_S$-sheafification $a_SX=\Ran_i(X|_S)$ is the
+reconstruction of $X$ from its values at $S$: $(a_SX)(c)$ is the set of
+compatible families $(x_u)_{u\colon s\to c,\ s\in S}$ with $x_u\in X(s)$
+and $x_{ug}=x_u\cdot g$ for every path $g$ between vertices of $S$, and
+the unit sends $x\in X(c)$ to $(x\cdot u)_u$. Alternating the
+reconstructions from $T$ and from $S$ gives the tower $X\to a_Sa_TX\to
+(a_Sa_T)^2X\to\cdots$. The question of \cite{Fijoin}, whether the
+sheafification for the join is a finite composite of the two
+sheafifications and in how many steps, has here a complete answer.
+
+\begin{thm}\label{thm:iter}
+Let $S,T\subseteq V$ and $k\ge1$. For a vertex $c$ let $L_k(c)$ be the
+set of paths $w\colon t\to c$ with $t\in T$ along which there are
+vertices $t=t_1,s_1,t_2,s_2,\dots,t_k,s_k$ in this order, positions
+non-decreasing, with $t_i\in T$ and $s_i\in S$, and let $L'_k(c)$ be the
+set of those with a further vertex $t_{k+1}\in T$ at or after $s_k$.
+Then, naturally in $X$,
+\begin{multline*}
+((a_Sa_T)^kX)(c)\cong\{(z_w)_{w\in L_k(c)}:\ z_w\in X(t)\text{ for }
+w\colon t\to c,\\
+z_{wg}=z_w\cdot g\text{ for all }g\colon t'\to t\text{ with }t'\in T\},
+\end{multline*}
+the compatible families of values at $T$-vertices along the paths with
+$k$ alternations, and $(a_T(a_Sa_T)^kX)(c)$ is the same set with
+$L'_k(c)$ in place of $L_k(c)$. If the alternation along paths avoiding
+$S\cap T$ is bounded by $a$, then $(a_Sa_T)^{a+1}X\cong a_{S\cap T}X$,
+the sheafification for the join topology, naturally in $X$ and
+compatibly with the units: $a+1$ rounds of alternating reconstruction
+from $T$ and from $S$ reconstruct from $S\cap T$. If some path avoiding
+$S\cap T$ has $a$ alternations, as is the case when $a$ is the least
+bound, then $(a_Sa_T)^a$ is not naturally isomorphic to $a_{S\cap T}$:
+it does not invert the $J_{S\cap T}$-dense monomorphism $D_{S\cap
+T}(c)\hookrightarrow y(c)$ at the end vertex $c$ of such a path. So,
+unless $S=T=V$, the least number of rounds after which the alternating
+reconstruction is the join sheafification is exactly $a+1$, the number
+of iterations of $c_Sc_T$ needed to reach the closure operator of the
+join (Lemma~\ref{lem:alt}).
+\end{thm}
+\begin{proof}
+Write $\lim_LX$ for the set of families displayed in the statement, for
+a set $L$ of paths from $T$-vertices closed under precomposition with
+paths from $T$-vertices; it is a presheaf in $c$ by precomposition with
+paths into $c$. With $L'_0(c)$ the set of all paths from $T$-vertices
+into $c$, $\lim_{L'_0}X=a_TX$ by definition. We show $a_S\lim_{L'_k}X
+\cong\lim_{L_{k+1}}X$; the identity $a_T\lim_{L_k}X\cong\lim_{L'_k}X$ is
+proved in the same way with $S$ and $T$ exchanged, and the two together
+give the first two claims by induction on $k$. Put $Y=\lim_{L'_k}X$. An
+element of $(a_SY)(c)$ is a family $(y_u)_{u\colon s\to c,\ s\in S}$ with
+$y_u=(z^u_w)_{w\in L'_k(s)}$ and $y_{ug}=y_u\cdot g$ for $g\colon s'\to
+s$, i.e.\ $z^{ug}_{w'}=z^u_{gw'}$ for $w'\in L'_k(s')$. If a path $W$
+into $c$ is split in two ways, $W=uw=u'w'$ with $u\colon s\to c$,
+$u'\colon s'\to c$ and $s'$ before $s$ along $W$, then $u'=ug$ and
+$w=gw'$ for the segment $g\colon s'\to s$, and the condition gives
+$z^{u'}_{w'}=z^u_w$: the value depends only on the composite path $W$,
+and $W$ runs over the paths from $T$-vertices with a vertex of $S$ at or
+after $t_{k+1}$, which are the paths of $L_{k+1}(c)$. The remaining
+condition $z^u_{wg}=z^u_w\cdot g$, for $g$ from a $T$-vertex, is the
+compatibility of the family $(z_W)_{W\in L_{k+1}(c)}$; conversely such a
+family defines $(y_u)_u$ by $y_u=(z_{uw})_w$. The bijections are natural
+in $X$ and compatible with the restriction maps and the units.
+
+If the alternation along paths avoiding $S\cap T$ is bounded by $a$,
+every path of $L_{a+1}(c)$ passes through $S\cap T$, and every path from
+a vertex of $S\cap T$ lies in $L_{a+1}(c)$ (all $t_i,s_i$ at that
+vertex). Restriction of families is a map $\lim_{L_{a+1}(c)}X\to
+(a_{S\cap T}X)(c)$, the latter being the families over the paths from
+$S\cap T$. It is bijective: given a family $(x_v)$ over the paths $v$
+from $S\cap T$ into $c$, a path $W\in L_{a+1}(c)$ factors as $W=vg$ with
+$v$ from a vertex $x\in S\cap T$ on $W$ and $g$ into $x$, and
+$z_W:=x_v\cdot g$ does not depend on the choice of $x$, since for a
+later vertex $x'$ of $S\cap T$ on $W$, with $v=v'h$, $x_v=x_{v'}\cdot h$;
+this $z$ is compatible and restricts to $x$, and it is the only such
+extension. The join topology is $J_{S\cap T}$
+(Theorem~\ref{thm:cut}), so $a_{S\cap T}$ is its sheafification, and the
+composite of the units $X\to(a_Sa_T)^{a+1}X$, $x\mapsto(x\cdot W)_W$,
+restricts to the unit $x\mapsto(x\cdot v)_v$ of $a_{S\cap T}$.
+
+For the last claim let $w\colon t\to c$ avoid $S\cap T$ and have $a$
+alternations, and let $A=D_{S\cap T}(c)\hookrightarrow y(c)$, the least
+$J_{S\cap T}$-covering sieve on $c$, which $a_{S\cap T}$ inverts. If
+$a=0$ then $(a_Sa_T)^0$ is the identity and $A\ne y(c)$ as $c\notin
+S\cap T$. If $a\ge1$, $(a_Sa_T)^aA\to(a_Sa_T)^ay(c)$ is, by the first
+part, the inclusion of the families $(z_v)_{v\in L_a(c)}$ with $z_v\in
+A(t)$ into those with $z_v\in y(c)(t)$; the family $z_v=v$, the image of
+$\mathrm{id}_c$ under the unit, is not in the first set, because $w\in
+L_a(c)$ avoids $S\cap T$ and so $w\notin A(t)$. Thus $(a_Sa_T)^a$ does
+not invert $A\hookrightarrow y(c)$, and a natural isomorphism
+$(a_Sa_T)^a\cong a_{S\cap T}$ is impossible. If $S=T=V$ both
+sheafifications are the identity and no round is needed; otherwise some
+vertex is outside $S\cap T$, the least bound $a$ is attained by some
+path, and the least number of rounds is $a+1$.
+\end{proof}
+
+\begin{rem}
+Theorem~\ref{thm:iter} contrasts with the commuting pairs of
+\cite{Fijoin}, where the closure operators compose in one step,
+$cc'=\bar c$, but $a_ca_{c'}$ is not the join sheafification. For
+cut-point topologies the sheafification tower and the closure tower have
+the same length. In the language of program analysis: summarising a flow
+at the cut points $T$, then at $S$, and repeating, yields after $a+1$
+rounds the summary at the common cut points, where $a$ is the maximal
+number of alternations along the control flow outside $S\cap T$; on a
+finite graph satisfying the condition of Theorem~\ref{thm:cut},
+$a\le\min(|S\setminus T|,|T\setminus S|)$.
+\end{rem}
+
+\begin{ex}\label{ex:loops}
+Let $G$ be the control-flow graph of two nested loops: an entry $e$, the
+outer header $h_1$, the inner header $h_2$, the inner body $b$, the inner
+exit $x$ and a final vertex $z$, with edges $e\to h_1$, $h_1\to h_2$,
+$h_2\to b$, $b\to h_2$, $h_2\to x$, $x\to h_1$ and $x\to z$.
+\[
+\begin{tikzcd}[column sep=small]
+e\arrow[r] & h_1\arrow[r] & h_2\arrow[r]\arrow[d,bend left] &
+x\arrow[r]\arrow[ll,bend right=40] & z\\
+& & b\arrow[u,bend left] &
+\end{tikzcd}
+\]
+The set $S=\{h_1,h_2\}$ of loop headers is a cut set in the sense of
+\cite{Bourdoncle}; let $T=\{h_2,x\}$, so $S\cap T=\{h_2\}$. Every closed
+walk passes through $h_2$, so Theorem~\ref{thm:cut} applies: a flow
+that is determined by its values at the headers and also by its values
+at $\{h_2,x\}$ is determined by its value at $h_2$, and the join of the
+two classes of inverted maps is the class of maps bijective at $h_2$.
+The paths avoiding $h_2$ are $e\to h_1$, $x\to h_1$, $x\to z$ and the
+empty ones, with at most one alternation ($x\in T$ then $h_1\in S$), so
+$a=1$ and, by Theorem~\ref{thm:iter}, two rounds of reconstruction from
+$\{h_2,x\}$ and then from the headers reconstruct from $h_2$, while one
+round does not. With $T=\{x\}$ instead, the outer closed walk $h_1\to
+h_2\to x\to h_1$ meets $S$ and $T$ and avoids $S\cap T=\emptyset$: the
+join of the two classes is not the class of the join topology, and no
+finite number of rounds of alternating reconstruction is the join
+sheafification compatibly with the units, since the pullback of
+$(a_Sa_T)^nA\subseteq(a_Sa_T)^nX$ along the unit is $(c_Sc_T)^n(A)$ and
+the operators $(c_Sc_T)^n$ never reach the closure operator of the join
+(proof of Theorem~\ref{thm:cut}).
+\end{ex}
 
 \section{Finite action monoids}\label{sec:monoid}
 
@@ -640,8 +888,10 @@ No funding was received for this work.
 \section*{Declarations}
 The author has no competing interests to declare. The finite checks
 mentioned in the text (closure operators on small lattices, random
-transition systems, the cycle criterion on random graphs) are the files
-\texttt{uco\_same.py}, \texttt{reach\_same.py} and \texttt{cutpoints.py}
+transition systems, the component criterion on random graphs, the number
+of rounds of iterated reconstruction on random acyclic graphs) are the files
+\texttt{uco\_same.py}, \texttt{reach\_same.py}, \texttt{cutpoints.py} and
+\texttt{iter\_recon.py}
 in the directory \texttt{scripts/comparison} of the repository
 \url{https://github.com/r-shibusawa/cubical-strict-j}, archived on Zenodo
 under the concept DOI 10.5281/zenodo.21405961.
