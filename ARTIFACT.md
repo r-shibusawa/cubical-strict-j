@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.38.1` (paper 41 revised: the join of two cut-point topologies is the
   topology of the common cut points iff no infinite backward walk alternates between the two sets, and
   the join sheafification is exactly a+1 rounds of alternating reconstruction --
-  `docs/consolidated/cutpoints.pdf`), archived at DOI (pending) -- cite this one.
+  `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23825183](https://doi.org/10.5281/zenodo.23825183) -- cite this one.
 - Previous: release `v1.38.0` (paper 41: abstract domains and cut points in the lattice of
   two-out-of-three classes -- joins of closure operators on a complete lattice and of cut-point
   topologies on the path category of a control-flow graph, with the strongly-connected-component
