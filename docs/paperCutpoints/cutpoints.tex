@@ -36,24 +36,26 @@
 
 \begin{abstract}
 A closure operator $\rho$ on a complete lattice, an abstract domain,
-determines the class $W_\rho$ of pairs $x\le y$ it collapses.
+collapses a class $W_\rho$ of pairs $x\le y$.
 $W_\rho\cap W_{\rho'}$ is the class of the reduced product,
-$W_\rho\vee W_{\rho'}$ is the class of pairs with $y\le(\rho\rho')^kx$ for
-some $k$, and it is the class of the least common abstraction iff
+$W_\rho\vee W_{\rho'}$ the class of pairs with $y\le(\rho\rho')^kx$ for
+some $k$, and the class of the least common abstraction iff
 the alternation $\rho\rho'\rho\rho'\cdots$ is finite at every point;
 cancellation is needed when meets are not preserved. Congruences and
-any template domain alternate at most $n+2$ times; two interval domains
-in different coordinates alternate for ever. On the path category of a directed graph, a set $S$ of vertices gives the
-topology whose sheaves are determined at $S$. For two sets $S,T$ the join
-of the inverted classes is the class of the join topology iff the
-alternation between $S$ and $T$ along paths avoiding $S\cap T$ is
-bounded; for a finite graph, iff no strongly connected component of the
-graph minus $S\cap T$ meets both sets. The join
-topology is that of $S\cap T$ iff no infinite backward walk avoiding
-$S\cap T$ alternates between the sets. With alternation bounded by $a$, exactly $a+1$ rounds of alternating
-reconstruction from $T$ and from $S$ give the reconstruction from
-$S\cap T$.
-The results extend to flows with idempotent transfer functions.
+any template domain alternate at most $n+2$ times; two template domains
+alternate finitely at bounded full-dimensional sets iff no polytope
+with normals in the common template has a face maximising a private
+direction of each side and no common one. On the path category
+of a directed graph a vertex set $S$ gives the topology whose sheaves
+are determined at $S$. For two sets $S,T$ the join of the classes
+is the class of the join topology iff the alternation between
+$S$ and $T$ along paths avoiding $S\cap T$ is bounded; for a finite
+graph, iff no strongly connected component avoiding $S\cap T$ meets
+both sets. The join topology is that of $S\cap T$ iff no infinite
+backward walk avoiding $S\cap T$ alternates between the sets, and
+alternation bounded by $a$ means exactly $a+1$ rounds of alternating
+reconstruction. The results extend to flows with idempotent transfer
+functions.
 \end{abstract}
 
 \maketitle
@@ -122,6 +124,13 @@ whose reduced product is the octagon domain alternate for ever on every
 bounded set with two points, and two template domains differing by one
 direction each alternate for ever at a geometric rate given by the
 product of the dual multipliers of the two linear programs.
+Theorem~\ref{thm:template} characterises the pairs of template domains
+whose alternation is finite at every bounded full-dimensional set: the
+common template must positively span $\mathbb R^n$, and no face of a
+polytope with normals in the common template may be the exact
+maximiser of a direction private to each side and of no common
+direction; in the plane, no arc between two consecutive common
+directions may contain private directions of both sides.
 
 The second setting is the presheaf topos on the path category of a
 directed graph $G$, a control-flow graph: a presheaf is a flow of sets
@@ -191,6 +200,10 @@ criterion, necessity of cancellation),
 Proposition~\ref{prop:numeric} (numerical domains: congruences against
 any template domain alternate at most $n+2$ times; two coordinate
 systems, and one extra direction each, alternate for ever),
+Theorem~\ref{thm:template} (finite alternation of two template domains
+at every bounded full-dimensional set iff no polytope with normals in
+the common template has a critical face; the arc condition in the
+plane),
 Proposition~\ref{prop:reach} (reachability closures) and
 Theorem~\ref{thm:cut} (cut-point topologies on the path category of a
 graph, with the closed-walk criterion and its linear-time test),
@@ -554,7 +567,7 @@ the corner of the previous one, $\alpha_k=3-\frac12\cdot4^{-k}$, and
 the corner $(1,1)$ is never reached.}
 \end{figure}
 
-\begin{rem}
+\begin{rem}\label{rem:dual}
 The mechanism in (iii) is the product of the dual multipliers
 (sensitivities) of the two added constraints at the vertex where $a$
 and $b$ are both maximised: the alternation is infinite exactly when
@@ -585,6 +598,204 @@ rounds $\lfloor\log_4N\rfloor$ at the integer points of $NS$, the
 bound $1$ in the different-quadrant case on random bounded sets, and
 the bound $2$ of (i) for intervals and octagons against congruences on
 random finite subsets of $\mathbb Z^2$).
+\end{rem}
+
+The question which pairs of template domains alternate finitely has a
+complete answer at bounded full-dimensional sets. Fix finite sets
+$T,T'$ of unit vectors in $\mathbb R^n$ and put $C=T\cap T'$. A finite
+set $D$ of unit vectors \emph{positively spans} $\mathbb R^n$ if every
+vector is a non-negative combination of elements of $D$, equivalently if
+$\{x:d\cdot x\le0\text{ for all }d\in D\}=\{0\}$, equivalently if
+$\rho_D$ maps bounded sets to bounded sets. A \emph{$D$-polyhedron} is a
+full-dimensional set fixed by $\rho_D$, i.e.\ a full-dimensional
+polyhedron all of whose facet normals lie in $D$ (a full-dimensional
+polyhedron is the intersection of its facet half-spaces); it is bounded
+iff its facet normals positively span $\mathbb R^n$. For a polytope $P$
+and a vector $u$ let $F_P(u)=\{x\in P:u\cdot x=\sigma_P(u)\}$ be the face
+on which $u$ is maximised; the vectors maximised exactly on a face $G$
+form the relative interior of the normal cone of $G$. Call a face $G$ of
+a $C$-polytope $P$ \emph{critical} if some $t\in T\setminus C$ and some
+$t'\in T'\setminus C$ are maximised exactly on $G$ while no $c\in C$ is:
+$F_P(t)=F_P(t')=G\ne F_P(c)$ for all $c\in C$. Since the normal fans of
+$C$-polytopes are finitely many, the existence of a critical face is a
+finite condition. The proof of the characterisation uses that the
+closure of the union of the finite iterates is already fixed by both
+closures, so that the join is reached at stage $\omega+1$ of
+Lemma~\ref{lem:iter}.
+
+\begin{lem}\label{lem:limit}
+Let $T$ be a finite set of unit vectors and $S_0\subseteq S_1\subseteq
+\cdots$ non-empty sets fixed by $\rho_T$ and contained in a bounded
+set, with union $U$ and closure $K=\overline U$. Then $\rho_TU=K$ and
+$\sigma_K(w)=\sup_k\sigma_{S_k}(w)$ for every $w\in\mathbb R^n$.
+\end{lem}
+\begin{proof}
+Put $\sigma_\infty(w)=\sup_k\sigma_{S_k}(w)=\sigma_U(w)=\sigma_K(w)$,
+finite by boundedness. The set $\rho_TU=\bigcap_{u\in T}\{u\cdot x\le
+\sigma_\infty(u)\}$ is closed, convex and contains $K$, so it suffices
+to show $\sigma_{\rho_TU}(w)\le\sigma_\infty(w)$ for all $w$. As $S_0$
+is a non-empty bounded $T$-polyhedron, $T$ positively spans $\mathbb
+R^n$, so the polyhedron $\Lambda_w=\{\lambda\in\mathbb R^T_{\ge0}:
+\sum_u\lambda_uu=w\}$ is non-empty; it is pointed, so a linear function
+bounded below on it attains its minimum at one of its finitely many
+vertices. By linear-programming duality, for every $b\in\mathbb R^T$
+with $Q_b=\bigcap_{u\in T}\{u\cdot x\le b_u\}\ne\emptyset$,
+\[
+\sigma_{Q_b}(w)=\min_{\lambda\in\Lambda_w}\lambda\cdot b=\min_v v\cdot
+b,
+\]
+the last minimum over the vertices $v$ of $\Lambda_w$. For $b=
+\sigma_{S_k}$ we have $Q_b=S_k$, and for $b=\sigma_\infty$ we have
+$Q_b=\rho_TU\supseteq U\ne\emptyset$. The finitely many sequences
+$v\cdot\sigma_{S_k}$ increase to $v\cdot\sigma_\infty$, so their minima
+converge: $\sigma_{\rho_TU}(w)=\min_vv\cdot\sigma_\infty=\sup_k\min_v
+v\cdot\sigma_{S_k}=\sup_k\sigma_{S_k}(w)=\sigma_\infty(w)$.
+\end{proof}
+
+\begin{thm}\label{thm:template}
+Let $T,T'$ be finite sets of unit vectors in $\mathbb R^n$ and $C=
+T\cap T'$, with the closures $\rho_T,\rho_{T'}$ on $\cP(\mathbb R^n)$.
+\begin{enumerate}
+\item[(i)] A full-dimensional common fixed point of $\rho_T$ and
+$\rho_{T'}$ is a $C$-polyhedron, and if the join $(\rho_T\sqcup\rho_{T'})
+S$ of a set $S$ is full-dimensional then it is $\rho_CS$. If $T$ and $T'$
+positively span $\mathbb R^n$ but $C$ does not, the alternation is
+infinite at every bounded full-dimensional $S$.
+\item[(ii)] Suppose $C$ positively spans $\mathbb R^n$. The following are
+equivalent: (a) the alternation is finite at every bounded
+full-dimensional $S$; (b) the alternation is finite at every bounded $S$
+whose join is full-dimensional; (c) no $C$-polytope has a critical face.
+If $G$ is a critical face of the $C$-polytope $P$, with $t\in T\setminus
+C$ maximised exactly on $G$, the alternation at $P\cap\{t\cdot x\le
+\alpha\}$ is infinite for all $\alpha<\sigma_P(t)$ close to
+$\sigma_P(t)$.
+\item[(iii)] For $n=2$ and $C$ positively spanning, (c) holds iff no open
+arc of the circle between two cyclically consecutive directions of $C$
+contains both a direction of $T\setminus C$ and a direction of
+$T'\setminus C$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(i) Let $F$ be full-dimensional with $\rho_TF=\rho_{T'}F=F$. Then $F=
+\bigcap_{u\in T}\{u\cdot x\le\sigma_F(u)\}$ is a polyhedron whose facet
+normals lie in $T$, and likewise in $T'$, so in $C$; being the
+intersection of its facet half-spaces, $F\supseteq\rho_CF\supseteq F$.
+For any $S$ the set $\rho_CS$ is a common fixed point containing $S$:
+$\rho_T\rho_CS\subseteq\bigcap_{c\in C}\{c\cdot x\le\sigma_{\rho_CS}(c)\}
+=\rho_CS$ because $\sigma_{\rho_CS}(c)=\sigma_S(c)$ for $c\in C$. Along
+the alternation $S_0=S$, $S_{k+1}=\rho_T\rho_{T'}S_k$ the support
+values $\sigma_{S_k}(c)$, $c\in C$, are constant, since each closure
+preserves the support function in its own directions. If the join $F$
+is full-dimensional, it is a $C$-polyhedron, and $F\subseteq\rho_CS$
+because $\rho_CS$ is a common fixed point containing $S$; so
+$\sigma_F(c)=\sigma_S(c)$ for $c\in C$ and $F=\rho_CF=\bigcap_{c\in C}
+\{c\cdot x\le\sigma_S(c)\}=\rho_CS$. For the last
+claim, the iterates of a bounded $S$ are bounded when $T$ and $T'$
+positively span, and a full-dimensional bounded set fixed by both
+closures would be a bounded $C$-polyhedron, whose facet normals
+positively span $\mathbb R^n$.
+
+(ii) (b)$\Rightarrow$(a) is clear, the join of a full-dimensional set
+being full-dimensional. (c)$\Rightarrow$(b): let $S$ be bounded with
+full-dimensional join $P=\rho_CS$ (by (i)), a polytope as $C$ positively
+spans, and suppose the alternation at $S$ is infinite. Write $S_k$ for
+the iterates, $Y_k=\rho_{T'}S_k$ and $\sigma_k=\sigma_{S_k}$. The sets
+$S_k\subseteq Y_k\subseteq S_{k+1}$ lie in $P$, the $S_k$ with $k\ge1$
+are fixed by $\rho_T$ and the $Y_k$ by $\rho_{T'}$, and both sequences
+have the same union $U$; by Lemma~\ref{lem:limit}, $\rho_TU=\rho_{T'}U
+=\overline U$ is a common fixed point containing $S$ and contained in
+the closed set $P$, so $\overline U=P$ and $\sigma_P(u)=\sup_k
+\sigma_k(u)$ for all $u$. Let $D$ be the set of $u\in T\cup T'$
+with $\sigma_k(u)<\sigma_P(u)$ for all $k$; as the $\sigma_k(u)$ are
+non-decreasing, $u\notin D$ means $\sigma_k(u)=\sigma_P(u)$ for large
+$k$. $D\cap T\ne\emptyset$: if $D\cap T=\emptyset$, then for some $k\ge
+1$, $S_k=\rho_TY_{k-1}=\bigcap_{u\in T}\{u\cdot x\le\sigma_k(u)\}=
+\rho_TP=P$, against the assumption; similarly $D\cap T'\ne\emptyset$ using $Y_k=
+\bigcap_{u\in T'}\{u\cdot x\le\sigma_k(u)\}$. By (i), $D\cap C=
+\emptyset$. Fix $k_0$ such that $\sigma_k(u)=\sigma_P(u)$ for all $u\in(T\cup
+T')\setminus D$ and $k\ge k_0$. For $t\in D\cap T$ and every $k$ we have
+$Y_k\subseteq P$ and $\sigma_{k+1}(t)=\sigma_{Y_k}(t)<\sigma_P(t)$, so
+$F_P(t)\cap Y_k=\emptyset$, where $Y_k=P\cap\bigcap_{u\in T'}\{u\cdot x
+\le\sigma_k(u)\}$. Fix $x\in F_P(t)$. For $k\ge k_0$ there is $u_k\in
+T'$ with $u_k\cdot x>\sigma_k(u_k)$, and $u_k\in D$ since $u\cdot x\le
+\sigma_P(u)=\sigma_k(u)$ for $u\notin D$; so $x$ lies in the closed set
+$Z_k(u_k)=\{y\in P:u_k\cdot y\ge\sigma_k(u_k)\}$. Some $u\in T'\cap D$
+occurs as $u_k$ for infinitely many $k$; the sets $Z_k(u)$ decrease in
+$k$, as $\sigma_k(u)$ is non-decreasing, so $x\in Z_k(u)$ for all $k$,
+and $\bigcap_kZ_k(u)=\{y\in P:u\cdot y\ge\sigma_P(u)\}=F_P(u)$. Hence
+$F_P(t)\subseteq\bigcup_{u\in T'\cap D}F_P(u)$. Symmetrically, using $S_{k+1}=\rho_TY_k=P\cap\bigcap_{u\in T}
+\{u\cdot x\le\sigma_{k+1}(u)\}$, $F_P(t')\subseteq\bigcup_{u\in T\cap D}
+F_P(u)$ for $t'\in D\cap T'$. Let $G$ be a maximal member of the finite
+family $\{F_P(u):u\in D\}$, say $G=F_P(t)$ with $t\in D\cap T$ (if $G=
+F_P(t')$ with $t'\in D\cap T'$, exchange the roles of $T$ and $T'$ in
+what follows). The
+faces $G\cap F_P(u)$, $u\in T'\cap D$, cover $G$, and a polytope is not
+a finite union of proper faces, so $G\subseteq F_P(u)$ for some $u\in
+T'\cap D$, and $F_P(u)=G$ by maximality. Finally no $c\in C$ has $F_P(c)
+=G$: $\sigma_{S_1}(c)=\sigma_P(c)$ by (i) and $S_1$ is compact, so some
+$x\in S_1$ lies in $F_P(c)=G$, and then $\sigma_k(t)\ge t\cdot x=
+\sigma_P(t)$ for $k\ge1$, against $t\in D$. So $G$ is a critical face of
+the $C$-polytope $P$.
+
+(a)$\Rightarrow$(c), with the explicit set: let $G$ be a critical face
+of the $C$-polytope $P$, $t\in T\setminus C$ and $t'\in T'\setminus C$
+maximised exactly on $G$, and $x_0$ a point of the relative interior of
+$G$. For $c\in C$ either $x_0\notin F_P(c)$, and then $c\cdot x_0<
+\sigma_P(c)=\sup_{P\setminus G}c$, as $P\setminus G$ is dense in $P$,
+so there is $z_c\in P\setminus G$ with $c\cdot z_c\ge c\cdot x_0$; or
+$x_0\in F_P(c)$, so that $F_P(c)\supseteq G$, hence $F_P(c)\supsetneq
+G$, and we pick $z_c\in F_P(c)\setminus G$, with $c\cdot z_c=\sigma_P(c)
+=c\cdot x_0$. In both cases $z_c\notin G=F_P(t)$, so $t\cdot z_c<
+\sigma_P(t)$. Choose $\alpha$ with $\max(\min_Pt,\max_{c\in C}t\cdot
+z_c)<\alpha<\sigma_P(t)$ and put $S:=P\cap\{t\cdot x\le\alpha\}$. Then
+$S$ is full-dimensional, contains every $z_c$, and $c\cdot x_0\le c
+\cdot z_c\le\sigma_S(c)$ for all $c\in C$, so $x_0\in\rho_CS=(\rho_T\sqcup\rho_{T'})S$ by (i), and the join has
+$t$-support $\sigma_P(t)$. We show by induction that $\sigma_k(t)<
+\sigma_P(t)$ and $\sigma_k(t')<\sigma_P(t')$ for all $k$, which proves
+that no iterate is the join. For $k=0$: $S$ is compact and disjoint from
+$G=F_P(t)=F_P(t')$. If the claim holds for $k$, then $Y_k=\rho_{T'}S_k
+\subseteq P\cap\{t'\cdot x\le\sigma_k(t')\}$ is compact and disjoint
+from $G$, so $\sigma_{k+1}(t)=\sigma_{Y_k}(t)<\sigma_P(t)$, and $S_{k+1}=
+\rho_TY_k\subseteq P\cap\{t\cdot x\le\sigma_{k+1}(t)\}$ is compact and
+disjoint from $G$, so $\sigma_{k+1}(t')<\sigma_P(t')$.
+
+(iii) The faces of a $C$-polygon $P$ are $P$ (no unit vector is
+maximised on all of $P$), the edges (exactly the edge normal, which lies
+in $C$, is maximised there) and the vertices; at a vertex $v$ the
+vectors maximised exactly at $v$ form the open arc between the normals
+$c_1,c_2\in C$ of the two edges at $v$, an arc of length $<\pi$. This
+arc contains no direction of $C$ iff $c_1,c_2$ are cyclically
+consecutive in $C$. Conversely, for cyclically consecutive $c_1,c_2\in
+C$ (an arc of length $<\pi$, as $C$ positively spans) the polygon
+$P=\{x:c\cdot x\le1\text{ for all }c\in C\}$ has every $c\in C$ as an
+edge normal (the point $c$ lies on the edge $\{c\cdot x=1\}$ and
+strictly inside the other constraints, since the elements of $C$ are
+distinct unit vectors), and the edges $c_1,c_2$ meet at a vertex whose
+open arc is the arc between $c_1$ and $c_2$. So a critical vertex exists
+iff some arc between consecutive directions of $C$ contains a direction
+of $T\setminus C$ and one of $T'\setminus C$.
+\end{proof}
+
+\begin{rem}\label{rem:template}
+Proposition~\ref{prop:numeric}(ii) is the case $C=\emptyset$ of
+Theorem~\ref{thm:template}(i), and both halves of
+Proposition~\ref{prop:numeric}(iii) are instances of (iii): for $C=\{\pm
+e_i\}$ the arcs are the open quadrants, so one extra direction each gives
+infinite alternation iff $a$ and $b$ lie in the same open quadrant; the
+proposition adds the rate $m$ and the lower-dimensional sets. By
+Theorem~\ref{thm:lattice}(iii), when $C$ fails to span positively while
+$T,T'$ do, or when a $C$-polytope has a critical face, $W_{\rho_T}\vee
+W_{\rho_{T'}}\ne W_{\rho_T\sqcup\rho_{T'}}$ on $\cP(\mathbb R^n)$. The
+converse needs the lower-dimensional and the unbounded sets as well: for
+a bounded $S$ whose join has affine hull $A$ the iterates lie in $A$ and
+the alternation is that of the projected template sets on $A$, whose
+common part may be larger than the projection of $C$. The script
+\texttt{template\_alt.py} compares the arc condition with the
+alternation on random planar pairs with $C\supseteq\{\pm e_i\}$ and
+random bounded sets ($300$ trials, $60$ rounds: every stabilised run
+ends at $\rho_CS$, every run that does not stabilise violates the arc
+condition) and checks that the sets $P\cap\{t\cdot x\le\alpha\}$ of
+(ii) never stabilise ($74$ pairs, $40$ rounds).
 \end{rem}
 
 \section{Reachability closures}\label{sec:reach}
@@ -1535,14 +1746,14 @@ cycle, are the instances of unbounded alternation in this setting.
 \section{Questions}
 
 \begin{que}
-Proposition~\ref{prop:numeric} separates the arithmetic-against-convex
-pairs (bounded alternation) from pairs of convex template domains with
-different templates (infinite alternation at some bounded set in the
-cases treated). For two finite template sets $T,T'\subseteq\mathbb R^n$,
-characterise the pairs whose alternation is finite at every bounded
-set. Is it the condition that no vertex of a bounded $T\cup T'$-polyhedron
-is the unique maximiser of a direction of $T\setminus T'$ and of a
-direction of $T'\setminus T$, as in the two-dimensional case of (iii)?
+Theorem~\ref{thm:template} characterises finite alternation of two
+template domains at the bounded full-dimensional sets. For which pairs
+is the alternation finite at every subset of $\mathbb R^n$, so that
+$W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
+Theorem~\ref{thm:lattice}(iii)? The lower-dimensional sets reduce to the
+projected template pairs on affine subspaces; the unbounded sets and
+the integer versions on $\cP(\mathbb Z^n)$, where the alternation at a
+bounded set is finite but not uniformly (Remark~\ref{rem:dual}), remain.
 \end{que}
 
 \begin{que}

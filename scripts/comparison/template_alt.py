@@ -73,6 +73,71 @@ for N in [2, 4, 8, 16, 32, 64, 128, 256, 512]:
     expected = 0
     while 4**(expected+1) <= N: expected += 1
     print("  N=%d: rounds %d (floor(log_4 N) = %d), final gap %d" % (N, k, expected, gap))
+# arc condition: for planar pairs T = C + A, T' = C + B with C containing the box directions, finite
+# alternation at every bounded full-dimensional set holds iff no open arc between cyclically consecutive
+# directions of C contains both a direction of A and a direction of B; the join of a stabilised run is rho_C(S)
+print("== arc condition on random planar pairs (C contains the box directions)")
+import random, math
+from math import gcd, atan2
+def prim(v):
+    g = gcd(abs(v[0]), abs(v[1])); return (v[0]//g, v[1]//g)
+pool = sorted({prim((x, y)) for x in range(-3, 4) for y in range(-3, 4) if (x, y) != (0, 0)})
+def ang(v): return atan2(v[1], v[0]) % (2*math.pi)
+def arc_condition(C, A, B):
+    Cs = sorted(C, key=ang)
+    for i in range(len(Cs)):
+        lo, hi = ang(Cs[i]), ang(Cs[(i+1) % len(Cs)])
+        def inside(v):
+            a = ang(v); return (lo < a < hi) if lo < hi else (a > lo or a < hi)
+        if any(inside(v) for v in A) and any(inside(v) for v in B): return False
+    return True
+def canon(P): return tuple(sorted(P))
+def random_pair(rng):
+    C = BOX + rng.sample([v for v in pool if v not in BOX], rng.randint(0, 2))
+    rest = [v for v in pool if v not in C]
+    A = rng.sample(rest, rng.randint(1, 2)); B = rng.sample([v for v in rest if v not in A], rng.randint(1, 2))
+    return C, A, B
+rng = random.Random(7); fin = inf = contra = joinbad = 0
+for trial in range(300):
+    C, A, B = random_pair(rng)
+    pts = [(Fr(rng.randint(-5, 5)), Fr(rng.randint(-5, 5))) for _ in range(rng.randint(3, 6))]
+    if len({p[0] for p in pts}) < 2 or len({p[1] for p in pts}) < 2: continue
+    P = rho(C + A, rho(C + B, pts))
+    if len(P) < 3: continue
+    stab = False
+    for k in range(60):
+        Q = rho(C + A, rho(C + B, P))
+        if canon(Q) == canon(P): stab = True; break
+        P = Q
+    if stab:
+        fin += 1
+        if canon(P) != canon(rho(C, P)): joinbad += 1
+    else:
+        inf += 1
+        if arc_condition(C, A, B): contra += 1
+print("  stabilised runs:", fin, " join != rho_C(S):", joinbad, " non-stabilised runs (60 rounds):", inf,
+      " of which satisfy the arc condition (should be 0):", contra)
+rng = random.Random(11); built = bad = 0
+for trial in range(200):
+    C, A, B = random_pair(rng)
+    if arc_condition(C, A, B): continue
+    Cs = sorted(C, key=ang); t = None
+    for i in range(len(Cs)):
+        lo, hi = ang(Cs[i]), ang(Cs[(i+1) % len(Cs)])
+        def inside(v):
+            a = ang(v); return (lo < a < hi) if lo < hi else (a > lo or a < hi)
+        a_dirs = [v for v in A if inside(v)]; b_dirs = [v for v in B if inside(v)]
+        if a_dirs and b_dirs: t = a_dirs[0]; break
+    P = [(Fr(0), Fr(0)), (Fr(1), Fr(0)), (Fr(1), Fr(1)), (Fr(0), Fr(1))]      # the unit square is C-closed
+    vals = sorted({t[0]*p[0] + t[1]*p[1] for p in P})
+    alpha = vals[-1] - (vals[-1] - vals[-2]) / 100
+    Pk = clip(P, t, alpha); stab = False
+    for k in range(40):
+        Q = rho(C + A, rho(C + B, Pk))
+        if canon(Q) == canon(Pk): stab = True; break
+        Pk = Q
+    built += 1; bad += stab
+print("  pairs violating the arc condition:", built, " sets P cap {t.x <= alpha} that stabilised (should be 0):", bad)
 print("== different quadrants: T = box + (1,2), T' = box + (-1,2): alternation from random S")
 import random
 random.seed(1)
