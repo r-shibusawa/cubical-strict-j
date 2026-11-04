@@ -5,9 +5,11 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.38.8` (paper 41 revised: the two settings presented as two answers to
-  one question, with a side-by-side table -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23934229](https://doi.org/10.5281/zenodo.23934229)
-  -- cite this one.
+- Current snapshot: release `v1.38.9` (paper 41 revised: literature placement of the ascending
+  alternation against the descending iterated reductions; proof details -- `docs/consolidated/cutpoints.pdf`),
+  archived at DOI (pending) -- cite this one.
+- Previous: release `v1.38.8` (paper 41 revised: the two settings presented as two answers to
+  one question, with a side-by-side table -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23934229](https://doi.org/10.5281/zenodo.23934229).
 - Previous: release `v1.38.7` (paper 41 revised: for two template domains with positively
   spanning common template, the join of the two classes is the class of the least common abstraction iff
   the face condition on the admissible subspaces and the cone condition on the common cones hold; in the
