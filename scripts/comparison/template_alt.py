@@ -194,6 +194,40 @@ V = set(pts)
 for k in range(6):
     _, V = closure(BOX3 + [b], V); cons, V = closure(BOX3 + [a], V)
     print("  planar S, round", k + 1, ": alpha =", support(V, a), " (3 - 4^-k/2 =", 3 - Fr(1,2)/4**(k+1), ") z-range", min(v[2] for v in V), max(v[2] for v in V))
+# all sets: in the plane the arc condition also governs unbounded sets (no escape to infinity is possible);
+# a planar pair with empty common part (the cross-section of the cylinder example) never stabilises
+print("== unbounded planar sets under the arc condition, and a planar pair with empty common part")
+def sig_big(T, P):
+    out = []
+    for t in T:
+        m = max(t[0]*p[0] + t[1]*p[1] for p in P)
+        out.append(None if abs(m) > 10**6 // 4 else m)      # beyond the big box = unbounded
+    return tuple(out)
+rng = random.Random(21); fin = inf = 0
+for trial in range(200):
+    C, A, B = random_pair(rng)
+    if not arc_condition(C, A, B): continue
+    pts = [(Fr(rng.randint(-3, 3)), Fr(rng.randint(-3, 3))) for _ in range(4)]
+    cone = rng.choice([[(1, 0)], [(1, 0), (0, 1)], [(1, 0), (-1, 0)], [(0, 1), (1, 0), (-1, 0)]])
+    pts += [(p[0] + Fr(10**6 // 2)*d[0], p[1] + Fr(10**6 // 2)*d[1]) for p in pts for d in cone]
+    P = rho(C + A, rho(C + B, pts)); s0 = sig_big(C + A, P); stab = False
+    for k in range(60):
+        P = rho(C + A, rho(C + B, P)); s1 = sig_big(C + A, P)
+        if s1 == s0: stab = True; break
+        s0 = s1
+    fin += stab; inf += (not stab)
+print("  polygon + cone, arc condition holds:", fin, "stabilised,", inf, "not (should be 0)")
+T1 = [(1, 0), (-1, 1), (-1, -1)]; T2 = [(0, 1), (2, -1), (-2, -1)]
+rng = random.Random(3); inf = 0
+for trial in range(30):
+    pts = [(Fr(rng.randint(-3, 3)), Fr(rng.randint(-3, 3))) for _ in range(4)]
+    P = rho(T1, rho(T2, pts)); s0 = sig_big(T1, P); stab = False
+    for k in range(12):
+        P = rho(T1, rho(T2, P)); s1 = sig_big(T1, P)
+        if s1 == s0 and all(v is not None for v in s1): stab = True; break
+        s0 = s1
+    inf += (not stab)
+print("  empty common part, bounded sets: non-stabilised", inf, "of 30 (should be 30; the iterates grow geometrically)")
 print("== different quadrants: T = box + (1,2), T' = box + (-1,2): alternation from random S")
 import random
 random.seed(1)

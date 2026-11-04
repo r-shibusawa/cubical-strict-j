@@ -5,10 +5,15 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.38.6` (paper 41 revised: finite alternation of two template domains at
+- Current snapshot: release `v1.38.7` (paper 41 revised: for two template domains with positively
+  spanning common template, the join of the two classes is the class of the least common abstraction iff
+  the face condition on the admissible subspaces and the cone condition on the common cones hold; in the
+  plane, iff the arc condition holds -- `docs/consolidated/cutpoints.pdf`), archived at DOI (pending)
+  -- cite this one.
+- Previous: release `v1.38.6` (paper 41 revised: finite alternation of two template domains at
   every bounded set iff no projected pair on a subspace cut out by both templates has a critical face;
   the join is reached at stage omega+1 for every set -- `docs/consolidated/cutpoints.pdf`), archived at
-  DOI [10.5281/zenodo.23933855](https://doi.org/10.5281/zenodo.23933855) -- cite this one.
+  DOI [10.5281/zenodo.23933855](https://doi.org/10.5281/zenodo.23933855).
 - Previous: release `v1.38.5` (same content as `v1.38.4`: the release was created before the revision
   was pushed), archived at DOI [10.5281/zenodo.23933840](https://doi.org/10.5281/zenodo.23933840).
 - Previous: release `v1.38.4` (paper 41 revised: two template domains alternate finitely at

@@ -24,6 +24,7 @@
 \newcommand{\cP}{\mathcal P}
 \newcommand{\cE}{\mathcal E}
 
+\newcommand{\rec}{\operatorname{rec}}
 \begin{document}
 
 \title[Abstract domains and cut points in the sameness lattice]{Abstract domains and cut points in the lattice of two-out-of-three classes: joins of closure operators on a lattice and of cut-point topologies on a control-flow graph}
@@ -36,25 +37,25 @@
 
 \begin{abstract}
 A closure operator $\rho$ on a complete lattice, an abstract domain,
-collapses a class $W_\rho$ of pairs $x\le y$.
-$W_\rho\cap W_{\rho'}$ is the class of the reduced product,
-$W_\rho\vee W_{\rho'}$ the class of pairs with $y\le(\rho\rho')^kx$ for
-some $k$, and the class of the least common abstraction iff
-the alternation $\rho\rho'\rho\rho'\cdots$ is finite at every point;
-cancellation is needed when meets are not preserved. Congruences and
-any template domain alternate at most $n+2$ times; two template domains
-alternate finitely at all bounded sets iff, on each subspace cut out by
-both templates, no polytope with normals in the common template has a
-face maximising a private direction of each side and no common one. On the path category
-of a directed graph a vertex set $S$ gives the topology whose sheaves
-are determined at $S$. For two sets $S,T$ the join of the classes
-is the class of the join topology iff the alternation between
-$S$ and $T$ along paths avoiding $S\cap T$ is bounded; for a finite
-graph, iff no strongly connected component avoiding $S\cap T$ meets
-both sets. The join topology is that of $S\cap T$ iff no infinite
-backward walk avoiding $S\cap T$ alternates between the sets; alternation
-bounded by $a$ means exactly $a+1$ rounds of alternating reconstruction.
-The results extend to flows with idempotent transfer functions.
+collapses a class $W_\rho$ of pairs $x\le y$. $W_\rho\cap W_{\rho'}$ is
+the class of the reduced product, $W_\rho\vee W_{\rho'}$ the class of
+pairs with $y\le(\rho\rho')^kx$ for some $k$, and the class of the
+least common abstraction iff the alternation $\rho\rho'\rho\rho'\cdots$
+is finite at every point; cancellation is needed when meets are not
+preserved. Congruences and any template domain alternate at most $n+2$
+times. For two template domains the join of the classes is the class
+of the least common abstraction iff a face condition on the polytopes
+with normals in the common template and a cone condition hold; in the
+plane, iff no arc between consecutive common directions contains
+private directions of both sides. On the path category of a directed
+graph a vertex set $S$ gives the topology whose sheaves are determined
+at $S$. For two sets $S,T$ the join of the classes is the class of the
+join topology iff the alternation between $S$ and $T$ along paths
+avoiding $S\cap T$ is bounded.
+The join topology is that of $S\cap T$ iff no infinite backward walk
+avoiding $S\cap T$ alternates between the sets; alternation bounded by
+$a$ means exactly $a+1$ rounds of alternating reconstruction. The
+results extend to flows with idempotent transfer functions.
 \end{abstract}
 
 \maketitle
@@ -133,7 +134,11 @@ directions may contain private directions of both sides. The bounded
 sets of lower dimension are governed by the same condition for the
 projected template sets on the subspaces cut out by both templates
 (Theorem~\ref{thm:lowdim}), and the join of any set is reached at stage
-$\omega+1$ (Corollary~\ref{cor:omega}).
+$\omega+1$ (Corollary~\ref{cor:omega}). Theorem~\ref{thm:allsets} adds
+the unbounded sets through the recession cones and characterises the
+pairs of template domains for which the join of the two classes is the
+class of the least common abstraction; in the plane this is the arc
+condition (Corollary~\ref{cor:plane}).
 
 The second setting is the presheaf topos on the path category of a
 directed graph $G$, a control-flow graph: a presheaf is a flow of sets
@@ -209,7 +214,11 @@ the common template has a critical face; the arc condition in the
 plane), Theorem~\ref{thm:lowdim} (the same for all bounded sets, through
 the projected template sets on the admissible subspaces) and
 Corollary~\ref{cor:omega} (the join of two template domains is reached
-at stage $\omega+1$),
+at stage $\omega+1$), Theorem~\ref{thm:allsets} and
+Corollary~\ref{cor:plane} (the join of the two classes is the class of
+the least common abstraction iff no projected pair has a critical face
+and every common cone is a cone of the common template; in the plane,
+the arc condition),
 Proposition~\ref{prop:reach} (reachability closures) and
 Theorem~\ref{thm:cut} (cut-point topologies on the path category of a
 graph, with the closed-walk criterion and its linear-time test),
@@ -918,22 +927,174 @@ by exact vertex enumeration: random bounded full-dimensional sets
 stabilise within two rounds, and the planar set follows $\alpha_k$).
 \end{ex}
 
-\begin{rem}\label{rem:unbounded}
-For unbounded sets the join is still reached at stage $\omega+1$
-(Corollary~\ref{cor:omega}), and the proof of
-Theorem~\ref{thm:template}(ii) applies to the join $P$ of any
-non-empty $S$ as long as the directions $u$ with $\sigma_{S_k}(u)<
-\sigma_P(u)$ for all $k$ have $\sigma_P(u)<\infty$: then $P$, a
-polyhedron, has a critical face in the sense that some $t\in T\setminus
-C$ and $t'\in T'\setminus C$ are maximised exactly on a non-empty face
-$G$ of $P$ and no $c\in C$ is. The remaining possibility is that some
-direction is bounded on every iterate and unbounded on the join, as in
-Proposition~\ref{prop:numeric}(ii) on $\mathbb R^2$. A characterisation
-of the pairs with finite alternation at every subset of $\mathbb R^n$,
-hence with $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
-Theorem~\ref{thm:lattice}(iii), would have to describe this escape to
-infinity; we leave it open.
-\end{rem}
+\subsection*{All sets: the join of the two classes.}
+By Theorem~\ref{thm:lattice}(iii), $W_{\rho_T}\vee W_{\rho_{T'}}=
+W_{\rho_T\sqcup\rho_{T'}}$ on $\cP(\mathbb R^n)$ iff the alternation is
+finite at every subset of $\mathbb R^n$, bounded or not. The unbounded
+sets add one mechanism, an escape to infinity: the iterates stay
+bounded in a direction in which the join is unbounded, as in
+Proposition~\ref{prop:numeric}(ii) on $\mathbb R^2$. It is governed by
+the recession cones. For a closed convex cone $K$ with polar cone
+$K^\circ=\{u:u\cdot d\le0\text{ for all }d\in K\}$ the support function
+is $0$ on $K^\circ$ and $\infty$ elsewhere, so
+\[
+\rho_TK=\{d:u\cdot d\le0\text{ for all }u\in T\cap K^\circ\},
+\]
+and, taking polars, $\rho_TK=K$ iff $K^\circ$ is the cone generated by
+$T\cap K^\circ$. For a polyhedron $X$ with recession cone $\rec X$ one
+has $\sigma_X(u)<\infty$ iff $u\in(\rec X)^\circ$, hence
+\begin{equation}\label{eq:rec}
+\rec(\rho_TX)=\rho_T(\rec X).
+\end{equation}
+A cone $R$ contained in an admissible subspace $V$ is a \emph{common
+cone in $V$} if $\rho_TR=\rho_{T'}R=R$; by \eqref{eq:proj} this means
+$\rho^V_{T_V}R=\rho^V_{T'_V}R=R$. There are finitely many common cones,
+each being cut out by a subset of $T$.
+
+\begin{thm}\label{thm:allsets}
+Let $C=T\cap T'$ positively span $\mathbb R^n$. Then $W_{\rho_T}\vee
+W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ on $\cP(\mathbb R^n)$, i.e.\
+the alternation of $\rho_T$ and $\rho_{T'}$ is finite at every subset
+of $\mathbb R^n$, iff
+\begin{enumerate}
+\item[(F)] for every admissible subspace $V$ the pair $(T_V,T'_V)$
+satisfies condition (c) of Theorem~\ref{thm:template} in $V$, and
+\item[(E)] for every admissible subspace $V$ every common cone $R$ in
+$V$ is fixed by $\rho^V_{C_V}$, where $C_V=T_V\cap T'_V$.
+\end{enumerate}
+If (E) fails for $R$ in $V$, the alternation is infinite at every
+polyhedron $Q+R$ with $Q\subseteq V$ a polytope of full dimension in
+$V$.
+\end{thm}
+\begin{proof}
+Suppose the alternation is finite at every set. Then (F) holds by
+Theorem~\ref{thm:lowdim}. Let $R$ be a common cone in an admissible $V$
+and $S=Q+R$ with $Q\subseteq V$ a polytope of full dimension in $V$.
+By \eqref{eq:proj} the alternation at $S$ is that of the projected
+closures in $V$, and by \eqref{eq:rec}, applied in $V$, every iterate
+is a polyhedron with recession cone $\rho^V_{T'_V}R=R$ or $\rho^V_{T_V}
+R=R$. Some iterate $X$ is a common fixed point, full-dimensional in
+$V$, hence a $C_V$-polyhedron $X=\bigcap_{c\in C_V}\{c\cdot x\le
+\sigma_X(c)\}$ (Theorem~\ref{thm:template}(i) in $V$), and $\sigma_X(c)
+<\infty$ iff $c\in(\rec X)^\circ$; so $\rec X=\{d\in V:c\cdot d\le0
+\text{ for }c\in C_V\cap(\rec X)^\circ\}=\rho^V_{C_V}(\rec X)$, i.e.\
+$R=\rho^V_{C_V}R$. This proves (E) and the last assertion.
+
+Conversely assume (F) and (E), let $S\ne\emptyset$ have join $P$ with
+affine hull $p+V$, and suppose the alternation at $S$ is infinite. $V$
+is admissible by the argument in the proof of
+Theorem~\ref{thm:lowdim}, which does not use boundedness. Translating
+by $p$ and using \eqref{eq:proj}, the alternation at $S$ is the
+alternation of $\rho^V_{T_V}$ and $\rho^V_{T'_V}$ at $S-p\subseteq V$,
+whose join $P'=P-p$ is a full-dimensional common fixed point in $V$,
+hence a $C_V$-polyhedron, possibly unbounded. Write $S_k$ and $Y_k=
+\rho^V_{T'_V}S_k$ for the iterates of $S-p$, $\sigma_k=\sigma_{S_k}$,
+and let $D$ be the set of $u\in T_V\cup T'_V$ with $\sigma_k(u)<
+\sigma_{P'}(u)$ for all $k$. As in the proof of
+Theorem~\ref{thm:template}(ii), $\sigma_{P'}=\sup_k\sigma_k$
+(Corollary~\ref{cor:omega}), $D$ meets $T_V$ and $T'_V$, and $D\cap
+C_V=\emptyset$.
+
+Suppose first that some $u\in D$ has $\sigma_{P'}(u)=\infty$. The
+recession cones $\rec S_k=\{d\in V:v\cdot d\le0\text{ for }v\in T_V
+\text{ with }\sigma_k(v)<\infty\}$ are non-decreasing in $k$ and take
+finitely many values, so they equal a fixed cone $R$ for large $k$, and
+so do the cones $\rec Y_k$, which lie between $\rec S_k$ and $\rec
+S_{k+1}$. By \eqref{eq:rec}, $R=\rho^V_{T_V}R=\rho^V_{T'_V}R$: $R$ is a
+common cone in $V$. If $c\in C_V$ and $c\le0$ on $R$, then $\sigma_k(c)
+<\infty$ for large $k$; as $c$ is common to both templates, $\sigma_k
+(c)$ does not depend on $k$ and equals $\sigma_{P'}(c)$, so
+$\sigma_{P'}(c)<\infty$ and $c\le0$ on $\rec P'$; thus $C_V\cap R^\circ\subseteq C_V\cap(\rec P')^
+\circ$, and $\rho^V_{C_V}R$, which is cut out by the smaller set of
+directions, contains $\rho^V_{C_V}(\rec P')\supseteq\rec P'$. But $u\le
+0$ on $R$, as $\sigma_k(u)<\infty$, while $u>0$ somewhere on $\rec P'$,
+as $\sigma_{P'}(u)=\infty$; so $\rec P'\not\subseteq R$ and $\rho^V_{C_V}
+R\ne R$, against (E).
+
+Suppose now that $\sigma_{P'}(u)<\infty$ for all $u\in D$. Then the
+faces $F_{P'}(u)$, $u\in D$, are non-empty, and the proof of
+Theorem~\ref{thm:template}(ii) applies verbatim to the polyhedron $P'$:
+the sets $Z_k(u)$ are closed and decrease to $F_{P'}(u)$, a polyhedron
+is not a finite union of proper faces, and $\sigma_{S_1}(c)$ is
+attained on the polyhedron $S_1$. It yields $t\in T_V\setminus C_V$,
+$t'\in T'_V\setminus C_V$ and a non-empty face $G=F_{P'}(t)=F_{P'}(t')$
+of $P'$ with $F_{P'}(c)\ne G$ for all $c\in C_V$. If $P'$ is bounded,
+(F) fails. Otherwise let $B_\beta=\{x\in V:c\cdot x\le\beta\text{ for
+all }c\in C_V\}$, a $C_V$-polytope since $C_V$ positively spans $V$, and
+$P'_\beta=P'\cap B_\beta$, a $C_V$-polytope for large $\beta$. We claim
+that $G\cap B_\beta$ is a critical face of $P'_\beta$ for large
+$\beta$, so that (F) fails. For large $\beta$ the set $G\cap B_\beta$
+is non-empty, so the maximum of $t$ over $P'_\beta$ is $\sigma_{P'}(t)$,
+attained exactly on $G\cap B_\beta$, and likewise for $t'$. Let $c\in
+C_V$. If $\sigma_{P'}(c)<\infty$, the face $F_{P'}(c)$ is non-empty and
+different from $G$, so one of $F_{P'}(c)$, $G$ contains a point outside
+the other; for $\beta$ so large that $B_\beta$ contains this point and
+meets $F_{P'}(c)$, $F_{P'_\beta}(c)=F_{P'}(c)\cap B_\beta\ne G\cap
+B_\beta$. If $\sigma_{P'}(c)=\infty$, fix $g_0\in G$ and choose $x_c\in P'$
+with $c\cdot x_c>c\cdot g_0$; for $\beta$ so large that $g_0,x_c\in
+P'_\beta$ the point $g_0$ of $G\cap B_\beta$ is not in $F_{P'_\beta}
+(c)$, so again $F_{P'_\beta}(c)\ne G\cap B_\beta$. As $C_V$ is finite,
+one $\beta$ serves for all $c$.
+\end{proof}
+
+\begin{lem}\label{lem:planecone}
+Let $n=2$ and let $C$ positively span $\mathbb R^2$. Every common cone
+in an admissible subspace $V$ is fixed by $\rho^V_{C_V}$.
+\end{lem}
+\begin{proof}
+If $V=\{0\}$ there is nothing to show. If $V$ is a line with unit
+vector $e$, then $C_V=\{\pm e\}$ and the cones $\{0\}$, $\mathbb R_{\ge
+0}e$, $\mathbb R_{\ge0}(-e)$, $V$ are fixed by $\rho^V_{C_V}$. Let $V=
+\mathbb R^2$ and $R$ a common cone, so that $R^\circ$ is generated by
+$T\cap R^\circ$ and by $T'\cap R^\circ$; we show that $R^\circ$ is
+generated by $C\cap R^\circ$, which gives $\rho_CR=R$. If $R^\circ$ is
+pointed and not $\{0\}$, each of its extreme rays is generated by an
+element of $T\cap R^\circ$ and by an element of $T'\cap R^\circ$, which
+are equal unit vectors, hence in $C$. If $R^\circ=\{0\}$ there is
+nothing to show. Otherwise $R^\circ$ contains a line $\ell$ and, in the
+plane, is $\ell$, a half-plane $H$ bounded by $\ell$, or $\mathbb R^2$.
+If $R^\circ=\mathbb R^2$, it is generated by $C$, which positively
+spans $\mathbb R^2$. If $R^\circ=\ell$ or $R^\circ=H$, a non-negative
+combination of elements of $R^\circ$ lying in $\ell$ uses only
+elements of $\ell$, since the elements of $R^\circ$ have non-negative
+inner product with the inward normal of $H$; so both unit vectors of
+$\ell$ belong to $T$ and to $T'$, hence to $C$. This settles $R^\circ=
+\ell$, and for $R^\circ=H$ the set $C$ contains, as it positively spans
+$\mathbb R^2$, a vector in the open half-plane $H\setminus\ell$, so
+$C\cap H$ generates $H$.
+\end{proof}
+
+\begin{cor}\label{cor:plane}
+Let $n=2$ and let $C=T\cap T'$ positively span $\mathbb R^2$. Then
+$W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ on $\cP(\mathbb
+R^2)$ iff no open arc between two cyclically consecutive directions of
+$C$ contains both a direction of $T\setminus C$ and a direction of
+$T'\setminus C$.
+\end{cor}
+\begin{proof}
+Condition (E) holds by Lemma~\ref{lem:planecone}; condition (F) imposes
+nothing on subspaces of dimension $\le1$ and is the arc condition on
+$\mathbb R^2$ by Theorem~\ref{thm:template}(iii).
+\end{proof}
+
+\begin{ex}\label{ex:cyl}
+Let $n=3$, $C=\{\pm e_3,(\pm e_1+e_3)/\sqrt2,(\pm e_2+e_3)/\sqrt2\}$,
+which positively spans $\mathbb R^3$, $T=C\cup\{a_1,a_2,a_3\}$ and
+$T'=C\cup\{b_1,b_2,b_3\}$ with six distinct horizontal unit vectors
+such that each triple positively spans the plane $V'=\{x_3=0\}$ (for
+instance at the angles $0^\circ,120^\circ,240^\circ$ and $60^\circ,
+180^\circ,300^\circ$). The line $L=\mathbb Re_3$ is a common cone in
+$\mathbb R^3$: $T\cap L^\circ=T\cap V'=\{a_1,a_2,a_3\}$ positively spans
+$V'$, so $\rho_TL=L$, and likewise $\rho_{T'}L=L$; but $C\cap L^\circ=
+\emptyset$, so $\rho_CL=\mathbb R^3$. By Theorem~\ref{thm:allsets} the
+alternation is infinite at every vertical cylinder $Q+L$ over a polygon
+$Q\subseteq V'$, and the join of the two classes is not the class of
+the least common abstraction. Directly: the iterates of $Q+L$ are the
+cylinders over the iterates of $Q$ under the planar pair $(\{a_i\},
+\{b_j\})$, whose common part is empty, so that
+Theorem~\ref{thm:template}(i) in $V'$ applies.
+\end{ex}
+
 
 \section{Reachability closures}\label{sec:reach}
 
@@ -1883,14 +2044,12 @@ cycle, are the instances of unbounded alternation in this setting.
 \section{Questions}
 
 \begin{que}
-Theorems~\ref{thm:template} and~\ref{thm:lowdim} characterise finite
-alternation of two template domains at the bounded sets. For which
-pairs is the alternation finite at every subset of $\mathbb R^n$, so
-that $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
-Theorem~\ref{thm:lattice}(iii)? The unbounded sets
-(Remark~\ref{rem:unbounded}) and the integer versions on $\cP(\mathbb
-Z^n)$, where the alternation at a bounded set is finite but not
-uniformly (Remark~\ref{rem:dual}), remain.
+Theorem~\ref{thm:allsets} characterises the pairs of template domains
+with $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ when the
+common template positively spans $\mathbb R^n$. What is the
+characterisation when it does not, and what are the integer versions on
+$\cP(\mathbb Z^n)$, where the alternation at a bounded set is finite but
+not uniformly (Remark~\ref{rem:dual})?
 \end{que}
 
 \begin{que}
