@@ -43,19 +43,18 @@ some $k$, and the class of the least common abstraction iff
 the alternation $\rho\rho'\rho\rho'\cdots$ is finite at every point;
 cancellation is needed when meets are not preserved. Congruences and
 any template domain alternate at most $n+2$ times; two template domains
-alternate finitely at bounded full-dimensional sets iff no polytope
-with normals in the common template has a face maximising a private
-direction of each side and no common one. On the path category
+alternate finitely at all bounded sets iff, on each subspace cut out by
+both templates, no polytope with normals in the common template has a
+face maximising a private direction of each side and no common one. On the path category
 of a directed graph a vertex set $S$ gives the topology whose sheaves
 are determined at $S$. For two sets $S,T$ the join of the classes
 is the class of the join topology iff the alternation between
 $S$ and $T$ along paths avoiding $S\cap T$ is bounded; for a finite
 graph, iff no strongly connected component avoiding $S\cap T$ meets
 both sets. The join topology is that of $S\cap T$ iff no infinite
-backward walk avoiding $S\cap T$ alternates between the sets, and
-alternation bounded by $a$ means exactly $a+1$ rounds of alternating
-reconstruction. The results extend to flows with idempotent transfer
-functions.
+backward walk avoiding $S\cap T$ alternates between the sets; alternation
+bounded by $a$ means exactly $a+1$ rounds of alternating reconstruction.
+The results extend to flows with idempotent transfer functions.
 \end{abstract}
 
 \maketitle
@@ -130,7 +129,11 @@ common template must positively span $\mathbb R^n$, and no face of a
 polytope with normals in the common template may be the exact
 maximiser of a direction private to each side and of no common
 direction; in the plane, no arc between two consecutive common
-directions may contain private directions of both sides.
+directions may contain private directions of both sides. The bounded
+sets of lower dimension are governed by the same condition for the
+projected template sets on the subspaces cut out by both templates
+(Theorem~\ref{thm:lowdim}), and the join of any set is reached at stage
+$\omega+1$ (Corollary~\ref{cor:omega}).
 
 The second setting is the presheaf topos on the path category of a
 directed graph $G$, a control-flow graph: a presheaf is a flow of sets
@@ -203,7 +206,10 @@ systems, and one extra direction each, alternate for ever),
 Theorem~\ref{thm:template} (finite alternation of two template domains
 at every bounded full-dimensional set iff no polytope with normals in
 the common template has a critical face; the arc condition in the
-plane),
+plane), Theorem~\ref{thm:lowdim} (the same for all bounded sets, through
+the projected template sets on the admissible subspaces) and
+Corollary~\ref{cor:omega} (the join of two template domains is reached
+at stage $\omega+1$),
 Proposition~\ref{prop:reach} (reachability closures) and
 Theorem~\ref{thm:cut} (cut-point topologies on the path category of a
 graph, with the closed-walk criterion and its linear-time test),
@@ -625,31 +631,59 @@ Lemma~\ref{lem:iter}.
 
 \begin{lem}\label{lem:limit}
 Let $T$ be a finite set of unit vectors and $S_0\subseteq S_1\subseteq
-\cdots$ non-empty sets fixed by $\rho_T$ and contained in a bounded
-set, with union $U$ and closure $K=\overline U$. Then $\rho_TU=K$ and
-$\sigma_K(w)=\sup_k\sigma_{S_k}(w)$ for every $w\in\mathbb R^n$.
+\cdots$ non-empty sets fixed by $\rho_T$, with union $U$ and closure
+$K=\overline U$. Then $\rho_TU=K$ and $\sigma_K(w)=\sup_k\sigma_{S_k}
+(w)\in(-\infty,\infty]$ for every $w\in\mathbb R^n$.
 \end{lem}
 \begin{proof}
-Put $\sigma_\infty(w)=\sup_k\sigma_{S_k}(w)=\sigma_U(w)=\sigma_K(w)$,
-finite by boundedness. The set $\rho_TU=\bigcap_{u\in T}\{u\cdot x\le
-\sigma_\infty(u)\}$ is closed, convex and contains $K$, so it suffices
-to show $\sigma_{\rho_TU}(w)\le\sigma_\infty(w)$ for all $w$. As $S_0$
-is a non-empty bounded $T$-polyhedron, $T$ positively spans $\mathbb
-R^n$, so the polyhedron $\Lambda_w=\{\lambda\in\mathbb R^T_{\ge0}:
-\sum_u\lambda_uu=w\}$ is non-empty; it is pointed, so a linear function
-bounded below on it attains its minimum at one of its finitely many
-vertices. By linear-programming duality, for every $b\in\mathbb R^T$
+Put $\sigma_\infty(w)=\sup_k\sigma_{S_k}(w)=\sigma_U(w)=\sigma_K(w)$.
+The set $\rho_TU=\bigcap_{u\in T}\{u\cdot x\le\sigma_\infty(u)\}$, in
+which the constraints with $\sigma_\infty(u)=\infty$ are void, is
+closed, convex and contains $K$, so it suffices to show $\sigma_{\rho_T
+U}(w)\le\sigma_\infty(w)$ for all $w$. Let $\Lambda_w=\{\lambda\in
+\mathbb R^T_{\ge0}:\sum_u\lambda_uu=w\}$, a pointed polyhedron with
+finitely many vertices, possibly empty. For $b\in(-\infty,\infty]^T$
 with $Q_b=\bigcap_{u\in T}\{u\cdot x\le b_u\}\ne\emptyset$,
+linear-programming duality \cite[Ch.~7]{Schrijver} gives
 \[
 \sigma_{Q_b}(w)=\min_{\lambda\in\Lambda_w}\lambda\cdot b=\min_v v\cdot
 b,
 \]
-the last minimum over the vertices $v$ of $\Lambda_w$. For $b=
-\sigma_{S_k}$ we have $Q_b=S_k$, and for $b=\sigma_\infty$ we have
-$Q_b=\rho_TU\supseteq U\ne\emptyset$. The finitely many sequences
-$v\cdot\sigma_{S_k}$ increase to $v\cdot\sigma_\infty$, so their minima
-converge: $\sigma_{\rho_TU}(w)=\min_vv\cdot\sigma_\infty=\sup_k\min_v
-v\cdot\sigma_{S_k}=\sup_k\sigma_{S_k}(w)=\sigma_\infty(w)$.
+where $\lambda\cdot b=\infty$ if $\lambda_u>0$ for some $u$ with $b_u=
+\infty$, a minimum over the empty set is $\infty$, and the last minimum
+is over the vertices $v$ of $\Lambda_w$. Indeed, with $T_b=\{u:b_u<
+\infty\}$, if $w$ is not a non-negative combination of $T_b$ then by
+Farkas' lemma some $d$ has $u\cdot d\le0$ for $u\in T_b$ and $w\cdot d
+>0$, so $\sigma_{Q_b}(w)=\infty$, and every $\lambda\in\Lambda_w$ has
+$\lambda\cdot b=\infty$; otherwise the duality theorem for the finite
+system $T_b$ gives the first equality, and the $\lambda$ with $\lambda
+\cdot b<\infty$ form a face of $\Lambda_w$ on which $\lambda\cdot b$ is
+bounded below by weak duality, so the minimum is attained at a vertex
+of that face, which is a vertex of $\Lambda_w$. Apply this to $b=
+\sigma_{S_k}$, with $Q_b=S_k$, and to $b=\sigma_\infty$, with $Q_b=
+\rho_TU\supseteq U\ne\emptyset$. For each of the finitely many
+vertices $v$ the sequence $v\cdot\sigma_{S_k}$ is non-decreasing with
+supremum $v\cdot\sigma_\infty$, so the minima converge:
+$\sigma_{\rho_TU}(w)=\min_vv\cdot\sigma_\infty=\sup_k\min_vv\cdot
+\sigma_{S_k}=\sup_k\sigma_{S_k}(w)=\sigma_\infty(w)$.
+\end{proof}
+
+\begin{cor}\label{cor:omega}
+For finite $T,T'$ and every $S\subseteq\mathbb R^n$, $(\rho_T\sqcup
+\rho_{T'})S$ is the closure of $\bigcup_k(\rho_T\rho_{T'})^kS$, and the
+sequence of Lemma~\ref{lem:iter} stops at stage $\omega+1$ at the
+latest.
+\end{cor}
+\begin{proof}
+For $S=\emptyset$ all terms are empty. Otherwise $S_k=(\rho_T\rho_{T'})
+^kS$ and $Y_k=\rho_{T'}S_k$ satisfy $S_k\subseteq Y_k\subseteq S_{k+1}$,
+the $S_k$ with $k\ge1$ are fixed by $\rho_T$ and the $Y_k$ by
+$\rho_{T'}$, and both sequences have the same union $U$. By the lemma,
+$\rho_TU=\rho_{T'}U=\overline U$ is a common fixed point containing
+$S$, hence containing the join, and the join, being closed and
+containing every $S_k$, contains $\overline U$. The stage $\omega$ of
+Lemma~\ref{lem:iter} is $U$ and the stage $\omega+1$ is $\rho_T
+\rho_{T'}U=\overline U$.
 \end{proof}
 
 \begin{thm}\label{thm:template}
@@ -699,13 +733,9 @@ positively span $\mathbb R^n$.
 being full-dimensional. (c)$\Rightarrow$(b): let $S$ be bounded with
 full-dimensional join $P=\rho_CS$ (by (i)), a polytope as $C$ positively
 spans, and suppose the alternation at $S$ is infinite. Write $S_k$ for
-the iterates, $Y_k=\rho_{T'}S_k$ and $\sigma_k=\sigma_{S_k}$. The sets
-$S_k\subseteq Y_k\subseteq S_{k+1}$ lie in $P$, the $S_k$ with $k\ge1$
-are fixed by $\rho_T$ and the $Y_k$ by $\rho_{T'}$, and both sequences
-have the same union $U$; by Lemma~\ref{lem:limit}, $\rho_TU=\rho_{T'}U
-=\overline U$ is a common fixed point containing $S$ and contained in
-the closed set $P$, so $\overline U=P$ and $\sigma_P(u)=\sup_k
-\sigma_k(u)$ for all $u$. Let $D$ be the set of $u\in T\cup T'$
+the iterates, $Y_k=\rho_{T'}S_k$ and $\sigma_k=\sigma_{S_k}$. By
+Corollary~\ref{cor:omega}, $P$ is the closure of $\bigcup_kS_k$, so
+$\sigma_P(u)=\sup_k\sigma_k(u)$ for all $u$. Let $D$ be the set of $u\in T\cup T'$
 with $\sigma_k(u)<\sigma_P(u)$ for all $k$; as the $\sigma_k(u)$ are
 non-decreasing, $u\notin D$ means $\sigma_k(u)=\sigma_P(u)$ for large
 $k$. $D\cap T\ne\emptyset$: if $D\cap T=\emptyset$, then for some $k\ge
@@ -796,6 +826,113 @@ random bounded sets ($300$ trials, $60$ rounds: every stabilised run
 ends at $\rho_CS$, every run that does not stabilise violates the arc
 condition) and checks that the sets $P\cap\{t\cdot x\le\alpha\}$ of
 (ii) never stabilise ($74$ pairs, $40$ rounds).
+\end{rem}
+
+\subsection*{Bounded sets of lower dimension.}
+Theorem~\ref{thm:template} leaves out the bounded sets whose join is
+not full-dimensional, and these matter: Example~\ref{ex:lowdim} below
+has finite alternation at every bounded full-dimensional set of
+$\mathbb R^3$ and infinite alternation at a bounded planar set. The
+join of such a set lives in an affine subspace, where the two closures
+act as the template closures of the projected template sets. For a
+linear subspace $V\subseteq\mathbb R^n$ with orthogonal projection
+$\pi_V$ let $T_V$ be the set of unit vectors $\pi_V(u)/|\pi_V(u)|$ for
+$u\in T$ with $\pi_V(u)\ne0$, and call $V$ \emph{admissible} if
+$T\cap V^\perp$ and $T'\cap V^\perp$ both positively span $V^\perp$;
+$V=\mathbb R^n$ is admissible, with $T_{\mathbb R^n}=T$. For $X
+\subseteq V$ and $u\in T$ we have $\sigma_X(u)=\sigma_X(\pi_V(u))$, so
+the constraint $u\cdot x\le\sigma_X(u)$ restricted to $V$ is the
+constraint of the direction $\pi_V(u)/|\pi_V(u)|$ of $T_V$, or void if
+$\pi_V(u)=0$; and if $V$ is admissible and $X\ne\emptyset$, the constraints with
+$u\in T\cap V^\perp$ say $u\cdot x\le0$ for a positively spanning subset
+of $V^\perp$, so that $\rho_TX\subseteq V$. Hence, for admissible $V$
+and non-empty $X\subseteq V$,
+\begin{equation}\label{eq:proj}
+\rho_TX=\rho^V_{T_V}X,
+\end{equation}
+the template closure in $V$, and likewise for $T'$ (for $X=\emptyset$
+the two sides may differ: $\rho_T\emptyset=\emptyset$, while $T_V$ may
+be empty and $\rho^V_\emptyset\emptyset=V$). Since $\rho_T$ commutes
+with translations, \eqref{eq:proj} gives $\rho_TX=p+\rho^V_{T_V}(X-p)$
+for non-empty $X\subseteq p+V$. If $C$ positively
+spans $\mathbb R^n$ then $T_V\cap T'_V$, which contains the normalised
+projections of $C$, positively spans $V$.
+
+\begin{thm}\label{thm:lowdim}
+Let $C=T\cap T'$ positively span $\mathbb R^n$. The alternation of
+$\rho_T$ and $\rho_{T'}$ is finite at every bounded $S\subseteq\mathbb
+R^n$ iff for every admissible subspace $V$ the pair $(T_V,T'_V)$
+satisfies condition (c) of Theorem~\ref{thm:template} in $V$: no
+polytope in $V$ with facet normals in $T_V\cap T'_V$ has a face on
+which a direction of $T_V\setminus T'_V$ and a direction of $T'_V
+\setminus T_V$, but no direction of $T_V\cap T'_V$, are maximised
+exactly. Subspaces of dimension $\le1$ impose no condition.
+\end{thm}
+\begin{proof}
+Let $V$ be admissible with a critical face for $(T_V,T'_V)$. By
+Theorem~\ref{thm:template}(ii) applied in $V$, some non-empty bounded
+$S\subseteq V$ has infinite alternation under $\rho^V_{T_V}$ and
+$\rho^V_{T'_V}$, which by \eqref{eq:proj} is its alternation under
+$\rho_T$ and $\rho_{T'}$.
+
+Conversely let $S\ne\emptyset$ be bounded, $P$ its join, $A$ the affine
+hull of $P$, $V$ the direction space of $A$ and $p\in P$. $P$ is
+bounded, as $\rho_CS$ is a bounded common fixed point containing $S$
+(proof of Theorem~\ref{thm:template}(i)). $P=\bigcap_{u\in T}\{u\cdot x
+\le\sigma_P(u)\}$ is a polyhedron; let $T_0$ be the set of its implicit
+equalities, the $u\in T$ with $u\cdot x=\sigma_P(u)$ on $P$. Then $A=
+\{x:u\cdot x=\sigma_P(u)\text{ for }u\in T_0\}$ and the cone generated
+by $T_0$ is $V^\perp$ \cite[Sect.~8.2]{Schrijver}: for a point $q$ of
+the relative interior of $P$ the constraints active at $q$ are exactly
+those of $T_0$, as a linear function attaining its maximum over $P$ at
+$q$ is constant on $P$; the tangent cone of $P$ at $q$ is $\{d:u\cdot d
+\le0\text{ for }u\in T_0\}$ and also $V$, since $q$ is a relative
+interior point; and taking polars, by Farkas' lemma, gives $\operatorname
+{cone}(T_0)=V^\perp$. So $T\cap V^\perp\supseteq T_0$ positively spans
+$V^\perp$, and likewise $T'\cap V^\perp$: $V$ is admissible. The iterates $S_k$
+and $Y_k=\rho_{T'}S_k$ lie in $P\subseteq A$, so by \eqref{eq:proj}
+applied to the translates $S_k-p$, $Y_k-p\subseteq V$ the alternation
+at $S$ is the alternation of $\rho^V_{T_V}$ and $\rho^V_{T'_V}$ at
+$S-p$, whose join $P-p$ is bounded and full-dimensional in $V$. As
+$T_V\cap T'_V$ positively spans $V$ and $(T_V,T'_V)$ satisfies (c),
+Theorem~\ref{thm:template}(ii) in $V$ shows that this alternation is
+finite. If $V=\{0\}$ there is nothing to check, the only bounded
+non-empty subset being $\{0\}$, and if $\dim V=1$ with unit vector $e$,
+then $T_V=T'_V=\{\pm e\}$, as $T_V\cap T'_V$ positively spans $V$, so
+there are no private directions and (c) holds.
+\end{proof}
+
+\begin{ex}\label{ex:lowdim}
+Let $n=3$, $C=\{\pm e_i\}$, $T=C\cup\{a\}$, $T'=C\cup\{b\}$ with $a
+\propto(1,2,1)$ and $b\propto(2,1,0)$. The $C$-polytopes are the boxes;
+$a$ is maximised exactly at a vertex of a box and $b$ exactly on an
+edge parallel to $e_3$, so no box has a critical face and, by
+Theorem~\ref{thm:template}, the alternation is finite at every bounded
+full-dimensional set. The plane $V=\{x_3=0\}$ is admissible ($\pm e_3
+\in C$), $T_V=\{\pm e_1,\pm e_2,(1,2)/\sqrt5\}$ and $T'_V=\{\pm e_1,\pm
+e_2,(2,1)/\sqrt5\}$ have the critical vertex of
+Proposition~\ref{prop:numeric}(iii), and the alternation at $S=\{x\in
+[0,1]^2\times\{0\}:x_1+2x_2\le\frac52\}$ is infinite, with the rate
+$m=\frac14$ of Figure~1 (\texttt{template\_alt.py} checks both claims
+by exact vertex enumeration: random bounded full-dimensional sets
+stabilise within two rounds, and the planar set follows $\alpha_k$).
+\end{ex}
+
+\begin{rem}\label{rem:unbounded}
+For unbounded sets the join is still reached at stage $\omega+1$
+(Corollary~\ref{cor:omega}), and the proof of
+Theorem~\ref{thm:template}(ii) applies to the join $P$ of any
+non-empty $S$ as long as the directions $u$ with $\sigma_{S_k}(u)<
+\sigma_P(u)$ for all $k$ have $\sigma_P(u)<\infty$: then $P$, a
+polyhedron, has a critical face in the sense that some $t\in T\setminus
+C$ and $t'\in T'\setminus C$ are maximised exactly on a non-empty face
+$G$ of $P$ and no $c\in C$ is. The remaining possibility is that some
+direction is bounded on every iterate and unbounded on the join, as in
+Proposition~\ref{prop:numeric}(ii) on $\mathbb R^2$. A characterisation
+of the pairs with finite alternation at every subset of $\mathbb R^n$,
+hence with $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
+Theorem~\ref{thm:lattice}(iii), would have to describe this escape to
+infinity; we leave it open.
 \end{rem}
 
 \section{Reachability closures}\label{sec:reach}
@@ -1746,14 +1883,14 @@ cycle, are the instances of unbounded alternation in this setting.
 \section{Questions}
 
 \begin{que}
-Theorem~\ref{thm:template} characterises finite alternation of two
-template domains at the bounded full-dimensional sets. For which pairs
-is the alternation finite at every subset of $\mathbb R^n$, so that
-$W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
-Theorem~\ref{thm:lattice}(iii)? The lower-dimensional sets reduce to the
-projected template pairs on affine subspaces; the unbounded sets and
-the integer versions on $\cP(\mathbb Z^n)$, where the alternation at a
-bounded set is finite but not uniformly (Remark~\ref{rem:dual}), remain.
+Theorems~\ref{thm:template} and~\ref{thm:lowdim} characterise finite
+alternation of two template domains at the bounded sets. For which
+pairs is the alternation finite at every subset of $\mathbb R^n$, so
+that $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$ by
+Theorem~\ref{thm:lattice}(iii)? The unbounded sets
+(Remark~\ref{rem:unbounded}) and the integer versions on $\cP(\mathbb
+Z^n)$, where the alternation at a bounded set is finite but not
+uniformly (Remark~\ref{rem:dual}), remain.
 \end{que}
 
 \begin{que}
@@ -1838,6 +1975,8 @@ two-out-of-three classes: the finite-iteration criterion for closure
 operators on exact categories, with applications to toposes, torsion
 theories and fuzzy sets}, preprint (2026), archived at DOI
 10.5281/zenodo.23691896.
+\bibitem{Schrijver} A.~Schrijver, \emph{Theory of Linear and Integer
+Programming}, Wiley, Chichester, 1986.
 \bibitem{SSM} S.~Sankaranarayanan, H.~B.~Sipma, Z.~Manna, \emph{Scalable
 analysis of linear systems using mathematical programming}, in: VMCAI
 2005, Lecture Notes in Comput. Sci. 3385, Springer, 2005, 25--41.

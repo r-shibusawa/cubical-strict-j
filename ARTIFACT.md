@@ -5,10 +5,16 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.38.4` (paper 41 revised: two template domains alternate finitely at
+- Current snapshot: release `v1.38.6` (paper 41 revised: finite alternation of two template domains at
+  every bounded set iff no projected pair on a subspace cut out by both templates has a critical face;
+  the join is reached at stage omega+1 for every set -- `docs/consolidated/cutpoints.pdf`), archived at
+  DOI (pending) -- cite this one.
+- Previous: release `v1.38.5` (same content as `v1.38.4`: the release was created before the revision
+  was pushed), archived at DOI [10.5281/zenodo.23933840](https://doi.org/10.5281/zenodo.23933840).
+- Previous: release `v1.38.4` (paper 41 revised: two template domains alternate finitely at
   every bounded full-dimensional set iff no polytope with normals in the common template has a critical
   face; in the plane, an arc condition on the common directions -- `docs/consolidated/cutpoints.pdf`),
-  archived at DOI [10.5281/zenodo.23886327](https://doi.org/10.5281/zenodo.23886327) -- cite this one.
+  archived at DOI [10.5281/zenodo.23886327](https://doi.org/10.5281/zenodo.23886327).
 - Previous: release `v1.38.3` (paper 41 revised: for the numerical domains of program analysis
   the congruence domain and any template-polyhedra domain alternate at most n+2 times, while two
   interval domains in different coordinates, and template domains differing by one direction each

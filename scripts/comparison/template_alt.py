@@ -138,6 +138,62 @@ for trial in range(200):
         Pk = Q
     built += 1; bad += stab
 print("  pairs violating the arc condition:", built, " sets P cap {t.x <= alpha} that stabilised (should be 0):", bad)
+
+# three-dimensional example: C = box, T = C + (1,2,1), T' = C + (2,1,0): no box has a critical face, so
+# every bounded full-dimensional set stabilises, while the plane x_3 = 0 carries the planar pair (1,2), (2,1)
+print("== R^3 example: box + (1,2,1) against box + (2,1,0) (exact vertex enumeration)")
+import itertools
+def solve3(rows):
+    # rows: three (t, c); solve t.x = c exactly; return None if singular
+    M = [list(map(Fr, t)) + [Fr(c)] for t, c in rows]
+    n = 3
+    for i in range(n):
+        piv = next((r for r in range(i, n) if M[r][i] != 0), None)
+        if piv is None: return None
+        M[i], M[piv] = M[piv], M[i]
+        for r in range(n):
+            if r != i and M[r][i] != 0:
+                f = M[r][i] / M[i][i]
+                M[r] = [M[r][j] - f * M[i][j] for j in range(n + 1)]
+    return tuple(M[i][n] / M[i][i] for i in range(n))
+def vertices(cons):
+    V = set()
+    for rows in itertools.combinations(cons, 3):
+        x = solve3(rows)
+        if x is None: continue
+        if all(sum(t[i]*x[i] for i in range(3)) <= c for t, c in cons): V.add(x)
+    return V
+def support(V, t): return max(sum(t[i]*v[i] for i in range(3)) for v in V)
+BOX3 = [(1,0,0),(-1,0,0),(0,1,0),(0,-1,0),(0,0,1),(0,0,-1)]
+a, b = (1,2,1), (2,1,0)
+def closure(T, V):
+    """template closure of the point set / vertex set V: constraints t.x <= sup_V t for t in T."""
+    cons = [(t, support(V, t)) for t in T]
+    return cons, vertices(cons)
+def alternate(pts, rounds):
+    V = set(pts); sigs = None
+    for k in range(rounds):
+        _, V = closure(BOX3 + [b], V)      # rho_{T'}
+        cons, V = closure(BOX3 + [a], V)   # rho_T
+        sig = tuple(c for _, c in cons)
+        if sig == sigs: return k          # stabilised (same T-polyhedron)
+        sigs = sig
+    return None
+random.seed(5); worst = 0; unstable = 0
+for trial in range(150):
+    pts = [tuple(Fr(random.randint(-4, 4)) for _ in range(3)) for _ in range(random.randint(4, 7))]
+    # full-dimensional: make sure the points are not coplanar
+    if len({p[0] for p in pts}) < 2 or len({p[1] for p in pts}) < 2 or len({p[2] for p in pts}) < 2: continue
+    r = alternate(pts, 25)
+    if r is None: unstable += 1
+    else: worst = max(worst, r)
+print("random full-dimensional sets in R^3: max rounds", worst, " non-stabilised (25 rounds, should be 0):", unstable)
+# planar set S = [0,1]^2 x {0} cap {x + 2y <= 5/2}
+pts = [(Fr(0),Fr(0),Fr(0)), (Fr(1),Fr(0),Fr(0)), (Fr(0),Fr(1),Fr(0)), (Fr(1),Fr(3,4),Fr(0)), (Fr(1,2),Fr(1),Fr(0))]
+V = set(pts)
+for k in range(6):
+    _, V = closure(BOX3 + [b], V); cons, V = closure(BOX3 + [a], V)
+    print("  planar S, round", k + 1, ": alpha =", support(V, a), " (3 - 4^-k/2 =", 3 - Fr(1,2)/4**(k+1), ") z-range", min(v[2] for v in V), max(v[2] for v in V))
 print("== different quadrants: T = box + (1,2), T' = box + (-1,2): alternation from random S")
 import random
 random.seed(1)
