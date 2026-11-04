@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.38.7` (paper 41 revised: for two template domains with positively
   spanning common template, the join of the two classes is the class of the least common abstraction iff
   the face condition on the admissible subspaces and the cone condition on the common cones hold; in the
-  plane, iff the arc condition holds -- `docs/consolidated/cutpoints.pdf`), archived at DOI (pending)
+  plane, iff the arc condition holds -- `docs/consolidated/cutpoints.pdf`), archived at DOI [10.5281/zenodo.23934119](https://doi.org/10.5281/zenodo.23934119)
   -- cite this one.
 - Previous: release `v1.38.6` (paper 41 revised: finite alternation of two template domains at
   every bounded set iff no projected pair on a subspace cut out by both templates has a critical face;
