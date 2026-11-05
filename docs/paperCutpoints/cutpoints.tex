@@ -50,7 +50,7 @@ the space, the join of the classes is the class of the least common
 abstraction iff a face condition on the polytopes with normals in the
 common template and a cone condition hold; in the plane, iff no arc
 between consecutive common directions contains private directions of
-both sides. On the path category of a directed
+both sides, and then one alternation suffices. On the path category of a directed
 graph a vertex set $S$ gives the topology whose sheaves are determined
 at $S$. For two sets $S,T$ the join of the classes is the class of the
 join topology iff the alternation between $S$ and $T$ along paths
@@ -157,7 +157,10 @@ $\omega+1$ (Corollary~\ref{cor:omega}). Theorem~\ref{thm:allsets} adds
 the unbounded sets through the recession cones and characterises the
 pairs of template domains for which the join of the two classes is the
 class of the least common abstraction; in the plane this is the arc
-condition (Corollary~\ref{cor:plane}).
+condition (Corollary~\ref{cor:plane}), and then one alternation
+suffices at every set (Theorem~\ref{thm:oneround}), whereas in space
+finiteness at every bounded set is compatible with an unbounded number
+of rounds (Example~\ref{ex:rounds}).
 
 The second setting is the presheaf topos on the path category of a
 directed graph $G$, a control-flow graph: a presheaf is a flow of sets
@@ -249,7 +252,10 @@ at stage $\omega+1$), Theorem~\ref{thm:allsets} and
 Corollary~\ref{cor:plane} (the join of the two classes is the class of
 the least common abstraction iff no projected pair has a critical face
 and every common cone is a cone of the common template; in the plane,
-the arc condition),
+the arc condition), Theorem~\ref{thm:oneround} (in the plane the
+alternation is then of length one at every set) and
+Example~\ref{ex:rounds} (in space the number of rounds at bounded sets
+can be unbounded),
 Proposition~\ref{prop:reach} (reachability closures) and
 Theorem~\ref{thm:cut} (cut-point topologies on the path category of a
 graph, with the closed-walk criterion and its linear-time test),
@@ -1132,6 +1138,148 @@ cylinders over the iterates of $Q$ under the planar pair $(\{a_i\},
 \{b_j\})$, whose common part is empty, so that
 Theorem~\ref{thm:template}(i) in $V'$ applies.
 \end{ex}
+
+\subsection*{One round in the plane, unboundedly many in space.}
+The criterion of Theorem~\ref{thm:lattice}(iii) asks for a finite stage
+at each point; the criterion for topologies asks for a uniform stage.
+For template domains in the plane the two coincide in the strongest
+form: when the alternation is finite everywhere, one round suffices.
+
+\begin{thm}\label{thm:oneround}
+Let $n=2$, let $C=T\cap T'$ positively span $\mathbb R^2$, and suppose
+that no open arc between two cyclically consecutive directions of $C$
+contains both a direction of $T\setminus C$ and a direction of
+$T'\setminus C$. Then $\rho_T\rho_{T'}S=\rho_CS$ for every $S\subseteq
+\mathbb R^2$. Hence $\rho_T\rho_{T'}=\rho_{T'}\rho_T=\rho_T\sqcup
+\rho_{T'}=\rho_C$, and the alternation stops after one round at every
+set.
+\end{thm}
+\begin{proof}
+Let $S\ne\emptyset$, $P=\rho_CS$ and $Y=\rho_{T'}S=P\cap\bigcap_{t'\in
+T'\setminus C}\{t'\cdot x\le\sigma_S(t')\}$. As $\sigma_Y(c)=\sigma_S(c)$
+for $c\in C$, $\rho_TY=P\cap\bigcap_{t\in T\setminus C}\{t\cdot x\le
+\sigma_Y(t)\}$, and it suffices to show $\sigma_Y(t)=\sigma_P(t)$ for
+every $t\in T\setminus C$. Then $\rho_T\rho_{T'}=\rho_C$; since $\rho_C$
+is a closure operator above $\rho_T$ and $\rho_{T'}$ and $\rho_T
+\rho_{T'}\le\rho_T\sqcup\rho_{T'}$, it is the join, and the arc
+condition is symmetric in $T$ and $T'$.
+
+Suppose first $\sigma_P(t)<\infty$. The face $F_P(t)$ of the
+$C$-polyhedron $P$ is a vertex $v$: if it contained a segment, $t$
+would be constant on it, hence orthogonal to an edge of $P$ or, if $P$
+has empty interior, to the line containing $P$, which is cut out by its
+implicit equalities among $C$; in both cases $t$ would be a direction of
+$C$. If $v$ lies in the closure of $S$, then $v\in Y$, as $Y$ is closed
+and contains $S$, and $\sigma_Y(t)\ge t\cdot v=\sigma_P(t)$. This is the
+case when $P$ is a segment or a ray with end point $v$: some $c\in C$
+with $c\cdot e>0$, $e$ the direction of $P$ pointing to $v$, is tight at
+$v$, and points $p$ of $S$ with $c\cdot p\to\sigma_S(c)=c\cdot v$
+converge to $v$. It is also the case when $P$ has non-empty interior
+and some $c\in C$ lies in the interior of the normal cone $N_P(v)=
+\operatorname{cone}(c_1,c_2)$, where $c_1,c_2\in C$ are the outer
+normals of the two edges at $v$: then $v$ is the only maximiser of $c$
+over $P$, the sets $\{p\in P:c\cdot p\ge c\cdot v-\varepsilon\}$ are
+bounded and shrink to $v$, and points of $S$ with $c\cdot p\to\sigma_S
+(c)=c\cdot v$ converge to $v$. Otherwise $c_1,c_2$ are cyclically
+consecutive in $C$ and $t$ lies in the open arc between them, so by the
+arc condition no $t'\in T'\setminus C$ does. As $c_1,c_2$ are linearly
+independent and the open arc consists of the combinations $ac_1+bc_2$
+with $a,b>0$, every such $t'$ can be written as $t'=ac_1+bc_2$ with
+$a\le0$ or $b\le0$; say $a\le0$, the other case being symmetric. For
+$p\in S$ we have $c_1\cdot p\le\sigma_S(c_1)=c_1\cdot v$ and hence
+$ac_1\cdot p\ge ac_1\cdot v$, so $t'\cdot p\ge ac_1\cdot v+bc_2\cdot p$.
+If $b\ge0$, taking the supremum over $p\in S$ gives $\sigma_S(t')\ge
+ac_1\cdot v+b\sigma_S(c_2)=t'\cdot v$; if $b<0$, then also $bc_2\cdot
+p\ge bc_2\cdot v$, so $t'\cdot p\ge t'\cdot v$ for every $p\in S$ and
+again $\sigma_S(t')\ge t'\cdot v$, as $S\ne\emptyset$. (The three cases
+$a\le0\le b$, $b\le0\le a$ and $a,b\le0$ are the cones
+$\operatorname{cone}(c_2,-c_1)$, $\operatorname{cone}(c_1,-c_2)$ and
+$\operatorname{cone}(-c_1,-c_2)$ covering the complement of the arc.)
+Hence $v\in Y$ and $\sigma_Y(t)=\sigma_P(t)$.
+
+Suppose now $\sigma_P(t)=\infty$ and, for a contradiction, $\sigma_Y(t)
+<\infty$. Let $C_0=\{c\in C:\sigma_S(c)<\infty\}$ and $T'_0=\{t'\in
+T'\setminus C:\sigma_S(t')<\infty\}$, so that $\rec P=\{d:c\cdot d\le0
+\text{ for }c\in C_0\}$ and $\rec Y=\rec P\cap\{d:t'\cdot d\le0\text{
+for }t'\in T'_0\}$, with polar cones $K_0=\operatorname{cone}(C_0)$ and
+$K_1=\operatorname{cone}(C_0\cup T'_0)$. A vector is bounded above on a
+polyhedron iff it is non-positive on the recession cone, so $t\notin
+K_0$, $t\in K_1$, and every $c\in C\cap K_1$ is bounded above on $Y$,
+hence on $S$, hence lies in $C_0$. Let $A$ be the open arc between the
+two directions of $C$ adjacent to $t$, of length $<\pi$. No element of
+$C_0$ lies in $A$; if no element of $T'_0$ lies in $A$ either, then
+$K_1$ is generated by vectors outside $A$ and contains $t\in A$, so it
+contains the closed arc $\bar A$: indeed $t$ is a non-negative
+combination of generators, and the cone spanned by those used is
+either pointed, with $t$ between its two extreme rays, which lie
+outside $A$, or contains a line and is a line, a half-plane or the
+plane, each of which contains $\bar A$ when it contains $t$ and no
+generator lies in $A$. Then both end points of $A$ lie in $C\cap K_1
+\subseteq C_0$, so $t\in\operatorname{cone}(C_0)=K_0$, a contradiction.
+Hence some $t'\in T'_0\subseteq T'\setminus C$ lies in $A$ together
+with $t$, against the arc condition.
+\end{proof}
+
+\begin{cor}\label{cor:dichotomy}
+Let $n=2$ and let $C$ positively span $\mathbb R^2$. The following are
+equivalent: $W_{\rho_T}\vee W_{\rho_{T'}}=W_{\rho_T\sqcup\rho_{T'}}$;
+the arc condition; $\rho_T\rho_{T'}=\rho_T\sqcup\rho_{T'}$. So the
+alternation of two template domains in the plane is either infinite at
+some set or of length one at every set.
+\end{cor}
+\begin{proof}
+The first two are equivalent by Corollary~\ref{cor:plane}, the second
+implies the third by Theorem~\ref{thm:oneround}, and the third implies
+the first by Theorem~\ref{thm:lattice}(iii).
+\end{proof}
+
+In space the pointwise and the uniform conditions separate already at
+the bounded sets.
+
+\begin{ex}\label{ex:rounds}
+Let $n=3$, $C=\{\pm e_i\}$, $T=C\cup\{t\}$ and $T'=C\cup\{t'\}$ with
+$t\propto(1,1,1)$ and $t'\propto(1,1,-1)$; we write $t\cdot x=x_1+x_2+
+x_3$ and $t'\cdot x=x_1+x_2-x_3$, the scaling being immaterial.
+Condition (F) holds. The admissible subspaces are the coordinate
+subspaces: if $W=V^\perp\ne\mathbb R^3$ contained $t$, then $-t$ would
+be a non-negative combination of elements of $T\cap W$, $-t=\mu t+
+\sum_i(\lambda_i^+e_i-\lambda_i^-e_i)$ with the sum over the $\pm e_i$
+in $W$, and comparing coordinates gives $\lambda_i^-=1+\mu+\lambda_i^+
+>0$ for $i=1,2,3$, so $W$ would contain $-e_1,-e_2,-e_3$ and be
+$\mathbb R^3$; hence $T\cap W=C\cap W$ for a proper subspace $W$, and
+$C\cap W=\{\pm e_i:e_i\in W\}$ positively spans $W$ only if $W$ is
+spanned by the coordinate axes it contains, which makes $V$ a
+coordinate subspace too; conversely every coordinate subspace $V$ is
+admissible, as $T\cap V^\perp$ and $T'\cap V^\perp$ contain the $\pm
+e_i$ spanning $V^\perp$. On $\mathbb R^3$ the
+$C$-polytopes are the boxes, on which $t$ is maximised exactly at the
+vertex $(u_1,u_2,u_3)$ and $t'$ exactly at $(u_1,u_2,l_3)$; on $x_3=0$
+the projections of $t$ and $t'$ coincide and are common; on $x_1=0$ and
+on $x_2=0$ they lie in different open quadrants. By
+Theorem~\ref{thm:lowdim} the alternation is finite at every bounded
+set, but the number of rounds is unbounded. For a box $P=[l,u]$, the
+maximum of $t$ over $P\cap\{t'\cdot x\le\beta\}$ is $\min(u_1+u_2,
+\beta+u_3)+u_3$, attained at $x_3=u_3$, and the maximum of $t'$ over
+$P\cap\{t\cdot x\le\alpha\}$ is $\min(u_1+u_2,\alpha-l_3)-l_3$,
+attained at $x_3=l_3$. For even $N$ let $S_N=\{(N,0,1),(0,N,1),
+(0,0,0)\}$, with $P=\rho_CS_N=[0,N]^2\times[0,1]$ and $\sigma_{S_N}(t')
+=N-1$. The iterates are $(\rho_T\rho_{T'})^kS_N=P\cap\{t\cdot x\le
+\alpha_k\}$ with $\alpha_1=N+1$ and $\alpha_{k+1}=\min(2N+1,\alpha_k+
+2)$, so $\alpha_k=N+2k-1$ for $k\le N/2$ and the join $P$ is reached
+exactly at stage $N/2+1$. Condition (E) fails: $R=\{d:d_3=0,\ d_1+d_2
+\le0\}$ has polar cone $\mathbb Re_3+\mathbb R_{\ge0}t=\mathbb Re_3+
+\mathbb R_{\ge0}t'$, generated by $T\cap R^\circ=\{\pm e_3,t\}$ and by
+$T'\cap R^\circ=\{\pm e_3,t'\}$, so $R$ is a common cone, while $\rho_C
+R=\{d:d_3=0\}$. Accordingly the unbounded set $Q+R=\{x:0\le x_3\le1,\
+x_1+x_2\le2\}$, $Q$ the unit cube, alternates for ever, the bound on
+$t$ increasing by $2$ at every round; the sets $S_N$ approach this
+behaviour as $N$ grows. (\texttt{template\_alt.py} checks the stages
+$N/2+1$ for $N\le32$.)
+\end{ex}
+
+Whether conditions (F) and (E) together force one round in every
+dimension, as they do in the plane, is left open
+(Question~\ref{que:uniform}).
 
 
 \section{Reachability closures}\label{sec:reach}
@@ -2092,9 +2240,11 @@ on a lattice the criterion of Theorem~\ref{thm:lattice}(iii) asks for a
 finite stage at each point separately, whereas for the topologies the
 criterion of \cite{Fijoin} asks for a uniform stage $k$ with $(c_Sc_T)^k
 =c_{S\cap T}$, which is the uniform bound on the alternation along
-paths of Theorem~\ref{thm:cut}; whether, for template domains,
-finiteness at every set implies a uniform bound on the number of rounds
-is not addressed here. The difference also lies in what decides the
+paths of Theorem~\ref{thm:cut}; for template domains in the plane the
+pointwise condition implies the uniform one in the strongest form, one
+round (Theorem~\ref{thm:oneround}), while in space finiteness at every
+bounded set is compatible with an unbounded number of rounds
+(Example~\ref{ex:rounds}). The difference also lies in what decides the
 finiteness: convex geometry (faces and
 recession cones of the common fixed points) for the numerical domains,
 the combinatorics of walks for the cut points.
@@ -2162,6 +2312,14 @@ common template positively spans $\mathbb R^n$. What is the
 characterisation when it does not, and what are the integer versions on
 $\cP(\mathbb Z^n)$, where the alternation at a bounded set is finite but
 not uniformly (Remark~\ref{rem:dual})?
+\end{que}
+
+\begin{que}\label{que:uniform}
+Do conditions (F) and (E) of Theorem~\ref{thm:allsets} imply $\rho_T
+\rho_{T'}=\rho_T\sqcup\rho_{T'}$, one round at every set, in every
+dimension, as they do in the plane (Theorem~\ref{thm:oneround})?
+Example~\ref{ex:rounds} shows that (F) alone does not bound the number
+of rounds.
 \end{que}
 
 \begin{que}

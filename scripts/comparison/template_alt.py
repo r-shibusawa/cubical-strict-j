@@ -97,7 +97,7 @@ def random_pair(rng):
     rest = [v for v in pool if v not in C]
     A = rng.sample(rest, rng.randint(1, 2)); B = rng.sample([v for v in rest if v not in A], rng.randint(1, 2))
     return C, A, B
-rng = random.Random(7); fin = inf = contra = joinbad = 0
+rng = random.Random(7); fin = inf = contra = joinbad = late = 0
 for trial in range(300):
     C, A, B = random_pair(rng)
     pts = [(Fr(rng.randint(-5, 5)), Fr(rng.randint(-5, 5))) for _ in range(rng.randint(3, 6))]
@@ -112,11 +112,13 @@ for trial in range(300):
     if stab:
         fin += 1
         if canon(P) != canon(rho(C, P)): joinbad += 1
+        if k > 0: late += 1          # stabilised only after more than one round
     else:
         inf += 1
         if arc_condition(C, A, B): contra += 1
 print("  stabilised runs:", fin, " join != rho_C(S):", joinbad, " non-stabilised runs (60 rounds):", inf,
-      " of which satisfy the arc condition (should be 0):", contra)
+      " of which satisfy the arc condition (should be 0):", contra,
+      " stabilised runs needing more than one round (should be 0 under the arc condition):", late)
 rng = random.Random(11); built = bad = 0
 for trial in range(200):
     C, A, B = random_pair(rng)
@@ -228,6 +230,18 @@ for trial in range(30):
         s0 = s1
     inf += (not stab)
 print("  empty common part, bounded sets: non-stabilised", inf, "of 30 (should be 30; the iterates grow geometrically)")
+# no uniform bound in space: T = box + (1,1,1), T' = box + (1,1,-1), S_N = {(N,0,1),(0,N,1),(0,0,0)};
+# the join [0,N]^2 x [0,1] is reached exactly at stage N/2 + 1
+print("== R^3: box + (1,1,1) against box + (1,1,-1): stages at S_N")
+for N in [2, 4, 8, 16, 32]:
+    pts = [(Fr(N), Fr(0), Fr(1)), (Fr(0), Fr(N), Fr(1)), (Fr(0), Fr(0), Fr(0))]
+    V = set(pts); k = 0; sigs = None
+    while True:
+        _, V = closure(BOX3 + [(1, 1, -1)], V); cons, V = closure(BOX3 + [(1, 1, 1)], V); k += 1
+        sig = tuple(c for _, c in cons)
+        if sig == sigs: break
+        sigs = sig
+    print("  N=%d: join reached at stage %d (N/2 + 1 = %d)" % (N, k - 1, N // 2 + 1))
 print("== different quadrants: T = box + (1,2), T' = box + (-1,2): alternation from random S")
 import random
 random.seed(1)
