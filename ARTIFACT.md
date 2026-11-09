@@ -8,7 +8,7 @@ This repository is the artifact accompanying the paper
 - Current snapshot: release `v1.39.0` (paper 42: comparing theories in the lattice of two-out-of-three
   classes -- Morita equivalence as a join of the coproduct and quotient completions, the forced order,
   Morita chains of length four, conceptual completeness as an identity of samenesses --
-  `docs/consolidated/theorycomp.pdf`), archived at DOI (pending).
+  `docs/consolidated/theorycomp.pdf`), archived at DOI [10.5281/zenodo.24065817](https://doi.org/10.5281/zenodo.24065817) -- cite this one.
 - Previous: release `v1.38.10` (paper 41 revised: one round in the plane under the arc
   condition, unboundedly many rounds at bounded sets in space -- `docs/consolidated/cutpoints.pdf`),
   archived at DOI [10.5281/zenodo.23966743](https://doi.org/10.5281/zenodo.23966743).
