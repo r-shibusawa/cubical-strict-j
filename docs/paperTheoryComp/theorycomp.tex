@@ -1,0 +1,898 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Same}{\mathrm{Same}}
+\newcommand{\Coh}{\mathbf{Coh}}
+\newcommand{\Pretop}{\mathbf{Pretop}}
+\newcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\Mod}{\mathrm{Mod}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Iso}{\mathrm{Iso}}
+\newcommand{\FF}{\mathsf F}
+\newcommand{\EE}{\mathsf E}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\Fin}{\mathbf{FinSet}}
+
+\begin{document}
+
+\title[Comparing theories in the sameness lattice]{Comparing theories in the lattice of two-out-of-three classes: Morita equivalence as a join of completions, the forced order of coproducts and quotients, and conceptual completeness as an identity of samenesses}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{theoretical equivalence, Morita equivalence, definitional equivalence, categorical equivalence, pretopos completion, conceptual completeness, two-out-of-three, localisation, coherent category}
+\subjclass[2020]{03G30 (primary), 18F10, 03C07, 18B25 (secondary)}
+
+\begin{abstract}
+Theories are compared through a hierarchy of equivalence relations:
+definitional equivalence, Morita equivalence (Barrett--Halvorson) and
+categorical equivalence (equivalent categories of models). We read
+them as classes of interpretations in the lattice of two-out-of-three
+classes of the $2$-category of coherent categories, a completion
+defining the class of interpretations it inverts. Morita equivalence is
+the class inverted by the pretopos completion, the join of the classes
+inverted by the coproduct completion and by the quotient completion,
+reached by one alternation with coproducts first; the order is forced,
+the coherent propositional theory with one atom separating the two
+orders, and immaterial for classical theories. Hence every Morita
+equivalence of coherent theories is witnessed by spans of at most four
+extensions on each side, three for classical theories with a sort of at
+least two elements. By the Makkai--Reyes conceptual completeness
+theorem an interpretation inducing an equivalence of model categories
+is a Morita equivalence: at the level of interpretations the
+categorical and the Morita classes coincide; hence Hudetz's definable
+categorical equivalence implies Morita equivalence when the morphisms
+of models are the elementary embeddings, and Morita bi-interpretability
+in the sense of Meadows implies Morita equivalence, reversing an arrow
+left open in his table. The conceptual distance of
+Khaled, Sz\'ekely, Lefever and Friend is the alternation depth of a
+join of two classes, finite at every related pair but unbounded.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+How does one decide that two theories, formulated in different
+vocabularies, say the same thing? The question has a long history in
+logic (definitional equivalence, synonymy, bi-interpretability) and a
+recent one in the philosophy of science, where Barrett and Halvorson
+\cite{BH16} proposed \emph{Morita equivalence} as a criterion lying
+strictly between definitional equivalence and categorical equivalence,
+Tsementzis \cite{Tsem17} identified it with the equivalence of pretopos
+completions, Hudetz \cite{Hudetz19} proposed definable categorical
+equivalence, McEldowney \cite{McEl20} and Meadows \cite{Meadows24}
+mapped the relations between the criteria, and Khaled, Sz\'ekely,
+Lefever and Friend \cite{KSLF20} measured the distance between theories
+by the number of concepts separating them. The present paper reads
+these criteria inside one algebraic object, the \emph{sameness lattice}
+$\Same(\cC)$ of the category $\cC$ of theories and interpretations
+\cite{Same}: the set of classes of interpretations containing the
+isomorphisms, closed under composition and satisfying two-out-of-three,
+ordered by inclusion. Each criterion of equivalence is a point of this
+lattice, namely the class of interpretations which it declares to be
+identifications; comparing criteria is comparing points; and the
+lattice operations ask new questions, in particular about joins, which
+our earlier work \cite{Fijoin,Cutpoints} has shown to be governed by
+the finiteness of an alternation.
+
+\medskip
+\noindent\textbf{What is new.} We work in the $2$-category $\Coh$ of
+small coherent categories, the syntactic categories of coherent
+theories (classical first-order theories enter through their
+Morleyisation). A completion $R$ of coherent categories, a reflector
+onto a reflective sub-$2$-category, inverts a class $V_R$ of
+interpretations, the largest sameness it sends to equivalences
+\cite[Prop.~5.1]{Same}.
+\begin{enumerate}
+\item[(a)] \emph{Morita equivalence is a join of two completions,
+reached in one round, in a forced order} (Theorem~\ref{thm:join},
+Theorem~\ref{thm:order}). The pretopos completion $\PP$ is the
+composite $\EE\FF$ of the completion $\FF$ by finite coproducts and the
+completion $\EE$ by quotients of equivalence relations, and $V_\PP=
+V_\FF\vee V_\EE$ in $\Same(\Coh)$; $V_\PP$ is Morita equivalence read
+as a class of interpretations \cite{Tsem17}. The other order fails:
+$\FF\EE\ne\PP$ already for the three-element chain $\bot<p<\top$, the
+syntactic category of the coherent propositional theory with one atom
+$p$, where the quotient of $\top+\top$ gluing the two copies along $p$
+(a sort with two elements which become equal when $p$ holds) is not a
+coproduct of quotients. For Boolean coherent categories, i.e.\ for
+classical theories, the two completions commute
+(Theorem~\ref{thm:boolean}).
+\item[(b)] \emph{Lengths of Morita chains} (Theorem~\ref{thm:length}).
+With one Morita extension allowed to add all sorts definable over the
+current signature, every Morita equivalence of coherent theories is
+witnessed by spans of at most four extensions on each side, in the order
+products, subsorts, coproducts, quotients, and at most three for
+classical theories having a sort with at least two elements, by the
+coding of coproduct sorts of \cite[Prop.~5.11]{McEl20}; products must
+precede subsorts and coproducts must precede quotients. The count takes
+product and coproduct sorts of any finite arity in one step, as in
+\cite{Tsem17}; with the binary sorts of \cite{BH16} no uniform bound
+exists (Proposition~\ref{prop:binary}).
+\item[(c)] \emph{Categorical equivalence as a class of interpretations
+is Morita equivalence} (Theorem~\ref{thm:cc}). By the Makkai--Reyes
+conceptual completeness theorem, an interpretation whose induced functor
+on categories of models is an equivalence is inverted by the pretopos
+completion; this is the observation of Halvorson and Tsementzis
+\cite[\S1.3, fn.~8]{HT17} read as the identity $V_{\Mod}=V_\PP$ of two
+samenesses. The strict inclusion of Morita equivalence in categorical
+equivalence found in \cite[Thm.~5.2]{BH16} therefore concerns pairs of
+theories with equivalent model categories but no interpretation inducing
+the equivalence; it is not visible in the lattice. As a consequence,
+Hudetz's definable categorical equivalence implies Morita equivalence
+without the ``external auxiliaries'' of \cite[Thm.~2]{Hudetz19} as soon
+as the morphisms of models are the elementary embeddings
+(Corollary~\ref{cor:hudetz}), and a Morita interpretation in the sense
+of Meadows \cite{Meadows24} whose functor of model categories is an
+equivalence is a Morita equivalence; so Morita bi-interpretability
+implies Morita equivalence, which reverses an arrow left open in the
+table of \cite[\S5.1.1]{Meadows24} (Corollary~\ref{cor:meadows}).
+\item[(d)] \emph{Conceptual distance is an alternation depth}
+(Proposition~\ref{prop:distance}). The step distance of \cite{KSLF20}
+on a cluster network $(X,E,S)$ is the least number of $S$-steps in an
+alternating chain, i.e.\ the alternation depth of the join $E\vee S$;
+the theorem of \cite{KSLF20} that every finite distance occurs is the
+failure of a uniform bound in a join whose alternation is finite at
+every pair it relates, the phenomenon studied for closure operators in
+\cite{Cutpoints}.
+\end{enumerate}
+Section~\ref{sec:duality} reads the results as a statement about
+duality in the sense of Maruyama's programme \cite{Maruyama16}: a
+criterion of equivalence is ``dualisable'' when it is the class inverted
+by a completion and the completion is recovered from the models; the
+category of models detects the Morita sameness (Makkai--Reyes) and the
+ultracategory of models moreover recovers the pretopos (Makkai); the
+groupoid of models and isomorphisms, without topology, is left as a
+question.
+
+\medskip
+\noindent\textbf{What is known.} The hierarchy definitional $\subsetneq$
+Morita $\subsetneq$ categorical is \cite{BH16}; Meadows \cite{Meadows24}
+arranges twelve criteria in a table with a definitional, a Morita and a
+categorical column and rows for isomorphism, equivalence, objective
+equivalence and mutual interpretability of model categories, shows that
+Morita interpretations induce functors of model categories
+\cite[Thm.~42]{Meadows24} and that mixed and pure Morita extensions
+give the same equivalence \cite[Cor.~47]{Meadows24}, answers two
+questions of \cite{BH16}, and leaves the reversal of most arrows of the
+table open; the identification of
+Morita equivalence with the equivalence of pretopos completions, and the
+explicit span through the syntactic category, products first, then
+subsorts, coproducts, quotients, is \cite{Tsem17}; that pretoposes are
+the maximal enlargements of a coherent category with the same semantics
+is Makkai--Reyes conceptual completeness \cite{MR77}, in the form we use
+\cite[Cor.~12, Rem.~13]{LurieNotes}; the ultracategory form is
+\cite{Makkai88}. Our contribution is the lattice reading, the join and
+order theorems, the counting of extensions, and the consequences for
+\cite{BH16,Hudetz19,KSLF20,Meadows24}. The finite-alternation criterion for joins
+of classes of closure operators is \cite[Thm.~2.3]{Cutpoints}; the
+largest inverted sameness is \cite{Same}. That an equivalence of
+model categories induced by an interpretation is a Morita equivalence is
+noted in \cite[\S1.3, fn.~8]{HT17} as a consequence of conceptual
+completeness \cite[D3.5.9]{Elephant}; Theorem~\ref{thm:cc} is this
+remark in the lattice, and its consequences for \cite{Hudetz19} and
+\cite{Meadows24} are drawn here.
+
+\section{Samenesses, inverted classes and joins}\label{sec:same}
+
+\begin{defi}[\cite{Same}]
+A \emph{sameness} on a category $\cC$ is a class $W$ of morphisms
+containing the isomorphisms, closed under composition and satisfying
+two-out-of-three: if two of $f$, $g$, $gf$ lie in $W$, so does the
+third. $\Same(\cC)$ is the complete lattice of samenesses under
+inclusion; meets are intersections. For a functor $F\colon\cC\to\cD$,
+$V_F:=\{f:F(f)\text{ invertible}\}$ is the largest sameness $F$ inverts
+\cite[Prop.~5.1]{Same}. For a $2$-category we use the same words with
+``invertible'' read as ``an equivalence'' and two-out-of-three up to
+invertible $2$-cells; $\Same(\cC)$ is then the lattice of such classes.
+\end{defi}
+
+Two theories $T$, $T'$ are \emph{$W$-equivalent} if they are connected by
+a zig-zag of morphisms in $W$; this is the equivalence relation on
+objects induced by $W$. A criterion of equivalence which is not induced
+by any sameness is invisible to the lattice; we shall meet one in
+Section~\ref{sec:cc}.
+
+The following lemma is the categorical form of the one-round case of
+\cite[Thm.~2.3(iv)]{Cutpoints}, where it is shown that for closure
+operators $\rho,\rho'$ on a lattice the join of the classes
+$W_\rho\vee W_{\rho'}$ is the class of the join $\rho\sqcup\rho'$ iff the
+alternation $\rho\rho'\rho\rho'\cdots$ stops at a finite stage at every
+point, and that one step suffices iff $\rho\rho'$ is idempotent.
+
+\begin{lem}\label{lem:join}
+Let $R_1,R_2$ be reflectors of a $2$-category $\cC$ onto reflective
+sub-$2$-categories, with units $\eta_i\colon X\to R_iX$, and suppose
+that $R:=R_2R_1$ is again a reflector (its image is reflective with
+unit $X\to R_1X\to R_2R_1X$) and that $R$ inverts the units of $R_1$
+and of $R_2$. Then $V_R=V_{R_1}\vee V_{R_2}$ in $\Same(\cC)$, and every
+$f\in V_R$ is a zig-zag of one $R_1$-unit, one $R_2$-unit, an
+equivalence, and the inverses of one $R_2$-unit and one $R_1$-unit.
+\end{lem}
+\begin{proof}
+$V_{R_i}\subseteq V_R$ since $R$ inverts the units of $R_i$: if $R_if$
+is an equivalence, the square $R_i f\circ\eta_i^X=\eta_i^Y\circ f$ and
+two-out-of-three in $V_R$ give $f\in V_R$. Conversely let $f\colon X\to
+Y$ with $Rf$ an equivalence. The unit $X\to RX$ is the composite of
+$\eta_1^X\in V_{R_1}$ and $\eta_2^{R_1X}\in V_{R_2}$, so it lies in the
+join; likewise for $Y$; and $Rf\circ(X\to RX)=(Y\to RY)\circ f$ up to
+an invertible $2$-cell. By two-out-of-three $f$ lies in the join.
+\end{proof}
+
+\section{Coherent categories and their completions}\label{sec:coh}
+
+$\Coh$ is the $2$-category of small coherent categories (finite limits,
+images, finite unions of subobjects, all stable under pullback) and
+coherent functors \cite[A1.4]{Elephant}. A coherent theory $T$ has a
+syntactic category $\cC_T$, and interpretations $T\to T'$ are the
+coherent functors $\cC_T\to\cC_{T'}$ \cite[D1.4]{Elephant}; every
+coherent category is the syntactic category of its internal theory
+\cite[\S4]{Tsem17}, so we identify theories with coherent categories.
+A coherent category is \emph{positive} if it has finite coproducts which
+are disjoint and stable, \emph{effective} if every equivalence relation
+is a kernel pair, and a \emph{pretopos} if both. Pretoposes form a
+reflective sub-$2$-category $\Pretop\subseteq\Coh$ with reflector
+$\PP$, the pretopos completion \cite[8.4]{MR77}, \cite[A3.3]{Elephant}.
+
+We realise the completions inside the sheaf topos. For $\cC\in\Coh$ let
+$\Sh(\cC)$ be the sheaves for the coherent topology; the Yoneda
+embedding $\cC\to\Sh(\cC)$ is coherent and full. Inside $\Sh(\cC)$ let
+\begin{itemize}
+\item $\FF\cC$ be the full subcategory of finite coproducts of
+representables,
+\item $\EE\cC$ be the full subcategory of quotients of representables by
+equivalence relations,
+\item $\PP\cC$ be the full subcategory of quotients of finite coproducts
+of representables by equivalence relations, the coherent objects.
+\end{itemize}
+$\FF\cC$ is the free positive coherent category on $\cC$, $\EE\cC$ the
+free effective one (the exact completion of a regular category
+\cite{CV98}), and $\PP\cC$ the pretopos completion; moreover $\EE\FF\cC
+=\PP\cC$, i.e.\ \emph{adding coproducts and then quotients gives the
+pretopos completion} \cite[8.4]{MR77}, \cite[p.~20]{Tsem17}; that the exact completion
+of a positive regular category is positive, so that $\EE\FF\cC$ is a
+pretopos, is \cite[Thm.~2.3]{LV01}. All three
+are reflectors on $\Coh$ and each inverts the units of the others,
+since $\Sh(\FF\cC)\simeq\Sh(\EE\cC)\simeq\Sh(\PP\cC)\simeq\Sh(\cC)$
+\cite[D3.3]{Elephant}.
+
+\begin{defi}
+Two coherent theories are \emph{Morita equivalent} if they are connected
+by a span of Morita extensions in the sense of \cite{BH16,Tsem17}: an
+extension by sorts defined as product, coproduct, subsort or quotient
+sorts of existing sorts, with the symbols introduced by the definitions,
+modulo renaming of symbols. By \cite[Thm.~4.7, Cor.~4.9]{Tsem17} this is
+equivalent to the equivalence of pretopos completions, hence to the
+$V_\PP$-equivalence of the syntactic categories. We call $V_\PP$ the
+\emph{Morita sameness}, $V_\FF$ the \emph{coproduct sameness} and
+$V_\EE$ the \emph{quotient sameness}.
+\end{defi}
+
+\section{Morita equivalence as a join; the order of coproducts and quotients}\label{sec:join}
+
+\begin{thm}\label{thm:join}
+In $\Same(\Coh)$, $V_\PP=V_\FF\vee V_\EE$: the Morita sameness is the
+join of the coproduct sameness and the quotient sameness, and the join
+is reached by one alternation, coproducts first: every Morita
+equivalence $f\colon\cC\to\cD$ is a zig-zag through $\cC\to\FF\cC\to
+\EE\FF\cC\xrightarrow{\ \simeq\ }\EE\FF\cD\leftarrow\FF\cD\leftarrow\cD$.
+\end{thm}
+\begin{proof}
+Lemma~\ref{lem:join} with $R_1=\FF$, $R_2=\EE$, $R=\PP=\EE\FF$.
+\end{proof}
+
+The lemma applies equally to $R_1=\EE$, $R_2=\FF$ provided $\FF\EE$ is
+the pretopos completion. It is not.
+
+\begin{thm}[the order is forced]\label{thm:order}
+Let $\cC$ be the three-element chain $\bot<p<\top$, a distributive
+lattice, hence a coherent category: the syntactic category of the
+coherent propositional theory with one atom $p$ and no axioms. Then
+$\EE\cC=\cC$, $\FF\EE\cC=\FF\cC$ is not effective, and $\FF\EE\cC\subsetneq
+\PP\cC$. Hence $\FF\EE\ne\PP$, and the alternation of $\EE$ and $\FF$
+starting with $\EE$ needs three steps where the alternation starting
+with $\FF$ needs two.
+\end{thm}
+\begin{proof}
+A thin category is effective: a reflexive relation on $x$ is a
+subobject of $x\times x=x$ containing the identity, so it is $x$, the
+kernel pair of the identity; thus $\EE\cC=\cC$. $\Sh(\cC)$ is the topos
+of sheaves on the Sierpi\'nski space, equivalently the arrow category
+$\Set^{\to}$, an object being a restriction map $X(\top)\to X(p)$; the
+representables are $\top=(1\to1)$ and $p=(\emptyset\to1)$, and
+$\bot=(\emptyset\to\emptyset)$. Finite coproducts of representables are
+the objects $(n\hookrightarrow m)$ with injective restriction, $n\le m$.
+The object $\top+\top=(2\to2)$ carries the equivalence relation $R$
+identifying the two sections over $p$ and not over $\top$: as a subobject
+of $(\top+\top)^2=(4\to4)$ it is $R(\top)=\Delta$, $R(p)=$ everything.
+Its quotient in $\Sh(\cC)$ is $(2\to1)$, which is coherent, so it lies
+in $\PP\cC$, but its restriction map is not injective, so it is not in
+$\FF\cC$. Hence $\FF\EE\cC=\FF\cC\subsetneq\PP\cC$. Moreover $\FF\cC$ is
+not effective: otherwise it would be a pretopos containing $\cC$, the
+universal property of $\PP\cC$ would give a coherent functor $\PP\cC\to
+\FF\cC$ over $\cC$, and composing with the inclusion $\FF\cC\subseteq
+\PP\cC$ would give an endofunctor of $\PP\cC$ over $\cC$, necessarily
+equivalent to the identity, so that the inclusion would be essentially
+surjective, against $(2\to1)\notin\FF\cC$. The last sentence follows: $\EE\FF\cC=\PP\cC$ in two
+steps, while $\EE\cC=\cC$, $\FF\EE\cC=\FF\cC$ and only $\EE\FF\EE\cC=\PP\cC$.
+\end{proof}
+
+\begin{rem}
+The object $(2\to1)$ is a sort with two elements which become equal
+when $p$ holds: the quotient of the two-element sort $\top+\top$ by the
+relation ``$u\sim v$ iff $u=v$ or $p$''. In a classical theory the same
+sort is the coproduct $\{p\}+\{\neg p\}+\{\neg p\}$ of subterminals, a
+coproduct of quotients; coherent logic lacks the complement $\neg p$ and
+the sort is reached only as a quotient of a coproduct. The same argument
+shows that $\FF\EE\ne\PP$ for every distributive lattice with a chain
+$\bot<a<x$: in the positive completion the relation $(x,a,a,x)$ on
+$(x,x)$ is an equivalence relation whose coequaliser is the fold onto
+$(x)$ with kernel pair $(x,x,x,x)$.
+\end{rem}
+
+\begin{thm}[Boolean case]\label{thm:boolean}
+If $\cC$ is a Boolean coherent category (every subobject has a
+complement), then $\FF\EE\cC=\EE\FF\cC=\PP\cC$: every quotient of a finite
+coproduct of representables by an equivalence relation is a finite
+coproduct of quotients of representables.
+\end{thm}
+\begin{proof}
+Let $X=X_1+\cdots+X_n$ with $X_i$ representable and $R\subseteq X\times
+X$ an equivalence relation in $\Sh(\cC)$, $R=\coprod_{i,j}R_{ij}$ with
+$R_{ij}\subseteq X_i\times X_j$ (coproducts are disjoint and stable);
+the $R_{ij}$ are subobjects of representables in $\PP\cC$, hence
+representable, since the completions add no subobjects to old objects
+\cite{CV98}. We
+induct on $n$; $n=1$ is the definition of $\EE\cC$. Let $A_1\subseteq
+X_1$ be the union of the images of the projections $R_{1j}\to X_1$,
+$j\ge2$: a subobject of the representable $X_1$ in $\Sh(\cC)$, hence a
+subobject in $\cC$ (the Yoneda embedding is full and preserves images
+and finite unions), and let $B_1=X_1\setminus A_1$ be its complement,
+again representable. $B_1$ is $R_{11}$-saturated: if $b\,R_{11}\,a$ with
+$a\in A_1$, then $a\,R_{1j}\,y$ for some $j\ge2$ and $y$, and transitivity
+gives $b\,R_{1j}\,y$, so $b\in A_1$. Hence $R$ restricts to an
+equivalence relation $R_{11}|_{B_1}$ on $B_1$ and to an equivalence
+relation $R'$ on $X'=A_1+X_2+\cdots+X_n$, with no relations between
+$B_1$ and $X'$, and $X/R=B_1/R_{11}+X'/R'$. On $X'$ every element of
+$A_1$ is related to an element of $Y:=X_2+\cdots+X_n$, so the composite
+$Y\to X'\to X'/R'$ is an epimorphism, every $R'$-class meeting $Y$, hence
+a regular epimorphism in the topos $\Sh(\cC)$; its kernel pair is
+$R''=R'\cap(Y\times Y)$, the restriction of $R$, so $Y/R''\cong X'/R'$
+by effectiveness of equivalence relations in $\Sh(\cC)$. By induction
+$X'/R'$ is a
+finite coproduct of quotients of representables, and so is $X/R$. All
+objects named are representables or their quotients, so the
+decomposition takes place in $\FF\EE\cC$.
+\end{proof}
+
+\begin{rem}
+The induction uses the complement of $A_1$ only; so the conclusion holds
+for every coherent $\cC$ in which the images of definable relations
+between distinct sorts are complemented. In the chain of
+Theorem~\ref{thm:order} the subobject $p\subseteq\top$ is such an image
+and has no complement.
+\end{rem}
+
+\section{Lengths of Morita chains}\label{sec:length}
+
+We now count extensions. Following \cite[\S2]{Tsem17}, a \emph{Morita
+extension} $T\subseteq T^+$ adds to the signature of $T$ new sort
+symbols, each defined as the product $S_1\times\cdots\times S_n$ of
+finitely many existing sorts, the coproduct $S_1+\cdots+S_n$ of finitely
+many existing sorts, a subsort of an existing sort cut out by a formula,
+or the quotient of an existing sort by a formula which $T$ proves to be
+an equivalence relation, together with the function symbols of the
+definitions (projections, injections, inclusion, quotient map), all
+definitions being formulas over the \emph{existing} signature; several
+sorts may be added at once, but a sort defined from a sort introduced in
+the same step is not allowed (\cite[fn.~8]{BH16}: one Morita extension
+cannot put predicates on the new sorts). Products and coproducts of
+arbitrary finite arity in one step are the convention of
+\cite[\S2]{Tsem17}; \cite{BH16} and \cite{Meadows24} define product and
+coproduct sorts of two factors only, and the two conventions give the
+same Morita equivalence but not the same counts, see
+Proposition~\ref{prop:binary}. As in \cite[\S2]{Tsem17}, every theory is
+assumed to have a sort which it proves inhabited, which is used to form
+a singleton sort; empty definable sets and empty sorts are otherwise
+allowed. A \emph{Morita chain of length $k$} is a sequence of $k$ Morita
+extensions. Tsementzis's construction \cite[\S4]{Tsem17} gives, for
+every coherent theory $T$, a chain $T\subseteq T_1\subseteq\widehat T$
+with $T_1$ adding all finite products of sorts and $\widehat T$ adding
+all subsorts of these cut out by formulas and all provably functional
+relations between them, so that $\cC_{\widehat T}\simeq\cC_T$ and
+$\widehat T$ is logically equivalent to the internal theory of $\cC_T$;
+and then a chain $T_{\cC}\subseteq T_{\FF\cC}\subseteq T_{\EE\FF\cC}$
+adding coproduct sorts and then quotient sorts
+\cite[Prop.~4.2]{Tsem17}.
+
+\begin{thm}\label{thm:length}
+With product and coproduct sorts of arbitrary finite arity:
+\begin{enumerate}
+\item[(i)] Two coherent theories are Morita equivalent iff, after
+renaming symbols apart, they are connected by a span of Morita chains
+of length at most four on each side, with the steps in the order:
+products, subsorts, coproducts, quotients.
+\item[(ii)] Two of the order constraints cannot be reversed: products
+before subsorts, since a subsort of a product (a relation symbol
+$R\subseteq\sigma\times\tau$ not a product of unary definable sets) is
+not a product of subsorts; and coproducts before quotients, since a
+quotient of a coproduct need not be a coproduct of quotients
+(Theorem~\ref{thm:order}). Subsorts commute with coproducts (a
+subobject of $X+Y$ is $A+B$, by extensivity) and with quotients (a
+subsort of $X/E$ is $D/E$ for a saturated $D\subseteq X$, and $D/E$ is a
+subsort of $X/(E\cup\Delta_X)$); whether the bound four is attained in
+every order is part of Question~\ref{que:four}.
+\item[(iii)] If $T$ is a classical theory (Boolean syntactic category)
+with non-empty sorts and a sort $\sigma$ with $T\vdash\exists u,v\,(u\ne
+v)$, then chains of length at most three suffice: products, subsorts,
+and then coproducts of quotients in one step.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(i) If $T$ and $T'$ are Morita equivalent their pretopos completions are
+equivalent \cite[Cor.~4.9]{Tsem17}. The chain $T\subseteq T_1\subseteq
+\widehat T\subseteq T^{(3)}\subseteq T^{(4)}$ of \cite{Tsem17} recalled
+above, with $T^{(3)}$ adding the coproduct sorts of the sorts of
+$\widehat T$ and $T^{(4)}$ the quotient sorts of the sorts of $T^{(3)}$,
+ends in a theory logically equivalent (up to renaming) to the internal
+theory of $\PP\cC_T$: by $\EE\FF=\PP$ (Section~\ref{sec:coh}) every
+object of $\PP\cC_T$ is a quotient of a finite coproduct of objects of
+$\cC_T$, i.e.\ of sorts of $\widehat T$, and every morphism of $\PP\cC_T$
+is a provably functional relation between such sorts, definable in
+$T^{(4)}$. Two equivalent pretoposes have internal theories which differ
+by renaming \cite[p.~20]{Tsem17}. The converse is the definition.
+
+(ii) In the theory with two sorts $\sigma,\tau$ and a relation symbol
+$R$, the sort $R$ is the subsort of the product sort $\sigma\times\tau$
+cut out by $R(x,y)$; it is not isomorphic to a product of subsorts of
+$\sigma$ and $\tau$ in the models where $R$ is not a rectangle. For
+coproducts and quotients, Theorem~\ref{thm:order}: in the theory with
+one atom $p$, the quotient of $\top+\top$ is not a coproduct of
+quotients, and quotient sorts of base sorts give nothing there.
+
+(iii) By Theorem~\ref{thm:boolean} every object of $\PP\cC_T$ is a
+finite coproduct $\coprod_i D_i/E_i$ of quotients of definable sets
+$D_i$, sorts of $\widehat T$ (reached in two steps). It remains to
+obtain such a coproduct as one quotient of one sort of $\widehat T$.
+Using $\sigma$ as a tag: $D_1/E_1+D_2/E_2$ is the quotient of the
+definable set
+\[
+D=\{(u,v,\bar x,\bar y):(u=v\wedge\bar x\in D_1)\vee(u\ne v\wedge\bar
+y\in D_2)\}
+\]
+by the equivalence relation identifying $(u,v,\bar x,\bar y)$ with
+$(u',v',\bar x',\bar y')$ iff either $u=v$, $u'=v'$ and $\bar x\,E_1\,
+\bar x'$, or $u\ne v$, $u'\ne v'$ and $\bar y\,E_2\,\bar y'$. Since
+sorts are non-empty the fillers $\bar y$ (resp.\ $\bar x$) exist, and
+since $u\ne v$ is satisfiable both tags occur; so the quotient is
+$D_1/E_1+D_2/E_2$ in every model, and $D$ is a subsort of a product of
+base sorts, a sort of $\widehat T$. For $m$ summands use $m-1$ pairs
+$(u_j,v_j)$ of variables of sort $\sigma$ and the mutually exclusive,
+jointly exhaustive tags $\theta_i=\bigwedge_{j<i}(u_j\ne v_j)\wedge
+(u_i=v_i)$ for $i<m$ and $\theta_m=\bigwedge_{j<m}(u_j\ne v_j)$: let
+$D=\{(\bar u,\bar v,\bar x_1,\dots,\bar x_m):\bigvee_i(\theta_i\wedge
+\bar x_i\in D_i)\}$ and let $E$ identify two tuples iff they carry the
+same tag $\theta_i$ and their $i$-th blocks are $E_i$-related; every tag
+is realised and the unused blocks are filled, so $D/E\cong\coprod_i
+D_i/E_i$ in every model, in one step and without using the new sorts.
+All these are definable over the signature of $\widehat T$, so one more
+Morita extension reaches the internal theory of $\PP\cC_T$.
+\end{proof}
+
+\begin{rem}
+The coding of coproduct sorts by a sort with two provably distinct
+elements is not new: McEldowney \cite[Prop.~5.11]{McEl20} uses it to
+show that for such theories Morita equivalence implies
+bi-interpretability in the model-theoretic sense, and Kamsma
+\cite[Fact~8.6]{Kamsma23} reports the fact, as an equivalence, from a
+2018 thesis of E.~Washington and transfers it to positive logic; the
+two statements are compared after Corollary~\ref{cor:meadows}. What is
+added in (iii) is the count: three stages, the coproducts of quotients
+being one quotient.
+\end{rem}
+
+\begin{rem}
+Meadows \cite[Lemma~46, Cor.~47]{Meadows24} proves a normal form of a
+different kind: a chain of \emph{mixed} Morita extensions, which may
+also add relation and function symbols, is a chain of pure extensions
+followed by a single interpretation, the added symbols being postponed
+to the end. Theorem~\ref{thm:length} uses pure extensions only and
+orders the sort constructors; the two normal forms combine.
+\end{rem}
+
+\begin{prop}[binary sorts]\label{prop:binary}
+If product and coproduct sorts are restricted to two factors, as in
+\cite{BH16,Meadows24}, there is no uniform bound: for every $k$ there
+are Morita equivalent theories not connected by any span of Morita
+chains of length $k$ on each side.
+\end{prop}
+\begin{proof}
+Let $T$ be the coherent theory with one sort $\sigma$, two constants
+$c,d$ and the axiom $c=d\vdash\bot$, and let $T'$ be $T$ with a product
+sort $\tau=\sigma^{m}$, $m>2^k$, reached from $T$ by iterated binary
+products; $T$ and $T'$ are Morita equivalent. Suppose chains $T\subseteq
+T^{(k)}$ and $T'\subseteq T'^{(k)}$ of length $k$ end in definitionally
+equivalent theories. Let $M$ be the model of $T$ with $|M_\sigma|=2$ and
+$M^{(k)}$ its expansion to $T^{(k)}$: in a binary step the cardinality of
+a new sort is at most the square of the largest cardinality of an
+existing sort (products $ab\le\max(a,b)^2$, coproducts $a+b\le
+\max(a,b)^2$ for $\max(a,b)\ge2$, subsorts and quotients do not
+increase cardinality), so every sort of $M^{(k)}$ has at most $2^{2^k}$
+elements. Definitionally equivalent theories have the same sorts up to
+renaming and a definitional equivalence does not change the domains, so
+$M^{(k)}$ is a model $M'^{(k)}$ of $T'^{(k)}$ whose reduct $M'$ is a model
+of $T'$; the sort $\sigma$ of $T'$ need not correspond to the sort
+$\sigma$ of $T$, but $|M'_\sigma|\ge2$ by the axiom $c=d\vdash\bot$, so
+the sort $\tau$ of $M'^{(k)}$ has $|M'_\sigma|^{m}\ge2^{m}>2^{2^k}$
+elements, a contradiction.
+\end{proof}
+
+\begin{rem}[McEldowney's example]\label{rem:mcel}
+McEldowney \cite[p.~20]{McEl20} states, without proof, that the empty
+theory in one sort $s$ and its extension $T^\omega$ by binary product
+sorts $s^m$ for all $m$ are bi-interpretable in the model-theoretic
+sense but not Morita equivalent with binary sorts, ``for the simple
+reason that there is no finite sequence of Morita extensions'' from one
+to the other. The cardinality argument proves this with the theory $T$
+of Proposition~\ref{prop:binary} in place of the empty theory: a span
+of length $k$ between $T$ and $T^\omega$ would make the model with
+$|M_\sigma|=2$ a model of $T^\omega$ in which every sort has at most
+$2^{2^k}$ elements and $\sigma^{m}$ has at least $2^m$, for every $m$.
+In the convention of \cite[Def.~2.2]{Tsem17}, where a Morita extension
+may add any set of new sorts, $T^\omega$ is a single Morita extension
+of $T$ and the two theories are Morita equivalent, as they must be,
+having the same pretopos completion. Thus with binary sorts Morita
+equivalence is strictly finer than $V_\PP$ once infinitely many sorts
+are allowed, and the identification of Morita equivalence with $V_\PP$
+(Section~\ref{sec:join}, Theorem~\ref{thm:cc}, \cite[Thm.~4.7]{Tsem17})
+is for the convention of \cite{Tsem17}.
+\end{rem}
+
+\begin{que}\label{que:four}
+Is the bound four in Theorem~\ref{thm:length}(i) attained by a single
+coherent theory, i.e.\ is there a coherent theory whose pretopos
+completion is not reached by any chain of three Morita extensions in
+any order? The candidate is the theory with sorts $\sigma,\tau$, a
+relation $R\subseteq\sigma\times\tau$ and a subobject $A\subseteq R$
+without complement, and the sort $(R+R)/{\sim_A}$ gluing two copies of
+$R$ along $A$; a proof requires an invariant of the sorts obtainable in
+three steps.
+\end{que}
+
+\section{Conceptual completeness: the categorical sameness is the Morita sameness}\label{sec:cc}
+
+Let $\Mod(\cC)$ be the category of coherent functors $\cC\to\Set$ and
+natural transformations; for a Boolean $\cC$ (the Morleyisation of a
+classical theory) the natural transformations are the elementary
+embeddings, the morphisms of models used in \cite{BH16}. $\Mod$ is a
+$2$-functor $\Coh^{op}\to\mathbf{CAT}$, and $V_{\Mod}$ is the class of
+coherent functors $f$ for which $\Mod(f)$ is an equivalence of
+categories. Barrett and Halvorson call two theories \emph{categorically
+equivalent} if their categories of models are equivalent, by any
+equivalence.
+
+\begin{thm}\label{thm:cc}
+$V_{\Mod}=V_\PP$ in $\Same(\Coh)$: an interpretation induces an
+equivalence of the categories of models iff it is a Morita equivalence.
+\end{thm}
+\begin{proof}
+The unit $\cC\to\PP\cC$ induces an equivalence $\Mod(\PP\cC)\to\Mod(\cC)$
+\cite[Rem.~13]{LurieNotes}, so $\Mod(f)$ is an equivalence iff $\Mod(\PP
+f)$ is. If $\Mod(\PP f)$ is an equivalence, then $\PP f$, a morphism of
+pretoposes, is an equivalence by the Makkai--Reyes conceptual
+completeness theorem \cite[Ch.~7]{MR77}, \cite[Cor.~12]{LurieNotes};
+so $f\in V_\PP$. Conversely if $\PP f$ is an equivalence so is $\Mod(\PP
+f)$.
+\end{proof}
+
+\begin{rem}[the gap of \cite{BH16} is invisible to the lattice]\label{rem:bhgap}
+Theorem~5.2 of \cite{BH16} exhibits theories $T_1$ (one sort, countably
+many unary predicates $p_i$, the axiom that the sort is a singleton) and
+$T_2$ (the same with $q_i$, and the axioms $q_0\to q_i$) whose
+categories of models are both discrete with $2^{\aleph_0}$ objects,
+hence equivalent, while $T_1$, $T_2$ are not Morita equivalent. By
+Theorem~\ref{thm:cc} no interpretation $T_1\to T_2$ or $T_2\to T_1$
+induces that equivalence; indeed the interpretation $p_i\mapsto q_i$
+induces the inclusion of the models of $T_2$ into those of $T_1$, which
+is not essentially surjective. Categorical equivalence as an object
+relation is therefore not the equivalence relation induced by any
+sameness on $\Coh$ whose restriction to interpretations is $V_{\Mod}$:
+the relation induced by $V_{\Mod}$ is Morita equivalence. In the terms
+of \cite[Rem.~13]{LurieNotes}, pretoposes are the maximal enlargements
+with the same semantics, and the lattice sees exactly the enlargements.
+\end{rem}
+
+\begin{cor}[definable categorical equivalence]\label{cor:hudetz}
+Let $T_1,T_2$ be classical first-order theories with disjoint
+signatures, and take as morphisms of models the elementary embeddings.
+If $T_1$ and $T_2$ are definably categorically equivalent in the sense
+of \cite[Def.~4]{Hudetz19}, i.e.\ connected by an equivalence of
+categories of models given by reconstruction functors, then they are
+Morita equivalent.
+\end{cor}
+\begin{proof}
+A reconstruction functor $\Mod(T_1)\to\Mod(T_2)$ is given by a
+reconstruction manual \cite[Def.~5--7]{Hudetz19}, which in the
+first-order case is an interpretation $\varphi\colon T_2\to T_1$ (each
+sort of $T_2$ is sent to a definable subset of a product of sorts of
+$T_1$, each symbol to a definable relation, and every model of $T_1$
+yields a model of $T_2$, so $T_1$ proves the translated axioms by
+completeness), and the functor is $\Mod(\varphi)$ restricted to the
+elementary embeddings, which are the natural transformations between
+coherent functors on the Morleyisations. If it is an equivalence of
+categories, Theorem~\ref{thm:cc} gives $\PP\varphi$ an equivalence, so
+the pretopos completions of the Morleyisations are equivalent, and the
+theories are Morita equivalent by \cite[Thm.~5.4]{Tsem17}.
+\end{proof}
+
+Theorem~2 of \cite{Hudetz19} obtains, under the weaker hypothesis that
+only the isomorphisms of models are required to be the
+$\Sigma$-isomorphisms, Morita equivalence ``up to external
+auxiliaries''; the corollary shows that with elementary embeddings as
+morphisms the qualification and the additional definability condition of
+\cite[Thm.~3]{Hudetz19} are unnecessary. The groupoid case is the
+subject of Question~\ref{que:groupoid}.
+
+Meadows \cite{Meadows24} defines a \emph{Morita interpretation} of $S$
+in $T$ as a Morita extension $T^+$ of $T$ together with an
+interpretation $t\colon S\to T^+$, shows that it induces a functor
+$t^\dagger\colon\mathrm{mod}(T)\to\mathrm{mod}(S)$ on the categories
+of models and elementary embeddings, $t^\dagger(M)=t_*(M^+)$ with $M^+$
+the canonical expansion of $M$ to $T^+$ \cite[Def.~39, Thm.~42]{Meadows24},
+and calls $T$ and $S$ \emph{Morita bi-interpretable} if there are
+Morita interpretations in both directions whose induced functors are
+quasi-inverse up to definable natural isomorphisms
+\cite[Def.~43--44]{Meadows24}. Whether Morita bi-interpretability implies
+Morita equivalence is left open in the tables of
+\cite[\S5, \S5.1.1]{Meadows24}, which do not use conceptual completeness.
+
+\begin{cor}[Morita interpretations]\label{cor:meadows}
+Let $T$, $S$ be classical first-order theories, with elementary
+embeddings as morphisms of models. If $T$ Morita interprets $S$ via
+$(T^+,t)$ and the induced functor $t^\dagger\colon\mathrm{mod}(T)\to
+\mathrm{mod}(S)$ is an equivalence of categories, then $T$ and $S$ are
+Morita equivalent. In particular Morita bi-interpretability implies
+Morita equivalence, the natural isomorphisms being allowed to be
+arbitrary; conversely Morita equivalence is $1$-isomorphism in Meadows's
+$2$-category $\mathbf{TH}_{\mathrm{Mor}}$ \cite[Cor.~47]{Meadows24},
+hence $1$-equivalence, so the two notions coincide.
+\end{cor}
+\begin{proof}
+Morleyise: $(T^+)^m$ is a Morita extension of $T^m$
+\cite[proof of Thm.~5.4]{Tsem17}, so $\cC_{T^m}\to\cC_{(T^+)^m}$ induces
+an equivalence of pretopos completions \cite[Cor.~4.9]{Tsem17}; and
+$\mathrm{mod}(T)=\Mod(\cC_{T^m})$, $\mathrm{mod}(T^+)=\Mod(\cC_{(T^+)^m})$,
+natural transformations between coherent functors on a Morleyisation
+being the elementary embeddings. The reduct functor $r\colon
+\mathrm{mod}(T^+)\to\mathrm{mod}(T)$ is $\Mod(j)$ for the inclusion
+$j\colon\cC_{T^m}\to\cC_{(T^+)^m}$, and $\PP j$ is an equivalence, so
+$r$ is an equivalence by Theorem~\ref{thm:cc}. The canonical
+expansion $e\colon M\mapsto M^+$ is a functor with $re=\mathrm{id}$
+\cite[Thm.~42]{Meadows24}, so $e$ is a quasi-inverse of $r$ and an
+equivalence. Now $t^\dagger=\Mod(t^m)\circ e$ with $\Mod(t^m)\colon
+\Mod(\cC_{(T^+)^m})\to\Mod(\cC_{S^m})$; if $t^\dagger$ is an equivalence
+so is $\Mod(t^m)$, and Theorem~\ref{thm:cc} makes $\PP t^m\colon\PP
+\cC_{S^m}\to\PP\cC_{(T^+)^m}\simeq\PP\cC_{T^m}$ an equivalence. Thus
+$S^m$ and $T^m$ are Morita equivalent coherent theories
+\cite[Thm.~4.7]{Tsem17}, and $S$, $T$ are Morita equivalent
+\cite[Thm.~5.4]{Tsem17}. Morita bi-interpretability provides such a
+$t^\dagger$ with a quasi-inverse, definable or not.
+\end{proof}
+
+The same argument does not apply to the next row of Meadows's table,
+\emph{Morita-congruence}, where $s^\dagger t^\dagger(M)\cong M$ is only
+required object by object \cite[Def.~44(3)]{Meadows24}: the functor
+$t^\dagger$ is then essentially surjective and injective on isomorphism
+classes but need not be full or faithful, and conceptual completeness
+needs the morphisms (Remark~\ref{rem:bhgap}, Question~\ref{que:groupoid}).
+The corollary is to be distinguished from the results relating Morita
+equivalence to bi-interpretability in the model-theoretic sense of
+\cite[Def.~5.5]{McEl20}, where each theory interprets the models of the
+other as definable quotient structures and the two composites are
+definably isomorphic to the identity. McEldowney
+\cite[Prop.~5.11]{McEl20} proves, for theories each proving that some
+sort has two distinct elements, that Morita equivalence \emph{implies}
+bi-interpretability, the hypothesis serving to code the coproduct
+sorts; he shows that the converse fails for his binary sorts
+(Remark~\ref{rem:mcel}) and leaves it open for finite signatures.
+Kamsma \cite[Fact~8.6]{Kamsma23} states the two notions to be
+equivalent for positively disjoint theories, Morita equivalence being
+read there, through \cite{Tsem17}, as having the same classifying
+topos, that is as $V_\PP$. Corollary~\ref{cor:meadows} goes in the
+direction opposite to McEldowney's, from Meadows's Morita
+bi-interpretability, whose interpretations are identity-preserving and
+whose quotients and coproducts are supplied by the Morita extensions,
+to Morita equivalence; it needs no two-element hypothesis, and its
+content is Theorem~\ref{thm:cc}, the Makkai--Reyes theorem, applied to
+Meadows's notion.
+
+\section{Conceptual distance as an alternation depth}\label{sec:distance}
+
+\cite{KSLF20} define, for a class $X$ of theories with an equivalence
+relation $E$ (there: definitional equivalence) and a symmetric relation
+$S$ (there: ``differ by one relation symbol'', $T\subseteq T'$
+conservatively with one new symbol), the \emph{step distance} $d(T,T')$
+as the least number of $S$-steps in a path $T=T_0,\dots,T_m=T'$ each
+step of which is an $E$-step or an $S$-step, and $\infty$ if there is no
+path; with these choices it is the \emph{conceptual distance}
+\cite[Def.~4.4--4.5]{KSLF20}.
+
+\begin{prop}\label{prop:distance}
+Let $E$ and $S$ be as above and let $E\vee S$ be the join in the lattice
+of equivalence relations on $X$, the transitive closure of $E\cup S\cup
+S^{-1}$. Then $d(T,T')<\infty$ iff $T\,(E\vee S)\,T'$, and $d(T,T')$ is
+the alternation depth of the pair: the least $k$ such that $T$ and $T'$
+are connected by a chain $E\,S\,E\,S\cdots$ with $k$ letters $S$. In
+particular the step distance is bounded on $X$ iff the join $E\vee S$ is
+reached by a uniformly bounded alternation, and Theorem~4.7 of
+\cite{KSLF20} (every $n\in\mathbb N\cup\{\infty\}$ is a conceptual
+distance) states that for conceptual distance some pairs are not related
+by $E\vee S$, and that on the related pairs the alternation depth is
+finite at each pair but not uniformly bounded.
+\end{prop}
+\begin{proof}
+A path with $k$ letters $S$ is an alternating chain with $k$ $S$-steps
+after merging consecutive $E$-steps ($E$ is transitive) and inserting
+identity $E$-steps; the two descriptions of the join agree.
+\end{proof}
+
+This is the situation of \cite[Thm.~2.3(iii)]{Cutpoints} for two
+closure operators: the join of the two classes is the class of the join
+iff the alternation is finite at every point, and finiteness at every
+point does not give a uniform bound, as in the three-dimensional
+template example there. Conceptual distance is the alternation depth
+for the pair (definitional equivalence, one-symbol extension), and the
+theories of \cite[Thm.~4.7]{KSLF20} with distance $n$ are the analogue
+of the sets at which $n$ rounds are needed.
+
+\section{Duality: which comparison levels are recovered from the models}\label{sec:duality}
+
+Maruyama \cite{Maruyama16} asks when a duality between a syntactic side
+and a semantic side emerges, changes and breaks. The results above give
+an answer for the comparison of theories, in the following form. Say
+that a comparison level $W\in\Same(\Coh)$ is \emph{dualisable through}
+a $2$-functor $M\colon\Coh^{op}\to\mathcal K$ if $W=V_M$, and that the
+duality \emph{holds} at that level if moreover $W=V_R$ for a reflector
+$R$ whose image is recovered from $M$ (the localisation at $W$ is
+reflective and the reflection is determined by the models).
+
+\begin{thm}\label{thm:duality}
+The Morita sameness $V_\PP$ is dualisable through the category of
+models, $V_\PP=V_{\Mod}$ (Theorem~\ref{thm:cc}), and through the
+ultracategory of models, $V_\PP=V_{\Mod_{\mathrm{ult}}}$; in the second
+case the pretopos is recovered as the category of ultrafunctors
+$\Mod(\cC)\to\Set$ (Makkai's strong conceptual completeness
+\cite{Makkai88}, \cite[Cor.~11]{LurieNotes}), so the duality holds.
+\end{thm}
+\begin{proof}
+The first statement is Theorem~\ref{thm:cc}. For the second,
+$\Mod_{\mathrm{ult}}(f)$ is an ultrafunctor, its ultrastructure maps
+being invertible, so if its underlying functor is an equivalence a
+quasi-inverse carries the transported ultrastructure and
+$\Mod_{\mathrm{ult}}(f)$ is an equivalence of ultracategories; thus
+$V_{\Mod_{\mathrm{ult}}}=V_{\Mod}$, and $\PP\cC\simeq\mathrm{Fun}_{\mathrm{ult}}(\Mod(\cC),\Set)$
+is \cite{Makkai88}.
+\end{proof}
+
+The object-level categorical equivalence of \cite{BH16} is the
+situation where the semantic side is kept but the morphisms connecting
+the syntactic objects are forgotten; the duality then ``breaks'' in the
+sense that equivalent model categories no longer come from an
+interpretation. Adding structure on the semantic side (ultraproducts, or
+the topology of Awodey--Forssell \cite{AF13} on groupoids of models)
+restores it.
+
+\begin{que}\label{que:groupoid}
+Let $\Mod_{\mathrm{gpd}}(\cC)$ be the groupoid of models and
+isomorphisms, the core of $\Mod(\cC)$ without the topology of
+\cite{AF13}. Is $V_{\Mod_{\mathrm{gpd}}}=V_\PP$, i.e.\ is a coherent
+functor of pretoposes inducing an equivalence of groupoids of models an
+equivalence? For $\omega$-categorical theories the automorphism group of
+the countable model determines the theory up to bi-interpretability
+(Ahlbrandt--Ziegler \cite{AZ86}); in general the topological groupoid of
+\cite{AF13} is needed to recover the classifying topos, and Makkai's
+\cite{Makkai93} studies which structure on the groupoid of models makes
+definability recoverable. Hudetz's Theorem~2 \cite{Hudetz19} is a
+statement at this level, and Meadows's Morita-congruence
+\cite[Def.~44]{Meadows24}, which constrains only the objects, lies
+below it.
+\end{que}
+
+\section{Open questions}
+
+\begin{enumerate}
+\item The sharpness of the bound four (Section~\ref{sec:length}).
+\item The lattice generated by the five samenesses $V_{\mathrm{prod}}$,
+$V_{\mathrm{sub}}$, $V_\FF$, $V_\EE$ and renaming in $\Same$ of the
+category of theories with signatures (rather than of $\Coh$, where the
+cartesian ones are trivial): which joins are reached in one round, and
+the position of definitional equivalence, bi-interpretability
+\cite{FV25} and the intermediate notions of \cite{Meadows24}, whose
+remaining open arrows (strict bi-interpretability against definitional
+equivalence, iso-congruence against strict bi-interpretability,
+Problems~21 and 23 of \cite{Meadows24}) are questions about this
+lattice.
+\item Translations between logics (double negation, Girard, Baaz) as
+closure operators on theories, after \cite[\S4.10]{Maruyama16}, and their
+joins with the Morita completion.
+\end{enumerate}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{99}
+\bibitem{AZ86} G.~Ahlbrandt, M.~Ziegler, \emph{Quasi finitely axiomatizable
+totally categorical theories}, Ann. Pure Appl. Logic 30 (1986), 63--82.
+\bibitem{AF13} S.~Awodey, H.~Forssell, \emph{First-order logical duality},
+Ann. Pure Appl. Logic 164 (2013), 319--348.
+\bibitem{BH16} T.~W.~Barrett, H.~Halvorson, \emph{Morita equivalence},
+Rev. Symb. Log. 9 (2016), 556--582.
+\bibitem{CV98} A.~Carboni, E.~M.~Vitale, \emph{Regular and exact
+completions}, J. Pure Appl. Algebra 125 (1998), 79--116.
+\bibitem{FV25} H.~Friedman, A.~Visser, \emph{When bi-interpretability
+implies synonymy}, Rev. Symb. Log. 18 (2025).
+\bibitem{HT17} H.~Halvorson, D.~Tsementzis, \emph{Categories of
+scientific theories}, in: E.~Landry (ed.), Categories for the Working
+Philosopher, Oxford University Press, 2017, 402--429.
+\bibitem{Hudetz19} L.~Hudetz, \emph{Definable categorical equivalence},
+Philos. Sci. 86 (2019), 47--75.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{Kamsma23} M.~Kamsma, \emph{Type space functors and
+interpretations in positive logic}, Arch. Math. Logic 62 (2023), 1--28.
+\bibitem{KSLF20} M.~Khaled, G.~Sz\'ekely, K.~Lefever, M.~Friend,
+\emph{Distances between formal theories}, Rev. Symb. Log. 13 (2020),
+633--654.
+\bibitem{LV01} S.~Lack, E.~M.~Vitale, \emph{When do completion processes
+give rise to extensive categories?}, J. Pure Appl. Algebra 159 (2001),
+203--230.
+\bibitem{LurieNotes} J.~Lurie, \emph{Categorical logic (Math 278X)},
+lecture notes, Harvard University, 2018, Lectures 27X--29X.
+\bibitem{Makkai88} M.~Makkai, \emph{Strong conceptual completeness for
+first-order logic}, Ann. Pure Appl. Logic 40 (1988), 167--215.
+\bibitem{Makkai93} M.~Makkai, \emph{Duality and definability in first
+order logic}, Mem. Amer. Math. Soc. 503 (1993).
+\bibitem{MR77} M.~Makkai, G.~E.~Reyes, \emph{First Order Categorical
+Logic}, Lecture Notes in Math. 611, Springer, 1977.
+\bibitem{Maruyama16} Y.~Maruyama, \emph{Meaning and Duality: From
+Categorical Logic to Quantum Physics}, D.Phil. thesis, University of
+Oxford, 2016.
+\bibitem{McEl20} P.~A.~McEldowney, \emph{On Morita equivalence and
+interpretability}, Rev. Symb. Log. 13 (2020), 388--415.
+\bibitem{Meadows24} T.~Meadows, \emph{Beyond linguistic interpretation in
+theory comparison}, Rev. Symb. Log. 17 (2024), no.~3, 819--859.
+\bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
+weak-equivalence structures, Galois functoriality, and comparison intervals},
+preprint (2026), archived at DOI 10.5281/zenodo.22823772.
+\bibitem{Fijoin} R.~Shibusawa, \emph{Joins of localisations in the lattice of
+two-out-of-three classes: the finite-iteration criterion for closure
+operators on exact categories, with applications to toposes, torsion
+theories and fuzzy sets}, preprint (2026), archived at DOI
+10.5281/zenodo.23691896.
+\bibitem{Cutpoints} R.~Shibusawa, \emph{Abstract domains and cut points in
+the lattice of two-out-of-three classes: joins of closure operators on a
+lattice and of cut-point topologies on a control-flow graph}, preprint
+(2026), archived at DOI 10.5281/zenodo.23966743.
+\bibitem{Tsem17} D.~Tsementzis, \emph{A syntactic characterization of
+Morita equivalence}, J. Symbolic Logic 82 (2017), 1181--1198.
+\end{thebibliography}
+
+\end{document}

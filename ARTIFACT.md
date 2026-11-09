@@ -5,9 +5,13 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.38.10` (paper 41 revised: one round in the plane under the arc
+- Current snapshot: release `v1.39.0` (paper 42: comparing theories in the lattice of two-out-of-three
+  classes -- Morita equivalence as a join of the coproduct and quotient completions, the forced order,
+  Morita chains of length four, conceptual completeness as an identity of samenesses --
+  `docs/consolidated/theorycomp.pdf`), archived at DOI (pending).
+- Previous: release `v1.38.10` (paper 41 revised: one round in the plane under the arc
   condition, unboundedly many rounds at bounded sets in space -- `docs/consolidated/cutpoints.pdf`),
-  archived at DOI [10.5281/zenodo.23966743](https://doi.org/10.5281/zenodo.23966743) -- cite this one.
+  archived at DOI [10.5281/zenodo.23966743](https://doi.org/10.5281/zenodo.23966743).
 - Previous: release `v1.38.9` (paper 41 revised: literature placement of the ascending
   alternation against the descending iterated reductions; proof details -- `docs/consolidated/cutpoints.pdf`),
   archived at DOI [10.5281/zenodo.23934718](https://doi.org/10.5281/zenodo.23934718).
