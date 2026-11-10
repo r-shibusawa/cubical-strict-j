@@ -48,25 +48,26 @@
 The Morleyization, which presents a classical first-order theory as a
 coherent one, is the reflector $\BB$ of the $2$-category of coherent
 categories onto the Boolean coherent categories. We read it, as the
-coproduct, quotient and pretopos completions $\FF$, $\EE$, $\PP$ were
-read before, as the class $V_\BB$ of interpretations it inverts in the
-lattice of two-out-of-three classes: two coherent theories are
-$V_\BB$-equivalent when their Morleyizations are definitionally
-equivalent. Three results follow the pattern of the Morita case. The
-join $V_\BB\vee V_\PP$ of the classical and the Morita samenesses is
-the class inverted by the Boolean pretopos completion $\PP\BB$,
-Shelah's $T^{\mathrm{eq}}$ of the Morleyization, and is reached by one
+completions $\FF$, $\EE$, $\PP$ were read before, as the class $V_\BB$
+of interpretations it inverts in the lattice of two-out-of-three
+classes: two coherent theories are $V_\BB$-equivalent when their
+Morleyizations are definitionally equivalent. The join $V_\BB\vee
+V_\PP$ of the classical and the Morita samenesses is the class
+inverted by the Boolean pretopos completion $\PP\BB$, Shelah's
+$T^{\mathrm{eq}}$ of the Morleyization, and is reached by one
 alternation, translation first. By the Makkai--Reyes conceptual
 completeness theorem this join is exactly the class of interpretations
 inducing an equivalence of the categories of models with elementary
 embeddings, whereas homomorphisms detect the Morita class alone. The
-order of the alternation is forced: completing first and Morleyizing
-second does not reach the join in general. The separating example is
-the coherent theory of complete multipartite graphs, where the set of
+order is forced: completing first and Morleyizing second fails for the
+coherent theory of complete multipartite graphs, where the set of
 parts, a classical imaginary, is not a classical subobject of any
-coherent imaginary; the obstruction is compactness, each number of
-parts being handled by a coherent quotient of its own. For
-propositional and for classical theories the two orders agree.
+coherent imaginary, by compactness. The two orders agree iff, in the
+saturated models of the completions, every classical imaginary has the
+automorphism stabiliser of a coherent imaginary, Poizat's criterion
+relative to the coherent imaginaries; weak elimination of imaginaries
+for the Morleyization suffices, and a criterion in terms of coherent
+types gives the failures.
 \end{abstract}
 
 \maketitle
@@ -129,13 +130,23 @@ automorphisms of the complete $k$-partite graphs, as the sharpness proof
 of \cite[Thm.~5.6]{TheoryComp} counted points at finitely presented
 models; the obstruction is compactness, since for each $k$ the parts of
 the $k$-partite models are a coherent quotient, with $k-1$ witnesses.
+\item[(D)] The commutation $\BB\PP\cC_T\simeq\PP\BB\cC_T$ is
+characterised (Theorem~\ref{thm:galois}): it holds iff in the saturated
+models of the completions of $T^m$ every classical imaginary has the
+automorphism stabiliser of a coherent imaginary of $T$, which is
+Poizat's Galois criterion for elimination of imaginaries \cite{Poizat83}
+relativised to the coherent imaginaries. Hence weak elimination of
+imaginaries for $T^m$ implies commutation (Corollary~\ref{cor:wei}),
+and a criterion in terms of coherent types (Proposition~\ref{prop:ctp})
+gives the failures without saturation; it reproves (C) in one infinite
+model.
 \end{enumerate}
 What is known: the Morleyization and its universal property
 \cite[D1.5.13]{Elephant}, the pretopos completion as $T^{\mathrm{eq}}$
-\cite{Harnik11}, conceptual completeness \cite{MR77}, the lattice and
-the join lemma \cite{Same,TheoryComp}. What is new is the reading of a
-translation as a sameness, the three statements (A)--(C), and the
-multipartite example. The last section lists the next translations to be
+\cite{Harnik11}, conceptual completeness \cite{MR77}, Poizat's criterion
+\cite{Poizat83}, the lattice and the join lemma \cite{Same,TheoryComp}.
+What is new is the reading of a translation as a sameness, the
+statements (A)--(D), and the multipartite example. The last section lists the next translations to be
 read in the same way.
 
 \section{The lattice, the completions and the join lemma}\label{sec:prelim}
@@ -559,7 +570,194 @@ a quotient among the classical subobjects of coherent imaginaries.
 Theorem~\ref{thm:order} is a failure of this relative elimination, by a
 compactness argument; Proposition~\ref{prop:positive} is its success for
 propositional theories, where imaginaries are coproducts of
-subterminals.
+subterminals. The next section characterises the relative elimination.
+\end{rem}
+
+\section{A Galois characterisation of the commutation}\label{sec:galois}
+
+A \emph{coherent imaginary} of $T$ is an object $Y=(\coprod_i D_i)/F$ of
+$\PP\cC_T$, and a \emph{classical imaginary} is an object $X/E$ of
+$\PP\BB\cC_T$, $X$ a classical definable set and $E$ a classical
+equivalence relation. Call $X/E$ \emph{coherently representable} if it
+is isomorphic in $\PP\BB\cC_T$ to a classical subobject of a coherent
+imaginary, i.e.\ to an object of $\BB\PP\cC_T$. Representable objects
+are closed under classical subobjects, and every classical imaginary is
+a classical subobject of one with $X\in\FF\cC_T$: a classical definable
+set $X$ is a subobject of a finite coproduct $P$ of products of sorts,
+$E\cup\Delta_P$ is a classical equivalence relation on $P$, and $X/E$ is
+the image of $X$ in $P/(E\cup\Delta_P)$; an equivalence relation on a
+quotient of $P$ pulls back to one on $P$ with the same quotient. So
+$\BB\PP\cC_T\simeq\PP\BB\cC_T$ iff every $X/E$ with $X\in\FF\cC_T$ is
+coherently representable (Lemma~\ref{lem:full}). For a model $M$ and a
+point $c$ of an imaginary at $M$, $\mathrm{Aut}(M)_c$ is its stabiliser.
+
+\begin{thm}[Galois criterion]\label{thm:galois}
+For a coherent theory $T$ and a classical imaginary $X/E$ the following
+are equivalent.
+\begin{enumerate}
+\item[(i)] $X/E$ is coherently representable.
+\item[(ii)] For every model $M$ of $T$ and every $c\in(X/E)(M)$ there
+are a coherent imaginary $Y$ of $T$ and $y\in Y(M)$ with $\mathrm{Aut}(M)_c
+=\mathrm{Aut}(M)_y$.
+\item[(iii)] The same for the $\kappa$-saturated, strongly
+$\kappa$-homogeneous models of the completions of $T^m$, for some
+cardinal $\kappa$ greater than the cardinality of the language of $T^m$
+(which is that of the language of $T$ plus $\aleph_0$); such models
+exist for every $\kappa$.
+\end{enumerate}
+Hence $\BB\PP\cC_T\simeq\PP\BB\cC_T$ iff every classical imaginary
+satisfies (ii), iff every classical imaginary satisfies (iii).
+\end{thm}
+\begin{proof}
+(i)$\Rightarrow$(ii): an isomorphism $X/E\cong S\subseteq Y$ gives
+bijections $(X/E)(M)\cong S(M)\subseteq Y(M)$ natural in elementary
+embeddings, in particular $\mathrm{Aut}(M)$-equivariant, so $c$
+corresponds to a point $y$ with the same stabiliser.
+(ii)$\Rightarrow$(iii) is trivial.
+(iii)$\Rightarrow$(i): fix a completion $T'$ of $T^m$ and a model
+$\mathfrak M$ as in (iii); we work in $\mathfrak M^{\mathrm{eq}}$, which
+contains the imaginaries of $\PP\BB\cC_T$. Let $c=[a]_E$ and $y\in Y(\mathfrak
+M)$ have the same stabiliser. By strong homogeneity each of $c$, $y$ is
+in the definable closure of the other over $\emptyset$, by the
+standard fact that in a $\kappa$-saturated strongly $\kappa$-homogeneous
+model the definable closure of a set $A$ of fewer than $\kappa$
+imaginaries is the set of imaginaries fixed by every automorphism over
+$A$ \cite[Ch.~16]{Poizat00}: if $y\notin\mathrm{dcl}^{\mathrm{eq}}(c)$
+then $\mathrm{tp}(y/c)$ has a second realisation by saturation, and an
+automorphism over $c$ moves $y$ to it by homogeneity. So there are
+$\emptyset$-definable partial maps
+$f\colon X/E\rightharpoonup Y$, $g\colon Y\rightharpoonup X/E$ with
+$f(c)=y$, $g(y)=c$. The set $U:=\{x\in X: f([x]_E)\text{ is defined and }
+gf([x]_E)=[x]_E\}$ is $\emptyset$-definable, $E$-saturated, contains
+the class $c$, and $f$ is injective on $U/E$. The sets $U$ so obtained,
+one for each class $c$, cover $X(\mathfrak M)$, and finitely many of
+them cover $X$: otherwise the partial type $\{x\in X\}\cup\{x\notin U:
+U\text{ as above}\}$, which has fewer than $\kappa$ formulas, $\kappa$
+exceeding the cardinality of the language, is finitely satisfiable,
+hence realised in $\mathfrak M$ by some $a'$ (the formulas are over
+$\emptyset$ and fewer than $\kappa$, since $\kappa$ exceeds the size of
+the language), which lies in the set $U$ attached to its own class. Let $U_1,\dots,U_N$ cover $X$, with maps
+$f_j$ into coherent imaginaries $Y_j$ of $T$. Then $\theta\colon
+x\mapsto f_j([x]_E)$ for $x\in U_j\setminus\bigcup_{i<j}U_i$ is a
+definable map $X\to\coprod_jY_j$, total since the $U_j$ cover $X$, and
+with kernel $E$: $\theta(x)=\theta(x')$ forces the same $j$ and
+$f_j([x]_E)=f_j([x']_E)$, hence $[x]_E=[x']_E$ by injectivity. So $X/E$
+is isomorphic to the image $S$ of $\theta$, a classical subobject of
+the coherent imaginary $\coprod_jY_j$. The statement ``$\theta$ is
+total with kernel $E$'' is a sentence $\varphi_{T'}$ of $T^m$ true in
+$T'$. Every completion of $T^m$ contains one of these sentences, so by
+compactness $T^m\vdash\varphi_1\vee\dots\vee\varphi_K$ for finitely many
+of them, with maps $\theta_k$ and images $S_k$; then $X\to\coprod_k
+[\varphi_k\wedge\neg\varphi_1\wedge\dots\wedge\neg\varphi_{k-1}]\times
+S_k$, $x\mapsto\theta_k(x)$ in the $k$-th summand for the first $k$ with
+$\varphi_k$ true, is total with kernel $E$ in every model of $T^m$, so
+$X/E$ is isomorphic to its image, a classical subobject of a coherent
+imaginary. The last sentence is Lemma~\ref{lem:full} and the
+reduction to $X\in\FF\cC_T$ above.
+\end{proof}
+
+Theorem~\ref{thm:galois} is Poizat's criterion \cite{Poizat83}, that a
+theory eliminates imaginaries iff in a saturated model every imaginary
+has the stabiliser of a real tuple, with real tuples replaced by points
+of coherent imaginaries; imaginaries defined by positive existential
+formulas are related to coherent functors in \cite{RP06}. The next proposition turns it into a test
+that needs no saturation. The \emph{coherent type} $\mathrm{ctp}(\bar a)$
+of a tuple in $M$ is the set of coherent formulas it satisfies.
+
+\begin{prop}[coherent-type criterion]\label{prop:ctp}
+Let $M$ be a model of $T$, $X/E$ a classical imaginary and
+$c\in(X/E)(M)$. Suppose that for every finite tuple $\bar d$ of elements
+of $M$ there are $g\in\mathrm{Aut}(M)_c$ and $\varepsilon\in\mathrm{Aut}(M)
+\setminus\mathrm{Aut}(M)_c$ with
+$\mathrm{ctp}(\bar d,g\bar d)\subseteq\mathrm{ctp}(\bar d,\varepsilon\bar
+d)$. Then $X/E$ is not coherently representable, and $\BB\PP\cC_T
+\not\simeq\PP\BB\cC_T$.
+\end{prop}
+\begin{proof}
+Otherwise, by Theorem~\ref{thm:galois}(ii), $c$ has the stabiliser of a
+point $y=[\bar d]_F$ of a coherent imaginary $(\coprod D_i)/F$, with
+$\bar d\in D_i(M)$. As $g$ fixes $c$ it fixes $y$, so $F_{ii}(\bar d,
+g\bar d)$ holds, and $F_{ii}\in\mathrm{ctp}(\bar d,g\bar d)\subseteq
+\mathrm{ctp}(\bar d,\varepsilon\bar d)$; thus $F_{ii}(\bar d,\varepsilon
+\bar d)$, $\varepsilon$ fixes $y$ and hence $c$, a contradiction.
+\end{proof}
+
+The inclusion of coherent types is verified by local homomorphisms:
+$\mathrm{ctp}(\bar d,\bar b)\subseteq\mathrm{ctp}(\bar d,\bar b')$ as
+soon as for every finite set $W\supseteq\bar d\bar b$ of elements of $M$
+there is a map $h\colon W\to M$ which preserves the positive atoms true
+in $W$ and has $h|_{\bar d}=\mathrm{id}$, $h(\bar b)=\bar b'$, since the
+witnesses of a coherent formula lie in such a $W$.
+
+\begin{ex}[Theorem~\ref{thm:order} in one model]\label{ex:minfty}
+Let $M_\infty$ be the complete multipartite graph with infinitely many
+infinite parts and $c$ a part $P_0$. For a tuple $\bar d$ meeting the
+parts $\mathcal T$: if $P_0\notin\mathcal T$ take $g=\mathrm{id}$ and
+$\varepsilon=(P_0\,Q)$ with $Q\notin\mathcal T$, so that
+$\varepsilon\bar d=\bar d$; if $P_0\in\mathcal T$ take $g$ moving each
+coordinate to a fresh vertex of its part and $\varepsilon=(P_0\,Q)$,
+$Q\notin\mathcal T$, and the local homomorphism $h$ fixing $\bar d$,
+sending $g d_t$ to $\varepsilon d_t$ and the other elements of $W$ to
+distinct fresh parts, which preserves equalities and the positive atoms
+$R(u,v)$ exactly as in the proof of Theorem~\ref{thm:order}, now with no
+bound on the number of parts. Proposition~\ref{prop:ctp} gives
+$\Pi\notin\BB\PP\cC_T$. The finite models $M_k$ of
+Theorem~\ref{thm:order} show in addition that the obstruction is
+visible in finite models, with $k$ depending on the size of the
+candidate.
+\end{ex}
+
+\begin{cor}[weak elimination of imaginaries]\label{cor:wei}
+If every completion of the Morleyization $T^m$ has weak elimination of
+imaginaries, i.e.\ for every imaginary $c$ in a saturated model there is
+a real tuple
+$\bar a$ with $c\in\mathrm{dcl}^{\mathrm{eq}}(\bar a)$ and $\bar a\in
+\mathrm{acl}^{\mathrm{eq}}(c)$, then $\BB\PP\cC_T\simeq\PP\BB\cC_T$. This
+covers the theories whose Morleyization eliminates imaginaries, and the
+theories of infinite sets, of dense linear orders and of the random
+graph \cite{CF04}.
+\end{cor}
+\begin{proof}
+Let $A$ be the orbit of $\bar a$ under $\mathrm{Aut}(\mathfrak M)_c$, a
+finite set of $n$ tuples in a product of sorts $P$, as $\bar a\in
+\mathrm{acl}^{\mathrm{eq}}(c)$. An automorphism fixing $c$ permutes
+$A$; one fixing $A$ setwise sends $\bar a$ to some $h\bar a$ with $h$
+fixing $c$, hence fixes $c=f(\bar a)$, $f$ the $\emptyset$-definable
+function with $f(\bar a)=c$. So $\mathrm{Aut}(\mathfrak M)_c=
+\mathrm{Aut}(\mathfrak M)_A$. The finite set $A$ is a point of the
+classical subobject ``pairwise distinct'' of the coherent imaginary
+$P^n/S_n$, the quotient by the coherent equivalence relation
+$\bigvee_{\pi\in S_n}\bar y=\pi\bar x$. Apply Theorem~\ref{thm:galois}.
+\end{proof}
+
+\begin{ex}[a non-Boolean case]\label{ex:equality}
+The complete theories named in Corollary~\ref{cor:wei} have Boolean
+syntactic categories, for which the commutation is already
+Proposition~\ref{prop:positive}; the corollary has content for
+coherent theories that are not Boolean. Let $T_=$ be the empty coherent
+theory on one sort. $\cC_{T_=}$ is not Boolean: $x\ne y$ is not
+equivalent to a coherent formula, coherent formulas being preserved by
+the homomorphism collapsing a two-element model to a point. The
+completions of $T_=^m$ are the theory of infinite sets, which has weak
+elimination of imaginaries \cite{CF04}, and the theories of the sets
+with $n$ elements, which have it as every finite structure does: for
+$\bar a$ an enumeration of the structure, $\bar a\in
+\mathrm{acl}^{\mathrm{eq}}(c)$ since the structure is finite, and
+$c\in\mathrm{dcl}^{\mathrm{eq}}(\bar a)$ since only the identity fixes
+$\bar a$. Hence $\BB\PP\cC_{T_=}\simeq\PP\BB\cC_{T_=}$: every classical
+imaginary of pure equality is a classical subobject of a coherent one,
+although the two categories $\cC_{T_=}$ and $\BB\cC_{T_=}$ differ.
+\end{ex}
+
+\begin{rem}
+The sign of the negation decides the two basic cases. In the coherent
+theory of an equivalence relation $E$ the classes are the points of the
+coherent imaginary $\sigma/E$. In the theory of complete multipartite
+graphs the classes of the classical equivalence relation $\neg R$ are
+not coherently representable (Example~\ref{ex:minfty}), although $\neg
+R$ is a Boolean combination of coherent formulas: the relative
+elimination of imaginaries is not decided by the definability of the
+equivalence relation but by the stabilisers of its classes.
 \end{rem}
 
 \section{Further translations}\label{sec:outlook}
@@ -598,6 +796,8 @@ The author has no competing interests to declare.
 Rev. Symb. Log. 9 (2016), 556--582.
 \bibitem{CV98} A.~Carboni, E.~M.~Vitale, \emph{Regular and exact
 completions}, J. Pure Appl. Algebra 125 (1998), 79--116.
+\bibitem{CF04} E.~Casanovas, R.~Farr\'e, \emph{Weak forms of elimination
+of imaginaries}, Math. Logic Quart. 50 (2004), 126--140.
 \bibitem{Harnik11} V.~Harnik, \emph{Model theory vs. categorical logic:
 two approaches to pretopos completion (a.k.a. $T^{\mathrm{eq}}$)}, in:
 Models, Logics, and Higher-Dimensional Categories, CRM Proc. Lecture
@@ -611,9 +811,15 @@ give rise to extensive categories?}, J. Pure Appl. Algebra 159 (2001),
 203--230.
 \bibitem{MR77} M.~Makkai, G.~E.~Reyes, \emph{First Order Categorical
 Logic}, Lecture Notes in Math. 611, Springer, 1977.
+\bibitem{Poizat83} B.~Poizat, \emph{Une th\'eorie de Galois imaginaire},
+J. Symbolic Logic 48 (1983), 1151--1170.
+\bibitem{Poizat00} B.~Poizat, \emph{A Course in Model Theory},
+Universitext, Springer, 2000.
 \bibitem{Maruyama16} Y.~Maruyama, \emph{Meaning and Duality: From
 Categorical Logic to Quantum Physics}, D.Phil. thesis, University of
 Oxford, 2016.
+\bibitem{RP06} R.~Rajani, M.~Prest, \emph{Model-theoretic imaginaries
+and coherent sheaves}, MIMS preprint, University of Manchester, 2006.
 \bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
 weak-equivalence structures, Galois functoriality, and comparison intervals},
 preprint (2026), archived at DOI 10.5281/zenodo.22823772.
