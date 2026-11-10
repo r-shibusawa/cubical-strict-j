@@ -146,6 +146,11 @@ model.
 \item[(E)] For the coherent theories without axioms over a relational
 signature the two orders agree iff the signature is monadic
 (Theorem~\ref{thm:free}).
+\item[(F)] The orders agree for the coherent theory of an equivalence
+relation (Theorem~\ref{thm:eqrel}), which has the same Morleyization as
+the theory of complete multipartite graphs: the commutation is a
+property of the coherent presentation and not of the classical theory
+(Corollary~\ref{cor:notclassical}).
 \end{enumerate}
 What is known: the Morleyization and its universal property
 \cite[D1.5.13]{Elephant}, also for invertible $2$-cells
@@ -165,7 +170,7 @@ translation as a sameness and the join (A) in the lattice, the
 non-commutation (C) with the multipartite example, the relative form of
 the criterion with the coherent-type test of (D), and the dichotomy
 (E), of which the failure for every symbol of arity at least two is the
-new half. The last section lists the next translations to be
+new half, and (F). The last section lists the next translations to be
 read in the same way.
 
 \section{The lattice, the completions and the join lemma}\label{sec:prelim}
@@ -340,8 +345,8 @@ initial coherent category, the empty theory on no sorts, and $\mathbf
 \begin{thm}[the join, translation first]\label{thm:join}
 In $\Same(\Coh)$, $V_{\PP\BB}=V_\BB\vee V_\PP$: the class of
 interpretations inverted by the Boolean pretopos completion is the join
-of the classical and the Morita samenesses, and every $f\colon\cC\to\cD$
-in it is a zig-zag
+of the classical and the Morita samenesses, and for every $f\colon\cC\to\cD$
+in it the two theories are connected by the zig-zag
 \[
 \cC\to\BB\cC\to\PP\BB\cC\xrightarrow{\ \simeq\ }\PP\BB\cD\leftarrow\BB\cD
 \leftarrow\cD.
@@ -905,11 +910,107 @@ translation with the Morita completion is not a Boolean phenomenon, and
 for free theories its failure has a single cause, a relation symbol of arity
 at least two, whose classes of ``same neighbourhood'' are classical imaginaries
 which no coherent quotient sees. For theories with axioms
-Theorem~\ref{thm:galois} gives the criterion, and its application to
-classes of such theories is not treated here; the coherent theory of an
-equivalence relation, whose classes are coherent imaginaries, is the
-first case.
+Theorem~\ref{thm:galois} gives the criterion; the next section applies
+it to the coherent theory of an equivalence relation.
 \end{rem}
+
+\section{An equivalence relation: commutation is not a classical invariant}\label{sec:eq}
+
+\begin{cor}[relative weak elimination]\label{cor:rwei}
+Suppose that in the saturated strongly homogeneous models of the
+completions of $T^m$, as in Theorem~\ref{thm:galois}(iii), every ordinary
+classical imaginary $c$ has a finite tuple $\bar b$ of points of
+coherent imaginaries of $T$ with $c\in\mathrm{dcl}^{\mathrm{eq}}(\bar b)$
+and $\bar b\in\mathrm{acl}^{\mathrm{eq}}(c)$. Then
+$\BB\PP\cC_T\simeq\PP\BB\cC_T$.
+\end{cor}
+\begin{proof}
+The proof of Corollary~\ref{cor:wei} with $P$ a product of coherent
+imaginaries, an object of $\PP\cC_T$: the orbit of $\bar b$ under the
+stabiliser of $c$ is a point of a classical subobject of $P^n/S_n$,
+again a coherent imaginary, with the stabiliser of $c$.
+\end{proof}
+
+\begin{thm}\label{thm:eqrel}
+Let $T_E$ be the coherent theory of an equivalence relation $E$ on one
+sort $\sigma$. Then $\BB\PP\cC_{T_E}\simeq\PP\BB\cC_{T_E}$.
+\end{thm}
+\begin{proof}
+Let $M$ be a saturated model of a completion, of cardinality $\kappa$,
+$Q=\sigma/E$ the coherent imaginary of classes, and $I_k$ the set of
+classes with $k$ elements, $1\le k\le\infty$; each $I_k$ is finite or of
+cardinality $\kappa$, and the infinite classes have $\kappa$ elements.
+Every bijection of $\sigma$ preserving $E$ is an automorphism, so
+$\mathrm{Aut}(M)=\prod_kG_k$ with $G_k$ the group of such bijections of
+the union of the classes of size $k$. Fix an imaginary $c$, a
+representative $\bar a$ of it, and the finite set $J$ of the sizes of
+the classes of the coordinates of $\bar a$; the factors $G_k$,
+$k\notin J$, fix $\bar a$, hence $c$. (Infinitely many of the sets
+$I_k$ may be finite and nonempty, which is why the argument is
+restricted to $J$.) Let $A_0$ consist of the classes in the finite sets
+$I_j$, $j\in J$, and of the elements of the finite classes among them;
+it is finite. Call a finite set $B\subseteq\sigma\sqcup Q$ of elements
+and classes of sizes in $J$ \emph{closed} if $A_0\subseteq B$, the class
+of every element of $B$ is in $B$, and every finite class in $B$ has all
+its elements in $B$; closed sets are stable under intersection and
+under automorphisms. A closed $B$ is a \emph{support} of $c$ if every
+automorphism fixing $B$ pointwise fixes $c$; the closure of $A_0$ and
+the coordinates of $\bar a$ is one.
+
+We claim that for closed $B_1,B_2$ the pointwise stabilisers
+$\mathrm{Fix}(B_1)$, $\mathrm{Fix}(B_2)$ generate $\mathrm{Fix}(B)$,
+$B=B_1\cap B_2$. Let $H$ be the generated group; it contains the
+factors $G_k$, $k\notin J$, which fix $B_1$, so it suffices to show
+that $H$ contains every $g\in\mathrm{Fix}(B)$ which is the identity
+outside the classes of sizes in $J$. For
+$k\in\mathrm{Fix}(B_2)$, $\mathrm{Fix}(kB_1)\subseteq H$ and $kB_1=B\cup
+D$ with $D=k(B_1\setminus B)$. The points of $B_1\setminus B$ are of two
+kinds: classes outside $B_2$, which belong to infinite sets $I_j$ since
+$A_0\subseteq B$, with their elements listed in $B_1$, and $k$ may send
+them to any classes of the same size outside $B_2$; and elements whose
+class is in $B_2$, hence in $B$, the class being infinite since finite
+classes of $B_2$ lie in $B_2$, and $k$ may send them to any elements of
+that class outside $B_2$. Let $g$ be as above. Choose such a $D$,
+and then such a $D'$ disjoint from $D\cup g(D)$ whose classes outside
+$B$ are different from the classes of the points of $D\cup g(D)$. The
+map sending $g(d)$ to $d$ for $d\in D$ and fixing $B\cup D'$ respects
+$E$ and the sizes of classes, as $g$ is an automorphism fixing $B$ and
+finite classes occur in $D$ with all their elements; it extends to an
+automorphism $p$, infinitely many classes of each size concerned and
+infinitely many elements of each class concerned being left. Then
+$pg\in\mathrm{Fix}(B\cup D)\subseteq H$ and $p\in\mathrm{Fix}(B\cup D')
+\subseteq H$, so $g\in H$.
+
+Hence the intersection of two supports is a support and $c$ has a least
+support $B$; an automorphism fixing $c$ maps $B$ to a support, hence
+onto $B$. So an enumeration $\bar b$ of $B$, a tuple of points of
+$\sigma$ and $Q$, has a finite orbit under the stabiliser of $c$, and
+$c$ is fixed by the automorphisms fixing $\bar b$. By
+Corollary~\ref{cor:rwei} the orders agree.
+\end{proof}
+
+\begin{cor}\label{cor:notclassical}
+The commutation of the Morleyization with the pretopos completion is
+not invariant under the classical sameness: the theory $T_E$ of an
+equivalence relation and the theory $T$ of complete multipartite graphs
+of Theorem~\ref{thm:order} have equivalent Morleyizations, by
+$R\leftrightarrow\neg E$, so that $\cC_{T_E}$ and $\cC_T$ are
+$V_\BB$-equivalent, and the two orders agree for the first and not for
+the second.
+\end{cor}
+\begin{proof}
+Under $R:=\neg E$, $E:=\neg R$ the axioms of each theory become
+theorems of the Morleyization of the other, so $\BB\cC_{T_E}\simeq\BB
+\cC_T$, and both receive the units from $\cC_{T_E}$ and $\cC_T$, which
+lie in $V_\BB$. The rest is Theorems~\ref{thm:eqrel} and~\ref{thm:order}.
+\end{proof}
+
+The classical theory is the same and so is the classical imaginary, the
+set of classes; it is a coherent imaginary when the relation named by
+the signature is the equivalence, and not coherently representable when
+it is its complement. What the coherent presentation adds to the
+classical theory is the choice of which definable relations are
+positive, and the commutation depends on this choice.
 
 \section{Further translations}\label{sec:outlook}
 
@@ -949,7 +1050,7 @@ The author has no competing interests to declare.
 Rev. Symb. Log. 9 (2016), 556--582.
 \bibitem{CDHJR} G.~Conant, C.~d'Elb\'ee, Y.~Halevi, L.~Jimenez,
 S.~Rideau-Kikuchi, \emph{Enriching a predicate and tame expansions of
-the integers}, preprint, 2023.
+the integers}, J. Math. Log. 25 (2025), no.~1, 2450011.
 \bibitem{CV98} A.~Carboni, E.~M.~Vitale, \emph{Regular and exact
 completions}, J. Pure Appl. Algebra 125 (1998), 79--116.
 \bibitem{CF04} E.~Casanovas, R.~Farr\'e, \emph{Weak forms of elimination
