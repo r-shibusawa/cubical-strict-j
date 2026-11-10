@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.39.1` (paper 42 revised: the bound four on Morita chains is sharp --
-  `docs/consolidated/theorycomp.pdf`), archived at DOI (pending) -- cite this one.
+  `docs/consolidated/theorycomp.pdf`), archived at DOI [10.5281/zenodo.24095158](https://doi.org/10.5281/zenodo.24095158) -- cite this one.
 - Previous: release `v1.39.0` (paper 42: comparing theories in the lattice of two-out-of-three
   classes -- Morita equivalence as a join of the coproduct and quotient completions, the forced order,
   Morita chains of length four, conceptual completeness as an identity of samenesses --
