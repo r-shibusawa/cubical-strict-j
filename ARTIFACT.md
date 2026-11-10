@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.40.2` (paper 43 revised: dichotomy for theories without axioms -- the orders
-  agree iff the signature is monadic -- `docs/consolidated/morley.pdf`), archived at DOI (pending) -- cite this one.
+  agree iff the signature is monadic -- `docs/consolidated/morley.pdf`), archived at DOI [10.5281/zenodo.24109475](https://doi.org/10.5281/zenodo.24109475) -- cite this one.
 - Previous: release `v1.40.1` (paper 43 revised: Galois characterisation of the commutation of
   Morleyization and pretopos completion -- `docs/consolidated/morley.pdf`), archived at DOI [10.5281/zenodo.24100393](https://doi.org/10.5281/zenodo.24100393).
 - Previous: release `v1.40.0` (paper 43: Morleyization as a sameness of theories -- its join with
