@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.40.1` (paper 43 revised: Galois characterisation of the commutation of
-  Morleyization and pretopos completion -- `docs/consolidated/morley.pdf`), archived at DOI (pending) -- cite this one.
+  Morleyization and pretopos completion -- `docs/consolidated/morley.pdf`), archived at DOI [10.5281/zenodo.24100393](https://doi.org/10.5281/zenodo.24100393) -- cite this one.
 - Previous: release `v1.40.0` (paper 43: Morleyization as a sameness of theories -- its join with
   Morita equivalence reached translation first, elementary embeddings detect the join, the order forced by
   complete multipartite graphs -- `docs/consolidated/morley.pdf`), archived at DOI [10.5281/zenodo.24095556](https://doi.org/10.5281/zenodo.24095556).
