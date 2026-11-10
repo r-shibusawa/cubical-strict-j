@@ -41,23 +41,22 @@
 \subjclass[2020]{03G30 (primary), 18F10, 03C07, 18B25 (secondary)}
 
 \begin{abstract}
-Theories are compared through a hierarchy of equivalence relations:
-definitional equivalence, Morita equivalence (Barrett--Halvorson) and
-categorical equivalence (equivalent categories of models). We read
-them as classes of interpretations in the lattice of two-out-of-three
-classes of the $2$-category of coherent categories, a completion
-defining the class of interpretations it inverts. Morita equivalence is
+Definitional equivalence, Morita equivalence (Barrett--Halvorson) and
+categorical equivalence of theories are read as classes of
+interpretations in the lattice of two-out-of-three classes of the
+$2$-category of coherent categories, each completion defining the class
+of interpretations it inverts. Morita equivalence is
 the class inverted by the pretopos completion, the join of the classes
 inverted by the coproduct completion and by the quotient completion,
 reached by one alternation with coproducts first; the order is forced,
-the coherent propositional theory with one atom separating the two
-orders, and immaterial for classical theories. Hence every Morita
+separated by the propositional theory with one atom, and immaterial for
+classical theories. Hence every Morita
 equivalence of coherent theories is witnessed by spans of at most four
 extensions on each side, three for classical theories with a sort of at
-least two elements. By the Makkai--Reyes conceptual completeness
-theorem an interpretation inducing an equivalence of model categories
-is a Morita equivalence: at the level of interpretations the
-categorical and the Morita classes coincide; hence Hudetz's definable
+least two elements, and four are needed, by a free theory with two
+relations $A\subseteq R$ between two sorts. By the Makkai--Reyes
+conceptual completeness theorem the categorical and the Morita classes
+coincide at the level of interpretations; hence Hudetz's definable
 categorical equivalence implies Morita equivalence when the morphisms
 of models are the elementary embeddings, and Morita bi-interpretability
 in the sense of Meadows implies Morita equivalence, reversing an arrow
@@ -123,7 +122,13 @@ witnessed by spans of at most four extensions on each side, in the order
 products, subsorts, coproducts, quotients, and at most three for
 classical theories having a sort with at least two elements, by the
 coding of coproduct sorts of \cite[Prop.~5.11]{McEl20}; products must
-precede subsorts and coproducts must precede quotients. The count takes
+precede subsorts and coproducts must precede quotients. The bound is
+sharp (Theorem~\ref{thm:sharp}): in the free theory with relations
+$A\subseteq R\subseteq\sigma\times\tau$ the sort $(R+R)/{\sim_A}$ is not
+reached by any three Morita extensions, whatever sorts they add, so that
+the theory and the internal theory of its pretopos completion are
+connected by no span of chains with three steps on the side of the
+theory. The count takes
 product and coproduct sorts of any finite arity in one step, as in
 \cite{Tsem17}; with the binary sorts of \cite{BH16} no uniform bound
 exists (Proposition~\ref{prop:binary}).
@@ -351,12 +356,13 @@ $(x)$ with kernel pair $(x,x,x,x)$.
 \begin{thm}[Boolean case]\label{thm:boolean}
 If $\cC$ is a Boolean coherent category (every subobject has a
 complement), then $\FF\EE\cC=\EE\FF\cC=\PP\cC$: every quotient of a finite
-coproduct of representables by an equivalence relation is a finite
+coproduct of representables by an equivalence relation of $\FF\cC$, i.e.\
+by a coherent equivalence relation in $\Sh(\cC)$, is a finite
 coproduct of quotients of representables.
 \end{thm}
 \begin{proof}
 Let $X=X_1+\cdots+X_n$ with $X_i$ representable and $R\subseteq X\times
-X$ an equivalence relation in $\Sh(\cC)$, $R=\coprod_{i,j}R_{ij}$ with
+X$ an equivalence relation in $\FF\cC$, $R=\coprod_{i,j}R_{ij}$ with
 $R_{ij}\subseteq X_i\times X_j$ (coproducts are disjoint and stable);
 the $R_{ij}$ are subobjects of representables in $\PP\cC$, hence
 representable, since the completions add no subobjects to old objects
@@ -438,8 +444,8 @@ quotient of a coproduct need not be a coproduct of quotients
 (Theorem~\ref{thm:order}). Subsorts commute with coproducts (a
 subobject of $X+Y$ is $A+B$, by extensivity) and with quotients (a
 subsort of $X/E$ is $D/E$ for a saturated $D\subseteq X$, and $D/E$ is a
-subsort of $X/(E\cup\Delta_X)$); whether the bound four is attained in
-every order is part of Question~\ref{que:four}.
+subsort of $X/(E\cup\Delta_X)$). The bound four is attained, with the
+kinds of sorts mixed arbitrarily within a step (Theorem~\ref{thm:sharp}).
 \item[(iii)] If $T$ is a classical theory (Boolean syntactic category)
 with non-empty sorts and a sort $\sigma$ with $T\vdash\exists u,v\,(u\ne
 v)$, then chains of length at most three suffice: products, subsorts,
@@ -566,16 +572,188 @@ are allowed, and the identification of Morita equivalence with $V_\PP$
 is for the convention of \cite{Tsem17}.
 \end{rem}
 
-\begin{que}\label{que:four}
-Is the bound four in Theorem~\ref{thm:length}(i) attained by a single
-coherent theory, i.e.\ is there a coherent theory whose pretopos
-completion is not reached by any chain of three Morita extensions in
-any order? The candidate is the theory with sorts $\sigma,\tau$, a
-relation $R\subseteq\sigma\times\tau$ and a subobject $A\subseteq R$
-without complement, and the sort $(R+R)/{\sim_A}$ gluing two copies of
-$R$ along $A$; a proof requires an invariant of the sorts obtainable in
-three steps.
-\end{que}
+\begin{thm}[the bound four is sharp]\label{thm:sharp}
+Let $T_0$ be the coherent theory with sorts $\sigma$, $\tau$ and the unit
+sort, relation symbols $A\subseteq\sigma\times\tau$ and
+$R\subseteq\sigma\times\tau$, and the single axiom $A(x,y)\vdash R(x,y)$.
+Let $\Theta=(R+R)/{\sim_A}=R\cup_A R$ be the object of $\PP\cC_{T_0}$
+gluing two copies of $R$ along $A$. Then $\Theta$ is not a sort of any
+Morita extension of $T_0$ reached in three steps, whatever kinds of
+sorts each step adds. Hence $T_0$ and the internal theory of
+$\PP\cC_{T_0}$ are Morita equivalent but connected by no span whose
+$T_0$-side has length at most three, the other side being arbitrary; the
+chain products, subsorts, coproducts, quotients of
+Theorem~\ref{thm:length}(i) is needed.
+\end{thm}
+
+A Morita extension $T_k$ of $T_0$ reached in $k$ steps has
+$\cC_{T_0}\subseteq\cC_{T_k}$, each new sort being the product,
+coproduct, subobject or quotient by which it is defined, so the
+inclusion induces an equivalence $\PP\cC_{T_0}\simeq\PP\cC_{T_k}$
+(Section~\ref{sec:join}), under which the sorts of $T_k$ are objects of
+$\PP=\PP\cC_{T_0}$. Let $S_k$ be the class of objects of $\PP$
+isomorphic to a sort of some $k$-step extension; $S_0=\{\sigma,\tau,1\}$
+up to isomorphism, and $S_k\subseteq S_{k+1}$. Subobjects and quotients
+in $\PP$ of an object of $\cC_{T_0}$ are its definable subobjects and
+its quotients by definable equivalence relations \cite{CV98}, the kernel
+pair of a quotient being a definable subobject of the square. Call a
+\emph{rectangle} a finite product of factors each of which is a sort
+(including the unit), a nonzero definable subset of a sort, or a
+quotient of a sort by a definable equivalence relation.
+
+\begin{lem}[two-step sorts]\label{lem:twostep}
+$S_1$ consists of the finite products of sorts, the definable subsets
+of sorts, the finite coproducts of sorts and the quotients of sorts.
+Every object of $S_2$ has one of the shapes: ($\alpha$) a subquotient
+$D/E$ of a finite product of sorts, $D\subseteq\sigma^a\times\tau^b$
+definable and $E$ a definable equivalence relation on $D$, which
+includes $0$, the definable sets, the quotients of sorts and of definable
+subsets of sorts; ($\beta$) a coproduct of at least one rectangle;
+($\gamma$) a quotient $(\sum_a\sigma+\sum_b\tau+\sum_c1)/E$ of a
+coproduct of $a+b+c\ge1$ sorts.
+\end{lem}
+\begin{proof}
+A step may add several sorts of different kinds at once, but each is
+defined from the existing sorts alone, so the sorts may be considered
+one at a time. The description of $S_1$ is then the definition of a
+Morita extension, the existing sorts being $\sigma$, $\tau$, $1$. A
+second step adds a finite product, a subsort, a finite coproduct or a
+quotient of objects of $S_0\cup S_1$. A finite product of such objects distributes over its
+coproduct factors and is a finite coproduct of products whose factors
+are products of sorts, definable subsets of sorts and quotients of
+sorts; each such product is a rectangle, or $0$ if a factor is $0$;
+so the product is of shape ($\beta$), or $0$. A subobject of a product
+of sorts or of a definable subset is definable, shape ($\alpha$); a
+subobject of a coproduct of sorts is, by extensivity, a coproduct of
+definable subsets of the summands, shape ($\beta$) or $0$; a subobject
+of a quotient $\sigma/E$ is $D/E$ for a saturated definable
+$D\subseteq\sigma$, shape ($\alpha$). A coproduct of objects of
+$S_0\cup S_1$ is a coproduct of rectangles and of coproducts of sorts,
+shape ($\beta$) or $0$. A quotient of a product of sorts or of a
+definable subset is of shape ($\alpha$); a quotient of $\sigma/E$ is
+$\sigma/E'$ for $E'$ the kernel pair of the composite regular
+epimorphism, shape ($\alpha$); a quotient of a coproduct of sorts is of
+shape ($\gamma$), or $0$ if there is no summand. Finally $0$, the
+empty subobject of a sort, is of shape ($\alpha$).
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sharp}]
+Suppose the $T_0$-side of a span has length three: a three-step
+extension $T_3$ of $T_0$ is logically equivalent, after renaming, to a
+Morita extension $T'$ of the internal theory $T_\PP$ of $\PP$, whose
+sorts are all the objects of $\PP$ and whose syntactic category is $\PP$
+(Section~\ref{sec:coh}). The logical equivalence identifies $\cC_{T_3}$
+with $\cC_{T'}$ and gives an equivalence
+$\Phi\colon\PP\simeq\PP\cC_{T'}\simeq\PP\cC_{T_3}\simeq\PP$ under which
+every sort of $T_\PP$, that is every object $X$ of $\PP$, is a sort of
+$T'$, hence of $T_3$: $\Phi(X)\in S_3$. As $\Phi$ is essentially
+surjective and $S_3$ is closed under isomorphism, $S_3$ would contain
+every object of $\PP$. We show $\Theta\notin S_3$. Objects of $\PP$ are
+evaluated at models of $T_0$, functorially along homomorphisms, the
+evaluation being a coherent functor $\PP\to\Set$ which preserves finite
+limits, finite coproducts and quotients, so that an epimorphism of
+$\PP$ is surjective at every model; coherent formulas are preserved by
+homomorphisms. We use the models $F_R=\langle s,t:R(s,t)\rangle$,
+$F_A=\langle s,t:A(s,t)\rangle$, the model $M_0$ with
+$\sigma=\{s,s'_1,s'_2\}$, $\tau=\{t,t_1,t_2\}$ and
+$R=A=\{(s,t_1),(s,t_2),(s'_1,t),(s'_2,t)\}$, the complete bipartite $H_{k,l}$ on
+$k+l$ points with $A=\emptyset$, $N=\langle s;t_1,t_2:R(s,t_1),A(s,t_2)\rangle$
+and $L'=\langle s_1,s_2;t:R(s_1,t),A(s_2,t)\rangle$, and the one-point
+model $1^*$ with $R=A$ everything, which receives a homomorphism from
+every model. Then $|\Theta(F_R)|=2$, $|\Theta(F_A)|=1$,
+$|\Theta(H_{k,l})|=2kl$, $|\Theta(N)|=|\Theta(L')|=3$. The transpositions
+$(t_1\,t_2)$ and $(s'_1\,s'_2)$ are automorphisms of $M_0$ fixing $s$ and
+$t$; they generate a group $G$, and no point of $\Theta(M_0)=R(M_0)$ is
+fixed by $G$, each edge containing exactly one primed point. Every model
+maps to $M_0$ by the homomorphism sending $\sigma$ to $s$ and $\tau$ to
+$t_1$, and by the one sending $\sigma$ to $s'_1$ and $\tau$ to $t$.
+
+(a) Every nonzero definable set $D$ (object of $\cC_{T_0}$) is
+indecomposable in $\PP$: a complemented subobject of $D$ is a subobject in $\cC_{T_0}$
+\cite{CV98}, so a decomposition $D=D'+D''$ is a provable disjointness,
+but nonempty $D',D''$ are both nonempty at $1^*$, which has one point
+per sort. Hence $R$ is indecomposable, and so is $\Theta$: a complemented
+$\Theta'\subseteq\Theta$ meets each copy $R_i$ in $\emptyset$ or $R_i$,
+and $R_1\cap R_2=A\ne\emptyset$.
+
+(b) A rectangle $X$ has a $G$-fixed point at $M_0$: take
+$s$, $t$, the unit point, or their classes in the quotient factors, and
+for a nonzero definable $D\subseteq\sigma$ note $s\in D(M_0)$, a
+witness in some model being sent to $s$ by the first homomorphism above;
+likewise $t\in D(M_0)$ for $D\subseteq\tau$ by the second, and $U(M_0)=1$
+for a nonzero subterminal $U$. A morphism $f\colon X\to\Theta$ of $\PP$
+is natural in the model, so $f$ sends $G$-fixed points to $G$-fixed
+points; hence $\mathrm{Hom}(X,\Theta)=\emptyset$ for every rectangle $X$,
+for every quotient of a rectangle, for every quotient
+$(\sum\text{sorts})/E$ of a coproduct of at least one sort (compose
+with the cover and restrict to a summand), and for every coproduct of
+at least one rectangle (restrict to a summand). The object $0$, the
+empty coproduct, is the one exception, $\mathrm{Hom}(0,\Theta)$ being a
+point; it is of shape ($\alpha$) and is excluded below by
+$|\Theta(F_R)|=2$.
+
+(c) A subquotient of a product of sorts has at most one point at $F_R$;
+$|((\Sigma\text{ sorts})/E)(H_{k,l})|\le ak+bl+c$ for $a,b,c$ the numbers
+of summands $\sigma,\tau,1$.
+
+By Lemma~\ref{lem:twostep} every object of $S_2$ has shape ($\alpha$),
+($\beta$) or ($\gamma$); the products of mixed factors such as
+$(\sigma+\sigma)\times D\times D'$ are coproducts of rectangles. A third
+step produces $\Theta$ as a quotient, a coproduct, a subsort or a
+product of objects of $S_2$, and $0$ plays no part, $\Theta$ being
+nonzero.
+
+\emph{Quotient.} An epimorphism $Z\to\Theta$ with $Z\in S_2$: for
+($\alpha$) the image has at most one point at $F_R$ by (c); for ($\beta$)
+and ($\gamma$) there is no map by (b).
+\emph{Coproduct.} $\Theta$ is indecomposable, so $\Theta\cong Z\in S_2$,
+and the identity is an epimorphism from $S_2$.
+\emph{Subsort.} $\Theta\hookrightarrow Z$: for ($\alpha$) impossible at
+$F_R$; for ($\beta$) $\Theta$ embeds in one summand, a rectangle, impossible at $F_R$;
+for ($\gamma$) $2kl\le ak+bl+c$ fails for large $k,l$.
+\emph{Product.} $\theta\colon\Theta\cong Z_1\times\dots\times Z_n$ with
+$Z_i\in S_2$, $n\ge2$ (for $n=1$ see the quotient case). Since
+$2=|\Theta(F_R)|=\prod_i|Z_i(F_R)|$, exactly one factor $Z'=Z_j$ has
+$|Z'(F_R)|=2$; let $Z=\prod_{i\ne j}Z_i$, so that $\Theta\cong Z\times
+Z'$ with projections $p,p'$, $|Z(F_R)|=1$, and $|Z(F_A)|=|Z'(F_A)|=1$
+since $|\Theta(F_A)|=1$. Only $Z'\in S_2$ is used below, not $Z\in S_2$.
+By (c) $Z'$ is of shape ($\beta$) or ($\gamma$). Shape ($\beta$): two
+summands $Z'_1,Z'_2$ of $Z'$ have a point at $F_R$, rectangles having
+at most one,
+so $Z\times Z'_1$ and $Z\times Z'_2$ are nonempty complementary
+subobjects of $\Theta$, against (a). Shape ($\gamma$), $Z'=(\sum_a\sigma
++\sum_b\tau+\sum_c 1)/E$. Suppose $a\ge1$ and use $N$. The homomorphism
+$F_A\to N$, $t\mapsto t_2$, puts all copies of $s$, $t_2$ and the unit
+points into one $E$-class, since $|Z'(F_A)|=1$; the copies of $t_1$ are
+images of elements of $F_R$ under $t\mapsto t_1$, and $|Z'(F_R)|=2$, so
+$|Z'(N)|\le3$; as $|\Theta(N)|=3$ is prime and $|Z'(N)|\ge1$, either
+$|Z'(N)|=1$ or $|Z(N)|=1$ and $|Z'(N)|=3$. In the second case the two
+$F_R$-classes map to two classes disjoint from the class of the
+$s$-copies, so neither $F_R$-class contains an $s$-copy, against
+$a\ge1$. So $|Z'(N)|=1$. The two copies $r^{(1)},r^{(2)}$ of the edge
+$(s,t_1)$ are distinct in $\Theta(N)$, since $A(s,t_1)$ fails; both are
+images of the two points of $\Theta(F_R)$ along $F_R\to N$, $t\mapsto
+t_1$, so $p(r^{(1)})=p(r^{(2)})$ is the image of the unique point of
+$Z(F_R)$, and $p'(r^{(1)})=p'(r^{(2)})$ as $|Z'(N)|=1$; thus $\theta_N$
+is not injective. If $a=0$ then $b+c\ge1$ and the same argument runs
+in $L'$ with $F_A\to L'$, $s\mapsto s_2$, and $F_R\to L'$, $s\mapsto s_1$:
+the copies of $s_2$, $t$ and the unit points form one class, every
+$F_R$-class contains a copy of $t$ or of the unit, so $|Z'(L')|=1$, and
+the two copies of the edge $(s_1,t)$ collide.
+\end{proof}
+
+\begin{rem}
+The invariant is point counting and naturality at finitely presented
+models of $T_0$; the sharp object is the one anticipated in
+Theorem~\ref{thm:order}, a quotient of a coproduct of a non-complemented
+definable set, here itself a subsort of a product so that all four kinds
+are needed. For classical theories with a two-element sort three steps
+suffice (Theorem~\ref{thm:length}(iii)); $T_0$ is not Boolean, $A$ having
+no complement in $R$. The four-step chain is the one of \cite[\S4]{Tsem17};
+that chains of Morita extensions do not reduce to single extensions is
+observed in \cite[\S6.1]{McEl20}, but the least length is not discussed
+there or in \cite{BH16}.
+\end{rem}
 
 \section{Conceptual completeness: the categorical sameness is the Morita sameness}\label{sec:cc}
 
@@ -819,7 +997,10 @@ below it.
 \section{Open questions}
 
 \begin{enumerate}
-\item The sharpness of the bound four (Section~\ref{sec:length}).
+\item Whether three steps suffice for every coherent theory in which every
+definable relation between distinct sorts is complemented
+(Theorem~\ref{thm:boolean} and the remark after it), and the least
+number of steps for a given theory in general.
 \item The lattice generated by the five samenesses $V_{\mathrm{prod}}$,
 $V_{\mathrm{sub}}$, $V_\FF$, $V_\EE$ and renaming in $\Same$ of the
 category of theories with signatures (rather than of $\Coh$, where the
