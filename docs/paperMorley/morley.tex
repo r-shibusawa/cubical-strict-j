@@ -51,10 +51,10 @@ categories onto the Boolean coherent categories. We read it, as the
 completions $\FF$, $\EE$, $\PP$ were read before, as the class $V_\BB$
 of interpretations it inverts in the lattice of two-out-of-three
 classes: two coherent theories are $V_\BB$-equivalent when their
-Morleyizations are definitionally equivalent. The join $V_\BB\vee
+Morleyizations have equivalent syntactic categories. The join $V_\BB\vee
 V_\PP$ of the classical and the Morita samenesses is the class
-inverted by the Boolean pretopos completion $\PP\BB$, Shelah's
-$T^{\mathrm{eq}}$ of the Morleyization, and is reached by one
+inverted by the Boolean pretopos completion $\PP\BB$, the classical
+imaginaries with finite coproducts, and is reached by one
 alternation, translation first. By the Makkai--Reyes conceptual
 completeness theorem this join is exactly the class of interpretations
 inducing an equivalence of the categories of models with elementary
@@ -67,7 +67,8 @@ saturated models of the completions, every classical imaginary has the
 automorphism stabiliser of a coherent imaginary, Poizat's criterion
 relative to the coherent imaginaries; weak elimination of imaginaries
 for the Morleyization suffices, and a criterion in terms of coherent
-types gives the failures.
+types gives the failures. For theories without axioms over a relational signature the orders
+agree iff the signature is monadic.
 \end{abstract}
 
 \maketitle
@@ -106,8 +107,10 @@ Boolean pretopos completion, and the join is reached by one
 alternation, translation first: two coherent theories with Morita
 equivalent Morleyizations are connected by one Morleyization, one
 Morita equivalence and back (Theorem~\ref{thm:join}). The Boolean
-pretopos completion of $\cC_T$ is Shelah's $T^{\mathrm{eq}}$ of the
-Morleyization of $T$ \cite{Harnik11}.
+pretopos completion of $\cC_T$ adds to the Morleyization of $T$ its
+imaginaries and finite coproducts of sorts; it is Shelah's
+$T^{\mathrm{eq}}$ under the hypotheses of \cite{Harnik11}, that every sort is provably
+inhabited and some sort has two provably distinct elements.
 \item[(B)] $V_{\PP\BB}$ is the class of interpretations inducing an
 equivalence of the categories of models with \emph{elementary
 embeddings}, by the Makkai--Reyes conceptual completeness theorem
@@ -140,13 +143,29 @@ imaginaries for $T^m$ implies commutation (Corollary~\ref{cor:wei}),
 and a criterion in terms of coherent types (Proposition~\ref{prop:ctp})
 gives the failures without saturation; it reproves (C) in one infinite
 model.
+\item[(E)] For the coherent theories without axioms over a relational
+signature the two orders agree iff the signature is monadic
+(Theorem~\ref{thm:free}).
 \end{enumerate}
 What is known: the Morleyization and its universal property
-\cite[D1.5.13]{Elephant}, the pretopos completion as $T^{\mathrm{eq}}$
-\cite{Harnik11}, conceptual completeness \cite{MR77}, Poizat's criterion
-\cite{Poizat83}, the lattice and the join lemma \cite{Same,TheoryComp}.
-What is new is the reading of a translation as a sameness, the
-statements (A)--(D), and the multipartite example. The last section lists the next translations to be
+\cite[D1.5.13]{Elephant}, also for invertible $2$-cells
+\cite[\S6.2]{DPM20}; that a classical theory and its Morleyization have
+the same Morita class and that the models of $T^m$ are the models of
+$T$ with elementary embeddings \cite[\S5]{Tsem17}, \cite{HT17}; the pretopos
+completion as $T^{\mathrm{eq}}$ under Harnik's hypotheses
+\cite{Harnik11}; weak elimination of imaginaries for theories with
+unary relations only \cite[Rem.~7.14]{CDHJR};
+conceptual completeness \cite{MR77}; the Galois criterion for
+elimination of imaginaries and its weak form
+\cite{Poizat83,CF04}; the lattice and the join lemma
+\cite{Same,TheoryComp}. So (B) is a direct specialisation of
+\cite{MR77} and the equivalence (i)$\Leftrightarrow$(iii) of (D)
+relativises a known criterion. What is new is the reading of a
+translation as a sameness and the join (A) in the lattice, the
+non-commutation (C) with the multipartite example, the relative form of
+the criterion with the coherent-type test of (D), and the dichotomy
+(E), of which the failure for every symbol of arity at least two is the
+new half. The last section lists the next translations to be
 read in the same way.
 
 \section{The lattice, the completions and the join lemma}\label{sec:prelim}
@@ -175,13 +194,14 @@ identify theories with coherent categories. A coherent category is
 \emph{effective} if every equivalence relation is a kernel pair, a
 \emph{pretopos} if both; $\Pretop\subseteq\Coh$ is reflective with
 reflector $\PP$, the pretopos completion \cite[A3.3]{Elephant},
-$\PP=\EE\FF$ with $\FF$ the positive and $\EE$ the exact completion
+$\PP=\EE\FF$ with $\FF$ the positive and $\EE$ the exact completion of
+a regular category (ex/reg)
 \cite{CV98,LV01}. Set-models of $\cC$ are coherent functors
 $\cC\to\Set$ and $\Mod(\cC)$ is their category with natural
 transformations, the homomorphisms of models; $\Mod(\PP\cC)\simeq
 \Mod(\cC)$ by the universal property. Morita equivalence of coherent
 theories in the sense of \cite{BH16,Tsem17} is $V_\PP$-equivalence
-\cite[Thm.~4.7]{Tsem17}, and $V_\PP=V_\FF\vee V_\EE$ by the following
+\cite[Thm.~4.7, Cor.~4.9]{Tsem17}, and $V_\PP=V_\FF\vee V_\EE$ by the following
 lemma \cite[Lemma~2.3, Thm.~4.1]{TheoryComp}.
 
 \begin{lem}[join lemma]\label{lem:join}
@@ -189,8 +209,9 @@ Let $R_1,R_2$ be reflectors of a $2$-category onto reflective
 sub-$2$-categories, with units $\eta_i$, and suppose that $R:=R_2R_1$ is
 again a reflector, with unit $X\to R_1X\to R_2R_1X$, and that $R$
 inverts the units of $R_1$ and of $R_2$. Then $V_R=V_{R_1}\vee V_{R_2}$,
-and every $f\in V_R$ is a zig-zag of one $R_1$-unit, one $R_2$-unit, an
-equivalence, and the inverses of one $R_2$-unit and one $R_1$-unit.
+and for every $f\colon X\to Y$ in $V_R$ the objects $X$ and $Y$ are
+connected by the zig-zag of one $R_1$-unit, one $R_2$-unit, the
+equivalence $Rf$, and one $R_2$-unit and one $R_1$-unit backwards.
 \end{lem}
 
 \section{Morleyization as a reflector}\label{sec:morley}
@@ -248,19 +269,27 @@ transformations \cite[A3.3]{Elephant}, which is what
 Lemma~\ref{lem:modeq} uses.
 \end{rem}
 
+Conventions. For a coherent theory $T$, $\cC_T$ is its coherent
+syntactic category and $\BB\cC_T$ the first-order syntactic category of
+the same axioms read classically; a classical theory is identified with
+its Morleyization, so that for it $\cC_T$ is Boolean and $\BB$ is the
+identity. Formulas are without parameters; sorts may be empty. An
+equivalence $\BB\PP\cC\simeq\PP\BB\cC$ always means that the canonical
+comparison functor of Lemma~\ref{lem:full} is an equivalence.
+
 We write $V_\BB$ for the class of coherent functors inverted by $\BB$ and
 call $V_\BB$-equivalence the \emph{classical sameness}: $\cC$ and $\cD$
-are classically the same when their Morleyizations are equivalent, that
-is, when the classical first-order theories of $\cC$ and of $\cD$ are
-definitionally equivalent (as Boolean coherent categories, up to
-equivalence) whatever the coherent fragments.
+are classically the same when their Morleyizations have equivalent
+syntactic categories, whatever the coherent fragments.
 
 \begin{prop}\label{prop:PB}
 $\PP$ preserves Booleanness, $\PP\BB$ is the reflector of $\Coh$ onto
-$\BPretop$, and $\PP\BB\PP\simeq\PP\BB$. For a classical theory $T$,
-$\PP\BB\cC_T=\PP\cC_{T}$ is the syntactic category of Shelah's
-$T^{\mathrm{eq}}$ \cite{Harnik11}; for a coherent $T$, $\PP\BB\cC_T$ is
-that of $(T^m)^{\mathrm{eq}}$.
+$\BPretop$, and $\PP\BB\PP\simeq\PP\BB$. The objects of $\PP\BB\cC_T$ are the quotients of finite
+coproducts of classical definable sets by classical equivalence
+relations; under the hypotheses of \cite{Harnik11}, that every sort is provably
+inhabited and some sort has two provably distinct elements, this is
+the syntactic category of Shelah's $(T^m)^{\mathrm{eq}}$, and in general
+it is larger.
 \end{prop}
 \begin{proof}
 In $\FF\mathcal B$ a subobject of $X_1+\dots+X_n$ is a sum of
@@ -273,8 +302,11 @@ $\mathcal B\in\BPretop$, $\Coh(\PP\BB\cC,\mathcal B)\simeq\Coh(\BB\cC,
 $\PP\BB\PP\cC$ and $\PP\BB\cC$ represent $\Coh(\cC,-)$ on $\BPretop$,
 since $\Coh(\PP\BB\PP\cC,\mathcal B)\simeq\Coh(\PP\cC,\mathcal B)\simeq
 \Coh(\cC,\mathcal B)$, so the canonical functor $\PP\BB\cC\to\PP\BB\PP\cC$
-is an equivalence. The identification with $T^{\mathrm{eq}}$ is
-\cite{Harnik11}.
+is an equivalence. The description of the objects is that of $\PP=\EE\FF$, and the
+identification with $T^{\mathrm{eq}}$ under the two hypotheses is
+\cite{Harnik11}; without them it fails, coproduct sorts not being
+definable: for the classical theory of a one-element sort, $T^{\mathrm{eq}}$ has only sorts with at most one
+element, while $\PP\BB\cC_T\simeq\Fin$ contains $1+1$.
 \end{proof}
 
 \begin{equation}\label{eq:square}
@@ -283,9 +315,9 @@ is an equivalence. The identification with $T^{\mathrm{eq}}$ is
 \Pretop \arrow[r, "\BB"', dashed] & \BPretop
 \end{tikzcd}
 \end{equation}
-The square commutes up to equivalence along the top and right, which is
-the reflector $\PP\BB$; the dashed arrow does not land in $\BPretop$ in
-general (Theorem~\ref{thm:order}): $\BB$ of a pretopos need not be a
+The composite along the top and right is the reflector $\PP\BB$; the
+diagram is not a commutative square, since the dashed arrow does not
+land in $\BPretop$ in general (Theorem~\ref{thm:order}): $\BB$ of a pretopos need not be a
 pretopos.
 
 \begin{ex}[incomparability]\label{ex:incomp}
@@ -376,8 +408,11 @@ Boolean coherent theory being elementary embeddings; this is the setting
 of Hudetz's definable categorical equivalence \cite{Hudetz19} and of
 \cite[Cor.~6.2]{TheoryComp}. The corollary says what changes when the
 theories are merely coherent: the category of models with elementary
-embeddings forgets the coherent content, and what it remembers is
-exactly the Boolean pretopos completion.
+embeddings forgets the coherent content: the functor induced by an
+interpretation is an equivalence exactly when the interpretation is
+inverted by the Boolean pretopos completion. This concerns the functors
+induced by interpretations; an abstract equivalence of categories of
+models does not recover the theory \cite{HT17}.
 \end{rem}
 
 \section{The order is forced}\label{sec:order}
@@ -421,8 +456,11 @@ If $\cC$ is Boolean, $\BB\cC=\cC$ and $\PP\cC$ is Boolean
 distributive lattice. $\BB L$ is the Boolean envelope $B(L)$, whose Stone
 space is the patch space of the spectral space $\mathrm{Spec}\,L$. The
 objects of $\PP B(L)$, the coherent objects of $\Sh(\mathrm{Spec}\,B(L))$,
-are the finite coproducts $U_1+\dots+U_n$ of clopen subterminals, every
-equivalence relation on a subterminal being trivial; each $U_i$ is a
+are the finite coproducts $U_1+\dots+U_n$ of clopen subterminals: a
+coherent sheaf on a Stone space is covered by finitely many local
+sections over clopens, the locus where two of them agree is clopen, and
+refining to a finite clopen partition on which the sections are
+pairwise equal or disjoint gives the decomposition; each $U_i$ is a
 Boolean combination of compact opens of $\mathrm{Spec}\,L$, an element of
 $B(L)=\BB L\subseteq\BB\PP L$, and $U_1+\dots+U_n$ is the subobject of the
 object $1+\dots+1$ of $\PP L$ cut out by the first-order formula ``in the
@@ -460,14 +498,14 @@ formulas $\exists\bar z\,\psi$ with $\psi$ a conjunction of atoms $R(u,v)$
 and $u=v$; let $w$ bound the lengths of the $\bar z$ and $m$ the $m_i$.
 
 Let $M_k$ be the complete $k$-partite graph with parts $P_1,\dots,P_k$
-of size $n$, with $n\ge 2m$ and $k\ge 2m+w+2$. Its automorphism group
+of size $n$, with $n\ge\max(1,2m)$ and $k\ge 2m+w+2$. Its automorphism group
 contains $S_n^k\rtimes S_k$, acting on $\Pi(M_k)$ through $S_k$. A point
 of $S(M_k)$ is a class $[\bar d]$ with $\bar d\in D_i(M_k)$ for some $i$;
 let $\mathcal T$ be the set of parts met by the coordinates of $\bar d$,
 $|\mathcal T|\le m$. By the equivariant bijection the point corresponds
 to a part $P_0$, so it is fixed by $S_n^k$ and moved by every
 transposition $\varepsilon=(P_0\,Q)$ of parts, $Q\ne P_0$. Choose
-$Q\notin\mathcal T$, possible as $k>m$. If $P_0\notin\mathcal T$ then
+$Q\notin\mathcal T$, $Q\ne P_0$, possible as $k>m+1$. If $P_0\notin\mathcal T$ then
 $\varepsilon\bar d=\bar d$ and the point is fixed by $\varepsilon$, a
 contradiction. So $P_0\in\mathcal T$.
 
@@ -513,7 +551,7 @@ points. The last claims follow from Lemma~\ref{lem:full}.
 \node[fill=white, thick] at (2.5,1.2) {}; \node[fill=white, thick] at (2.5,-0.4) {};
 \node[draw=none, rectangle] at (0,-1.9) {$P_0$}; \node[draw=none, rectangle] at (2.5,-1.9) {$Q$}; \node[draw=none, rectangle] at (5,-1.9) {$P_2$};
 \end{tikzpicture}
-\caption{$M_3$ with $n=4$. A pair $\bar d$ in $P_0$ (black), its image $g\bar d$ under a permutation of $P_0$ (grey) and its image $\varepsilon\bar d$ under the transposition $(P_0\,Q)$ (white). Every coherent relation between $\bar d$ and $g\bar d$ witnessed in $M_k$ is also witnessed between $\bar d$ and $\varepsilon\bar d$, since positive atoms only ask for distinct parts.}
+\caption{$M_3$ with $n=4$. A pair $\bar d$ in $P_0$ (black), its image $g\bar d$ under a permutation of $P_0$ (grey) and its image $\varepsilon\bar d$ under the transposition $(P_0\,Q)$ (white). For $k$ large with respect to the formula, a coherent relation between $\bar d$ and $g\bar d$ witnessed in $M_k$ is also witnessed between $\bar d$ and $\varepsilon\bar d$, since positive atoms only ask for distinct parts.}
 \end{figure}
 
 \begin{rem}[compactness]\label{rem:compact}
@@ -615,8 +653,16 @@ embeddings, in particular $\mathrm{Aut}(M)$-equivariant, so $c$
 corresponds to a point $y$ with the same stabiliser.
 (ii)$\Rightarrow$(iii) is trivial.
 (iii)$\Rightarrow$(i): fix a completion $T'$ of $T^m$ and a model
-$\mathfrak M$ as in (iii); we work in $\mathfrak M^{\mathrm{eq}}$, which
-contains the imaginaries of $\PP\BB\cC_T$. Let $c=[a]_E$ and $y\in Y(\mathfrak
+$\mathfrak M$ as in (iii); we work in the many-sorted structure
+$\mathfrak M^{\PP}$ whose sorts are the objects of $\PP\BB\cC_T$
+evaluated at $\mathfrak M$, that is $\mathfrak M^{\mathrm{eq}}$ with
+finite coproducts of sorts added, and write $\mathrm{dcl}^{\mathrm{eq}}$,
+$\mathrm{acl}^{\mathrm{eq}}$ in it. $\mathfrak M$ and $\mathfrak M^{\PP}$
+have the same automorphisms, and $\mathfrak M^{\PP}$ is again
+$\kappa$-saturated and strongly $\kappa$-homogeneous: an element of a
+quotient of a coproduct is the class of a tuple of $\mathfrak M$ in one
+of finitely many summands, so types and partial elementary maps of
+$\mathfrak M^{\PP}$ lift to $\mathfrak M$. Let $c=[a]_E$ and $y\in Y(\mathfrak
 M)$ have the same stabiliser. By strong homogeneity each of $c$, $y$ is
 in the definable closure of the other over $\emptyset$, by the
 standard fact that in a $\kappa$-saturated strongly $\kappa$-homogeneous
@@ -690,10 +736,11 @@ in $W$ and has $h|_{\bar d}=\mathrm{id}$, $h(\bar b)=\bar b'$, since the
 witnesses of a coherent formula lie in such a $W$.
 
 \begin{ex}[Theorem~\ref{thm:order} in one model]\label{ex:minfty}
-Let $M_\infty$ be the complete multipartite graph with infinitely many
-infinite parts and $c$ a part $P_0$. For a tuple $\bar d$ meeting the
+Let $M_\infty$ be the complete multipartite graph with countably many
+countably infinite parts, so that every permutation of the parts is
+induced by an automorphism, and $c$ a part $P_0$. For a tuple $\bar d$ meeting the
 parts $\mathcal T$: if $P_0\notin\mathcal T$ take $g=\mathrm{id}$ and
-$\varepsilon=(P_0\,Q)$ with $Q\notin\mathcal T$, so that
+$\varepsilon=(P_0\,Q)$ with $Q\notin\mathcal T$, $Q\ne P_0$, so that
 $\varepsilon\bar d=\bar d$; if $P_0\in\mathcal T$ take $g$ moving each
 coordinate to a fresh vertex of its part and $\varepsilon=(P_0\,Q)$,
 $Q\notin\mathcal T$, and the local homomorphism $h$ fixing $\bar d$,
@@ -714,10 +761,17 @@ a real tuple
 $\bar a$ with $c\in\mathrm{dcl}^{\mathrm{eq}}(\bar a)$ and $\bar a\in
 \mathrm{acl}^{\mathrm{eq}}(c)$, then $\BB\PP\cC_T\simeq\PP\BB\cC_T$. This
 covers the theories whose Morleyization eliminates imaginaries, and the
-theories of infinite sets, of dense linear orders and of the random
-graph \cite{CF04}.
+theories of infinite sets and of dense linear orders without endpoints
+\cite{CF04}.
 \end{cor}
 \begin{proof}
+Weak elimination is assumed for the ordinary imaginaries, the classes
+of tuples under definable equivalence relations. A point $c=[a]_E$ of a
+classical imaginary $X/E$, $X$ a classical subobject of a coproduct
+$\coprod_iP_i$ of products of sorts with $a$ in the summand $P_i$, is
+interdefinable with the ordinary imaginary $c\cap P_i$, the class of $a$
+under the restriction of $E$ to $X\cap P_i$; so it suffices to treat
+ordinary imaginaries.
 Let $A$ be the orbit of $\bar a$ under $\mathrm{Aut}(\mathfrak M)_c$, a
 finite set of $n$ tuples in a product of sorts $P$, as $\bar a\in
 \mathrm{acl}^{\mathrm{eq}}(c)$. An automorphism fixing $c$ permutes
@@ -740,7 +794,7 @@ equivalent to a coherent formula, coherent formulas being preserved by
 the homomorphism collapsing a two-element model to a point. The
 completions of $T_=^m$ are the theory of infinite sets, which has weak
 elimination of imaginaries \cite{CF04}, and the theories of the sets
-with $n$ elements, which have it as every finite structure does: for
+with $n\ge0$ elements, which have it as every finite structure does: for
 $\bar a$ an enumeration of the structure, $\bar a\in
 \mathrm{acl}^{\mathrm{eq}}(c)$ since the structure is finite, and
 $c\in\mathrm{dcl}^{\mathrm{eq}}(\bar a)$ since only the identity fixes
@@ -760,6 +814,103 @@ elimination of imaginaries is not decided by the definability of the
 equivalence relation but by the stabilisers of its classes.
 \end{rem}
 
+\section{Free theories: a dichotomy}\label{sec:free}
+
+The two criteria decide the commutation for the coherent theories
+without axioms.
+
+\begin{thm}[dichotomy]\label{thm:free}
+Let $\Sigma$ be a relational signature, with any set of sorts and
+relation symbols of any finite arities, and $T_\Sigma$ the coherent theory over
+$\Sigma$ with no axioms. Then $\BB\PP\cC_{T_\Sigma}\simeq\PP\BB\cC_{T_\Sigma}$
+iff $\Sigma$ is monadic, that is, every relation symbol has arity at
+most one.
+\end{thm}
+
+\begin{lem}[supports]\label{lem:support}
+Let $\Omega$ be an infinite set and $F_1,F_2\subseteq\Omega$ finite. The
+pointwise stabilisers of $F_1$ and of $F_2$ in $\mathrm{Sym}(\Omega)$
+generate the pointwise stabiliser of $F_1\cap F_2$.
+\end{lem}
+\begin{proof}
+Write $\mathrm{Fix}(F)$ for the pointwise stabiliser, $F=F_1\cap F_2$,
+$n=|F_1\setminus F|$, and $H$ for the generated group. For
+$k\in\mathrm{Fix}(F_2)$, $k\,\mathrm{Fix}(F_1)k^{-1}=\mathrm{Fix}(kF_1)
+\subseteq H$, and $kF_1$ can be $F\cup D$ for any $n$-element $D$
+disjoint from $F_2$. Let $g\in\mathrm{Fix}(F)$. Choose such a $D$, then
+such a $D'$ disjoint from $D\cup g(D)$, and $p\in\mathrm{Fix}(F\cup D')$
+with $p(g(d))=d$ for $d\in D$, which exists since the partial injection
+$g(d)\mapsto d$ avoids $F\cup D'$ and $\Omega$ is infinite. Then
+$pg\in\mathrm{Fix}(F\cup D)\subseteq H$ and $p\in H$, so $g\in H$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:free}]
+\emph{A symbol of arity at least two.} Let $S\subseteq\sigma_1\times
+\sigma_2\times\cdots$ have arity at least two ($\sigma_1,\sigma_2$
+possibly equal). Let $M$ be the $\Sigma$-structure in which every sort
+is a copy of the vertex set of $M_\infty$ (Example~\ref{ex:minfty}), the
+parts being indexed by the same set in every sort, $S(u_1,u_2,\dots)$
+holds iff $u_1$ and $u_2$ lie in parts of different indices, and every
+other relation symbol is empty. The formula
+$E(x,y):=\forall\bar z\,(S(x,\bar z)\leftrightarrow S(y,\bar z))$ is an
+equivalence relation on $\sigma_1$ in every $\Sigma$-structure, and in
+$M$ its classes are the parts of $\sigma_1$. Let $c$ be a part $P_0$.
+The automorphisms of $M$ include the permutations of the index set,
+acting on all sorts at once, and independent permutations inside each
+part of each sort. For a tuple $\bar d$ take $g$, $\varepsilon=(P_0\,Q)$
+and the local homomorphism $h$ as in Example~\ref{ex:minfty}: the
+positive atoms true in $M$ are equalities and $S$-atoms, the latter
+holding iff the first two arguments have different indices, and they
+are preserved as the atoms $R(u,v)$ were. By
+Proposition~\ref{prop:ctp}, $\sigma_1/E$ is not coherently
+representable.
+
+\emph{Monadic $\Sigma$.} By Corollary~\ref{cor:wei} it suffices that
+every completion of $T_\Sigma^m$ has weak elimination of imaginaries.
+This is known \cite[Rem.~7.14]{CDHJR}; we include the short argument.
+An imaginary $c=[\bar a]_E$ of a saturated model $M$ involves a finite
+sublanguage; the reduct of $M$ to it is saturated, and membership in
+$\mathrm{dcl}^{\mathrm{eq}}$ and $\mathrm{acl}^{\mathrm{eq}}$ established
+in the reduct persists in $M$. So let $\Sigma$ be finite. Then $M$ is
+the disjoint union of finitely many sets $A_1,\dots,A_r$, the nonempty
+Boolean atoms of the predicates in each sort, each finite or infinite,
+and $\mathrm{Aut}(M)=\prod_i\mathrm{Sym}(A_i)$. Let $B_0$ be the union
+of the finite $A_i$. Call a finite $B\supseteq B_0$ a \emph{support} of
+$c$ if every automorphism fixing $B$ pointwise fixes $c$; the union of
+$B_0$ and the coordinates of $\bar a$ is one. By
+Lemma~\ref{lem:support}, applied in each infinite $A_i$, the
+intersection of two supports is a support, so $c$ has a least support
+$B$. If $g$ fixes $c$ then $gB$ is a support, so $B\subseteq gB$ and
+$gB=B$. Hence an enumeration $\bar b$ of $B$ has a finite orbit under
+$\mathrm{Aut}(M)_c$, so $\bar b\in\mathrm{acl}^{\mathrm{eq}}(c)$, and $c$
+is fixed by the automorphisms fixing $\bar b$, so
+$c\in\mathrm{dcl}^{\mathrm{eq}}(\bar b)$.
+\end{proof}
+
+\begin{rem}[monotonicity]\label{rem:mono}
+Proposition~\ref{prop:ctp} uses the model and the coherent formulas but
+not the axioms. So a failure which it witnesses at a model of $T'$
+holds for every coherent theory $T\subseteq T'$ in the same signature
+in which $E$ is still provably an equivalence relation. The first half
+of the proof above is Theorem~\ref{thm:order} read in this way: on the
+complete multipartite graphs the relation ``same neighbourhood'', an
+equivalence relation without any axiom, is $\neg R$.
+\end{rem}
+
+\begin{rem}
+The monadic theories without axioms are not Boolean when they have a
+sort: $x\ne y$
+and, for a unary predicate $P$, $\neg P(x)$ are not coherent. So the commutation of the classical
+translation with the Morita completion is not a Boolean phenomenon, and
+for free theories its failure has a single cause, a relation symbol of arity
+at least two, whose classes of ``same neighbourhood'' are classical imaginaries
+which no coherent quotient sees. For theories with axioms
+Theorem~\ref{thm:galois} gives the criterion, and its application to
+classes of such theories is not treated here; the coherent theory of an
+equivalence relation, whose classes are coherent imaginaries, is the
+first case.
+\end{rem}
+
 \section{Further translations}\label{sec:outlook}
 
 The reading of this paper applies to any translation which is a
@@ -776,16 +927,18 @@ $\Sh_{\neg\neg}$ of the classifying topos: is it a reflector onto Boolean
 categories, how does its class compare with $V_\BB$ on the coherent
 fragment, and does it commute with $\PP$?
 \item The G\"odel--McKinsey--Tarski translation, which reads a Heyting
-category as the fixed points of a nucleus on a Boolean algebra object;
-the joins of nuclei and their alternation lengths are the subject of
-\cite{Fijoin}, and the question is whether a translation of this kind
-is a point of the lattice of samenesses or only of a lattice of nuclei.
+algebra as the open elements of an interior operator on a Boolean
+algebra ($\mathsf{S4}$); joins of closure operators and their
+alternation lengths are the subject of \cite{Fijoin}, and the question
+is whether a translation of this kind defines a point of the lattice of
+samenesses.
 \item Maruyama's Lawvere--Tierney topologies on syntactic
 hyperdoctrines as translations \cite[\S4.10]{Maruyama16}: for an
 idempotent $j$, $\rho_j(T)=\{\varphi: T\vdash j\varphi\}$ is a closure
 operator on theories, and the question is which $j$ commute with the
-Morita completion, Theorem~\ref{thm:order} being the negative answer for
-$j=$ Morleyization.
+Morita completion. The Morleyization is not of this form, since it
+enlarges the syntactic category; Theorem~\ref{thm:order} answers the
+analogous question for it.
 \end{enumerate}
 
 \section*{Declarations}
@@ -794,14 +947,23 @@ The author has no competing interests to declare.
 \begin{thebibliography}{99}
 \bibitem{BH16} T.~W.~Barrett, H.~Halvorson, \emph{Morita equivalence},
 Rev. Symb. Log. 9 (2016), 556--582.
+\bibitem{CDHJR} G.~Conant, C.~d'Elb\'ee, Y.~Halevi, L.~Jimenez,
+S.~Rideau-Kikuchi, \emph{Enriching a predicate and tame expansions of
+the integers}, preprint, 2023.
 \bibitem{CV98} A.~Carboni, E.~M.~Vitale, \emph{Regular and exact
 completions}, J. Pure Appl. Algebra 125 (1998), 79--116.
 \bibitem{CF04} E.~Casanovas, R.~Farr\'e, \emph{Weak forms of elimination
 of imaginaries}, Math. Logic Quart. 50 (2004), 126--140.
+\bibitem{DPM20} A.~D'Arienzo, V.~Pagano, I.~M.~J.~McInnis,
+\emph{Bicategories, biequivalence, and bi-interpretability}, preprint,
+arXiv:2011.14056.
 \bibitem{Harnik11} V.~Harnik, \emph{Model theory vs. categorical logic:
 two approaches to pretopos completion (a.k.a. $T^{\mathrm{eq}}$)}, in:
 Models, Logics, and Higher-Dimensional Categories, CRM Proc. Lecture
 Notes 53, Amer. Math. Soc., 2011, 79--106.
+\bibitem{HT17} H.~Halvorson, D.~Tsementzis, \emph{Categories of
+scientific theories}, in: E.~Landry (ed.), Categories for the Working
+Philosopher, Oxford University Press, 2017, 402--429.
 \bibitem{Hudetz19} L.~Hudetz, \emph{Definable categorical equivalence},
 Philos. Sci. 86 (2019), 47--75.
 \bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
@@ -819,7 +981,7 @@ Universitext, Springer, 2000.
 Categorical Logic to Quantum Physics}, D.Phil. thesis, University of
 Oxford, 2016.
 \bibitem{RP06} R.~Rajani, M.~Prest, \emph{Model-theoretic imaginaries
-and coherent sheaves}, MIMS preprint, University of Manchester, 2006.
+and coherent sheaves}, Appl. Categ. Structures 17 (2009), 517--559.
 \bibitem{Same} R.~Shibusawa, \emph{The sameness lattice of a category:
 weak-equivalence structures, Galois functoriality, and comparison intervals},
 preprint (2026), archived at DOI 10.5281/zenodo.22823772.
