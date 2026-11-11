@@ -54,9 +54,10 @@ missing from $\HH\PP\cC$ are two copies of an object glued along the intuitionis
 non-complemented subobject; they are excluded by an invariant of the
 objects of $\HH\PP\cC$ in Kripke models over a fork, whose existence
 for every non-Boolean $\cC$ is a form of the homomorphism preservation
-theorem. The construction uses a coproduct and a quotient together:
-$\HH$ commutes with the positive completion, and with the exact
-completion for propositional theories. Since the Morleyization is $\HH$ followed
+theorem. $\HH$ commutes with the positive completion; with the exact
+completion it commutes for propositional theories and fails when some
+object has two points in the source model of a homomorphism crossing a
+subobject. Since the Morleyization is $\HH$ followed
 by the addition of excluded middle, which commutes with $\PP$, the
 commutation of the Morleyization with $\PP$, governed by a Galois
 criterion, is the statement that excluded middle repairs a comparison
@@ -112,7 +113,8 @@ is a pretopos if and only if $\cC$ is Boolean
 New, to the author's knowledge: Theorem~\ref{thm:main}; the invariant
 that proves it (Lemma~\ref{lem:rigid}); the commutation of $\HH$ with
 the positive completion (Proposition~\ref{prop:F}) and the resulting
-location of the failure (Corollary~\ref{cor:E}); and the reading of the
+location of the failure (Corollary~\ref{cor:E},
+Proposition~\ref{prop:E}); and the reading of the
 Galois criterion of \cite{Morley} as the statement that $c_\cC$ is
 inverted by $\KK$ (Corollary~\ref{cor:K}). Known and used: syntactic
 categories of first-order theories are Heyting categories and classify
@@ -469,8 +471,9 @@ unit is full and faithful and full on subobjects, and every object of
 $\FF\cC$ is a finite coproduct of objects of $\cC$), and $\EE$ is the
 exact (ex/reg) completion of a regular category. The object $Q$ uses a
 coproduct and a quotient. The coproduct step alone is never
-responsible, and the quotient step alone is not responsible for
-propositional theories.
+responsible; the quotient step alone is not responsible for
+propositional theories, and is responsible under the hypothesis of
+Proposition~\ref{prop:E}.
 
 \begin{lem}\label{lem:FHeyt}
 If $\cD$ is a Heyting category, then $\FF\cD$ is a Heyting category and
@@ -539,11 +542,66 @@ kernel pair of the identity; so $D$ and the Heyting algebra $\HH D$ are
 exact.
 \end{proof}
 
-So the Heyting completion commutes with adding coproducts, and it can
-commute with adding quotients (the comparison of $\HH\EE$ and $\EE\HH$
-for general coherent categories is left open); what it does
-not commute with is the quotient of a coproduct, the gluing of two copies of an object along a
-subobject which exists in the Heyting completion and not in $\cC$.
+For general coherent categories the quotient step alone does obstruct,
+as soon as a model at which a subobject is crossed has two points. For
+a coherent category $\cC$ the exact completion $\EE\cC$ is coherent and
+effective (every equivalence relation is a kernel pair; a \emph{cover}
+is a regular epimorphism), and restriction along the unit is an equivalence between the
+coherent functors from $\EE\cC$ and from $\cC$ to an effective coherent
+category, with all natural transformations \cite{TheoryComp}; in
+particular $\Mod(\EE\cC)\simeq\Mod(\cC)$, and Lemma~\ref{lem:rigid}
+holds for $\HH\EE\cC$ with the same proof: for an object $X$ of
+$\HH\EE\cC$ and a Kripke model $M$ of $\cC$, the extension of $M$ to
+$\HH\EE\cC$ sends $X$ to a functor whose maps along the arrows $w$ with
+$M(w)$ an isomorphism are injective.
+
+\begin{prop}\label{prop:E}
+Let $\cC$ be a small coherent category, $S\le A$ a subobject,
+$h\colon M\to N$ a homomorphism of models and $a\in A(M)\setminus S(M)$
+with $h_A(a)\in S(N)$. If some object $B$ of $\cC$ has at least two
+points in $M$, then $\HH\EE\cC$ is not effective: the equivalence
+relation
+\[
+E\big((x,y),(x',y')\big)\;:=\;(x=x'\wedge y=y')\ \vee\ \big(x=x'\wedge
+\neg S(x)\big)
+\]
+on $A\times B$ in $\HH\EE\cC$, which collapses the fibre over $x$ when
+$\neg S(x)$, is not a kernel pair.
+\end{prop}
+\begin{proof}
+$E$ is reflexive and symmetric, and transitive because each disjunct
+contains $x=x'$ and the second depends only on $x$. Suppose that $E$ is
+the kernel pair of a morphism of $\HH\EE\cC$; replacing it by the cover
+in its image factorisation, $E$ is the kernel pair of a cover $q\colon
+A\times B\to X$. Let $M^\ast$ be the Kripke model over the fork of the
+proof of Theorem~\ref{thm:main} and $G$ its extension to $\HH\EE\cC$, a
+Heyting functor to $\Set^{\cK}$. It preserves kernel pairs, covers and
+pseudo-complements, so $G(X)(k)$ is the quotient of $A(M^\ast_k)\times
+B(M^\ast_k)$ by the relation identifying $(x,y)$ and $(x,y')$ when
+$x\in(\neg M^\ast(S))(k)$. As in that proof, $a\notin(\neg M^\ast(S))
+(0)$ and $a\in(\neg M^\ast(S))(1)$; so for $y\ne y'$ in $B(M)$ the
+points $(a,y)$ and $(a,y')$ are distinct in $G(X)(0)$ and have the same
+image in $G(X)(1)$. This contradicts the invariant, $M^\ast(u)$ being
+an isomorphism.
+\end{proof}
+
+\begin{ex}
+For the theory of pure equality (Example~\ref{ex:eq}) take $A=\sigma
+\times\sigma$, $S$ the diagonal, the map from a two-element set to a
+one-element set, and $B=\sigma$: $\HH\EE\cC$ is not effective, so the Heyting completion does not
+commute with the exact completion, without any coproduct. In a bounded
+distributive lattice every object has at most one point in every
+model, and Proposition~\ref{prop:E} does not apply, in accordance with
+Corollary~\ref{cor:E}.
+\end{ex}
+
+So the Heyting completion commutes with adding coproducts; with adding
+quotients it commutes for propositional theories and does not commute
+when a subobject is crossed at a model in which some object has two
+points. Whether it commutes with adding quotients in the remaining
+cases, those of the non-Boolean categories in which every model at
+which a subobject is crossed gives at most one point to every object,
+is open (Question~\ref{que:E}).
 
 \section{When excluded middle repairs the comparison}
 
@@ -602,6 +660,15 @@ before excluded middle is added, except trivially; the Galois criterion
 decides whether excluded middle repairs it.
 
 \section{Questions}
+
+\begin{que}\label{que:E}
+Let $\cC$ be a non-Boolean coherent category such that, whenever a
+homomorphism $h\colon M\to N$ crosses a subobject, every object of
+$\cC$ has at most one point in $M$ (for instance the product of a
+non-Boolean bounded distributive lattice and a Boolean coherent
+category). Is
+$\HH\EE\cC$ effective?
+\end{que}
 
 \begin{que}
 Describe the essential image of $c_\cC$ in $\PP\HH\cC$. The invariant of
