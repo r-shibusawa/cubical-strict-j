@@ -1,0 +1,650 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Coh}{\mathbf{Coh}}
+\newcommand{\Heyt}{\mathbf{Heyt}}
+\newcommand{\Mod}{\mathrm{Mod}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\FF}{\mathsf F}
+\newcommand{\EE}{\mathsf E}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\BB}{\mathsf B}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\KK}{\mathsf K}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\cK}{\mathcal K}
+
+\begin{document}
+
+\title[The free Heyting category on a pretopos]{The free Heyting category on a pretopos is a pretopos only in the Boolean case: the intuitionistic translation and the pretopos completion}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{Heyting category, pretopos completion, coherent category, intuitionistic first-order logic, Kripke model, imaginaries, Morleyization, Boolean category}
+\subjclass[2020]{03G30 (primary), 18F10, 03F55, 03C90 (secondary)}
+
+\begin{abstract}
+Reading a coherent theory in intuitionistic first-order logic is the
+free Heyting category $\HH\cC$ on its coherent syntactic category
+$\cC$; adding the imaginaries is the pretopos completion $\PP$. We
+prove that the two operations commute only trivially: the canonical
+functor $\HH\PP\cC\to\PP\HH\cC$ is always full and faithful, and it is
+an equivalence if and only if $\cC$ is Boolean, in which case $\HH$
+does nothing. In particular the free Heyting category on a pretopos is
+a pretopos only when the pretopos is Boolean. The objects we show to be
+missing from $\HH\PP\cC$ are two copies of an object glued along the intuitionistic negation of a
+non-complemented subobject; they are excluded by an invariant of the
+objects of $\HH\PP\cC$ in Kripke models over a fork, whose existence
+for every non-Boolean $\cC$ is a form of the homomorphism preservation
+theorem. The construction uses a coproduct and a quotient together:
+$\HH$ commutes with the positive completion, and with the exact
+completion for propositional theories. Since the Morleyization is $\HH$ followed
+by the addition of excluded middle, which commutes with $\PP$, the
+commutation of the Morleyization with $\PP$, governed by a Galois
+criterion, is the statement that excluded middle repairs a comparison
+which, for non-Boolean $\cC$, is not an equivalence before it.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A coherent theory $T$ has a coherent syntactic category $\cC_T$, and
+three constructions on it are the subject of this paper and of its
+predecessor \cite{Morley}. The pretopos completion $\PP\cC$ adds finite
+coproducts of sorts and quotients by definable equivalence relations,
+the coherent imaginaries \cite[A3.3, D1.4]{Elephant}. The Morleyization
+$\BB\cC$ is the syntactic category of $T$ read in classical first-order
+logic. Between them lies the Heyting completion $\HH\cC$, the syntactic
+category of $T$ read in intuitionistic first-order logic, and
+$\BB\simeq\KK\HH$ with $\KK$ the addition of excluded middle
+\cite[\S9]{Morley}.
+
+In \cite{Morley} the order of translation and completion was studied
+for $\BB$: there is a full and faithful comparison
+$\BB\PP\cC\to\PP\BB\cC$, which is an equivalence exactly when a Galois
+criterion holds \cite[Thm.~6.1]{Morley}; it fails for the theory of
+complete multipartite graphs and holds, for example, for the theory of
+an equivalence relation. It was also shown that $\KK$ commutes with
+$\PP$ on all Heyting categories \cite[Thm.~9.2]{Morley}, so that the
+comparison for $\BB$ is the image under $\KK$ of the comparison
+\[
+c_\cC\colon\HH\PP\cC\longrightarrow\PP\HH\cC
+\]
+for $\HH$. The question left open was when $c_\cC$ itself is an
+equivalence. The answer is the following.
+
+\begin{thm}\label{thm:main}
+For a small coherent category $\cC$ the functor $c_\cC$ is full and
+faithful, and the following are equivalent.
+\begin{enumerate}
+\item[(i)] $c_\cC\colon\HH\PP\cC\to\PP\HH\cC$ is an equivalence.
+\item[(ii)] $\HH\PP\cC$ is a pretopos.
+\item[(iii)] $\cC$ is Boolean.
+\end{enumerate}
+If they hold, the units $\cC\to\HH\cC$ and $\PP\cC\to\HH\PP\cC$ are
+equivalences.
+\end{thm}
+
+For a pretopos $\cC$ this says that the free Heyting category on $\cC$
+is a pretopos if and only if $\cC$ is Boolean
+(Corollary~\ref{cor:pretopos}).
+
+\subsection*{What is new and what is known}
+New, to the author's knowledge: Theorem~\ref{thm:main}; the invariant
+that proves it (Lemma~\ref{lem:rigid}); the commutation of $\HH$ with
+the positive completion (Proposition~\ref{prop:F}) and the resulting
+location of the failure (Corollary~\ref{cor:E}); and the reading of the
+Galois criterion of \cite{Morley} as the statement that $c_\cC$ is
+inverted by $\KK$ (Corollary~\ref{cor:K}). Known and used: syntactic
+categories of first-order theories are Heyting categories and classify
+their models in Heyting categories \cite[D1.4]{Elephant}; the pretopos
+completion \cite[A3.3]{Elephant}; completeness of coherent logic for
+set-valued models \cite[D1.5]{Elephant}, \cite{MR77}; the homomorphism
+preservation theorem of \L o\'s, Tarski and Lyndon, of which
+Lemma~\ref{lem:cross} is the form needed here and is proved in full;
+the Heyting structure of presheaf categories, that is, Kripke
+semantics; and from \cite{Morley} the facts that $\PP\cD$ is Heyting
+when $\cD$ is, with the expected universal property, and that $\KK$
+commutes with $\PP$.
+
+\subsection*{Conventions}
+$\Coh$ is the $(2,1)$-category of small coherent categories, coherent
+functors and natural isomorphisms, and $\Heyt$ that of small Heyting
+categories (coherent categories in which every pullback functor
+$f^*\colon\Sub(B)\to\Sub(A)$ has a right adjoint $\forall_f$), Heyting
+functors (coherent functors preserving the $\forall_f$) and natural
+isomorphisms \cite[A1.4]{Elephant}. A Heyting functor preserves the
+implication of subobjects and the pseudo-complement $\neg U=(U
+\Rightarrow0)$, since $U\Rightarrow V=\forall_i(i^*V)$ for the
+inclusion $i\colon U\to A$. A coherent category is \emph{Boolean} if
+every subobject is complemented. A model of $\cC$ is a coherent functor
+$\cC\to\Set$, and $\Mod(\cC)$ is the category of models with all
+natural transformations, the homomorphisms. The universal properties
+below are stated for small categories but hold, with the same proofs,
+for targets such as $\Set^{\cK}$, $\cK$ a small category; alternatively
+one replaces $\Set^{\cK}$ by a small full subcategory closed under the
+operations of a Heyting pretopos and containing the objects in
+question.
+
+\section{The two completions and the comparison}
+
+\subsection*{The Heyting completion}
+For $\cC$ in $\Coh$ let $\HH\cC$ be the syntactic category of the
+internal coherent theory of $\cC$ (a sort for every object, a function
+symbol for every morphism, the coherent sequents valid in $\cC$) read in
+intuitionistic first-order logic with possibly empty sorts (the initial
+object is a sort), and $\eta\colon\cC\to\HH\cC$ the
+coherent functor sending an object to its sort. $\HH\cC$ is a Heyting
+category, and for every Heyting category $\cD$ restriction along $\eta$
+is an equivalence of groupoids
+\[
+\Heyt(\HH\cC,\cD)\;\simeq\;\Coh(\cC,\cD):
+\]
+a coherent functor $\cC\to\cD$ is a model of the internal theory in
+$\cD$, it interprets every first-order formula, intuitionistic logic is
+sound in Heyting categories, and an isomorphism of models preserves the
+interpretations of all formulas \cite[D1.4]{Elephant},
+\cite[\S9]{Morley}. Every object of $\HH\cC$ is a subobject of some
+$\eta A$: it is a formula in a context $x_1{:}A_1,\dots,x_n{:}A_n$, a
+subobject of $\eta(A_1\times\dots\times A_n)$.
+
+The forgetful $2$-functor $\Heyt\to\Coh$ is not full, a coherent
+functor between Heyting categories need not be Heyting. So $\HH$ is a
+free construction and not a reflector; the join lemma of
+\cite{TheoryComp,Morley}, which concerns reflectors, does not apply to
+it, and we compare the composites $\HH\PP$ and $\PP\HH$ directly.
+
+\begin{lem}\label{lem:boolean}
+If $\cC$ is Boolean, then $\eta\colon\cC\to\HH\cC$ is an equivalence.
+\end{lem}
+\begin{proof}
+A Boolean coherent category is Heyting, with $\forall_fU=\neg\exists_f
+\neg U$. Let $G\colon\cC\to\cD$ be coherent with $\cD$ Heyting. Then
+$G$ preserves complements and images, so $G(\forall_fU)$ is a
+complement $W$ of $\exists_{Gf}V'$, where $V'=G(\neg U)$ is a
+complement of $V=GU$. In a Heyting category this $W$ is $\forall_{Gf}
+V$: for a subobject $W'$, $(Gf)^*W'\le V$ iff $(Gf)^*W'\wedge V'=0$
+iff $W'\wedge\exists_{Gf}V'=0$ (Frobenius reciprocity) iff $W'\le W$.
+So every coherent functor from $\cC$ to a Heyting category is Heyting,
+and the identity of $\cC$ has the universal property of $\eta$.
+\end{proof}
+
+\subsection*{The pretopos completion of a Heyting category}
+We write $\iota\colon\cC\to\PP\cC$ for the unit of the pretopos
+completion; it is full and faithful, and restriction along it is an
+equivalence between the categories of coherent functors $\PP\cC\to
+\mathcal E$ and $\cC\to\mathcal E$ with all natural transformations
+(not only the groupoids $\Coh(\PP\cC,\mathcal E)$ and $\Coh(\cC,
+\mathcal E)$), when $\mathcal E$ is a
+pretopos \cite[A3.3]{Elephant}. In particular $\Mod(\PP\cC)\simeq
+\Mod(\cC)$. Every object of $\PP\cC$ is the quotient of a finite
+coproduct of objects $\iota A$ by an equivalence relation.
+
+\begin{lem}[{\cite[Lemma~9.1]{Morley}}]\label{lem:PHeyt}
+If $\cD$ is a Heyting category, then $\PP\cD$ is a Heyting pretopos and
+$\iota\colon\cD\to\PP\cD$ is a Heyting functor; and for a Heyting
+pretopos $\mathcal E$ a coherent functor $\PP\cD\to\mathcal E$ is
+Heyting if and only if its restriction to $\cD$ is.
+\end{lem}
+
+Consequently $\PP\HH\cC$ is the free Heyting pretopos on $\cC$:
+$\Heyt(\PP\HH\cC,\mathcal E)\simeq\Coh(\cC,\mathcal E)$ for Heyting
+pretoposes $\mathcal E$.
+
+\subsection*{The comparison}
+The coherent functor $\PP\eta\colon\PP\cC\to\PP\HH\cC$ has a Heyting
+target, so it extends, uniquely up to a unique isomorphism, to a
+Heyting functor
+\[
+\begin{tikzcd}[column sep=large]
+\PP\cC\arrow[r,"\eta_{\PP\cC}"]\arrow[dr,"\PP\eta"']&\HH\PP\cC
+\arrow[d,"c_\cC"]\\
+&\PP\HH\cC.
+\end{tikzcd}
+\]
+
+\begin{lem}\label{lem:ff}
+$c_\cC$ is full and faithful. It is an equivalence if and only if
+$\HH\PP\cC$ is a pretopos.
+\end{lem}
+\begin{proof}
+For a Heyting pretopos $\mathcal E$, by Lemma~\ref{lem:PHeyt} and the
+universal properties,
+\begin{align*}
+\Heyt(\PP\HH\PP\cC,\mathcal E)&\simeq\Heyt(\HH\PP\cC,\mathcal E)\simeq
+\Coh(\PP\cC,\mathcal E)\\&\simeq\Coh(\cC,\mathcal E)\simeq
+\Heyt(\PP\HH\cC,\mathcal E),
+\end{align*}
+by restriction to $\cC$. So there is a Heyting equivalence $e\colon\PP
+\HH\PP\cC\simeq\PP\HH\cC$ compatible with the functors from $\cC$, and
+$e\circ\iota_{\HH\PP\cC}$ is a Heyting functor $\HH\PP\cC\to\PP\HH\cC$
+whose restriction to $\PP\cC$ is a coherent functor into a pretopos
+restricting on $\cC$ as $\PP\eta$ does; hence $e\circ\iota_{\HH\PP\cC}
+\cong c_\cC$. The unit $\iota_{\HH\PP\cC}$ is full and faithful, and it
+is an equivalence if and only if $\HH\PP\cC$ is a pretopos.
+\end{proof}
+
+\section{Kripke models and an invariant}
+
+Let $\cK$ be a small category. The category $\Set^{\cK}$ is a Heyting
+pretopos, and limits, images, unions, coproducts and quotients in it
+are computed at each object of $\cK$; so a coherent functor $\cC\to
+\Set^{\cK}$ is the same as a functor $M\colon\cK\to\Mod(\cC)$, a
+\emph{Kripke model} of $\cC$ over $\cK$; the transitions are arbitrary
+homomorphisms and need not be injective. We write $M_k$ for the model
+at $k$. The pseudo-complement in $\Set^{\cK}$ is the Kripke negation:
+for a subfunctor $S\subseteq A$,
+\begin{equation}\label{eq:neg}
+(\neg S)(k)=\{x\in A(k)\mid A(w)x\notin S(l)\text{ for every arrow }
+w\colon k\to l\},
+\end{equation}
+since the right-hand side is a subfunctor disjoint from $S$, and every
+subfunctor $W$ disjoint from $S$ lies in it ($x\in W(k)$ gives
+$A(w)x\in W(l)$).
+
+A Kripke model $M$ extends to
+\begin{align*}
+M^{\HH}&\colon\HH\cC\to\Set^{\cK},& M^{\PP}&\colon\PP\cC\to\Set^{\cK},\\
+M^{\HH\PP}&\colon\HH\PP\cC\to\Set^{\cK},&
+M^{\PP\HH}&\colon\PP\HH\cC\to\Set^{\cK},
+\end{align*}
+the first, third and fourth Heyting (Lemma~\ref{lem:PHeyt}), with
+$M^{\HH\PP}\eta_{\PP\cC}\cong M^{\PP}$ and
+\begin{equation}\label{eq:compat}
+M^{\PP\HH}\circ c_\cC\;\cong\;M^{\HH\PP},
+\end{equation}
+both sides being Heyting functors whose restrictions to $\PP\cC$ are
+coherent functors into a pretopos restricting to $M$ on $\cC$. The
+functor $M^{\PP}$ is the Kripke model of $\PP\cC$ corresponding to $M$
+under $\Mod(\PP\cC)\simeq\Mod(\cC)$: for $Y$ in $\PP\cC$, the set
+$M^{\PP}(Y)(k)$ is the value at $Y$ of the extension of $M_k$, and an
+arrow $w$ of $\cK$ acts by the extension of the homomorphism $M(w)$.
+
+\begin{lem}[invariant]\label{lem:rigid}
+Let $X$ be an object of $\HH\PP\cC$, $M$ a Kripke model of $\cC$ over
+$\cK$, and $w\colon k\to l$ an arrow of $\cK$ such that $M(w)$ is an
+isomorphism of models. Then $M^{\HH\PP}(X)(w)$ is injective.
+\end{lem}
+\begin{proof}
+$X$ is a subobject of $\eta_{\PP\cC}Y$ for an object $Y$ of $\PP\cC$,
+so $M^{\HH\PP}(X)$ is a subfunctor of $M^{\PP}(Y)$. The functor
+$\cK\to\Mod(\PP\cC)$ corresponding to $M^{\PP}$ sends $w$ to an
+isomorphism, since $M(w)$ is one and $\Mod(\PP\cC)\simeq\Mod(\cC)$; so
+$M^{\PP}(Y)(w)$ is a bijection and its restriction is injective.
+\end{proof}
+
+When $\cC$ is not Boolean, some objects of $\PP\HH\cC$ do not have this
+property (Section~5): they are quotients by relations whose truth at
+$k$ depends on all the arrows out of $k$ and not only on the model
+$M_k$.
+
+\section{Non-Boolean categories have crossing homomorphisms}
+
+\begin{lem}\label{lem:cross}
+Let $S\le A$ be a subobject in a small coherent category $\cC$ which is
+not complemented. Then there are models $M,N$ of $\cC$, a homomorphism
+$h\colon M\to N$ and $a\in A(M)\setminus S(M)$ with $h_A(a)\in S(N)$.
+\end{lem}
+\begin{proof}
+For $U\le B$ with inclusion $i$ we write $U(x)$ for the formula $\exists
+u{:}U\,(i(u)=x)$. We use the completeness theorem: if $U,U_1,\dots,U_n\le B$ and
+$U(M)\subseteq U_1(M)\cup\dots\cup U_n(M)$ for all models $M$, then
+$U\le U_1\vee\dots\vee U_n$ \cite[D1.5]{Elephant}, \cite{MR77}; and the
+compactness theorem for the classical first-order theory $T_\cC$ whose
+models are the models of $\cC$, in many-sorted logic with possibly
+empty sorts (the initial object is a sort).
+
+Let $I=\{U\le A\mid U\wedge S=0\}$, an ideal of the distributive
+lattice $\Sub(A)$, and $J$ the ideal of the $W$ with $W\le S\vee U$ for
+some $U\in I$. It is proper: $A\le S\vee U$ with $U\wedge S=0$ would
+make $U$ a complement of $S$. By the prime filter theorem there is a
+prime filter $\mathfrak p$ of $\Sub(A)$ disjoint from $J$.
+
+There are a model $M$ and $a\in A(M)$ with $a\in U(M)$ iff
+$U\in\mathfrak p$, for all $U\le A$: the theory $T_\cC$ with a new
+constant $c$ of sort $A$ and the axioms $U(c)$, $U\in\mathfrak p$, and
+$\neg U(c)$, $U\notin\mathfrak p$, is finitely satisfiable, since
+otherwise there are $U_0\in\mathfrak p$ and $U_1,\dots,U_n\notin
+\mathfrak p$ with $U_0(M)\subseteq\bigcup_iU_i(M)$ in all models, hence
+$U_0\le\bigvee_iU_i$, and $\bigvee_iU_i\in\mathfrak p$ contradicts the
+primeness of $\mathfrak p$ (for $n=0$, $0\in\mathfrak p$ contradicts
+its properness). In particular $a\notin S(M)$, and $a\notin U(M)$ for
+$U\in I$.
+
+Now add to $T_\cC$ a constant $c_b$ of sort $B$ for every object $B$
+and every $b\in B(M)$, the axioms
+\[
+f(c_b)=c_{f_M(b)}\qquad(f\colon B\to B'\text{ a morphism of }\cC,\ b\in
+B(M)),
+\]
+and the axiom $S(c_a)$. A finite part of these axioms mentions, besides
+$c_a$, finitely many distinct constants $c_{b_1},\dots,c_{b_n}$,
+$b_i\in B_i(M)$, and finitely many equations between them and $c_a$.
+Put $b_0=a$, $B_0=A$ and $B=\prod_{i=0}^nB_i$, and let $\theta\le B$ be
+the subobject defined by the conjunction of these equations, one
+variable $y_i$ replacing each constant $c_{b_i}$ (an equation
+$f(y_i)=y_j$ defines an equaliser, a subobject of $B$); then
+$(a,b_1,\dots,b_n)\in\theta(M)$. If the finite part had no model, every
+model $N'$ would satisfy $\exists_{\pi_0}\theta(N')\cap S(N')=
+\emptyset$, so $U:=\exists_{\pi_0}\theta\le A$ would satisfy $U\wedge
+S=0$ by completeness, that is $U\in I\subseteq J$; but $a\in U(M)$
+gives $U\in\mathfrak p$, a contradiction. By compactness there is a
+model $N$ of all these axioms, and $h_B(b):=c_b^N$ is, by the axioms, a
+natural transformation $M\to N$, with $h_A(a)\in S(N)$.
+\end{proof}
+
+\begin{rem}
+Lemma~\ref{lem:cross} is the homomorphism preservation theorem in the
+form: a subobject whose complement is preserved by all homomorphisms of
+models is complemented. Its converse is trivial, so a coherent category
+is Boolean if and only if every homomorphism of its models reflects
+every subobject. In that case every first-order formula is equivalent
+to a coherent one and the homomorphisms are the elementary embeddings
+of the models of the corresponding classical theory. (A single
+homomorphism reflecting all subobjects need not be elementary: the
+inclusion of a two-element set in a three-element set, for pure
+equality.)
+\end{rem}
+
+\section{Proof of the main theorem}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The first assertion and (i)$\Leftrightarrow$(ii) are
+Lemma~\ref{lem:ff}.
+
+(iii)$\Rightarrow$(i). If $\cC$ is Boolean, so is $\PP\cC$
+\cite[Prop.~3.4]{Morley}: complements are taken componentwise in
+finite coproducts, and the complement of a saturated subobject is
+saturated. By Lemma~\ref{lem:boolean}, $\eta_\cC$ and $\eta_{\PP\cC}$
+are equivalences; so $\HH\PP\cC\simeq\PP\cC$ is a pretopos.
+
+(i)$\Rightarrow$(iii). Suppose that $S\le A$ is not complemented in
+$\cC$, and let $h\colon M\to N$ and $a$ be as in Lemma~\ref{lem:cross}.
+In $\PP\HH\cC$ let $\neg S\le A$ be the pseudo-complement of (the image
+of) $S$ in (the image of) $A$, and let
+\[
+Q\;:=\;(A+A)/E,\qquad E:=\Delta_{A+A}\vee(\kappa_1,\kappa_2)(\neg S)
+\vee(\kappa_2,\kappa_1)(\neg S),
+\]
+with $\kappa_1,\kappa_2\colon A\to A+A$ the coprojections and
+$(\kappa_i,\kappa_j)(\neg S)$ the image of $\neg S$ in $(A+A)\times
+(A+A)$: the two copies of $A$ glued along $\neg S$, the pushout of
+$A\leftarrow\neg S\to A$. The relation $E$ is an equivalence relation,
+so $Q$ exists in the pretopos $\PP\HH\cC$. We show that $Q$ is not
+isomorphic to $c_\cC(X)$ for any object $X$ of $\HH\PP\cC$.
+
+Let $\cK$ be the fork, the poset with three elements $0<1$ and $0<2$,
+with arrows $u\colon0\to1$ and $v\colon0\to2$, and $M^\ast$ the Kripke
+model
+\[
+\begin{tikzcd}[column sep=large]
+M^\ast_1=M&&M^\ast_2=N\\
+&M^\ast_0=M\arrow[ul,"M^\ast(u)=\mathrm{id}"]\arrow[ur,"M^\ast(v)=h"']&
+\end{tikzcd}
+\]
+Since $M^{\ast\PP\HH}$ is a Heyting functor between pretoposes, it
+preserves pseudo-complements, coproducts, images and quotients; so
+$M^{\ast\PP\HH}(Q)$ is the quotient of $M^\ast(A)+M^\ast(A)$ which
+identifies the two copies of $x\in A(M^\ast_k)$ exactly when $x\in
+(\neg M^\ast(S))(k)$. By \eqref{eq:neg}, $a\in(\neg M^\ast(S))(1)$,
+because the only arrow out of $1$ is the identity and $a\notin S(M)$;
+and $a\notin(\neg M^\ast(S))(0)$, because $M^\ast(A)(v)a=h_A(a)\in
+S(N)$. Hence the two copies of $a$ are distinct points of
+$M^{\ast\PP\HH}(Q)(0)$ with the same image under $u$ in
+$M^{\ast\PP\HH}(Q)(1)$.
+
+If $Q\cong c_\cC(X)$, then by \eqref{eq:compat} $M^{\ast\PP\HH}(Q)\cong
+M^{\ast\HH\PP}(X)$, whose map along $u$ is injective by
+Lemma~\ref{lem:rigid}, since $M^\ast(u)$ is an isomorphism. This is a
+contradiction; so $c_\cC$ is not essentially surjective.
+
+The last assertion is Lemma~\ref{lem:boolean} for $\cC$ and $\PP\cC$.
+\end{proof}
+
+\begin{cor}\label{cor:pretopos}
+Let $\cC$ be a small pretopos. The free Heyting category $\HH\cC$ on
+$\cC$ is a pretopos if and only if $\cC$ is Boolean, and then
+$\HH\cC\simeq\cC$.
+\end{cor}
+\begin{proof}
+$\iota\colon\cC\to\PP\cC$ is an equivalence, so $\HH\cC\simeq\HH\PP\cC$;
+apply Theorem~\ref{thm:main}.
+\end{proof}
+
+\begin{ex}[pure equality]\label{ex:eq}
+Let $\cC$ be the syntactic category of the coherent theory with one
+sort $\sigma$ and no symbols and axioms. The diagonal of $\sigma\times
+\sigma$ is not complemented; a crossing homomorphism is the map from a
+two-element set $\{a,b\}$ to a one-element set, with the pair $(a,b)$.
+The object $Q$ is two copies of $\sigma\times\sigma$ glued along
+$\neg(x=y)$: an intuitionistic imaginary of the theory of pure
+equality which is not an intuitionistically definable subset of a
+coherent imaginary. Over the fork, $\neg(x=y)$ is empty at $0$ and is
+the set of the two off-diagonal pairs at $1$; so the fibre of $Q$ at
+$0$ has eight points, two copies of the four pairs, and the fibre at
+$1$ has six, the two copies of $(a,b)$ and of $(b,a)$ being identified.
+\end{ex}
+
+\begin{ex}[propositional theories]\label{ex:prop}
+Let $\cC=D$ be a bounded distributive lattice, a propositional coherent
+theory. Up to isomorphism its models are the prime filters and the
+homomorphisms are the inclusions, and Lemma~\ref{lem:cross} is the classical fact that a
+distributive lattice in which the prime filters form an antichain is
+Boolean. $\HH D$ is the free Heyting algebra on the distributive
+lattice $D$. For the three-element chain $0<p<1$ the object $Q$ is
+$(1+1)/E$ with the two points identified when $\neg p$; over the fork
+$\{1\}=\{1\}\subset\{p,1\}$ of prime filters it has two points at $0$
+and one at $1$, and no intuitionistically definable subobject of an
+object of $\PP D$ behaves so.
+\end{ex}
+
+\section{Where the failure is: coproducts and quotients together}
+
+The pretopos completion is $\PP=\EE\FF$, with $\FF$ the positive
+completion (finite disjoint coproducts) and $\EE$ the exact completion
+of a regular category \cite[A3.3]{Elephant}, \cite{TheoryComp}. Here a coherent category is \emph{positive} if it has finite
+coproducts, disjoint and stable under pullback, $\FF$ is the reflector
+onto the positive coherent categories (coherent functors from $\FF\cC$
+to a positive coherent category correspond to those from $\cC$; the
+unit is full and faithful and full on subobjects, and every object of
+$\FF\cC$ is a finite coproduct of objects of $\cC$), and $\EE$ is the
+exact (ex/reg) completion of a regular category. The object $Q$ uses a
+coproduct and a quotient. The coproduct step alone is never
+responsible, and the quotient step alone is not responsible for
+propositional theories.
+
+\begin{lem}\label{lem:FHeyt}
+If $\cD$ is a Heyting category, then $\FF\cD$ is a Heyting category and
+the unit $\cD\to\FF\cD$ is Heyting; and for a positive Heyting category
+$\cD'$ a coherent functor $\FF\cD\to\cD'$ is Heyting if and only if its
+restriction to $\cD$ is.
+\end{lem}
+\begin{proof}
+Every object of $\FF\cD$ is a finite coproduct $\coprod_iA_i$ of
+objects of $\cD$, the unit is full and faithful and full on subobjects,
+and $\Sub(\coprod_iA_i)\cong\prod_i\Sub_\cD(A_i)$, $U\mapsto(U\wedge
+A_i)_i$. Let $f\colon\coprod_iA_i\to\coprod_jB_j$, and let
+$A_{ij}=A_i\wedge f^*B_j$, a subobject of $A_i$ in $\cD$, and
+$f_{ij}\colon A_{ij}\to B_j$ the restriction, a morphism of $\cD$; for
+each $i$ the $A_{ij}$ are disjoint with union $A_i$. For
+$V=(V_j)_j$ one has $f^*V\wedge A_i=\bigvee_jf_{ij}^*V_j$, and
+therefore, for $U\le\coprod_iA_i$,
+\[
+(\forall_fU)\wedge B_j\;=\;\bigwedge_i\forall_{f_{ij}}(U\wedge A_{ij}):
+\]
+$V\le\forall_fU$ iff $f_{ij}^*V_j\le U\wedge A_{ij}$ for all $i,j$ iff
+$\bigvee_jf_{ij}^*V_j\le U\wedge A_i$ for all $i$, the $A_{ij}$ being
+disjoint. The formula involves only the $\forall$ of $\cD$, finite
+meets and the decomposition of coproducts; so the unit preserves
+$\forall$, and so does a coherent functor to a positive Heyting
+category whose restriction to $\cD$ is Heyting. The converse holds
+since the unit is Heyting.
+\end{proof}
+
+\begin{prop}\label{prop:F}
+For every small coherent category $\cC$ the canonical Heyting functor
+$\HH\FF\cC\to\FF\HH\cC$ is an equivalence.
+\end{prop}
+\begin{proof}
+By Lemma~\ref{lem:FHeyt}, $\FF\HH\cC$ is a positive Heyting category
+with $\Heyt(\FF\HH\cC,\cD')\simeq\Heyt(\HH\cC,\cD')\simeq\Coh(\cC,
+\cD')$ for positive Heyting categories $\cD'$. On the other side
+$\Heyt(\HH\FF\cC,\cD')\simeq\Coh(\FF\cC,\cD')\simeq\Coh(\cC,\cD')$. So
+it suffices to show that $\HH\FF\cC$ is positive; then both categories
+are the free positive Heyting category on $\cC$, and the canonical
+functor, which is compatible with the functors from $\cC$, is an
+equivalence. Let $X\le\eta Y$ and $X'\le\eta Y'$ be objects of
+$\HH\FF\cC$, with $Y,Y'$ in $\FF\cC$. The coherent functor $\eta$
+sends the coproduct $Y+Y'$, the union of the disjoint subobjects $Y$
+and $Y'$, to a union of disjoint subobjects, which in a coherent
+category is a coproduct, disjoint and stable \cite[A1.4]{Elephant}; so
+$X\vee X'\le\eta(Y+Y')$ is a disjoint and stable coproduct of $X$ and
+$X'$, and the initial object is the empty one.
+\end{proof}
+
+\begin{cor}\label{cor:E}
+Let $\cC$ be a small positive coherent category. Then $\HH\EE\cC$ is
+positive, and it is exact if and only if $\cC$ is Boolean. For a
+small bounded distributive lattice $D$, on the other hand, $\EE D\simeq D$ and
+$\HH\EE D\simeq\HH D$ is exact, although $\HH\PP D$ is a pretopos only
+if $D$ is Boolean.
+\end{cor}
+\begin{proof}
+For positive $\cC$ the category $\EE\cC$ is a pretopos, equivalent to
+$\PP\cC$ and to $\FF\EE\cC$; so $\HH\EE\cC\simeq\HH\FF\EE\cC$ is
+positive by the proof of Proposition~\ref{prop:F}, and a positive
+coherent category is a pretopos iff it is exact;
+Theorem~\ref{thm:main} applies. In a preorder every equivalence
+relation on an object $U$ is the whole of $U\times U\cong U$, the
+kernel pair of the identity; so $D$ and the Heyting algebra $\HH D$ are
+exact.
+\end{proof}
+
+So the Heyting completion commutes with adding coproducts, and it can
+commute with adding quotients (the comparison of $\HH\EE$ and $\EE\HH$
+for general coherent categories is left open); what it does
+not commute with is the quotient of a coproduct, the gluing of two copies of an object along a
+subobject which exists in the Heyting completion and not in $\cC$.
+
+\section{When excluded middle repairs the comparison}
+
+Let $\KK\colon\Heyt\to\mathbf{BCoh}$ be the classicalisation, the
+reflector onto the full sub-$2$-category $\mathbf{BCoh}$ of Boolean
+coherent categories which adds excluded
+middle to the internal first-order theory; $\BB\simeq\KK\HH$ is the
+Morleyization, and $\KK\PP\cD\simeq\PP\KK\cD$ for every Heyting
+category $\cD$ \cite[Thm.~9.2]{Morley}. The comparison
+$b_\cC\colon\BB\PP\cC\to\PP\BB\cC$ of \cite{Morley} is $\KK c_\cC$
+followed by this equivalence at $\cD=\HH\cC$
+\cite[Cor.~9.3]{Morley}:
+\[
+\begin{tikzcd}[column sep=large]
+\HH\PP\cC\arrow[r,"c_\cC"]\arrow[d]&\PP\HH\cC\arrow[d]\\
+\BB\PP\cC=\KK\HH\PP\cC\arrow[r,"\KK c_\cC"]\arrow[rr,bend right=18,
+"b_\cC"']&\KK\PP\HH\cC\arrow[r,"\simeq"]&\PP\KK\HH\cC=\PP\BB\cC.
+\end{tikzcd}
+\]
+
+\begin{cor}\label{cor:K}
+For a small coherent category $\cC$ the following are equivalent: the
+Morleyization commutes with the pretopos completion at $\cC$, that is
+$b_\cC$ is an equivalence; the Galois criterion of
+\cite[Thm.~6.1]{Morley} holds for $\cC$ (in the saturated, strongly
+homogeneous models of the completions of the classical theory, every
+classical imaginary has the automorphism stabiliser of a point of a
+coherent imaginary); the Heyting functor $c_\cC$ is
+inverted by $\KK$. If these conditions hold and $\cC$ is not Boolean, then $c_\cC$ is a
+full and faithful Heyting functor which is not an equivalence and
+becomes one when excluded middle is added. This is the case for the
+theory of pure equality, for the theory of an equivalence relation,
+for the theories without axioms over a monadic relational signature
+with at least one sort, and for the non-Boolean propositional theories
+\cite[Ex.~6.5, Thm.~8.2, Thm.~7.1, Prop.~5.2]{Morley}.
+\end{cor}
+\begin{proof}
+The first equivalence is \cite[Thm.~6.1]{Morley}, the second the
+factorisation above, and the rest is Theorem~\ref{thm:main}. The
+theories listed are not Boolean: in each there is a homomorphism of
+models which is not an elementary embedding (a non-injective map of
+sets in the first and third cases, a map merging two classes, a proper
+inclusion of prime filters).
+\end{proof}
+
+In the example of pure equality one sees the repair: classically
+$\neg(x=y)$ is a complemented subobject of $\sigma\times\sigma$ and the
+glued object $Q$ of Example~\ref{ex:eq} becomes the coproduct of
+$\sigma\times\sigma$ and the diagonal, a classical subobject of a
+coherent imaginary. For the theory of complete multipartite graphs
+\cite[Thm.~5.3]{Morley} the repair fails: $\KK$ does not invert
+$c_\cC$. Thus the statement of \cite{Morley} that the forced order of
+the Morleyization and the completion arises in the Heyting completion
+is to be read as follows. The comparison is never an equivalence
+before excluded middle is added, except trivially; the Galois criterion
+decides whether excluded middle repairs it.
+
+\section{Questions}
+
+\begin{que}
+Describe the essential image of $c_\cC$ in $\PP\HH\cC$. The invariant of
+Lemma~\ref{lem:rigid} is necessary; is it sufficient, for instance for
+propositional theories, where $\PP\HH D$ is the pretopos completion of the free Heyting
+algebra on $D$?
+\end{que}
+
+\begin{que}
+Let $L$ be an intermediate predicate logic, given by axiom schemes
+added to intuitionistic first-order logic, and $\HH_L$ the
+corresponding translation. The fork is not a frame for the logic of linear frames
+(G\"odel--Dummett), and over a finite linear order two consecutive
+nodes whose transition is an isomorphism of models force the same
+formulas, under this isomorphism; so the proof of
+Theorem~\ref{thm:main} does not apply. For which $L$ does $\HH_L$
+commute with $\PP$ beyond the Boolean case?
+\end{que}
+
+\begin{que}
+Is there a description of the class of coherent functors inverted by
+$\HH$, and of its relation to the classes $V_\BB$ and $V_\PP$ of
+\cite{Morley} in the lattice of two-out-of-three classes, in spite of
+$\HH$ not being a reflector?
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{99}
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{MR77} M.~Makkai, G.~E.~Reyes, \emph{First Order Categorical
+Logic}, Lecture Notes in Math. 611, Springer, 1977.
+\bibitem{Morley} R.~Shibusawa, \emph{Translations in the lattice of
+two-out-of-three classes: Morleyization as a sameness of theories, its
+join with Morita equivalence, and the forced order of translation and
+completion}, preprint (2026), archived at DOI 10.5281/zenodo.24122457.
+\bibitem{TheoryComp} R.~Shibusawa, \emph{Comparing theories in the lattice
+of two-out-of-three classes: Morita equivalence as a join of completions,
+the forced order of coproducts and quotients, and conceptual completeness
+as an identity of samenesses}, preprint (2026), archived at DOI
+10.5281/zenodo.24095158.
+\end{thebibliography}
+
+\end{document}
