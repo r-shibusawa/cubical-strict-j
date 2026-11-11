@@ -62,7 +62,7 @@ embeddings, whereas homomorphisms detect the Morita class alone. The
 order is forced: completing first and Morleyizing second fails for the
 coherent theory of complete multipartite graphs, where the set of
 parts, a classical imaginary, is not a classical subobject of any
-coherent imaginary, by compactness. The two orders agree iff, in the
+coherent imaginary uniformly in the models. The two orders agree iff, in the
 saturated models of the completions, every classical imaginary has the
 automorphism stabiliser of a coherent imaginary, Poizat's criterion
 relative to the coherent imaginaries; weak elimination of imaginaries
@@ -131,7 +131,7 @@ classical imaginary which is not a classical subobject of any coherent
 imaginary (Theorem~\ref{thm:order}). The proof counts fixed points of
 automorphisms of the complete $k$-partite graphs, as the sharpness proof
 of \cite[Thm.~5.6]{TheoryComp} counted points at finitely presented
-models; the obstruction is compactness, since for each $k$ the parts of
+models; the obstruction is one of uniformity, since for each $k$ the parts of
 the $k$-partite models are a coherent quotient, with $k-1$ witnesses.
 \item[(D)] The commutation $\BB\PP\cC_T\simeq\PP\BB\cC_T$ is
 characterised (Theorem~\ref{thm:galois}): it holds iff in the saturated
@@ -151,10 +151,15 @@ relation (Theorem~\ref{thm:eqrel}), which has the same Morleyization as
 the theory of complete multipartite graphs: the commutation is a
 property of the coherent presentation and not of the classical theory
 (Corollary~\ref{cor:notclassical}).
+\item[(G)] The Morleyization is the Heyting completion followed by the
+addition of excluded middle, and the second commutes with the pretopos
+completion for every Heyting category (Theorem~\ref{thm:K}): the forced
+order arises in the Heyting completion, the passage to implication and
+the universal quantifier, not in excluded middle (Corollary~\ref{cor:localise}).
 \end{enumerate}
 What is known: the Morleyization and its universal property
 \cite[D1.5.13]{Elephant}, also for invertible $2$-cells
-\cite[\S6.2]{DPM20}; that a classical theory and its Morleyization have
+\cite[\S6.2, Prop.~6.5]{DPM20}; that a classical theory and its Morleyization have
 the same Morita class and that the models of $T^m$ are the models of
 $T$ with elementary embeddings \cite[\S5]{Tsem17}, \cite{HT17}; the pretopos
 completion as $T^{\mathrm{eq}}$ under Harnik's hypotheses
@@ -170,7 +175,7 @@ translation as a sameness and the join (A) in the lattice, the
 non-commutation (C) with the multipartite example, the relative form of
 the criterion with the coherent-type test of (D), and the dichotomy
 (E), of which the failure for every symbol of arity at least two is the
-new half, and (F). The last section lists the next translations to be
+new half, (F) and (G). The last section lists the next translations to be
 read in the same way.
 
 \section{The lattice, the completions and the join lemma}\label{sec:prelim}
@@ -292,8 +297,10 @@ $\PP$ preserves Booleanness, $\PP\BB$ is the reflector of $\Coh$ onto
 $\BPretop$, and $\PP\BB\PP\simeq\PP\BB$. The objects of $\PP\BB\cC_T$ are the quotients of finite
 coproducts of classical definable sets by classical equivalence
 relations; under the hypotheses of \cite{Harnik11}, that every sort is provably
-inhabited and some sort has two provably distinct elements, this is
-the syntactic category of Shelah's $(T^m)^{\mathrm{eq}}$, and in general
+inhabited and some sort has two provably distinct elements
+($T^m\vdash\exists x{:}A\,\top$ for every sort $A$ and $T^m\vdash\exists
+u,v{:}A_0\,(u\ne v)$ for some sort $A_0$; no constants are required),
+this is the syntactic category of Shelah's $(T^m)^{\mathrm{eq}}$, and in general
 it is larger.
 \end{prop}
 \begin{proof}
@@ -309,7 +316,7 @@ since $\Coh(\PP\BB\PP\cC,\mathcal B)\simeq\Coh(\PP\cC,\mathcal B)\simeq
 \Coh(\cC,\mathcal B)$, so the canonical functor $\PP\BB\cC\to\PP\BB\PP\cC$
 is an equivalence. The description of the objects is that of $\PP=\EE\FF$, and the
 identification with $T^{\mathrm{eq}}$ under the two hypotheses is
-\cite{Harnik11}; without them it fails, coproduct sorts not being
+\cite{Harnik11}; without them it can fail, coproduct sorts not being
 definable: for the classical theory of a one-element sort, $T^{\mathrm{eq}}$ has only sorts with at most one
 element, while $\PP\BB\cC_T\simeq\Fin$ contains $1+1$.
 \end{proof}
@@ -400,9 +407,9 @@ homomorphisms iff $f$ is a Morita equivalence \cite[Thm.~6.1]{TheoryComp};
 $f$ induces an equivalence of the categories of models with elementary
 embeddings iff $f$ is a Morita equivalence up to Morleyization, that is
 $f\in V_\BB\vee V_\PP$. The second class is strictly larger: the
-inclusion of Example~\ref{ex:incomp}(i) induces an isomorphism of the
-categories of models with elementary embeddings (two models on each
-side, $p$ true or false, and no elementary embedding between them, $p$
+inclusion of Example~\ref{ex:incomp}(i) induces an equivalence of the
+categories of models with elementary embeddings (two models up to
+isomorphism on each side, $p$ true or false, and no elementary embedding between them, $p$
 being a sentence) and is not a Morita equivalence.
 \end{cor}
 
@@ -426,7 +433,8 @@ models does not recover the theory \cite{HT17}.
 For every coherent $\cC$ the canonical functor $\BB\PP\cC\to\PP\BB\cC$ is
 full and faithful, and the following are equivalent: it is an
 equivalence; $\BB\PP\cC$ is a pretopos; every equivalence relation of
-$\BB\PP\cC$ on an object of $\PP\cC$ has a quotient in $\BB\PP\cC$.
+$\BB\PP\cC$ on an object of $\PP\cC$ has an effective quotient (is a
+kernel pair) in $\BB\PP\cC$.
 \end{lem}
 \begin{proof}
 $\PP\BB\PP\cC\simeq\PP\BB\cC$ (Proposition~\ref{prop:PB}) and the unit
@@ -559,7 +567,7 @@ points. The last claims follow from Lemma~\ref{lem:full}.
 \caption{$M_3$ with $n=4$. A pair $\bar d$ in $P_0$ (black), its image $g\bar d$ under a permutation of $P_0$ (grey) and its image $\varepsilon\bar d$ under the transposition $(P_0\,Q)$ (white). For $k$ large with respect to the formula, a coherent relation between $\bar d$ and $g\bar d$ witnessed in $M_k$ is also witnessed between $\bar d$ and $\varepsilon\bar d$, since positive atoms only ask for distinct parts.}
 \end{figure}
 
-\begin{rem}[compactness]\label{rem:compact}
+\begin{rem}[uniformity]\label{rem:compact}
 For each $k\ge1$ the coherent formula
 \[
 E_k(x,y)\;:=\;x=y\ \vee\ \exists z_1\dots z_{k-1}\Big(\bigwedge_{j}
@@ -578,8 +586,10 @@ $\Pi$ on all models, not even on all models with finitely many parts
 sentence ``exactly $k$ parts'' fails while $\Pi$ is nonempty): the
 number of witnesses $k-1$ is unbounded, and a single coherent
 equivalence relation, with $w$ witnesses, cannot see the parts of a
-$k$-partite model for $k>2m+w+2$. The obstruction is the same
-compactness that makes the sharp object of \cite[Thm.~5.6]{TheoryComp}
+$k$-partite model for $k>2m+w+2$. (The proof of the theorem is this
+direct count, not an appeal to the compactness theorem, which enters in
+Theorem~\ref{thm:galois}.) The obstruction is the same finiteness of
+formulas that makes the sharp object of \cite[Thm.~5.6]{TheoryComp}
 unreachable in three Morita steps.
 \end{rem}
 
@@ -611,7 +621,7 @@ imaginaries relative to the coherent imaginaries of $T$, that is, iff
 every $T^m$-definable equivalence relation on a coherent imaginary has
 a quotient among the classical subobjects of coherent imaginaries.
 Theorem~\ref{thm:order} is a failure of this relative elimination, by a
-compactness argument; Proposition~\ref{prop:positive} is its success for
+count depending on the size of the candidate formula; Proposition~\ref{prop:positive} is its success for
 propositional theories, where imaginaries are coproducts of
 subterminals. The next section characterises the relative elimination.
 \end{rem}
@@ -643,7 +653,9 @@ are equivalent.
 are a coherent imaginary $Y$ of $T$ and $y\in Y(M)$ with $\mathrm{Aut}(M)_c
 =\mathrm{Aut}(M)_y$.
 \item[(iii)] The same for the $\kappa$-saturated, strongly
-$\kappa$-homogeneous models of the completions of $T^m$, for some
+$\kappa$-homogeneous models of the completions of $T^m$ (the complete
+consistent classical theories extending it, those with finite models
+included), for some
 cardinal $\kappa$ greater than the cardinality of the language of $T^m$
 (which is that of the language of $T$ plus $\aleph_0$); such models
 exist for every $\kappa$.
@@ -781,8 +793,8 @@ Let $A$ be the orbit of $\bar a$ under $\mathrm{Aut}(\mathfrak M)_c$, a
 finite set of $n$ tuples in a product of sorts $P$, as $\bar a\in
 \mathrm{acl}^{\mathrm{eq}}(c)$. An automorphism fixing $c$ permutes
 $A$; one fixing $A$ setwise sends $\bar a$ to some $h\bar a$ with $h$
-fixing $c$, hence fixes $c=f(\bar a)$, $f$ the $\emptyset$-definable
-function with $f(\bar a)=c$. So $\mathrm{Aut}(\mathfrak M)_c=
+fixing $c$, hence fixes $c=f(\bar a)$, $f$ a $\emptyset$-definable
+partial function with $f(\bar a)=c$, defined on the orbit of $\bar a$. So $\mathrm{Aut}(\mathfrak M)_c=
 \mathrm{Aut}(\mathfrak M)_A$. The finite set $A$ is a point of the
 classical subobject ``pairwise distinct'' of the coherent imaginary
 $P^n/S_n$, the quotient by the coherent equivalence relation
@@ -936,7 +948,15 @@ Let $T_E$ be the coherent theory of an equivalence relation $E$ on one
 sort $\sigma$. Then $\BB\PP\cC_{T_E}\simeq\PP\BB\cC_{T_E}$.
 \end{thm}
 \begin{proof}
-Let $M$ be a saturated model of a completion, of cardinality $\kappa$,
+Consider first a completion whose models are finite, and its model $M$.
+A tuple $\bar b$ enumerating $M$ has a finite orbit and every
+automorphism fixing $\bar b$ is the identity, so every imaginary $c$ is
+fixed by the automorphisms fixing $\bar b$ and $\bar b$ has a finite
+orbit under the stabiliser of $c$; Corollary~\ref{cor:rwei} applies to
+this completion. For the other completions, whose models are
+infinite, let
+$M$ be a saturated model, of uncountable
+cardinality $\kappa$ (these completions are $\omega$-stable),
 $Q=\sigma/E$ the coherent imaginary of classes, and $I_k$ the set of
 classes with $k$ elements, $1\le k\le\infty$; each $I_k$ is finite or of
 cardinality $\kappa$, and the infinite classes have $\kappa$ elements.
@@ -944,8 +964,9 @@ Every bijection of $\sigma$ preserving $E$ is an automorphism, so
 $\mathrm{Aut}(M)=\prod_kG_k$ with $G_k$ the group of such bijections of
 the union of the classes of size $k$. Fix an imaginary $c$, a
 representative $\bar a$ of it, and the finite set $J$ of the sizes of
-the classes of the coordinates of $\bar a$; the factors $G_k$,
-$k\notin J$, fix $\bar a$, hence $c$. (Infinitely many of the sets
+the classes of the coordinates of $\bar a$; the product of the factors
+$G_k$, $k\notin J$, fixes $\bar a$, hence $c$, and every element or
+class of a size in $J$. (Infinitely many of the sets
 $I_k$ may be finite and nonempty, which is why the argument is
 restricted to $J$.) Let $A_0$ consist of the classes in the finite sets
 $I_j$, $j\in J$, and of the elements of the finite classes among them;
@@ -976,8 +997,10 @@ $B$ are different from the classes of the points of $D\cup g(D)$. The
 map sending $g(d)$ to $d$ for $d\in D$ and fixing $B\cup D'$ respects
 $E$ and the sizes of classes, as $g$ is an automorphism fixing $B$ and
 finite classes occur in $D$ with all their elements; it extends to an
-automorphism $p$, infinitely many classes of each size concerned and
-infinitely many elements of each class concerned being left. Then
+automorphism $p$: infinitely many classes of each size concerned are
+left, infinitely many elements of each infinite class concerned are
+left, and the finite classes concerned are mapped with all their
+elements. Then
 $pg\in\mathrm{Fix}(B\cup D)\subseteq H$ and $p\in\mathrm{Fix}(B\cup D')
 \subseteq H$, so $g\in H$.
 
@@ -1012,6 +1035,105 @@ it is its complement. What the coherent presentation adds to the
 classical theory is the choice of which definable relations are
 positive, and the commutation depends on this choice.
 
+\section{Excluded middle is not the obstruction}\label{sec:heyting}
+
+The Morleyization is a composite of two translations, the passage from
+coherent to intuitionistic first-order logic and the addition of
+excluded middle, and the forced order comes from the first.
+
+Let $\mathbf{Heyt}$ be the $2$-category of small Heyting categories,
+the coherent categories in which the pullback of subobjects along every
+morphism has a right adjoint $\forall_f$, with the coherent functors
+preserving these adjoints (Heyting functors) and natural isomorphisms
+\cite[A1.4]{Elephant}; $\BCoh$ is a full sub-$2$-category of it. Let
+$\mathsf H\cC$ be the syntactic category of the internal coherent theory
+of $\cC$ read in intuitionistic first-order logic, and $\mathsf K\cD$
+that of the internal first-order theory of a Heyting category $\cD$
+with excluded middle added (the classicalisation; not to be confused
+with the double negation translation of G\"odel and Gentzen, which
+goes from classical to intuitionistic logic). As in
+Proposition~\ref{prop:reflector}, a coherent functor from $\cC$ to a
+Heyting category interprets every first-order formula and an
+isomorphism of such models preserves the interpretations, and a Heyting
+functor into a Boolean category satisfies excluded middle; so
+\[
+\mathbf{Heyt}(\mathsf H\cC,\cD)\simeq\Coh(\cC,\cD),\qquad
+\Coh(\mathsf K\cD,\mathcal B)\simeq\mathbf{Heyt}(\cD,\mathcal B)
+\]
+for $\cD$ Heyting and $\mathcal B$ Boolean, and $\BB\simeq\mathsf
+K\mathsf H$.
+
+\begin{lem}\label{lem:PHeyt}
+If $\cD$ is a Heyting category then $\PP\cD$ is one, the unit
+$\cD\to\PP\cD$ is a Heyting functor, and the extension to $\PP\cD$ of a
+Heyting functor from $\cD$ to a Heyting pretopos is a Heyting functor.
+Hence $\PP\mathsf K$ is a reflector of $\mathbf{Heyt}$ onto $\BPretop$
+and $\PP\mathsf K\PP\simeq\PP\mathsf K$.
+\end{lem}
+\begin{proof}
+An object of $\PP\cD$ is $X/F$ with $X$ a finite coproduct of objects of
+$\cD$ and $F$ an equivalence relation, and its subobjects are the
+$F$-saturated subobjects of $X$, a subobject of a coproduct being a
+family of subobjects of the summands. Saturated subobjects are closed
+under the Heyting implication of $X$, and for a morphism $X/F\to Y/G$
+with graph $\Gamma\subseteq X\times Y$ the subobject $\{y:\forall
+x\,(\Gamma(x,y)\Rightarrow S(x))\}$ of $Y$ is $G$-saturated and is the
+right adjoint of the pullback at a saturated $S$. These formulas are
+preserved by the unit and by the extension of a Heyting functor. The
+last sentence follows as in Proposition~\ref{prop:PB}.
+\end{proof}
+
+\begin{thm}[classicalisation commutes]\label{thm:K}
+For every Heyting category $\cD$ the canonical functor
+$\mathsf K\PP\cD\to\PP\mathsf K\cD$ is an equivalence.
+\end{thm}
+\begin{proof}
+It is the unit $\mathsf K\PP\cD\to\PP\mathsf K\PP\cD$ of $\PP$, full and
+faithful, followed by the equivalence of Lemma~\ref{lem:PHeyt}. For
+essential surjectivity let $X/E$ be an object of $\PP\mathsf K\cD$: $X$ a
+finite coproduct of objects of $\cD$, the objects of $\mathsf K\cD$
+being the first-order formulas over $\cD$ as are those of $\cD$, and $E$
+a first-order formula which the classical theory proves to be an
+equivalence relation on $X$. Put
+\[
+F(x,y)\;:=\;\forall z\,\big(E(x,z)\leftrightarrow E(y,z)\big)\wedge
+\forall z\,\big(E(z,x)\leftrightarrow E(z,y)\big),
+\]
+$z$ ranging over $X$, summand by summand. In intuitionistic logic,
+without any axiom, $F$ is an equivalence relation, the biconditional
+being reflexive, symmetric and transitive; so $X/F$ is an object of
+$\PP\cD$. Classically $F$ and $E$ coincide: $F(x,y)$ gives $E(x,y)$ by
+$z=y$ and reflexivity, and $E(x,y)$ gives $F(x,y)$ by symmetry and
+transitivity. So the image of $X/F$ in $\PP\mathsf K\cD$ is $X/E$.
+\end{proof}
+
+\begin{cor}\label{cor:localise}
+On $\mathbf{Heyt}$ the join $V_{\mathsf K}\vee V_\PP=V_{\PP\mathsf K}$ is
+reached by one alternation in either order. For a coherent category
+$\cC$ the comparison $\BB\PP\cC\to\PP\BB\cC$ is the image under $\mathsf
+K$ of the comparison $\mathsf H\PP\cC\to\PP\mathsf H\cC$, followed by the
+equivalence $\mathsf K\PP\mathsf H\cC\simeq\PP\mathsf K\mathsf H\cC$. In
+particular, when the orders agree for $\mathsf H$ they agree for $\BB$,
+and for the theory of complete multipartite graphs and for the theories
+without axioms with a relation symbol of arity at least two the orders
+disagree already for $\mathsf H$.
+\end{cor}
+\begin{proof}
+Lemma~\ref{lem:join} with Lemma~\ref{lem:PHeyt} and
+Theorem~\ref{thm:K}; $\BB=\mathsf K\mathsf H$; and
+Theorems~\ref{thm:order} and~\ref{thm:free}.
+\end{proof}
+
+The formula $F$, ``same neighbourhood'', is the witness on both sides.
+It is first-order and intuitionistically an equivalence relation, so
+that every classical imaginary is the classicalisation of a quotient
+defined intuitionistically. For some $E$ it is coherent (for $E$ the
+equality it is the equality); in Theorems~\ref{thm:order}
+and~\ref{thm:free} its quotient is not a classical subobject of any
+coherent imaginary, which is the obstruction there. The forced
+order of translation and completion thus arises in the Heyting
+completion, not in the addition of excluded middle.
+
 \section{Further translations}\label{sec:outlook}
 
 The reading of this paper applies to any translation which is a
@@ -1021,12 +1143,12 @@ to be asked for each: the join with the Morita sameness and its
 alternation length; the category of models that detects the join; the
 commutation with the completions $\FF$, $\EE$, $\PP$.
 \begin{enumerate}
-\item The double negation translation on Heyting categories (theories
-in intuitionistic first-order logic), $\cC\mapsto$ the Boolean
-category of $\neg\neg$-stable subobjects, the coherent objects of
-$\Sh_{\neg\neg}$ of the classifying topos: is it a reflector onto Boolean
-categories, how does its class compare with $V_\BB$ on the coherent
-fragment, and does it commute with $\PP$?
+\item The Heyting completion $\mathsf H$ of
+Section~\ref{sec:heyting}: by Corollary~\ref{cor:localise} it carries the
+obstruction, and the question is whether the orders agree for $\mathsf
+H$ exactly when they agree for $\BB$, and what replaces the Galois
+criterion in intuitionistic logic, where models in $\Set$ no longer
+suffice.
 \item The G\"odel--McKinsey--Tarski translation, which reads a Heyting
 algebra as the open elements of an interior operator on a Boolean
 algebra ($\mathsf{S4}$); joins of closure operators and their
@@ -1057,7 +1179,7 @@ completions}, J. Pure Appl. Algebra 125 (1998), 79--116.
 of imaginaries}, Math. Logic Quart. 50 (2004), 126--140.
 \bibitem{DPM20} A.~D'Arienzo, V.~Pagano, I.~M.~J.~McInnis,
 \emph{Bicategories, biequivalence, and bi-interpretability}, preprint,
-arXiv:2011.14056.
+arXiv:2011.14056v2 (2023); the numbering is that of this version.
 \bibitem{Harnik11} V.~Harnik, \emph{Model theory vs. categorical logic:
 two approaches to pretopos completion (a.k.a. $T^{\mathrm{eq}}$)}, in:
 Models, Logics, and Higher-Dimensional Categories, CRM Proc. Lecture
@@ -1097,7 +1219,8 @@ the forced order of coproducts and quotients, and conceptual completeness
 as an identity of samenesses}, preprint (2026), archived at DOI
 10.5281/zenodo.24095158.
 \bibitem{Tsem17} D.~Tsementzis, \emph{A syntactic characterization of
-Morita equivalence}, J. Symbolic Logic 82 (2017), 1181--1198.
+Morita equivalence}, J. Symbolic Logic 82 (2017), 1181--1198; statements
+are numbered as in the preprint arXiv:1507.02302v1.
 \end{thebibliography}
 
 \end{document}
