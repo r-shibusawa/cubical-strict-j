@@ -55,11 +55,12 @@ propositional theory of the four-element chain. If $L$ proves
 linearity, the comparison is an equivalence for every finite
 propositional theory. Hence the translation commutes with the
 imaginaries of all finite propositional theories if and only if $L$
-contains the G\"odel--Dummett logic. The proofs use Kripke models over
+contains the G\"odel--Dummett logic; for the first-order theory of
+pure equality it commutes only for classical logic. The proofs use Kripke models over
 the fork and over the diamond, which are frames of $L$ in the first and
 second cases, and in the third case the dual of the free $L$-algebra on
 a finite distributive lattice, the poset of strict chains of prime
-filters, over which every finite presheaf embeds in one pulled back
+filters of bounded length, over which every finite presheaf embeds in one pulled back
 from the lattice.
 \end{abstract}
 
@@ -117,6 +118,10 @@ In particular $c^L_D$ is an equivalence for all finite distributive
 lattices $D$ if and only if $L\supseteq\LC$.
 \end{thm}
 
+For first-order theories the situation is different: for the theory of
+pure equality $c^L_\cC$ is an equivalence only when $L$ is classical
+logic (Theorem~\ref{thm:equality}).
+
 \begin{figure}[h]
 \[
 \begin{tikzcd}[column sep=small,row sep=small]
@@ -132,7 +137,8 @@ contain $\LC$ has one of them as a frame (Lemma~\ref{lem:frames}).}
 \subsection*{What is new and what is known}
 New, to the author's knowledge: Theorem~\ref{thm:main}, the embedding
 lemma for presheaves over strict chains (Lemma~\ref{lem:kan}), and the
-obstruction over the diamond (Proposition~\ref{prop:diamond}). Known
+obstruction over the diamond (Proposition~\ref{prop:diamond}), and the
+result for pure equality (Theorem~\ref{thm:equality}). Known
 and used: the result for intuitionistic logic and its tools
 \cite{Heyting}; the duality between finite Heyting algebras and finite
 posets with p-morphisms \cite{CZ97}; local finiteness of the variety
@@ -519,15 +525,101 @@ linearity; by parts (1) and (2), $c^L_D$ is not an equivalence for the
 four-element chain $D$, which is not Boolean.
 \end{proof}
 
+\section{First-order theories: pure equality only for classical logic}
+
+The positive result of the preceding section does not extend to
+first-order theories. Already for the theory without symbols and
+axioms the translation commutes with the imaginaries only when the
+logic is classical. The obstruction is the quotient of the sort by the
+double negation of equality, and the frame is the two-element chain.
+
+\begin{lem}\label{lem:two}
+The two-element chain $0<1$ is a frame of every intermediate logic
+other than classical logic.
+\end{lem}
+\begin{proof}
+If $L$ is not classical, its Lindenbaum algebra has an element $b$ with
+$d:=b\vee\neg b\ne1$. Then $\neg d=\neg b\wedge\neg\neg b=0$, so
+$\{0,d,1\}$ is a Heyting subalgebra, isomorphic to the algebra of the
+up-sets of the two-element chain.
+\end{proof}
+
+\begin{thm}\label{thm:equality}
+Let $\cC$ be the syntactic category of the coherent theory of pure
+equality, with one sort $\sigma$ and no symbols and axioms. For an
+intermediate logic $L$ the comparison $c^L_\cC$ is an equivalence if
+and only if $L$ is classical logic.
+\end{thm}
+\begin{proof}
+For classical logic $\HH_L$ is the Morleyization and the statement is
+\cite[Ex.~6.5]{Morley}. Let $L$ be non-classical, and $K$ the chain
+$0<1$, a frame of $L$ with its up-sets (Lemma~\ref{lem:two}). The
+models of $\cC$ are the sets and the homomorphisms are all maps. Let
+$\Omega$ be a countably infinite set with a partition into at least
+two blocks, all of them infinite, $p\colon\Omega\to\Omega/{\sim}$ the projection to
+the set of blocks, and $M$ the Kripke model over $K$ with $M_0=\Omega$,
+$M_1=\Omega/{\sim}$ and transition $p$.
+
+In every Heyting category $\neg\neg(x=y)$ is an equivalence relation on
+$\sigma$; let $W=\sigma/\neg\neg(x=y)$ in $\PP\HH_L\cC$. In $\Set^K$ a
+pair $(a,b)$ of elements of $\Omega$ satisfies $\neg\neg(x=y)$ at $0$
+iff $p(a)=p(b)$, by the formula for the Kripke negation; so
+$M^{\PP\HH_L}(W)(0)$ is the set of blocks.
+
+Suppose that $W\cong c^L_\cC(X)$ with $X\le\eta Y$ in $\HH_L\PP\cC$,
+$Y$ in $\PP\cC$. Write $Y=(\coprod_iA_i)/F$ with objects $A_i$ of
+$\cC$, definable subsets of powers $\sigma^{n_i}$ in the language of
+equality, and $F$ a coherent equivalence relation. By
+Lemma~\ref{lem:kripke} we obtain an injection
+\begin{multline*}
+\theta\colon\{\text{blocks}\}=M^{\PP\HH_L}(W)(0)\ \cong\ M^{\HH_L\PP}
+(X)(0)\\ \subseteq\ Y(\Omega)=\Big(\coprod_iA_i(\Omega)\Big)/F(\Omega).
+\end{multline*}
+Let $G$ be the group of the permutations of $\Omega$ which preserve the
+partition. Each $g\in G$, with the induced permutation of the blocks,
+is an automorphism of the Kripke model $M$; it induces natural
+automorphisms of the extensions of $M$ (an extension together with its
+identification with $M$ on $\cC$ being unique up to a unique
+isomorphism), and the isomorphism $W\cong c^L_\cC(X)$ is natural
+with respect to them. So $\theta$ is $G$-equivariant, $G$ acting on
+the blocks and on $Y(\Omega)$ in the evident way. Moreover every
+permutation $\pi$ of $\Omega$ is an automorphism of the model $\Omega$
+and preserves $F(\Omega)$.
+
+Let $B$ be a block and $\theta(B)$ the class of a tuple $d\in
+A_i(\Omega)$. Since the blocks are infinite there is $g\in G$ mapping
+every block to itself with $g(d_j)\notin\{d_1,\dots,d_{n_i}\}$ for all
+$j$; then $gB=B$, so $F(d,gd)$. Let $B'\ne B$ be another block; there
+is $\varepsilon\in G$ exchanging $B$ and $B'$, mapping the other
+blocks to themselves, with $\varepsilon(d_j)\notin\{d_1,\dots,
+d_{n_i}\}$ for all $j$. The map $d_j\mapsto d_j$, $g(d_j)\mapsto
+\varepsilon(d_j)$ is a well defined injective map between finite
+subsets of $\Omega$, so it extends to a permutation $\pi$ of $\Omega$,
+and $F(d,gd)$ gives $F(\pi d,\pi gd)=F(d,\varepsilon d)$. Hence
+$\varepsilon\theta(B)=\theta(B)$, that is $\theta(\varepsilon B)=
+\theta(B)$ with $\varepsilon B=B'\ne B$, contradicting the injectivity
+of $\theta$. (If $n_i=0$ the class $\theta(B)$ is fixed by $G$, with
+the same contradiction.)
+\end{proof}
+
+The transition $p$ of this Kripke model is not an isomorphism, and the
+invariant of Lemma~\ref{lem:kripke} is not what excludes $W$; the
+argument is the one which shows in \cite[Thm.~5.3]{Morley} that a
+classical imaginary is not coherent, an automorphism which moves a
+class and cannot be told from one which fixes it by a coherent
+formula. For propositional theories there are no such automorphisms,
+which is consistent with Theorem~\ref{thm:main}(3).
+
 \section{Summary and questions}
 
 \begin{center}
 \small\begin{tabular}{l|l|l}
-$L$ proves & frame & $c^L_\cC$ is an equivalence\\\hline
+$L$ proves & frame used & $c^L_\cC$ is an equivalence\\\hline
 no w.e.m. & fork & iff $\cC$ is Boolean\\
 w.e.m., no linearity & diamond & not for pure equality, the 4-chain\\
 linearity & chains ($\le n_L$) & for finite distributive lattices\\
-classical logic & point & iff the Galois criterion \cite{Morley}
+not classical & two-element chain & not for pure equality\\
+classical logic & point & iff the criterion of \cite[Thm.~6.1]{Morley}
 \end{tabular}
 \end{center}
 
@@ -537,11 +629,15 @@ satisfies the criterion \cite[Prop.~5.2]{Morley}, and the theory of
 pure equality satisfies it as well \cite[Ex.~6.5]{Morley}.
 
 \begin{que}
-Let $L\supseteq\LC$ be different from classical logic. Is $c^L_\cC$ an
-equivalence for the theory of pure equality, and for which coherent categories $\cC$ in general? For
-$L=\LC$ a first step is a completeness theorem of the first-order
-theory over $L$ for Kripke models over linear orders with arbitrary
-homomorphisms as transitions.
+Let $L\supseteq\LC$ be different from classical logic. By
+Theorem~\ref{thm:equality} the comparison fails for pure equality. For
+which coherent categories $\cC$ is $c^L_\cC$ an equivalence? For a finite
+distributive lattice $D$ the pretopos $\cC=\PP D$ is an example which is
+not a preorder, by Theorem~\ref{thm:main}(3); but it is Morita
+equivalent to the propositional theory $D$. Are there examples which
+are neither Boolean nor Morita equivalent to a propositional theory,
+that is, with $\PP\cC$ not equivalent to $\PP D$ for any distributive
+lattice $D$?
 \end{que}
 
 \begin{que}
