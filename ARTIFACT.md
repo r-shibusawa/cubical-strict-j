@@ -5,8 +5,10 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.41.2` (paper 44 revised: rigid intuitionistic formulas are coherent; the effective
-  equivalence relations on coherent imaginaries are the coherent ones -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24148558](https://doi.org/10.5281/zenodo.24148558) -- cite this one.
+- Current snapshot: release `v1.42.0` (paper 45: intermediate logics and the pretopos completion -- fork, diamond,
+  chains -- `docs/consolidated/interm.pdf`), archived at DOI (pending) -- cite this one.
+- Previous: release `v1.41.2` (paper 44 revised: rigid intuitionistic formulas are coherent; the effective
+  equivalence relations on coherent imaginaries are the coherent ones -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24148558](https://doi.org/10.5281/zenodo.24148558).
 - Previous: release `v1.41.1` (paper 44 revised: quotients alone obstruct the Heyting completion --
   `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24129343](https://doi.org/10.5281/zenodo.24129343).
 - Previous: release `v1.41.0` (paper 44: the Heyting completion commutes with the pretopos completion only

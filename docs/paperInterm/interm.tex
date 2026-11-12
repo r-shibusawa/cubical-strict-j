@@ -1,0 +1,585 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Coh}{\mathbf{Coh}}
+\newcommand{\Mod}{\mathrm{Mod}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Fin}{\mathbf{FinSet}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Up}{\mathrm{Up}}
+\newcommand{\Ch}{\mathrm{Ch}}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\LC}{\mathbf{LC}}
+\newcommand{\KC}{\mathbf{KC}}
+
+\begin{document}
+
+\title[Intermediate logics and imaginaries]{Intermediate logics and imaginaries: the translation into an intermediate logic commutes with the pretopos completion of all finite propositional theories exactly for the extensions of G\"odel--Dummett logic}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{intermediate logic, G\"odel--Dummett logic, weak excluded middle, Heyting category, pretopos completion, imaginaries, Kripke model, G\"odel algebra}
+\subjclass[2020]{03G30 (primary), 03B55, 18F10, 06D20 (secondary)}
+
+\begin{abstract}
+For an intermediate logic $L$ let $\HH_L\cC$ be the syntactic category
+of a coherent theory, with coherent syntactic category $\cC$, read in
+first-order logic over $L$, and let $\PP$ be the pretopos completion,
+which adds the imaginaries. There is a full and faithful comparison
+$\HH_L\PP\cC\to\PP\HH_L\cC$. For intuitionistic logic it is an
+equivalence only if $\cC$ is Boolean. We determine how this depends on
+$L$. If $L$ does not prove the weak excluded middle $\neg p\vee\neg\neg
+p$, the comparison is an equivalence exactly for the Boolean $\cC$. If
+$L$ proves it but not the linearity axiom $(p\to q)\vee(q\to p)$, the
+comparison fails for the theory of pure equality and for the
+propositional theory of the four-element chain. If $L$ proves
+linearity, the comparison is an equivalence for every finite
+propositional theory. Hence the translation commutes with the
+imaginaries of all finite propositional theories if and only if $L$
+contains the G\"odel--Dummett logic. The proofs use Kripke models over
+the fork and over the diamond, which are frames of $L$ in the first and
+second cases, and in the third case the dual of the free $L$-algebra on
+a finite distributive lattice, the poset of strict chains of prime
+filters, over which every finite presheaf embeds in one pulled back
+from the lattice.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $\cC$ be a small coherent category, the syntactic category of a
+coherent theory. Its pretopos completion $\PP\cC$ adds finite
+coproducts of sorts and quotients by definable equivalence relations,
+the imaginaries. In \cite{Heyting} we studied the free Heyting category
+$\HH\cC$ on $\cC$, the theory read in intuitionistic first-order logic,
+and proved that the canonical comparison $\HH\PP\cC\to\PP\HH\cC$ is full
+and faithful and is an equivalence if and only if $\cC$ is Boolean
+\cite[Thm.~1.1]{Heyting}. For classical logic, on the other hand, the
+corresponding comparison is governed by a Galois criterion and is
+often an equivalence \cite{Morley}. The proof for intuitionistic logic
+used a Kripke model over the fork, the poset $0<1$, $0<2$, and it was
+asked what happens for an intermediate logic, for which the fork need
+not be a frame \cite[\S9]{Heyting}. This paper answers the question.
+
+An \emph{intermediate logic} $L$ is a consistent set of propositional
+formulas containing the intuitionistic theorems and closed under modus
+ponens and substitution. We write $\HH_L\cC$ for the syntactic category
+of the internal theory of $\cC$ in intuitionistic first-order logic
+with all substitution instances of the formulas of $L$ as axioms
+(Section~\ref{sec:HL}), and
+\[
+c^L_\cC\colon\HH_L\PP\cC\longrightarrow\PP\HH_L\cC
+\]
+for the canonical comparison, which is full and faithful
+(Lemma~\ref{lem:ff}). A \emph{finite propositional theory} is a finite
+distributive lattice $D$, regarded as a coherent category: the
+lattice of the coherent formulas of a propositional theory, up to
+provable equivalence, when this lattice is finite. The \emph{weak excluded middle} is $\neg
+p\vee\neg\neg p$ and the \emph{linearity axiom} is $(p\to q)\vee(q\to
+p)$; the logics they axiomatise are $\KC$ and the G\"odel--Dummett
+logic $\LC\supseteq\KC$.
+
+\begin{thm}\label{thm:main}
+Let $L$ be an intermediate logic.
+\begin{enumerate}
+\item[(1)] If $L$ does not prove the weak excluded middle, then for
+every small coherent category $\cC$ the comparison $c^L_\cC$ is an
+equivalence if and only if $\cC$ is Boolean.
+\item[(2)] If $L$ proves the weak excluded middle and does not prove
+the linearity axiom, then $c^L_\cC$ is not an equivalence for the
+theory of pure equality and for the four-element chain; but the
+objects which obstruct in case \textup{(1)}, two copies of an object
+glued along the negation of a subobject, are in the image.
+\item[(3)] If $L$ proves the linearity axiom, then $c^L_D$ is an
+equivalence for every finite distributive lattice $D$.
+\end{enumerate}
+In particular $c^L_D$ is an equivalence for all finite distributive
+lattices $D$ if and only if $L\supseteq\LC$.
+\end{thm}
+
+\begin{figure}[h]
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+1&&2&&&3&\\
+&0\arrow[ul]\arrow[ur]&&&1\arrow[ur]&&2\arrow[ul]\\
+&&&&&0\arrow[ul]\arrow[ur]&
+\end{tikzcd}
+\]
+\caption{The fork and the diamond. An intermediate logic which does not
+contain $\LC$ has one of them as a frame (Lemma~\ref{lem:frames}).}
+\end{figure}
+
+\subsection*{What is new and what is known}
+New, to the author's knowledge: Theorem~\ref{thm:main}, the embedding
+lemma for presheaves over strict chains (Lemma~\ref{lem:kan}), and the
+obstruction over the diamond (Proposition~\ref{prop:diamond}). Known
+and used: the result for intuitionistic logic and its tools
+\cite{Heyting}; the duality between finite Heyting algebras and finite
+posets with p-morphisms \cite{CZ97}; local finiteness of the variety
+of G\"odel algebras \cite{Horn69}; the pretopos completion as the
+category of coherent objects of the classifying topos
+\cite[D3.3]{Elephant}. Lemma~\ref{lem:frames} is a case of Jankov's
+method of characteristic formulas \cite{CZ97}; we give the direct
+proof. The description of the free algebra in
+Proposition~\ref{prop:free} is known: G\"odel algebras free over
+finite distributive lattices are described by chains in
+\cite{AGM08}, and free algebras over bounded distributive lattices in
+the subvarieties of G\"odel algebras in \cite{Carai}; we include a
+proof in the form needed.
+
+\section{The translation into an intermediate logic}\label{sec:HL}
+
+Conventions are those of \cite{Heyting}: $\Coh$ is the
+$(2,1)$-category of small coherent categories, a Heyting category is a
+coherent category in which the pullback functors of subobjects have
+right adjoints $\forall_f$, a Heyting functor preserves them, $\Mod(\cC)$
+is the category of models $\cC\to\Set$ and homomorphisms, and universal
+properties are used also for targets such as $\Set^K$, the category of
+covariant functors from a poset $K$ to sets.
+
+An \emph{$L$-algebra} is a Heyting algebra in which the formulas of $L$
+are valid. $L$-algebras are closed under subalgebras, quotients and
+products, and every Boolean algebra is an $L$-algebra, $L$ being
+contained in classical logic. An \emph{$L$-category} is a Heyting
+category $\cD$ such that $\Sub(A)$ is an $L$-algebra for every object
+$A$. Boolean coherent categories are $L$-categories.
+
+For $\cC$ in $\Coh$ let $\HH_L\cC$ be the syntactic category of the
+internal coherent theory of $\cC$ in intuitionistic first-order logic
+(with possibly empty sorts) with the additional axioms
+$\lambda(\varphi_1,\dots,\varphi_n)$, for $\lambda(p_1,\dots,p_n)\in L$
+and first-order formulas $\varphi_i$ in a common context. It is an
+$L$-category, its subobject lattices consisting of formulas in a
+context, and the unit $\eta\colon\cC\to\HH_L\cC$ induces equivalences of
+groupoids between the Heyting functors $\HH_L\cC\to\cD$ and the coherent
+functors $\cC\to\cD$ for every $L$-category $\cD$: a coherent functor
+to a Heyting category interprets all first-order formulas soundly for
+intuitionistic logic, and the additional axioms are valid in an
+$L$-category. Every object of $\HH_L\cC$ is a subobject of some $\eta
+A$. For intuitionistic logic, $\HH_L=\HH$.
+
+\begin{lem}\label{lem:basic}
+\begin{enumerate}
+\item[(a)] If $\cC$ is Boolean, $\eta\colon\cC\to\HH_L\cC$ is an
+equivalence.
+\item[(b)] If $\cD$ is an $L$-category, $\PP\cD$ is an $L$-category
+and a pretopos, the unit $\cD\to\PP\cD$ is Heyting, and a coherent
+functor from $\PP\cD$ to a Heyting pretopos is Heyting iff its
+restriction to $\cD$ is.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) A coherent functor from a Boolean coherent category to a Heyting
+category is Heyting \cite[Lemma~2.1]{Heyting}, and $\cC$ is an
+$L$-category; so the identity of $\cC$ has the universal property of
+$\eta$. (b) Without the words ``$L$-category'' this is
+\cite[Lemma~2.2]{Heyting}. An object of $\PP\cD$ is a quotient $X/E$
+of a finite coproduct $X=\coprod_iA_i$ of objects of $\cD$, and
+$\Sub(X/E)$ is the Heyting subalgebra of the $E$-saturated elements of
+$\Sub(X)\cong\prod_i\Sub(A_i)$; so it is an $L$-algebra.
+\end{proof}
+
+\begin{lem}\label{lem:ff}
+The Heyting functor $c^L_\cC\colon\HH_L\PP\cC\to\PP\HH_L\cC$ extending
+$\PP\eta$ is full and faithful, and it is an equivalence if and only if
+$\HH_L\PP\cC$ is a pretopos.
+\end{lem}
+\begin{proof}
+As \cite[Lemma~2.3]{Heyting}: by Lemma~\ref{lem:basic}(b) both
+$\PP\HH_L\PP\cC$ and $\PP\HH_L\cC$ are the free $L$-category which is a
+pretopos on $\cC$, and $c^L_\cC$ is the unit $\HH_L\PP\cC\to\PP\HH_L
+\PP\cC$ followed by the resulting equivalence.
+\end{proof}
+
+\subsection*{Kripke models over frames of $L$}
+A finite poset $K$ is a \emph{frame of $L$} if the Heyting algebra
+$\Up(K)$ of its up-sets is an $L$-algebra. An up-set $K'\subseteq K$ of
+a frame of $L$ is a frame of $L$, restriction $\Up(K)\to\Up(K')$ being
+a surjective homomorphism.
+
+\begin{lem}\label{lem:kripke}
+Let $K$ be a poset such that $\uparrow\!k$ is a finite frame of $L$
+for every $k\in K$. Then $\Set^K$ is an $L$-category. Hence every
+Kripke model $M\colon K\to\Mod(\cC)$ extends to Heyting functors
+$M^{\HH_L}$, $M^{\HH_L\PP}$, $M^{\PP\HH_L}$ to $\Set^K$ with
+$M^{\PP\HH_L}c^L_\cC\cong M^{\HH_L\PP}$; and for every object $X$ of
+$\HH_L\PP\cC$ and all $k\le l$ such that $M(k\le l)$ is an isomorphism
+of models, the map $M^{\HH_L\PP}(X)(k)\to M^{\HH_L\PP}(X)(l)$ is
+injective.
+\end{lem}
+\begin{proof}
+For a functor $A\colon K\to\Set$ the subobjects of $A$ are the up-sets
+of the poset $\int\!A$ of pairs $(k,x)$, $x\in A(k)$, with
+$(k,x)\le(l,A(k\le l)x)$; so $\Sub(A)=\Up(\int\!A)$. The restrictions
+$\Up(\int\!A)\to\Up(\uparrow\!(k,x))$ are homomorphisms of Heyting
+algebras, jointly injective, and $\uparrow\!(k,x)\cong\uparrow\!k$; so
+$\Sub(A)$ is a subalgebra of a product of $L$-algebras. The rest is as
+in \cite[\S3, Lemma~3.1]{Heyting}: $X$ is a subobject of $\eta Y$ with
+$Y$ in $\PP\cC$, and the transition maps of $M^{\PP}(Y)$ along
+isomorphisms of models are bijections.
+\end{proof}
+
+\section{Which frames an intermediate logic has}
+
+\begin{lem}\label{lem:frames}
+Let $L$ be an intermediate logic.
+\begin{enumerate}
+\item[(a)] The fork is a frame of $L$ if and only if $L$ does not
+prove the weak excluded middle.
+\item[(b)] If $L$ proves the weak excluded middle and not the linearity
+axiom, the diamond is a frame of $L$.
+\item[(c)] If $L$ proves the linearity axiom, a finite poset $Z$ is a
+frame of $L$ if and only if every $\uparrow\!z$ is a chain with at most
+$n_L$ elements, where $n_L\in\{1,2,\dots,\infty\}$ is the supremum of
+the cardinalities of the finite chains which are frames of $L$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Let $B$ be the Lindenbaum algebra of $L$, an $L$-algebra in which a
+formula is valid iff it is in $L$.
+
+(a) In $\Up(\text{fork})$ the weak excluded middle fails for
+$p=\{1\}$, since $\neg p=\{2\}$ and $\neg\neg p=\{1\}$. Conversely let
+$b\in B$ with $\neg b\vee\neg\neg b\ne1$ and $c=\neg b$, so that
+$\neg\neg c=c$. The set $\{0,c,\neg c,c\vee\neg c,1\}$ is a Heyting
+subalgebra of $B$: $c\wedge\neg c=0$, $c\to\neg c=\neg c$, $\neg c\to
+c=\neg\neg c=c$, $(c\vee\neg c)\to c=c$, $(c\vee\neg c)\to\neg c=\neg
+c$ and $\neg(c\vee\neg c)=0$. Its five elements are distinct because
+$c\vee\neg c\ne1$, and it is isomorphic to $\Up(\text{fork})$, with $c$
+and $\neg c$ the two atoms. So $\Up(\text{fork})$ is an $L$-algebra.
+
+(b) Let $a,b\in B$ with $(a\to b)\vee(b\to a)\ne1$, and $x=a\to b$,
+$y=b\to a$, $t=x\wedge y$. In every Heyting algebra $x\to y=y$ and
+$y\to x=x$: if $z\wedge(a\to b)\le b\to a$ then $z\wedge b\le a$, as
+$b\le a\to b$. Hence $\{t,x,y,x\vee y,1\}$ is closed under $\wedge$,
+$\vee$ and $\to$: $(x\vee y)\to x=y\to x=x$, $(x\vee y)\to y=y$,
+$x\to t=x\to y=y$, $y\to t=x$ and $(x\vee y)\to t=x\wedge y=t$. Let $B'=B/F$ be the quotient by the
+filter $F$ generated by $\neg\neg t$. In $B'$ the class of $\neg t$ is
+$0$, since $\neg t\wedge\neg\neg t=0$; so the classes of
+$0,t,x,y,x\vee y,1$ form a Heyting subalgebra $G$ of $B'$, the
+negation of each of $t,x,y,x\vee y$ being $0$ in $B'$. We show that
+the class of $x\vee y$ is not $1$, that is, $\neg\neg t\not\le x\vee
+y$. In $B$ the weak excluded middle gives $\neg t\vee\neg\neg t=1$ and
+the De Morgan law $\neg(x\wedge y)=\neg x\vee\neg y$ (for $\neg(x\wedge
+y)\wedge\neg\neg x\le\neg y$ in every Heyting algebra, and $\neg
+x\vee\neg\neg x=1$). Now $\neg x=\neg(a\to b)=\neg\neg a\wedge\neg
+b\le\neg b\le y$ and likewise $\neg y\le x$; so $\neg t\le x\vee y$,
+and $\neg\neg t\le x\vee y$ would give $x\vee y=1$. It follows that
+the six classes are distinct: the classes of $x$ and $y$ are
+incomparable, since $[x]\le[y]$ gives $[y]=[x\to y]=1$; so $[t]$ is
+strictly below both and $[x\vee y]$ strictly above; and $[t]\ne0$,
+since $[t]=0$ iff $t\wedge\neg\neg t=0$, while $t\wedge\neg\neg t=t$ and $t=0$ would give $\neg\neg t=0\le
+x\vee y$. The algebra $G$ is isomorphic to $\Up(\text{diamond})$, with
+$[t]=\{3\}$, $[x]=\{1,3\}$, $[y]=\{2,3\}$. So $\Up(\text{diamond})$ is
+an $L$-algebra.
+
+(c) Let $Z$ be a finite frame of $L$ and $z\in Z$. Then $\uparrow\!z$
+is a frame of $L$; if it had incomparable elements $a,b$, the up-sets
+$p=\uparrow\!a$ and $q=\uparrow\!b$ would give $z\notin(p\to
+q)\cup(q\to p)$. So $\uparrow\!z$ is a chain, with at most $n_L$
+elements. Conversely a chain with $m\le n_L$ elements is an up-set of
+a chain which is a frame of $L$, hence a frame of $L$; and $\Up(Z)$ is
+a subalgebra of the product of the $\Up(\uparrow\!z)$.
+\end{proof}
+
+\section{Without weak excluded middle: only Boolean categories}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}\textup{(1)}]
+If $\cC$ is Boolean, so is $\PP\cC$, and $\HH_L\PP\cC\simeq\PP\cC$ is a
+pretopos by Lemma~\ref{lem:basic}(a); so $c^L_\cC$ is an equivalence
+by Lemma~\ref{lem:ff}. Let $S\le A$ be a subobject of $\cC$ which is
+not complemented. By \cite[Lemma~4.1]{Heyting} there are a
+homomorphism of models $h\colon M\to N$ and $a\in A(M)\setminus S(M)$
+with $h_A(a)\in S(N)$. Let $Q$ be the object of $\PP\HH_L\cC$ obtained
+from two copies of $A$ by gluing along the pseudo-complement $\neg S$,
+and $M^\ast$ the Kripke model over the fork with $M^\ast_0=M^\ast_1=M$,
+$M^\ast_2=N$, the identity along $0<1$ and $h$ along $0<2$. By
+Lemma~\ref{lem:frames}(a) the fork and its up-sets are frames of $L$,
+so Lemma~\ref{lem:kripke} applies. As in the proof of
+\cite[Thm.~1.1]{Heyting}, $a\in(\neg M^\ast(S))(1)$ and
+$a\notin(\neg M^\ast(S))(0)$, so the two copies of $a$ are distinct
+points of $M^{\ast\PP\HH_L}(Q)(0)$ with the same image at $1$, which is
+impossible for an object in the image of $c^L_\cC$.
+\end{proof}
+
+\section{With weak excluded middle but without linearity}
+
+When $L$ proves the weak excluded middle, the object $Q$ of the
+preceding proof is in the image of $c^L_\cC$: in
+$\Sub_{\HH_L\cC}(\eta A)$ one has
+$\neg S\vee\neg\neg S=A$ with $\neg S\wedge\neg\neg S=0$, so $A$ is the
+coproduct of $\neg S$ and $\neg\neg S$ in $\PP\HH_L\cC$, and
+\[
+Q\;\cong\;\neg S+\neg\neg S+\neg\neg S,
+\]
+a subobject of $A+A+A$ defined by formulas, hence the image of an
+object of $\HH_L\PP\cC$. The obstruction moves from the negation to
+the implication.
+
+\begin{prop}\label{prop:diamond}
+Let $L$ be an intermediate logic of which the diamond is a frame, and
+$\cC$ a small coherent category. Suppose that there are subobjects
+$S,T\le A$ in $\cC$, homomorphisms of models $M\xrightarrow{h}N
+\xrightarrow{h'}N'$ and $a\in A(M)$ such that
+\[
+a\notin S(M),\qquad h(a)\in S(N)\setminus T(N),\qquad h'h(a)\in T(N').
+\]
+Then $c^L_\cC$ is not an equivalence: the object of $\PP\HH_L\cC$
+obtained from two copies of $A$ by gluing along $S\Rightarrow T$, the
+Heyting implication in $\Sub_{\HH_L\cC}(\eta A)$, is not
+in its essential image.
+\end{prop}
+\begin{proof}
+Let $U=(\eta S\Rightarrow\eta T)\le\eta A$ in $\HH_L\cC$ and $Q=(A+A)/E$
+in $\PP\HH_L\cC$, with $E$ the equivalence relation on $A+A$ which is
+the union of the diagonal and of the two images of $U$ in the
+off-diagonal summands $A\times A$ of $(A+A)\times(A+A)$, as in
+\cite[\S5]{Heyting}. Let
+$M^\ast$ be the Kripke model over the diamond with
+\[
+M^\ast_0=M^\ast_1=M,\qquad M^\ast_2=N,\qquad M^\ast_3=N',
+\]
+the identity along $0<1$, $h$ along $0<2$, $h'$ along $2<3$ and $h'h$
+along $1<3$. The up-sets of the diamond are frames of $L$, so
+Lemma~\ref{lem:kripke} applies, and $M^{\ast\PP\HH_L}(Q)(k)$ is the
+quotient of two copies of $A(M^\ast_k)$ identifying the copies of the
+points of $U_{M^\ast}(k)$, where, the implication of $\Set^K$ being the
+Kripke implication,
+\[
+U_{M^\ast}(k)=\{x\mid\text{for all }l\ge k,\ x|_l\in S(M^\ast_l)
+\text{ implies }x|_l\in T(M^\ast_l)\}.
+\]
+For $k=1$ and $x=a$ the nodes $l\ge1$ are $1$, where $a\notin S(M)$,
+and $3$, where $h'h(a)\in T(N')$; so $a\in U_{M^\ast}(1)$. For $k=0$
+the node $l=2$ has $h(a)\in S(N)\setminus T(N)$; so $a\notin
+U_{M^\ast}(0)$. Hence the two copies of $a$ are distinct at $0$ and
+equal at $1$, along a transition which is an isomorphism of models,
+and $Q$ is not in the essential image of $c^L_\cC$ by
+Lemma~\ref{lem:kripke}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}\textup{(2)}]
+By Lemma~\ref{lem:frames}(b) the diamond is a frame of $L$. For the
+theory of pure equality, with one sort $\sigma$, take
+$A=\sigma^3$, $S=[x_1=x_2]$, $T=[x_1=x_2\wedge x_2=x_3]$, a
+three-element set $M$ with $a$ an enumeration of it, and maps $M\to
+N\to N'$ onto a two-element set, identifying $a_1$ and $a_2$, and then
+onto a one-element set. For the four-element chain $0<q<p<1$, a
+propositional theory, take $A=1$, $S=p$, $T=q$ and the prime filters
+$\{1\}\subset\{p,1\}\subset\{q,p,1\}$. Proposition~\ref{prop:diamond}
+applies in both cases. The statement on the objects of case (1) was
+shown before the proposition.
+\end{proof}
+
+\section{With linearity: finite propositional theories}
+
+Throughout this section $L$ proves the linearity axiom and $n=n_L$ is
+as in Lemma~\ref{lem:frames}(c).
+
+\subsection*{Finite duality}
+For a finite poset $X$, $\Up(X)$ is a finite Heyting algebra, and every
+finite Heyting algebra is of this form, with $X$ the poset of its
+prime filters. A monotone map $f\colon Z\to X$ induces the lattice
+homomorphism $f^{-1}\colon\Up(X)\to\Up(Z)$, and every homomorphism of
+bounded lattices $\Up(X)\to\Up(Z)$ is of this form for a unique $f$;
+$f^{-1}$ is a homomorphism of Heyting algebras if and only if $f$ is a
+\emph{p-morphism}, $f(\uparrow\!z)=\uparrow\!f(z)$ for all $z$
+\cite{CZ97}. A finite distributive lattice $D$ is $\Up(X_D)$ for the
+poset $X_D$ of its prime filters, which are the models of $D$ as a
+coherent category, ordered by inclusion, the homomorphisms.
+
+For a finite poset $X$ let $\Ch_n(X)$ be the set of the nonempty
+strict chains $c=(c_0<c_1<\dots<c_m)$ of $X$ with at most $n$ elements,
+ordered by $c\le c'$ iff $c'$ is a final segment of $c$, and
+$\pi\colon\Ch_n(X)\to X$, $\pi(c)=c_0$, a monotone map. The up-set of
+$c$ is the chain of its final segments.
+
+\begin{prop}\label{prop:free}
+For a finite distributive lattice $D=\Up(X)$, the free $L$-algebra on
+the bounded lattice $D$ is $\Up(\Ch_n(X))$ with $\pi^{-1}\colon D\to
+\Up(\Ch_n(X))$; and $\HH_LD$ is equivalent to it, as a preorder.
+\end{prop}
+\begin{proof}
+$\Up(\Ch_n(X))$ is an $L$-algebra by Lemma~\ref{lem:frames}(c). Let
+$\Up(Z)$ be a finite $L$-algebra and $f\colon Z\to X$ monotone. For
+$z\in Z$ the up-set $\uparrow\!z$ is a chain $z=z_0<\dots<z_r$ with at
+most $n$ elements, and $f(z_0)\le\dots\le f(z_r)$; let $g(z)$ be the
+strict chain of the distinct values. Then $g\colon Z\to\Ch_n(X)$ is a
+p-morphism with $\pi g=f$: the final segments of $g(z)$ are the
+$g(z_i)$. It is the only one: if $g'$ is a p-morphism with $\pi g'=f$,
+the elements of the chain $g'(z)$ are the $\pi(c')$, $c'\ge g'(z)$,
+that is the $\pi g'(z')=f(z')$, $z'\ge z$. So $\Up(\Ch_n(X))$ has the
+universal property for finite $L$-algebras; applied to the subalgebra
+generated by $\pi^{-1}(D)$ and to itself, it shows that $\pi^{-1}(D)$
+generates it. An arbitrary $L$-algebra is a G\"odel algebra, and
+G\"odel algebras are locally finite \cite{Horn69}; so a lattice
+homomorphism from $D$ to an $L$-algebra has its image in a finite
+subalgebra, and the universal property holds for all $L$-algebras.
+Finally every object of $\HH_LD$ is a subobject of some $\eta d$, a
+subterminal object; so $\HH_LD$ is a preorder, its poset of subterminal
+objects is an $L$-algebra, an $L$-algebra is an $L$-category, and
+Heyting functors between Heyting algebras are homomorphisms; the
+universal properties agree.
+\end{proof}
+
+\subsection*{Pretopos completions}
+For a finite poset $X$ the category $\Fin^X$ of functors $X\to\Fin$ is
+a pretopos, the functor $\Up(X)\to\Fin^X$ sending an up-set to its
+characteristic subterminal functor is coherent, and it is the pretopos
+completion of $\Up(X)$: $\Set^X$ is the topos of sheaves on $X$ with
+the topology of up-sets, the classifying topos of the propositional
+theory $\Up(X)$, and its coherent objects are the finite functors
+\cite[D3.3]{Elephant}. For $f\colon Z\to X$ the functor $\PP(f^{-1})$
+is $f^*\colon\Fin^X\to\Fin^Z$, composition with $f$. Every $Y$ in
+$\Fin^X$ is covered by subterminal objects: $y\in Y(x)$ defines a
+morphism $s_y\colon\uparrow\!x\to Y$, and the $s_y$ are jointly
+surjective.
+
+So, with $Z=\Ch_n(X)$,
+\[
+\PP D=\Fin^X,\qquad\PP\HH_LD=\Fin^Z,\qquad\PP\eta=\pi^*,
+\]
+and $\Fin^Z$ is an $L$-category by Lemma~\ref{lem:kripke}.
+
+\begin{lem}[embedding]\label{lem:kan}
+Every $W$ in $\Fin^Z$, $Z=\Ch_n(X)$, is a subobject of $\pi^*Y$ for
+some $Y$ in $\Fin^X$; namely for the left Kan extension $Y$ of $W$
+along $\pi$, the unit $W\to\pi^*Y$ is a monomorphism.
+\end{lem}
+\begin{proof}
+$Y(x)$ is the colimit of $W$ over the poset $(\pi\!\downarrow\!x)$ of
+the chains $c$ with $c_0\le x$. For such $c$ the elements $c_i\le x$
+form an initial segment of $c$; let $\tau_x(c)$ be the final segment
+of $c$ beginning at the last of them. The chains $c'\ge c$ in
+$(\pi\!\downarrow\!x)$ are the final segments of $c$ beginning at some
+$c_i\le x$; so $\tau_x(c)$ is the greatest of them and
+$\tau_x(c')=\tau_x(c)$. Hence each connected component of
+$(\pi\!\downarrow\!x)$ has a greatest element, and
+\[
+Y(x)=\coprod_{r\in R_x}W(r),\qquad R_x=\{c\mid c_0\le x,\text{ and }
+c=(c_0)\text{ or }c_1\not\le x\},
+\]
+a finite set, the map $W(c)\to Y(x)$ being $W(c\le\tau_x(c))$ into the
+summand of $\tau_x(c)$. For $x=\pi(c)=c_0$ the chain $c$ is in $R_x$,
+because $c=(c_0)$ or $c_1>c_0$; so the unit $W(c)\to Y(\pi(c))$ is a coproduct
+injection.
+\end{proof}
+
+For a logic which does not prove linearity the up-sets of the points of
+the dual of the free algebra need not be chains, and the existence of
+these greatest elements is not guaranteed; this is where the proof
+uses linearity.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}\textup{(3)}]
+By Lemma~\ref{lem:ff} it suffices to show that $c=c^L_D\colon\HH_L\PP
+D\to\PP\HH_LD=\Fin^Z$ is essentially surjective. We have $c\,\eta_{\PP
+D}\cong\pi^*$, and $c\circ\HH_L(\iota)\cong\iota_{\HH_LD}$, where
+$\iota$ denotes the units of $\PP$, both sides being Heyting functors
+$\HH_LD\to\Fin^Z$ extending the same coherent functor on $D$.
+
+Let $W$ be in $\Fin^Z$. By Lemma~\ref{lem:kan}, $W$ is a subobject of
+$\pi^*Y=c(\eta Y)$ for some $Y$ in $\Fin^X=\PP D$. Let $s_j\colon
+u_j\to Y$, $j=1,\dots,m$, be morphisms of $\PP D$ from subterminal
+objects $u_j\in D$ which are jointly surjective. For each $j$ the
+pullback $\varphi_j:=(\pi^*s_j)^*W$ is a subobject of $\pi^*u_j$ in
+$\Fin^Z$, a subterminal object, that is an element of $\Up(Z)=\HH_LD$
+below $\pi^{-1}(u_j)$; let $\varphi'_j\le\eta u_j$ be its image under
+$\HH_L(\iota)\colon\HH_LD\to\HH_L\PP D$, and
+\[
+X:=\bigvee_j\exists_{\eta s_j}\varphi'_j\ \le\ \eta Y
+\]
+in $\HH_L\PP D$. The functor $c$ preserves images and unions and sends
+$\varphi'_j$ to $\varphi_j$, so $c(X)=\bigvee_j\exists_{\pi^*s_j}
+(\pi^*s_j)^*W=W$, the $\pi^*s_j$ being jointly surjective.
+\end{proof}
+
+\begin{proof}[Proof of the last assertion of Theorem~\ref{thm:main}]
+If $L\supseteq\LC$, part (3) applies. If not, $L$ does not prove
+linearity; by parts (1) and (2), $c^L_D$ is not an equivalence for the
+four-element chain $D$, which is not Boolean.
+\end{proof}
+
+\section{Summary and questions}
+
+\begin{center}
+\small\begin{tabular}{l|l|l}
+$L$ proves & frame & $c^L_\cC$ is an equivalence\\\hline
+no w.e.m. & fork & iff $\cC$ is Boolean\\
+w.e.m., no linearity & diamond & not for pure equality, the 4-chain\\
+linearity & chains ($\le n_L$) & for finite distributive lattices\\
+classical logic & point & iff the Galois criterion \cite{Morley}
+\end{tabular}
+\end{center}
+
+Here w.e.m.\ is the weak excluded middle. The last line is included for comparison: for classical logic
+$\HH_L$ is the Morleyization, every finite propositional theory
+satisfies the criterion \cite[Prop.~5.2]{Morley}, and the theory of
+pure equality satisfies it as well \cite[Ex.~6.5]{Morley}.
+
+\begin{que}
+Let $L\supseteq\LC$ be different from classical logic. Is $c^L_\cC$ an
+equivalence for the theory of pure equality, and for which coherent categories $\cC$ in general? For
+$L=\LC$ a first step is a completeness theorem of the first-order
+theory over $L$ for Kripke models over linear orders with arbitrary
+homomorphisms as transitions.
+\end{que}
+
+\begin{que}
+Does Theorem~\ref{thm:main}\textup{(3)} hold for all bounded
+distributive lattices? Both sides are compatible with directed unions
+of sublattices if $\HH_L$ and $\PP$ are; we have not checked the
+details.
+\end{que}
+
+\begin{que}
+In case \textup{(2)}, for which non-Boolean $\cC$ is $c^L_\cC$ an
+equivalence? The three-element chain has no configuration as in
+Proposition~\ref{prop:diamond}.
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{99}
+\bibitem{AGM08} S.~Aguzzoli, B.~Gerla, V.~Marra, \emph{G\"odel algebras
+free over finite distributive lattices}, Ann. Pure Appl. Logic 155
+(2008), 183--193.
+\bibitem{Carai} L.~Carai, \emph{Free algebras and coproducts in
+varieties of G\"odel algebras}, preprint, arXiv:2406.05480.
+\bibitem{CZ97} A.~Chagrov, M.~Zakharyaschev, \emph{Modal Logic}, Oxford
+Logic Guides 35, Oxford Univ. Press, 1997.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{Horn69} A.~Horn, \emph{Logic with truth values in a linearly
+ordered Heyting algebra}, J. Symbolic Logic 34 (1969), 395--408.
+\bibitem{Heyting} R.~Shibusawa, \emph{The free Heyting category on a
+pretopos is a pretopos only in the Boolean case: the intuitionistic
+translation and the pretopos completion}, preprint (2026), archived at
+DOI 10.5281/zenodo.24148558.
+\bibitem{Morley} R.~Shibusawa, \emph{Translations in the lattice of
+two-out-of-three classes: Morleyization as a sameness of theories, its
+join with Morita equivalence, and the forced order of translation and
+completion}, preprint (2026), archived at DOI 10.5281/zenodo.24122457.
+\end{thebibliography}
+
+\end{document}
