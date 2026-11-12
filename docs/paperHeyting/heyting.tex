@@ -57,11 +57,13 @@ for every non-Boolean $\cC$ is a form of the homomorphism preservation
 theorem. $\HH$ commutes with the positive completion; with the exact
 completion it commutes for propositional theories and fails when some
 object has two points in the source model of a homomorphism crossing a
-subobject. Since the Morleyization is $\HH$ followed
-by the addition of excluded middle, which commutes with $\PP$, the
-commutation of the Morleyization with $\PP$, governed by a Galois
-criterion, is the statement that excluded middle repairs a comparison
-which, for non-Boolean $\cC$, is not an equivalence before it.
+subobject. For subobjects there is a preservation theorem: an
+intuitionistic formula is coherent if and only if its forcing is
+reflected along the transitions which are isomorphisms of models; so
+the equivalence relations on coherent imaginaries with a quotient in
+$\HH\PP\cC$ are exactly the coherent ones. The Morleyization being
+$\HH$ followed by excluded middle, which commutes with $\PP$, its
+Galois criterion says when excluded middle repairs the comparison.
 \end{abstract}
 
 \maketitle
@@ -114,7 +116,9 @@ New, to the author's knowledge: Theorem~\ref{thm:main}; the invariant
 that proves it (Lemma~\ref{lem:rigid}); the commutation of $\HH$ with
 the positive completion (Proposition~\ref{prop:F}) and the resulting
 location of the failure (Corollary~\ref{cor:E},
-Proposition~\ref{prop:E}); and the reading of the
+Proposition~\ref{prop:E}); the preservation theorem for rigid formulas
+and the description of the effective equivalence relations
+(Theorems~\ref{thm:rigid} and~\ref{thm:effective}); and the reading of the
 Galois criterion of \cite{Morley} as the statement that $c_\cC$ is
 inverted by $\KK$ (Corollary~\ref{cor:K}). Known and used: syntactic
 categories of first-order theories are Heyting categories and classify
@@ -124,7 +128,7 @@ set-valued models \cite[D1.5]{Elephant}, \cite{MR77}; the homomorphism
 preservation theorem of \L o\'s, Tarski and Lyndon, of which
 Lemma~\ref{lem:cross} is the form needed here and is proved in full;
 the Heyting structure of presheaf categories, that is, Kripke
-semantics; and from \cite{Morley} the facts that $\PP\cD$ is Heyting
+semantics, and Joyal's completeness theorem for it \cite{MR95}; and from \cite{Morley} the facts that $\PP\cD$ is Heyting
 when $\cD$ is, with the expected universal property, and that $\KK$
 commutes with $\PP$.
 
@@ -603,6 +607,173 @@ cases, those of the non-Boolean categories in which every model at
 which a subobject is crossed gives at most one point to every object,
 is open (Question~\ref{que:E}).
 
+\section{Rigid formulas are coherent, and the effective equivalence relations}
+
+The invariant of Lemma~\ref{lem:rigid}, injectivity of the transition
+maps of an object, corresponds for a subobject to the reflection of
+membership along the same transitions (the two are related through
+quotients, Theorem~\ref{thm:effective}). The coherent subobjects have
+this property, and conversely; this
+is a preservation theorem for intuitionistic logic, and it
+determines which equivalence relations on coherent objects have
+quotients in $\HH\PP\cC$.
+
+\begin{defi}\label{def:rigid}
+Let $U\le\eta A$ be a subobject in $\HH\cC$, $A$ an object of $\cC$.
+For a Kripke model $M$ over $\cK$ write $U_M:=M^{\HH}(U)\subseteq M(A)$.
+We say that $U$ is \emph{rigid} if for every Kripke model $M$, every
+arrow $w\colon k\to l$ of $\cK$ such that $M(w)$ is an isomorphism of
+models, and every $x\in A(M_k)$,
+\[
+M(w)_A(x)\in U_M(l)\ \Longrightarrow\ x\in U_M(k).
+\]
+\end{defi}
+
+The converse implication always holds, $U_M$ being a subfunctor. For
+every subobject $S\le A$ of $\cC$ the subobject $\eta S$ is rigid,
+since $(\eta S)_M(k)=S(M_k)$.
+
+\begin{lem}\label{lem:cosieve}
+Let $\cK_0$ be a full subcategory of a small category $\cK$ such that
+every arrow of $\cK$ with domain in $\cK_0$ has its codomain in
+$\cK_0$. Then the restriction functor $\Set^{\cK}\to\Set^{\cK_0}$ is a
+Heyting functor. Consequently, for a Kripke model $M$ over $\cK$ with
+restriction $M_0$ to $\cK_0$, and $U\le\eta A$ in $\HH\cC$, one has
+$U_{M_0}(k)=U_M(k)$ for every object $k$ of $\cK_0$.
+\end{lem}
+\begin{proof}
+Restriction preserves limits and colimits, hence is coherent. For
+$f\colon A\to B$ in $\Set^{\cK}$ and a subfunctor $U\subseteq A$,
+\begin{multline*}
+(\forall_fU)(k)=\{y\in B(k)\mid x\in U(l)\text{ for all }w\colon k\to
+l\\\text{ and all }x\in A(l)\text{ with }f_l(x)=B(w)y\},
+\end{multline*}
+which involves only the arrows out of $k$; so restriction preserves
+$\forall_f$. The restriction of $M^{\HH}$ is then a Heyting functor
+extending $M_0$, hence isomorphic to $M_0^{\HH}$.
+\end{proof}
+
+We use the completeness theorem for Kripke models in the following
+form, due to Joyal: for every small Heyting category $\cD$ there are a
+small category $\cK$ and a conservative Heyting functor
+$\cD\to\Set^{\cK}$ \cite{MR95}. For $\cD=\HH\cC$ such a functor is
+$M^{\HH}$ for the Kripke model $M$ obtained by restriction to $\cC$; so
+two subobjects $U,U'\le\eta A$ with $U_M=U'_M$ for all Kripke models
+$M$ of $\cC$ are equal.
+
+\begin{thm}[rigid formulas are coherent]\label{thm:rigid}
+Let $\cC$ be a small coherent category and $U\le\eta A$ a subobject in
+$\HH\cC$. Then $U$ is rigid if and only if $U=\eta S$ for a subobject
+$S\le A$ of $\cC$.
+\end{thm}
+\begin{proof}
+Let $U$ be rigid.
+
+\emph{Step 1: $U_M(k)$ depends only on the model $M_k$.} Let $M$, $M'$
+be Kripke models over $\cK$, $\cK'$, let $k$, $k'$ be objects of
+$\cK$, $\cK'$ and $\theta\colon M_k\to M'_{k'}$ an isomorphism of
+models. Let $\cK''$ be the category whose objects are those of $\cK$,
+those of $\cK'$ and a new object $o$, and whose arrows are those of
+$\cK$ and $\cK'$, the identity of $o$, an arrow $\bar f\colon o\to j$
+for every arrow $f\colon k\to j$ of $\cK$, and an arrow $\bar f'\colon
+o\to j'$ for every arrow $f'\colon k'\to j'$ of $\cK'$, with
+$g\bar f=\overline{gf}$. Let $M''$ be the Kripke model over $\cK''$
+which is $M$ on $\cK$, $M'$ on $\cK'$, with $M''_o=M_k$,
+$M''(\bar f)=M(f)$ and $M''(\bar f')=M'(f')\theta$. By
+Lemma~\ref{lem:cosieve}, applied to $\cK$ and to $\cK'$, $U_{M''}$
+agrees with $U_M$ on $\cK$ and with $U_{M'}$ on $\cK'$. Let $x\in
+U_M(k)$. The arrow $\overline{\mathrm{id}_k}\colon o\to k$ acts by the
+identity of $M_k$, so $x\in U_{M''}(o)$ by rigidity; and the arrow
+$\overline{\mathrm{id}_{k'}}\colon o\to k'$ acts by $\theta$, so
+$\theta_A(x)\in U_{M''}(k')=U_{M'}(k')$. By symmetry, $x\in U_M(k)$ iff
+$\theta_A(x)\in U_{M'}(k')$.
+
+\emph{Step 2: a class of models preserved by homomorphisms.} For a
+model $N$ of $\cC$, a Kripke model over the terminal category, put
+$U[N]:=U_N\subseteq A(N)$; it is the interpretation in $N$ of a
+first-order formula $\varphi_U(x)$ of the language of the classical
+theory $T_\cC$ of Lemma~\ref{lem:cross}, read classically. By Step 1,
+$U_M(k)=U[M_k]$ for every Kripke model $M$ and every $k$. A
+homomorphism $h\colon N\to N'$ is a Kripke model over the category
+with one non-identity arrow, and $U_M$ is a subfunctor; so $h_A(U[N])
+\subseteq U[N']$.
+
+\emph{Step 3: preservation.} Let $\Phi$ be the set of the subobjects
+$S\le A$ of $\cC$ with $S(N)\subseteq U[N]$ for all models $N$; it is
+closed under finite unions. We claim that $U[N]\subseteq\bigcup_{S\in
+\Phi}S(N)$ for all $N$. Let $a\in U[N]$, and consider the theory
+$T_\cC$ with the constants $c_b$ and the axioms $f(c_b)=c_{f_N(b)}$ of
+the proof of Lemma~\ref{lem:cross}, for the model $N$, and the axiom
+$\neg\varphi_U(c_a)$. It has no model, since a model would give a
+homomorphism $h\colon N\to N'$ with $h_A(a)\notin U[N']$. By
+compactness a finite part has no model; as in that proof it gives a
+subobject $\theta$ of a product $A\times\prod_iB_i$ and a point of
+$\theta(N)$ over $a$ such that $S:=\exists_{\pi_0}\theta\le A$
+satisfies $S(N')\subseteq U[N']$ for all models $N'$. So $S\in\Phi$
+and $a\in S(N)$. By the claim and compactness, applied to the theory
+$T_\cC$ with a constant $c$ and the axioms $\varphi_U(c)$ and $\neg
+S(c)$, $S\in\Phi$, there is $S\in\Phi$ with $U[N]\subseteq S(N)$ for
+all $N$, hence $U[N]=S(N)$ for all $N$.
+
+\emph{Step 4.} For every Kripke model $M$ and every $k$,
+$U_M(k)=U[M_k]=S(M_k)=(\eta S)_M(k)$. By the completeness theorem,
+$U=\eta S$.
+\end{proof}
+
+Theorem~\ref{thm:rigid} is a preservation theorem: an intuitionistic
+formula is equivalent, intuitionistically over the theory, to a
+coherent formula if and only if its forcing at a node of a Kripke model
+is reflected along the transitions which are isomorphisms.
+Lemma~\ref{lem:cross} is the case $U=\neg\eta S$: the
+pseudo-complement is rigid if and only if it is coherent, that is, if
+and only if $S$ is complemented (if $\neg\eta S=\eta S'$, then in every
+model $S'$ is the complement of $S$, the intuitionistic negation being
+the complement in $\Set$, and $S'$ is a complement of $S$ in $\cC$ by
+completeness).
+
+Applied to the coherent category $\PP\cC$, whose Kripke models are
+those of $\cC$, the theorem determines the effective equivalence
+relations on the coherent objects of $\HH\PP\cC$.
+
+\begin{thm}\label{thm:effective}
+Let $\cC$ be a small coherent category, $Y$ an object of $\PP\cC$ and
+$E$ an equivalence relation on $\eta Y$ in $\HH\PP\cC$. The following
+are equivalent.
+\begin{enumerate}
+\item[(i)] $E$ is effective, that is, a kernel pair in $\HH\PP\cC$.
+\item[(ii)] $E$ is rigid, as a subobject of $\eta(Y\times Y)$.
+\item[(iii)] $E=\eta F$ for an equivalence relation $F$ on $Y$ in
+$\PP\cC$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(iii)$\Rightarrow$(i): $\eta$ is coherent, so $\eta F$ is the kernel
+pair of $\eta(Y\to Y/F)$. (i)$\Rightarrow$(ii): let $E$ be the kernel
+pair of a morphism, hence of a cover $q\colon\eta Y\to X$. For a
+Kripke model $M$ the functor $M^{\HH\PP}$ preserves covers and kernel
+pairs, so $M^{\HH\PP}(X)(k)$ is the quotient of $Y(M_k)$ by $E_M(k)$.
+If $w\colon k\to l$ acts by an isomorphism and the images of $x,x'\in
+Y(M_k)$ are related by $E_M(l)$, then the classes of $x$ and $x'$ have
+the same image in $M^{\HH\PP}(X)(l)$, so they are equal by
+Lemma~\ref{lem:rigid}: $(x,x')\in E_M(k)$. (ii)$\Rightarrow$(iii): by
+Theorem~\ref{thm:rigid} for $\PP\cC$, $E=\eta F$ with $F\le Y\times Y$
+in $\PP\cC$; and $F$ is an equivalence relation, because $\eta$
+reflects the order of subobjects, the models of $\PP\cC$ being jointly
+conservative and each of them being $N^{\HH}\eta$.
+\end{proof}
+
+So on the coherent imaginaries the free Heyting category has exactly
+the quotients which were there before: no equivalence relation which
+is new in intuitionistic logic has a quotient. This is analogous to
+the modal quasi-pretoposes of \cite{GM25}, where the equivalence
+relations required to be effective are those in a distinguished class
+of subobjects; we do not verify any axioms of quasi-pretoposes for
+$\HH\PP\cC$. For equivalence relations on an object $X\le\eta Y$ which
+is not itself coherent, (i)$\Rightarrow$(ii) holds in the form that $E$
+is reflected along the isomorphic transitions among the pairs of
+points of $X$, with the same proof; we do not know whether the
+converse holds (Question~\ref{que:image}).
+
 \section{When excluded middle repairs the comparison}
 
 Let $\KK\colon\Heyt\to\mathbf{BCoh}$ be the classicalisation, the
@@ -628,8 +799,9 @@ Morleyization commutes with the pretopos completion at $\cC$, that is
 $b_\cC$ is an equivalence; the Galois criterion of
 \cite[Thm.~6.1]{Morley} holds for $\cC$ (in the saturated, strongly
 homogeneous models of the completions of the classical theory, every
-classical imaginary has the automorphism stabiliser of a point of a
-coherent imaginary); the Heyting functor $c_\cC$ is
+element of a classical imaginary sort has the same automorphism
+stabiliser as some element of a coherent imaginary sort of the same
+model); the Heyting functor $c_\cC$ is
 inverted by $\KK$. If these conditions hold and $\cC$ is not Boolean, then $c_\cC$ is a
 full and faithful Heyting functor which is not an equivalence and
 becomes one when excluded middle is added. This is the case for the
@@ -670,9 +842,11 @@ category). Is
 $\HH\EE\cC$ effective?
 \end{que}
 
-\begin{que}
+\begin{que}\label{que:image}
 Describe the essential image of $c_\cC$ in $\PP\HH\cC$. The invariant of
-Lemma~\ref{lem:rigid} is necessary; is it sufficient, for instance for
+Lemma~\ref{lem:rigid} is necessary, and by Theorem~\ref{thm:effective}
+it is sufficient for the quotients of coherent objects; is it
+sufficient in general, for instance for
 propositional theories, where $\PP\HH D$ is the pretopos completion of the free Heyting
 algebra on $D$?
 \end{que}
@@ -701,6 +875,11 @@ The author has no competing interests to declare.
 \begin{thebibliography}{99}
 \bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
 Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{GM25} S.~Ghilardi, J.~Marqu\`es, \emph{First-order modal logic
+via logical categories}, preprint, arXiv:2504.02985v1 (2025).
+\bibitem{MR95} M.~Makkai, G.~E.~Reyes, \emph{Completeness results for
+intuitionistic and modal logic in a categorical setting}, Ann. Pure
+Appl. Logic 72 (1995), 25--101.
 \bibitem{MR77} M.~Makkai, G.~E.~Reyes, \emph{First Order Categorical
 Logic}, Lecture Notes in Math. 611, Springer, 1977.
 \bibitem{Morley} R.~Shibusawa, \emph{Translations in the lattice of
