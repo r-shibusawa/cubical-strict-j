@@ -53,16 +53,14 @@ missing from $\HH\PP\cC$ are two copies of an object glued along the intuitionis
 non-complemented subobject; they are excluded by an invariant of the
 objects of $\HH\PP\cC$ in Kripke models over a fork, whose existence
 for every non-Boolean $\cC$ is a form of the homomorphism preservation
-theorem. $\HH$ commutes with the positive completion; with the exact
-completion it commutes for propositional theories and fails when some
-object has two points in the source model of a homomorphism crossing a
-subobject. For subobjects there is a preservation theorem: an
+theorem. $\HH$ commutes with the positive completion, and with the exact
+completion for propositional theories but not in general. For subobjects there is a preservation theorem: an
 intuitionistic formula is coherent if and only if its forcing is
 reflected along the transitions which are isomorphisms of models; so
 the equivalence relations on coherent imaginaries with a quotient in
-$\HH\PP\cC$ are exactly the coherent ones. For finite propositional
-theories the image of the comparison is characterised by a condition
-on zigzags in one finite Kripke model. The Morleyization being
+$\HH\PP\cC$ are exactly the coherent ones. For a propositional theory the image of the comparison is
+characterised by a condition on zigzags in the finite Kripke models of
+its finite subtheories, and for a finite one in its own models. The Morleyization being
 $\HH$ followed by excluded middle, which commutes with $\PP$, its
 Galois criterion says when excluded middle repairs the comparison.
 \end{abstract}
@@ -1038,6 +1036,153 @@ the finite models $X_n$, in which every element of $H_n$ is forced
 exactly where it should be; we do not know a substitute for
 first-order theories (Question~\ref{que:image}).
 
+\subsection*{Infinite propositional theories}
+For an infinite propositional theory the image is still described
+through finite Kripke models, those of the finite subtheories; but the
+cocone invariant in the Kripke models of the theory itself is no longer
+sufficient. Let $D$ be a bounded distributive lattice. A finite
+sublattice $D''$ (containing $0$ and $1$) gives a homomorphism
+$\HH D''\to\HH D$ and coherent functors $\PP D''\to\PP D$ and
+$\PP\HH D''\to\PP\HH D$, compatible with $\PP\eta$. A morphism of
+$\PP\HH D$ from $(\coprod_iA_i)/E$ to $(\coprod_jB_j)/F$ is a
+functional relation, a family of elements $R_{ij}\le A_i\wedge B_j$ of
+$\HH D$ with
+\[
+A_i\le\textstyle\bigvee_jR_{ij},\qquad R_{ij}\wedge R_{ij'}\le
+F_{jj'},\qquad E_{i'i}\wedge R_{ij}\wedge F_{jj'}\le R_{i'j'},
+\]
+and it is a monomorphism iff $R_{ij}\wedge R_{i'j}\le E_{ii'}$.
+
+\begin{cor}\label{cor:allD}
+Let $D$ be a bounded distributive lattice and $Z=(\coprod_iA_i)/E$ an
+object of $\PP\HH D$, the $A_i$ and $E_{ij}$ being given by formulas in
+the elements of a finite sublattice $D'$. Then $Z$ is in the essential
+image of $c_D$ if and only if there is a finite sublattice $D''\supseteq
+D'$ of $D$ such that the same formulas define an object $Z_{D''}$ of
+$\PP\HH D''$ which is in the essential image of $c_{D''}$, that is,
+which satisfies the conditions of Theorem~\ref{thm:image} for $D''$.
+\end{cor}
+\begin{proof}
+If $Z_{D''}$ is a subobject of $(\PP\eta)(Y)$ with $Y$ in $\PP D''$,
+its image $Z$ in $\PP\HH D$ is a subobject of $(\PP\eta)(Y')$, $Y'$ the
+image of $Y$ in $\PP D$; Lemma~\ref{lem:subimage} applies. Conversely,
+let $Z\to(\PP\eta)(Y)$ be a monomorphism, $Y=(\coprod_jd_j)/F$ with
+$d_j$, $F_{jl}$ in $D$, given by elements $R_{ij}$ of $\HH D$. The
+free Heyting algebra functor is a left adjoint, and directed colimits
+of Heyting algebras and of lattices are computed on the underlying
+sets; so $\HH D$ is the directed colimit of the $\HH D''$, $D''$ the
+finite sublattices of $D$. The elements $R_{ij}$ are given by formulas
+in finitely many elements of $D$, and the finitely many inequalities
+which say that $E$ is an equivalence relation and that $R$ is a
+monomorphism $Z\to(\PP\eta)(Y)$ hold in $\HH D$, hence in $\HH D''$ for
+some finite $D''$ containing $D'$, the $d_j$, the $F_{jl}$ and these
+elements. So $Z_{D''}$ is defined and is a subobject of
+$(\PP\eta)(Y_{D''})$.
+\end{proof}
+
+\begin{prop}\label{prop:infinite}
+There are a countable bounded distributive lattice $D$ and an object
+$Z$ of $\PP\HH D$ which is not in the essential image of $c_D$,
+although it has the cocone invariant: for every Kripke model $M$ of $D$
+over a small category and every node $k$, two points of the fibre of
+$Z$ at $k$ which are connected by a zigzag through nodes $l$ with
+$M_l\subseteq M_k$ are equal.
+\end{prop}
+\begin{proof}
+Let $X$ be the set of the points $\top$, $\infty$, $y_i$, $w_i$
+($i\ge0$) and $g_i$, $h_i$ ($i\ge1$), ordered by $g_i<y_{i-1}$,
+$g_i<y_i$, $h_i<w_{i-1}$, $h_i<w_i$ and $x<\top$ for all $x\ne\top$:
+two fences, and the point $\infty$, below a top element.
+\[
+\begin{tikzcd}[column sep=tiny]
+y_0&&y_1&&y_2&\cdots&\infty&\cdots&w_2&&w_1&&w_0\\
+&g_1\arrow[ul]\arrow[ur]&&g_2\arrow[ul]\arrow[ur]&&&&&&h_2\arrow[ul]
+\arrow[ur]&&h_1\arrow[ul]\arrow[ur]&
+\end{tikzcd}
+\]
+Give $X$ the topology in which every point other than $\infty$ is
+isolated and the neighbourhoods of $\infty$ are the cofinite sets
+containing it; $X$ is compact and Hausdorff. Call the index of
+$y_i,w_i,g_i,h_i$ the number $i$. If $x\not\le x'$ there is a clopen
+up-set containing $x$ and not $x'$: for $x\ne\infty$ the finite set
+$\uparrow\!x$, and for $x=\infty$ the set $U_N$ of $\top$, $\infty$,
+the $y_j,w_j$ with $j\ge N$ and the $g_j,h_j$ with $j>N$, for $N$
+larger than the index of $x'$. So $X$ is a Priestley space; let $D$ be
+the lattice of its clopen up-sets, which is countable. By Priestley
+duality the prime filters of $D$ are the filters $\{U\mid x\in U\}$,
+$x\in X$, and inclusion of prime filters is the order of $X$. So a
+Kripke model of $D$ is a functor $\nu\mapsto|\nu|$ to the poset $X$.
+Let
+\[
+t:=\{\top\},\ \ a:=\{y_0,\top\},\ \ b:=\{w_0,\top\},\quad
+A:=a\vee\neg t,\ \ W:=b\wedge\neg t\le A,
+\]
+and let $Z$ be the two copies of $A$ glued along $W$. The fibre of $Z$
+at a node $\nu$ has two points $s_\nu,t_\nu$ if $\nu\Vdash A$, they are
+equal iff $\nu\Vdash W$, and the transitions preserve the two names.
+
+\emph{The cocone invariant.} Suppose that $s_k\ne t_k$ are connected by
+a zigzag through nodes $l$ with $|l|\le|k|$. As the transitions
+preserve the names, the zigzag contains a node forcing $W$; let
+$k=\nu_0,\dots,\nu_j=m$ be its part up to the first such node. All
+$\nu_i$ force $A$, and consecutive ones are joined by an arrow. Let
+$F$ be the set of the points $w_i$, $h_i$, and say that a node $\nu$
+is \emph{good} if $\nu\Vdash\neg t$ and $|\nu|\in F$. The node $m$ is
+good: it forces $b$ and $\neg t$, so $|m|\in\{w_0,\top\}$ and
+$|m|\ne\top$. If $\nu_{i+1}$ is good, so is $\nu_i$: if there is an
+arrow $\nu_{i+1}\to\nu_i$, then $\nu_i\Vdash\neg t$, so $|\nu_i|\ne
+\top$, and $|\nu_i|\ge|\nu_{i+1}|$, and the points above a point of $F$
+are in $F\cup\{\top\}$; if there is an arrow $\nu_i\to\nu_{i+1}$, then
+$|\nu_i|\le|\nu_{i+1}|$ is in $F$, so $\nu_i\nVdash a$, and
+$\nu_i\Vdash A$ gives $\nu_i\Vdash\neg t$. Hence $k$ is good, and
+$w_0=|m|\le|k|\in F$ gives $|k|=w_0$. So $k\Vdash b\wedge\neg t=W$,
+contradicting $s_k\ne t_k$.
+
+\emph{$Z$ is not in the image.} By Corollary~\ref{cor:allD} it
+suffices to show that for every finite sublattice $D''$ containing
+$t,a,b$ the object $Z_{D''}$ violates condition (ii) of
+Theorem~\ref{thm:image}. A clopen set either contains $\infty$ and is
+cofinite, or does not contain $\infty$ and is finite. So there is
+$N\ge1$ such that every element of $D''$ either contains $\infty$ and
+all points of index $\ge N$, or contains none of them. Write
+$x'':=\{U\in D''\mid x\in U\}$, a prime filter of $D''$; then
+$x\mapsto x''$ is monotone, and $x''=\infty''$ for all $x$ of index
+$\ge N$. Let $\cK$ be the finite poset with elements $k$, $r$, $e$,
+$\bar y_i,\bar w_i$ ($0\le i<N$), $\bar g_i,\bar h_i$ ($1\le i\le N$)
+and order generated by
+\[
+r<k,\quad r<\bar y_0,\quad\bar g_i<\bar y_{i-1},\ \bar g_i<\bar y_i,
+\quad\bar h_i<\bar w_{i-1},\ \bar h_i<\bar w_i,
+\]
+where $\bar y_N:=\bar w_N:=e$, and $M$ the Kripke model of $D''$ with
+$|k|=\top''$, $|r|=y_0''$, $|e|=\infty''$, $|\bar y_i|=y_i''$,
+$|\bar g_i|=g_i''$, $|\bar w_i|=w_i''$, $|\bar h_i|=h_i''$; it is
+monotone because $g_N''=h_N''=\infty''$. The elements $t,a,b$ belong to
+$x''$ exactly for $x=\top$, for $x\in\{y_0,\top\}$ and for
+$x\in\{w_0,\top\}$. So $k$ is the only node forcing $t$, every node
+other than $k$ and $r$ forces $\neg t$, and $k$ and $r$ force $a$; all
+nodes force $A$, and $\bar w_0$ is the only node forcing $W$. Hence
+$s_k\ne t_k$; and $s_k$ and $t_k$ are connected by the zigzag
+\[
+k\leftarrow r\to\bar y_0\leftarrow\bar g_1\to\bar y_1\leftarrow\cdots
+\to e\leftarrow\bar h_N\to\cdots\to\bar w_1\leftarrow\bar h_1\to
+\bar w_0
+\]
+with the points $s$, followed by the same nodes in the reverse order
+with the points $t$, since $s=t$ at $\bar w_0$. All its nodes $l$
+satisfy $|l|\subseteq|k|=\top''$, every non-empty up-set containing
+$\top$.
+\end{proof}
+
+In the space $X$ of Proposition~\ref{prop:infinite} the two fences
+are not connected in $X\setminus\{\top\}$, but their images are
+connected, without the image of $\top$ and through the image of
+$\infty$, in the poset of prime filters of every finite sublattice
+containing $t,a,b$, by zigzags whose length is not bounded. So for infinite theories the invariant has to be read in the
+models of the finite subtheories, or to be supplemented by a condition
+of continuity; this is the form in which the description of the image
+has to be sought for first-order theories (Question~\ref{que:image}).
+
 \section{When excluded middle repairs the comparison}
 
 Let $\KK\colon\Heyt\to\mathbf{BCoh}$ be the classicalisation, the
@@ -1107,13 +1252,14 @@ $\HH\EE\cC$ effective?
 \end{que}
 
 \begin{que}\label{que:image}
-Describe the essential image of $c_\cC$ in $\PP\HH\cC$. The invariant of
-Lemma~\ref{lem:rigid} is necessary, and by Theorem~\ref{thm:effective}
-it is sufficient for the quotients of coherent objects, but not in
-general (Proposition~\ref{prop:notsuff}). The cocone invariant of
-Lemma~\ref{lem:factor} is necessary and, for finite propositional
-theories, sufficient (Theorem~\ref{thm:image}). Is it sufficient for
-all coherent categories, for instance for the theory of pure equality?
+Describe the essential image of $c_\cC$ in $\PP\HH\cC$ for first-order
+theories, for instance for the theory of pure equality. The invariant
+of Lemma~\ref{lem:rigid} is necessary and not sufficient
+(Proposition~\ref{prop:notsuff}); the cocone invariant of
+Lemma~\ref{lem:factor} is necessary, it is sufficient for finite
+propositional theories (Theorem~\ref{thm:image}) and not for infinite
+ones (Proposition~\ref{prop:infinite}), where the image is described
+through the finite subtheories (Corollary~\ref{cor:allD}).
 \end{que}
 
 \begin{que}

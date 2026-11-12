@@ -5,8 +5,10 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.41.5` (paper 44 revised: the image of the comparison for finite propositional
-  theories -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24153790](https://doi.org/10.5281/zenodo.24153790) -- cite this one.
+- Current snapshot: release `v1.41.6` (paper 44 revised: the image for all propositional theories; the cocone
+  invariant is not sufficient for infinite ones -- `docs/consolidated/heyting.pdf`), archived at DOI (pending) -- cite this one.
+- Previous: release `v1.41.5` (paper 44 revised: the image of the comparison for finite propositional
+  theories -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24153790](https://doi.org/10.5281/zenodo.24153790).
 - Previous: release `v1.41.4` (paper 44 revised: cocone invariant; a zigzag obstruction over the
   three-element chain -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24150911](https://doi.org/10.5281/zenodo.24150911).
 - Previous: release `v1.42.2` (paper 45 revised: linear logics commute for all propositional theories --
