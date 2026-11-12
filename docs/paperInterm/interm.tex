@@ -55,7 +55,8 @@ propositional theory of the four-element chain. If $L$ proves
 linearity, the comparison is an equivalence for every finite
 propositional theory. Hence the translation commutes with the
 imaginaries of all finite propositional theories if and only if $L$
-contains the G\"odel--Dummett logic; for the first-order theory of
+contains the G\"odel--Dummett logic, and the same holds for all
+propositional theories; for the first-order theory of
 pure equality it commutes only for classical logic. The proofs use Kripke models over
 the fork and over the diamond, which are frames of $L$ in the first and
 second cases, and in the third case the dual of the free $L$-algebra on
@@ -117,6 +118,10 @@ equivalence for every finite distributive lattice $D$.
 In particular $c^L_D$ is an equivalence for all finite distributive
 lattices $D$ if and only if $L\supseteq\LC$.
 \end{thm}
+
+Part (3) and the last assertion hold for all bounded distributive
+lattices, that is, for all propositional coherent theories
+(Theorem~\ref{thm:bounded}).
 
 For first-order theories the situation is different: for the theory of
 pure equality $c^L_\cC$ is an equivalence only when $L$ is classical
@@ -491,10 +496,12 @@ because $c=(c_0)$ or $c_1>c_0$; so the unit $W(c)\to Y(\pi(c))$ is a coproduct
 injection.
 \end{proof}
 
-For a logic which does not prove linearity the up-sets of the points of
-the dual of the free algebra need not be chains, and the existence of
-these greatest elements is not guaranteed; this is where the proof
-uses linearity.
+Lemma~\ref{lem:kan} is a combinatorial fact about the posets of
+chains. Linearity is used in Proposition~\ref{prop:free}, which
+identifies the dual of the free $L$-algebra with such a poset; for a
+logic which does not prove linearity the up-sets of the points of a
+finite frame need not be chains, and greatest elements of this kind
+are not available.
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}\textup{(3)}]
 By Lemma~\ref{lem:ff} it suffices to show that $c=c^L_D\colon\HH_L\PP
@@ -523,6 +530,50 @@ $\varphi'_j$ to $\varphi_j$, so $c(X)=\bigvee_j\exists_{\pi^*s_j}
 If $L\supseteq\LC$, part (3) applies. If not, $L$ does not prove
 linearity; by parts (1) and (2), $c^L_D$ is not an equivalence for the
 four-element chain $D$, which is not Boolean.
+\end{proof}
+
+\subsection*{Arbitrary propositional theories}
+The finiteness of $D$ can be removed, because every object of the
+pretopos completion of a lattice is given by finitely many elements.
+
+\begin{thm}\label{thm:bounded}
+If $L$ proves the linearity axiom, then $c^L_D$ is an equivalence for
+every bounded distributive lattice $D$. Hence the translation into $L$
+commutes with the pretopos completion of all propositional coherent
+theories if and only if $L\supseteq\LC$.
+\end{thm}
+\begin{proof}
+By Lemma~\ref{lem:ff} it suffices to show that $c^L_D$ is essentially
+surjective. As in Proposition~\ref{prop:free}, $\HH_LD$ is, as a
+preorder, the free $L$-algebra $G$ on the bounded lattice $D$. For a
+finite sublattice $D_i\subseteq D$ containing $0$ and $1$, with inclusion $j$, let $G_i$ be
+the free $L$-algebra on $D_i$ and $j_*\colon G_i\to G$ the induced
+homomorphism. The lattice $D$ is the directed union of its finite
+sublattices, a directed colimit of bounded lattices; the free functor
+preserves colimits, and directed colimits of algebras are computed on
+the underlying sets. So every element of $G$ is $j_*(v)$ for some
+finite $D_i$ and $v\in G_i$, and if finitely many inequalities between
+elements $j_*(v)$, $v\in G_i$, hold in $G$, the corresponding
+inequalities hold in $G_{i'}$ for some finite $D_{i'}\supseteq D_i$.
+
+An object $W$ of $\PP G$ is the quotient of a finite coproduct
+$\coprod_ku_k$ of subterminal objects $u_k\in G$ by an equivalence
+relation, a family of elements $e_{kl}\le u_k\wedge u_l$ of $G$ with
+$e_{kk}=u_k$, $e_{kl}=e_{lk}$ and $e_{kl}\wedge e_{lm}\le e_{km}$. By
+the preceding paragraph there are a finite sublattice $D_i$ and
+elements of $G_i$ with the same properties which are sent to the
+$u_k$ and the $e_{kl}$; they define an object $W_i$ of $\PP G_i$ with
+$\PP(j_*)(W_i)\cong W$, the functor $\PP(j_*)$ being coherent between
+pretoposes. By Theorem~\ref{thm:main}(3), $W_i\cong c^L_{D_i}(X_i)$ for
+an object $X_i$ of $\HH_L\PP D_i$. Finally
+\[
+c^L_D\circ\HH_L\PP(j)\;\cong\;\PP\HH_L(j)\circ c^L_{D_i},
+\]
+both sides being Heyting functors $\HH_L\PP D_i\to\PP\HH_LD$ whose
+restrictions to $\PP D_i$ are coherent functors into a pretopos
+restricting to $\eta j$ on $D_i$; and $\PP\HH_L(j)=\PP(j_*)$. So
+$W\cong c^L_D(\HH_L\PP(j)X_i)$. The second assertion follows from the
+last assertion of Theorem~\ref{thm:main}.
 \end{proof}
 
 \section{First-order theories: pure equality only for classical logic}
@@ -569,14 +620,16 @@ $M^{\PP\HH_L}(W)(0)$ is the set of blocks.
 Suppose that $W\cong c^L_\cC(X)$ with $X\le\eta Y$ in $\HH_L\PP\cC$,
 $Y$ in $\PP\cC$. Write $Y=(\coprod_iA_i)/F$ with objects $A_i$ of
 $\cC$, definable subsets of powers $\sigma^{n_i}$ in the language of
-equality, and $F$ a coherent equivalence relation. By
-Lemma~\ref{lem:kripke} we obtain an injection
+equality, and $F$ a coherent equivalence relation. By the
+compatibility of the extensions of $M$ with $c^L_\cC$
+(Lemma~\ref{lem:kripke}) and since $X\le\eta Y$, we obtain an injection
 \begin{multline*}
 \theta\colon\{\text{blocks}\}=M^{\PP\HH_L}(W)(0)\ \cong\ M^{\HH_L\PP}
 (X)(0)\\ \subseteq\ Y(\Omega)=\Big(\coprod_iA_i(\Omega)\Big)/F(\Omega).
 \end{multline*}
-Let $G$ be the group of the permutations of $\Omega$ which preserve the
-partition. Each $g\in G$, with the induced permutation of the blocks,
+Let $G$ be the group of the permutations $g$ of $\Omega$ which preserve the
+partition, in the sense that $a\sim b$ iff $g(a)\sim g(b)$; they may
+permute the blocks. Each $g\in G$, with the induced permutation of the blocks,
 is an automorphism of the Kripke model $M$; it induces natural
 automorphisms of the extensions of $M$ (an extension together with its
 identification with $M$ on $\cC$ being unique up to a unique
@@ -614,10 +667,10 @@ which is consistent with Theorem~\ref{thm:main}(3).
 
 \begin{center}
 \small\begin{tabular}{l|l|l}
-$L$ proves & frame used & $c^L_\cC$ is an equivalence\\\hline
+assumption on $L$ & frame used & $c^L_\cC$ is an equivalence\\\hline
 no w.e.m. & fork & iff $\cC$ is Boolean\\
 w.e.m., no linearity & diamond & not for pure equality, the 4-chain\\
-linearity & chains ($\le n_L$) & for finite distributive lattices\\
+linearity & chains ($\le n_L$) & for all bounded distributive lattices\\
 not classical & two-element chain & not for pure equality\\
 classical logic & point & iff the criterion of \cite[Thm.~6.1]{Morley}
 \end{tabular}
@@ -631,20 +684,13 @@ pure equality satisfies it as well \cite[Ex.~6.5]{Morley}.
 \begin{que}
 Let $L\supseteq\LC$ be different from classical logic. By
 Theorem~\ref{thm:equality} the comparison fails for pure equality. For
-which coherent categories $\cC$ is $c^L_\cC$ an equivalence? For a finite
-distributive lattice $D$ the pretopos $\cC=\PP D$ is an example which is
-not a preorder, by Theorem~\ref{thm:main}(3); but it is Morita
+which coherent categories $\cC$ is $c^L_\cC$ an equivalence? For the
+three-element chain $D$ the pretopos $\cC=\PP D$ is an example which is
+neither Boolean nor a preorder, by Theorem~\ref{thm:main}(3); but it is Morita
 equivalent to the propositional theory $D$. Are there examples which
 are neither Boolean nor Morita equivalent to a propositional theory,
 that is, with $\PP\cC$ not equivalent to $\PP D$ for any distributive
 lattice $D$?
-\end{que}
-
-\begin{que}
-Does Theorem~\ref{thm:main}\textup{(3)} hold for all bounded
-distributive lattices? Both sides are compatible with directed unions
-of sublattices if $\HH_L$ and $\PP$ are; we have not checked the
-details.
 \end{que}
 
 \begin{que}
