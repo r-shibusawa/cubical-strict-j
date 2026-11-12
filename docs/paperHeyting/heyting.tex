@@ -672,7 +672,8 @@ Let $U$ be rigid.
 \emph{Step 1: $U_M(k)$ depends only on the model $M_k$.} Let $M$, $M'$
 be Kripke models over $\cK$, $\cK'$, let $k$, $k'$ be objects of
 $\cK$, $\cK'$ and $\theta\colon M_k\to M'_{k'}$ an isomorphism of
-models. Let $\cK''$ be the category whose objects are those of $\cK$,
+models; replacing $\cK'$ by a copy, we may assume that $\cK$ and
+$\cK'$ are disjoint. Let $\cK''$ be the category whose objects are those of $\cK$,
 those of $\cK'$ and a new object $o$, and whose arrows are those of
 $\cK$ and $\cK'$, the identity of $o$, an arrow $\bar f\colon o\to j$
 for every arrow $f\colon k\to j$ of $\cK$, and an arrow $\bar f'\colon
@@ -771,8 +772,108 @@ of subobjects; we do not verify any axioms of quasi-pretoposes for
 $\HH\PP\cC$. For equivalence relations on an object $X\le\eta Y$ which
 is not itself coherent, (i)$\Rightarrow$(ii) holds in the form that $E$
 is reflected along the isomorphic transitions among the pairs of
-points of $X$, with the same proof; we do not know whether the
-converse holds (Question~\ref{que:image}).
+points of $X$, with the same proof; the converse fails
+(Proposition~\ref{prop:notsuff}).
+
+\subsection*{The invariant does not characterise the image}
+The invariant of Lemma~\ref{lem:rigid} compares a node with a node
+above it which carries the same model. The objects in the image of
+$c_\cC$ satisfy a stronger condition, which compares two arrows out of
+one node.
+
+\begin{lem}[factorisation invariant]\label{lem:factor}
+Let $X$ be an object of $\HH\PP\cC$, $M$ a Kripke model of $\cC$ over
+$\cK$, and $u\colon r\to k$, $v\colon r\to l$ arrows of $\cK$ such that
+$M(u)=g\circ M(v)$ for a homomorphism of models $g\colon M_l\to M_k$,
+which need not be the image of an arrow of $\cK$. Then two points of
+$M^{\HH\PP}(X)(r)$ with the same image under $v$ have the same image
+under $u$.
+\end{lem}
+\begin{proof}
+$X$ is a subobject of $\eta_{\PP\cC}Y$ for an object $Y$ of $\PP\cC$,
+so $M^{\HH\PP}(X)$ is a subfunctor of $M^{\PP}(Y)$. Write $\bar h$ for
+the extension to $\PP\cC$ of a homomorphism $h$ of models of $\cC$;
+then $M^{\PP}(Y)(u)=\overline{M(u)}_Y=\bar g_Y\circ\overline{M(v)}_Y=
+\bar g_Y\circ M^{\PP}(Y)(v)$, the extension being functorial.
+\end{proof}
+
+Lemma~\ref{lem:rigid} is the case $u=\mathrm{id}_r$, $g=M(v)^{-1}$.
+
+\begin{prop}\label{prop:notsuff}
+Let $D$ be the four-element chain $0<q<p<1$. In the Heyting algebra
+$\HH D$ let
+\[
+A:=p\Rightarrow(\neg q\vee\neg\neg q),\qquad W:=p\wedge\neg q\ \le\ A,
+\]
+and let $Z:=(A+A)/E$ in $\PP\HH D$ be the two copies of $A$ glued along
+$W$, the pushout of $A\leftarrow W\to A$.
+\begin{enumerate}
+\item[(a)] $Z$ has the invariant of Lemma~\ref{lem:rigid}: for every
+Kripke model $M$ of $D$ over a small category $\cK$ and every arrow $w$
+of $\cK$ with $M(w)$ an isomorphism, the map of $M^{\PP\HH}(Z)$ along
+$w$ is injective.
+\item[(b)] $Z$ is not isomorphic to $c_D(X)$ for any object $X$ of
+$\HH\PP D$.
+\item[(c)] The same formulas define an equivalence relation on the
+object $A+A\le\eta(1+1)$ of $\HH\PP D$ which is reflected along the
+isomorphic transitions and is not effective.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+The models of $D$ are the prime filters $P_0=\{1\}\subset P_1=\{p,1\}
+\subset P_2=\{q,p,1\}$, and the homomorphisms are the inclusions. So a
+Kripke model over $\cK$ is a functor $k\mapsto|k|$ from $\cK$ to the
+chain $0<1<2$, the transition along $w\colon k\to l$ is an isomorphism
+iff $|k|=|l|$, a subobject of $1$ in $\Set^{\cK}$ is a set of objects
+closed under arrows, and, writing $k\Vdash U$ when $k$ belongs to the
+value of $U\in\HH D$, one has $k\Vdash p$ iff $|k|\ge1$ and $k\Vdash q$
+iff $|k|=2$. The fibre of $Z$ at $k$ is empty if $k\nVdash A$, has one
+point if $k\Vdash W$, and two points otherwise.
+
+(a) The map along $w\colon k\to l$ is not injective only if $k\Vdash
+A$, $k\nVdash W$ and $l\Vdash W$. Suppose this and $|k|=|l|$. From
+$l\Vdash p\wedge\neg q$ we get $|l|=1$, so $k\Vdash p$, and $k\Vdash A$
+gives $k\Vdash\neg q$ or $k\Vdash\neg\neg q$. The second is impossible,
+since then $l\Vdash\neg\neg q$ and $l\Vdash\neg q$. So $k\Vdash
+p\wedge\neg q=W$, a contradiction.
+
+(b) Let $M$ be the Kripke model over the fork $0<1$, $0<2$ with
+$|0|=0$, $|1|=1$, $|2|=2$, and $u\colon0\to1$, $v\colon0\to2$:
+\[
+\begin{tikzcd}[column sep=large]
+M_1=P_1\arrow[rr,dashed,"g"]&&M_2=P_2\\
+&M_0=P_0\arrow[ul,"M(u)"]\arrow[ur,"M(v)"']&
+\end{tikzcd}
+\]
+The node $1$ forces $p$ and $\neg q$, hence $W$. The node $2$ forces
+$q$, hence $\neg\neg q$ and $A$, and not $W$. The node $0$ does not
+force $p$, and the nodes $1$ and $2$ force $\neg q\vee\neg\neg q$; so
+$0\Vdash A$, and $0\nVdash W$. Thus $M^{\PP\HH}(Z)$ has two points at
+$0$, which have the same image at $1$ and distinct images at $2$. But
+$M(v)=g\circ M(u)$ for the inclusion $g\colon P_1\subset P_2$, which is
+not a transition of $M$. If $Z\cong c_D(X)$, then
+$M^{\PP\HH}(Z)\cong M^{\HH\PP}(X)$ by \eqref{eq:compat}, and
+Lemma~\ref{lem:factor}, with the roles of $u$ and $v$ exchanged, shows
+that two points at $0$ with the same image at $1$ have the same image
+at $2$; a contradiction.
+
+(c) We use the same letters for the subobjects of $\eta1$ in
+$\HH\PP D$ defined by the same formulas. In $\HH\PP D$ the object $A+A$ is the pullback of $A\le\eta1$
+along $\eta(1+1)\to\eta1$, a subobject of $\eta(1+1)$, and the formula
+for $E$ defines an equivalence relation $E_0$ on it with
+$c_D(E_0)=E$. It is reflected along the isomorphic transitions
+by (a). If $E_0$ were the kernel pair of a morphism, it would be the
+kernel pair of a cover $A+A\to X$, and $c_D$, a Heyting functor,
+preserves covers and kernel pairs; so $c_D(X)\cong Z$, contradicting
+(b).
+\end{proof}
+
+So the essential image of $c_\cC$ is not described by the invariant of
+Lemma~\ref{lem:rigid}, not even for a finite propositional theory. The
+object $Z$ glues two copies of an object which is not coherent; for
+two copies of a coherent object $\eta Y$ glued along $W$ the invariant
+makes $W$ rigid, hence coherent (Theorem~\ref{thm:rigid}), and the
+glued object is coherent.
 
 \section{When excluded middle repairs the comparison}
 
@@ -845,10 +946,12 @@ $\HH\EE\cC$ effective?
 \begin{que}\label{que:image}
 Describe the essential image of $c_\cC$ in $\PP\HH\cC$. The invariant of
 Lemma~\ref{lem:rigid} is necessary, and by Theorem~\ref{thm:effective}
-it is sufficient for the quotients of coherent objects; is it
-sufficient in general, for instance for
-propositional theories, where $\PP\HH D$ is the pretopos completion of the free Heyting
-algebra on $D$?
+it is sufficient for the quotients of coherent objects, but not in
+general (Proposition~\ref{prop:notsuff}). Is the factorisation
+invariant of Lemma~\ref{lem:factor}, or its extension to zigzags of
+homomorphisms between the models at the nodes above $r$, sufficient,
+for instance for finite propositional theories, where $\PP\HH D$ is the
+pretopos completion of the free Heyting algebra on $D$?
 \end{que}
 
 \begin{que}
