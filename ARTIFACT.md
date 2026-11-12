@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.41.6` (paper 44 revised: the image for all propositional theories; the cocone
-  invariant is not sufficient for infinite ones -- `docs/consolidated/heyting.pdf`), archived at DOI (pending) -- cite this one.
+  invariant is not sufficient for infinite ones -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24154882](https://doi.org/10.5281/zenodo.24154882) -- cite this one.
 - Previous: release `v1.41.5` (paper 44 revised: the image of the comparison for finite propositional
   theories -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24153790](https://doi.org/10.5281/zenodo.24153790).
 - Previous: release `v1.41.4` (paper 44 revised: cocone invariant; a zigzag obstruction over the
