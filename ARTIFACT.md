@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.41.3` (paper 44 revised: the invariant does not characterise the image of the
-  comparison; factorisation invariant -- `docs/consolidated/heyting.pdf`), archived at DOI (pending) -- cite this one.
+  comparison; factorisation invariant -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24150595](https://doi.org/10.5281/zenodo.24150595) -- cite this one.
 - Previous: release `v1.42.1` (paper 45 revised: pure equality commutes only for classical logic --
   `docs/consolidated/interm.pdf`), archived at DOI [10.5281/zenodo.24148895](https://doi.org/10.5281/zenodo.24148895).
 - Previous: release `v1.42.0` (paper 45: intermediate logics and the pretopos completion -- fork, diamond,
