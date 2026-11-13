@@ -55,7 +55,7 @@ objects of $\HH\PP\cC$ in Kripke models over a fork, whose existence
 for every non-Boolean $\cC$ is a form of the homomorphism preservation
 theorem. $\HH$ commutes with the positive completion, and with the exact
 completion for propositional theories but not in general. For subobjects there is a preservation theorem: an
-intuitionistic formula is coherent if and only if its forcing is
+intuitionistic formula is equivalent to a coherent one if and only if its forcing is
 reflected along the transitions which are isomorphisms of models; so
 the equivalence relations on coherent imaginaries with a quotient in
 $\HH\PP\cC$ are exactly the coherent ones. For a propositional theory the image of the comparison is
@@ -117,7 +117,15 @@ the positive completion (Proposition~\ref{prop:F}) and the resulting
 location of the failure (Corollary~\ref{cor:E},
 Proposition~\ref{prop:E}); the preservation theorem for rigid formulas
 and the description of the effective equivalence relations
-(Theorems~\ref{thm:rigid} and~\ref{thm:effective}); and the reading of the
+(Theorems~\ref{thm:rigid} and~\ref{thm:effective}); the cocone
+invariant and the examples showing that injectivity of the transition
+maps does not describe the image (Lemma~\ref{lem:factor},
+Proposition~\ref{prop:notsuff}, Example~\ref{ex:twist}); the
+description of the image for propositional theories and for finite
+categories of models (Theorems~\ref{thm:image}
+and~\ref{thm:presheaf}, Corollary~\ref{cor:allD}) and its failure in
+the pointwise form for an infinite lattice
+(Proposition~\ref{prop:infinite}); and the reading of the
 Galois criterion of \cite{Morley} as the statement that $c_\cC$ is
 inverted by $\KK$ (Corollary~\ref{cor:K}). Known and used: syntactic
 categories of first-order theories are Heyting categories and classify
@@ -128,8 +136,9 @@ preservation theorem of \L o\'s, Tarski and Lyndon, of which
 Lemma~\ref{lem:cross} is the form needed here and is proved in full;
 the Heyting structure of presheaf categories, that is, Kripke
 semantics, and Joyal's completeness theorem for it \cite{MR95}; and from \cite{Morley} the facts that $\PP\cD$ is Heyting
-when $\cD$ is, with the expected universal property, and that $\KK$
-commutes with $\PP$.
+when $\cD$ is, with the expected universal property (the completion
+of a Heyting category to a Heyting pretopos is in \cite[\S1]{Pitts89}),
+and that $\KK$ commutes with $\PP$.
 
 \subsection*{Conventions}
 $\Coh$ is the $(2,1)$-category of small coherent categories, coherent
@@ -1113,7 +1122,9 @@ $y_i,w_i,g_i,h_i$ the number $i$. If $x\not\le x'$ there is a clopen
 up-set containing $x$ and not $x'$: for $x\ne\infty$ the finite set
 $\uparrow\!x$, and for $x=\infty$ the set $U_N$ of $\top$, $\infty$,
 the $y_j,w_j$ with $j\ge N$ and the $g_j,h_j$ with $j>N$, for $N$
-larger than the index of $x'$. So $X$ is a Priestley space; let $D$ be
+larger than the index of $x'$. So $X$ is a Priestley space (a space of this shape, two fences with a
+common limit point, is used for a different purpose in the proof of
+\cite[Thm.~4.12]{BHIL18}); let $D$ be
 the lattice of its clopen up-sets, which is countable. By Priestley
 duality the prime filters of $D$ are the filters $\{U\mid x\in U\}$,
 $x\in X$, and inclusion of prime filters is the order of $X$. So a
@@ -1301,7 +1312,9 @@ functors on $\HH\mathcal P$ with constants $c_b$ for the elements $b$
 of the sets $\hat G(B)$, the axioms $g(c_b)=c_{g(b)}$ for the morphisms
 $g$ of $\HH\mathcal P$, a new constant $d$ of sort $y(x')$ and the
 axioms $f(d)=c_\alpha$ and $\neg u(d)$. If it had no model, a finite
-part would give a subobject $V\le y(x)$ in $\HH\mathcal P$ with
+part, written as a subobject $\theta$ of a product of $y(x)$ with
+finitely many sorts, with a point over $\alpha$, would give the
+subobject $V:=\exists_{\pi_0}\theta\le y(x)$ in $\HH\mathcal P$ with
 $\alpha\in\hat G(V)$ and $f^*V\le u$, hence $V\le\forall_fu$,
 contradicting $\alpha\notin\hat G(\forall_fu)$. A model is a coherent
 functor $\hat G'$ with a natural transformation $\hat G\to\hat G'$ and
@@ -1408,7 +1421,8 @@ Let $Z$ be the quotient of $A\times\sigma+B\times\sigma$ which
 identifies $x$ in the first summand with $x$ in the second over $W_1$,
 and with the other element $y\ne x$ of $\sigma$ over $W_2$. This is an
 equivalence relation, because $\sigma$ has exactly two elements and
-decidable equality. The fibre of $Z$ at a node $k$ is $\sigma_k$ if $k$
+decidable equality. The fibre of $Z$ at a node $k$ is empty if $k$ forces neither $A$ nor
+$B$, it is $\sigma_k$ if $k$
 forces only one of $A$, $B$, and two copies of $\sigma_k$ identified,
 straight or crosswise, if $k\Vdash A\wedge B$; all its transition maps
 are injective, since the forcing of $\neg\neg p$ and of $\neg p$ is
@@ -1540,6 +1554,9 @@ $\HH$ not being a reflector?
 The author has no competing interests to declare.
 
 \begin{thebibliography}{99}
+\bibitem{BHIL18} G.~Bezhanishvili, J.~Harding, J.~Ilin,
+F.~M.~Lauridsen, \emph{MacNeille transferability and stable classes of
+Heyting algebras}, Algebra Universalis \textbf{79} (2018), Paper No.~55.
 \bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
 Theory Compendium}, Oxford Univ. Press, 2002.
 \bibitem{GM25} S.~Ghilardi, J.~Marqu\`es, \emph{First-order modal logic
@@ -1549,6 +1566,9 @@ intuitionistic and modal logic in a categorical setting}, Ann. Pure
 Appl. Logic 72 (1995), 25--101.
 \bibitem{MR77} M.~Makkai, G.~E.~Reyes, \emph{First Order Categorical
 Logic}, Lecture Notes in Math. 611, Springer, 1977.
+\bibitem{Pitts89} A.~M.~Pitts, \emph{Conceptual completeness for
+first-order intuitionistic logic: an application of categorical logic},
+Ann. Pure Appl. Logic \textbf{41} (1989), 33--81.
 \bibitem{Morley} R.~Shibusawa, \emph{Translations in the lattice of
 two-out-of-three classes: Morleyization as a sameness of theories, its
 join with Morita equivalence, and the forced order of translation and
