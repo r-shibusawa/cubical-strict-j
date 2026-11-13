@@ -5,8 +5,10 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.41.8` (paper 44 revised: introduction and references updated --
-  `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24182122](https://doi.org/10.5281/zenodo.24182122) -- cite this one.
+- Current snapshot: release `v1.43.0` (paper 46: Gödel--Dummett logic over a finite category of models -- strings of
+  arrows, a subgroup obstruction -- `docs/consolidated/strings.pdf`), archived at DOI (pending) -- cite this one.
+- Previous: release `v1.41.8` (paper 44 revised: introduction and references updated --
+  `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24182122](https://doi.org/10.5281/zenodo.24182122).
 - Previous: release `v1.41.7` (paper 44 revised: the image for finite theories of presheaf type; a
   twisted form -- `docs/consolidated/heyting.pdf`), archived at DOI [10.5281/zenodo.24181941](https://doi.org/10.5281/zenodo.24181941).
 - Previous: release `v1.41.6` (paper 44 revised: the image for all propositional theories; the cocone

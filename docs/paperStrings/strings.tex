@@ -1,0 +1,930 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Fin}{\mathbf{FinSet}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\cX}{\mathcal X}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\cS}{\mathcal S}
+\newcommand{\cK}{\mathcal K}
+\newcommand{\cJ}{\mathcal J}
+\newcommand{\LC}{\mathbf{LC}}
+\newcommand{\id}{\mathrm{id}}
+
+\begin{document}
+
+\title[G\"odel--Dummett logic over finite categories of models]{G\"odel--Dummett
+logic over a finite category of models: the models of the translated
+theory are strings of arrows, and a subgroup obstruction to commuting with the imaginaries}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{intermediate logic, G\"odel--Dummett logic, Heyting category, pretopos completion, imaginaries, Kripke model, EI-category, presheaf}
+\subjclass[2020]{03G30 (primary), 03B55, 18F10, 18B25 (secondary)}
+
+\begin{abstract}
+Let $\cX$ be a finite category in which every endomorphism is
+invertible, and $\cP$ the pretopos of finite set-valued functors on
+$\cX$, a first-order theory whose models are the objects of $\cX$. For
+an intermediate logic $L$ proving the linearity axiom $(p\to q)\vee
+(q\to p)$ we describe the theory read in first-order logic over $L$:
+its models are the strings of non-invertible arrows of $\cX$, of length
+bounded by the depth of $L$, and its pretopos completion is the
+category of finite set-valued functors on the category $\cS$ of
+strings, whose arrows are the arrows of $\cX$ induced by isomorphisms
+onto final segments. The translation into $L$ commutes with the
+imaginaries if and only if every finite functor on $\cS$ embeds in one
+pulled back from $\cX$. This holds for classical logic and the logic of the two-element
+chain. For the other logics it holds for finite posets, the
+propositional case, for products of a finite poset and a finite group,
+and when $\cX$ has only identity automorphisms; it fails when, for the
+group $H$ of the automorphisms of the first object of a string which
+extend to the string and the stabilisers $S_1,S_2$ of two arrows of
+$\cS$ into it, $\langle H\cap S_1,H\cap S_2\rangle\ne H\cap\langle
+S_1,S_2\rangle$. We give categories with fifteen and seventeen arrows
+where it fails. The main tool is the linearity of the canonical Kripke model in the
+presence of elements: two homomorphisms out of a model of the
+translated theory are comparable.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+For an intermediate logic $L$ and a small coherent category $\cC$ let
+$\HH_L\cC$ be the syntactic category of the internal coherent theory of
+$\cC$ in first-order logic over $L$, and $\PP$ the pretopos
+completion, which adds the imaginaries. There is a full and faithful
+comparison
+\[
+c^L_\cC\colon\HH_L\PP\cC\longrightarrow\PP\HH_L\cC
+\]
+\cite{Interm}. For intuitionistic logic it is an equivalence only if
+$\cC$ is Boolean \cite{Heyting}; for the logics proving the linearity
+axiom it is an equivalence for all propositional theories
+\cite{Interm}, and for the first-order theory of pure equality it is an
+equivalence only for classical logic \cite{Interm}. This paper studies
+the logics $L$ proving linearity over the first-order theories which
+are closest to the propositional ones: those with finitely many models
+up to isomorphism, all sorts being finite in each of them.
+
+Let $\cX$ be a finite category and $\cP=\Fin^{\cX}$ the pretopos of
+functors from $\cX$ to finite sets; if idempotents split in $\cX$, the
+models of $\cP$ are the objects of $\cX$ and the homomorphisms are the
+arrows. For a finite poset $\cX$ this is a finite propositional theory.
+We assume that $\cX$ is an \emph{EI-category}: every endomorphism is an
+isomorphism. A \emph{string} is a sequence $s=(m_0\xrightarrow{a_1}m_1
+\to\dots\xrightarrow{a_r}m_r)$ of non-invertible arrows, $r\ge0$, and
+$\cS_n$ is the category of the strings with at most $n$ objects, one
+in each isomorphism class, an
+arrow $s\to s'$ being an arrow $m_0\to m'_0$ of $\cX$ of the form
+$\iota_0a_j\cdots a_1$ for an isomorphism of strings $\iota$ from the
+final segment $(m_j\to\dots\to m_r)$ onto $s'$. Let $\pi\colon\cS_n\to
+\cX$ be the first object.
+
+\begin{thm}\label{thm:main}
+Let $\cX$ be a finite EI-category, $\cP=\Fin^{\cX}$, and $L$ an
+intermediate logic proving the linearity axiom, with $n=n_L\in
+\{1,2,\dots,\infty\}$ the supremum of the lengths of the finite chains
+which are frames of $L$. Then
+\[
+\PP\HH_L\cP\;\simeq\;\Fin^{\cS_n},
+\]
+the unit of $\HH_L$ followed by that of $\PP$ corresponding to
+$\pi^*\colon\Fin^{\cX}\to\Fin^{\cS_n}$, and $\HH_L\cP$ to the full
+subcategory of the subfunctors of the functors $\pi^*A$. Consequently
+$c^L_\cP$ is an equivalence if and only if every functor $W\colon\cS_n
+\to\Fin$ is a subfunctor of $\pi^*Y$ for some $Y\colon\cX\to\Fin$, if
+and only if the unit $W\to\pi^*\mathrm{Lan}_\pi W$ of the left Kan
+extension is injective for every $W$.
+\end{thm}
+
+For $n=1$, classical logic, $\cS_1$ is a skeleton of the groupoid of
+the isomorphisms of $\cX$. The condition of the theorem is combinatorial.
+We prove:
+\begin{itemize}
+\item it holds if for all arrows $v\colon t'\to t$, $u\colon t'\to s$
+of $\cS_n$ every arrow $g$ of $\cX$ with $gv=u$ is an arrow $t\to s$ of
+$\cS_n$ (Proposition~\ref{prop:T}); this is the case for finite posets,
+which gives again the theorem of \cite{Interm} for finite propositional
+theories, for the product of a finite poset and a finite group
+(Corollary~\ref{cor:product}), and for all finite EI-categories if
+$n_L\le2$ (Corollary~\ref{cor:two});
+\item more generally it holds if, for every string $s$, the arrows of
+$\cS_n$ into $s$ are a natural retract of the arrows of $\cX$ which are
+connected to them (Proposition~\ref{prop:retract}); this is the case
+if $\cX$ has no automorphisms other than identities
+(Corollary~\ref{cor:rigid});
+\item it fails if for a string $t$, with $H\le G=\Aut_{\cX}(m_0)$ the
+group of the first components of its automorphisms, and two arrows of $\cS_n$ into $t$ with
+stabilisers $S_1,S_2\le G$ one has $\langle H\cap S_1,H\cap S_2\rangle
+\ne H\cap\langle S_1,S_2\rangle$ (Proposition~\ref{prop:modular}); this
+happens in a category with four objects and fifteen arrows
+(Example~\ref{ex:modular}), for every $L$ with $n_L\ge3$;
+\item it fails if an arrow $g$ of $\cX$ which is not an arrow of
+$\cS_n$ becomes one after composition with two arrows $v_1$, $v_2$ of
+$\cS_n$, in two ways which are not connected inside $\cS_n$
+(Proposition~\ref{prop:onestep}); a category with seventeen arrows
+shows that this is not a consequence of the subgroup obstruction
+(Example~\ref{ex:top}).
+\end{itemize}
+For classical logic the assumption on the endomorphisms is not needed:
+the comparison is an equivalence for every finite category in which
+idempotents split (Proposition~\ref{prop:classical}). The results are
+summarised as follows, $\cX$ being a finite category in which
+idempotents split.
+\begin{center}
+\begin{tabular}{lll}
+logic $L$ & $\cX$ & $c^L_\cP$ is an equivalence\\\hline
+classical ($n_L=1$) & any & always\\
+linear, $n_L=2$ & EI & always\\
+linear, $3\le n_L\le\infty$ & EI & iff the units $W\to\pi^*
+\mathrm{Lan}_\pi W$ are injective;\\
+&& not always\\
+intuitionistic & any & only for groupoids \cite{Heyting}
+\end{tabular}
+\end{center}
+So, in contrast with the propositional case, the
+G\"odel--Dummett translation does not commute with the imaginaries of
+all these theories, the obstructions are of a group-theoretic nature,
+and they appear exactly from the three-element chain on. For
+intuitionistic logic the comparison is an equivalence only
+if $\cX$ is a groupoid \cite[Thm.~1.1]{Heyting}; the product of the
+poset $0<1$ and the group $\mathbb Z/2$, for which an object outside
+the image is given in \cite[Ex.~7.16]{Heyting}, is among the
+categories for which the comparison is an equivalence for all $L$
+proving linearity.
+
+\subsection*{What is new and what is known}
+New, to the author's knowledge: Theorem~\ref{thm:main}; the linearity
+of the canonical model with elements (Lemma~\ref{lem:linear}) and the
+description of the models by strings
+(Proposition~\ref{prop:strings}); the classical case
+(Proposition~\ref{prop:classical}); Propositions~\ref{prop:T},
+\ref{prop:retract}, \ref{prop:modular} and~\ref{prop:onestep} with
+their corollaries, and Examples~\ref{ex:parallel}, \ref{ex:modular}
+and~\ref{ex:top}. Known and used:
+the translation $\HH_L$, the comparison and the frames of the logics
+proving linearity \cite{Interm}; the completeness theorem of coherent
+logic and the pretopos completion \cite{Elephant}; Joyal's completeness
+theorem for Kripke models in the form of a truth lemma for the
+category of coherent models, proved by the method of diagrams as in
+\cite[Lemma~7.13]{Heyting}; and the fact that the prime filters above
+a prime filter of a linear Heyting algebra form a chain \cite{Horn69},
+of which Lemma~\ref{lem:linear} is the version with elements.
+The description of the models by chains in the propositional case,
+where $\cX$ is a finite poset, is known \cite{AGM08,Carai,Interm}.
+EI-categories are standard in the representation theory of finite
+categories; we use only the definition.
+
+\section{The setting}\label{sec:setting}
+
+Conventions are those of \cite{Interm,Heyting}. Let $\cX$ be a finite
+category in which idempotents split, $\cP=\Fin^{\cX}$, $y(x)=\cX(x,-)$,
+and $y(\gamma)\colon y(x')\to y(x)$ the composition with $\gamma\colon
+x\to x'$. Every $A$ in $\cP$ is covered by the morphisms $q_a\colon
+y(x)\to A$, $a\in A(x)$, $q_a(\varphi)=A(\varphi)(a)$. The models of
+$\cP$ are, up to isomorphism, the evaluations at the objects of $\cX$,
+and the homomorphisms between these are the arrows of $\cX$
+\cite[\S7]{Heyting}.
+
+Let $L$ be an intermediate logic and $\HH_L\cP$ the syntactic category
+of the internal theory of $\cP$ in first-order logic over $L$
+\cite[\S2]{Interm}: intuitionistic first-order logic with the
+additional axioms $\lambda(\varphi_1,\dots,\varphi_k)$, for
+$\lambda(p_1,\dots,p_k)\in L$ and first-order formulas $\varphi_i$ in
+a common context, so that the formulas of $L$ are valid in every
+lattice of subobjects of $\HH_L\cP$. Its objects are the subobjects
+$U\le\eta A$, $A$ in $\cP$, and we omit $\eta$. The subobjects of the objects $A$ of $\cP$
+in $\HH_L\cP$ are obtained from those in $\cP$ by finite meets and
+joins, $\Rightarrow$, and $f^*$, $\exists_f$, $\forall_f$ for the
+morphisms $f$ of $\cP$. Since $\cP$ is a pretopos, $\HH_L\PP\cP\simeq
+\HH_L\cP$, and $c^L_\cP$ is the unit $\HH_L\cP\to\PP\HH_L\cP$; it is an
+equivalence if and only if $\HH_L\cP$ is a pretopos
+\cite[Lemma~2.2]{Interm}.
+
+A \emph{model} of $\HH_L\cP$ is a coherent functor $\hat G\colon
+\HH_L\cP\to\Set$; it is not required to be a Heyting functor. Its restriction to $\cP$ is isomorphic to the
+evaluation at an object $m$; we fix such an isomorphism and regard
+$\hat G(U)$, for $U\le A$, as a subset of $A(m)$, and say that $\hat G$
+is \emph{over} $m$. A natural transformation $\hat G\to\hat G'$ of
+models over $m$, $m'$ restricts to an arrow $\varphi\colon m\to m'$ and
+is determined by it; so a \emph{homomorphism} $\hat G\to\hat G'$ is an
+arrow $\varphi\colon m\to m'$ of $\cX$ with $A(\varphi)(\hat G(U))
+\subseteq\hat G'(U)$ for all $U\le A$. Let $\cK$ be the category of the
+models and homomorphisms, with one model in each isomorphism class; the
+functor $\cK\to\cX$ is faithful.
+
+\begin{lem}\label{lem:generic}
+An arrow $\varphi\colon m\to m'$ is a homomorphism $\hat G\to\hat G'$
+if and only if $\varphi\in\hat G'(U)$ for every $U\le y(m)$ with
+$\id_m\in\hat G(U)$.
+\end{lem}
+\begin{proof}
+If $b\in\hat G(U)$, $U\le A$, then $b=q_b(\id_m)$, so $\id_m\in\hat
+G(q_b^*U)$, and $A(\varphi)(b)=q_b(\varphi)$; so $A(\varphi)(b)\in\hat
+G'(U)$ iff $\varphi\in\hat G'(q_b^*U)$.
+\end{proof}
+
+\begin{lem}[truth lemma]\label{lem:truth}
+Let $\hat G$ be a model over $m$, $f\colon B\to A$ a morphism of $\cP$,
+$U,V\le B$ in $\HH_L\cP$, $\alpha\in A(m)$ and $\beta\in B(m)$.
+\begin{enumerate}
+\item[(a)] $\alpha\in\hat G(\forall_fU)$ if and only if for every
+homomorphism $\varphi\colon\hat G\to\hat G'$ and every $\beta'\in
+B(m')$ with $f(\beta')=A(\varphi)(\alpha)$ one has $\beta'\in\hat
+G'(U)$.
+\item[(b)] $\beta\in\hat G(U\Rightarrow V)$ if and only if for every
+homomorphism $\varphi\colon\hat G\to\hat G'$, $B(\varphi)(\beta)\in
+\hat G'(U)$ implies $B(\varphi)(\beta)\in\hat G'(V)$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+The implications from left to right hold because $\varphi$ preserves
+$\forall_fU$ and $U\Rightarrow V$, and $f^*\forall_fU\le U$,
+$(U\Rightarrow V)\wedge U\le V$. For the converse of (a) let
+$\alpha\notin\hat G(\forall_fU)$, and consider the classical theory of
+the coherent functors on $\HH_L\cP$ with a constant $c_b$ for every
+element $b$ of the sets $\hat G(X)$, $X$ an object of $\HH_L\cP$, the
+axioms $g(c_b)=c_{g(b)}$ for the morphisms $g$ of $\HH_L\cP$, a new
+constant $d$ of sort $B$ and the axioms $f(d)=c_\alpha$ and $\neg
+U(d)$. If it had no model, a finite part, written as a subobject
+$\theta$ of a product of $A$ with finitely many objects, with a point
+in $\hat G(\theta)$ over $\alpha$, would give $V_0:=\exists_{\pi_0}
+\theta\le A$ with $\alpha\in\hat G(V_0)$ and $f^*V_0\le U$ by the
+completeness theorem for the coherent category $\HH_L\cP$; then
+$V_0\le\forall_fU$, contradicting $\alpha\notin\hat G(\forall_fU)$. A
+model of the theory is a coherent functor $\hat G'$ with a natural
+transformation $\hat G\to\hat G'$ and an element $\beta'\in B(m')
+\setminus\hat G'(U)$ over the image of $\alpha$. This is the argument
+of \cite[Lemma~7.13]{Heyting}. (b) is the same, with the axioms
+$U(c_\beta)$ and $\neg V(c_\beta)$.
+\end{proof}
+
+So the evaluation $U\mapsto(\hat G\mapsto\hat G(U))$ is a Heyting
+functor $\HH_L\cP\to\Set^{\cK}$, which is conservative by the
+completeness theorem of coherent logic: if $\hat G(U)\subseteq\hat
+G(V)$ for all models, then $U\le V$.
+
+\subsection*{Kripke models}
+Let $K$ be a finite poset such that every $\uparrow\!k$ is a frame of
+$L$, and $M\colon K\to\cX$ a functor. Then $\Set^K$ is an $L$-category,
+and $M$ extends to a Heyting functor $\HH_L\cP\to\Set^K$
+\cite[Lemma~2.3]{Interm}; its value at $U\le A$ is the family of the
+subsets of $A(M_k)$ defined by the forcing relation of $M$. The
+evaluation at a node $k$ is a model of $\HH_L\cP$ over $M_k$, and the
+transitions $M(k\le l)$ are homomorphisms between these models.
+
+If $L$ proves the linearity axiom, the finite frames of $L$ are the
+finite posets in which every $\uparrow\!k$ is a chain with at most
+$n_L$ elements \cite[Lemma~3.1]{Interm}.
+
+\section{Two homomorphisms out of a model are comparable}
+
+\begin{lem}[linearity]\label{lem:linear}
+Let $\cX$ be a finite category in which idempotents split, $L$ an
+intermediate logic proving $(p\to q)\vee(q\to p)$, and $\varphi\colon
+\hat G\to\hat G'$, $\psi\colon\hat G\to\hat G''$ homomorphisms of
+models of $\HH_L\cP$. Then there is a homomorphism $\chi\colon\hat G'
+\to\hat G''$ with $\chi\varphi=\psi$, or a homomorphism $\chi'\colon
+\hat G''\to\hat G'$ with $\chi'\psi=\varphi$.
+\end{lem}
+\begin{proof}
+Let the models be over $m$, $m'$, $m''$, and suppose that there is no
+such $\chi$. The set of the arrows $\chi\colon m'\to m''$ of $\cX$ with
+$\chi\varphi=\psi$ is finite, and none of them is a homomorphism; by
+Lemma~\ref{lem:generic} there is for each of them $U_\chi\le y(m')$
+with $\id_{m'}\in\hat G'(U_\chi)$ and $\chi\notin\hat G''(U_\chi)$. Let
+$U'$ be the meet of the $U_\chi$ (the top element, if there is no such
+arrow), and $E':=\exists_{y(\varphi)}U'\le y(m)$. Then $\varphi\in\hat
+G'(E')$, since $\varphi=y(\varphi)(\id_{m'})$ and $\id_{m'}\in\hat
+G'(U')$; and $\psi\notin\hat G''(E')$, since an element of $\hat
+G''(U')$ over $\psi$ is an arrow $\chi$ with $\chi\varphi=\psi$ and
+$\chi\in\hat G''(U')$. If there is no $\chi'$ either, we get in the same
+way $E''\le y(m)$ with $\psi\in\hat G''(E'')$ and $\varphi\notin\hat
+G'(E'')$. In $\HH_L\cP$ the subobject $(E'\Rightarrow E'')\vee
+(E''\Rightarrow E')$ of $y(m)$ is the top element, so $\id_m$ lies in
+$\hat G(E'\Rightarrow E'')$ or in $\hat G(E''\Rightarrow E')$. In the
+first case $\varphi\in\hat G'(E'\Rightarrow E'')$, the homomorphism
+$\varphi$ sending $\id_m$ to $\varphi$; with $\varphi\in\hat G'(E')$
+this gives $\varphi\in\hat G'(E'')$, a contradiction. The second case
+is symmetric.
+\end{proof}
+
+By Lemma~\ref{lem:truth} the forcing at a model $\hat G$, in the Kripke
+model $\cK$, involves the homomorphisms out of $\hat G$;
+Lemma~\ref{lem:linear} says that these are totally preordered by
+$\varphi\preceq\psi$ iff $\psi=\chi\varphi$ for a homomorphism $\chi$.
+
+\section{EI-categories: the models are strings}\label{sec:strings}
+
+From now on $\cX$ is a finite EI-category and $L$ proves linearity. We
+use the following consequences of the definition. A split monomorphism
+or epimorphism of $\cX$ is invertible: if $\rho\gamma=\id$, then
+$\gamma\rho$ is an idempotent endomorphism, hence invertible, hence the
+identity. So idempotents split, and a composite $\delta\gamma$ is
+invertible only if $\gamma$ and $\delta$ are. If there is a
+non-invertible arrow $x\to x'$, then $x$ and $x'$ are not isomorphic;
+so the isomorphism classes of objects are strictly partially ordered
+by the existence of a non-invertible arrow. The non-invertible arrows
+out of $x$ form a subfunctor $N_x\le y(x)$.
+
+\begin{lem}\label{lem:iso}
+A homomorphism of models of $\HH_L\cP$ whose underlying arrow is
+invertible in $\cX$ is an isomorphism of models.
+\end{lem}
+\begin{proof}
+We show, for all homomorphisms $\chi\colon\hat G'\to\hat G''$ with
+invertible underlying arrow at once and all $U\le A$, that $b\in\hat
+G'(U)$ if $A(\chi)(b)\in\hat G''(U)$, by induction on the construction
+of $U$. This is clear for the subobjects in $\cP$ and compatible with
+finite meets and joins and $f^*$; for $\exists_f$ it holds because
+$\chi$ is bijective on every sort. Let $A(\chi)(b)\in\hat
+G''(\forall_fU)$, $f\colon B\to A$; by Lemma~\ref{lem:truth} we have to
+show $\beta\in\hat G'''(U)$ for a homomorphism $\lambda\colon\hat G'\to
+\hat G'''$ and $\beta$ over $A(\lambda)(b)$. By Lemma~\ref{lem:linear}
+there is a homomorphism $\mu$ with $\mu\chi=\lambda$ or with
+$\mu\lambda=\chi$. In the first case $A(\lambda)(b)=A(\mu)A(\chi)(b)
+\in\hat G'''(\forall_fU)$ and $\beta\in\hat G'''(U)$. In the second
+case $\lambda$ is a split monomorphism, hence invertible, and so is
+$\mu\colon\hat G'''\to\hat G''$; $B(\mu)(\beta)$ lies over
+$A(\chi)(b)$, so $B(\mu)(\beta)\in\hat G''(U)$, and $\beta\in\hat
+G'''(U)$ by the induction hypothesis for $\mu$ and $U$. The case of
+$U\Rightarrow V$ is the same.
+\end{proof}
+
+A \emph{string} is a sequence $s=(m_0\xrightarrow{a_1}m_1\to\dots
+\xrightarrow{a_r}m_r)$ of non-invertible arrows of $\cX$, $r\ge0$; its
+\emph{length} is $r+1$, its \emph{final segments} are the strings
+$s_{\ge j}=(m_j\to\dots\to m_r)$, and an isomorphism of strings is a
+family of isomorphisms of the objects commuting with the arrows. The
+length of a string is at most the number of isomorphism classes of
+objects of $\cX$. The string $s$ is a Kripke model over the chain
+$0<\dots<r$, with $M_j=m_j$; if $r+1\le n_L$ let $\hat G_s$ be the
+model of $\HH_L\cP$ given by the evaluation at the node $0$. The
+evaluation at the node $j$ is $\hat G_{s_{\ge j}}$, and
+$a_j\cdots a_1\colon\hat G_s\to\hat G_{s_{\ge j}}$ is a homomorphism.
+
+\begin{prop}\label{prop:strings}
+Let $\cX$ be a finite EI-category, $L$ an intermediate logic proving
+linearity and $n=n_L$.
+\begin{enumerate}
+\item[(a)] Every model of $\HH_L\cP$ is isomorphic to $\hat G_s$ for a
+string $s$ of length at most $n$.
+\item[(b)] The homomorphisms $\hat G_s\to\hat G_{s'}$ are the arrows
+$\iota_0a_j\cdots a_1$, for $0\le j\le r$ and $\iota$ an isomorphism of
+strings from $s_{\ge j}$ onto $s'$; the index $j$ is determined by
+$s'$. In particular $\hat G_s\cong\hat G_{s'}$ if and only if $s$ and
+$s'$ are isomorphic strings.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\emph{Step 1: the string of a model.} Let $\hat G$ be a model over
+$m_0$. By Lemma~\ref{lem:linear} the homomorphisms out of $\hat G$ are
+totally preordered by $\preceq$. If $\varphi\preceq\psi\preceq
+\varphi$, say $\psi=\chi\varphi$ and $\varphi=\chi'\psi$ with
+$\chi\colon\hat G'\to\hat G''$, then $\chi'\chi$ is an endomorphism of
+$m'$ and $\chi\chi'$ one of $m''$; so $\chi$ is invertible in $\cX$,
+and an isomorphism of models by Lemma~\ref{lem:iso}. If $\varphi\prec
+\psi=\chi\varphi$, then $\chi$ is not an isomorphism of models, hence
+not invertible in $\cX$, and the isomorphism class of the codomain of
+$\psi$ is strictly above that of $\varphi$. So there are finitely many
+classes; choose representatives $\id=\varphi_0\prec\varphi_1\prec\dots
+\prec\varphi_r$, $\varphi_j\colon\hat G\to\hat G_j$, and homomorphisms
+$a_j\colon\hat G_{j-1}\to\hat G_j$ with $\varphi_j=a_j\varphi_{j-1}$.
+The $a_j$ are not invertible, and $s:=(m_0\xrightarrow{a_1}\dots
+\xrightarrow{a_r}m_r)$ is a string.
+
+\emph{Step 2: every homomorphism $\lambda$ out of $\hat G_j$ is
+$\chi a_{j'}\cdots a_{j+1}$ for some $j'\ge j$ and an isomorphism of
+models $\chi$.} The homomorphism $\lambda\varphi_j$ out of $\hat G$ is
+equivalent to some $\varphi_{j'}$, and $j'\ge j$ because $\varphi_j
+\preceq\lambda\varphi_j$; so $\lambda\varphi_j=\iota a_{j'}\cdots
+a_{j+1}\varphi_j$ with an isomorphism of models $\iota$. By
+Lemma~\ref{lem:linear} at $\hat G_j$, $\lambda$ and $\iota a_{j'}
+\cdots a_{j+1}$ differ by a homomorphism between their codomains in
+one of the two directions; it is an endomorphism in $\cX$, hence
+invertible, hence an isomorphism of models.
+
+\emph{Step 3: $\hat G_j(U)$ is the value of $U$ at the node $j$ of the
+Kripke model $s$, for all $j$ and all $U\le A$,} where the forcing
+relation of $s$ is defined by the usual clauses, whether or not the
+chain is a frame of $L$. By induction on the construction of $U$: both
+sides agree on the subobjects in $\cP$ and are compatible with the
+coherent operations; for $\forall_fU$, by Lemma~\ref{lem:truth} and
+Step 2, $\alpha\in\hat G_j(\forall_fU)$ iff for all $j'\ge j$, all
+isomorphisms of models $\chi$ out of $\hat G_{j'}$ and all $\beta$
+over $A(\chi a_{j'}\cdots a_{j+1})(\alpha)$ we have $\beta$ in the
+value of $U$ at the codomain of $\chi$, iff, applying $\chi^{-1}$, for
+all $j'\ge j$ and all $\beta$ over $A(a_{j'}\cdots a_{j+1})(\alpha)$
+we have $\beta\in\hat G_{j'}(U)$, which by induction is the forcing
+clause at the node $j$. The case of $\Rightarrow$ is the same.
+
+\emph{Step 4: $r+1\le n$.} Let $U_i\le y(m_0)$ be the image of
+$y(a_i\cdots a_1)$, for $1\le i\le r$, the arrows out of $m_0$ which
+factor through $a_i\cdots a_1$. The arrow $a_j\cdots a_1$ lies in $U_i$
+iff $j\ge i$: if $a_j\cdots a_1=\beta a_i\cdots a_1$ with $j<i$, then
+$\beta a_i\cdots a_{j+1}$ is an endomorphism of $m_j$, so $a_{j+1}$
+would be a split monomorphism. So at the element $\id_{m_0}$ the $U_i$
+are forced exactly at the nodes $j\ge i$, and every valuation of
+propositional variables by up-sets of the chain $0<\dots<r$ is
+obtained from the $U_i$, the top and the bottom. For a formula
+$\lambda(p_1,\dots,p_k)$ of $L$ and such a valuation, the subobject
+$\lambda(U_{i_1},\dots,U_{i_k})$ of $y(m_0)$ is the top element in
+$\HH_L\cP$, so $\id_{m_0}$ lies in its value under $\hat G$; by Step 3
+this value is computed by forcing in the chain, where at the element
+$\id_{m_0}$ it is the propositional forcing of $\lambda$. So $\lambda$
+is valid in the chain, the chain is a frame of $L$, and $r+1\le n$.
+Hence $\hat G_s$ is defined, and $\hat G\cong\hat G_s$ by Step 3; this
+is (a).
+
+\emph{Step 5: (b).} Let $s$ be a string of length at most $n$. We show
+first that every homomorphism $\psi\colon\hat G_s\to\hat G'$ is
+$\chi a_i\cdots a_1$ with $\chi$ an isomorphism of models. Let $i$ be
+maximal with $a_i\cdots a_1\preceq\psi$, and $\psi=\lambda a_i\cdots
+a_1$ with $\lambda\colon\hat G_{s_{\ge i}}\to\hat G'$; it suffices to
+show that $\lambda$ is invertible in $\cX$. If $i=r$, the node $r$ is
+the top of the chain, so the forcing there is classical and $\id_{m_r}
+\in\hat G_{s_{\ge r}}(\neg N_{m_r})$; then $\lambda\in\hat G'(\neg
+N_{m_r})$, so $\lambda\notin N_{m_r}(m')$. Let $i<r$ and suppose that
+$\lambda$ is not invertible. By Lemma~\ref{lem:linear} and the
+maximality of $i$ there is a homomorphism $\mu$ with $\mu\lambda=
+a_{i+1}$. At the node $i$ of $s$ the element $\id_{m_i}$ forces
+$N_{m_i}\Rightarrow I$, where $I\le y(m_i)$ is the image of
+$y(a_{i+1})$: at the nodes $j>i$ it has become $a_j\cdots a_{i+1}$.
+So $\lambda\in\hat G'(N_{m_i}\Rightarrow I)$, and as $\lambda\in
+N_{m_i}$, $\lambda=\beta a_{i+1}$ for an arrow $\beta$ of $\cX$. Then
+$a_{i+1}=\mu\beta a_{i+1}$, the endomorphism $\mu\beta$ is invertible,
+so $\beta$ and $\mu$ are invertible, $\mu$ is an isomorphism of models
+and $a_{i+1}\preceq\lambda$, contradicting the maximality of $i$.
+
+It remains to show that the isomorphisms of models $\chi_0\colon\hat
+G_u\to\hat G_t$ are the first components of the isomorphisms of
+strings $u\to t$. An isomorphism of strings is an isomorphism of
+Kripke models and preserves forcing. Conversely let $\chi_0$ be an
+isomorphism of models, $u=(m_0\xrightarrow{a_1}\cdots)$ and
+$t=(m'_0\xrightarrow{b_1}\cdots)$. It induces a bijection between the
+homomorphisms out of $\hat G_u$ and out of $\hat G_t$ which preserves
+$\preceq$; by what was shown, the classes are those of the $a_i\cdots
+a_1$ and of the $b_i\cdots b_1$, which are pairwise inequivalent since
+their codomains are pairwise non-isomorphic. So $u$ and $t$ have the
+same length, and $b_1\chi_0=\chi_1a_1$ for an isomorphism of models
+$\chi_1\colon\hat G_{u_{\ge1}}\to\hat G_{t_{\ge1}}$; by induction on
+the length $\chi_1$ extends to an isomorphism of strings. The index
+$j$ in (b) is determined because the codomains of the $a_j\cdots a_1$
+are pairwise non-isomorphic.
+\end{proof}
+
+\begin{defi}
+$\cS_n=\cS_n(\cX)$ is the category whose objects are the strings of
+length at most $n$, one in each isomorphism class, and whose arrows
+$s\to s'$ are the arrows $\iota_0a_j\cdots a_1\colon m_0\to m'_0$ of
+$\cX$ of Proposition~\ref{prop:strings}(b); $\pi\colon\cS_n\to\cX$ is
+the first object, a faithful functor. We write $\Aut_{\cS}(s)\le
+\Aut_{\cX}(m_0)$ for the group of the first components of the
+automorphisms of the string $s$.
+\end{defi}
+
+By Proposition~\ref{prop:strings} the category $\cK$ of models of
+$\HH_L\cP$ is $\cS_n$, a finite category. For a poset $\cX$ the strings
+are the strict chains and $\cS_n$ is the poset of the strict chains
+with at most $n$ elements, ordered by final segments, of
+\cite[\S6]{Interm}; this description of the propositional case by
+chains is known, from the free G\"odel algebras over finite
+distributive lattices \cite{AGM08} and over bounded distributive
+lattices in the subvarieties \cite{Carai}.
+
+\section{The pretopos completion of the translated theory}
+
+\begin{lem}\label{lem:definable}
+Let $A$ be in $\cP$ and $S$ a subfunctor of $\pi^*A\colon\cS_n\to\Fin$.
+Then there is a unique $V\le A$ in $\HH_L\cP$ with $\hat G_s(V)=S(s)$
+for all $s$.
+\end{lem}
+\begin{proof}
+Uniqueness is the conservativity of the evaluation. For a string $s$
+with first object $m$, a string $t$ and an arrow $\varphi\colon m\to
+t_0$ which is not an arrow $s\to t$ of $\cS_n$ there is, by
+Lemma~\ref{lem:generic}, $U\le y(m)$ with $\id_m\in\hat G_s(U)$ and
+$\varphi\notin\hat G_t(U)$. Let $\tau_s\le y(m)$ be the meet of these
+finitely many $U$. Then $\varphi\in\hat G_t(\tau_s)$ if and only if
+$\varphi$ is an arrow $s\to t$ of $\cS_n$. Let $V$ be the join of the
+$\exists_{q_a}\tau_s$ over the strings $s$ and the $a\in S(s)$. Then
+$\hat G_t(\exists_{q_a}\tau_s)$ is the set of the $A(\varphi)(a)$,
+$\varphi\colon s\to t$ in $\cS_n$, which is contained in $S(t)$ and
+contains $a$ if $t=s$.
+\end{proof}
+
+\begin{lem}\label{lem:PP}
+Let $F\colon\mathcal H\to\mathcal E$ be a coherent functor from a small
+coherent category to a pretopos which is conservative and full on
+subobjects, and such that every object of $\mathcal E$ is a quotient of
+a finite coproduct of objects $F(X)$. Then the coherent functor
+$\PP\mathcal H\to\mathcal E$ extending $F$ is an equivalence.
+\end{lem}
+\begin{proof}
+An object of $\PP\mathcal H$ is a quotient $(\coprod_iX_i)/R$ with $R$
+given by subobjects $R_{ij}\le X_i\times X_j$ in $\mathcal H$, and a
+morphism to $(\coprod_jX'_j)/R'$ is a family of subobjects of the
+$X_i\times X'_j$ which is a functional relation compatible with $R$
+and $R'$; the same holds in $\mathcal E$ for the quotients of the
+coproducts of the $F(X_i)$. Since $F$ is full on subobjects, every
+such family in $\mathcal E$ comes from $\mathcal H$, and since $F$ is
+conservative, the conditions on the families, which are inequalities
+between subobjects built by the coherent operations, hold in
+$\mathcal H$ if they hold in $\mathcal E$, and two families are equal
+if their images are. So the extension is full and faithful, and an
+equivalence relation on $\coprod_iF(X_i)$ in $\mathcal E$ comes from
+one in $\PP\mathcal H$; hence the extension is essentially surjective.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+By Lemma~\ref{lem:truth} and Proposition~\ref{prop:strings} the
+evaluation $F\colon\HH_L\cP\to\Fin^{\cS_n}$, $F(U)(s)=\hat G_s(U)$, is
+a conservative Heyting functor with $F(\eta A)=\pi^*A$. It is full on
+subobjects: a subfunctor of $F(U)$, $U\le A$, is a subfunctor of
+$\pi^*A$, hence $F(V)$ for some $V\le A$ by Lemma~\ref{lem:definable},
+and $V\le U$ by conservativity. Every $W\colon\cS_n\to\Fin$ is a
+quotient of a finite coproduct of representable functors $\cS_n(s,-)$,
+and $\cS_n(s,-)$ is a subfunctor of $\pi^*y(m_0)$, $\pi$ being
+faithful. By Lemma~\ref{lem:PP}, $\PP\HH_L\cP\simeq\Fin^{\cS_n}$, and
+$\HH_L\cP$ corresponds to the full subcategory of the subfunctors of
+the $\pi^*A$. So $\HH_L\cP$ is a pretopos, that is $c^L_\cP$ is an
+equivalence, if and only if every $W$ is isomorphic to a subfunctor of
+some $\pi^*A$. A morphism $W\to\pi^*Y$ factors through the unit
+$W\to\pi^*\mathrm{Lan}_\pi W$, and $\mathrm{Lan}_\pi W$ has finite
+values, $\cS_n$ being finite; so $W$ embeds in some $\pi^*Y$ if and
+only if the unit is injective.
+\end{proof}
+
+For classical logic the models can be described without the assumption
+on the endomorphisms.
+
+\begin{prop}[classical logic]\label{prop:classical}
+Let $\cX$ be a finite category in which idempotents split, $\cX^\times$
+the groupoid of its isomorphisms and $L$ classical logic. Then the
+models of $\HH_L\cP$ are the objects of $\cX$, the homomorphisms are
+the isomorphisms of $\cX$, $\PP\HH_L\cP\simeq\Fin^{\cX^\times}$, and
+$c^L_\cP$ is an equivalence.
+\end{prop}
+\begin{proof}
+The evaluation at an object $m$ is a coherent functor $\cP\to\Set$, and
+$\Set$ is Boolean; so it extends to a Heyting functor on $\HH_L\cP$,
+uniquely up to isomorphism \cite[\S2]{Interm}. Since $\HH_L\cP$ is
+Boolean, every coherent functor on it is Heyting
+\cite[Lemma~2.1]{Heyting}; so there is exactly one model over each $m$,
+and the isomorphisms of $\cX$ are isomorphisms of models. Let
+$\varphi\colon m\to m'$ be a homomorphism of models. It preserves
+complements, hence reflects the subobjects of $\HH_L\cP$. For an object
+$x$ of $\cX$ and $k\ge1$ let $E_k\le1$ be the image of the complement,
+in $y(x)^k$, of the union of the diagonals; it is true in the model
+over $m$ iff $\cX(x,m)$ has at least $k$ elements. As $\varphi$
+preserves and reflects the $E_k$ and reflects the diagonal of $y(x)$,
+the map $\cX(x,m)\to\cX(x,m')$ is an injection between sets of the
+same cardinality, for every $x$; so $\varphi$ is invertible. Hence the
+category $\cK$ of models is a skeleton of $\cX^\times$. The proofs of
+Lemma~\ref{lem:definable} and of the equivalence $\PP\HH_L\cP\simeq
+\Fin^{\cK}$ in Theorem~\ref{thm:main} used only
+Lemma~\ref{lem:generic}, the conservativity of the evaluation, the
+finiteness of $\cK$ and the faithfulness of $\pi\colon\cK\to\cX$, so
+they apply. Finally let $W\colon\cK\to\Fin$
+and $m$ in $\cK$; $\mathrm{Lan}_\pi W(m)$ is the colimit of $W(m')$ over
+the category of the pairs $(m',g\colon m'\to m)$, whose arrows
+$(m',g'v)\to(m'',g')$ are the isomorphisms $v$. In it $g'v$ is
+invertible iff $g'$ is, so the pairs with $g$ invertible form a union
+of connected components, with the terminal object $(m,\id)$, and the
+unit $W(m)\to\mathrm{Lan}_\pi W(m)$ is injective.
+\end{proof}
+
+\section{When the translation commutes with the imaginaries}
+
+For a string $s$ with first object $m$ let $\cJ_s$ be the category of
+the pairs $(t,g)$, $t$ a string and $g\colon t_0\to m$ an arrow of
+$\cX$, an arrow $(t,g)\to(t',g')$ being an arrow $v\colon t\to t'$ of
+$\cS_n$ with $g'v=g$. Then $\mathrm{Lan}_\pi W(m)$ is the colimit of
+$W(t)$ over $\cJ_s$, and the unit at $s$ is the map from $W(s)$, at the
+object $(s,\id)$. Let $\cJ^0_s$ be the full subcategory of the $(t,g)$
+with $g$ an arrow $t\to s$ of $\cS_n$; it has the terminal object
+$(s,\id)$, so the colimit of $W$ over $\cJ^0_s$ is $W(s)$. An arrow of
+$\cJ_s$ into an object of $\cJ^0_s$ has its domain in $\cJ^0_s$. Let
+$\cJ^c_s\supseteq\cJ^0_s$ be the connected component of $(s,\id)$ in
+$\cJ_s$, and $C_s(t)$ the set of the arrows $g$ with $(t,g)$ in
+$\cJ^c_s$; so $\cS_n(t,s)\subseteq C_s(t)\subseteq\cX(t_0,s_0)$, and
+$gv\in C_s(t')$ iff $g\in C_s(t)$, for $v\colon t'\to t$ in $\cS_n$.
+
+\begin{prop}\label{prop:T}
+Suppose that for all arrows $v\colon t'\to t$ and $u\colon t'\to s$ of
+$\cS_n$, every arrow $g\colon t_0\to s_0$ of $\cX$ with $gv=u$ is an
+arrow $t\to s$ of $\cS_n$. Then $c^L_\cP$ is an equivalence.
+\end{prop}
+\begin{proof}
+The hypothesis says that an arrow of $\cJ_s$ out of an object of
+$\cJ^0_s$ has its codomain in $\cJ^0_s$. So $\cJ^0_s$ is a union of
+connected components of $\cJ_s$, the colimit of $W$ over $\cJ_s$ is the
+disjoint union of $W(s)$ and the colimit over the other components,
+and the unit is injective.
+\end{proof}
+
+\begin{cor}\label{cor:product}
+Let $X$ be a finite poset and $\Gamma$ a finite group, regarded as a
+category with one object. For $\cX=X\times\Gamma$, in particular for
+$\cX=X$, the comparison $c^L_\cP$ is an equivalence for every $L$
+proving linearity.
+\end{cor}
+\begin{proof}
+An arrow of $\cX$ is a pair $(x\le x',\gamma)$; it is invertible iff
+$x=x'$, so $\cX$ is an EI-category, and a string is a strict chain
+$x_0<\dots<x_r$ with elements $\gamma_1,\dots,\gamma_r$. For strings
+$t$, $s$ whose chains are $x_0<\dots<x_r$ and $x_j<\dots<x_r$, every
+$\gamma_0\in\Gamma$ is the first component of a unique isomorphism of
+strings from $t_{\ge j}$ onto $s$, the other components being
+determined successively. So the arrows $t\to s$ of $\cS_n$ are all the
+arrows $t_0\to s_0$ of $\cX$ if the chain of $s$ is a final segment of
+that of $t$, and there are none otherwise. Let $v\colon t'\to t$,
+$u\colon t'\to s$ and $g\colon t_0\to s_0$ with $gv=u$. The chains of
+$t$ and $s$ are final segments of that of $t'$, and the first element
+of $t$ is below that of $s$; so the chain of $s$ is a final segment of
+that of $t$, and $g$ is an arrow of $\cS_n$. Proposition~\ref{prop:T}
+applies.
+\end{proof}
+
+For $\Gamma=1$ Corollary~\ref{cor:product} is the theorem of \cite{Interm} that the translation
+into a logic proving linearity commutes with the imaginaries of the
+finite propositional theories. For $X=\{0<1\}$ and $\Gamma=\mathbb Z/2$
+the pretopos $\cP$ is that of \cite[Ex.~7.16]{Heyting}, a proposition
+$p$ and a sort with exactly two elements and decidable equality; over
+intuitionistic logic a twisted form of this sort is not in the image
+of the comparison, and it needs a Kripke model over a fork.
+
+\begin{cor}\label{cor:two}
+If $n_L\le2$, in particular for classical logic and for the logic of
+the two-element chain, $c^L_\cP$ is an equivalence for every finite
+EI-category $\cX$.
+\end{cor}
+\begin{proof}
+Let $v\colon t'\to t$ and $u\colon t'\to s$ be arrows of $\cS_n$ and
+$gv=u$. If $v$ is invertible, $g=uv^{-1}$ is an arrow of $\cS_n$.
+Otherwise $t'=(m_0\xrightarrow{a}m_1)$, $t$ has length one and
+$v=\iota a$ with $\iota\colon m_1\to t_0$ invertible. If $u$ were
+invertible, $a$ would be a split monomorphism; so $u=\iota'a$ with
+$\iota'\colon m_1\to s_0$ invertible, and $s$ has length one. Then
+$\iota'^{-1}g\iota$ is an endomorphism of $m_1$, so $g$ is invertible,
+and an invertible arrow between strings of length one is an arrow of
+$\cS_n$. Proposition~\ref{prop:T} applies.
+\end{proof}
+
+The hypothesis of Proposition~\ref{prop:T} says that $C_s(t)=\cS_n(t,
+s)$. It is the simplest case of the following.
+
+\begin{prop}[retraction]\label{prop:retract}
+Suppose that for every string $s$ of length at most $n$ there are maps
+$r_t\colon C_s(t)\to\cS_n(t,s)$, $t$ in $\cS_n$, with $r_t(\kappa)=
+\kappa$ for $\kappa\in\cS_n(t,s)$ and $r_{t'}(gv)=r_t(g)v$ for $g\in
+C_s(t)$ and $v\colon t'\to t$ in $\cS_n$. Then $c^L_\cP$ is an
+equivalence.
+\end{prop}
+\begin{proof}
+The colimit of $W$ over $\cJ_s$ is the disjoint union of the colimits
+over the connected components. On the colimit over $\cJ^c_s$ let
+$\rho$ send the class of $w\in W(t)$ at the object $(t,g)$ to
+$W(r_t(g))(w)\in W(s)$. This is well defined: for $v\colon(t',gv)\to
+(t,g)$ and $w'\in W(t')$ the elements $w'$ at $(t',gv)$ and $W(v)w'$
+at $(t,g)$ are both sent to $W(r_t(g)v)(w')$. Since $r_s(\id)=\id$,
+$\rho$ is a left inverse of the map from $W(s)$ to the colimit over
+$\cJ^c_s$, which is a summand of $\mathrm{Lan}_\pi W(s_0)$; so the unit
+is injective.
+\end{proof}
+
+\begin{cor}\label{cor:rigid}
+If every automorphism of $\cX$ is an identity, then $c^L_\cP$ is an
+equivalence for every $L$ proving linearity.
+\end{cor}
+\begin{proof}
+Two arrows $t\to s$ of $\cS_n$ are $\iota_0p$ and $\iota'_0p$ for the
+same composite $p$ of arrows of $t$ and isomorphisms of strings
+$\iota$, $\iota'$ onto $s$; these differ by an automorphism of the
+string $s$, whose first component is the identity by assumption. So $\cS_n(t,s)$ has
+at most one element. We show that it is non-empty if $C_s(t)$ is;
+then the unique maps $r_t\colon C_s(t)\to\cS_n(t,s)$ satisfy the
+conditions of Proposition~\ref{prop:retract}. It suffices to show, for
+$v\colon t'\to t$ in $\cS_n$ and $g\colon t_0\to s_0$ in $\cX$ with
+$\cS_n(t',s)\ne\emptyset$, that $\cS_n(t,s)\ne\emptyset$, the converse
+being clear. Up to isomorphism $t=t'_{\ge j}$ and $s=t'_{\ge k}$, with
+$t'=(m_0\to\dots\to m_r)$. If $k<j$, the composite $p\colon m_k\to m_j$
+of the arrows of $t'$ is not invertible, and $gp$ is an endomorphism
+of $m_k$, so $p$ would be a split monomorphism. So $k\ge j$, and $s$
+is a final segment of $t$.
+\end{proof}
+
+\begin{ex}\label{ex:parallel}
+Let $\cX$ have the objects $0$, $1$, $2$ and, besides the identities,
+the arrows $a\colon0\to1$, $c,c'\colon1\to2$ and $d=ca=c'a\colon0\to2$:
+\[
+\begin{tikzcd}
+0\arrow[r,"a"]&1\arrow[r,shift left,"c"]\arrow[r,shift right,"c'"']&2
+\end{tikzcd}
+\]
+By Corollary~\ref{cor:rigid}, $c^L_\cP$ is an equivalence for every $L$
+proving linearity. The hypothesis of Proposition~\ref{prop:T} fails for
+$n\ge3$: for $v=a\colon(0\xrightarrow{a}1\xrightarrow{c}2)\to
+(1\xrightarrow{c}2)$ and $u=d\colon(0\xrightarrow{a}1\xrightarrow{c}2)
+\to(2)$ one has $c'v=u$, and $c'$ is not an arrow
+$(1\xrightarrow{c}2)\to(2)$ of $\cS_n$. The retraction sends $c'$ to
+$c$.
+\end{ex}
+
+\begin{prop}[subgroup obstruction]\label{prop:modular}
+Let $t$ be a string of length at most $n$ with first object $m$,
+$G=\Aut_{\cX}(m)$, $H=\Aut_{\cS}(t)\le G$, and let $v_i\colon t'_i\to
+t$, $i=1,2$, be arrows of $\cS_n$ with stabilisers $S_i=\{g\in G\mid
+gv_i=v_i\}$. If
+\[
+\langle H\cap S_1,\ H\cap S_2\rangle\ \ne\ H\cap\langle S_1,S_2\rangle,
+\]
+then $c^L_\cP$ is not an equivalence.
+\end{prop}
+\begin{proof}
+Let $W$ be the pushout in $\Fin^{\cS_n}$ of the morphisms
+$\cS_n(t,-)\to\cS_n(t'_i,-)$, $\kappa\mapsto\kappa v_i$, and $x_i\in
+W(t'_i)$ the class of the identity; so $W(v_1)x_1=W(v_2)x_2=:y$. The
+arrows $t'_i\to t$ of $\cS_n$ are the $hv_i$, $h\in H$: by
+Proposition~\ref{prop:strings}(b) the index of the final segment is
+determined, and two isomorphisms of strings onto $t$ differ by an
+automorphism of $t$. So $W(t)$ is the quotient of $Hv_1\sqcup Hv_2$ by
+the relation generated by $hv_1\sim hv_2$, and $hv_i=h'v_i$ iff
+$h^{-1}h'\in S_i$; hence the stabiliser of $y$ in $H$, for the action
+of $H$ on $W(t)$ by the arrows $t\to t$, is $\langle H\cap S_1,H\cap
+S_2\rangle$. Suppose that $\theta\colon W\to\pi^*Y$ is injective, and
+let $\bar y=\theta_t(y)\in Y(m)$. By naturality $\bar y=Y(v_i)
+\theta(x_i)$, so $Y(g)\bar y=\bar y$ for $g\in S_i$, hence for
+$g\in\langle S_1,S_2\rangle$. For $h\in H\cap\langle S_1,S_2\rangle$
+we get $\theta_t(W(h)y)=Y(h)\bar y=\theta_t(y)$, so $W(h)y=y$ and
+$h\in\langle H\cap S_1,H\cap S_2\rangle$. So under the hypothesis $W$
+is not a subfunctor of any $\pi^*Y$, and Theorem~\ref{thm:main}
+applies.
+\end{proof}
+
+\begin{ex}\label{ex:modular}
+Let $G=\mathbb Z/2\times\mathbb Z/2$, $S_1=\langle(1,0)\rangle$,
+$S_2=\langle(0,1)\rangle$ and $H=\langle(1,1)\rangle$. Let $\cX$ have
+the objects $0$, $0'$, $1$, $2$, with $\Aut(1)=G$ and trivial
+automorphism groups otherwise, and the arrows
+\begin{gather*}
+\cX(0,1)=G/S_1,\qquad\cX(0',1)=G/S_2,\qquad\cX(1,2)=H\backslash G,\\
+\cX(0,2)=\{d\},\qquad\cX(0',2)=\{d'\},
+\end{gather*}
+composition being given by the actions of $G$ on the cosets and by the
+unique maps to the one-element sets:
+\[
+\begin{tikzcd}[column sep=large]
+0\arrow[dr,"G/S_1"]&&\\
+&1\arrow[r,"H\backslash G"]\arrow[loop above,"G"]&2\\
+0'\arrow[ur,"G/S_2"']&&
+\end{tikzcd}
+\]
+This is a category with fifteen arrows, and an EI-category. Let
+$a=S_1\in\cX(0,1)$, $a'=S_2\in\cX(0',1)$ and $c=H\in\cX(1,2)$. The
+string $t=(1\xrightarrow{c}2)$ has $\Aut_{\cS}(t)=\{g\mid cg=c\}=H$,
+and the arrows $a\colon(0\xrightarrow{a}1\xrightarrow{c}2)\to t$ and
+$a'\colon(0'\xrightarrow{a'}1\xrightarrow{c}2)\to t$ of $\cS_3$ have
+the stabilisers $S_1$ and $S_2$. Here $H\cap S_1=H\cap S_2=1$ and
+$\langle S_1,S_2\rangle=G$; so by Proposition~\ref{prop:modular} the
+comparison $c^L_\cP$ is not an equivalence for the logics $L$ proving
+linearity with $n_L\ge3$, in particular for the G\"odel--Dummett
+logic. In terms of Kripke models: the functor $W$ of the proof has two
+points at a node of type $t$, exchanged by $(1,1)$; a point of this
+kind which comes from a node below along $a$ and from a node below
+along $a'$ must, in a coherent imaginary, be fixed by $(1,0)$ and by
+$(0,1)$.
+\end{ex}
+
+The same construction gives an obstruction which does not refer to
+automorphisms of the first object.
+
+\begin{prop}[one-step obstruction]\label{prop:onestep}
+Let $s$, $t$ be strings of length at most $n$, $g\colon t_0\to s_0$ an
+arrow of $\cX$, and $v_i\colon t_i\to t$, $i=1,2$, arrows of $\cS_n$
+such that $gv_1$ and $gv_2$ are arrows $t_i\to s$ of $\cS_n$. Let
+$\sim$ be the equivalence relation on $\cS_n(t_1,s)\sqcup\cS_n(t_2,s)$
+generated by $\kappa v_1\sim\kappa v_2$, $\kappa\in\cS_n(t,s)$. If
+$gv_1\not\sim gv_2$, then $c^L_\cP$ is not an equivalence.
+\end{prop}
+\begin{proof}
+Let $W$ be the pushout of the morphisms $\cS_n(t,-)\to\cS_n(t_i,-)$,
+$\kappa\mapsto\kappa v_i$, and $x_i\in W(t_i)$ the classes of the
+identities, so that $W(v_1)x_1=W(v_2)x_2=:y$. Then $W(s)$ is the
+quotient of $\cS_n(t_1,s)\sqcup\cS_n(t_2,s)$ by $\sim$, and the
+elements $z_i:=W(gv_i)x_i$, the classes of the $gv_i$, are different.
+For a morphism $\theta\colon W\to\pi^*Y$ we have
+$\theta_s(z_i)=Y(gv_i)\theta_{t_i}(x_i)=Y(g)Y(v_i)\theta_{t_i}(x_i)=
+Y(g)\theta_t(y)$ for $i=1,2$; so $\theta$ is not injective, and
+Theorem~\ref{thm:main} applies.
+\end{proof}
+
+If $g$ is an arrow $t\to s$ of $\cS_n$, then $gv_1\sim gv_2$; so the
+hypothesis implies that $(t,g)$ is an object of $\cJ^c_s$ outside
+$\cJ^0_s$, and that there is no retraction as in
+Proposition~\ref{prop:retract}, which would give $gv_i=r_t(g)v_i$.
+
+\begin{ex}\label{ex:top}
+Let $G=\mathbb Z/2\times\mathbb Z/2$, $a=(1,0)$, $b=(0,1)$. Let $\cX$
+have the objects $0$, $0'$, $1$, $2$, with $\Aut(2)=\langle b\rangle$
+and trivial automorphism groups otherwise, and the arrows
+\begin{gather*}
+\cX(0,1)=\cX(0,2)=G/\langle a\rangle,\qquad\cX(1,2)=G,\\
+\cX(0',1)=\cX(0',2)=G/\langle a+b\rangle,
+\end{gather*}
+composition being the addition of $G$. This is an EI-category with
+seventeen arrows. Let $s=(2)$, $t=(1\xrightarrow{0}2)$, so that
+$\cS_3(t,s)=\{0,b\}$, and $g=a\in\cX(1,2)$. Let $v_1=\langle a\rangle
+\in\cX(0,1)$ and $v_2=\langle a+b\rangle\in\cX(0',1)$, arrows of
+$\cS_3$ into $t$ from the strings $t_1=(0\xrightarrow{v_1}1
+\xrightarrow{0}2)$ and $t_2=(0'\xrightarrow{v_2}1\xrightarrow{0}2)$.
+Then $gv_1=a+\langle a\rangle=0\cdot v_1$ and $gv_2=a+\langle a+b
+\rangle=b\cdot v_2$ are arrows $t_i\to s$ of $\cS_3$. The relation
+$\sim$ is generated by $0\cdot v_1\sim0\cdot v_2$ and $b\cdot v_1\sim
+b\cdot v_2$, and $b\cdot v_i\ne0\cdot v_i$; so $gv_1\not\sim gv_2$,
+and by Proposition~\ref{prop:onestep} the comparison is not an
+equivalence for $n_L\ge3$. Proposition~\ref{prop:modular} does not
+apply to this category: the only object with a non-trivial
+automorphism is $2$, the only string with first object $2$ is $(2)$,
+and for it $H=\Aut_{\cX}(2)$, so that $H\cap S_i=S_i$.
+\end{ex}
+
+\section{Questions}
+
+\begin{que}
+Give a closed description of the finite EI-categories $\cX$ for which
+every finite functor on $\cS_n(\cX)$ embeds in one pulled back from
+$\cX$. Is the existence of the retractions of
+Proposition~\ref{prop:retract} necessary? Is the absence of the
+obstruction of Proposition~\ref{prop:onestep}, for all finite families
+of arrows $v_i$ into a string, sufficient?
+\end{que}
+
+\begin{que}
+Describe the models of $\HH_L\cP$ when $\cX$ is a finite category
+with split idempotents which is not an EI-category.
+Lemma~\ref{lem:linear} still holds, but a non-invertible endomorphism
+has a power which is a non-identity idempotent, whose splitting is a
+pair of non-invertible arrows with identity composite, so that there
+are strings of unbounded length. A related example outside the present
+setting, its models being infinite: for the theory of pure equality
+the comparison is an equivalence only for classical logic
+\cite{Interm}.
+\end{que}
+
+\begin{que}
+For the logics which prove the weak excluded middle and not linearity
+the comparison fails already for the four-element chain \cite{Interm}.
+Is there a description of the models of the translated theory over a
+finite poset, in which the chains are replaced by the finite rooted
+frames of the logic?
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{99}
+\bibitem{AGM08} S.~Aguzzoli, B.~Gerla, V.~Marra, \emph{G\"odel algebras
+free over finite distributive lattices}, Ann. Pure Appl. Logic 155
+(2008), 183--193.
+\bibitem{Carai} L.~Carai, \emph{Free algebras and coproducts in
+varieties of G\"odel algebras}, preprint, arXiv:2406.05480.
+\bibitem{Horn69} A.~Horn, \emph{Logic with truth values in a linearly
+ordered Heyting algebra}, J. Symbolic Logic 34 (1969), 395--408.
+\bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
+Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{Heyting} R.~Shibusawa, \emph{The free Heyting category on a
+pretopos is a pretopos only in the Boolean case: the intuitionistic
+translation and the pretopos completion}, preprint (2026), archived at
+DOI 10.5281/zenodo.24182122.
+\bibitem{Interm} R.~Shibusawa, \emph{Intermediate logics and
+imaginaries: the translation into an intermediate logic commutes with
+the pretopos completion of all finite propositional theories exactly
+for the extensions of G\"odel--Dummett logic}, preprint (2026),
+archived at DOI 10.5281/zenodo.24150610.
+\end{thebibliography}
+
+\end{document}
