@@ -53,19 +53,21 @@ its models are the strings of non-invertible arrows of $\cX$, of length
 bounded by the depth of $L$, and its pretopos completion is the
 category of finite set-valued functors on the category $\cS$ of
 strings, whose arrows are the arrows of $\cX$ induced by isomorphisms
-onto final segments. The translation into $L$ commutes with the
-imaginaries if and only if every finite functor on $\cS$ embeds in one
-pulled back from $\cX$. This holds for classical logic and the logic of the two-element
-chain. For the other logics it holds for finite posets, the
-propositional case, for products of a finite poset and a finite group,
-and when $\cX$ has only identity automorphisms; it fails when, for the
-group $H$ of the automorphisms of the first object of a string which
-extend to the string and the stabilisers $S_1,S_2$ of two arrows of
-$\cS$ into it, $\langle H\cap S_1,H\cap S_2\rangle\ne H\cap\langle
-S_1,S_2\rangle$. We give categories with fifteen and seventeen arrows
-where it fails. The main tool is the linearity of the canonical Kripke model in the
-presence of elements: two homomorphisms out of a model of the
-translated theory are comparable.
+of final segments of the domain onto the codomain. The translation
+into $L$ commutes with the imaginaries if and only if every finite
+functor on $\cS$ embeds in one pulled back from $\cX$, a decidable
+condition. It holds for classical logic and the logic of the
+two-element chain. For the other logics it holds for finite posets,
+for products of a finite poset and a finite group, and when $\cX$ has
+only identity automorphisms; it fails when $\langle H\cap S_1,H\cap
+S_2\rangle\ne H\cap\langle S_1,S_2\rangle$ for the group $H$ of the
+automorphisms of the first object of a string which extend to the
+string and the stabilisers $S_1,S_2$ of two arrows of $\cS$ into it.
+In a family of categories with three levels it holds exactly when a
+subgroup $A$ of an abelian group distributes over subgroups $T_j$,
+$A\cap\sum_JT_j=\sum_J(A\cap T_j)$. The main tool is the linearity of
+the canonical Kripke model with elements: two homomorphisms out of a
+model of the translated theory are comparable.
 \end{abstract}
 
 \maketitle
@@ -147,7 +149,20 @@ $\cS_n$ becomes one after composition with two arrows $v_1$, $v_2$ of
 $\cS_n$, in two ways which are not connected inside $\cS_n$
 (Proposition~\ref{prop:onestep}); a category with seventeen arrows
 shows that this is not a consequence of the subgroup obstruction
-(Example~\ref{ex:top}).
+(Example~\ref{ex:top});
+\item for the categories with objects $0_1,\dots,0_m,1,2$ given by
+subgroups $A,T_1,\dots,T_m$ of a finite abelian group it holds, for
+$n_L\ge3$, if and only if $A\cap\sum_{j\in J}T_j=\sum_{j\in J}(A\cap
+T_j)$ for every set $J$ of indices (Proposition~\ref{prop:dist}); among
+them are a category with $28$ arrows for which the comparison is an
+equivalence although there is no retraction, and, for every $m\ge3$, a
+category for which it is not an equivalence although it is one for
+every full subcategory omitting one of the objects $0_j$, and the
+obstruction of Proposition~\ref{prop:onestep} is absent
+(Example~\ref{ex:dist});
+\item in general the condition has to be tested on finitely many
+functors only, one for each string, so that it is decidable
+(Proposition~\ref{prop:test}).
 \end{itemize}
 For classical logic the assumption on the endomorphisms is not needed:
 the comparison is an equivalence for every finite category in which
@@ -182,9 +197,10 @@ of the canonical model with elements (Lemma~\ref{lem:linear}) and the
 description of the models by strings
 (Proposition~\ref{prop:strings}); the classical case
 (Proposition~\ref{prop:classical}); Propositions~\ref{prop:T},
-\ref{prop:retract}, \ref{prop:modular} and~\ref{prop:onestep} with
-their corollaries, and Examples~\ref{ex:parallel}, \ref{ex:modular}
-and~\ref{ex:top}. Known and used:
+\ref{prop:retract}, \ref{prop:modular}, \ref{prop:onestep},
+\ref{prop:dist} and~\ref{prop:test} with
+their corollaries, and Examples~\ref{ex:parallel}, \ref{ex:modular},
+\ref{ex:top} and~\ref{ex:dist}. Known and used:
 the translation $\HH_L$, the comparison and the frames of the logics
 proving linearity \cite{Interm}; the completeness theorem of coherent
 logic and the pretopos completion \cite{Elephant}; Joyal's completeness
@@ -815,7 +831,7 @@ linearity with $n_L\ge3$, in particular for the G\"odel--Dummett
 logic. In terms of Kripke models: the functor $W$ of the proof has two
 points at a node of type $t$, exchanged by $(1,1)$; a point of this
 kind which comes from a node below along $a$ and from a node below
-along $a'$ must, in a coherent imaginary, be fixed by $(1,0)$ and by
+along $a'$ must, in an imaginary of $\cP$, be fixed by $(1,0)$ and by
 $(0,1)$.
 \end{ex}
 
@@ -872,15 +888,189 @@ automorphism is $2$, the only string with first object $2$ is $(2)$,
 and for it $H=\Aut_{\cX}(2)$, so that $H\cap S_i=S_i$.
 \end{ex}
 
+The category of Example~\ref{ex:top} is the first of a family in which
+the condition of Theorem~\ref{thm:main} can be read off the lattice of
+subgroups of an abelian group.
+
+\begin{prop}[a three-level family]\label{prop:dist}
+Let $G$ be a finite abelian group and $A,T_1,\dots,T_m$ subgroups of
+$G$. Let $\cX$ have the objects $0_1,\dots,0_m$, $1$, $2$, with
+$\Aut(2)=A$ and trivial automorphism groups otherwise, and the arrows
+\[
+\cX(1,2)=G,\qquad\cX(0_j,1)=\cX(0_j,2)=G/T_j\quad(1\le j\le m),
+\]
+composition being the addition of $G$. Let $n_L\ge3$. Then $c^L_\cP$
+is an equivalence if and only if
+\begin{equation}\label{eq:dist}
+A\cap\sum_{j\in J}T_j=\sum_{j\in J}(A\cap T_j)\qquad\text{for every }
+J\subseteq\{1,\dots,m\}.
+\end{equation}
+\end{prop}
+\begin{proof}
+$\cX$ is an EI-category, and its strings have length at most three, so
+that $\cS_n=\cS_3$. Choose representatives $\gamma$ of the cosets of
+$A$ in $G$, with $0$ for $A$. Up to isomorphism the strings with last object $2$ are
+$s=(2)$, $t_\gamma=(1\xrightarrow{\gamma}2)$, $u_{j,x,\gamma}=(0_j
+\xrightarrow{x}1\xrightarrow{\gamma}2)$ with $x\in G/T_j$, and strings
+$p=(0_j\to2)$. The arrows of $\cS_3$ between them are, besides the
+identities and the automorphisms $a\in A$ of $s$: the arrows of $\cS_3
+(t_\gamma,s)=A+\gamma\subseteq G$; the arrow $x\colon u_{j,x,\gamma}\to
+t_\gamma$; the arrows of $\cS_3(u_{j,x,\gamma},s)=A+\gamma+x\subseteq
+G/T_j$; and arrows $p\to s$. An arrow of $\cS_3$ preserves the last
+object of a string.
+
+Let $s'$ be a string other than $(2)$; its first object is $1$ or some
+$0_j$. If $v\colon t'\to t$ and $u\colon t'\to s'$ are arrows of
+$\cS_3$ and $g\colon t_0\to s'_0$ an arrow of $\cX$ with $gv=u$, then
+$t_0\ne2$, and either $t_0=1$, in which case $s'_0=1$, the strings
+$t$ and $s'$ are the final segment of $t'$ beginning at $1$, and
+$g=\id$; or $t_0=0_j$, in which case $t=t'$, $v=\id$ and $g=u$. So the argument of
+Proposition~\ref{prop:T} shows that the unit is injective at $s'$.
+
+Let now $s=(2)$, and $W\colon\cS_3\to\Fin$. For $v\in W(t_\gamma)$ let
+$J(v)$ be the set of the $j$ such that $v=W(x)y$ for some $x\in G/T_j$
+and $y\in W(u_{j,x,\gamma})$, let $T(v)=\sum_{j\in J(v)}T_j$, and
+$f_v\colon A+\gamma\to W(s)$, $f_v(\kappa)=W(\kappa)v$. Two remarks:
+\begin{itemize}
+\item[(a)] $f_v(\kappa+a)=f_v(\kappa)$ for $a\in A\cap T_j$, $j\in
+J(v)$: if $v=W(x)y$, then $f_v(\kappa)=W(\kappa+x)y$, and $\kappa+a+x=
+\kappa+x$ in $G/T_j$;
+\item[(b)] in the colimit of $W$ over $\cJ_s$, the element $v$ at
+$(t_\gamma,g)$ equals $v$ at $(t_\gamma,g+\tau)$, for $g\in G$, $\tau
+\in T_j$, $j\in J(v)$: both are equal to $y$ at $(u_{j,x,\gamma},g+x)$.
+\end{itemize}
+By (b), for $\kappa,\kappa'\in A+\gamma$ with $\kappa-\kappa'\in T(v)$
+the unit sends $f_v(\kappa)$ and $f_v(\kappa')$ to the same element,
+since $f_v(\kappa)$ at $(s,\id)$ equals $v$ at $(t_\gamma,\kappa)$.
+
+\emph{Necessity.} Suppose that \eqref{eq:dist} fails for $J$, and let
+$\kappa\in A\cap\sum_{j\in J}T_j$ be outside $\sum_{j\in J}(A\cap
+T_j)$. Let $u_j=u_{j,0,0}$, and let $W$ be the colimit of the
+morphisms $\cS_3(t_0,-)\to\cS_3(u_j,-)$, $j\in J$, given by
+composition with $0\colon u_j\to t_0$; so $W$ is generated by elements
+$y_j\in W(u_j)$ with $W(0)y_j=v$ for all $j\in J$, $v$ being the class
+of the identity of $t_0$. The set $\cS_3(u_j,s)$ is the image of $A$ in
+$G/T_j$, so $W(s)$ is the colimit of the quotient maps $A\to A/(A\cap
+T_j)$, $j\in J$, which is $A/\sum_{j\in J}(A\cap T_j)$, and $f_v$ is
+the quotient map. So $f_v(\kappa)\ne f_v(0)$; since $J\subseteq J(v)$,
+these elements have the same image under the unit.
+
+\emph{Sufficiency.} Assume \eqref{eq:dist}, and that $W(s)$ is not
+empty, with an element $w_0$. Let $\cJ^*$ be the full subcategory of
+$\cJ_s$ of the objects $(t,g)$ with $t$ one of $s$, $t_\gamma$,
+$u_{j,x,\gamma}$, or with $t=p$ and $g\in\cS_3(p,s)$; it is a union of
+connected components of $\cJ_s$: an arrow of $\cS_3$ preserves the
+last object, and an object $(p,c)$ with $c\notin\cS_3(p,s)$ has no
+arrows to or from other objects, as $c=av$ with $a\in A$ and $v\in
+\cS_3(p,s)$ is in $\cS_3(p,s)$. We
+define a map $\rho$ from the colimit of $W$ over $\cJ^*$ to $W(s)$.
+At $(s,a)$ and at $(p,c)$ let $\rho(w)=W(a)w$ and $\rho(w)=W(c)w$. At
+$(t_\gamma,g)$ let $\rho(v)=f_v(\kappa)$ if there is $\kappa\in
+(g+T(v))\cap(A+\gamma)$, and $\rho(v)=w_0$ otherwise; two such
+$\kappa$ differ by an element of $A\cap T(v)$, which by
+\eqref{eq:dist} is the sum of the $A\cap T_j$, $j\in J(v)$, so by (a)
+this does not depend on $\kappa$. At $(u_{j,x,\gamma},c)$ let $\rho(y)$
+be the value of $\rho$ on $W(x)y$ at $(t_\gamma,g)$, for $g\in G$ with
+$g+x=c$; since $g$ is determined modulo $T_j$ and $j\in J(W(x)y)$,
+this does not depend on $g$. The map $\rho$ is compatible with the
+arrows of $\cJ^*$: with $x\colon(u_{j,x,\gamma},g+x)\to(t_\gamma,g)$ by
+definition; with $\kappa\colon(t_\gamma,a+\kappa)\to(s,a)$ since
+$\rho(v)=f_v(a+\kappa)=W(a)W(\kappa)v$ at $(t_\gamma,a+\kappa)$; with
+$\kappa+x\colon(u_{j,x,\gamma},a+\kappa+x)\to(s,a)$, $\kappa\in
+A+\gamma$, since $\rho(y)=f_{W(x)y}(a+\kappa)=W(a)W(\kappa+x)y$; and
+with the arrows into $(s,a)$ from the objects $(s,a')$ and $(p,c)$ by
+the functoriality of $W$. Since $\rho(w)=w$ at $(s,\id)$, the unit is
+injective at $s$.
+\end{proof}
+
+\begin{ex}\label{ex:dist}
+(a) Example~\ref{ex:top} is the case $G=\mathbb Z/2\times\mathbb Z/2$,
+$A=\langle b\rangle$, $T_1=\langle a\rangle$, $T_2=\langle a+b
+\rangle$: here $A\cap(T_1+T_2)=A$ and $A\cap T_j=0$.
+
+(b) \emph{The retractions of Proposition~\ref{prop:retract} are not
+necessary.} Let $G=(\mathbb Z/2)^3$ with basis $e_1,e_2,e_3$, $A=
+\langle e_1,e_2\rangle$ and
+\[
+T_1=\langle e_1,e_3\rangle,\qquad T_2=\langle e_2,e_1+e_3\rangle,
+\qquad T_3=\langle e_1+e_2,e_3\rangle,
+\]
+a category with $28$ arrows. The groups $A\cap T_j$ are $\langle e_1
+\rangle$, $\langle e_2\rangle$, $\langle e_1+e_2\rangle$, and any two
+of them generate $A$; so \eqref{eq:dist} holds and $c^L_\cP$ is an
+equivalence for every $L$ proving linearity. For $s=(2)$ and $t=(1
+\xrightarrow{0}2)$ the arrow $e_3\colon1\to2$ is in $C_s(t)$ and not in
+$\cS_3(t,s)=A$: for the arrow $x\colon(0_j\xrightarrow{x}1
+\xrightarrow{0}2)\to t$ the composite $e_3+x$ is an arrow into $s$ of
+$\cS_3$, as $A+T_j=G$. A retraction would send $e_3$ to $\kappa\in A$
+with $\kappa+x=e_3+x$ in $G/T_j$ for $j=1,2,3$, that is with $\kappa$
+in each of the sets $(e_3+T_j)\cap A$, which are $\{0,e_1\}$,
+$\{e_1,e_1+e_2\}$ and $\{0,e_1+e_2\}$; these meet in pairs and have no
+common element. So for $n\ge3$ there is no retraction as in
+Proposition~\ref{prop:retract}.
+
+(c) \emph{The obstruction of Proposition~\ref{prop:onestep} is not the
+only one.} Let $m\ge3$, $G=(\mathbb Z/2)^m$ with basis $e_1,\dots,e_m$,
+$T_j=\langle e_j\rangle$ and $A=\langle e_1+\dots+e_m\rangle$; for
+$m=3$ this is a category with $38$ arrows. Then $A\cap\sum_{j\in J}T_j$
+is $A$ for $J=\{1,\dots,m\}$ and $0$ otherwise, and $A\cap T_j=0$; so
+$c^L_\cP$ is not an equivalence for $n_L\ge3$, while it is an
+equivalence for the full subcategory obtained by omitting any one of
+the objects $0_j$. The hypothesis of Proposition~\ref{prop:onestep} is
+never satisfied: it requires $(t,g)$ in $\cJ^c_s$ outside $\cJ^0_s$,
+so, by the proof of Proposition~\ref{prop:dist}, $s=(2)$ and, an
+object $u_{j,x,\gamma}$ receiving no arrow but the identity, $t=
+t_\gamma$, $g\in G$ outside $A+\gamma$, and, $gv_i$ being an arrow of
+$\cS_3$, $v_i\ne\id$, that is $v_i=x_i\colon
+u_{j_i,x_i,\gamma}\to t_\gamma$, with $g\in A+\gamma+T_{j_i}$ as
+$gv_i$ is an arrow of $\cS_3$. If $j_1\ne j_2$, then $g-\gamma\in
+(A+T_{j_1})\cap(A+T_{j_2})=A$, which is excluded. If $j_1=j_2$, then
+$g=\kappa+\tau$ with $\kappa\in A+\gamma$ and $\tau\in T_{j_1}$, so
+that $gv_i=\kappa v_i$ and $gv_1\sim gv_2$.
+\end{ex}
+
+In general the condition of Theorem~\ref{thm:main} has to be tested on
+finitely many functors only.
+
+\begin{prop}[a finite test]\label{prop:test}
+For a string $t$ of length at most $n$ let $I_t\colon\cS_n\to\Fin$ be
+the functor sending $t'$ to the set of the subsets of $\cS_n(t',t)$,
+and $k\colon t'\to t''$ to the map $U\mapsto\{l\in\cS_n(t'',t)\mid
+lk\in U\}$. Then $c^L_\cP$ is an equivalence if and only if the unit
+$I_t\to\pi^*\mathrm{Lan}_\pi I_t$ is injective for every $t$. In
+particular it is decidable, for a finite EI-category $\cX$ and $n\in
+\{1,2,\dots,\infty\}$, whether $c^L_\cP$ is an equivalence for the
+logics $L$ with $n_L=n$.
+\end{prop}
+\begin{proof}
+For $W\colon\cS_n\to\Fin$ the morphisms $\theta\colon W\to I_t$
+correspond to the subsets $B$ of $W(t)$, by $B=\{w\mid\id_t\in
+\theta_t(w)\}$ and $\theta_{t'}(w)=\{l\mid W(l)w\in B\}$. For $w\ne w'$
+in $W(t)$ the morphism given by $B=\{w\}$ separates $w$ and $w'$; so
+$W$ is a subfunctor of a finite product of functors $I_t$. The unit of
+$W$ is injective if and only if $W$ is a subfunctor of $\pi^*Y$ for
+some $Y\colon\cX\to\Fin$, every morphism $W\to\pi^*Y$ factoring through
+the unit; and the functors with this property are closed under
+subfunctors and, $\pi^*$ preserving products, under finite products. So
+the units of all $W$ are injective as soon as those of the $I_t$ are,
+and Theorem~\ref{thm:main} applies. The sets $I_t(t')$ and the values
+of $\mathrm{Lan}_\pi I_t$ are finite and computable, $\cS_n$ being a
+finite category.
+\end{proof}
+
 \section{Questions}
 
 \begin{que}
 Give a closed description of the finite EI-categories $\cX$ for which
 every finite functor on $\cS_n(\cX)$ embeds in one pulled back from
-$\cX$. Is the existence of the retractions of
-Proposition~\ref{prop:retract} necessary? Is the absence of the
-obstruction of Proposition~\ref{prop:onestep}, for all finite families
-of arrows $v_i$ into a string, sufficient?
+$\cX$. By Proposition~\ref{prop:test} the condition is decidable; by
+Example~\ref{ex:dist} the retractions of Proposition~\ref{prop:retract}
+are not necessary for it, and the obstructions of
+Propositions~\ref{prop:modular} and~\ref{prop:onestep} are not the
+only ones. Is there a description in terms of the lattices of
+subgroups of the automorphism groups of $\cX$, of which
+Proposition~\ref{prop:modular} and the equalities \eqref{eq:dist} are
+instances?
 \end{que}
 
 \begin{que}
@@ -890,7 +1080,7 @@ Lemma~\ref{lem:linear} still holds, but a non-invertible endomorphism
 has a power which is a non-identity idempotent, whose splitting is a
 pair of non-invertible arrows with identity composite, so that there
 are strings of unbounded length. A related example outside the present
-setting, its models being infinite: for the theory of pure equality
+setting, as it has infinite models: for the theory of pure equality
 the comparison is an equivalence only for classical logic
 \cite{Interm}.
 \end{que}
