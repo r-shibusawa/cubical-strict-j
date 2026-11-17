@@ -5,8 +5,10 @@ This repository is the artifact accompanying the paper
 (`docs/paper/jrefl.tex`).
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
-- Current snapshot: release `v1.43.1` (paper 46 revised: a decidable test; a three-level family governed by
-  distributivity of subgroups -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24212927](https://doi.org/10.5281/zenodo.24212927) -- cite this one.
+- Current snapshot: release `v1.44.0` (paper 46, second revision: an exact criterion by trees of arrows; depth one
+  suffices for strings with at most three objects, not with four -- `docs/consolidated/strings.pdf`), archived at DOI (pending) -- cite this one.
+- Previous: release `v1.43.1` (paper 46 revised: a decidable test; a three-level family governed by
+  distributivity of subgroups -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24212927](https://doi.org/10.5281/zenodo.24212927).
 - Previous: release `v1.43.0` (paper 46: Gödel--Dummett logic over a finite category of models -- strings of
   arrows, a subgroup obstruction -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24199878](https://doi.org/10.5281/zenodo.24199878).
 - Previous: release `v1.41.8` (paper 44 revised: introduction and references updated --

@@ -55,17 +55,16 @@ category of finite set-valued functors on the category $\cS$ of
 strings, whose arrows are the arrows of $\cX$ induced by isomorphisms
 of final segments of the domain onto the codomain. The translation
 into $L$ commutes with the imaginaries if and only if every finite
-functor on $\cS$ embeds in one pulled back from $\cX$, a decidable
-condition. It holds for classical logic and the logic of the
-two-element chain. For the other logics it holds for finite posets,
-for products of a finite poset and a finite group, and when $\cX$ has
-only identity automorphisms; it fails when $\langle H\cap S_1,H\cap
-S_2\rangle\ne H\cap\langle S_1,S_2\rangle$ for the group $H$ of the
-automorphisms of the first object of a string which extend to the
-string and the stabilisers $S_1,S_2$ of two arrows of $\cS$ into it.
-In a family of categories with three levels it holds exactly when a
-subgroup $A$ of an abelian group distributes over subgroups $T_j$,
-$A\cap\sum_JT_j=\sum_J(A\cap T_j)$. The main tool is the linearity of
+functor on $\cS$ embeds in one pulled back from $\cX$. This holds for
+classical logic and the logic of the two-element chain; for the other
+logics it holds for finite posets and when $\cX$ has only identity
+automorphisms, and it can fail. We give a necessary and sufficient
+condition: for every finite tree of arrows of $\cS$ into a string,
+restriction from the arrows of $\cX$ to those of $\cS$ commutes with
+the joins of the equivalence relations defined by the tree. For
+strings with at most three objects trees of depth one suffice; with
+four objects there are obstructions which only trees of depth two
+detect. The main tool is the linearity of
 the canonical Kripke model with elements: two homomorphisms out of a
 model of the translated theory are comparable.
 \end{abstract}
@@ -162,7 +161,15 @@ obstruction of Proposition~\ref{prop:onestep} is absent
 (Example~\ref{ex:dist});
 \item in general the condition has to be tested on finitely many
 functors only, one for each string, so that it is decidable
-(Proposition~\ref{prop:test}).
+(Proposition~\ref{prop:test});
+\item it holds if and only if, for all finite trees $T$ of arrows of
+$\cS_n$ into a string, the restriction to the arrows of $\cS_n$
+commutes with the joins of the equivalence relations $E_T$ which the
+tree defines on the arrows of $\cX$ (Theorem~\ref{thm:tree}); the
+obstructions above are the trees with branching at the root only,
+these suffice for $n_L=3$, for all finite EI-categories
+(Corollary~\ref{cor:three}), and a category with $41$ arrows shows
+that they do not suffice for $n_L\ge4$ (Example~\ref{ex:deep}).
 \end{itemize}
 For classical logic the assumption on the endomorphisms is not needed:
 the comparison is an equivalence for every finite category in which
@@ -174,8 +181,8 @@ idempotents split.
 logic $L$ & $\cX$ & $c^L_\cP$ is an equivalence\\\hline
 classical ($n_L=1$) & any & always\\
 linear, $n_L=2$ & EI & always\\
-linear, $3\le n_L\le\infty$ & EI & iff the units $W\to\pi^*
-\mathrm{Lan}_\pi W$ are injective;\\
+linear, $3\le n_L\le\infty$ & EI & iff no leg tree is an
+obstruction (Thm.~\ref{thm:tree});\\
 && not always\\
 intuitionistic & any & only for groupoids \cite{Heyting}
 \end{tabular}
@@ -197,10 +204,11 @@ of the canonical model with elements (Lemma~\ref{lem:linear}) and the
 description of the models by strings
 (Proposition~\ref{prop:strings}); the classical case
 (Proposition~\ref{prop:classical}); Propositions~\ref{prop:T},
-\ref{prop:retract}, \ref{prop:modular}, \ref{prop:onestep},
-\ref{prop:dist} and~\ref{prop:test} with
-their corollaries, and Examples~\ref{ex:parallel}, \ref{ex:modular},
-\ref{ex:top} and~\ref{ex:dist}. Known and used:
+\ref{prop:retract}, \ref{prop:modular}, \ref{prop:onestep}
+and~\ref{prop:dist} with
+their corollaries, Theorem~\ref{thm:tree} and
+Corollary~\ref{cor:three}, and Examples~\ref{ex:parallel},
+\ref{ex:modular}, \ref{ex:top}, \ref{ex:dist} and~\ref{ex:deep}. Known and used:
 the translation $\HH_L$, the comparison and the frames of the logics
 proving linearity \cite{Interm}; the completeness theorem of coherent
 logic and the pretopos completion \cite{Elephant}; Joyal's completeness
@@ -212,7 +220,15 @@ of which Lemma~\ref{lem:linear} is the version with elements.
 The description of the models by chains in the propositional case,
 where $\cX$ is a finite poset, is known \cite{AGM08,Carai,Interm}.
 EI-categories are standard in the representation theory of finite
-categories; we use only the definition.
+categories; we use only the definition. The condition of
+Theorem~\ref{thm:main} is the analogue, for the functor $\pi$, of the
+extension property of a submonoid \cite{Renshaw86}, and
+Propositions~\ref{prop:T} and~\ref{prop:retract} are the analogues of
+the facts that unitary and quasi-unitary submonoids have it
+\cite{RenshawThesis} (Remark~\ref{rem:ext}); new in these two
+propositions is only the application to the category of strings; the finite test of
+Proposition~\ref{prop:test} is a case of a general criterion for
+adjunctions \cite{Mesablishvili}.
 
 \section{The setting}\label{sec:setting}
 
@@ -1030,7 +1046,11 @@ that $gv_i=\kappa v_i$ and $gv_1\sim gv_2$.
 \end{ex}
 
 In general the condition of Theorem~\ref{thm:main} has to be tested on
-finitely many functors only.
+finitely many functors only. This is an instance of a general fact on
+adjunctions whose domain has an injective cogenerator: the units are
+monomorphisms as soon as the unit of the cogenerator is one
+\cite[Prop.~2.5]{Mesablishvili}; we give the short argument for the
+functors $I_t$, whose product is such a cogenerator.
 
 \begin{prop}[a finite test]\label{prop:test}
 For a string $t$ of length at most $n$ let $I_t\colon\cS_n\to\Fin$ be
@@ -1058,19 +1078,285 @@ of $\mathrm{Lan}_\pi I_t$ are finite and computable, $\cS_n$ being a
 finite category.
 \end{proof}
 
+\subsection*{An exact criterion}
+
+The obstructions above are the first cases of one condition, which is
+necessary and sufficient. Fix a string $s$ of length at most $n$. A
+string $t$ of $\cS_n$ is \emph{over} $s$ if $\cS_n(t,s)\ne\emptyset$;
+we write $V_t=\cX(t_0,s_0)$ and $K_t=\cS_n(t,s)\subseteq V_t$. A
+\emph{child} of $t$ is a string $t'$ with one object more whose final
+segment with the objects after the first is isomorphic to $t$; the
+arrows $t'\to t$ of $\cS_n$ are then called \emph{one-step} arrows. If
+$t$ is over $s$ and $\beta\colon t'\to t$ is one-step, then $t'$ is
+over $s$ and $K_{t'}=K_t\beta$, by
+Proposition~\ref{prop:strings}(b).
+
+\begin{defi}\label{def:tree}
+A \emph{leg tree} $T$ at a string $t$ over $s$ is a finite rooted tree
+whose root is labelled by $t$ and in which every other node is
+labelled by a one-step arrow $\beta\colon t'\to t''$ of $\cS_n$ into
+the string $t''$ of its parent, $t'$ being the string of the node;
+different nodes may have the same label. For a child $(\beta,T')$ of
+the root, $T'$ is a leg tree at $t'$. Define equivalence relations
+$E_T$ on $V_t$ and $F_T$ on $K_t$ by recursion: both are the equality
+if the root has no children, and otherwise
+\[
+E_T=\bigvee_{(\beta,T')}\beta^*E_{T'},\qquad
+F_T=\bigvee_{(\beta,T')}\beta^*F_{T'},
+\]
+the joins being taken in the lattices of equivalence relations on
+$V_t$ and on $K_t$, over the children of the root, where $g\mathrel{
+\beta^*E}g'$ means $g\beta\mathrel Eg'\beta$. So $F_T\subseteq E_T\cap
+(K_t\times K_t)$. The tree $T$ is an \emph{obstruction} if
+$F_T\ne E_T\cap(K_t\times K_t)$.
+\end{defi}
+
+A \emph{star} is a leg tree in which only the root has more than one
+child; its branches are given by arbitrary arrows $v_j\colon t_j\to t$
+of $\cS_n$ which are not automorphisms, $E_T$ is the join of the
+relations $gv_j=g'v_j$ on $V_t$ and $F_T$ the join of their
+restrictions to $K_t$: a star is an obstruction if the restriction to
+$K_t$ does not commute with this join. For $s=t$ and
+two legs this is the hypothesis of Proposition~\ref{prop:modular}
+($V_t=G$, $K_t=H$, and the relation $gv_j=g'v_j$ is
+$g^{-1}g'\in S_j$); the hypothesis of
+Proposition~\ref{prop:onestep} gives a star with two branches
+which is an obstruction; and in
+Proposition~\ref{prop:dist}, for $s=(2)$ and $t=t_\gamma$, it is the
+failure of \eqref{eq:dist}.
+
+\begin{thm}\label{thm:tree}
+Let $\cX$ be a finite EI-category and $n=n_L$. The following are
+equivalent:
+\begin{itemize}
+\item[(i)] $c^L_\cP$ is an equivalence;
+\item[(ii)] no leg tree, at any string $t$ over any string $s$, is an
+obstruction;
+\item[(iii)] for every string $s$, no leg tree at $s$ itself is an
+obstruction.
+\end{itemize}
+\end{thm}
+\begin{proof}
+A \emph{realisation} of a leg tree $T$ in a functor $W$ is a family of
+elements $y_\nu\in W(t_\nu)$, $\nu$ a node with string $t_\nu$, such
+that $W(\beta)y_\nu=y_{\nu'}$ when $\nu$ is a child of $\nu'$ with
+label $\beta$.
+
+(a) \emph{If $T$ is realised in $W$ with $v$ at the root and $\kappa
+\mathrel{F_T}\kappa'$, then $W(\kappa)v=W(\kappa')v$.} By induction on
+$T$ it suffices to consider $\kappa\mathrel{\beta^*F_{T'}}\kappa'$ for
+a child $(\beta,T')$, with element $y$, $W(\beta)y=v$; then
+$\kappa\beta\mathrel{F_{T'}}\kappa'\beta$, and $W(\kappa)v=W(\kappa
+\beta)y=W(\kappa'\beta)y=W(\kappa')v$.
+
+(b) \emph{If $T$ at $t$ is realised in $W$ with $v$ at the root and
+$g\mathrel{E_T}g'$, then $v$ at $(t,g)$ and $v$ at $(t,g')$ are equal
+in the colimit of $W$ over $\cJ_s$.} Again it suffices to consider
+$g\beta\mathrel{E_{T'}}g'\beta$; by induction $y$ at $(t',g\beta)$
+equals $y$ at $(t',g'\beta)$, and these are equal to $v$ at $(t,g)$
+and at $(t,g')$ by the arrow $\beta$ of $\cJ_s$.
+
+(ii)$\Rightarrow$(iii) is trivial.
+
+(i)$\Rightarrow$(ii). Let $T$ be a leg tree at $t$ and $W_T$ the
+colimit of the diagram of the functors $\cS_n(t_\nu,-)$, with the
+morphisms $\cS_n(t_{\nu'},-)\to\cS_n(t_\nu,-)$, $k\mapsto k\beta$, for
+$\nu$ a child of $\nu'$ with label $\beta$. The classes $y_\nu$ of
+the identities are a realisation of $T$, and $W_T(s)$ is the quotient
+of the disjoint union of the sets $K_{t_\nu}$ by the relation
+generated by $k$ at $\nu'$ $\sim$ $k\beta$ at $\nu$. Two elements
+$\kappa,\kappa'$ of $K_t$ at the root are identified if and only if
+$\kappa\mathrel{F_T}\kappa'$: a chain of generating relations from
+$\kappa$ to $\kappa'$ is cut at its visits to the root; between two
+consecutive visits $\kappa_1$, $\kappa_2$ it stays in the nodes of
+one child $(\beta,T')$, where it joins $\kappa_1\beta$ to
+$\kappa_2\beta$, so that $\kappa_1\beta\mathrel{F_{T'}}\kappa_2\beta$
+by induction; the converse is (a). If $\kappa\mathrel{E_T}\kappa'$ in
+$K_t$, then by (b) the elements $W_T(\kappa)y$ and $W_T(\kappa')y$ of
+$W_T(s)$, $y$ the element at the root, have the same image under the
+unit, being equal to $y$ at $(t,\kappa)$ and at $(t,\kappa')$; the
+unit being injective, $\kappa\mathrel{F_T}\kappa'$.
+
+(iii)$\Rightarrow$(i). Let $W\colon\cS_n\to\Fin$ and $s$ be given.
+If $(t,g)$ is an object of $\cJ^c_s$, then $t$ is over $s$: this
+property is inherited along the arrows of $\cJ_s$ in both directions,
+because a final segment of a string over $s$ is over $s$ or is
+isomorphic to a proper final segment $s''$ of $s$, and in the second
+case there is no arrow $s''_0\to s_0$ in $\cX$: its two composites
+with the non-invertible arrow $s_0\to s''_0$ would be endomorphisms,
+hence invertible. Every arrow of $\cS_n$ between strings over $s$ is
+a composite of one-step arrows and automorphisms, so that in the
+paths below only such arrows need to be considered. For a string $t$ over $s$ let
+$\cJ_{\le t}$ be the full subcategory of $\cJ_s$ of the objects
+$(u,g)$ with $\cS_n(u,t)\ne\emptyset$, and $H_t=\Aut_{\cS}(t)$, which
+acts on $V_t$ on the right and preserves $K_t$. A \emph{path} is a
+sequence of objects of $\cJ_s$ with elements of the values of $W$,
+consecutive ones being joined by an arrow of $\cJ_s$, in one of the
+two directions, which sends one element to the other.
+
+\emph{Claim.} If there is a path in $\cJ_{\le t}$ from $w$ at $(t,g)$
+to $w'$ at $(t,g')$, then there are $\Theta\in H_t$ and a leg tree
+$T$ at $t$, realised in $W$ with $w$ at the root, such that
+$w'=W(\Theta)w$ and $g\mathrel{E_T}g'\Theta$.
+
+We prove the claim by induction on the number of strings over $t$.
+Let $(t,g_i)$, with elements $w_i$, $0\le i\le r$, be the consecutive
+objects of the path with string $t$. Between $(t,g_i)$ and
+$(t,g_{i+1})$ the path is an automorphism $\theta_i^{\pm1}$ of $t$, with
+$g_i=g_{i+1}\theta_i$ and $w_{i+1}=W(\theta_i)w_i$, or it consists of
+one-step arrows $\alpha_i\colon(t'_i,g_i\alpha_i)\to(t,g_i)$ and
+$\alpha'_i\colon(t'_i,g_{i+1}\alpha'_i)\to(t,g_{i+1})$ from the same
+child $t'_i$, with $W(\alpha_i)y_i=w_i$ and $W(\alpha'_i)y'_i=
+w_{i+1}$, and a path in $\cJ_{\le t'_i}$ from $y_i$ to $y'_i$; the
+strings below two different children of $t$ have no arrows between
+them. In the second case the induction hypothesis gives $\Theta'\in
+H_{t'_i}$ and a tree $T_i$ at $t'_i$ realised with $y_i$ at the root,
+with $y'_i=W(\Theta')y_i$ and $g_i\alpha_i\mathrel{E_{T_i}}g_{i+1}
+\alpha'_i\Theta'$. As the arrows $t'_i\to t$ of $\cS_n$ are the
+$\theta\alpha_i$, $\theta\in H_t$, we have $\alpha'_i\Theta'=\theta_i
+\alpha_i$ for some $\theta_i\in H_t$; so $w_{i+1}=W(\theta_i)w_i$ and
+$g_i\mathrel{\alpha_i^*E_{T_i}}g_{i+1}\theta_i$. Let $\Theta_0=\id$,
+$\Theta_{i+1}=\theta_i\Theta_i$, $\tilde g_i=g_i\Theta_i$ and
+$\beta_i=\Theta_i^{-1}\alpha_i$. Then $w_i=W(\Theta_i)w_0$,
+$W(\beta_i)y_i=w_0$, and $\tilde g_i\mathrel{\beta_i^*E_{T_i}}\tilde
+g_{i+1}$ in the second case, $\tilde g_i=\tilde g_{i+1}$ in the first.
+The tree $T$ whose root has the children $(\beta_i,T_i)$ and
+$\Theta=\Theta_r$ are as claimed.
+
+Now let $a,b\in W(s)$ have the same image under the unit; so there is
+a path from $a$ at $(s,\id)$ to $b$ at $(s,\id)$, in $\cJ^c_s\subseteq
+\cJ_{\le s}$. The claim gives $\Theta\in H_s=K_s$ and $T$ at $s$ with
+$b=W(\Theta)a$ and $\id\mathrel{E_T}\Theta$; by (iii)
+$\id\mathrel{F_T}\Theta$, and by (a) $a=W(\Theta)a=b$.
+\end{proof}
+
+Only finitely many pairs $(E_T,F_T)$ occur, and they are computed by
+closing under the joins, from the longest strings upwards; this is a
+second decision procedure. At the root $s$ the relations are
+invariant under left multiplication: $E_T$ is $g^{-1}g'\in S_T$ and
+$F_T$ is $h^{-1}h'\in R_T$ for subgroups $R_T\le H_s\cap S_T$ of
+$G=\Aut_{\cX}(s_0)$, and (iii) says that $R_T=H_s\cap S_T$ for all
+$T$.
+
+\begin{cor}\label{cor:three}
+Suppose that $n_L=3$, or that $\cX$ has no three composable
+non-invertible arrows and $n_L\ge3$. Then $c^L_\cP$ is an equivalence
+if and only if no star is an obstruction, that is:
+\begin{itemize}
+\item[(1)] for every string $t$ with two objects, $G=\Aut_{\cX}(t_0)$,
+$H=\Aut_{\cS}(t)$, and all arrows $v_j\colon t_j\to t$ of $\cS_n$ with
+stabilisers $S_j\le G$, $j\in J$: $H\cap\langle S_j\mid j\in J\rangle
+=\langle H\cap S_j\mid j\in J\rangle$;
+\item[(2)] for every string $t=(b\xrightarrow{\beta}c)$, with $K=\Aut_{
+\cX}(c)\beta\subseteq\cX(b,c)$, and all arrows $v_j\colon t_j\to t$ of
+$\cS_n$, $j\in J$: two elements of $K$ which are joined by a chain in
+$\cX(b,c)$ for the relations $gv_j=g'v_j$ are joined by such a chain
+in $K$.
+\end{itemize}
+\end{cor}
+\begin{proof}
+The strings have at most three objects. For a string $s$ with three
+objects there are no leg trees but the root; with two objects the
+leg trees at $s$ have depth one, and (1) says that they are not
+obstructions. For $s=(c)$ we have $V_s=K_s=\Aut_{\cX}(c)$; a leg tree
+at $s$ has the children $(\beta,T')$ with $T'$ of depth at most one at
+a string $t=(b\to c)$, and $\beta^*F_{T'}=\beta^*E_{T'}$ on $K_s$ if
+$T'$ is not an obstruction, which is (2); so $F_T=E_T$.
+Theorem~\ref{thm:tree} applies.
+\end{proof}
+
+So Proposition~\ref{prop:dist} is the case of
+Corollary~\ref{cor:three} for the abelian three-level categories. With
+four objects in a string the stars are no longer the only
+obstructions.
+
+\begin{ex}\label{ex:deep}
+Let $\cX$ be the category with the objects $z_1,z_2,a,a',b,c$
+generated by the arrows
+\[
+\zeta_i\colon z_i\to a,\ \ \alpha\colon a\to b,\ \ \alpha'\colon
+a'\to b,\ \ \beta,g,g'\colon b\to c,\ \ h\colon a\to c,\ \
+\sigma\colon c\to c
+\]
+\[
+\begin{tikzcd}[column sep=large,row sep=small]
+z_1\ar[dr,"\zeta_1"]&&&\\
+&a\ar[r,"\alpha"]\ar[rr,bend left=40,"h"]&b\ar[r,shift left=1.5ex,"\beta"]
+\ar[r,"g" description]\ar[r,shift right=1.5ex,"g'"']&c\ar[loop right,"\sigma"]\\
+z_2\ar[ur,"\zeta_2"']&a'\ar[ur,"\alpha'"']&&
+\end{tikzcd}
+\]
+with the relations $\sigma^2=\id$ and
+\[
+\beta\alpha'=g\alpha',\qquad g\alpha\zeta_1=h\zeta_1,\qquad
+h\zeta_2=g'\alpha\zeta_2,\qquad g'\alpha'=\sigma\beta\alpha'.
+\]
+The congruence is generated by the displayed pairs of paths and their
+composites with $\sigma$, so that for instance $\beta\alpha'=g\alpha'=
+\sigma g'\alpha'$; hence $\cX(b,c)=\{\beta,g,g',\sigma\beta,
+\sigma g,\sigma g'\}$, $\cX(a,c)$ has the eight elements $x\alpha$,
+$x\in\cX(b,c)$, $h$, $\sigma h$, the sets $\cX(z_i,c)$ have six
+elements and $\cX(a',c)$ two, $\Aut(c)=\{\id,\sigma\}$ is the only
+non-trivial automorphism group, and $\cX$ is an EI-category with $41$
+arrows.
+
+\emph{No star is an obstruction.} If $K_t$ has two
+elements, then $s=(c)$ and $K_t=\{p,\sigma p\}$. On $V_t=\cX(b,c)$ the
+arrows $\alpha$ and $\alpha\zeta_i$ give the equality, as the six
+arrows $x\alpha\zeta_i$ are different, and $\alpha'$ the relation with
+the classes $\{\beta,g,\sigma g'\}$ and $\{\sigma\beta,\sigma g,g'\}$.
+On $V_t=\cX(a,c)$ the join of the relations given by $\zeta_1$ and
+$\zeta_2$ has the classes $\{g\alpha,h,g'\alpha\}$, $\{\sigma g\alpha,
+\sigma h,\sigma g'\alpha\}$ and singletons. The other strings have no
+legs, or $V_t=K_t$. No class contains an arrow $x$ together with
+$\sigma x$.
+
+\emph{For $n_L\ge4$ the comparison is not an equivalence.} Let
+$s=(c)$, $t=(b\xrightarrow{\beta}c)$, $t_1=(a\xrightarrow{\alpha}b
+\xrightarrow{\beta}c)$, and let $T$ be the leg tree at $t$ whose root
+has the children $\alpha'\colon(a'\to b\to c)\to t$, without children,
+and $\alpha\colon t_1\to t$, with the two children $\zeta_i\colon
+(z_i\to a\to b\to c)\to t_1$. At $t_1$ the relation $E$ joins
+$g\alpha$, $h$ and $g'\alpha$; so $E_T$ joins $\beta$, $g$, $g'$ and
+$\sigma\beta$, while $F_T$ is the equality on $K_t=\{\beta,\sigma
+\beta\}$, as $\beta\alpha'\ne\sigma\beta\alpha'$ and $\beta\alpha
+\zeta_i\ne\sigma\beta\alpha\zeta_i$. So $T$ is an obstruction, of depth two: the
+arrow $h$ is not of the form $x\alpha$. For $n_L=3$ the comparison is
+an equivalence, by Corollary~\ref{cor:three}.
+\end{ex}
+
+\begin{rem}\label{rem:ext}
+For a submonoid $U$ of a monoid $S$, the property that $X\to
+S\otimes_UX$, $x\mapsto1\otimes x$, is injective for every left
+$U$-set $X$ is one of the two one-sided forms of the \emph{extension
+property} of the theory of amalgamation of monoids \cite{Renshaw86,
+AlSubaieiRenshaw}. A functor $W\colon\cS_n\to\Fin$ is a left action
+of $\cS_n$, and $\mathrm{Lan}_\pi W$ is the corresponding tensor
+product; so the condition of Theorem~\ref{thm:main} is this property
+for the faithful functor $\pi$ in place of the inclusion of a
+submonoid. In this analogy the hypothesis of
+Proposition~\ref{prop:T} is the condition that $v\in U$ and $gv\in U$
+imply $g\in U$, a one-sided form of $U$ being unitary in $S$, which
+implies the extension property there as well; and the retraction of
+Proposition~\ref{prop:retract} corresponds to an idempotent map
+$\varphi\colon S\to S$ of $U$-sets which sends to $U$ the elements
+$s$ with $su\in U$ for some $u\in U$, as in the definition of a
+quasi-unitary subsemigroup, which has the extension property
+\cite[Ch.~III, Cor.~1.12]{RenshawThesis}.
+\end{rem}
+
 \section{Questions}
 
 \begin{que}
-Give a closed description of the finite EI-categories $\cX$ for which
-every finite functor on $\cS_n(\cX)$ embeds in one pulled back from
-$\cX$. By Proposition~\ref{prop:test} the condition is decidable; by
-Example~\ref{ex:dist} the retractions of Proposition~\ref{prop:retract}
-are not necessary for it, and the obstructions of
-Propositions~\ref{prop:modular} and~\ref{prop:onestep} are not the
-only ones. Is there a description in terms of the lattices of
-subgroups of the automorphism groups of $\cX$, of which
-Proposition~\ref{prop:modular} and the equalities \eqref{eq:dist} are
-instances?
+Theorem~\ref{thm:tree} quantifies over all leg trees. Their depth is
+less than $n$, and by Example~\ref{ex:dist}(c) the least number of
+nodes of a tree which is an obstruction is not bounded in terms of
+$n$. Is it enough to test the trees
+in which different children of a node have different labels? Is there
+a description of the subgroups $S_T$ and $R_T$ in terms of the
+lattices of subgroups of the automorphism groups of $\cX$, as
+\eqref{eq:dist} is in the categories of
+Proposition~\ref{prop:dist}?
 \end{que}
 
 \begin{que}
@@ -1101,11 +1387,28 @@ The author has no competing interests to declare.
 free over finite distributive lattices}, Ann. Pure Appl. Logic 155
 (2008), 183--193.
 \bibitem{Carai} L.~Carai, \emph{Free algebras and coproducts in
-varieties of G\"odel algebras}, preprint, arXiv:2406.05480.
+varieties of G\"odel algebras}, J. Symb. Log., published online 2026,
+doi:10.1017/jsl.2026.10194; arXiv:2406.05480.
 \bibitem{Horn69} A.~Horn, \emph{Logic with truth values in a linearly
 ordered Heyting algebra}, J. Symbolic Logic 34 (1969), 395--408.
+\bibitem{AlSubaieiRenshaw} B.~Al Subaiei, J.~Renshaw, \emph{On free
+products and amalgams of pomonoids}, Comm. Algebra \textbf{44} (2016),
+2455--2474.
+
 \bibitem{Elephant} P.~T.~Johnstone, \emph{Sketches of an Elephant: A Topos
 Theory Compendium}, Oxford Univ. Press, 2002.
+\bibitem{Mesablishvili} B.~Mesablishvili, \emph{Monads of effective
+descent type and comonadicity}, Theory Appl. Categ. \textbf{16}
+(2006), 1--45.
+
+\bibitem{Renshaw86} J.~Renshaw, \emph{Extension and amalgamation in
+monoids and semigroups}, Proc. London Math. Soc. (3) \textbf{52}
+(1986), 119--141.
+
+\bibitem{RenshawThesis} J.~H.~Renshaw, \emph{Flatness, extension and
+amalgamation in monoids, semigroups and rings}, PhD thesis, University
+of St Andrews, 1986, \texttt{hdl.handle.net/10023/11071}.
+
 \bibitem{Heyting} R.~Shibusawa, \emph{The free Heyting category on a
 pretopos is a pretopos only in the Boolean case: the intuitionistic
 translation and the pretopos completion}, preprint (2026), archived at
