@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.46.0` (paper 47: intermediate logics and theories with a finite category of models,
-  a classification -- `docs/consolidated/classify.pdf`), archived at DOI (pending) -- cite this one.
+  a classification -- `docs/consolidated/classify.pdf`), archived at DOI [10.5281/zenodo.24331748](https://doi.org/10.5281/zenodo.24331748) -- cite this one.
 - Previous: release `v1.45.0` (paper 46, third revision: invertibility of the endomorphisms is necessary;
   finitely many trees suffice -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24327653](https://doi.org/10.5281/zenodo.24327653).
 - Previous: release `v1.44.0` (paper 46, second revision: an exact criterion by trees of arrows; depth one
