@@ -64,7 +64,9 @@ restriction from the arrows of $\cX$ to those of $\cS$ commutes with
 the joins of the equivalence relations defined by the tree. For
 strings with at most three objects trees of depth one suffice; with
 four objects there are obstructions which only trees of depth two
-detect. The main tool is the linearity of
+detect. If $\cX$ has a non-invertible endomorphism, then among these
+logics the translation commutes with the imaginaries for classical
+logic only. The main tool is the linearity of
 the canonical Kripke model with elements: two homomorphisms out of a
 model of the translated theory are comparable.
 \end{abstract}
@@ -173,7 +175,11 @@ that they do not suffice for $n_L\ge4$ (Example~\ref{ex:deep}).
 \end{itemize}
 For classical logic the assumption on the endomorphisms is not needed:
 the comparison is an equivalence for every finite category in which
-idempotents split (Proposition~\ref{prop:classical}). The results are
+idempotents split (Proposition~\ref{prop:classical}). For all the
+other logics proving linearity it is necessary: if $\cX$ is not an
+EI-category, the comparison is not an equivalence
+(Theorem~\ref{thm:nonEI}), and there are models which are not given
+by strings (Example~\ref{ex:cluster}). The results are
 summarised as follows, $\cX$ being a finite category in which
 idempotents split.
 \begin{center}
@@ -181,9 +187,9 @@ idempotents split.
 logic $L$ & $\cX$ & $c^L_\cP$ is an equivalence\\\hline
 classical ($n_L=1$) & any & always\\
 linear, $n_L=2$ & EI & always\\
-linear, $3\le n_L\le\infty$ & EI & iff no leg tree is an
-obstruction (Thm.~\ref{thm:tree});\\
-&& not always\\
+linear, $n_L\ge2$ & not EI & never\\
+linear, $3\le n_L\le\infty$ & EI & iff no leg tree obstructs
+(Thm.~\ref{thm:tree})\\
 intuitionistic & any & only for groupoids \cite{Heyting}
 \end{tabular}
 \end{center}
@@ -206,9 +212,10 @@ description of the models by strings
 (Proposition~\ref{prop:classical}); Propositions~\ref{prop:T},
 \ref{prop:retract}, \ref{prop:modular}, \ref{prop:onestep}
 and~\ref{prop:dist} with
-their corollaries, Theorem~\ref{thm:tree} and
-Corollary~\ref{cor:three}, and Examples~\ref{ex:parallel},
-\ref{ex:modular}, \ref{ex:top}, \ref{ex:dist} and~\ref{ex:deep}. Known and used:
+their corollaries, Theorem~\ref{thm:tree} with
+Corollary~\ref{cor:three} and Propositions~\ref{prop:reduced}
+and~\ref{prop:lift}, Theorem~\ref{thm:nonEI}, and Examples~\ref{ex:parallel},
+\ref{ex:modular}, \ref{ex:top}, \ref{ex:dist}, \ref{ex:deep} and~\ref{ex:cluster}. Known and used:
 the translation $\HH_L$, the comparison and the frames of the logics
 proving linearity \cite{Interm}; the completeness theorem of coherent
 logic and the pretopos completion \cite{Elephant}; Joyal's completeness
@@ -1120,8 +1127,9 @@ $K_t$ does not commute with this join. For $s=t$ and
 two legs this is the hypothesis of Proposition~\ref{prop:modular}
 ($V_t=G$, $K_t=H$, and the relation $gv_j=g'v_j$ is
 $g^{-1}g'\in S_j$); the hypothesis of
-Proposition~\ref{prop:onestep} gives a star with two branches
-which is an obstruction; and in
+Proposition~\ref{prop:onestep}, in which the arrows $v_i$ are
+arbitrary and not necessarily one-step, gives a star with two
+branches which is an obstruction; and in
 Proposition~\ref{prop:dist}, for $s=(2)$ and $t=t_\gamma$, it is the
 failure of \eqref{eq:dist}.
 
@@ -1230,13 +1238,81 @@ $b=W(\Theta)a$ and $\id\mathrel{E_T}\Theta$; by (iii)
 $\id\mathrel{F_T}\Theta$, and by (a) $a=W(\Theta)a=b$.
 \end{proof}
 
-Only finitely many pairs $(E_T,F_T)$ occur, and they are computed by
-closing under the joins, from the longest strings upwards; this is a
+Only finitely many pairs $(E_T,F_T)$ occur, and they are computed
+from the longest strings upwards: the pairs at $t$ are the joins,
+componentwise, of pairs $(\beta^*E,\beta^*F)$ for one-step arrows
+$\beta\colon t'\to t$ and pairs $(E,F)$ at $t'$; this is a
 second decision procedure. At the root $s$ the relations are
 invariant under left multiplication: $E_T$ is $g^{-1}g'\in S_T$ and
 $F_T$ is $h^{-1}h'\in R_T$ for subgroups $R_T\le H_s\cap S_T$ of
 $G=\Aut_{\cX}(s_0)$, and (iii) says that $R_T=H_s\cap S_T$ for all
 $T$.
+
+\begin{prop}\label{prop:reduced}
+If a leg tree is an obstruction, then so is a leg tree in which
+different children of a node have different labels.
+\end{prop}
+\begin{proof}
+Let a node with string $t$ have two children $(\beta,T_1)$ and
+$(\beta,T_2)$ with the same label, and replace them by one child
+$(\beta,T_{12})$, the children of the root of $T_{12}$ being those of
+$T_1$ and of $T_2$. Then $E_{T_{12}}=E_{T_1}\vee E_{T_2}$ and
+$F_{T_{12}}=F_{T_1}\vee F_{T_2}$. We have $\beta^*(E_{T_1}\vee E_{T_2})
+\supseteq\beta^*E_{T_1}\vee\beta^*E_{T_2}$, and $\beta^*(F_{T_1}\vee
+F_{T_2})=\beta^*F_{T_1}\vee\beta^*F_{T_2}$ on $K_t$, because the map
+$K_t\to K_{t'}$, $\kappa\mapsto\kappa\beta$, is surjective and the
+inverse image under a surjection preserves the joins of equivalence
+relations. The operations $\beta^*$ and $\vee$ being monotone, the
+relation $F$ at the root of the whole tree is unchanged and the
+relation $E$ at the root can only grow; as $F\subseteq E\cap(K\times
+K)$, an obstruction remains an obstruction. Repeat.
+\end{proof}
+
+\begin{prop}\label{prop:lift}
+Suppose that for every string $s$ and every one-step arrow
+$\beta\colon t'\to t$ between strings over $s$, except when $t=s$ has
+only one object, every $g'\in C_s(t')$ is of the form $g\beta'$ with
+$g\in\cX(t_0,s_0)$ and $\beta'\colon t'\to t$ an arrow of $\cS_n$.
+Then $c^L_\cP$ is an equivalence if and only if no star is an
+obstruction.
+\end{prop}
+\begin{proof}
+Let $T$ be a leg tree at $t$, where $t$ is not a one-object string
+$s$, whose root has the children $(\beta_i,T_i)$, each $T_i$ being a
+star at $t'_i$ with branches $v_{ij}$; let $T^*$ be the star at $t$
+with the branches $\beta_i$ and $\beta_iv_{ij}$. Then $F_T=F_{T^*}$:
+the relation $g\beta_iv_{ij}=g'\beta_iv_{ij}$ is $\beta_i^*$ of the
+relation of $v_{ij}$ and contains that of $\beta_i$, and $\beta_i^*$
+preserves joins on $K_t$ as in the proof of
+Proposition~\ref{prop:reduced}. For the same reason $E_{T^*}\subseteq
+E_T$. Conversely let $g\mathrel{\beta_i^*E_{T_i}}g'$ with $g\in C_s(t)$;
+so there is a chain $g\beta_i=h_0,h_1,\dots,h_k=g'\beta_i$ in
+$\cX(t'_{i0},s_0)$ with $h_{l}v=h_{l+1}v$ for a branch $v$ of $T_i$
+depending on $l$. The $h_l$ are in $C_s(t'_i)$, so by the hypothesis
+$h_l=g_l\theta_l\beta_i$ with $\theta_l\in\Aut_{\cS}(t)$, the arrows
+$t'_i\to t$ of $\cS_n$ being the $\theta\beta_i$. Then $g$ and
+$g_0\theta_0$ are related by the branch $\beta_i$, $g_l\theta_l$ and
+$g_{l+1}\theta_{l+1}$ by the branch $\beta_iv$, and $g_k\theta_k$ and
+$g'$ by $\beta_i$; so $g\mathrel{E_{T^*}}g'$. As $K_t\subseteq C_s(t)$
+this shows that $T$ and $T^*$ have the same relation $F$ and the same
+restriction of $E$ to $C_s(t)$. By induction on the depth this holds
+for every leg tree $T$ at $t$ and a suitable star $T^*$ at $t$, since
+$g\beta\in C_s(t')$ for $g\in C_s(t)$; in particular, if a leg tree at
+$t$ is an obstruction, so is a star at $t$. For a
+one-object string $s$ we have $V_s=K_s$, and a leg tree at $s$ with
+the children $(\beta,T')$ is not an obstruction if the trees $T'$ are
+not, as in the proof of Corollary~\ref{cor:three} below.
+Theorem~\ref{thm:tree} applies.
+\end{proof}
+
+The hypothesis of Proposition~\ref{prop:lift} holds when the strings
+have at most three objects: an object $(t',g')$ of $\cJ_s$ with $t'$ of
+three objects and $g'$ not of the form $g\beta'$ has no arrows to or
+from other objects except isomorphisms, so that it is not in
+$\cJ^c_s$. It also holds, for every $n$, in categories in which
+all sets of arrows are quotients of one abelian group with the
+addition as composition, as in Proposition~\ref{prop:dist}; it fails
+in Example~\ref{ex:deep}.
 
 \begin{cor}\label{cor:three}
 Suppose that $n_L=3$, or that $\cX$ has no three composable
@@ -1345,15 +1421,108 @@ quasi-unitary subsemigroup, which has the extension property
 \cite[Ch.~III, Cor.~1.12]{RenshawThesis}.
 \end{rem}
 
+\section{The assumption on the endomorphisms}\label{sec:nonEI}
+
+For the logics with $n_L\ge2$ the assumption that $\cX$ is an
+EI-category cannot be omitted, neither in
+Proposition~\ref{prop:strings} nor for the comparison to be an
+equivalence.
+
+\begin{thm}\label{thm:nonEI}
+Let $\cX$ be a finite category in which idempotents split, $\cP=
+\Fin^{\cX}$, and $L$ an intermediate logic proving linearity with
+$n_L\ge2$. If $\cX$ is not an EI-category, then $c^L_\cP$ is not an
+equivalence. Hence, for $n_L=2$, $c^L_\cP$ is an equivalence if and
+only if $\cX$ is an EI-category.
+\end{thm}
+\begin{proof}
+Let $f\colon m\to m$ be a non-invertible endomorphism. The monoid of
+the endomorphisms of $m$ being finite, a power $e$ of $f$ is
+idempotent, and $e\ne\id$. Let $r\colon m\to k$, $i\colon k\to m$ be a
+splitting, $ri=\id_k$ and $ir=e$; then $i$ is not invertible. The
+chain $0<1$ is a frame of $L$; let $M_0=k$, $M_1=m$, with the
+transition $i$. By Section~\ref{sec:setting} this Kripke model gives
+models $\hat G_0$ over $k$ and $\hat G_1$ over $m$ of $\HH_L\cP$ and
+the homomorphism $i\colon\hat G_0\to\hat G_1$; the node $1$ being
+maximal, $\hat G_1$ is the classical evaluation at $m$.
+
+For $w\in\cX(m,k)$ let $\Gamma_w\le y(m)\times y(k)$ be the subobject
+in $\cP$ of the pairs $(z,x)$ with $z=xw$, and let
+\[
+Q:=\exists_{p}\bigwedge_{w\in\cX(m,k)}\neg\Gamma_w\ \le\ y(k)
+\]
+in $\HH_L\cP$, $p\colon y(m)\times y(k)\to y(k)$ being the projection.
+Then $i\in\hat G_1(Q)$: for $z=\id_m$ we have $\id_m\ne iw$ for all
+$w$, since otherwise $i$ would be a split epimorphism and a split
+monomorphism. And $\id_k\notin\hat G_0(Q)$: for every $z\in y(m)(k)=
+\cX(m,k)$ the pair $(z,\id_k)$ lies in $\Gamma_z$.
+
+Let $X=y(k)\sqcup y(k)$, with the inclusions $j_1,j_2$, and let $E\le
+X\times X$ be the join of the diagonal and of the images of $Q$ under
+$(j_1,j_2)$ and $(j_2,j_1)$; it is an equivalence relation in
+$\HH_L\cP$. Suppose that $\HH_L\cP$ is a pretopos, and let $X/E$ be the
+quotient. It is a subobject of some $A$ in $\cP$, so the map $\hat
+G_0(X/E)\to\hat G_1(X/E)$ induced by the homomorphism $i$ is a
+restriction of $A(i)$, which is injective, as $A(r)A(i)=\id$. But
+models preserve quotients; the classes of $j_1(\id_k)$ and
+$j_2(\id_k)$ in $\hat G_0(X/E)$ are different, since $\id_k\notin\hat
+G_0(Q)$, and they are sent to the classes of $j_1(i)$ and $j_2(i)$,
+which are equal, since $i\in\hat G_1(Q)$. This contradiction shows that
+$\HH_L\cP$ is not a pretopos, and $c^L_\cP$ is not an equivalence
+\cite[Lemma~2.2]{Interm}. The last statement follows with
+Corollary~\ref{cor:two}.
+\end{proof}
+
+The proof shows more: if $c^L_\cP$ is an equivalence, then a
+homomorphism of models whose underlying arrow is a split monomorphism
+of $\cX$ reflects the values of all objects of $\HH_L\cP$. In an
+EI-category the split monomorphisms are invertible.
+
+\begin{ex}\label{ex:cluster}
+\emph{A model which is not given by a string.} Let $\cX$ have the
+objects $m$, $k$ and the arrows $\id_m$, $e=ir$, $r\colon m\to k$,
+$i\colon k\to m$, $\id_k=ri$: the splitting of one idempotent. A
+functor $A$ in $\cP=\Fin^{\cX}$ is a finite set $A(m)$ with an
+idempotent map, $A(k)$ being the set of its fixed points, and the
+lattice of the subobjects of $A$ in $\cP$ is the lattice of the
+subsets of $A(m)$ closed under the idempotent, that is of the up-sets
+of the order with $x<e(x)$ for $x\ne e(x)$, in which every
+$\uparrow\!x$ is a chain with at most two elements. So $\cP$ is a
+Heyting category whose lattices of subobjects satisfy the formulas of
+every $L$ with $n_L\ge2$, and the identity of $\cP$ extends to a
+Heyting functor $\rho\colon\HH_L\cP\to\cP$ \cite[\S2]{Interm}. The
+evaluation of $\rho$ at $m$ is a model $\hat G^*$ of $\HH_L\cP$ over
+$m$, of which $e$ is an endomorphism, the values $\rho(U)$ being
+subfunctors.
+
+Let $S=y(m)$, with $S(m)=\{\id,e\}$ and $S(k)=\{r\}$, let $c\le S$ be
+the subfunctor with $c(m)=\{e\}$ and $c(k)=\{r\}$, and consider,
+with $\exists_S$ and $\forall_S$ along $S\to1$, the subobjects of the
+terminal object
+\[
+\psi=\exists_S\neg c,\qquad\varphi=\forall_Sc
+\]
+of $\HH_L\cP$. In $\cP$ the only subfunctor of $S$ disjoint from $c$ is
+empty, and $c\ne S$; so $\rho(\psi)$ and $\rho(\varphi)$ are empty,
+and $\neg\neg\psi\vee\neg\neg\varphi$ is false in $\hat G^*$. In a
+Kripke model $M\colon K\to\cX$ on a finite chain the model at the
+last node is the classical evaluation at $m$, where $\psi$ is true,
+or at $k$, where $\varphi$ is true; so $\neg\neg\psi\vee\neg\neg
+\varphi$ is true at every node. Hence $\hat G^*$ is not the model at
+a node of a Kripke model on a finite chain, for any $L$ with
+$n_L\ge2$: Proposition~\ref{prop:strings}(a) fails for this $\cX$. The evaluation of $\rho$ at $k$ is a second model, $r$ and $i$ are
+homomorphisms between the two, in both directions, and $e$ is a
+non-invertible endomorphism of $\hat G^*$.
+\end{ex}
+
 \section{Questions}
 
 \begin{que}
 Theorem~\ref{thm:tree} quantifies over all leg trees. Their depth is
 less than $n$, and by Example~\ref{ex:dist}(c) the least number of
 nodes of a tree which is an obstruction is not bounded in terms of
-$n$. Is it enough to test the trees
-in which different children of a node have different labels? Is there
-a description of the subgroups $S_T$ and $R_T$ in terms of the
+$n$; by Proposition~\ref{prop:reduced} finitely many trees have to be
+tested. Is there a description of the subgroups $S_T$ and $R_T$ in terms of the
 lattices of subgroups of the automorphism groups of $\cX$, as
 \eqref{eq:dist} is in the categories of
 Proposition~\ref{prop:dist}?
@@ -1362,10 +1531,11 @@ Proposition~\ref{prop:dist}?
 \begin{que}
 Describe the models of $\HH_L\cP$ when $\cX$ is a finite category
 with split idempotents which is not an EI-category.
-Lemma~\ref{lem:linear} still holds, but a non-invertible endomorphism
-has a power which is a non-identity idempotent, whose splitting is a
-pair of non-invertible arrows with identity composite, so that there
-are strings of unbounded length. A related example outside the present
+Lemma~\ref{lem:linear} still holds, and the comparison is not an
+equivalence for $n_L\ge2$ (Theorem~\ref{thm:nonEI}); but there are
+models with non-invertible endomorphisms
+(Example~\ref{ex:cluster}). Are there finitely many models up to
+isomorphism when $n_L$ is finite? A related example outside the present
 setting, as it has infinite models: for the theory of pure equality
 the comparison is an equivalence only for classical logic
 \cite{Interm}.
