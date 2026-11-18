@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.45.0` (paper 46, third revision: invertibility of the endomorphisms is necessary;
-  finitely many trees suffice -- `docs/consolidated/strings.pdf`), archived at DOI (pending) -- cite this one.
+  finitely many trees suffice -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24327653](https://doi.org/10.5281/zenodo.24327653) -- cite this one.
 - Previous: release `v1.44.0` (paper 46, second revision: an exact criterion by trees of arrows; depth one
   suffices for strings with at most three objects, not with four -- `docs/consolidated/strings.pdf`), archived at DOI [10.5281/zenodo.24312415](https://doi.org/10.5281/zenodo.24312415).
 - Previous: release `v1.43.1` (paper 46 revised: a decidable test; a three-level family governed by
