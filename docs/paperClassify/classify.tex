@@ -1,0 +1,613 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Fin}{\mathbf{FinSet}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\cX}{\mathcal X}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\cS}{\mathcal S}
+\newcommand{\cK}{\mathcal K}
+\newcommand{\cJ}{\mathcal J}
+\newcommand{\LC}{\mathbf{LC}}
+\newcommand{\id}{\mathrm{id}}
+
+
+\begin{document}
+
+\title[Intermediate logics and theories with a finite category of models]{Intermediate
+logics and the imaginaries of a theory with a finite category of
+models: a classification}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{intermediate logic, weak excluded middle, G\"odel--Dummett logic, Heyting category, pretopos completion, imaginaries, Kripke model, EI-category}
+\subjclass[2020]{03G30 (primary), 03B55, 18F10, 18B25 (secondary)}
+
+\begin{abstract}
+For an intermediate logic $L$ and a coherent theory, reading the
+theory in first-order logic over $L$ and adding the imaginaries are two
+operations which need not commute. We determine when they commute for
+the theories whose category of models is a finite category $\cX$ in
+which idempotents split, the theory being that of the finite
+set-valued functors on $\cX$. For classical logic they always commute.
+If $L$ does not prove the weak excluded middle, they commute exactly
+when $\cX$ is a groupoid. If $L$ proves the weak excluded middle and
+not the linearity axiom, they commute exactly when every endomorphism
+of $\cX$ is invertible and no two non-invertible arrows are composable.
+If $L$ proves linearity and is not classical, they commute exactly
+when every endomorphism is invertible and a combinatorial condition on
+the strings of non-invertible arrows with at most $n_L$ objects holds,
+which is empty for the logic of the Kripke frame $0<1$. The first and the last
+case are known. New are the third case, the corresponding result for
+all propositional theories --- the translation commutes with the
+imaginaries exactly when no three prime filters form a chain ---, and
+the fact that a non-invertible
+endomorphism excludes commutation for every logic other than the
+classical one.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+For an intermediate logic $L$ and a small coherent category $\cC$ let
+$\HH_L\cC$ be the syntactic category of the internal coherent theory of
+$\cC$ in first-order logic over $L$, and $\PP$ the pretopos
+completion, which adds the imaginaries. There is a full and faithful
+comparison $c^L_\cC\colon\HH_L\PP\cC\to\PP\HH_L\cC$ \cite{Interm}; if
+$\cC$ is a pretopos, it is the unit $\HH_L\cC\to\PP\HH_L\cC$, and it is
+an equivalence if and only if $\HH_L\cC$ is a pretopos
+\cite[Lemma~2.2]{Interm}. We say that \emph{the translation into $L$
+commutes with the imaginaries of $\cC$} if $c^L_\cC$ is an equivalence.
+
+Let $\cX$ be a finite category in which idempotents split and
+$\cP=\Fin^{\cX}$ the pretopos of the functors from $\cX$ to finite
+sets; its models are, up to isomorphism, the evaluations at the
+objects of $\cX$, with which we identify them, and the homomorphisms
+of models are the arrows \cite[\S7]{Heyting}. An arrow is
+\emph{invertible} if it is an isomorphism; $\cX$ is an
+\emph{EI-category} if every endomorphism is invertible.
+
+\begin{thm}\label{thm:class}
+Let $\cX$ be a finite category in which idempotents split, $\cP=
+\Fin^{\cX}$, and $L$ an intermediate logic. Then $c^L_\cP$ is an
+equivalence if and only if one of the following holds:
+\begin{enumerate}
+\item[(1)] $L$ is classical logic;
+\item[(2)] $L$ does not prove the weak excluded middle $\neg p\vee\neg
+\neg p$, and $\cX$ is a groupoid;
+\item[(3)] $L$ proves the weak excluded middle and not the linearity
+axiom $(p\to q)\vee(q\to p)$, and $\cX$ is an EI-category without two
+composable non-invertible arrows;
+\item[(4)] $L$ proves linearity and is not classical, $\cX$ is an
+EI-category, and no leg tree of $\cX$ is an obstruction for $n=n_L$ in
+the sense of \cite[Thm.~6.15]{Strings}.
+\end{enumerate}
+\end{thm}
+
+Here $n_L\in\{2,3,\dots,\infty\}$ is the supremum of the numbers of
+elements of the finite chains which are frames of $L$. The condition in (4) is empty
+if $n_L=2$ and holds if $\cX$ has no two composable non-invertible
+arrows \cite[Cor.~6.3]{Strings}; so for an EI-category without two
+composable non-invertible arrows the comparison is an equivalence for
+every logic proving the weak excluded middle, and the answers in the
+cases (3) and (4) can differ only when there are composable
+non-invertible arrows.
+
+We recall the condition in (4). A \emph{string} is a sequence of
+non-invertible arrows $t_0\to t_1\to\dots\to t_r$ with at most $n$
+objects, and $\cS_n$ is the category of strings, one in each
+isomorphism class, an arrow $t\to s$ being an arrow $t_0\to s_0$ of
+$\cX$ induced by an isomorphism of a final segment of $t$ onto $s$.
+Fix a string $s$; for a string $t$ with $K_t:=\cS_n(t,s)\ne\emptyset$
+let $V_t=\cX(t_0,s_0)$. A \emph{leg tree} $T$ at $t$ is a finite rooted
+tree whose non-root nodes are labelled by arrows $\beta\colon t'\to
+t''$ of $\cS_n$ into the string of the parent, $t'$ having one object
+more than $t''$; it defines equivalence relations $E_T$ on $V_t$ and
+$F_T$ on $K_t$ (and so do the subtrees $T'$ at the strings $t'$ of the
+children of the root, on $V_{t'}$ and $K_{t'}$), both the equality for a tree without children and
+otherwise the joins, in the lattices of equivalence relations on
+$V_t$ and on $K_t$, over the children $(\beta,T')$ of the root, of
+the relations $g\beta\mathrel{E_{T'}}g'\beta$, respectively
+$g\beta\mathrel{F_{T'}}g'\beta$; and $T$ is an \emph{obstruction} if
+$F_T$ is not the restriction of $E_T$ to $K_t$. The condition in (4)
+is that this happens for no $s$, $t$ and $T$.
+Here w.e.m.\ is the weak excluded middle.
+\begin{center}
+\begin{tabular}{lll}
+$L$&a frame of $L$&equivalence iff\\\hline
+classical&the point&always\\
+no w.e.m.&the fork&$\cX$ is a groupoid\\
+w.e.m., not linear&the diamond&$\cX$ is EI, no two composable\\
+&&non-invertible arrows\\
+linear, not classical&chains, $\le n_L$ elements&$\cX$ is EI, no
+obstruction
+\end{tabular}
+\end{center}
+
+\subsection*{What is new and what is known}
+Known: case (1) \cite[Prop.~5.3]{Strings}; case (2), for every coherent
+category in place of $\cP$, $c^L$ being an equivalence exactly in the
+Boolean case \cite[Thm.~1.1(1)]{Interm}; case (4) for EI-categories
+\cite[Thm.~1.1, Thm.~6.15]{Strings}; the fact that a non-invertible
+endomorphism excludes an equivalence for the logics proving linearity
+\cite[Thm.~7.1]{Strings}; and the obstruction over the diamond
+\cite[Prop.~5.1]{Interm}, which was applied there to the propositional
+theory of the four-element chain. New, to the author's knowledge:
+Theorem~\ref{thm:nonEI}, that a non-invertible endomorphism excludes
+an equivalence for every non-classical $L$, by the argument of
+\cite[Thm.~7.1]{Strings}; and case (3), that is
+Theorem~\ref{thm:wem}: the description of the models of $\HH_L\cP$ for
+the logics proving the weak excluded middle when no two non-invertible
+arrows are composable (Lemmas~\ref{lem:classical}
+and~\ref{lem:top}), and the resulting equivalence. For a finite poset
+$\cX$ the pretopos $\cP$ is the pretopos completion of a finite
+propositional theory, that of the distributive lattice of the up-sets
+of $\cX$, and case (3)
+says that the comparison is an equivalence exactly when $\cX$ has no
+chain of three elements; this answers, for finite propositional
+theories and for the theories $\Fin^{\cX}$, the question of
+\cite[\S8]{Interm} which non-Boolean theories have an equivalence in
+this case, where the three-element chain as a distributive lattice,
+whose poset of prime filters is the chain of two elements, was left
+undecided. The same holds for all propositional theories:
+Theorem~\ref{thm:propositional}, also new, says that in case (3) the
+comparison for a bounded distributive lattice is an equivalence
+exactly when there is no chain of three prime filters.
+
+\section{The setting}\label{sec:setting}
+
+We use the conventions and the results of \cite[\S2]{Strings}, which
+hold for every intermediate logic $L$. The objects of $\HH_L\cP$ are
+the subobjects $U\le A$, $A$ in $\cP$, obtained from the subobjects in
+$\cP$ by finite meets and joins, $\Rightarrow$, and $f^*$,
+$\exists_f$, $\forall_f$ for the morphisms $f$ of $\cP$. A
+\emph{model} is a coherent functor $\hat G\colon\HH_L\cP\to\Set$; its
+restriction to $\cP$ is the evaluation at an object $m$, and $\hat
+G(U)$ is a subset of $A(m)$. A \emph{homomorphism} $\hat G\to\hat G'$
+of models over $m$ and $m'$ is an arrow $\varphi\colon m\to m'$ of
+$\cX$ with $A(\varphi)(\hat G(U))\subseteq\hat G'(U)$ for all $U$. We
+write $y(x)=\cX(x,-)$.
+
+\begin{lem}[{\cite[Lemma~2.2]{Strings}}]\label{lem:truth}
+Let $\hat G$ be a model over $m$, $f\colon B\to A$ in $\cP$, $U,V\le
+B$, $\alpha\in A(m)$ and $\beta\in B(m)$. Then $\alpha\in\hat G(\forall_f
+U)$ if and only if $\beta'\in\hat G'(U)$ for every homomorphism
+$\varphi\colon\hat G\to\hat G'$ and every $\beta'\in B(m')$ with
+$f(\beta')=A(\varphi)(\alpha)$; and $\beta\in\hat G(U\Rightarrow V)$ if
+and only if for every homomorphism $\varphi\colon\hat G\to\hat G'$,
+$B(\varphi)(\beta)\in\hat G'(U)$ implies $B(\varphi)(\beta)\in\hat
+G'(V)$.
+\end{lem}
+
+The models jointly reflect the order of subobjects, by the
+completeness theorem of coherent logic. If $K$ is a finite poset such
+that every $\uparrow\!k$ is a frame of $L$ and $M\colon K\to\cX$ a
+functor, the forcing relation of the Kripke model $M$ defines a model
+of $\HH_L\cP$ at every node $k$, over $M_k$, and the transitions are
+homomorphisms \cite[Lemma~2.3]{Interm}. For a maximal node this is the
+\emph{classical model} $\mathrm{cl}_m$ over $m=M_k$, the Heyting
+functor $\HH_L\cP\to\Set$ extending the evaluation at $m$; for an
+invertible arrow $\psi\colon m\to m'$ we have $A(\psi)(\mathrm{cl}_m(U))
+=\mathrm{cl}_{m'}(U)$. For an arrow $a\colon x\to z$ which is not
+invertible, the chain $0<1$ with $M_0=x$, $M_1=z$ and the transition
+$a$ is a Kripke model whenever $L$ is not classical, the two-element
+chain being a frame of every intermediate logic other than classical
+logic; we write $\hat G_a$ for its model at the node $0$, so that
+$a\colon\hat G_a\to\mathrm{cl}_z$ is a homomorphism.
+
+We recall the frames \cite[Lemma~3.1]{Interm}: the fork is a frame of
+$L$ if and only if $L$ does not prove the weak excluded middle; if $L$
+proves it and not linearity, the diamond is a frame of $L$.
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+\bullet&&\bullet&&&&\bullet&\\
+&\bullet\ar[ul]\ar[ur]&&&&\bullet\ar[ur]&&\bullet\ar[ul]\\
+&&&&&&\bullet\ar[ul]\ar[ur]&\\[-1ex]
+&\text{fork}&&&&&\text{diamond}&
+\end{tikzcd}
+\]
+
+\section{A non-invertible endomorphism}
+
+\begin{thm}\label{thm:nonEI}
+Let $L$ be an intermediate logic other than classical logic. If $\cX$
+is not an EI-category, then $c^L_\cP$ is not an equivalence.
+\end{thm}
+\begin{proof}
+This is the proof of \cite[Thm.~7.1]{Strings}, where $L$ is assumed to
+prove linearity; we repeat it to make clear that this is not used. Let
+$f\colon m\to m$ be a non-invertible endomorphism. A power $e$ of $f$
+is idempotent, and $e\ne\id$. Let $r\colon m\to k$, $i\colon k\to m$
+with $ri=\id_k$ and $ir=e$; then $i$ is not invertible, and we have the
+homomorphism $i\colon\hat G_i\to\mathrm{cl}_m$.
+
+For $w\in\cX(m,k)$ let $\Gamma_w\le y(m)\times y(k)$ be the subobject in
+$\cP$ of the pairs $(z,x)$ with $z=xw$, and
+\[
+Q:=\exists_{p}\bigwedge_{w\in\cX(m,k)}\neg\Gamma_w\ \le\ y(k),
+\]
+$p$ being the projection to $y(k)$. Then $i\in\mathrm{cl}_m(Q)$: for
+$z=\id_m$ we have $\id_m\ne iw$ for all $w$, since otherwise $i$ would
+be invertible. And $\id_k\notin\hat G_i(Q)$: for every $z\in\cX(m,k)$
+the pair $(z,\id_k)$ lies in $\Gamma_z$.
+
+Let $X=y(k)\sqcup y(k)$ with the inclusions $j_1,j_2$, and $E\le
+X\times X$ the join of the diagonal and of the images of $Q$ under
+$(j_1,j_2)$ and $(j_2,j_1)$, an equivalence relation in $\HH_L\cP$. If
+$\HH_L\cP$ were a pretopos, the quotient $X/E$ would be a subobject of
+some $A$ in $\cP$, and the map $\hat G_i(X/E)\to\mathrm{cl}_m(X/E)$
+induced by the homomorphism $i$ would be a restriction of $A(i)$,
+which is injective, as $A(r)A(i)=\id$. But models preserve quotients;
+the classes of $j_1(\id_k)$ and $j_2(\id_k)$ are different in $\hat
+G_i(X/E)$ and are sent to the classes of $j_1(i)$ and $j_2(i)$, which
+are equal in $\mathrm{cl}_m(X/E)$.
+\end{proof}
+
+\section{The weak excluded middle}
+
+In this section $\cX$ is an EI-category. Then a split monomorphism or
+epimorphism is invertible, a composite is invertible only if its
+factors are, and the non-invertible arrows out of $x$ form a subfunctor
+$N_x\le y(x)$ \cite[\S4]{Strings}. For an arrow $a\colon x\to z$ of any category $\cX$ let
+$I_a\le y(x)$ be the image of $y(a)\colon y(z)\to y(x)$, the arrows
+which factor through $a$.
+
+\begin{lem}\label{lem:classical}
+Let $L$ be an intermediate logic, $\cX$ a finite category in which
+idempotents split, and $\hat G$ a model of $\HH_L\cP$ over $m$ such
+that every homomorphism out of $\hat G$ has an invertible underlying
+arrow. Then $\hat G=\mathrm{cl}_m$.
+\end{lem}
+\begin{proof}
+If $\psi\colon\hat G\to\hat G'$ is a homomorphism, then $\hat G'$ has
+the same property, a homomorphism $\lambda$ out of $\hat G'$ giving
+the homomorphism $\lambda\psi$ out of $\hat G$. We show $\hat G(U)=
+\mathrm{cl}_m(U)$ for all models with this property at once, by
+induction on the construction of $U$. This is clear for the subobjects
+in $\cP$ and compatible with the coherent operations. By
+Lemma~\ref{lem:truth}, $\alpha\in\hat G(\forall_fU)$ if and only if
+$\beta'\in\hat G'(U)=\mathrm{cl}_{m'}(U)$ for all homomorphisms $\psi
+\colon\hat G\to\hat G'$ and all $\beta'$ over $A(\psi)(\alpha)$; since
+$\psi$ is invertible and the classical models are compatible with the
+invertible arrows, this holds if and only if $\beta\in\mathrm{cl}_m(U)$
+for all $\beta$ over $\alpha$, the identity being among the $\psi$;
+that is, if and only if $\alpha\in\mathrm{cl}_m(\forall_fU)$. The case
+of $\Rightarrow$ is the same.
+\end{proof}
+
+\begin{lem}\label{lem:top}
+Let $L$ be an intermediate logic other than classical logic which
+proves the weak excluded middle, and let $\cX$ be a finite
+EI-category without two composable non-invertible arrows. Let $\hat G$
+be a model of $\HH_L\cP$ over $x$, and $R$ the set of the
+non-invertible arrows out of $x$ which are homomorphisms out of $\hat
+G$. Then either $R=\emptyset$ and $\hat G=\mathrm{cl}_x$, or $R$ is the
+set of the arrows $\iota a$, for one $a\colon x\to z$ and all
+invertible $\iota$ out of $z$, and $\hat G=\hat G_a$.
+\end{lem}
+\begin{proof}
+If $a\colon x\to z$ is not invertible, every arrow out of $z$ is
+invertible; so by Lemma~\ref{lem:classical} the target of a
+homomorphism $a\in R$ is $\mathrm{cl}_z$. If $R=\emptyset$, then
+$\hat G=\mathrm{cl}_x$ by Lemma~\ref{lem:classical}.
+
+Let $a\colon x\to z$ and $a'\colon x\to z'$ be in $R$. If $a'=\lambda
+a$ for some $\lambda$, then $\lambda$ is invertible. Suppose that
+there is no such $\lambda$; then $a'\notin I_a(z')$, so
+$a'\in\mathrm{cl}_{z'}(\neg I_a)$, while $a\in\mathrm{cl}_z(I_a)$. In
+$\HH_L\cP$ the subobject $\neg I_a\vee\neg\neg I_a$ of $y(x)$ is the
+top element; so $\id_x\in\hat G(\neg I_a)$, and then $a\in
+\mathrm{cl}_z(\neg I_a)$ by the homomorphism $a$, or $\id_x\in\hat
+G(\neg\neg I_a)$, and then $a'\in\mathrm{cl}_{z'}(\neg\neg I_a)$ by
+$a'$. Both are impossible. Conversely $\iota a\in R$ for $a\in R$ and
+$\iota$ invertible, as $\iota\colon\mathrm{cl}_z\to\mathrm{cl}_{z'}$ is
+a homomorphism. So $R$, if not empty, is the set of the $\iota a$.
+
+Let $R\ne\emptyset$, $a\in R$, and let $\psi\colon\hat G\to\hat G'$ be
+a homomorphism with $\psi\colon x\to x'$ invertible; let $R'$ be the
+set defined for $\hat G'$ as $R$ for $\hat G$. Then $R'\psi\subseteq
+R$. We show $R'\ne\emptyset$. Otherwise all homomorphisms out of $\hat
+G'$ are invertible in $\cX$, so that $\psi\in\hat G'(\neg N_x)$ by
+Lemma~\ref{lem:truth}, as an invertible arrow is not in $N_x$; and
+$a\in\mathrm{cl}_z(N_x)$. As before $\neg N_x\vee\neg\neg N_x$ is the
+top element; $\id_x\in\hat G(\neg N_x)$ contradicts the homomorphism
+$a$, and $\id_x\in\hat G(\neg\neg N_x)$ the homomorphism $\psi$. Hence
+$R'$ is the set of the $\iota a\psi^{-1}$.
+
+Now we show $\hat G(U)=\hat G_a(U)$ for all models $\hat G$ with
+$R\ne\emptyset$ and all $a\in R$ at once, by induction on the
+construction of $U$; note that $\psi\colon\hat G_a\to\hat G_{a\psi^{-1}}$
+is an isomorphism of models for $\psi$ invertible, the two Kripke
+models being isomorphic. The homomorphisms out of $\hat G$ are those
+with an invertible underlying arrow, $\psi\colon\hat G\to\hat G'$ with $\hat G'(U)=\hat
+G_{a\psi^{-1}}(U)$ by the induction hypothesis, among them the
+identity, and the arrows $\iota a$ into classical models. So by
+Lemma~\ref{lem:truth}, $\alpha\in\hat G(\forall_fU)$ if and only if
+$\beta\in\hat G_a(U)$ for all $\beta$ over $\alpha$ and $\beta'\in
+\mathrm{cl}_z(U)$ for all $\beta'$ over $A(a)(\alpha)$, which is the
+forcing clause for $\forall_fU$ at the node $0$ of the Kripke model of
+$a$. The case of $\Rightarrow$ is the same.
+\end{proof}
+
+\begin{thm}\label{thm:wem}
+Let $L$ be an intermediate logic proving the weak excluded middle,
+other than classical logic, and $\cX$ a finite EI-category.
+\begin{enumerate}
+\item[(a)] If $\cX$ has no two composable non-invertible arrows, then
+$c^L_\cP$ is an equivalence.
+\item[(b)] If $L$ does not prove linearity and $\cX$ has two composable
+non-invertible arrows, then $c^L_\cP$ is not an equivalence.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(a) Let $L'$ be the logic of the Kripke frame $0<1$; it proves linearity,
+$n_{L'}=2$, and $L\subseteq L'$. By Lemma~\ref{lem:top}, applied to $L$
+and to $L'$, the models of $\HH_L\cP$ and of $\HH_{L'}\cP$ are the same
+families of subsets: the classical models and the models $\hat G_a$,
+whose values are defined by forcing and do not depend on the logic.
+The axioms of $L'$ are valid in all these models; as the models of
+$\HH_L\cP$ jointly reflect the order of subobjects, the axioms of $L'$
+hold in $\HH_L\cP$, so that the canonical functor $\HH_L\cP\to
+\HH_{L'}\cP$ is an equivalence. By
+\cite[Cor.~6.3]{Strings} $c^{L'}_\cP$ is an equivalence.
+
+(b) Let $f\colon x\to y$ and $g\colon y\to z$ be non-invertible. The
+diamond is a frame of $L$. We apply \cite[Prop.~5.1]{Interm} to
+$A=y(x)$, the subobjects $S=I_f$ and $T=I_{gf}$, the homomorphisms
+$x\xrightarrow{f}y\xrightarrow{g}z$ of models of $\cP$, and the element
+$\id_x\in A(x)$: we have $\id_x\notin I_f(x)$, as $f$ is not a split
+monomorphism; $f\in I_f(y)$; $f\notin I_{gf}(y)$, since $f=hgf$ would
+make $g$ a split monomorphism, the endomorphism $hg$ of $y$ being
+invertible; and $gf\in I_{gf}(z)$. So $c^L_\cP$ is not an equivalence.
+\end{proof}
+
+The Kripke model over the diamond used in \cite[Prop.~5.1]{Interm} is
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+&z&\\
+y\ar[ur,"g"]&&x\ar[ul,"gf"']\\
+&x\ar[ul,"f"]\ar[ur,"\id"']&
+\end{tikzcd}
+\]
+and the proof of (b) is an instance of the principle behind
+Theorem~\ref{thm:nonEI}: the transition $\id_x$ from the root to the
+node on the right is a homomorphism of models whose underlying arrow
+is a split monomorphism, and it does not reflect the value of
+$I_f\Rightarrow I_{gf}$ at $\id_x$, which holds at the node on the
+right and fails at the root because of the node on the left. For the
+logics proving linearity the diamond is not a frame, and the first
+obstructions appear with strings of three objects and non-trivial
+automorphisms \cite[\S6]{Strings}.
+
+\section{Propositional theories}\label{sec:prop}
+
+The same argument, with prime filters in place of models, settles
+case (3) for all propositional coherent theories. Let $D$ be a bounded
+distributive lattice, regarded as a coherent category, $G_L$ the free
+$L$-algebra on the bounded lattice $D$, with $\eta\colon D\to G_L$; as
+a preorder $\HH_LD$ is $G_L$ \cite[\S6]{Interm}. For a prime filter $F$
+of $G_L$ the filter $\eta^{-1}F$ of $D$ is prime; we say that $F$ is
+\emph{over} $\eta^{-1}F$. We use the prime filter theorem in the form:
+$u\to v\in F$ if and only if $u\in F'$ implies $v\in F'$ for every
+prime filter $F'\supseteq F$ of $G_L$. A construction of free
+Heyting algebras on distributive lattices by Esakia duality, adapted
+to the algebras of the weak excluded middle and of linearity, is
+given in \cite{Almeida}; we do not use it.
+
+For a prime filter $P$ of $D$ let $\mathrm{cl}_P\colon G_L\to2$ be the
+homomorphism of Heyting algebras extending the characteristic map of
+$P$, and for prime filters $P\subsetneq P'$ let $h_{P,P'}\colon G_L\to
+3$ be the homomorphism to the three-element chain $0<\frac12<1$, the
+algebra of the up-sets of the Kripke frame $0<1$, which extends the
+map sending $d$ to $1$ if $d\in P$, to $\frac12$ if $d\in P'\setminus
+P$ and to $0$ otherwise; these exist if $L$ is not classical, the
+three-element chain being then an $L$-algebra.
+
+\begin{thm}\label{thm:propositional}
+Let $L$ be an intermediate logic which proves the weak excluded middle
+and is not classical, and $D$ a bounded distributive lattice.
+\begin{enumerate}
+\item[(a)] If $D$ has no chain $P_0\subsetneq P_1\subsetneq P_2$ of
+prime filters, then $c^L_D$ is an equivalence.
+\item[(b)] If $L$ does not prove linearity and $D$ has such a chain,
+then $c^L_D$ is not an equivalence.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(b) Let $s\in P_1\setminus P_0$ and $t\in P_2\setminus P_1$. Then
+\cite[Prop.~5.1]{Interm} applies to the terminal object $A$, the
+subobjects $S=s$ and $T=t$, the homomorphisms $P_0\subseteq P_1\subseteq
+P_2$ of models of $D$ and the unique element of $A(P_0)$.
+
+(a) Every element of $G_L$ is obtained from elements $\eta(d)$ by
+$\wedge$, $\vee$ and $\to$. We show that every prime filter $F$ of
+$G_L$ is $\mathrm{cl}_P^{-1}(1)$ or $h_{P,P'}^{-1}(1)$.
+
+\emph{Step 1.} If all prime filters $F'\supseteq F$ are over the same
+$P$, then $F=\mathrm{cl}_P^{-1}(1)$. The prime filters above such an
+$F$ have the same property; we show $u\in F$ iff $\mathrm{cl}_P(u)=1$
+for all of them at once, by induction on $u$. For $u\to v$ this
+follows from the prime filter theorem and the induction hypothesis for
+the $F'\supseteq F$.
+
+\emph{Step 2.} Let $F$ be over $P$ and $R$ the set of the prime filters
+$P'\ne P$ of $D$ such that some prime filter $F'\supseteq F$ is over
+$P'$. A filter $P'\in R$ contains $P$ strictly, so it is maximal among
+the prime filters of $D$, by the hypothesis, and every prime filter
+over $P'$ is $\mathrm{cl}_{P'}^{-1}(1)$ by Step 1. If $R=\emptyset$,
+then $F=\mathrm{cl}_P^{-1}(1)$ by Step 1.
+
+$R$ has at most one element: let $P',P''\in R$ be different, with
+$F',F''\supseteq F$ over them, and $d\in P'\setminus P''$. As
+$\neg\eta(d)\vee\neg\neg\eta(d)=1$, the prime filter $F$ contains
+$\neg\eta(d)$, which is impossible as $\eta(d)\in F'$, or
+$\neg\neg\eta(d)$, which is impossible as $\mathrm{cl}_{P''}(\neg\neg
+\eta(d))=0$.
+
+Let $R=\{P'\}$, and let $F^\flat\supseteq F$ be a prime filter over
+$P$. Then the set $R^\flat$ defined for $F^\flat$ is $\{P'\}$: it is
+contained in $R$, and if it were empty, then $F^\flat=\mathrm{cl}_P^{-1}
+(1)$; for $d\in P'\setminus P$ the filter $F$ would contain $\neg\eta
+(d)$, impossible as before, or $\neg\neg\eta(d)$, impossible as
+$\mathrm{cl}_P(\neg\neg\eta(d))=0$.
+
+\emph{Step 3.} If $R=\{P'\}$, then $F=h_{P,P'}^{-1}(1)$. We show $u\in
+F$ iff $h_{P,P'}(u)=1$ for all prime filters $F$ with non-empty $R$ at
+once, by induction on $u$. The prime filters above $F$ are those over
+$P$, for which the induction hypothesis holds by Step 2, and those
+over $P'$, which are $\mathrm{cl}_{P'}^{-1}(1)$. So $u\to v\in F$ iff
+$h_{P,P'}(u)=1$ implies $h_{P,P'}(v)=1$, and $\mathrm{cl}_{P'}(u)=1$
+implies $\mathrm{cl}_{P'}(v)=1$; as $\mathrm{cl}_{P'}(w)=1$ iff
+$h_{P,P'}(w)\ge\frac12$, the map $3\to2$ sending $\frac12$ to $1$
+being a homomorphism of Heyting algebras, this says $h_{P,P'}(u)\le h_{P,P'}(v)$, that
+is $h_{P,P'}(u\to v)=1$.
+
+Let $L'$ be the logic of the Kripke frame $0<1$; then $L\subseteq L'$,
+and $2$ and $3$ are $L'$-algebras. If $u\not\le v$ in $G_L$, a prime
+filter contains $u$ and not $v$, so the images of $u$ and $v$ under a
+homomorphism to $2$ or $3$ which factors through $G_{L'}$ are
+different. Hence the canonical homomorphism $G_L\to G_{L'}$, which is
+surjective as both algebras are generated by the image of $D$, is an
+isomorphism, and $\HH_LD\to\HH_{L'}D$ is an equivalence. Now $c^{L'}_D$
+is an equivalence since $L'$ proves linearity
+\cite[Thm.~6.3]{Interm}. The canonical functor $q\colon\HH_L\PP D\to
+\HH_{L'}\PP D$ is the identity on formulas, hence essentially
+surjective, and $c^{L'}_Dq$ is isomorphic to $c^L_D$ followed by the
+equivalence $\PP\HH_LD\to\PP\HH_{L'}D$; so $c^L_D$ is essentially
+surjective, and it is full and faithful \cite[Lemma~2.2]{Interm}.
+\end{proof}
+
+So for the logics of case (3) the translation commutes with the
+imaginaries of a propositional theory if and only if the prime
+spectrum of its Lindenbaum algebra has no chain of three points; for
+the logics proving linearity it commutes for all propositional
+theories, and for the logics of case (2) only for the Boolean ones
+\cite{Interm}.
+
+\section{The classification}
+
+\begin{lem}\label{lem:boolean}
+$\cP=\Fin^{\cX}$ is Boolean if and only if $\cX$ is a groupoid.
+\end{lem}
+\begin{proof}
+If $\cX$ is a groupoid, the complement of a subfunctor is a subfunctor.
+Let $a\colon x\to z$ be a non-invertible arrow. If $a$ is a split
+monomorphism, $ra=\id$, then $ar$ is a non-invertible idempotent,
+which is not a split monomorphism; so we may assume that $a$ is not a
+split monomorphism. Then $\id_x\notin I_a(x)$, and a subfunctor of
+$y(x)$ which contains $\id_x$ contains $a$; so $I_a$ has no complement.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:class}]
+For classical logic $\HH_L\cP$ is a pretopos \cite[Prop.~5.3]{Strings}.
+If $L$ does not prove the weak excluded middle, $c^L_\cP$ is an
+equivalence if and only if $\cP$ is Boolean
+\cite[Thm.~1.1(1)]{Interm}, that is, by Lemma~\ref{lem:boolean}, if and
+only if $\cX$ is a groupoid. Let $L$ prove the weak excluded middle and
+be different from classical logic. If $\cX$ is not an EI-category,
+$c^L_\cP$ is not an equivalence by Theorem~\ref{thm:nonEI}. If $\cX$ is
+an EI-category and $L$ does not prove linearity, Theorem~\ref{thm:wem}
+gives (3). If $L$ proves linearity, $c^L_\cP$ is an equivalence if and
+only if no leg tree is an obstruction \cite[Thm.~1.1,
+Thm.~6.15]{Strings}.
+\end{proof}
+
+\begin{ex}\label{ex:small}
+Small categories which separate the four cases of
+Theorem~\ref{thm:class}, the columns giving the answer for the logics
+of each case; in the last line
+$\cX$ has two objects $m$, $k$ and the arrows $\id_m$, $e=ir$,
+$r\colon m\to k$, $i\colon k\to m$, $\id_k=ri$:
+\begin{center}
+\begin{tabular}{l@{\ \ }c@{\ \ }c@{\ \ }c@{\ \ }c}
+$\cX$&(1)&(2)&(3)&(4)\\\hline
+a finite groupoid&yes&yes&yes&yes\\
+the chain $0<1$&yes&no&yes&yes\\
+the chain $0<1<2$&yes&no&no&yes\\
+a split idempotent $e\ne\id$&yes&no&no&no
+\end{tabular}
+\end{center}
+The entries for the chains in the last column are those of
+\cite[Thm.~1.1(3)]{Interm}, for the chain $0<1<2$ in the third column
+that of \cite[Thm.~1.1(2)]{Interm}, where it appears as the
+four-element chain, the distributive lattice of its up-sets; the entry
+for $0<1$ in the third column is new, and the last line is
+Theorem~\ref{thm:nonEI}. In the last column the logic is not
+classical; the answer depends on $n_L$ only for categories with
+composable non-invertible arrows and non-trivial automorphisms, such
+as \cite[Ex.~6.8]{Strings}, where it is yes for $n_L=2$ and no for
+$n_L\ge3$; these have a no in the third column.
+\end{ex}
+
+So among the theories $\Fin^{\cX}$ every non-classical logic proving
+linearity commutes with the imaginaries of a larger class than the
+logics which do not prove it, in accordance with the propositional
+case \cite{Interm}, this class depending on $n_L$; and for each of
+the three types of non-classical logics the class is described by the
+shape of the strings of non-invertible arrows: none, single arrows,
+or strings subject to a condition on automorphisms.
+
+\section{Questions}
+
+\begin{que}
+In case (3), for which coherent categories $\cC$ which are not of the
+form $\Fin^{\cX}$ is $c^L_\cC$ an equivalence? For the theory of pure
+equality it is not \cite[Thm.~7.2]{Interm}. Is the condition that the
+homomorphisms of models of $\HH_L\cC$ whose underlying homomorphisms
+of models of $\cC$ have a left inverse in the category of models of
+$\cC$ reflect all first-order formulas over $L$, which
+is necessary by the proofs of Theorems~\ref{thm:nonEI}
+and~\ref{thm:wem}(b), also sufficient in some generality?
+\end{que}
+
+\begin{que}
+Describe the models of $\HH_L\cP$ when $\cX$ is not an EI-category.
+There are models with non-invertible endomorphisms
+\cite[Ex.~7.2]{Strings}.
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{9}
+\bibitem{Almeida} R.~N.~Almeida, \emph{Colimits of Heyting algebras
+through Esakia duality}, preprint, arXiv:2402.08058.
+\bibitem{Heyting} R.~Shibusawa, \emph{The free Heyting category on a
+pretopos is a pretopos only in the Boolean case: the intuitionistic
+translation and the pretopos completion}, preprint (2026), archived at
+DOI 10.5281/zenodo.24182122.
+\bibitem{Interm} R.~Shibusawa, \emph{Intermediate logics and
+imaginaries: the translation into an intermediate logic commutes with
+the pretopos completion of all finite propositional theories exactly
+for the extensions of G\"odel--Dummett logic}, preprint (2026),
+archived at DOI 10.5281/zenodo.24150610.
+\bibitem{Strings} R.~Shibusawa, \emph{G\"odel--Dummett logic over a
+finite category of models: the models of the translated theory are
+strings of arrows, and a subgroup obstruction to commuting with the
+imaginaries}, preprint (2026), archived at DOI
+10.5281/zenodo.24327653.
+\end{thebibliography}
+
+\end{document}
