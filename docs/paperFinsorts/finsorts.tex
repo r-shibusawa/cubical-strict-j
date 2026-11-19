@@ -1,0 +1,1009 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Fin}{\mathbf{FinSet}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Mod}{\mathrm{Mod}}
+\newcommand{\Syn}{\mathrm{Syn}}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\cX}{\mathcal X}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cM}{\mathcal M}
+\newcommand{\bT}{\mathbb T}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\cl}{\mathrm{cl}}
+
+\begin{document}
+
+\title[Intermediate logics and theories with finite sorts]{Intermediate
+logics and the imaginaries of a theory whose models are finite on
+every sort}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{intermediate logic, weak excluded middle, G\"odel--Dummett logic, Heyting category, pretopos completion, imaginaries, Kripke model, EI-category, coherent theory}
+\subjclass[2020]{03G30 (primary), 03B55, 03C13, 18F10, 18B25 (secondary)}
+
+\begin{abstract}
+For an intermediate logic $L$ and a coherent theory, reading the
+theory in first-order logic over $L$ and adding the imaginaries are two
+operations which need not commute. For the coherent theories all of
+whose models are finite on every sort we determine when they commute,
+in terms of the category $\cM$ of models, except for the logics
+proving linearity with a chain of three elements as a frame. For classical logic they
+always commute. If $L$ does not prove the weak excluded middle, they
+commute exactly when $\cM$ is a groupoid. If $L$ proves the weak
+excluded middle and not the linearity axiom, they commute exactly when
+every endomorphism of a model is invertible and no two non-invertible
+homomorphisms are composable. For the logic of the Kripke frame $0<1$
+they commute exactly when every endomorphism of a model is invertible.
+This contains the known cases of finite categories of models and of
+propositional theories. For the sufficiency the
+theory is written as a directed colimit of theories in finite
+languages, each with a finite category of models, and the
+invertibility of the endomorphisms passes to cofinally many of them. The
+necessity rests on an obstruction for all coherent theories: a
+homomorphism which is injective on all sorts, the imaginary ones
+included, and not surjective on a sort which is finite in its source
+excludes commutation for every non-classical logic.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+For an intermediate logic $L$ and a small coherent category $\cC$ let
+$\HH_L\cC$ be the syntactic category of the internal coherent theory of
+$\cC$ in first-order logic over $L$, and $\PP$ the pretopos completion,
+which adds the imaginaries. There is a full and faithful comparison
+$c^L_\cC\colon\HH_L\PP\cC\to\PP\HH_L\cC$, and it is an equivalence if
+and only if $\HH_L\PP\cC$ is a pretopos \cite[Lemma~2.2]{Interm}. We
+say that \emph{the translation into $L$ commutes with the imaginaries
+of $\cC$} if $c^L_\cC$ is an equivalence.
+
+A \emph{model} of $\cC$ is a coherent functor $M\colon\cC\to\Set$, a
+\emph{homomorphism} is a natural transformation, and $\Mod(\cC)$ is
+the category of models. We say that $\cC$ \emph{has finite sorts} if
+$M(A)$ is a finite set for every model $M$ and every object $A$. For
+the syntactic category of a coherent theory this means that every
+sort is finite in every model. Examples are the pretoposes $\Fin^{\cX}$
+of the functors from a finite category $\cX$ to finite sets, whose
+category of models is equivalent to $\cX$ if idempotents split in
+$\cX$
+\cite[\S7]{Heyting}; the bounded distributive lattices, that is, the
+propositional theories, whose models are the prime filters; and the
+theories of Example~\ref{ex:new}. A category is an \emph{EI-category}
+if all its endomorphisms are invertible. The \emph{weak excluded
+middle} is $\neg p\vee\neg\neg p$ and the \emph{linearity axiom} is
+$(p\to q)\vee(q\to p)$; for $L$ proving linearity, $n_L\in\{1,2,\dots,
+\infty\}$ is the supremum of the numbers of elements of the finite
+chains which are frames of $L$, so that $n_L=1$ for classical logic
+only and $n_L=2$ for the logic of the Kripke frame $0<1$.
+
+\begin{thm}\label{thm:main}
+Let $\cC$ be a small coherent category with finite sorts, $\cM=
+\Mod(\cC)$, and $L$ an intermediate logic.
+\begin{enumerate}
+\item[(1)] If $L$ is classical logic, $c^L_\cC$ is an equivalence.
+\item[(2)] If $L$ does not prove the weak excluded middle, $c^L_\cC$ is
+an equivalence if and only if $\cM$ is a groupoid.
+\item[(3)] If $L$ proves the weak excluded middle and not the
+linearity axiom, $c^L_\cC$ is an equivalence if and only if $\cM$ is
+an EI-category without two composable non-invertible homomorphisms.
+\item[(4)] If $L$ proves linearity and $n_L=2$, $c^L_\cC$ is an
+equivalence if and only if $\cM$ is an EI-category.
+\item[(5)] If $L$ proves linearity and $n_L\ge3$: if $c^L_\cC$ is an
+equivalence, $\cM$ is an EI-category; and if $\cM$ is an EI-category
+without two composable non-invertible homomorphisms, $c^L_\cC$ is an
+equivalence.
+\end{enumerate}
+\end{thm}
+
+\begin{center}
+\begin{tabular}{lll}
+$L$&a frame of $L$&$c^L_\cC$ is an equivalence\\\hline
+classical&the point&always\\
+no w.e.m.&the fork&iff $\cM$ is a groupoid\\
+w.e.m., not linear&the diamond&iff $\cM$ is EI, no two composable\\
+&&non-invertible homomorphisms\\
+linear, $n_L=2$&the chain $0<1$&iff $\cM$ is EI\\
+linear, $n_L\ge3$&chains, $\le n_L$ elements&only if $\cM$ is EI; if
+$\cM$ is EI, no\\
+&&two composable non-invertible\\
+&&homomorphisms
+\end{tabular}
+\end{center}
+Here w.e.m.\ is the weak excluded middle. For $\cC=\Fin^{\cX}$ the
+cases (1)--(4) are \cite[Thm.~1.1]{Classify}, where the condition in
+case (5) is determined as well \cite{Strings}, and for a bounded
+distributive lattice case (3) is \cite[Thm.~5.1]{Classify} and case
+(4) is contained in \cite[Thm.~6.3]{Interm}.
+
+The necessity in (3)--(5) uses an obstruction which does not need
+finite sorts in all models.
+
+\begin{thm}\label{thm:obstruction}
+Let $\cC$ be a pretopos and $L$ an intermediate logic other than
+classical logic. Suppose that there are a homomorphism $i\colon k\to m$
+of models of $\cC$ which is injective on every object, and an object
+$Y$ such that $Y(k)$ is finite and $Y(i)$ is not surjective. Then
+$c^L_\cC$ is not an equivalence.
+\end{thm}
+
+A split monomorphism of models is injective on every object. So a
+model with a finite sort which is a retract of a model in which this
+sort is larger excludes the commutation for all non-classical logics:
+for instance the sets with one and two elements for the theory of
+pure equality, which gives \cite[Thm.~7.2]{Interm} with another proof,
+or the groups with one and two elements for the theory of groups.
+
+\subsection*{The method}
+Under the hypothesis of finite sorts, a coherent type realised in one
+model is realised in another one as soon as each of its formulas is
+(Lemma~\ref{lem:types}); so a homomorphism between two models exists
+if the sentences true in the first are true in the second, and in the
+EI case the non-invertible homomorphisms are exactly those which
+enlarge the set of true sentences (Proposition~\ref{prop:EI}). For
+the sufficiency in (4) we consider, for every finite set $T$ of sorts
+and relations of $\cC$, the theory $\bT_T$ of the coherent sequents
+in this language which are valid in $\cC$. It has finitely many
+models up to isomorphism, all of them finite, its pretopos is
+equivalent to $\Fin^{\cX_T}$ for the finite category $\cX_T$ of its
+models (Proposition~\ref{prop:finite}), and $\cC$ is the directed
+colimit of these pretoposes. The models of $\bT_T$ need not be
+restrictions of models of $\cC$, and $\cX_T$ need not be an
+EI-category when $\cM$ is: for the pretopos of finite sets and a
+language with one sort with two elements and no relations, the
+constant maps are endomorphisms. But every finite language is
+contained in one for which $\cX_T$ is an EI-category
+(Proposition~\ref{prop:cofinal}), by an inverse limit argument. The result for finite categories of models
+\cite{Strings} and the compatibility of $\HH_L$ with directed
+colimits (Lemma~\ref{lem:colimit}) finish the proof.
+\[
+\begin{tikzcd}[column sep=large]
+\Fin^{\cX_T}\simeq\cC_T\ar[r,"j_{TT'}"]\ar[rr,bend right=18,"j_T"']&
+\cC_{T'}\simeq\Fin^{\cX_{T'}}\ar[r,"j_{T'}"]&\cC=\varinjlim_T\cC_T
+\end{tikzcd}
+\]
+
+\subsection*{What is new and what is known}
+Known: case (2), for every coherent category, $c^L$ being an
+equivalence exactly in the Boolean case \cite[Thm.~1.1(1)]{Interm};
+the obstruction over the diamond \cite[Prop.~5.1]{Interm}; the results
+for $\Fin^{\cX}$ \cite{Strings,Classify} and for propositional
+theories \cite{Interm,Classify} quoted above;
+Theorem~\ref{thm:obstruction} for $\cC=\Fin^{\cX}$ and a split
+monomorphism $i$ \cite[Thm.~3.1]{Classify}. New, to the author's
+knowledge: Theorem~\ref{thm:obstruction} in general, and
+Theorem~\ref{thm:main} beyond the two classes of examples mentioned.
+Proposition~\ref{prop:finite}, that a coherent theory in a finite
+language with bounded sorts is the theory of the finite functors on
+its finite category of models, is presumably known; see
+\cite[Cor.~2.6]{Ye24} for the pretoposes with an essentially finite
+category of models. We include a direct proof. For classical logic the
+comparison is governed, for all coherent theories, by a Galois
+criterion \cite[Thm.~6.1]{Morley}; case (1) says that it is satisfied
+by the theories with finite sorts, and our proof does not use the
+criterion. A duality between
+profinite monoids and the pretoposes of the coherent theories which
+are categorical is given in \cite{Ye26}; we do not use it.
+
+\section{The setting}\label{sec:setting}
+
+Conventions are those of \cite{Interm}. An \emph{$L$-category} is a
+Heyting category whose lattices of subobjects are Heyting algebras in
+which the formulas of $L$ are valid; $\HH_L\cC$ is the free
+$L$-category on the coherent category $\cC$, with unit $\eta$, which
+we omit. Every object of $\HH_L\cC$ is a subobject $U\le A$ of an
+object $A$ of $\cC$, and these subobjects are obtained from those in
+$\cC$ by finite meets and joins, $\Rightarrow$, and $f^*$, $\exists_f$,
+$\forall_f$ for the morphisms $f$ of $\cC$. The models of $\PP\cC$ are
+the models of $\cC$, and $\PP\cC$ has finite sorts if $\cC$ has, an
+object of $\PP\cC$ being a quotient of a finite coproduct of objects
+of $\cC$; and $c^L_\cC$ is an equivalence if and only if $c^L_{\PP\cC}$
+is. So \emph{from now on $\cC$ is a pretopos}; then $c^L_\cC$ is the
+unit $\HH_L\cC\to\PP\HH_L\cC$, and it is an equivalence if and only if
+$\HH_L\cC$ is a pretopos \cite[Lemma~2.2]{Interm}. A \emph{sentence}
+is a subobject of the terminal object $1$ of $\cC$; it is \emph{true}
+in a model $M$ if its value is not empty. The values of a model may be
+empty sets, and the compactness and completeness theorems are used for
+first-order logic with possibly empty sorts. Directed colimits of
+categories are taken along functors which are compatible up to
+coherent isomorphisms.
+
+A \emph{model} of $\HH_L\cC$ is a coherent functor $\hat G\colon
+\HH_L\cC\to\Set$; it is not required to be a Heyting functor. Its
+restriction to $\cC$ is a model $M$ of $\cC$; we say that $\hat G$ is
+\emph{over} $M$ and regard $\hat G(U)$, for $U\le A$, as a subset of
+$M(A)$, which we also write $A(M)$. A natural transformation $\hat G\to
+\hat G'$ of models over $M$, $M'$ restricts to a homomorphism
+$\varphi\colon M\to M'$ and is determined by it; so a
+\emph{homomorphism} $\hat G\to\hat G'$ is a homomorphism $\varphi\colon
+M\to M'$ with $\varphi(\hat G(U))\subseteq\hat G'(U)$ for all $U$.
+
+\begin{lem}[truth lemma]\label{lem:truth}
+Let $\hat G$ be a model of $\HH_L\cC$ over $M$, $f\colon B\to A$ a
+morphism of $\cC$, $U,V\le B$ in $\HH_L\cC$, $\alpha\in A(M)$ and
+$\beta\in B(M)$.
+\begin{enumerate}
+\item[(a)] $\alpha\in\hat G(\forall_fU)$ if and only if for every
+homomorphism $\varphi\colon\hat G\to\hat G'$, over $M\to M'$, and
+every $\beta'\in B(M')$ with $f(\beta')=\varphi(\alpha)$ one has
+$\beta'\in\hat G'(U)$.
+\item[(b)] $\beta\in\hat G(U\Rightarrow V)$ if and only if for every
+homomorphism $\varphi\colon\hat G\to\hat G'$, $\varphi(\beta)\in
+\hat G'(U)$ implies $\varphi(\beta)\in\hat G'(V)$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+This is \cite[Lemma~2.2]{Strings}, stated there for $\cC=\Fin^{\cX}$;
+we repeat the proof. The implications from left to right hold because
+$\varphi$ preserves $\forall_fU$ and $U\Rightarrow V$, and
+$f^*\forall_fU\le U$, $(U\Rightarrow V)\wedge U\le V$. For the
+converse of (a) let $\alpha\notin\hat G(\forall_fU)$, and consider the
+classical first-order theory of the coherent functors on $\HH_L\cC$
+with a constant $c_b$ for every element $b$ of the sets $\hat G(X)$,
+$X$ an object of $\HH_L\cC$, the axioms $g(c_b)=c_{g(b)}$ for the
+morphisms $g$ of $\HH_L\cC$, a new constant $d$ of sort $B$ and the
+axioms $f(d)=c_\alpha$ and $\neg U(d)$. If it had no model, then by
+the compactness theorem and the completeness theorem for the coherent
+category $\HH_L\cC$ there would be an object $X$ of $\HH_L\cC$, a
+morphism $g\colon X\to A$ and $b\in\hat G(X)$ with $g(b)=\alpha$ such
+that $f^*\exists_gX\le U$; then $V_0:=\exists_gX\le A$ satisfies
+$\alpha\in\hat G(V_0)$ and $f^*V_0\le U$, so
+$V_0\le\forall_fU$, a contradiction. A model of the theory is a
+coherent functor $\hat G'$ with a natural transformation $\hat G\to
+\hat G'$ and an element $\beta'\in B(M')\setminus\hat G'(U)$ over the
+image of $\alpha$. (b) is the same, with the axioms $U(c_\beta)$ and
+$\neg V(c_\beta)$.
+\end{proof}
+
+So the models of $\HH_L\cC$ jointly reflect the order of subobjects,
+by the completeness theorem of coherent logic.
+
+\subsection*{Kripke models}
+A finite poset $K$ is a \emph{frame of $L$} if the Heyting algebra of
+its up-sets is an $L$-algebra. Let $K$ be a finite poset such that
+every $\uparrow\!k$ is a frame of $L$, and $M\colon K\to\Mod(\cC)$ a
+functor. Then $\Set^K$ is an $L$-category and $M$ extends to a Heyting
+functor $\HH_L\cC\to\Set^K$, whose value at $U\le A$ is the family of
+the subsets of $A(M_k)$ defined by the forcing relation of the Kripke
+model $M$ \cite[Lemma~2.3]{Interm}. The evaluation at a node $k$ is a
+model of $\HH_L\cC$ over $M_k$, and the transitions are homomorphisms
+between these models. For the one-point poset this is the
+\emph{classical model} $\cl_M$ over $M$, the Heyting functor
+$\HH_L\cC\to\Set$ extending $M$; for an isomorphism $\psi\colon M\to
+M'$ we have $\psi(\cl_M(U))=\cl_{M'}(U)$. The two-element chain
+$0<1$ is a frame of every intermediate logic other than classical
+logic \cite[Lemma~7.1]{Interm}; so for such $L$ and a homomorphism
+$a\colon M\to N$ we have the Kripke model with $M_0=M$, $M_1=N$ and
+the transition $a$, and we write $\hat G_a$ for its model at the node
+$0$. It is a model over $M$, the node $1$ carries $\cl_N$, and
+$a\colon\hat G_a\to\cl_N$ is a homomorphism. The fork is a frame of
+$L$ if and only if $L$ does not prove the weak excluded middle; if $L$
+proves it and not linearity, the diamond is a frame of $L$
+\cite[Lemma~3.1]{Interm}.
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+\bullet&&\bullet&&&&\bullet&\\
+&\bullet\ar[ul]\ar[ur]&&&&\bullet\ar[ur]&&\bullet\ar[ul]\\
+&&&&&&\bullet\ar[ul]\ar[ur]&\\[-1ex]
+&\text{fork}&&&&&\text{diamond}&
+\end{tikzcd}
+\]
+
+\section{The obstruction}
+
+\begin{proof}[Proof of Theorem~\ref{thm:obstruction}]
+Let $c_1,\dots,c_N$ be the elements of $Y(k)$, $u=(c_1,\dots,c_N)\in
+Y^N(k)$, and
+\[
+Q:=\exists_p\bigwedge_{j=1}^N\neg\,[z=x_j]\ \le\ Y^N
+\]
+in $\HH_L\cC$, where $[z=x_j]\le Y\times Y^N$ is the subobject of the
+$(z,x_1,\dots,x_N)$ with $z=x_j$ and $p\colon Y\times Y^N\to Y^N$ is
+the projection. We use the homomorphism $i\colon\hat G_i\to\cl_m$ of
+models of $\HH_L\cC$. First, $i(u)\in\cl_m(Q)$: an element $z$ of
+$Y(m)$ outside the image of $Y(i)$ is different from all $i(c_j)$, and
+$\cl_m$ is a Heyting functor into $\Set$. Second, $u\notin\hat G_i(Q)$:
+every $z\in Y(k)$ is some $c_j$, and then the node $0$ does not force
+$\neg[z=x_j]$ at $(z,u)$.
+
+Let $X=Y^N\sqcup Y^N$ with the inclusions $j_1,j_2$, and $E\le X\times
+X$ the join of the diagonal and of the images of $Q$ under $(j_1,j_2)$
+and $(j_2,j_1)$, an equivalence relation in $\HH_L\cC$. If $\HH_L\cC$
+were a pretopos, the quotient $X/E$ would be a subobject of some
+object $A$ of $\cC$, and the map $\hat G_i(X/E)\to\cl_m(X/E)$ induced
+by the homomorphism $i$ would be a restriction of $A(i)$, which is
+injective. But models preserve quotients of equivalence relations; the
+classes of $j_1(u)$ and $j_2(u)$ are different in $\hat G_i(X/E)$ and
+are sent to the classes of $j_1(i(u))$ and $j_2(i(u))$, which are
+equal in $\cl_m(X/E)$.
+\end{proof}
+
+The injectivity is required on all objects of the pretopos. A
+homomorphism which is injective on the sorts of a theory need not be
+injective on the imaginary sorts: for the theory of a sort with a
+relation $\ne$ which is the complement of the equality, the
+homomorphisms are the injective maps, and the inclusion of a set with
+two elements in a set with three elements is not injective on the
+quotient of the sort by the equivalence relation ``$x=y$, or there
+are three different elements''.
+
+\section{Theories with finite sorts}\label{sec:finite}
+
+Let $\cC$ be a coherent category.
+
+\begin{lem}\label{lem:bounded}
+If $A(M)$ is finite for every model $M$, there is $n$ such that $A(M)$
+has at most $n$ elements for every $M$; equivalently, the join of the
+diagonals $[x_i=x_j]$, $i<j$, is the top subobject of $A^{n+1}$.
+\end{lem}
+\begin{proof}
+Otherwise the classical theory of the models of $\cC$ with infinitely
+many new constants of sort $A$ and the axioms that they are different
+is finitely satisfiable, and a model of it is a model of $\cC$ in
+which $A$ is infinite. The equivalence is the completeness theorem.
+\end{proof}
+
+\begin{lem}\label{lem:retract}
+Let $\varepsilon$ be an idempotent endomorphism of a model $M$. Then
+the sets $k(A)=\{x\in A(M)\mid\varepsilon(x)=x\}$ form a model $k$,
+the inclusion $i\colon k\to M$ is a homomorphism, and
+$\varepsilon=ir$ for a homomorphism $r\colon M\to k$ with $ri=\id$.
+\end{lem}
+\begin{proof}
+$k$ is a subfunctor of $M$ by naturality, and a retract of $M$ in the
+category of functors by $r=\varepsilon$. A retract of an isomorphism
+is an isomorphism, so $k$ preserves finite limits; a retract of a
+surjection is a surjection, so $k$ preserves covers; and for
+subobjects $S,S'\le A$ an element $x\in k(S\vee S')$ lies in $S(M)$,
+say, and then $x=\varepsilon(x)\in k(S)$, while $k(0)\subseteq
+M(0)=\emptyset$. So $k$ preserves finite joins of subobjects.
+\end{proof}
+
+We use repeatedly that an inverse system of non-empty finite sets over
+a directed set has a non-empty limit. The next lemma replaces, for
+finite sorts, the realisation of types
+in saturated models.
+
+\begin{lem}[types]\label{lem:types}
+Let $N$, $N'$ be models of $\cC$ which are finite on every object, and
+$(\alpha_i)_{i\in I}$, $(\alpha'_i)_{i\in I}$ families of elements
+$\alpha_i\in A_i(N)$, $\alpha'_i\in A_i(N')$. Suppose that for all
+$i_1,\dots,i_r\in I$, $r\ge0$, and every subobject $S\le A_{i_1}\times\dots\times
+A_{i_r}$ in $\cC$,
+\[
+(\alpha_{i_1},\dots,\alpha_{i_r})\in S(N)\quad\text{implies}\quad
+(\alpha'_{i_1},\dots,\alpha'_{i_r})\in S(N').
+\]
+Then there is a homomorphism $\lambda\colon N\to N'$ with
+$\lambda(\alpha_i)=\alpha'_i$ for all $i$. (For $r=0$ the hypothesis
+says that the sentences true in $N$ are true in $N'$.)
+\end{lem}
+\begin{proof}
+For a finite set $D$ of objects, a finite set $F$ of morphisms between
+objects of $D$ and a finite set $I_0\subseteq I$ with $A_i\in D$ for
+$i\in I_0$, let $\Lambda(D,F,I_0)$ be the set of the families of maps
+$\lambda_A\colon A(N)\to A(N')$, $A\in D$, which commute with the
+morphisms in $F$ and satisfy $\lambda(\alpha_i)=\alpha'_i$ for $i\in
+I_0$. These are finite sets, they form an inverse system over a
+directed set, and an element of the inverse limit is a natural
+transformation $N\to N'$, a homomorphism, with the required property.
+So it suffices to show that $\Lambda(D,F,I_0)$ is not empty.
+
+Let $\nu$ be the tuple of all elements of the sets $A(N)$, $A\in D$,
+without repetitions, an element of $B(N)$ for a finite product $B$ of
+objects of $D$, and $\alpha=(\alpha_i)_{i\in I_0}\in B_0(N)$, $B_0=
+\prod_{i\in I_0}A_i$; likewise $\alpha'\in B_0(N')$. Let $p$ be the set
+of the subobjects $\Sigma\le B_0\times B$ with $(\alpha,\nu)\in\Sigma
+(N)$; it is closed under finite meets. For $\Sigma\in p$ the image
+$\exists\Sigma\le B_0$ under the projection contains $\alpha$ in $N$,
+so it contains $\alpha'$ in $N'$ by the hypothesis: there is $\nu'\in
+B(N')$ with $(\alpha',\nu')\in\Sigma(N')$. As $B(N')$ is finite and $p$
+is closed under finite meets, one $\nu'$ satisfies this for all
+$\Sigma\in p$. Let $\lambda_A$ send the entries of $\nu$ in $A(N)$ to
+the corresponding entries of $\nu'$. For $f\colon A\to A'$ in $F$ and
+an entry $\nu_j$ in $A(N)$, the element $f(\nu_j)$ is an entry
+$\nu_{j'}$, and the subobject of the $(x,y)$ with $f(y_j)=y_{j'}$
+belongs to $p$; so $f(\nu'_j)=\nu'_{j'}$, and $\lambda$ commutes with
+$f$. For $i\in I_0$ the element $\alpha_i$ is an entry $\nu_j$, the
+subobject $[x_i=y_j]$ belongs to $p$, and so $\lambda(\alpha_i)=\nu'_j
+=\alpha'_i$.
+\end{proof}
+
+For the empty family: if every sentence true in $N$ is true in $N'$,
+there is a homomorphism $N\to N'$.
+
+\begin{prop}\label{prop:EI}
+Let $\cC$ be a pretopos with finite sorts.
+\begin{enumerate}
+\item[(a)] If an endomorphism $h$ of a model $M$ is not invertible,
+there is a split monomorphism $i\colon k\to M$ of models which is not
+surjective on some object.
+\item[(b)] $\Mod(\cC)$ is an EI-category if and only if every
+homomorphism which is injective on every object is invertible.
+\item[(c)] If $\Mod(\cC)$ is an EI-category, a homomorphism $h\colon
+M\to N$ is invertible if and only if every sentence true in $N$ is
+true in $M$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+(a) For an object $A$ let $\varepsilon_A$ be the idempotent power of
+the map $h_A$ of the finite set $A(M)$; the powers $h_A^e$ equal to
+$\varepsilon_A$ are those with $e$ large and divisible by the period
+of $h_A$. For a morphism $f\colon A\to B$ there is $e$ with $h_A^e=
+\varepsilon_A$ and $h_B^e=\varepsilon_B$, so $\varepsilon$ is natural,
+an idempotent endomorphism of $M$. If $\varepsilon$ is the identity,
+every $h_A$ is bijective and $h$ is invertible. Otherwise
+Lemma~\ref{lem:retract} gives $i\colon k\to M$, not surjective on an
+object on which $\varepsilon$ is not the identity.
+
+(c) Let every sentence true in $N$ be true in $M$. By
+Lemma~\ref{lem:types} there is a homomorphism $g\colon N\to M$. The
+endomorphisms $gh$ and $hg$ are invertible, so $h$ is. The converse is
+clear.
+
+(b) If the homomorphisms which are injective on every object are
+invertible, $\Mod(\cC)$ is an EI-category by (a). Conversely let
+$\Mod(\cC)$ be an EI-category and $i\colon k\to M$ injective on every
+object. For a sentence $s\le1$ let $1\sqcup_s1$ be the quotient of
+$1\sqcup1$ by the equivalence relation which identifies the two
+points over $s$; it has one element in a model in which $s$ is true
+and two elements otherwise. As $i$ is injective on $1\sqcup_s1$, a
+sentence true in $M$ is true in $k$, and $i$ is invertible by (c).
+\end{proof}
+
+\begin{lem}\label{lem:boolean}
+A pretopos $\cC$ with finite sorts is Boolean if and only if
+$\Mod(\cC)$ is a groupoid.
+\end{lem}
+\begin{proof}
+Let $\cC$ be Boolean and $h\colon M\to N$ a homomorphism. It preserves
+complements, so it reflects the subobjects of $\cC$; in particular it
+is injective on every object $A$. For $e\ge1$ let $E_e\le1$ be the
+image of the complement in $A^e$ of the join of the diagonals; it is
+true in a model iff $A$ has at least $e$ elements there. As $h$
+preserves and reflects $E_e$, the sets $A(M)$ and $A(N)$ have the same
+number of elements, and $h$ is bijective on $A$. Conversely, if a
+subobject $S\le A$ has no complement, there are a homomorphism
+$h\colon M\to N$ and $a\in A(M)\setminus S(M)$ with $h(a)\in S(N)$
+\cite[Lemma~4.1]{Heyting}, and $h$ is not invertible.
+\end{proof}
+
+\section{Finite languages}\label{sec:approx}
+
+\begin{prop}\label{prop:finite}
+Let $\bT$ be a coherent theory in a language with finitely many sorts
+and relation symbols and no function symbols, which proves for every
+sort $A$ a sequent $\top\vdash\bigvee_{i<j\le n}x_i=x_j$ in variables
+$x_0,\dots,x_n$ of sort $A$. Let $\cX$ be a skeleton of the category of
+models of $\bT$. Then $\cX$ is a finite category in which idempotents
+split, and the evaluation $\mathrm{ev}\colon\PP\Syn(\bT)\to\Fin^{\cX}$
+is an equivalence.
+\end{prop}
+\begin{proof}
+A model has at most $n$ elements in each sort, so there are finitely
+many models up to isomorphism and finitely many homomorphisms between
+two of them; so $\cX$ is finite, and
+idempotents split by Lemma~\ref{lem:retract}. The models of the
+pretopos $\cD=\PP\Syn(\bT)$ are those of $\bT$, the evaluation is a
+coherent functor between pretoposes, and it reflects the order of
+subobjects by the completeness theorem; in particular it is faithful,
+and the lattices $\Sub_\cD(X)$ are finite, being embedded in the
+lattices of subfunctors of $\mathrm{ev}(X)$.
+
+Let $M$ be a model, $\nu$ the tuple of all its elements, without
+repetitions, an element of $B(M)$ for a product $B$ of sorts, and
+$S_M\le B$ the meet of the subobjects which contain $\nu$ in $M$. For
+a model $N$ and $\nu'\in S_M(N)$ the map $\nu_j\mapsto\nu'_j$ preserves
+the relation symbols, the atomic formulas true of $\nu$ being above
+$S_M$; conversely a homomorphism $\lambda\colon M\to N$ gives
+$\lambda(\nu)\in S_M(N)$. So $\mathrm{ev}(S_M)\cong\cX(M,-)$, with
+$\nu$ corresponding to the identity.
+
+\emph{The evaluation is full on subobjects.} Let $X$ be an object of
+$\cD$, a quotient of a finite coproduct of subobjects $X_l$ of
+products of sorts, $W\le\mathrm{ev}(X)$ a subfunctor and $w\in W(M)$.
+Then $w$ is the class of a tuple in some $X_l(M)$, whose entries are
+entries of $\nu$; so it is the image of $\nu$ under a morphism $t_w
+\colon S_M\to X_l\to X$ of $\cD$ given by a projection, $S_M$ being
+contained in the pullback of $X_l$ along this projection because
+$\nu$ is. The image of $\mathrm{ev}(t_w)$ is the subfunctor of
+$\mathrm{ev}(X)$ generated by $w$. Hence $W$ is the join of the images
+of the $\mathrm{ev}(t_w)$ for finitely many $w$, and the evaluation
+preserves images and joins.
+
+\emph{The evaluation is full and essentially surjective.} The graph of
+a morphism $\mathrm{ev}(X)\to\mathrm{ev}(X')$ is $\mathrm{ev}(\Gamma)$
+for a subobject $\Gamma\le X\times X'$, which is the graph of a
+morphism because the evaluation reflects the order of subobjects.
+Every functor $W\colon\cX\to\Fin$ is the quotient of a finite
+coproduct of representable functors, the value of $\mathrm{ev}$ at a
+coproduct $Z$ of objects $S_M$, by an equivalence relation, which is
+$\mathrm{ev}(E)$ for some $E\le Z\times Z$; $E$ is an equivalence
+relation, and $\mathrm{ev}(Z/E)\cong W$.
+\end{proof}
+
+From now on $\cC$ is a pretopos with finite sorts. A \emph{finite
+language} is a pair $T=(S,R)$ of a finite set $S$ of objects of $\cC$
+and a finite set $R$ of subobjects of finite products of objects in
+$S$; we write $T\subseteq T'$ if $S\subseteq S'$ and $R\subseteq R'$.
+Let $\bT_T$ be the coherent theory with the sorts $S$, the relation
+symbols $R$, and as axioms all coherent sequents in this language
+which are valid in $\cC$. By Lemma~\ref{lem:bounded} it satisfies the
+hypothesis of Proposition~\ref{prop:finite}. Let $\cX_T$ be a
+skeleton of its category of models, $\cC_T=\PP\Syn(\bT_T)\simeq
+\Fin^{\cX_T}$, and $j_T\colon\cC_T\to\cC$ the coherent functor
+extending the interpretation of the formulas in $\cC$. For $T\subseteq
+T'$ every model of $\bT_{T'}$ restricts to a model of $\bT_T$, and
+there is a coherent functor $j_{TT'}\colon\cC_T\to\cC_{T'}$ with
+$j_{T'}j_{TT'}\cong j_T$.
+
+\begin{lem}\label{lem:union}
+Each $j_T$ reflects the order of subobjects and is faithful. Every
+object of $\cC$ is isomorphic to $j_T(X)$ for some $T$ and $X$, and
+every morphism $j_T(X)\to j_T(X')$ of $\cC$ is of the form
+$j_{T'}(f)$, up to the isomorphisms $j_{T'}j_{TT'}\cong j_T$, for some
+$T'\supseteq T$ and some $f\colon j_{TT'}(X)\to j_{TT'}(X')$. So $\cC$
+is the colimit of the directed system of the categories $\cC_T$, and
+of every cofinal subsystem.
+\end{lem}
+\begin{proof}
+The functor $\Syn(\bT_T)\to\cC$ reflects the order of subobjects by
+the definition of $\bT_T$. The subobjects of a quotient $(\coprod_lX_l)
+/F$ in a pretopos completion are the families of subobjects of the
+$X_l$ which are saturated for $F$; so $j_T$ reflects the order of
+subobjects, and a coherent functor with this property is faithful. An
+object $A$ of $\cC$ is a sort of $T=(\{A\},\emptyset)$. Let $X=
+(\coprod_lX_l)/F$ and $X'=(\coprod_{l'}X'_{l'})/F'$ in $\cC_T$ and
+$g\colon j_T(X)\to j_T(X')$. The pullbacks $\Gamma_{ll'}\le j_T(X_l)
+\times j_T(X'_{l'})$ of the graph of $g$ are subobjects of products of
+objects in $S$; let $T'=(S,R\cup\{\Gamma_{ll'}\})$. In $\cC_{T'}$ the
+relation symbols $\Gamma_{ll'}$ define a subobject $\Gamma$ of the
+coproduct of the $X_l\times X'_{l'}$ which is saturated and is the
+graph of a morphism $f$, because $j_{T'}$ reflects the order of
+subobjects; and $j_{T'}(f)=g$.
+\end{proof}
+
+\begin{lem}[directed colimits]\label{lem:colimit}
+Let a pretopos $\cC$ be the colimit of a directed system of pretoposes
+$\cC_i$ and coherent functors. If $\HH_L\cC_i$ is a pretopos for all
+$i$, then $\HH_L\cC$ is a pretopos.
+\end{lem}
+\begin{proof}
+Let $\cD$ be the colimit of the categories $\HH_L\cC_i$ along the
+Heyting functors $\HH_L(j_{ii'})$. A finite diagram in $\cD$ comes from
+a diagram in some $\HH_L\cC_i$, and two parallel morphisms of
+$\HH_L\cC_i$ which become equal in $\cD$ are equal in some
+$\HH_L\cC_{i'}$. Hence $\cD$ has finite limits, computed at a stage; a
+morphism of $\cD$ is a monomorphism iff it is represented by a
+monomorphism at some stage, its kernel pair being computed there; so
+$\Sub_\cD(X)$ is the directed colimit of the lattices of subobjects of
+the representatives of $X$. Images, finite joins and the operations
+$\forall_f$ are computed at a stage and are preserved by the
+transitions; the adjunctions which characterise them, being
+inequalities between finitely many subobjects, hold in $\cD$; and
+$\Sub_\cD(X)$, a directed colimit of $L$-algebras and homomorphisms,
+is an $L$-algebra. So $\cD$ is an $L$-category and the functors
+$\HH_L\cC_i\to\cD$ are Heyting. In the same way, a functor from $\cD$
+to an $L$-category is Heyting iff its restrictions to the $\HH_L\cC_i$
+are, and a functor from $\cC$ to a coherent category is coherent iff
+its restrictions to the $\cC_i$ are. Therefore, for an $L$-category
+$\cE$, the Heyting functors $\cD\to\cE$ correspond to the compatible
+families of Heyting functors $\HH_L\cC_i\to\cE$, these to the
+compatible families of coherent functors $\cC_i\to\cE$, and these to
+the coherent functors $\cC\to\cE$: $\cD$ is $\HH_L\cC$.
+
+The transitions $\HH_L(j_{ii'})$ are coherent functors between
+pretoposes, so they preserve finite coproducts and quotients of
+equivalence relations. An equivalence relation in $\cD$ is represented
+by an equivalence relation at some stage, the conditions being
+inequalities between finitely many subobjects; its quotient at this
+stage is a quotient in $\cD$, because a coequaliser which is preserved
+by all transitions is a coequaliser in the colimit, and it is
+effective and stable under pullback because this holds at every
+stage. The same holds for finite coproducts. So $\cD$ is a pretopos.
+\end{proof}
+
+Since the pretoposes $\HH_L\cC_i$ for $i$ in a cofinal subset form a
+system with the same colimit, it suffices in
+Lemma~\ref{lem:colimit} that $\HH_L\cC_i$ is a pretopos for all $i$
+in a cofinal subset.
+
+\begin{prop}\label{prop:cofinal}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category. Then every finite language is contained in a finite
+language $T$ such that $\cX_T$ is an EI-category.
+\end{prop}
+\begin{proof}
+Let $S$ be a finite set of objects, and $\cC_S$ the full subcategory
+of $\cC$ of the subobjects of the finite products of objects in $S$;
+it is closed under finite limits, images and subobjects, so it is a
+coherent category and the inclusion is coherent; for a model $M$ of
+$\cC$ we write $M|_S$ for its restriction to $\cC_S$, which has more
+objects than those in $S$; the models of $\cC_S$ are
+finite on every object, the bounds of Lemma~\ref{lem:bounded} being
+valid in $\cC_S$.
+
+\emph{Step 1: every model $m$ of $\cC_S$ is isomorphic to the
+restriction $M|_S$ of a model $M$ of $\cC$.} Consider the classical
+theory of the models of $\cC$ with a constant for every element of
+the sets $m(A)$, $A\in S$, and the axioms $\Sigma(c)$ or
+$\neg\Sigma(c)$, for the objects $\Sigma$ of $\cC_S$ and the tuples
+$c$ of constants, according to whether $c\in m(\Sigma)$ or not. A
+finite part of it says $\Sigma(c)$ and $\neg\Sigma_1(c),\dots,
+\neg\Sigma_e(c)$ for one tuple $c$ and objects of $\cC_S$ with
+$c\in m(\Sigma)$ and $c\notin m(\Sigma_1\vee\dots\vee\Sigma_e)$; so
+$\Sigma\not\le\Sigma_1\vee\dots\vee\Sigma_e$ in $\cC$, and there is a
+model of $\cC$ with an element of $\Sigma$ outside the $\Sigma_d$. By
+compactness there are a model $M$ of $\cC$ and a homomorphism $u\colon
+m\to M|_S$ of models of $\cC_S$ which reflects the subobjects of
+$\cC_S$. By Lemma~\ref{lem:types}, applied to $\cC_S$, the models
+$M|_S$ and $m$, and the families of the elements $u(x)$ and $x$, for
+$x$ in the sets $m(A)$, there is $r\colon M|_S\to m$ with $ru=\id$.
+\[
+\begin{tikzcd}
+m\ar[r,"u"]\ar[dr,"\id"']&M|_S\ar[d,"r"]\ar[r,"ur"]&M|_S\\
+&m\ar[ur,"u"']&
+\end{tikzcd}
+\qquad\qquad
+\begin{tikzcd}
+M\ar[r,dashed,"\lambda"]&M\\
+M|_S\ar[r,"ur"]\ar[u,dash,dotted]&M|_S\ar[u,dash,dotted]
+\end{tikzcd}
+\]
+
+Every homomorphism $g\colon M|_S\to M'|_S$, for models $M$, $M'$ of
+$\cC$, is the restriction of a homomorphism $M\to M'$: apply
+Lemma~\ref{lem:types} to $\cC$ and the families of the elements $x$
+and $g(x)$, for $x$ in the sets $A(M)$, $A\in S$; a subobject in $\cC$
+of a product of objects in $S$ is an object of $\cC_S$ and is
+preserved by $g$. So the idempotent $ur$ of $M|_S$ is the restriction
+of an endomorphism of $M$, which is invertible; hence $ur$ is
+injective on every object of $\cC_S$, and an injective idempotent is
+the identity. So $u$ is an isomorphism.
+
+\emph{Step 2: $\Mod(\cC_S)$ is an EI-category.} By Step 1 an
+endomorphism of a model of $\cC_S$ is, up to isomorphism, the
+restriction of an endomorphism of a model of $\cC$.
+
+\emph{Step 3.} Let $n_A$ be a bound for the object $A\in S$ as in
+Lemma~\ref{lem:bounded}. For a finite set $R$ of objects of $\cC_S$
+let $\mathcal E_R$ be the set of the pairs $(m,g)$ of a model $m$ of
+$\bT_{(S,R)}$ whose sorts are sets $\{1,\dots,e_A\}$, $e_A\le n_A$,
+and an endomorphism $g$ of $m$ which is not injective on some sort. It
+is a finite set, and for $R\subseteq R'$ the restriction of the
+structure is a map $\mathcal E_{R'}\to\mathcal E_R$. If all
+$\mathcal E_R$ were non-empty, an element of the inverse limit would
+be a structure $m$ interpreting all objects of $\cC_S$ as relations
+on the sets $\{1,\dots,e_A\}$, in which all coherent sequents valid
+in $\cC$ hold, with an endomorphism $g$ which is not injective. Since
+the finite limits, the images and the finite joins of $\cC_S$, and the
+graphs of its morphisms, are described by such sequents, $m$ is a
+model of $\cC_S$ and $g$ a non-invertible endomorphism, against
+Step 2. So $\mathcal E_{R_0}$ is empty for some $R_0$, and then
+$\mathcal E_R$ is empty for all $R\supseteq R_0$.
+
+\emph{Step 4.} Let $(S,R)$ be a finite language and $T=(S,R\cup R_0)$.
+Every endomorphism $g$ of a model of $\bT_T$ is injective, hence
+bijective, on every sort; its inverse is a power of $g$ and so a
+homomorphism. So $\cX_T$ is an EI-category.
+\end{proof}
+
+\begin{thm}\label{thm:two}
+Let $\cC$ be a pretopos with finite sorts.
+\begin{enumerate}
+\item[(a)] For classical logic, $c^L_\cC$ is an equivalence.
+\item[(b)] Let $L$ prove linearity with $n_L=2$. Then $c^L_\cC$ is an
+equivalence if and only if $\Mod(\cC)$ is an EI-category.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(a) For every finite language $T$ the category $\HH_L\cC_T\simeq\HH_L
+\Fin^{\cX_T}$ is a pretopos \cite[Prop.~5.3]{Strings}, $\cX_T$ being a
+finite category in which idempotents split. By Lemmas~\ref{lem:union}
+and~\ref{lem:colimit}, $\HH_L\cC$ is a pretopos.
+
+(b) If $\Mod(\cC)$ is an EI-category, the finite languages $T$ with
+$\cX_T$ an EI-category are cofinal by Proposition~\ref{prop:cofinal};
+for these $\HH_L\cC_T$ is a pretopos \cite[Cor.~6.3]{Strings}, and
+Lemmas~\ref{lem:union} and~\ref{lem:colimit} apply. If $\Mod(\cC)$ is
+not an EI-category, Proposition~\ref{prop:EI}(a) gives a homomorphism
+$i\colon k\to M$ and an object $Y$ as in
+Theorem~\ref{thm:obstruction}, the set $Y(k)$ being finite.
+\end{proof}
+
+The second half of this proof shows, for a pretopos with finite sorts
+and every non-classical $L$: if $c^L_\cC$ is an equivalence,
+$\Mod(\cC)$ is an EI-category.
+
+\section{The weak excluded middle}
+
+\begin{lem}\label{lem:classical}
+Let $\cC$ be a pretopos, $L$ an intermediate logic and $\hat G$ a
+model of $\HH_L\cC$ over $M$ such that every homomorphism out of
+$\hat G$ has an invertible underlying homomorphism. Then $\hat G=
+\cl_M$.
+\end{lem}
+\begin{proof}
+If $\psi\colon\hat G\to\hat G'$ is a homomorphism, then $\hat G'$ has
+the same property, a homomorphism $\lambda$ out of $\hat G'$ giving
+the homomorphism $\lambda\psi$ out of $\hat G$. We show $\hat G(U)=
+\cl_M(U)$ for all models with this property at once, by induction on
+the construction of $U$. This is clear for the subobjects in $\cC$
+and compatible with the coherent operations. By
+Lemma~\ref{lem:truth}, $\alpha\in\hat G(\forall_fU)$ if and only if
+$\beta'\in\hat G'(U)=\cl_{M'}(U)$ for all homomorphisms $\psi\colon
+\hat G\to\hat G'$ and all $\beta'$ over $\psi(\alpha)$; since $\psi$
+is invertible and the classical models are compatible with the
+isomorphisms, this holds if and only if $\beta\in\cl_M(U)$ for all
+$\beta$ over $\alpha$, the identity being among the $\psi$; that is,
+if and only if $\alpha\in\cl_M(\forall_fU)$. The case of $\Rightarrow$
+is the same.
+\end{proof}
+
+\begin{lem}\label{lem:top}
+Let $L$ be an intermediate logic other than classical logic which
+proves the weak excluded middle, and $\cC$ a pretopos with finite
+sorts such that $\Mod(\cC)$ is an EI-category without two composable
+non-invertible homomorphisms. Let $\hat G$ be a model of $\HH_L\cC$
+over $M$, and $R$ the collection of the non-invertible homomorphisms
+$a\colon M\to N$ of models of $\cC$ which are homomorphisms from
+$\hat G$ to some model over $N$. Then either $R$ is empty and $\hat G=
+\cl_M$, or $R$ consists of the homomorphisms $\iota a$, for one
+$a\colon M\to N$ and all isomorphisms $\iota$ out of $N$, and
+$\hat G=\hat G_a$.
+\end{lem}
+\begin{proof}
+If $a\colon M\to N$ is not invertible, every homomorphism out of $N$
+is invertible; so by Lemma~\ref{lem:classical} the target of a
+homomorphism $a\in R$ is $\cl_N$. If $R$ is empty, $\hat G=\cl_M$ by
+Lemma~\ref{lem:classical}.
+
+Let $a\colon M\to N$ and $a'\colon M\to N'$ be in $R$. If $a'=\lambda
+a$ for a homomorphism $\lambda$, then $\lambda$ is invertible. Suppose
+that there is no such $\lambda$. By Lemma~\ref{lem:types}, applied to
+the families of the elements $a(x)$ and $a'(x)$, for $x$ in the sets
+$A(M)$, there are an object $A$, an element $\alpha\in A(M)$ and a
+subobject $S\le A$ in $\cC$ with $a(\alpha)\in S(N)$ and
+$a'(\alpha)\notin S(N')$; so $a'(\alpha)\in\cl_{N'}(\neg S)$. In
+$\HH_L\cC$ the subobject $\neg S\vee\neg\neg S$ of $A$ is the top
+element; so $\alpha\in\hat G(\neg S)$, and then $a(\alpha)\in
+\cl_N(\neg S)$ by the homomorphism $a$, or $\alpha\in\hat G(\neg\neg
+S)$, and then $a'(\alpha)\in\cl_{N'}(\neg\neg S)$ by $a'$. Both are
+impossible. Conversely $\iota a\in R$ for $a\in R$ and an isomorphism
+$\iota$, as $\iota\colon\cl_N\to\cl_{N'}$ is a homomorphism. So $R$,
+if not empty, consists of the $\iota a$.
+
+Let $R$ be non-empty, $a\in R$, and let $\psi\colon\hat G\to\hat G'$
+be a homomorphism with $\psi\colon M\to M'$ invertible; let $R'$ be
+the collection defined for $\hat G'$ as $R$ for $\hat G$. Then
+$R'\psi\subseteq R$. We show that $R'$ is not empty. Otherwise
+$\hat G'=\cl_{M'}$ by Lemma~\ref{lem:classical}. By
+Proposition~\ref{prop:EI}(c) there is a sentence $s$ which is true in
+$N$ and not in $M$, hence not in $M'$; let $\ast$ be the element of
+$1(M)$. Then $\ast\in\hat G'(\neg s)$ and $\ast\in\cl_N(s)$. As $\neg
+s\vee\neg\neg s$ is the top element, $\ast\in\hat G(\neg s)$, which
+contradicts the homomorphism $a$, or $\ast\in\hat G(\neg\neg s)$,
+which contradicts the homomorphism $\psi$. Hence $R'$ consists of the
+$\iota a\psi^{-1}$.
+
+Now we show $\hat G(U)=\hat G_a(U)$ for all models $\hat G$ with
+non-empty $R$ and all $a\in R$ at once, by induction on the
+construction of $U$; note that $\psi(\hat G_a(U))=\hat G_{a\psi^{-1}}
+(U)$ for an isomorphism $\psi$ out of $M$, the two Kripke models being
+isomorphic. The homomorphisms out of $\hat G$ are those with an
+invertible underlying homomorphism, $\psi\colon\hat G\to\hat G'$ with
+$\hat G'(U)=\hat G_{a\psi^{-1}}(U)$ by the induction hypothesis, among
+them the identity, and the homomorphisms $\iota a$ into classical
+models. So by Lemma~\ref{lem:truth}, $\alpha\in\hat G(\forall_fU)$ if
+and only if $\beta\in\hat G_a(U)$ for all $\beta$ over $\alpha$ and
+$\beta'\in\cl_N(U)$ for all $\beta'$ over $a(\alpha)$, which is the
+forcing clause for $\forall_fU$ at the node $0$ of the Kripke model
+of $a$. The case of $\Rightarrow$ is the same.
+\end{proof}
+
+\begin{thm}\label{thm:wem}
+Let $L$ be an intermediate logic proving the weak excluded middle,
+other than classical logic, and $\cC$ a pretopos with finite sorts
+such that $\Mod(\cC)$ is an EI-category.
+\begin{enumerate}
+\item[(a)] If $\Mod(\cC)$ has no two composable non-invertible
+homomorphisms, then $c^L_\cC$ is an equivalence.
+\item[(b)] If $L$ does not prove linearity and $\Mod(\cC)$ has two
+composable non-invertible homomorphisms, then $c^L_\cC$ is not an
+equivalence.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(a) Let $L'$ be the logic of the Kripke frame $0<1$; it proves
+linearity, $n_{L'}=2$, and $L\subseteq L'$, the frame $0<1$ being a
+frame of $L$. By Lemma~\ref{lem:top} every model of $\HH_L\cC$ is the
+evaluation, at a node, of the Heyting functor $\HH_L\cC\to\Set^K$ of a
+Kripke model over the point or over the chain $0<1$; and $\Set^K$ is
+an $L'$-category for these $K$. So every instance of a formula of
+$L'$ has the top value in all models of $\HH_L\cC$, and is the top
+subobject, the models jointly reflecting the order. Hence $\HH_L\cC$
+is an $L'$-category, and it has the universal property of
+$\HH_{L'}\cC$. By Theorem~\ref{thm:two}(b), $\HH_{L'}\cC$ is a
+pretopos.
+
+(b) Let $M\xrightarrow{h}N\xrightarrow{h'}N'$ be non-invertible. By
+Proposition~\ref{prop:EI}(c) there are a sentence $s$ true in $N$ and
+not in $M$, and a sentence $t$ true in $N'$ and not in $N$. The
+diamond is a frame of $L$, and \cite[Prop.~5.1]{Interm} applies to the
+terminal object $A=1$, the subobjects $S=s$ and $T=t$, the
+homomorphisms $h$, $h'$ and the element $\ast$ of $1(M)$: we have
+$\ast\notin s(M)$, $\ast\in s(N)\setminus t(N)$ and $\ast\in t(N')$.
+So $c^L_\cC$ is not an equivalence.
+\end{proof}
+
+The Kripke model over the diamond used in \cite[Prop.~5.1]{Interm} has
+$M$ at the root and at one of the middle nodes, $N$ at the other
+middle node and $N'$ at the top:
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+&N'&\\
+N\ar[ur,"h'"]&&M\ar[ul,"h'h"']\\
+&M\ar[ul,"h"]\ar[ur,"\id"']&
+\end{tikzcd}
+\]
+The transition $\id$ is an isomorphism of the underlying models which
+does not reflect the value of $s\Rightarrow t$.
+
+\section{The classification and examples}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+We may assume that $\cC$ is a pretopos (Section~\ref{sec:setting}).
+(1) is Theorem~\ref{thm:two}(a). (2): $c^L_\cC$ is an equivalence if
+and only if $\cC$ is Boolean \cite[Thm.~1.1(1)]{Interm}, that is, by
+Lemma~\ref{lem:boolean}, if and only if $\cM$ is a groupoid. (4) is
+Theorem~\ref{thm:two}(b). In (3) and (5) the logic is not classical,
+and $\cM$ is an EI-category if $c^L_\cC$ is an equivalence, by the
+remark after Theorem~\ref{thm:two}; the rest is
+Theorem~\ref{thm:wem}.
+\end{proof}
+
+\begin{cor}[{\cite[Thm.~1.1]{Classify}}]
+Let $\cX$ be a finite category in which idempotents split. For
+$\cC=\Fin^{\cX}$ the statements of Theorem~\ref{thm:main} hold with
+$\cM=\cX$.
+\end{cor}
+
+\begin{cor}[{\cite[Thm.~5.1]{Classify}}, {\cite[Thm.~6.3]{Interm}} for $n_L=2$]
+Let $D$ be a bounded distributive lattice. If $L$ proves the weak
+excluded middle and not linearity, $c^L_D$ is an equivalence if and
+only if $D$ has no chain $P_0\subsetneq P_1\subsetneq P_2$ of prime
+filters; if $L$ proves
+linearity and $n_L=2$, it is an equivalence.
+\end{cor}
+\begin{proof}
+The models of $D$ are the prime filters, a homomorphism is an
+inclusion, and every object of $\PP D$ is a quotient of a finite
+coproduct of subterminal objects; so $D$ has finite sorts and $\cM$
+is a poset.
+\end{proof}
+
+\begin{ex}\label{ex:new}
+A theory with finite sorts whose pretopos is neither of the form
+$\Fin^{\cX}$ for a finite category $\cX$ nor that of a propositional
+theory. Let $X$ be a non-empty finite poset, and $\bT$ the
+coherent theory with a proposition $u_x$ for $x\in X$ and the axioms
+\[
+u_y\vdash u_x\ (x\le y),\qquad\top\vdash\bigvee_xu_x,\qquad u_x\wedge
+u_y\vdash\bigvee_{z\ge x,y}u_z,
+\]
+saying that the true $u_x$ form the down-set of an element of $X$,
+and with sorts $\sigma_e$, $e\in\mathbb N$, each with a relation $\ne$
+and the axioms $x=y\wedge x\ne y\vdash\bot$, $\top\vdash x=y\vee x\ne
+y$, $\top\vdash\exists x\exists y\,(x\ne y)$ and $\top\vdash x=y\vee
+y=z\vee x=z$, saying that $\ne$ is the complement of the equality and
+that $\sigma_e$ has exactly two elements. A model is an element of $X$
+and a sequence of two-element sets, and there is a homomorphism from
+the model of $x$ to that of $y$ iff $x\le y$; the category of models
+is equivalent to $X\times\Gamma$ for the groupoid $\Gamma$ of the sequences of two-element sets
+and bijections, an EI-category which is not equivalent to a finite
+category, and not a poset. By Theorem~\ref{thm:main}, the translation
+commutes with the imaginaries of $\bT$ for classical logic and for
+the logic of the frame $0<1$; for the logics without the weak
+excluded middle iff $X$ is discrete; and for those with the weak
+excluded middle and without linearity iff $X$ has no chain of three
+elements. For the logics proving linearity with $n_L\ge3$
+Theorem~\ref{thm:main} decides only the case without chains of three
+elements; but the theories in finitely many of the sorts $\sigma_e$
+have the finite categories of models $X\times(\mathbb Z/2)^e$, up to
+equivalence, the group being regarded as a category with one object, for which the comparison is an equivalence
+\cite[Cor.~6.2]{Strings}, and the pretopos of $\bT$ is the directed
+colimit of theirs; so by Lemma~\ref{lem:colimit} the translation
+commutes with the imaginaries of $\bT$ for every logic proving
+linearity.
+\end{ex}
+
+\begin{ex}
+Theories with a coherent inequality. Let $\bT$ be a coherent theory in
+which every sort has a relation $\ne$ which is the complement of the
+equality, and suppose that all models are finite on every sort. Every
+homomorphism is injective on the sorts of the language, and an injective endomorphism of a model
+with finite sorts is bijective on every sort and reflects the
+relations, by counting; so $\cM$ is an EI-category, and case (4) of
+Theorem~\ref{thm:main} applies: the translation into the logic of the
+frame $0<1$ commutes with the imaginaries. An example is the theory of
+a sort with at most $n$ elements and a relation $\ne$, whose models
+are the sets with at most $n$ elements and the injective maps.
+\end{ex}
+
+\section{Questions}
+
+\begin{que}
+For the logics proving linearity with $n_L\ge3$ and a pretopos $\cC$
+with finite sorts whose category of models is an EI-category: is
+$c^L_\cC$ an equivalence if and only if every finite language is
+contained in a finite language $T$ such that $\cX_T$ is an
+EI-category without obstruction in the sense of
+\cite[Thm.~6.15]{Strings}? The condition is sufficient by
+Lemmas~\ref{lem:union} and~\ref{lem:colimit}.
+\end{que}
+
+\begin{que}
+Is the absence of homomorphisms $i$ and objects $Y$ as in
+Theorem~\ref{thm:obstruction}, together with the absence of
+configurations as in \cite[Prop.~5.1]{Interm} where the diamond is a
+frame, sufficient for $c^L_\cC$ to be an equivalence for some class of
+theories with infinite models? For the theory of pure equality the comparison is
+not an equivalence for any non-classical logic \cite{Interm}.
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{9}
+\bibitem{Heyting} R.~Shibusawa, \emph{The free Heyting category on a
+pretopos is a pretopos only in the Boolean case: the intuitionistic
+translation and the pretopos completion}, preprint (2026), archived at
+DOI 10.5281/zenodo.24182122.
+\bibitem{Interm} R.~Shibusawa, \emph{Intermediate logics and
+imaginaries: the translation into an intermediate logic commutes with
+the pretopos completion of all finite propositional theories exactly
+for the extensions of G\"odel--Dummett logic}, preprint (2026),
+archived at DOI 10.5281/zenodo.24150610.
+\bibitem{Morley} R.~Shibusawa, \emph{Translations in the lattice of
+two-out-of-three classes: Morleyization as a sameness of theories, its
+join with Morita equivalence, and the forced order of translation and
+completion}, preprint (2026), archived at DOI 10.5281/zenodo.24122457.
+\bibitem{Strings} R.~Shibusawa, \emph{G\"odel--Dummett logic over a
+finite category of models: the models of the translated theory are
+strings of arrows, and a subgroup obstruction to commuting with the
+imaginaries}, preprint (2026), archived at DOI
+10.5281/zenodo.24327653.
+\bibitem{Classify} R.~Shibusawa, \emph{Intermediate logics and the
+imaginaries of a theory with a finite category of models: a
+classification}, preprint (2026), archived at DOI
+10.5281/zenodo.24331748.
+\bibitem{Ye24} L.~Ye, \emph{Stack representation of finitely presented
+Heyting pretoposes I}, preprint, arXiv:2402.13099.
+\bibitem{Ye26} L.~Ye, \emph{Duality theory for categorical theories},
+preprint, arXiv:2605.22071.
+\end{thebibliography}
+
+\end{document}
