@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.47.0` (paper 48: intermediate logics and theories whose models are finite on
-  every sort -- `docs/consolidated/finsorts.pdf`), archived at DOI (pending) -- cite this one.
+  every sort -- `docs/consolidated/finsorts.pdf`), archived at DOI [10.5281/zenodo.24356860](https://doi.org/10.5281/zenodo.24356860) -- cite this one.
 - Previous: release `v1.46.0` (paper 47: intermediate logics and theories with a finite category of models,
   a classification -- `docs/consolidated/classify.pdf`), archived at DOI [10.5281/zenodo.24331748](https://doi.org/10.5281/zenodo.24331748).
 - Previous: release `v1.45.0` (paper 46, third revision: invertibility of the endomorphisms is necessary;
