@@ -1,0 +1,1668 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\setlength{\emergencystretch}{3em}
+\tolerance=600
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{que}[thm]{Question}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Fin}{\mathbf{FinSet}}
+\newcommand{\Sub}{\mathrm{Sub}}
+\newcommand{\Mod}{\mathrm{Mod}}
+\newcommand{\Sent}{\mathrm{Sent}}
+\newcommand{\Lan}{\mathrm{Lan}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Max}{\mathrm{Max}}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\HH}{\mathsf H}
+\newcommand{\cX}{\mathcal X}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\cM}{\mathcal M}
+\newcommand{\cS}{\mathcal S}
+\newcommand{\bT}{\mathbb T}
+\newcommand{\id}{\mathrm{id}}
+
+\begin{document}
+
+\title[Finite sorts and logics with bounded chains]{Intermediate logics
+and the imaginaries of a theory with finite sorts: the logics proving
+linearity with bounded chains}
+\author{Ryota Shibusawa}
+\thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
+\address{Daiichi Institute of Technology}
+\email{r-shibusawa@daiichi-koudai.ac.jp}
+\keywords{intermediate logic, G\"odel--Dummett logic, weak excluded middle, Heyting category, pretopos completion, imaginaries, Kripke model, EI-category, profinite group, coherent theory}
+\subjclass[2020]{03G30 (primary), 03B55, 03C13, 18F10, 20E18 (secondary)}
+
+\begin{abstract}
+For an intermediate logic $L$ and a coherent theory, reading the
+theory in first-order logic over $L$ and adding the imaginaries need
+not commute. For the theories all of whose models are finite on every
+sort the question was open for the logics proving linearity which have
+a chain of three elements as a frame, except for theories with
+finitely many sentences. We settle it for the logics of this kind
+whose chain frames are bounded: the two operations commute if and only
+if every endomorphism of a model is invertible and no leg tree of a
+finite language is an obstruction. A leg tree is a finite tree of
+chains of non-invertible homomorphisms of models of the theory
+restricted to a finite language. Pulled back to the larger finite
+languages, where it acquires as new branches the homomorphisms which
+become invertible after restriction, it defines two closed subgroups
+of the profinite automorphism group of a model, and it is an
+obstruction if they differ. We also show that the models of the
+translated theory are the chains of non-invertible homomorphisms, and
+that for every logic proving the weak excluded middle and every
+coherent theory, commutation can be tested on the theories of the
+models whose true sentences lie in a prime filter. In an example given
+by closed subgroups of a profinite abelian group, non-invertible
+homomorphisms converge to automorphisms, and the condition is a
+distributivity property for the cofinite sets of subgroups.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+For an intermediate logic $L$ and a small coherent category $\cC$ let
+$\HH_L\cC$ be the syntactic category of the internal coherent theory of
+$\cC$ in first-order logic over $L$, and $\PP$ the pretopos completion,
+which adds the imaginaries. There is a full and faithful comparison
+$c^L_\cC\colon\HH_L\PP\cC\to\PP\HH_L\cC$, and it is an equivalence if
+and only if $\HH_L\PP\cC$ is a pretopos \cite[Lemma~2.2]{Interm}. We
+say that \emph{the translation into $L$ commutes with the imaginaries
+of $\cC$} if $c^L_\cC$ is an equivalence.
+
+A \emph{model} of $\cC$ is a coherent functor $M\colon\cC\to\Set$, a
+\emph{homomorphism} is a natural transformation, and $\cC$ \emph{has
+finite sorts} if the set $M(A)$ is finite for every model $M$ and
+every object $A$. For these $\cC$ the comparison was determined in
+\cite{Finsorts} in terms of the category $\Mod(\cC)$ of models, for
+all $L$ except those proving the linearity axiom $(p\to q)\vee(q\to
+p)$ with $n_L\ge3$; here $n_L\in\{1,2,\dots,\infty\}$ is the supremum
+of the numbers of elements of the finite chains which are frames of
+$L$. In that case it is necessary that $\Mod(\cC)$ is an
+\emph{EI-category} (every endomorphism is invertible), and this is not
+sufficient \cite{Strings}. A \emph{sentence} is a subobject of the
+terminal object of $\cC$. For theories with finitely many sentences
+the case $n_L\ge3$ was settled in \cite{Proftrees}. This paper treats
+all theories with finite sorts, for $n_L$ finite.
+
+The models of the pretopos completion are those of $\cC$, so let $\cC$
+be a pretopos with finite sorts. A \emph{finite language}
+$\Lambda=(S,R)$ consists of a finite set $S$ of objects of $\cC$ and a
+finite set $R$ of subobjects of finite products of objects in $S$; the
+theory $\bT_\Lambda$ in this language has as axioms the coherent
+sequents valid in $\cC$. Its category of models is equivalent to a
+finite category $\cX_\Lambda$, and for $\Lambda\subseteq\Lambda'$ the
+restriction of structures is a functor
+$\cX_{\Lambda'}\to\cX_\Lambda$. A \emph{string} is a sequence
+$M_0\to\dots\to M_r$ of non-invertible homomorphisms of models with at
+most $n_L$ models. A string $\tilde s$ of models of $\cC$ restricts to
+a string $\tilde s|_\Lambda$ of $\cX_\Lambda$, after the homomorphisms
+whose restrictions are invertible have been deleted. If $\Mod(\cC)$ is
+an EI-category, then so is $\cX_\Lambda$ for cofinally many $\Lambda$
+\cite{Finsorts}; the automorphism group $G_{\tilde s}$ of the first
+model of $\tilde s$ is profinite, and it contains the closed subgroup
+$H_{\tilde s}$ of the automorphisms which extend to an automorphism of
+the string. A \emph{leg tree} $T$ of $\cX_\Lambda$ at $\tilde
+s|_\Lambda$ \cite[Def.~6.14]{Strings} is a finite tree of strings of
+$\cX_\Lambda$ which extend $\tilde s|_\Lambda$ to the left. It has a
+\emph{pullback} to every such $\Lambda'\supseteq\Lambda$
+(Section~\ref{sec:pull}): a branch is replaced by all branches of
+$\cX_{\Lambda'}$ over it, and new branches are added at every node for
+the arrows of $\cX_{\Lambda'}$ into the first model of its string
+which are not invertible but have an invertible restriction to
+$\Lambda$. We call these the \emph{collapsing children}. Forming joins
+of equivalence relations in two ways, on all homomorphisms and on
+those which are homomorphisms of strings, at every $\Lambda'$, and
+passing to the limit, we obtain closed subgroups
+\[
+R_{(\Lambda,T)}\le H_{\tilde s}\cap S_{(\Lambda,T)}
+\]
+of $G_{\tilde s}$ (Section~\ref{sec:inverse}); the pair $(\Lambda,T)$ is
+an \emph{obstruction at $\tilde s$} if they are different.
+
+\begin{thm}\label{thm:A}
+Let $\cC$ be a small coherent category with finite sorts and $L$ a
+non-classical intermediate logic proving linearity with $n_L$ finite.
+Then $c^L_\cC$ is an equivalence if and only if $\Mod(\cC)$ is an
+EI-category and no leg tree of a finite language $\Lambda$, with
+$\cX_\Lambda$ an EI-category, is an obstruction at a string of models.
+\end{thm}
+
+For theories with finitely many sentences this is
+\cite[Thm.~1.1]{Proftrees}, which also covers $n_L=\infty$. There the
+theory is approximated by its restrictions to finite sets of sorts,
+which keep all sentences; no homomorphism becomes invertible and there
+are no collapsing children. A finite language has finitely many
+sentences up to equivalence, and non-isomorphic models can have isomorphic restrictions;
+this was the difficulty named in \cite[Question~10.1]{Proftrees}, and
+Theorem~\ref{thm:A} answers that question for $n_L$ finite. The proof
+uses the following description of the models of $\HH_L\cC$. A model of
+$\HH_L\cC$ is a coherent functor to sets; a string $s$ is a Kripke
+model of $\cC$ over a chain which is a frame of $L$, and the
+evaluation at its first node is a model $\hat G_s$ of $\HH_L\cC$.
+
+\begin{thm}\label{thm:B}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, and $L$ an intermediate logic proving linearity with
+$n_L$ finite. Then every model of $\HH_L\cC$ is isomorphic to $\hat
+G_s$ for a string $s$, the homomorphisms $\hat G_s\to\hat G_{s'}$ are
+the composites of an initial part of $s$ with the first component of
+an isomorphism from the remaining final segment of $s$ onto $s'$, and
+$U\mapsto(s\mapsto\hat G_s(U))$ is a conservative Heyting functor from
+$\HH_L\cC$ to the category of functors from the strings to sets.
+\end{thm}
+
+For a finite category of models this is \cite[Prop.~4.2]{Strings}. The
+next result needs neither finite sorts nor linearity. For a pretopos
+$\cC$ and a prime filter $Q$ of the lattice $\Sub(1)$ of sentences let
+$\cC_{(Q)}$ be the pretopos of the theory of $\cC$ with the additional
+axioms $s'\vdash\bot$ for the sentences $s'\notin Q$; its models are
+the models of $\cC$ whose true sentences lie in $Q$.
+
+\begin{thm}\label{thm:C}
+Let $\cC$ be a pretopos and $L$ an intermediate logic proving the weak
+excluded middle $\neg p\vee\neg\neg p$. Then $c^L_\cC$ is an
+equivalence if and only if $c^L_{\cC_{(Q)}}$ is an equivalence for
+every prime filter $Q$ of $\Sub(1)$.
+\end{thm}
+
+If $\cC$ has finite sorts and every prime filter of $\Sub(1)$ contains
+only finitely many prime filters, the pretoposes $\cC_{(Q)}$ have
+finitely many sentences, and Theorem~\ref{thm:C} with
+\cite[Thm.~1.1]{Proftrees} gives a criterion for all logics proving
+linearity, including those with $n_L=\infty$
+(Corollary~\ref{cor:locfin}). For $n_L=\infty$ a criterion for all
+theories with finite sorts remains open
+(Section~\ref{sec:questions}).
+
+The first example with collapsing children is the following. Let $G$
+be a profinite abelian group, $H$ a closed subgroup and
+$(S_k)_{k\in\mathbb N}$ non-zero closed subgroups \emph{converging to
+$0$}: every open subgroup contains all but finitely many $S_k$. Let
+$\cC(G;H;S_\bullet)$ be the pretopos of the continuous functors to
+finite sets on the category
+\[
+\begin{tikzcd}[column sep=large]
+0_k\ar[r,"G/S_k"]\ar[rr,bend right=22,"G/(H+S_k)"']&1\ar[r,"G/H"]
+\ar[loop above,"G"]&2
+\end{tikzcd}\qquad(k\in\mathbb N)
+\]
+with composition the addition of $G$; precisely, it is a directed
+colimit of pretoposes $\Fin^{\cX_N}$ over the open subgroups $N$ of
+$G$, and in $\cX_N$ the objects $0_k$ with $S_k\subseteq N$ are
+identified with $1$ (Section~\ref{sec:family}).
+
+\begin{thm}\label{thm:D}
+Let $L$ prove linearity with $n_L\ge3$. Then $c^L_\cC$ is an
+equivalence for $\cC=\cC(G;H;S_\bullet)$ if and only if
+\begin{equation}\label{eq:cofintro}
+H\cap\overline{\sum_{k\in K}S_k}=\overline{\sum_{k\in K}(H\cap S_k)}
+\qquad\text{for every cofinite }K\subseteq\mathbb N,
+\end{equation}
+the bars denoting the closed subgroups generated.
+\end{thm}
+
+For $G=(\mathbb Z/2)^{\mathbb N}$, $S_k$ generated by the $k$-th unit
+vector and $H$ generated by $(1,1,1,\dots)$, the condition holds for
+all finite sets of indices and fails for $K=\mathbb N$
+(Example~\ref{ex:conv}): the obstruction uses the legs from all the
+models $0_k$ together, and at each finite stage, for all but finitely
+many $k$ they have become automorphisms of the model $1$. A second family,
+indexed by a profinite set and without collapsing children, is treated
+in Proposition~\ref{prop:family}.
+
+\subsection*{The method}
+If $\Mod(\cC)$ is an EI-category, $\cC$ is the directed colimit of the
+pretoposes $\Fin^{\cX_\Lambda}$ over the finite languages $\Lambda$
+for which $\cX_\Lambda$ is an EI-category, and $\Mod(\cC)$ is the
+limit of the $\cX_\Lambda$ \cite{Finsorts}.
+\[
+\begin{tikzcd}[column sep=large,row sep=small]
+\Mod(\cC)\simeq\varprojlim\cX_\Lambda\ar[r]&\cX_{\Lambda'}\ar[r,"q"]&
+\cX_\Lambda\\
+\cC=\varinjlim\Fin^{\cX_\Lambda}&\Fin^{\cX_{\Lambda'}}\ar[l]&
+\Fin^{\cX_\Lambda}\ar[l,"q^*"']
+\end{tikzcd}
+\]
+By \cite{Strings}, $\PP\HH_L\Fin^{\cX}$ is the category of the functors
+$W$ from the category $\cS_n(\cX)$ of the strings of $\cX$ to finite
+sets, and $\HH_L\Fin^\cX$ consists of those $W$ for which a unit map
+is injective. We work with an arbitrary inverse system of finite
+EI-categories and arbitrary functors $q$. Such a functor acts on
+strings by deleting the arrows which become invertible
+(Lemma~\ref{lem:collapse}), and the comparison is an equivalence iff
+every $W$ at a stage has an injective unit at some later stage
+(Lemma~\ref{lem:eventual}). The kernel of the unit of $W$ is
+controlled by the largest leg tree realised at each element of $W$
+\cite{Proftrees}. The new point is that the largest tree for the
+pullback of $W$ along $q$ is the pullback of the largest tree for $W$
+\emph{with the collapsing children} (Lemma~\ref{lem:pull}). If the
+strings have bounded length, the strings of the limit category are the
+compatible families of strings (Lemma~\ref{lem:threads}), and a
+compactness argument on the finite sets of the elements at which a
+unit fails to be injective gives the criterion
+(Theorem~\ref{thm:general}).
+
+\subsection*{What is new and what is known}
+Known: the classification of \cite{Finsorts}, with the necessity of
+the EI property; the criterion for a finite category of models
+\cite[Thm.~1.1, Thm.~6.15]{Strings}; the criterion for finitely many
+sentences \cite[Thm.~1.1, Thm.~8.2]{Proftrees}, which is the case of
+Theorem~\ref{thm:general} in which the functors reflect isomorphisms
+(Remark~\ref{rem:special}); Theorem~\ref{thm:B} for a finite category
+of models \cite[Prop.~4.2]{Strings}, and for propositional theories,
+where it amounts to the description of the free G\"odel algebras over
+distributive lattices by chains of prime filters \cite{AGM08,Carai}; the implication from $\cC$ to the
+$\cC_{(Q)}$ in Theorem~\ref{thm:C} \cite[Thm.~1.3]{Proftrees}. New, to
+the author's knowledge: Theorems~\ref{thm:A}--\ref{thm:D} beyond these
+cases.
+
+\section{The setting and the results used}\label{sec:setting}
+
+Conventions are those of \cite{Finsorts} and \cite{Proftrees}. All
+coherent categories are small. A \emph{pretopos} is a coherent
+category with disjoint finite coproducts and effective quotients of
+equivalence relations; $\Fin$ is the category of finite sets. An
+\emph{$L$-category} is a Heyting category whose lattices of subobjects
+are Heyting algebras in which the formulas of $L$ are valid;
+$\eta\colon\cC\to\HH_L\cC$ is the free $L$-category on $\cC$: for an
+$L$-category $\cE$, composition with $\eta$ is an equivalence from the
+groupoid of the Heyting functors $\HH_L\cC\to\cE$ and natural
+isomorphisms to that of the coherent functors $\cC\to\cE$. We omit
+$\eta$. Every object of $\HH_L\cC$ is a subobject $U\le A$ of an
+object $A$ of $\cC$, and these subobjects are obtained from those in
+$\cC$ by finite meets and joins, $\Rightarrow$, and $f^*$,
+$\exists_f$, $\forall_f$ for the morphisms $f$ of $\cC$. The models of
+$\PP\cC$ are those of $\cC$, and $c^L_\cC$ is an equivalence iff
+$c^L_{\PP\cC}$ is. So \emph{from now on $\cC$ is a pretopos}; then
+$c^L_\cC$ is an equivalence iff $\HH_L\cC$ is a pretopos
+\cite[Lemma~2.2]{Interm}. For a model $M$ let $\Sent(M)$ be the prime
+filter of the sentences true in $M$, and $A(M)=M(A)$. A finite chain
+is a frame of $L$ proving linearity iff it has at most $n_L$ elements.
+Directed colimits of categories are taken along functors compatible up
+to coherent isomorphisms; a directed colimit of pretoposes and
+coherent functors is a pretopos. If $\cC$ has finite sorts, every
+model is isomorphic to a \emph{standard} one, whose values at the
+objects are sets $\{1,\dots,e\}$; the standard models form a small
+category equivalent to $\Mod(\cC)$, and we take strings of standard
+models. We use:
+
+\begin{itemize}
+\item[(R1)] (Completeness.) $U\le V$ for subobjects of $A$ iff
+$U(M)\subseteq V(M)$ for all models $M$; every prime filter of
+$\Sub(1)$ is $\Sent(M)$ for some $M$.
+\item[(R2)] (Types, \cite[Lemma~4.3]{Finsorts}.) Let $N$, $N'$ be
+models of a coherent category which are finite on every object, and
+$(\alpha_i)_{i\in I}$, $(\alpha'_i)_{i\in I}$ families of elements
+$\alpha_i\in A_i(N)$, $\alpha'_i\in A_i(N')$ such that for all
+$i_1,\dots,i_r\in I$, $r\ge0$, and all $S\le A_{i_1}\times\dots\times
+A_{i_r}$: $(\alpha_{i_1},\dots,\alpha_{i_r})\in S(N)$ implies
+$(\alpha'_{i_1},\dots,\alpha'_{i_r})\in S(N')$. Then there is a
+homomorphism $\lambda\colon N\to N'$ with $\lambda(\alpha_i)=
+\alpha'_i$ for all $i$.
+\item[(R3)] (\cite[Lemma~5.3 and its proof]{Finsorts}.) If a pretopos
+$\cC$ is the colimit of a directed system of pretoposes $\cC_i$ and
+coherent functors, then $\HH_L\cC$ is the colimit of the $\HH_L\cC_i$.
+\item[(R4)] (\cite[Remark after Thm.~5.5]{Finsorts}.) If $\cC$ has
+finite sorts, $L$ is not classical and $c^L_\cC$ is an equivalence,
+then $\Mod(\cC)$ is an EI-category.
+\item[(R5)] (\cite[Prop.~3.1]{Proftrees}.) Let $\cC$ have finite sorts
+and $\Mod(\cC)$ be an EI-category. There is a homomorphism $M\to N$
+iff $\Sent(M)\subseteq\Sent(N)$, and it is invertible iff
+$\Sent(N)\subseteq\Sent(M)$.
+\end{itemize}
+
+\subsection*{Models of the translated theory}
+A \emph{model} of $\HH_L\cC$ is a coherent functor $\hat G\colon
+\HH_L\cC\to\Set$, not necessarily Heyting; it is \emph{over} its
+restriction $M$ to $\cC$, and $\hat G(U)\subseteq A(M)$ for $U\le A$.
+A homomorphism $\hat G\to\hat G'$ of models over $M$, $M'$ is a
+homomorphism $\varphi\colon M\to M'$ with $\varphi(\hat G(U))\subseteq
+\hat G'(U)$ for all $U$ \cite[\S2]{Finsorts}. If $\cC$ has finite
+sorts, the models of $\HH_L\cC$ are finite on every object. A sentence
+$s$ of $\cC$ is true in $\hat G$ iff it is true in $M$.
+\begin{itemize}
+\item[(R6)] (Truth lemma, \cite[Lemma~2.1]{Finsorts}.) Let $\hat G$ be
+a model of $\HH_L\cC$ over $M$, $f\colon B\to A$ in $\cC$, $U,V\le B$
+in $\HH_L\cC$, $\alpha\in A(M)$, $\beta\in B(M)$. Then $\alpha\in\hat
+G(\forall_fU)$ iff for every homomorphism $\varphi\colon\hat G\to\hat
+G'$, over $M\to M'$, and every $\beta'\in B(M')$ with $f(\beta')=
+\varphi(\alpha)$ one has $\beta'\in\hat G'(U)$; and $\beta\in\hat
+G(U\Rightarrow V)$ iff for every homomorphism $\varphi\colon\hat G\to
+\hat G'$, $\varphi(\beta)\in\hat G'(U)$ implies $\varphi(\beta)\in\hat
+G'(V)$.
+\item[(R7)] (Kripke models, \cite[Lemma~2.3]{Interm}.) Let
+$c=(M_0\xrightarrow{a_1}M_1\to\dots\xrightarrow{a_r}M_r)$ be a
+sequence of homomorphisms of models of $\cC$ with $r+1\le n_L$. The
+functor $j\mapsto M_j$ on the chain $0<\dots<r$ extends, uniquely up
+to isomorphism, to a Heyting functor from $\HH_L\cC$ to the functors
+from the chain to sets; its value at $U\le A$ and the node $j$ is the
+subset $\|U\|^c_j\subseteq A(M_j)$ given by the forcing clauses:
+$U(M_j)$ for $U$ in $\cC$; nodewise for finite meets and joins, $f^*$
+and $\exists_f$; $\beta\in\|U\Rightarrow V\|_j$ iff for all $j'\ge j$,
+$a_{j'}\cdots a_{j+1}(\beta)\in\|U\|_{j'}$ implies $a_{j'}\cdots
+a_{j+1}(\beta)\in\|V\|_{j'}$; $\alpha\in\|\forall_fU\|_j$ iff for all
+$j'\ge j$ and $\beta'$ with $f(\beta')=a_{j'}\cdots a_{j+1}(\alpha)$,
+$\beta'\in\|U\|_{j'}$. So $U\mapsto\|U\|^c_j$ is a model of $\HH_L\cC$
+over $M_j$, and the $a_j$ are homomorphisms between these models.
+\end{itemize}
+A \emph{string} is a sequence $s$ as in (R7) with all $a_j$
+non-invertible; $\hat G_s$ is the model $U\mapsto\|U\|^s_0$, its
+\emph{final segments} are the strings $s_{\ge j}=(M_j\to\dots\to
+M_r)$, so that $\|U\|^s_j=\hat G_{s_{\ge j}}(U)$, and an
+\emph{isomorphism of strings} is a family of isomorphisms of the
+models commuting with the arrows.
+
+\subsection*{Finite categories of models}
+Let $\cX$ be a finite EI-category, $L$ a logic proving linearity and
+$n=n_L$. In an EI-category a composite is invertible only if its
+factors are. The models of $\Fin^\cX$ are the evaluations at the
+objects and the homomorphisms are the arrows of $\cX$; so the strings
+are the sequences $s=(m_0\to\dots\to m_r)$ of non-invertible arrows
+with at most $n$ objects, and their number of objects is at most the
+number of isomorphism classes of objects of $\cX$. The category
+$\cS_n(\cX)$ has the strings as objects, an arrow $s\to t$ being an
+arrow $g\colon s_0\to t_0$ of $\cX$ of the form $\iota_0p$ with $p$
+the composite $s_0\to s_j$ of arrows of $s$ and $\iota$ an isomorphism
+of strings from $s_{\ge j}$ onto $t$; the index $j$ is determined by
+$t$. Let $\pi\colon\cS_n(\cX)\to\cX$ be the first object. An arrow of
+$\cS_n(\cX)$ between strings with the same number of objects is the
+first component of an isomorphism of strings; we call it an
+\emph{isomorphism of strings} too, and it is invertible in
+$\cS_n(\cX)$. (In \cite{Strings} one string is taken in each
+isomorphism class; this gives an equivalent category.)
+
+\begin{itemize}
+\item[(R8)] (\cite[Prop.~4.2]{Strings}.) Every model of
+$\HH_L\Fin^\cX$ is isomorphic to $\hat G_s$ for a string $s$, and the
+homomorphisms $\hat G_s\to\hat G_t$ are the arrows $s\to t$ of
+$\cS_n(\cX)$.
+\item[(R9)] (\cite[Thm.~1.1]{Strings}.) $\PP\HH_L\Fin^\cX\simeq
+\Fin^{\cS_n(\cX)}$, by the functor extending $U\mapsto(s\mapsto\hat
+G_s(U))$; $\HH_L\Fin^\cX$ corresponds to the full subcategory of the
+subfunctors of the functors $\pi^*A=A\pi$, $A$ in $\Fin^\cX$; and
+$\HH_L\Fin^\cX$ is a pretopos iff for every $W\colon\cS_n(\cX)\to\Fin$
+the unit $W\to\pi^*\Lan_\pi W$ of the adjunction $\Lan_\pi\dashv\pi^*$
+is injective. A functor $W$ is isomorphic to a subfunctor of some
+$\pi^*A$ iff its unit is injective.
+\end{itemize}
+
+For strings $t$, $s$ let $V_t=\cX(t_0,s_0)$ and $K_t=\cS_n(t,s)
+\subseteq V_t$; $t$ is \emph{over} $s$ if $K_t\ne\emptyset$. A
+\emph{one-step arrow} is an arrow $\beta\colon t'\to t$ of $\cS_n$
+where $t'$ has one object more than $t$; if $t$ is over $s$, then $t'$
+is over $s$. A \emph{leg tree} $T$ at $t$ \cite[Def.~6.14]{Strings} is
+a finite rooted tree whose root is labelled by $t$ and whose other
+nodes are labelled by one-step arrows into the string of the parent
+node; so the root has children $(\beta,T')$ with $\beta\colon t'\to t$
+one-step and $T'$ a leg tree at $t'$. Equivalence relations $E_T$ on
+$V_t$ and $F_T$ on $K_t$ are defined by recursion: the equality if the
+root has no children, and otherwise
+\[
+E_T=\bigvee\beta^*E_{T'},\qquad F_T=\bigvee\beta^*F_{T'},
+\]
+the joins of equivalence relations over the children of the root,
+where $g\mathrel{\beta^*E}g'$ iff $g\beta\mathrel Eg'\beta$. A
+\emph{realisation} of $T$ in $W\colon\cS_n\to\Fin$ is a family
+$y_\nu\in W(t_\nu)$, $\nu$ a node with string $t_\nu$, with
+$W(\beta)y_\nu=y_{\nu'}$ for $\nu$ a child of $\nu'$ with label
+$\beta$. A \emph{morphism} of leg trees at the same string is a map of
+trees preserving roots, parents and labels. For $t=s$ we have
+$V_s=G_s:=\Aut_\cX(s_0)$ and $K_s=H_s:=\Aut_{\cS_n}(s)$, the group of
+the first components of the automorphisms of the string $s$ (which
+need not determine the other components).
+
+\begin{itemize}
+\item[(R10)] (\cite[proof of Thm.~6.15]{Strings}.) For $W\colon
+\cS_n(\cX)\to\Fin$, a string $s$ and $a,b\in W(s)$: the unit of $W$
+identifies $a$ and $b$ if and only if there are $\Theta\in H_s$ and a
+leg tree $T$ at $s$ realised in $W$ with $a$ at the root such that
+$b=W(\Theta)a$ and $\id\mathrel{E_T}\Theta$. If $T$ is realised in $W$
+with $a$ at the root and $\id\mathrel{F_T}\Theta$, then
+$W(\Theta)a=a$. For every leg tree $T$ at $s$ there is $W_T\colon
+\cS_n(\cX)\to\Fin$ with a realisation of $T$, with $a$ at the root,
+such that for $\Theta\in H_s$: $W_T(\Theta)a=a$ iff
+$\id\mathrel{F_T}\Theta$.
+\item[(R11)] (\cite[Lemma~8.1(a),(c)]{Proftrees}.) A morphism of leg
+trees $T\to T''$ gives $E_T\subseteq E_{T''}$ and $F_T\subseteq
+F_{T''}$. For $W$, $s$ and $a\in W(s)$ let $\Max(s,a)$ be the leg tree
+at $s$ whose root has as children the pairs $(\beta,y)$ of a one-step
+arrow $\beta\colon t'\to s$ and $y\in W(t')$ with $W(\beta)y=a$, with
+label $\beta$ and subtree $\Max(t',y)$. It is realised in $W$ with $a$
+at the root, and every leg tree at $s$ realised in $W$ with $a$ at the
+root has a morphism to it. The unit of $W$ is injective at $s$ iff for
+all $a\in W(s)$ and $\Theta\in H_s$ with $\id\mathrel{E_{\Max(s,a)}}
+\Theta$ we have $W(\Theta)a=a$.
+\end{itemize}
+The relations at the root $s$ of a leg tree at $s$ (over $s$) are
+invariant under left multiplication: $E_T$ is $g^{-1}g'\in S_T$ and
+$F_T$ is $h^{-1}h'\in R_T$ for subgroups $R_T\le H_s\cap S_T$ of $G_s$
+\cite[\S6]{Strings}. In \cite{Strings} these statements are made for a
+category of strings with one string in each isomorphism class; they
+are transported along the equivalence with $\cS_n(\cX)$.
+
+\subsection*{Finite languages}
+Let $\cC$ have finite sorts. For every object $A$ there is $n_A$ such
+that $A$ has at most $n_A$ elements in every model
+\cite[Lemma~4.1]{Finsorts}. For a finite language $\Lambda=(S,R)$ (in
+\cite{Finsorts} it is denoted by $T$) let $\bT_\Lambda$ be the
+coherent theory with the sorts $S$, the relation symbols $R$ and as
+axioms all coherent sequents in this language valid in $\cC$, and
+$\cX_\Lambda$ the category of the models of $\bT_\Lambda$ whose sorts
+are sets $\{1,\dots,e_A\}$, $e_A\le n_A$. It is a finite category
+equivalent to the category of all models of $\bT_\Lambda$, and for
+$\Lambda\subseteq\Lambda'$ the restriction of structures is a functor
+$q_{\Lambda'\Lambda}\colon\cX_{\Lambda'}\to\cX_\Lambda$; these
+functors are strictly compatible.
+\begin{itemize}
+\item[(R12)] (\cite[Prop.~5.1, Lemma~5.2]{Finsorts}.) The pretopos
+$\cC_\Lambda$ of $\bT_\Lambda$ is equivalent to $\Fin^{\cX_\Lambda}$
+by the evaluation, and $\cC$ is the directed colimit of the
+$\cC_\Lambda$ over any cofinal set of finite languages, along coherent
+functors which correspond to the functors $q_{\Lambda'\Lambda}^*$.
+\item[(R13)] (\cite[Prop.~5.4]{Finsorts}.) If $\Mod(\cC)$ is an
+EI-category, the finite languages $\Lambda$ for which $\cX_\Lambda$ is
+an EI-category are cofinal.
+\end{itemize}
+
+\subsection*{Localisation}
+For a coherent category $\cC$ and $s\le1$ the slice $\cC/s$ is the
+full subcategory of the objects whose map to $1$ factors through $s$;
+a slice of an $L$-category is an $L$-category, a slice of a pretopos is
+a pretopos, and the pullback functor $A\mapsto A\times s$ is coherent,
+resp.\ Heyting. Let $D=\Sub_\cC(1)$. For a filter $F$ and an ideal $I$
+of $D$ let $\cC_{F,I}$ be the pretopos of the theory of $\cC$ with the
+additional axioms $\top\vdash s$, $s\in F$, and $s'\vdash\bot$, $s'\in
+I$ \cite[\S4]{Proftrees}; we write $\cC_{\neg s'}$ if $F=\{1\}$ and
+$I$ is generated by $s'$.
+\begin{itemize}
+\item[(R14)] (\cite[Lemma~4.1]{Proftrees}.) $\HH_L(\cC/s)\simeq
+(\HH_L\cC)/s$; and for an $L$-category $\cH$ and $\tau\le1$,
+composition with the pullback functor is an equivalence from the
+Heyting functors on $\cH/\tau$ to the Heyting functors $G$ on $\cH$
+with $G(\tau)\cong1$.
+\item[(R15)] (\cite[Lemma~4.2, Thm.~4.3]{Proftrees}.) $\HH_L(\cC_{\neg
+s'})\simeq(\HH_L\cC)/\neg s'$. If $\HH_L\cC$ is a pretopos, so is
+$\HH_L\cC_{F,I}$ for every filter $F$ and ideal $I$ of $D$.
+\end{itemize}
+
+\section{The models of the translated theory are strings}\label{sec:strings}
+
+In this section $\cC$ is a pretopos with finite sorts such that
+$\Mod(\cC)$ is an EI-category, $L$ proves linearity and
+$\cH=\HH_L\cC$. The argument follows \cite[\S\S3--4]{Strings}, where
+$\Mod(\cC)$ is a finite category; the finiteness of the category is
+replaced by the lemma on types and by the sentences, and the bound on
+the length (Lemma~\ref{lem:classes}(c)) needs a new argument.
+
+\begin{lem}[linearity]\label{lem:lin}
+Let $\varphi\colon\hat G\to\hat G'$ and $\psi\colon\hat G\to\hat G''$
+be homomorphisms of models of $\cH$. Then there is a homomorphism
+$\chi\colon\hat G'\to\hat G''$ with $\chi\varphi=\psi$, or a
+homomorphism $\chi'\colon\hat G''\to\hat G'$ with $\chi'\psi=\varphi$.
+\end{lem}
+\begin{proof}
+Let $\hat G$ be over $M$. Apply (R2) to the coherent category $\cH$,
+the models $\hat G'$, $\hat G''$, and the families of the elements
+$\varphi(x)$ and $\psi(x)$, indexed by the elements $x$ of the sets
+$A(M)$, $A$ in $\cC$. A homomorphism $\chi\colon\hat G'\to\hat G''$
+with $\chi(\varphi(x))=\psi(x)$ for all $x$ satisfies $\chi\varphi=
+\psi$. So if there is no such $\chi$, the hypothesis of (R2) fails:
+there are a tuple $\alpha\in B(M)$, $B$ a product of objects of $\cC$,
+and $E'\le B$ in $\cH$ with $\varphi(\alpha)\in\hat G'(E')$ and
+$\psi(\alpha)\notin\hat G''(E')$. If there is no $\chi'$ either, there
+are $\alpha_1\in B_1(M)$ and $E''\le B_1$ with $\psi(\alpha_1)\in\hat
+G''(E'')$, $\varphi(\alpha_1)\notin\hat G'(E'')$. Replacing $B$, $B_1$
+by $B\times B_1$, the tuples by $(\alpha,\alpha_1)$ and $E'$, $E''$ by
+their pullbacks, we may assume $B=B_1$, $\alpha=\alpha_1$. In $\cH$,
+$(E'\Rightarrow E'')\vee(E''\Rightarrow E')$ is the top subobject of
+$B$; so $\alpha\in\hat G(E'\Rightarrow E'')$, say. Then
+$\varphi(\alpha)\in\hat G'(E'\Rightarrow E'')\cap\hat G'(E')\subseteq
+\hat G'(E'')$, a contradiction; the other case is symmetric.
+\end{proof}
+
+Write $\varphi\preceq\psi$ if $\psi=\chi\varphi$ for a homomorphism
+$\chi$ of models of $\cH$; by Lemma~\ref{lem:lin} this is a total
+preorder on the homomorphisms out of a model.
+
+\begin{lem}\label{lem:iso}
+A homomorphism of models of $\cH$ whose underlying homomorphism of
+models of $\cC$ is invertible is an isomorphism of models of $\cH$.
+\end{lem}
+\begin{proof}
+The proof of \cite[Lemma~4.1]{Strings} applies. One shows, for all
+homomorphisms $\chi\colon\hat G'\to\hat G''$ with invertible
+underlying homomorphism at once and all $U\le A$, that $b\in\hat
+G'(U)$ if $\chi(b)\in\hat G''(U)$, by induction on the construction of
+$U$. For $\forall_fU$ and $U\Rightarrow V$ one uses (R6): given a
+homomorphism $\lambda\colon\hat G'\to\hat G'''$, by
+Lemma~\ref{lem:lin} there is a homomorphism $\mu$ with
+$\mu\chi=\lambda$, and then $\lambda$ factors through $\chi$, or with
+$\mu\lambda=\chi$. In the second case the underlying homomorphism of
+$\lambda$ has the left inverse $\chi^{-1}\mu$, so it is invertible,
+$\Mod(\cC)$ being an EI-category, and so is that of $\mu\colon\hat
+G'''\to\hat G''$; the induction hypothesis is applied to $\mu$.
+\end{proof}
+
+\begin{lem}\label{lem:classes}
+Let $\hat G$ be a model of $\cH$ and $\varphi\colon\hat G\to\hat G'$,
+$\psi\colon\hat G\to\hat G''$ homomorphisms, over $M'$ and $M''$.
+\begin{enumerate}
+\item[(a)] If $\varphi\preceq\psi\preceq\varphi$, then
+$\psi=\chi\varphi$ with $\chi$ an isomorphism of models of $\cH$, and
+$\Sent(M')=\Sent(M'')$.
+\item[(b)] If $\varphi\preceq\psi$ and not $\psi\preceq\varphi$, then
+$\Sent(M')\subsetneq\Sent(M'')$.
+\item[(c)] Suppose $n_L$ is finite. Then the homomorphisms out of
+$\hat G$ form at most $n_L$ classes for the equivalence
+$\varphi\preceq\psi\preceq\varphi$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) Let $\psi=\chi\varphi$ and $\varphi=\chi'\psi$. There are
+homomorphisms $M'\to M''\to M'$, so $\Sent(M')=\Sent(M'')$ and $\chi$
+is invertible by (R5), hence an isomorphism of models of $\cH$ by
+Lemma~\ref{lem:iso}. (b) Let $\psi=\chi\varphi$. If $\chi$ were
+invertible as a homomorphism of models of $\cC$, it would be an
+isomorphism of models of $\cH$ and $\varphi=\chi^{-1}\psi$. So $\chi$
+is not invertible, and $\Sent(M')\subsetneq\Sent(M'')$ by (R5).
+
+(c) Let $n=n_L$ and suppose there are homomorphisms $\varphi_0\prec
+\varphi_1\prec\dots\prec\varphi_n$ out of $\hat G$, with targets over
+$M^0,\dots,M^n$. By (b) choose sentences $s_i$, $1\le i\le n$, true in
+$M^i$ and false in $M^{i-1}$; replacing $s_i$ by $s_1\wedge\dots\wedge
+s_i$ we have $s_1\ge\dots\ge s_n$, and $s_i$ is true in $M^j$ iff
+$j\ge i$, the sets $\Sent(M^j)$ being increasing. Put $s_0=1$ and
+$s_{n+1}=0$. For a homomorphism $\psi$ out of $\hat G$ with target
+$\hat G^\psi$ over $M^\psi$ let $\ell(\psi)\in\{0,\dots,n\}$ be the
+largest $i$ with $s_i$ true in $M^\psi$; then $s_i$ is true in
+$M^\psi$ iff $i\le\ell(\psi)$; $\ell$ is monotone for $\preceq$; and
+$\ell(\varphi_j)=j$.
+
+Let $\mu$ be a propositional formula in variables $p_1,\dots,p_k$ and
+$v$ a valuation of the variables by up-sets $\{j\mid j\ge i_e\}$,
+$0\le i_e\le n+1$, of the chain $\{0<\dots<n\}$; let $\mu^v\le1$ be
+the sentence of $\cH$ obtained by substituting $s_{i_e}$ for $p_e$.
+\emph{Claim: for every homomorphism $\psi$ out of $\hat G$, the
+sentence $\mu^v$ is true in $\hat G^\psi$ iff the node $\ell(\psi)$ of
+the chain forces $\mu$ under $v$.} By induction on $\mu$. For a
+variable this is the property of $\ell$; the cases of $\wedge$,
+$\vee$, $\bot$ are clear, a model being a coherent functor. Let
+$\mu=\mu_1\to\mu_2$. By (R6), $\mu^v$ is true in $\hat G^\psi$ iff for
+every homomorphism $\rho$ out of $\hat G^\psi$, $\mu_1^v$ true in the
+target of $\rho$ implies $\mu_2^v$ true there; by induction, iff for
+every $\rho$ the node $\ell(\rho\psi)$ does not force $\mu_1$ or
+forces $\mu_2$. The numbers $\ell(\rho\psi)$ are $\ge\ell(\psi)$, and
+every $l\ge\ell(\psi)$ occurs: for $l=\ell(\psi)$ take $\rho=\id$; for
+$l>\ell(\psi)$ we have not $\varphi_l\preceq\psi$, $\ell$ being
+monotone, so $\psi\preceq\varphi_l$ by Lemma~\ref{lem:lin},
+$\varphi_l=\rho\psi$. So the condition is the forcing of
+$\mu_1\to\mu_2$ at the node $\ell(\psi)$.
+
+Now let $\mu$ be a formula of $L$. Then $\mu^v$ is the top element of
+$\Sub_\cH(1)$, so it is true in $\hat G^{\varphi_j}$ for every $j$,
+and by the claim every node $j=\ell(\varphi_j)$ of the chain forces
+$\mu$ under every valuation. So the chain with $n+1$ elements is a
+frame of $L$, contradicting $n=n_L$.
+\end{proof}
+
+\begin{thm}\label{thm:strings}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, and $L$ a logic proving linearity with $n_L$ finite.
+\begin{enumerate}
+\item[(a)] Every model of $\HH_L\cC$ is isomorphic to $\hat G_s$ for a
+string $s$.
+\item[(b)] For strings $s=(M_0\xrightarrow{a_1}\dots\xrightarrow{a_r}
+M_r)$ and $s'$, the homomorphisms $\hat G_s\to\hat G_{s'}$ are the
+$\iota_0a_j\cdots a_1$, for $0\le j\le r$ and $\iota$ an isomorphism
+of strings from $s_{\ge j}$ onto $s'$; the index $j$ is determined by
+$s'$. In particular $\hat G_s\cong\hat G_{s'}$ iff $s\cong s'$.
+\end{enumerate}
+\end{thm}
+\[
+\begin{tikzcd}[column sep=large]
+M_0\ar[r,"a_1"]&\cdots\ar[r,"a_j"]&M_j\ar[r,"a_{j+1}"]\ar[d,"\iota_0",
+"\cong"']&\cdots\ar[r,"a_r"]&M_r\ar[d,"\iota_{r-j}","\cong"']\\
+&&M'_0\ar[r]&\cdots\ar[r]&M'_{r-j}
+\end{tikzcd}
+\]
+\begin{proof}
+\emph{Step 1: the string of a model.} Let $\hat G$ be a model over
+$M_0$. By Lemma~\ref{lem:classes} choose representatives $\id=
+\varphi_0\prec\varphi_1\prec\dots\prec\varphi_r$ of the classes of the
+homomorphisms out of $\hat G$, $r+1\le n_L$ ($\id$ is in the least
+class), $\varphi_j\colon\hat G\to\hat G_j$ over $M_j$, and
+homomorphisms $a_j\colon\hat G_{j-1}\to\hat G_j$ with
+$\varphi_j=a_j\varphi_{j-1}$. By Lemma~\ref{lem:classes}(b) and (R5)
+the $a_j$ are not invertible; so $s=(M_0\xrightarrow{a_1}\dots
+\xrightarrow{a_r}M_r)$ is a string.
+
+\emph{Step 2: every homomorphism $\lambda$ out of $\hat G_j$ is $\chi
+a_{j'}\cdots a_{j+1}$ for some $j'\ge j$ and an isomorphism of models
+$\chi$.} The homomorphism $\lambda\varphi_j$ out of $\hat G$ is
+equivalent to some $\varphi_{j'}$, and $j'\ge j$ because
+$\varphi_j\preceq\lambda\varphi_j$; so $\lambda\varphi_j=\iota
+a_{j'}\cdots a_{j+1}\varphi_j$ with an isomorphism of models $\iota$,
+by Lemma~\ref{lem:classes}(a). By Lemma~\ref{lem:lin} at $\hat G_j$,
+$\lambda$ and $\iota a_{j'}\cdots a_{j+1}$ differ by a homomorphism
+$\theta$ between their targets, in one of the two directions; the
+targets have the same sentences (they are targets of homomorphisms in
+the class of $\varphi_{j'}$), so $\theta$ is invertible by (R5), and
+an isomorphism of models by Lemma~\ref{lem:iso}.
+
+\emph{Step 3: $\hat G_j(U)=\|U\|^s_j$ for all $j$ and $U\le A$.} By
+induction on the construction of $U$, as in
+\cite[Prop.~4.2, Step~3]{Strings}: by (R6) and Step 2 the conditions
+for $\forall_fU$ and $U\Rightarrow V$ at $\hat G_j$ are, after applying
+the inverses of the isomorphisms $\chi$, the forcing clauses at the
+node $j$. As $r+1\le n_L$, $\hat G_s$ is defined and $\hat G=\hat
+G_0=\hat G_s$. This proves (a).
+
+\emph{Step 4: \emph{(b)}.} Let $s$ be a string. The homomorphisms
+$a_i\cdots a_1$ out of $\hat G_s$ are pairwise inequivalent, their
+targets having different sentences. We show that every homomorphism
+$\psi\colon\hat G_s\to\hat G'$, over $M'$, is $\chi a_i\cdots a_1$
+with $\chi$ an isomorphism of models. Let $i$ be maximal with
+$a_i\cdots a_1\preceq\psi$, and $\psi=\lambda a_i\cdots a_1$ with
+$\lambda\colon\hat G_{s_{\ge i}}\to\hat G'$; by Lemma~\ref{lem:iso}
+it suffices to show that $\lambda\colon M_i\to M'$ is invertible.
+Suppose not; by (R5) there is a sentence $t$ true in $M'$ and false in
+$M_i$. If $i=r$: the node $r$ is the top of the chain, $t$ is false
+there, so $\neg t$ is true in $\hat G_{s_{\ge r}}$, hence in $\hat
+G'$, where $t$ is true; then $0=t\wedge\neg t$ would be true in $\hat
+G'$. Let $i<r$. By Lemma~\ref{lem:lin} and the maximality of $i$ there
+is a homomorphism $\mu\colon\hat G'\to\hat G_{s_{\ge i+1}}$ with
+$\mu\lambda=a_{i+1}$. If $\mu$ were invertible, it would be an
+isomorphism of models and $a_{i+1}\cdots a_1\preceq\psi$. So by (R5)
+there is a sentence $u$ true in $M_{i+1}$ and false in $M'$. The node
+$i$ of $s$ forces $t\Rightarrow u$: $t$ is false at the node $i$, and
+$u$ is true at the nodes $j>i$. So $t\Rightarrow u$ is true in $\hat
+G_{s_{\ge i}}$, hence in $\hat G'$, where $t$ is true and $u$ is
+false: a contradiction.
+
+It remains to show that the isomorphisms of models $\chi_0\colon\hat
+G_u\to\hat G_t$ are the first components of the isomorphisms of
+strings $u\to t$. An isomorphism of strings preserves forcing.
+Conversely, $\chi_0$ induces a bijection between the homomorphisms out
+of $\hat G_u$ and out of $\hat G_t$ preserving $\preceq$, whose
+classes are those of the initial parts $a_i\cdots a_1$ of $u$ and
+$b_i\cdots b_1$ of $t$; so $u$ and $t$ have the same number of models,
+and if it is more than one, $b_1\chi_0=\chi_1a_1$ for an isomorphism
+of models $\chi_1\colon\hat G_{u_{\ge1}}\to\hat G_{t_{\ge1}}$, which
+extends to an isomorphism of strings by induction. The index $j$ in
+(b) is determined because the targets of the $a_j\cdots a_1$ are
+pairwise non-isomorphic.
+\end{proof}
+
+\begin{cor}\label{cor:cons}
+In the situation of Theorem~\ref{thm:strings} let $\cS$ be the
+category of the strings of standard models, with the homomorphisms of
+\emph{(b)} as arrows. Then $U\mapsto(s\mapsto\hat G_s(U))$ is a
+conservative Heyting functor $\HH_L\cC\to\Set^{\cS}$ with finite
+values, sending $A$ in $\cC$ to $s\mapsto A(s_0)$.
+\end{cor}
+\begin{proof}
+It is a coherent functor, conservative by the completeness theorem for
+the coherent category $\HH_L\cC$ and (a). In $\Set^\cS$ the operations
+$\Rightarrow$ and $\forall$ are computed by quantifying over the
+arrows out of an object; so the functor preserves $U\Rightarrow V$ and
+$\forall_fU$, for $f$ in $\cC$, by (R6), the homomorphisms out of
+$\hat G_s$ being the arrows of $\cS$ out of $s$ by (b). For a morphism
+$h\colon X\to Y$ of $\HH_L\cC$ with $X\le A$, $Y\le B$ and graph
+$\Gamma_h\le A\times B$, and $W\le X$, we have $\forall_hW=
+Y\wedge\forall_{p_B}(\Gamma_h\Rightarrow p_A^*W)$ in every Heyting
+category; so the functor preserves $\forall_h$.
+\end{proof}
+
+This proves Theorem~\ref{thm:B}.
+
+\begin{rem}\label{rem:infty}
+If $n_L=\infty$ and the chains of prime filters of $\Sub_\cC(1)$ have
+at most $m$ elements, Theorem~\ref{thm:strings} and
+Corollary~\ref{cor:cons} hold with strings of at most $m$ models: in
+Lemma~\ref{lem:classes} the number of classes is at most $m$ by (b),
+and the rest of the proof is unchanged.
+\end{rem}
+
+\section{Reduction to the theories below a prime filter}\label{sec:prime}
+
+In this section $\cC$ is any pretopos, $D=\Sub_\cC(1)$, $L$ is an
+intermediate logic proving the weak excluded middle and
+$\cH=\HH_L\cC$. For a prime filter $Q$ of $D$ let
+$\cC_{(Q)}=\cC_{\{1\},D\setminus Q}$, the pretopos of the theory of
+the models $M$ of $\cC$ with $\Sent(M)\subseteq Q$. It is the directed
+colimit of the $\cC_{\neg s'}$, $s'\notin Q$; so by (R3), (R14) and
+(R15), $\HH_L\cC_{(Q)}$ is the directed colimit of the slices
+$\cH/\neg s'$, $s'\notin Q$, along the pullback functors.
+
+\begin{lem}\label{lem:prod}
+Let $\tau_1,\dots,\tau_k\le1$ in $\cH$ be pairwise disjoint with join
+$1$. Then $A\mapsto(A\times\tau_i)_i$ is an equivalence
+$\cH\simeq\prod_i\cH/\tau_i$, and $\cH$ is a pretopos if and only if
+every $\cH/\tau_i$ is.
+\end{lem}
+\begin{proof}
+An object $A$ is the disjoint join of its subobjects $A\times\tau_i$,
+hence their coproduct; so a morphism $A\to B$ is a family of morphisms
+$A\times\tau_i\to B\times\tau_i$, and the functor is full and
+faithful. Let $B_i$ be objects of $\cH/\tau_i$, $B_i\le A_i$ with
+$A_i$ in $\cC$. In the pretopos $\cC$ the coproduct $A=\coprod_iA_i$
+exists, and $\eta$ preserves it, a coherent functor preserving the
+property of being a disjoint join of subobjects. The $B_i$ are
+pairwise disjoint subobjects of $A$, and their join $B\le A$ has
+$B\times\tau_i=B_i$, since $B_j\times\tau_i=0$ for $j\ne i$. So the
+functor is essentially surjective. A finite product of categories with
+terminal objects is a pretopos iff every factor is: a diagram in one
+factor is completed by terminal objects in the others, and limits,
+colimits, images and joins in the product are computed factorwise.
+\end{proof}
+
+\begin{lem}\label{lem:partition}
+Let $D_0\subseteq D$ be a finite sublattice containing $0$ and $1$.
+For a prime filter $Q_0$ of $D_0$ let
+\[
+\tau_{Q_0}=\bigwedge_{s\in Q_0}\neg\neg s\ \wedge\bigwedge_{s'\in
+D_0\setminus Q_0}\neg s'\ \le1\quad\text{in }\cH.
+\]
+The $\tau_{Q_0}$ are pairwise disjoint with join $1$. For finite
+sublattices $D_0\subseteq D_1$ and a prime filter $Q_1$ of $D_1$,
+$\tau_{Q_1}\le\tau_{Q_1\cap D_0}$.
+\end{lem}
+\begin{proof}
+In a Heyting algebra satisfying the weak excluded middle, $\neg
+a\vee\neg b=\neg(a\wedge b)$; so the elements $\neg a$ form a
+sublattice $B$ which is a Boolean algebra with complement $\neg$, and
+$h\colon s\mapsto\neg\neg s$ is a homomorphism of bounded lattices
+from $D_0$ to $B\subseteq\Sub_\cH(1)$: it preserves meets in every
+Heyting algebra, and $\neg\neg(a\vee b)=\neg(\neg a\wedge\neg
+b)=\neg\neg a\vee\neg\neg b$. In the Boolean algebra $B$, $1$ is the
+join of the pairwise disjoint elements $\epsilon_X=\bigwedge_{s\in
+X}h(s)\wedge\bigwedge_{s'\in D_0\setminus X}\neg h(s')$,
+$X\subseteq D_0$, and $\neg h(s')=\neg s'$. If $X$ is not a prime
+filter of $D_0$, then $\epsilon_X=0$: this is clear if $1\notin X$ or
+$0\in X$; if $a\in X$, $a\le b\notin X$, then $h(a)\wedge\neg h(b)=0$;
+if $a,b\in X$ and $a\wedge b\notin X$, then $h(a)\wedge h(b)\wedge\neg
+h(a\wedge b)=0$; if $a\vee b\in X$ and $a,b\notin X$, then $h(a\vee
+b)\wedge\neg h(a)\wedge\neg h(b)=0$. The last statement is clear, the
+meet for $Q_1$ having more terms.
+\end{proof}
+
+For a prime filter $Q$ of $D$ let $\cH_{(Q)}$ be the directed colimit
+of the slices $\cH/\tau_{Q\cap D_0}$ over the finite sublattices $D_0$
+of $D$ containing $0$ and $1$, along the pullback functors.
+
+\begin{thm}\label{thm:stalk}
+Let $\cC$ be a pretopos and $L$ an intermediate logic proving the weak
+excluded middle. The following are equivalent:
+\begin{itemize}
+\item[(i)] $\HH_L\cC$ is a pretopos;
+\item[(ii)] $\cH_{(Q)}$ is a pretopos for every prime filter $Q$ of
+$D$;
+\item[(iii)] $\HH_L\cC_{(Q)}$ is a pretopos for every prime filter $Q$
+of $D$.
+\end{itemize}
+\end{thm}
+\begin{proof}
+(i)$\Rightarrow$(iii) is (R15).
+
+(iii)$\Rightarrow$(ii). For a finite sublattice $D_0$ let $s'_0$ be
+the join of $D_0\setminus Q$; then $s'_0\notin Q$, $Q$ being prime,
+$\neg s'_0=\bigwedge_{s'\in D_0\setminus Q}\neg s'$, and
+$\tau_{Q\cap D_0}=\neg s'_0\wedge\sigma_{Q\cap D_0}$, where
+$\sigma_X=\bigwedge_{s\in X}\neg\neg s$ for a finite $X\subseteq Q$.
+The pairs $(s'_0,Q\cap D_0)$ are cofinal among the pairs $(s',X)$ of a
+sentence $s'\notin Q$ and a finite $X\subseteq Q$, ordered by $s'\le
+s'_1$ and $X\subseteq X_1$: take for $D_0$ the sublattice generated by
+$X\cup\{s'\}$, which is finite. So $\cH_{(Q)}$ is the directed colimit
+of the slices $\cH/(\neg s'\wedge\sigma_X)$ over these pairs, that is
+the directed colimit over $X$ of the slices at $\sigma_X$ of
+$\varinjlim_{s'\notin Q}\cH/\neg s'=\HH_L\cC_{(Q)}$; here we use that
+an object of a directed colimit whose map to $1$ factors through
+$\sigma_X$ is represented by such an object at a stage. These slices
+are pretoposes by (iii), and so is their directed colimit.
+
+(ii)$\Rightarrow$(i). Let $E$ be an equivalence relation on an object
+$Z$ of $\cH$. In a coherent category, a cover $Z\to P$ with kernel
+pair $E$ is an effective quotient of $E$, stable under pullback. For
+every prime filter $Q$ the image of $E$ in the pretopos $\cH_{(Q)}$
+has a quotient; the object $P$, the morphism, and the finitely many
+relations between subobjects saying that it is a cover with kernel
+pair $E$ are represented at a stage: there is a finite sublattice
+$D_0(Q)$ such that $E\times\tau_{Q\cap D_0(Q)}$ has a quotient in
+$\cH/\tau_{Q\cap D_0(Q)}$. The sets $V_Q=\{Q'\mid Q'\cap D_0(Q)=Q\cap
+D_0(Q)\}$ are open in the patch topology of the set of prime filters
+of $D$, which is compact; so finitely many $V_{Q_1},\dots,V_{Q_k}$
+cover. Let $D_0$ be the finite sublattice generated by the
+$D_0(Q_i)$. Every prime filter $Q_0$ of $D_0$ is $Q'\cap D_0$ for a
+prime filter $Q'$ of $D$; if $Q'\in V_{Q_i}$, then
+$\tau_{Q_0}\le\tau_{Q'\cap D_0(Q_i)}=\tau_{Q_i\cap D_0(Q_i)}$ by
+Lemma~\ref{lem:partition}, so $E\times\tau_{Q_0}$ has a quotient in
+$\cH/\tau_{Q_0}$, a slice of a slice. By Lemmas~\ref{lem:partition}
+and~\ref{lem:prod}, $E$ has a quotient in $\cH$. The same argument
+gives the disjoint finite coproducts: the coproduct of two objects
+exists in each $\cH_{(Q)}$, hence at a stage, where the property of
+being a disjoint join of the two subobjects is represented.
+\end{proof}
+
+Theorem~\ref{thm:C} is the equivalence of (i) and (iii). The open
+parts do not behave in this way. For $n_L\ge3$ let $\cC$ be the
+pretopos $\cC(G;A;T_1,T_2)$ of \cite[Thm.~1.2]{Proftrees} with
+$A\cap(T_1+T_2)\ne(A\cap T_1)+(A\cap T_2)$, so that $\HH_L\cC$ is not
+a pretopos, and $s_j$ the sentence which is false exactly in the model
+$0_j$. Then $s_1\vee s_2=1$, and the slices $\cC/s_j$ are the
+pretoposes of the families with one subgroup, for which
+$\HH_L(\cC/s_j)$ is a pretopos.
+
+\begin{cor}\label{cor:locfin}
+Let $\cC$ be a pretopos with finite sorts such that every prime filter
+of $D$ contains only finitely many prime filters, and $L$ a
+non-classical logic proving linearity. Then $\HH_L\cC$ is a pretopos
+if and only if, for every prime filter $Q$, the pretopos $\cC_{(Q)}$,
+which has finite sorts and finitely many sentences, satisfies the
+criterion of \cite[Thm.~1.1]{Proftrees}: $\Mod(\cC_{(Q)})$ is an
+EI-category and no profinite leg tree with strings of at most $n_L$
+models is an obstruction.
+\end{cor}
+\begin{proof}
+A logic proving linearity proves the weak excluded middle. The lattice
+of sentences of $\cC_{(Q)}$ is the quotient $D_Q$ of $D$ by the
+congruence generated by the ideal $D\setminus Q$; its prime filters
+are the prime filters of $D$ contained in $Q$, finitely many, so it is
+finite, a distributive lattice being embedded in the power set of its
+set of prime filters. The models of $\cC_{(Q)}$ are models of $\cC$,
+so it has finite sorts. Theorem~\ref{thm:stalk} and
+\cite[Thm.~1.1]{Proftrees} apply.
+\end{proof}
+
+\section{Functors which do not reflect isomorphisms}\label{sec:collapse}
+
+From now on $L$ proves linearity and $n=n_L$. Let $q\colon\cX'\to\cX$
+be a functor between finite EI-categories. For a string
+$s'=(m_0\xrightarrow{a_1}\dots\xrightarrow{a_r}m_r)$ of $\cX'$ let
+$j_0=0<j_1<\dots<j_e$ be the indices $j$ such that $j=0$ or $q(a_j)$
+is not invertible, and $\tilde q(s')$ the sequence
+\[
+q(m_{j_0})\to q(m_{j_1})\to\dots\to q(m_{j_e})
+\]
+whose arrows are the images of the composites of the arrows of $s'$.
+Each of these composites contains exactly one arrow with
+non-invertible image, so $\tilde q(s')$ is a string of $\cX$, with
+first object $q(m_0)$.
+\[
+\begin{tikzcd}[column sep=large,row sep=small]
+s'\colon&m_0\ar[r,"a_1"]&m_1\ar[r,"a_2"]&m_2\ar[r,"a_3"]&m_3\\
+\tilde q(s')\colon&q(m_0)\ar[rr,"q(a_2a_1)"]&&q(m_2)\ar[r,"q(a_3)"]&q(m_3)
+\end{tikzcd}
+\]
+(here $q(a_1)$ is invertible and $q(a_2)$, $q(a_3)$ are not).
+
+\begin{lem}\label{lem:collapse}
+\begin{enumerate}
+\item[(a)] For a sequence $c$ as in \emph{(R7)} in which $a_{j+1}$ is
+invertible, $\|U\|^c_j=a_{j+1}^{-1}\|U\|^c_{j+1}$ for all $U$, and
+$\|U\|^c_i=\|U\|^{c'}_i$ for $i\le j$, where $c'$ is obtained by
+deleting the node $j+1$ and composing $a_{j+2}a_{j+1}$ (deleting the
+last arrow if $j+1=r$).
+\item[(b)] For a string $s'$ of $\cX'$ and $U\le A$ in $\HH_L\Fin^\cX$:
+$\hat G_{s'}(\HH_L(q^*)U)=\hat G_{\tilde q(s')}(U)$ as subsets of
+$A(q(m_0))$.
+\item[(c)] $q$ sends the arrows $s'\to t'$ of $\cS_n(\cX')$ to arrows
+$\tilde q(s')\to\tilde q(t')$ of $\cS_n(\cX)$; so $\tilde q\colon
+\cS_n(\cX')\to\cS_n(\cX)$ is a functor with $\pi\tilde q=q\pi$, and
+under the equivalences of \emph{(R9)} the functor $\PP\HH_L(q^*)$ is
+$W\mapsto W\tilde q$.
+\item[(d)] For composable functors, $\widetilde{qq'}=\tilde q\tilde
+q'$. If $\beta'\colon t'\to s'$ is a one-step arrow of $\cS_n(\cX')$,
+then $q(\beta')\colon\tilde q(t')\to\tilde q(s')$ is a one-step arrow
+or an isomorphism of strings.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) Write $a=a_{j+1}$. We show $\beta\in\|U\|_j$ iff $a\beta\in
+\|U\|_{j+1}$ by induction on the construction of $U$. For $U$ in $\cC$
+this holds because $a$ is an isomorphism of models; it is compatible
+with meets, joins, $f^*$, and with $\exists_f$ because $a$ is
+bijective on every object. For $U\Rightarrow V$: the clause at the
+node $j$ is the conjunction of the conditions for $j'=j$ and for
+$j'\ge j+1$; the latter is the clause for $a\beta$ at the node $j+1$,
+and the condition for $j'=j$ is, by the induction hypothesis,
+equivalent to the condition for $j'=j+1$. The case of $\forall_f$ is
+the same. For the second statement, by induction on $U$: in the
+clauses at a node $i\le j$ of $c$ the condition for $j'=j+1$ is
+equivalent to the one for $j'=j$ by the first statement, and the
+remaining conditions are those of $c'$.
+
+(b) The composite of $\HH_L(q^*)$ with the Heyting functor of the
+Kripke model $s'$ is a Heyting functor extending the Kripke model
+$q(s')$ of $\Fin^\cX$, the sequence of the $q(a_j)$, since the
+evaluation at an object $m$ composed with $q^*$ is the evaluation at
+$q(m)$. By the uniqueness in (R7), $\hat G_{s'}(\HH_L(q^*)U)=
+\|U\|^{q(s')}_0$, and by (a), applied repeatedly from the right, this
+is $\|U\|^{\tilde q(s')}_0$.
+
+(c) By (R8) an arrow $g\colon s'\to t'$ of $\cS_n(\cX')$ is a
+homomorphism $\hat G_{s'}\to\hat G_{t'}$; so $q(g)$ maps $\hat
+G_{s'}(\HH_L(q^*)U)$ into $\hat G_{t'}(\HH_L(q^*)U)$ for all $U$, that
+is, it is a homomorphism $\hat G_{\tilde q(s')}\to\hat G_{\tilde
+q(t')}$ by (b), an arrow of $\cS_n(\cX)$ by (R8). For an object $Z$ of
+$\PP\HH_L\Fin^\cX$ corresponding to $W$, the value of $\PP\HH_L(q^*)Z$
+at $s'$ is the value at $Z$ of the model $\hat G_{s'}\HH_L(q^*)$,
+extended to the pretopos completion, which is $W(\tilde q(s'))$ by
+(b), naturally in $s'$.
+
+(d) In an EI-category a composite is invertible iff its factors are;
+so deleting the arrows which become invertible under $q'$ and then
+those which become invertible under $q$ deletes the arrows which
+become invertible under $qq'$. The final segment of $t'$ after its
+first object is isomorphic to $s'$, so its image under $\tilde q$ has
+as many objects as $\tilde q(s')$, and $\tilde q(t')$ has the same
+number of objects or one more, according to whether the image of the
+first arrow of $t'$ is invertible or not.
+\end{proof}
+
+\begin{lem}[the eventual criterion]\label{lem:eventual}
+Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories
+and functors $q_{i'i}\colon\cX_{i'}\to\cX_i$ over a directed set, and
+$\cC=\varinjlim\Fin^{\cX_i}$ along the functors $q^*$. Then $\HH_L\cC$
+is a pretopos if and only if for every $i$ and every
+$W\colon\cS_n(\cX_i)\to\Fin$ there is $i'\ge i$ such that the unit of
+$W\tilde q_{i'i}$ is injective.
+\end{lem}
+\begin{proof}
+For functors which reflect isomorphisms this is
+\cite[Lemma~7.3]{Proftrees}. The proof given there uses only the
+following: by (R3) $\HH_L\cC$ is the colimit of the
+$\HH_L\Fin^{\cX_i}$; by (R9) these are the full subcategories of the
+pretoposes $\Fin^{\cS_n(\cX_i)}$ of the functors with injective unit;
+and the transitions are the restrictions of the coherent functors
+$W\mapsto W\tilde q_{i'i}$, which now holds by
+Lemma~\ref{lem:collapse}(c). In outline: if the condition holds, the
+quotient $W$ of an equivalence relation at a stage $i$, formed in
+$\Fin^{\cS_n(\cX_i)}$, becomes an object $W\tilde q_{i'i}$ of
+$\HH_L\Fin^{\cX_{i'}}$ and is the quotient there and at all later
+stages, hence in the colimit, and likewise for finite coproducts.
+Conversely, a functor $W$ at the stage $i$ is the quotient of a finite
+coproduct of representable functors $\cS_n(\cX_i)(s,-)$, which are
+objects of $\HH_L\Fin^{\cX_i}$, being subfunctors of the functors
+$\pi^*\cX_i(s_0,-)$; if $\HH_L\cC$ is a pretopos, the quotient formed
+in $\HH_L\cC$ is represented at a stage $i'\ge i$ by an object of
+$\HH_L\Fin^{\cX_{i'}}$ which is identified with $W\tilde q_{i'i}$ in
+the pretopos $\Fin^{\cS_n(\cX_{i'})}$.
+\end{proof}
+
+\section{Pullbacks of leg trees}\label{sec:pull}
+
+Fix a functor $q\colon\cX'\to\cX$ of finite EI-categories. In this
+section all leg trees are taken relative to a base string: for a leg
+tree at $t$ the relations $E_T$, $F_T$ are on $V_t=\cX(t_0,s_0)$ and
+$K_t=\cS_n(t,s)$ for a fixed string $s$ with $t$ over $s$; in $\cX'$
+the base string is a string $s'$ and in $\cX$ it is $\tilde q(s')$.
+As $\tilde q$ is a functor preserving first objects, $q$ maps $V_{t'}$
+to $V_{\tilde q(t')}$ and $K_{t'}$ to $K_{\tilde q(t')}$.
+
+\emph{Transport.} Let $T$ be a leg tree at $t$ and $\iota\colon t_1\to
+t$ an isomorphism of strings. The leg tree $\iota^*T$ at $t_1$ has as
+children of the root the $(\iota^{-1}\beta,T_1)$ for the children
+$(\beta,T_1)$ of the root of $T$. Then $h\mathrel{E_{\iota^*T}}h'$ iff
+$h\iota^{-1}\mathrel{E_T}h'\iota^{-1}$, and the same for $F$.
+
+\emph{Pullback.} Let $T$ be a leg tree of $\cX$ at $t$ and $t'$ a
+string of $\cX'$ with $\tilde q(t')=t$. The leg tree $T^{t'}$ of
+$\cX'$ at $t'$ is defined by recursion on the number of strings of
+$\cX'$ with more objects than $t'$: the children of its root are
+\begin{itemize}
+\item the pairs $(\beta',\nu)$ of a child $\nu=(\beta,T_1)$ of the
+root of $T$ and a one-step arrow $\beta'\colon t''\to t'$ of $\cX'$
+with $q(\beta')=\beta$ as arrows of $\cS_n(\cX)$ (so $\tilde q(t'')$
+is the string of $\nu$), with label $\beta'$ and subtree $T_1^{t''}$;
+\item the one-step arrows $\beta'\colon t''\to t'$ such that
+$\iota=q(\beta')\colon\tilde q(t'')\to t$ is an isomorphism of
+strings, with label $\beta'$ and subtree $(\iota^*T)^{t''}$: the
+\emph{collapsing children}.
+\end{itemize}
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+&t''_1\ar[drr,"\beta'_1"']&t''_2\ar[dr,"\beta'_2"]&&t''_3\ar[dl,
+"\beta'_3"']&&&\tilde q(t''_1)=\tilde q(t''_2)\ar[d,"\beta"]&\tilde
+q(t''_3)\ar[dl,"\iota","\cong"']\\
+T^{t'}\colon&&&t'&&&T\colon&t&
+\end{tikzcd}
+\]
+Here $\beta'_1$, $\beta'_2$ lie over the child $\beta$ of $T$ and
+$\beta'_3$ is a collapsing child, above which the whole tree $T$ is
+pulled back again. If $q$ is an identity, $T^t=T$.
+
+\begin{lem}\label{lem:pull}
+\begin{enumerate}
+\item[(P1)] For $W\colon\cS_n(\cX)\to\Fin$, a string $s'$ of $\cX'$
+and $a\in W(\tilde q(s'))$: the tree $\Max(s',a)$ for $W\tilde q$ is
+$\Max(\tilde q(s'),a)^{s'}$, where $\Max(\tilde q(s'),a)$ is taken for
+$W$.
+\item[(P2)] Let $q'\colon\cX''\to\cX'$ be another functor of finite
+EI-categories, $T$ a leg tree of $\cX$ at $t$, $t''$ a string of
+$\cX''$, $t'=\tilde q'(t'')$ and $\tilde q(t')=t$. Then
+$(T^{t'})^{t''}=T^{t''}$, the left side formed with $q$ and then $q'$,
+the right side with $qq'$.
+\item[(P3)] $q(E_{T^{t'}})\subseteq E_T$ and $q(F_{T^{t'}})\subseteq
+F_T$.
+\item[(P4)] A morphism of leg trees $T\to T_0$ at $t$ induces a
+morphism $T^{t'}\to T_0^{t'}$.
+\end{enumerate}
+Here trees are identified along the evident bijections of nodes
+preserving labels.
+\end{lem}
+\begin{proof}
+First, for an isomorphism of strings $\iota'\colon t'_1\to t'$ of
+$\cX'$ with $q(\iota')=\iota\colon t_1\to t$:
+\begin{equation}\label{eq:tp}
+(\iota^*T)^{t'_1}=\iota'^*(T^{t'}),
+\end{equation}
+by $\beta'\mapsto\iota'\beta'$ on the labels of the children of the
+roots: $q(\beta')$ is $\iota^{-1}\beta$ for a child $(\beta,T_1)$ of
+$T$ iff $q(\iota'\beta')=\beta$, and $q(\beta')$ is an isomorphism of
+strings iff $q(\iota'\beta')$ is; in the first case the subtrees are
+$T_1^{t''}$ on both sides, in the second they are $(q(\beta')^*
+\iota^*T)^{t''}$ and $(q(\iota'\beta')^*T)^{t''}$, which are equal.
+
+(P1) The children of the root of $\Max(s',a)$ for $W\tilde q$ are the
+$(\beta',y)$ with $\beta'\colon t''\to s'$ one-step, $y\in W(\tilde
+q(t''))$ and $W(q(\beta'))y=a$. By Lemma~\ref{lem:collapse}(d),
+$q(\beta')$ is one-step or an isomorphism of strings. If $q(\beta')$
+is one-step, the condition says that $(q(\beta'),y)$ is a child $\nu$
+of the root of $\Max(\tilde q(s'),a)$, and $(\beta',y)$ corresponds to
+$(\beta',\nu)$; the subtrees are $\Max(t'',y)$ and $\Max(\tilde
+q(t''),y)^{t''}$, equal by induction. If $\iota=q(\beta')$ is an
+isomorphism of strings, $W(\iota)$ is bijective and
+$y=W(\iota)^{-1}a$ is the only possibility; so each collapsing
+$\beta'$ gives one child. Its subtree is $\Max(t'',y)=\Max(\tilde
+q(t''),y)^{t''}$ by induction, and $\Max(\tilde
+q(t''),W(\iota)^{-1}a)=\iota^*\Max(\tilde q(s'),a)$: $(\beta_1,z)$ is
+a child of the root of the left side iff $W(\iota\beta_1)z=a$, iff
+$(\iota\beta_1,z)$ is a child of the root of $\Max(\tilde q(s'),a)$,
+and the subtrees are the same.
+
+(P2) Let $\beta''\colon u''\to t''$ be one-step in $\cX''$. Then
+$q'(\beta'')$ is one-step or an isomorphism of strings, and so is
+$qq'(\beta'')$; it is an isomorphism of strings if $q'(\beta'')$ is.
+If $q'(\beta'')=\beta'$ is one-step: $\beta''$ gives children of the
+root of $(T^{t'})^{t''}$, one for each child of the root of $T^{t'}$
+with label $\beta'$; these are the children $\nu$ of the root of $T$
+with label $q(\beta')$, or the one collapsing child if $q(\beta')$ is
+an isomorphism of strings; and these index the children of the root of
+$T^{t''}$ with label $\beta''$. The subtrees are $(T_1^{u'})^{u''}$
+and $T_1^{u''}$, resp.\ $((\iota^*T)^{u'})^{u''}$ and
+$(\iota^*T)^{u''}$, with $u'=\tilde q'(u'')$, equal by induction. If
+$\iota'=q'(\beta'')$ is an isomorphism of strings, $\beta''$ is a
+collapsing child on both sides, with subtrees
+$(\iota'^*(T^{t'}))^{u''}$ and $(q(\iota')^*T)^{u''}$; by
+\eqref{eq:tp} the first is $((q(\iota')^*T)^{u'})^{u''}$, equal to the
+second by induction.
+
+(P3) By induction. Let $(g,g')\in\beta'^*E$ for a child of the root of
+$T^{t'}$ with label $\beta'$ and relation $E$ of its subtree. For a
+child $(\beta',\nu)$, by induction $q(g)\beta\mathrel{E_{T_1}}q(g')
+\beta$, so $(q(g),q(g'))\in\beta^*E_{T_1}\subseteq E_T$. For a
+collapsing child, by induction $q(g)\iota\mathrel{E_{\iota^*T}}q(g')
+\iota$, that is $q(g)\mathrel{E_T}q(g')$. So $q$ maps the generators
+of $E_{T^{t'}}$ into the equivalence relation $E_T$. The same for $F$,
+as $q$ maps $K_{t'}$ to $K_t$.
+
+(P4) A child $(\beta',\nu)$ is sent to $(\beta',\nu_0)$, $\nu_0$ the
+image of $\nu$, with the induced morphism of the subtrees; a
+collapsing child to the same collapsing child, with the morphism
+induced by $\iota^*T\to\iota^*T_0$.
+\end{proof}
+
+\section{Inverse systems of finite categories}\label{sec:inverse}
+
+Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories
+and arbitrary functors $q_{i'i}$, $q_{i'i}q_{i''i'}=q_{i''i}$, over a
+directed set, $\cM$ its limit (objects and arrows are the compatible
+families; the sets of arrows between two objects are profinite),
+$q_i\colon\cM\to\cX_i$ the projections and $\cC=\varinjlim
+\Fin^{\cX_i}$. We assume:
+\begin{itemize}
+\item[(B)] there is $m$ such that every string of every $\cX_i$ has at
+most $m$ objects.
+\end{itemize}
+This holds with $m=n$ if $n=n_L$ is finite, and if the numbers of
+isomorphism classes of objects of the $\cX_i$ are bounded. Strings of
+$\cM$ (with at most $n$ objects), their isomorphisms and automorphisms,
+and $\tilde q_i(\tilde s)$ are defined as for a finite EI-category.
+
+\begin{lem}\label{lem:threads}
+\begin{enumerate}
+\item[(a)] $\cM$ is an EI-category; an arrow $f$ of $\cM$ is
+invertible iff all $q_i(f)$ are, and if $q_i(f)$ is not invertible,
+neither is $q_{i'}(f)$ for $i'\ge i$.
+\item[(b)] $\tilde s\mapsto(\tilde q_i(\tilde s))_i$ is a bijection
+from the strings of $\cM$ to the families $(s_i)_i$ of strings $s_i$
+of $\cX_i$ with $\tilde q_{i'i}(s_{i'})=s_i$ for $i'\ge i$; and there
+is $i_0$ such that for $i'\ge i\ge i_0$ the functor $q_{i'i}$ sends
+the arrows of $s_{i'}$ to the arrows of $s_i$.
+\item[(c)] For a string $\tilde s$ of $\cM$ with $s_i=\tilde q_i(
+\tilde s)$ let $G_{\tilde s}=\Aut_\cM(\tilde s_0)=\varprojlim
+G_{s_i}$, a profinite group with projections $\rho_i$, and $H_{\tilde
+s}$ the group of the first components of the automorphisms of the
+string $\tilde s$. Then $q_{i'i}$ maps $H_{s_{i'}}$ into $H_{s_i}$,
+and $H_{\tilde s}=\{\Theta\in G_{\tilde s}\mid\rho_i(\Theta)\in
+H_{s_i}\text{ for all }i\}$, a closed subgroup.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) The inverse of an invertible arrow is unique, so the inverses of
+the components are compatible; functors preserve invertibility.
+
+(b) $\tilde q_i(\tilde s)=\tilde q_{i'i}\tilde q_{i'}(\tilde s)$ as in
+Lemma~\ref{lem:collapse}(d). By (a), for $i$ large no arrow of $\tilde
+s$ has an invertible image, so $\tilde s$ is determined by the family.
+Conversely let $(s_i)$ be such a family. The numbers of objects of the
+$s_i$ are non-decreasing in $i$ and at most $m$ by (B), so constant
+for $i\ge i_0$; then $\tilde q_{i'i}(s_{i'})=s_i$ means that $q_{i'i}$
+sends the arrows of $s_{i'}$ to those of $s_i$, and the families of
+arrows are the arrows of a string $\tilde s$ of $\cM$, non-invertible
+by (a), with $\tilde q_i(\tilde s)=s_i$ for $i\ge i_0$, hence for all
+$i$. It has at most $n$ objects, as the $s_i$ have.
+
+(c) $q_{i'i}$ maps the automorphisms of $s_{i'}$ in $\cS_n(\cX_{i'})$
+to automorphisms of $s_i$ by Lemma~\ref{lem:collapse}(c); so
+$\rho_i(H_{\tilde s})\subseteq H_{s_i}$ for $i\ge i_0$, where the
+automorphisms of the string $\tilde s$ restrict to automorphisms of
+the string $s_i$, and then for all $i$. Conversely let
+$\rho_i(\Theta)\in H_{s_i}$ for all $i$. For $i\ge i_0$ the set of the
+automorphisms of the string $s_i$, that is of the families of
+automorphisms of its objects commuting with its arrows, with first
+component $\rho_i(\Theta)$ is finite and non-empty; these sets form an
+inverse system, and an element of the limit is an automorphism of the
+string $\tilde s$ with first component $\Theta$.
+\end{proof}
+
+Let $\tilde s$ be a string of $\cM$, $s_i=\tilde q_i(\tilde s)$, $i\in
+I$ and $T$ a leg tree of $\cX_i$ at $s_i$, over $s_i$. For $i'\ge i$
+let $T^{s_{i'}}$ be the pullback along $q_{i'i}$, a leg tree of
+$\cX_{i'}$ at $s_{i'}$ over $s_{i'}$, with the subgroups
+$R_{T^{s_{i'}}}\le H_{s_{i'}}\cap S_{T^{s_{i'}}}$ of $G_{s_{i'}}$. Put
+\[
+S_{(i,T)}=\bigcap_{i'\ge i}\rho_{i'}^{-1}\bigl(S_{T^{s_{i'}}}\bigr),
+\qquad
+R_{(i,T)}=\bigcap_{i'\ge i}\rho_{i'}^{-1}\bigl(R_{T^{s_{i'}}}\bigr).
+\]
+The pair $(i,T)$ is an \emph{obstruction at $\tilde s$} if
+$R_{(i,T)}\ne H_{\tilde s}\cap S_{(i,T)}$.
+
+\begin{lem}\label{lem:groups}
+\begin{enumerate}
+\item[(a)] For $i''\ge i'\ge i$, $q_{i''i'}$ maps $S_{T^{s_{i''}}}$
+into $S_{T^{s_{i'}}}$ and $R_{T^{s_{i''}}}$ into $R_{T^{s_{i'}}}$. So
+$S_{(i,T)}$ and $R_{(i,T)}$ are closed subgroups of $G_{\tilde s}$,
+the intersections are directed, and $R_{(i,T)}\le H_{\tilde s}\cap
+S_{(i,T)}$.
+\item[(b)] $S_{(i',T^{s_{i'}})}=S_{(i,T)}$ and
+$R_{(i',T^{s_{i'}})}=R_{(i,T)}$ for $i'\ge i$.
+\item[(c)] $\rho_i(H_{\tilde s}\cap S_{(i,T)})=\bigcap_{i'\ge
+i}q_{i'i}(H_{s_{i'}}\cap S_{T^{s_{i'}}})$.
+\item[(d)] No pair $(i,T)$ is an obstruction at $\tilde s$ if and only
+if
+\begin{equation}\label{eq:crit}
+\rho_i(H_{\tilde s}\cap S_{(i,T)})\subseteq R_T
+\end{equation}
+for every $i$ and every leg tree $T$ of $\cX_i$ at $s_i$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) By (P2), $T^{s_{i''}}=(T^{s_{i'}})^{s_{i''}}$, and (P3) applies to
+$q_{i''i'}$ and the tree $T^{s_{i'}}$. As $R_{T^{s_{i'}}}\le
+H_{s_{i'}}$, Lemma~\ref{lem:threads}(c) gives $R_{(i,T)}\le H_{\tilde
+s}$. (b) By (P2) the groups on the left are the intersections over
+$i''\ge i'$ of the same families, which by (a) is the intersection
+over $i''\ge i$. (c) The left side is contained in the right side by
+Lemma~\ref{lem:threads}(c). Let $\theta$ be in the right side. The
+sets of the $\Theta'\in H_{s_{i'}}\cap S_{T^{s_{i'}}}$ with
+$q_{i'i}(\Theta')=\theta$ are finite and non-empty, and form an
+inverse system by (a) and Lemma~\ref{lem:threads}(c); an element of
+the limit is $\Theta\in G_{\tilde s}$ with $\rho_i(\Theta)=\theta$,
+and $\Theta\in H_{\tilde s}\cap S_{(i,T)}$ by
+Lemma~\ref{lem:threads}(c). (d) If no pair is an obstruction, then
+$H_{\tilde s}\cap S_{(i,T)}=R_{(i,T)}\subseteq\rho_i^{-1}(R_{T^{s_i}})$,
+and $T^{s_i}=T$. Conversely, \eqref{eq:crit} for the pair
+$(i',T^{s_{i'}})$ and (b) give $H_{\tilde s}\cap
+S_{(i,T)}\subseteq\rho_{i'}^{-1}(R_{T^{s_{i'}}})$ for all $i'\ge i$,
+so $H_{\tilde s}\cap S_{(i,T)}\subseteq R_{(i,T)}$.
+\end{proof}
+
+\begin{thm}\label{thm:general}
+Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories
+satisfying \emph{(B)}, with limit $\cM$, $\cC=\varinjlim\Fin^{\cX_i}$,
+and $L$ a logic proving linearity. Then $\HH_L\cC$ is a pretopos if
+and only if no pair $(i,T)$ of an index $i$ and a leg tree $T$ of
+$\cX_i$ is an obstruction at a string of $\cM$.
+\end{thm}
+\begin{proof}
+Fix $i$ and $W\colon\cS_n(\cX_i)\to\Fin$. For $i'\ge i$ let
+$\mathcal B_{i'}$ be the finite set of the triples $(s',a,\theta)$ of
+a string $s'$ of $\cX_{i'}$, $a\in W(\tilde q_{i'i}s')$ and
+$\theta=q_{i'i}(\Theta')$ for some $\Theta'\in H_{s'}$ with
+$\id\mathrel{E_{\Max(\tilde q_{i'i}s',a)^{s'}}}\Theta'$, such that
+$W(\theta)a\ne a$. By (R11) and (P1), the unit of $W\tilde q_{i'i}$ is
+injective iff $\mathcal B_{i'}=\emptyset$. For $i''\ge i'$ the map
+$(s'',a,\theta)\mapsto(\tilde q_{i''i'}s'',a,\theta)$ sends $\mathcal
+B_{i''}$ to $\mathcal B_{i'}$: if $\Theta''\in H_{s''}$ with
+$\id\mathrel{E_{M^{s''}}}\Theta''$, $M=\Max(\tilde q_{i''i}s'',a)$,
+then with $s'=\tilde q_{i''i'}s''$ we have $M^{s''}=(M^{s'})^{s''}$ by
+(P2), so $\Theta'=q_{i''i'}(\Theta'')\in H_{s'}$ satisfies
+$\id\mathrel{E_{M^{s'}}}\Theta'$ by (P3), and
+$q_{i'i}(\Theta')=\theta$. These maps form an inverse system of finite
+sets, so some $\mathcal B_{i'}$ is empty iff the limit is empty. By
+Lemma~\ref{lem:threads}(b), the indices $i'\ge i$ being cofinal, and
+Lemma~\ref{lem:groups}(c), an element of the limit is a string $\tilde
+s$ of $\cM$, $a\in W(s_i)$ and $\theta\in\rho_i(H_{\tilde s}\cap
+S_{(i,\Max(s_i,a))})$ with $W(\theta)a\ne a$. With
+Lemma~\ref{lem:eventual}: $\HH_L\cC$ is a pretopos iff for all $i$,
+$W$, $\tilde s$ and $a\in W(s_i)$,
+\begin{equation}\label{eq:W}
+\rho_i\bigl(H_{\tilde s}\cap S_{(i,\Max(s_i,a))}\bigr)\ \text{fixes }a.
+\end{equation}
+By Lemma~\ref{lem:groups}(d) it remains to show that \eqref{eq:W} for
+all $i$, $W$, $\tilde s$, $a$ is equivalent to \eqref{eq:crit} for all
+$i$, $\tilde s$, $T$. If \eqref{eq:crit} holds, then \eqref{eq:W}
+holds: $\Max(s_i,a)$ is realised in $W$ with $a$ at the root, so
+$R_{\Max(s_i,a)}$ fixes $a$ by (R10). Conversely assume \eqref{eq:W}
+and let $T$ be a leg tree at $s_i$. Let $W=W_T$ as in (R10), with $a$
+at the root. There is a morphism $T\to\Max(s_i,a)$ by (R11), hence
+morphisms $T^{s_{i'}}\to\Max(s_i,a)^{s_{i'}}$ by (P4), so
+$S_{(i,T)}\subseteq S_{(i,\Max(s_i,a))}$ by (R11). So $\rho_i(H_{\tilde
+s}\cap S_{(i,T)})$ fixes $a$, and it is contained in $R_T$ by the
+property of $W_T$.
+\end{proof}
+
+\begin{rem}\label{rem:special}
+(a) For a constant system, $S_{(i,T)}=S_T$ and $R_{(i,T)}=R_T$, and
+Theorem~\ref{thm:general} is \cite[Thm.~6.15]{Strings}.
+
+(b) If the functors $q_{i'i}$ reflect isomorphisms, there are no
+collapsing children, and the pullback $T^{s_{i'}}$ consists of the
+branches of $\cX_{i'}$ over those of $T$. For the towers of
+\cite[\S7]{Proftrees}, whose functors are bijective on objects and
+full, and which satisfy (B), the pairs $(i,T)$ are the profinite leg
+trees and Theorem~\ref{thm:general} is \cite[Thm.~8.2]{Proftrees}.
+
+(c) If $n\le2$, there are no obstructions: a string with two objects
+has no one-step arrows into it, and for a string $s=(m)$ and a
+one-step arrow $\beta$ into $s$ the relations $\beta^*(=)$ on
+$V_s=G_s$ and on $K_s=H_s=G_s$ coincide; the same holds for the
+pullbacks (compare \cite[Thm.~1.1(4)]{Finsorts}).
+\end{rem}
+
+\section{Theories with finite sorts}\label{sec:theories}
+
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, and $I$ the set of the finite languages $\Lambda$ for
+which $\cX_\Lambda$ is an EI-category, cofinal by (R13). The
+categories $\cX_\Lambda$, $\Lambda\in I$, with the restriction
+functors form an inverse system of finite EI-categories, and
+$\cC\simeq\varinjlim_{\Lambda\in I}\Fin^{\cX_\Lambda}$ by (R12). Its
+limit $\cM$ is the category of the standard models of $\cC$: a
+compatible family of structures interprets all objects of $\cC$ by
+sets $\{1,\dots,e\}$ and all subobjects of finite products of objects
+by relations, so that all coherent sequents valid in $\cC$ hold; this
+is a standard model, the morphisms of $\cC$ being interpreted through
+their graphs; and a compatible family of homomorphisms is a natural
+transformation. So the strings of $\cM$ are the strings of standard
+models of $\cC$, and for such a string $\tilde s$ and $\Lambda\in I$
+we have the string $\tilde s|_\Lambda=\tilde q_\Lambda(\tilde s)$ of
+$\cX_\Lambda$, the closed subgroup $H_{\tilde s}$ of the profinite
+group $G_{\tilde s}=\Aut(\tilde s_0)$, and for a leg tree $T$ of
+$\cX_\Lambda$ at $\tilde s|_\Lambda$ the closed subgroups
+$R_{(\Lambda,T)}\le H_{\tilde s}\cap S_{(\Lambda,T)}$ of
+Section~\ref{sec:inverse}. Every string of models of $\cC$ is
+isomorphic to a string of standard models.
+
+\begin{cor}\label{cor:final}
+Let $\cC$ be a pretopos with finite sorts and $L$ a non-classical
+logic proving linearity with $n_L$ finite. Then $\HH_L\cC$ is a
+pretopos if and only if $\Mod(\cC)$ is an EI-category and
+$R_{(\Lambda,T)}=H_{\tilde s}\cap S_{(\Lambda,T)}$ for every string
+$\tilde s$ of standard models of $\cC$, every $\Lambda\in I$ and every
+leg tree $T$ of $\cX_\Lambda$ at $\tilde s|_\Lambda$.
+\end{cor}
+\begin{proof}
+If $\HH_L\cC$ is a pretopos, $\Mod(\cC)$ is an EI-category by (R4). If
+$\Mod(\cC)$ is an EI-category, Theorem~\ref{thm:general} applies to
+the inverse system above, which satisfies (B) with $m=n_L$.
+\end{proof}
+
+This is Theorem~\ref{thm:A}. By Lemma~\ref{lem:groups}(d) the
+condition can be tested in the finite groups $H_{\tilde
+s|_\Lambda}$: the image of $H_{\tilde s}\cap S_{(\Lambda,T)}$ is
+contained in $R_T$. By Theorem~\ref{thm:stalk} it suffices to test the
+pretoposes $\cC_{(Q)}$.
+
+\section{Two families with profinite abelian groups}\label{sec:family}
+
+\subsection*{Legs converging to automorphisms}
+Let $G$ be a profinite abelian group, $H$ a closed subgroup and
+$(S_k)_{k\in\mathbb N}$ non-zero closed subgroups converging to $0$.
+For an open subgroup $N$ let $I_N$ be the finite set of the $k$ with
+$S_k\not\subseteq N$, and $\cX_N$ the category with the objects $0_k$,
+$k\in I_N$, $1$, $2$, with
+\begin{gather*}
+\Aut(1)=G/N,\qquad\cX_N(0_k,1)=G/(S_k+N),\\
+\cX_N(1,2)=G/(H+N),\qquad\cX_N(0_k,2)=G/(H+S_k+N),
+\end{gather*}
+trivial groups $\Aut(0_k)$, $\Aut(2)$, no other arrows, and the
+addition as composition. This is a finite EI-category. For $N'\subseteq N$
+let $q\colon\cX_{N'}\to\cX_N$ be the identity on $1$, $2$ and on the
+$0_k$, $k\in I_N$, send $0_k$ to $1$ for $k\in I_{N'}\setminus I_N$,
+and be given on the arrows by the quotient maps $G/(S_k+N')\to G/N$,
+$G/(H+S_k+N')\to G/(H+N)$ for these $k$ (defined as $S_k\subseteq N$)
+and by the evident quotient maps otherwise. These functors form an
+inverse system; for $k\in I_{N'}\setminus I_N$ the non-invertible
+arrows $0_k\to1$ become automorphisms of $1$. Let
+$\cC(G;H;S_\bullet)=\varinjlim_N\Fin^{\cX_N}$.
+
+\begin{thm}\label{thm:collapse}
+Let $L$ prove linearity with $n_L\ge3$ and $\cC=\cC(G;H;S_\bullet)$.
+Then $\HH_L\cC$ is a pretopos if and only if for every cofinite
+$K\subseteq\mathbb N$
+\begin{equation}\label{eq:cof}
+H\cap\overline{\sum_{k\in K}S_k}=\overline{\sum_{k\in K}(H\cap S_k)}.
+\end{equation}
+\end{thm}
+\begin{proof}
+We use: for directed decreasing families of closed subsets of $G$,
+intersections commute with finite sums and with binary intersections;
+a decreasing family of subsets of a finite set is eventually constant;
+and $\overline X=\bigcap_N(X+N)$ for a subgroup $X$.
+
+\emph{Strings of $\cX_N$.} They have at most three objects. For a
+string $s$ whose first object is $0_k$ or $2$ the group $G_s$ is
+trivial, so the units are injective at $s$ by (R11). For $s=(1)$ the
+one-step arrows into $s$ are the $x\colon(0_k\xrightarrow{x}1)\to s$,
+and the relations $x^*(=)$ on $V_s=G_s$ and on $K_s=H_s=G_s$ coincide;
+so $E_T=F_T$ for every leg tree at $s$, and the units are injective at
+$s$ by (R10). There remain the strings
+$t_\gamma=(1\xrightarrow{\gamma}2)$, $\gamma\in G/(H+N)$. An
+automorphism of the string $t_\gamma$ is $g\in G/N$ with $\gamma+g=
+\gamma$; so $G_{t_\gamma}=G/N$ and $H_{t_\gamma}=(H+N)/N$. The
+one-step arrows into $t_\gamma$ are the arrows $y\colon(0_k
+\xrightarrow{x}1\xrightarrow{\gamma'}2)\to t_\gamma$, $y=g+x\in
+G/(S_k+N)$ with $\gamma+g=\gamma'$; every $y\in G/(S_k+N)$ occurs, and
+these strings have no one-step arrows into them. Over $s=t_\gamma$,
+for $u=(0_k\to1\to2)$ we have $V_u=\cX_N(0_k,1)$ with the equality,
+and the leg $y$ gives on $V_s=G/N$ the relation $g+y=g'+y$, that is
+$g-g'\in(S_k+N)/N$, and on $K_s=(H+N)/N$ its restriction. So for a leg
+tree $T$ at $t_\gamma$, with $J$ the set of the $k$ such that the root
+has a child with first object $0_k$,
+\begin{equation}\label{eq:SR}
+S_T=\sum_{k\in J}(S_k+N)/N,\qquad R_T=\sum_{k\in J}\bigl((H+N)\cap
+(S_k+N)\bigr)/N.
+\end{equation}
+
+\emph{The pullback of a functor.} Let $W\colon\cS_n(\cX_N)\to\Fin$,
+$N'\subseteq N$, $W'=W\tilde q$, $t'=(1\xrightarrow{\gamma'}2)$ a
+string of $\cX_{N'}$ over $t=\tilde q(t')=(1\xrightarrow{\gamma}2)$,
+and $a\in W'(t')=W(t)$. Let $J(a)\subseteq I_N$ be the set of the $k$
+such that $a=W(\bar y)b$ for a one-step arrow $\bar y$ into $t$ from a
+string with first object $0_k$ and some $b$. We determine the first
+objects of the children of the root of $\Max(t',a)$ for $W'$. Let
+$y'\colon u'\to t'$ be one-step, $u'=(0_k\xrightarrow{x}1\to2)$. If
+$k\in I_{N'}\setminus I_N$, then $q(x)$ is invertible, $\tilde q(u')$
+has two objects and $q(y')\colon\tilde q(u')\to t$ is an isomorphism
+of strings; so $W'(y')=W(q(y'))$ is bijective and $a$ is in its image:
+these are the collapsing children of Lemma~\ref{lem:pull}. If $k\in
+I_N$, then $\tilde q(u')=q(u')$ and $q(y')$ is a one-step arrow into
+$t$, and every one-step arrow $\bar y$ into $t$ from a string with
+first object $0_k$ is $q(y')$ for such a $y'$, the quotient maps being
+surjective; so some child has first object $0_k$ iff $k\in J(a)$. By
+\eqref{eq:SR} for $\cX_{N'}$ and (R11), the unit of $W'$ is injective
+at $t'$ iff every $a\in W(t)$ is fixed by $W(\theta)$ for $\theta$ in
+\[
+B_{N'}(a)=\text{the image in }G/N\text{ of }(H+N')\cap D_{N'}(a),
+\]
+where $D_{N'}(a)=N'+\sum_{k\in J(a)\cup(I_{N'}\setminus I_N)}S_k$.
+For $N''\subseteq N'$ we have $D_{N''}(a)\subseteq D_{N'}(a)$, since
+$S_k+N''\subseteq N'$ for $k\in I_{N''}\setminus I_{N'}$. As
+$S_k\subseteq N'$ for $k\notin I_{N'}$, $D_{N'}(a)$ is $\sum_{k\in
+K(a)}S_k+N'$ with $K(a)=J(a)\cup(\mathbb N\setminus I_N)$, a cofinite
+set; the intersection over $N'$ of these groups is
+$\overline{\sum_{k\in K(a)}S_k}$. Hence for all sufficiently small
+$N'$, $B_{N'}(a)$ is the image $B_\infty(a)$ of $H\cap\overline{
+\sum_{k\in K(a)}S_k}$. With the first part and
+Lemma~\ref{lem:eventual}: $\HH_L\cC$ is a pretopos iff for every $N$,
+$W$, $\gamma$ and $a\in W(t_\gamma)$ the group $B_\infty(a)$ fixes
+$a$.
+
+\emph{Sufficiency.} Assume \eqref{eq:cof}. Then $B_\infty(a)$ is the
+image of $\overline{\sum_{k\in K(a)}(H\cap S_k)}$, which, $G/N$ being
+finite and $S_k\subseteq N$ for $k\notin I_N$, is the image of
+$\sum_{k\in J(a)}(H\cap S_k)$, contained in $R_T$ for the leg tree $T$
+at $t_\gamma$ with one child for each $k\in J(a)$, labelled by a
+one-step arrow with $a$ in the image; $T$ is realised in $W$ with $a$
+at the root, so $R_T$ fixes $a$ by (R10).
+
+\emph{Necessity.} Let $K$ be cofinite and $x\in H\cap\overline{
+\sum_{k\in K}S_k}$ outside $\overline{\sum_{k\in K}(H\cap
+S_k)}=\bigcap_{N''}(\sum_{k\in K\cap I_{N''}}(H\cap S_k)+N'')$. Choose
+$N''$ with $x\notin\sum_{k\in K\cap I_{N''}}(H\cap S_k)+N''$ and, the
+$S_k$ being non-zero and $K$ cofinite, with $\mathbb N\setminus
+I_{N''}\subseteq K$. The closed sets $\sum_{k\in K\cap I_{N''}}((H+N)
+\cap(S_k+N))+N''$, $N\subseteq N''$, decrease to $\sum_{k\in K\cap
+I_{N''}}(H\cap S_k)+N''$; so there is $N\subseteq N''$ such that $x$
+is outside one of them. Let $J=K\cap I_N$. For $k\in J\setminus
+I_{N''}$ we have $S_k+N\subseteq N''$; so
+\[
+x\notin N+\sum_{k\in J}\bigl((H+N)\cap(S_k+N)\bigr),
+\]
+the inverse image of $R_T$ for the leg tree $T$ of $\cX_N$ at
+$t_0=(1\xrightarrow{0}2)$ with one child for each $k\in J$, labelled
+by $0\colon(0_k\xrightarrow{0}1\xrightarrow{0}2)\to t_0$. Let $W=W_T$
+as in (R10), with $a$ at the root: $W(\bar x)a\ne a$ for the image
+$\bar x$ of $x$ in $(H+N)/N$. But $J(a)\supseteq J$, so $K(a)\supseteq
+J\cup(\mathbb N\setminus I_N)=K$, as $\mathbb N\setminus I_N\subseteq
+\mathbb N\setminus I_{N''}\subseteq K$; hence $\bar x\in B_\infty(a)$,
+and $\HH_L\cC$ is not a pretopos.
+\end{proof}
+
+This proves Theorem~\ref{thm:D}.
+
+\begin{ex}\label{ex:conv}
+Let $G=(\mathbb Z/2)^{\mathbb N}$, $S_k=\langle e_k\rangle$ ($e_k$ with
+$k$-th coordinate $1$ and the others $0$) and $H=\langle h\rangle$,
+$h=(1,1,1,\dots)$. The elements with finitely many non-zero
+coordinates are dense, so for $K=\mathbb N$ the left side of
+\eqref{eq:cof} is $H$, and the right side is $0$; so $c^L_\cC$ is not
+an equivalence for $n_L\ge3$. For finite $J$ both sides are $0$. In
+terms of Section~\ref{sec:inverse}: at the stage $N=G$ the category
+$\cX_G$ has the objects $1$ and $2$ only. For the string $(1\to2)$ and
+the tree $T$ without children we have $S_T=R_T=0$, while the pullbacks
+of $T$ consist of collapsing children, $S_{(G,T)}$ is the closed
+subgroup generated by all $S_k$, and $H\cap S_{(G,T)}=H\ne0=
+R_{(G,T)}$. At each finite stage, for all but finitely many $k$ the
+homomorphisms $0_k\to1$ have become automorphisms of the model $1$.
+\end{ex}
+
+\subsection*{A family over a profinite set}
+Let $G$ be a profinite abelian group, $A$ a closed subgroup, $J$ a
+profinite set and $(T_j)_{j\in J}$ a family of closed subgroups which
+is \emph{continuous}: for every open subgroup $N$ the map $j\mapsto
+T_j+N$ is locally constant. Let $I$ be the set of the pairs
+$i=(N,\varpi)$ of an open subgroup $N$ and a finite partition $\varpi$
+of $J$ into open and closed sets on each of which $T_j+N$ is constant,
+with value $T_c+N$ on $c\in\varpi$; $(N',\varpi')\ge(N,\varpi)$ if
+$N'\subseteq N$ and $\varpi'$ refines $\varpi$. This is a directed
+set. Let $\cX_i$ have the objects $0_c$, $c\in\varpi$, $1$, $2$, with
+$\Aut(2)=(A+N)/N$, trivial automorphism groups otherwise, and
+\[
+\cX_i(1,2)=G/N,\qquad\cX_i(0_c,1)=\cX_i(0_c,2)=G/(T_c+N),
+\]
+composition being the addition, and no other arrows; a finite
+EI-category. For $i'\ge i$ the functor $q_{i'i}$ sends $0_{c'}$ to
+$0_c$, $c'\subseteq c$, and is given by the quotient maps on the
+arrows. These functors reflect isomorphisms. The limit has the objects
+$0_j$, $j\in J$, $1$, $2$, with $\Aut(2)=A$ and the sets of arrows
+$G$, $G/T_j$, $G/T_j$. For finite $J$ this is the family of \cite[Thm.~1.2]{Proftrees}.
+
+\begin{prop}\label{prop:family}
+Let $\cC=\varinjlim\Fin^{\cX_i}$ for this system and $L$ a logic
+proving linearity with $n_L\ge3$. Then $\HH_L\cC$ is a pretopos if and
+only if
+\begin{equation}\label{eq:closed}
+A\cap\overline{\sum_{j\in K}T_j}=\overline{\sum_{j\in K}(A\cap T_j)}
+\qquad\text{for every open and closed }K\subseteq J.
+\end{equation}
+\end{prop}
+\begin{proof}
+For an open and closed $K\subseteq J$ write $T_K=\overline{\sum_{j\in
+K}T_j}$ and $R_K=\overline{\sum_{j\in K}(A\cap T_j)}$. For
+$i'=(N',\varpi')$ and $K$ a union of classes of $\varpi'$ let
+\[
+P_{i'}(K)=N'+\sum_{c'\in\varpi',\,c'\subseteq K}\bigl((A+N')\cap
+(T_{c'}+N')\bigr);
+\]
+note that $N'+\sum_{c'\subseteq K}(T_{c'}+N')=N'+\sum_{j\in K}T_j$.
+These closed subgroups decrease with $i'$, and $\bigcap_{i'}(N'+
+\sum_{j\in K}T_j)=T_K$. \emph{Claim: $\bigcap_{i'}P_{i'}(K)=R_K$.} The
+inclusion $\supseteq$ is clear. Let $N''$ be an open subgroup. For
+$j\in K$ the groups $(A+N')\cap(T_j+N')$ decrease to $A\cap T_j$, so
+there is $N'_j\subseteq N''$ with $(A+N'_j)\cap(T_j+N'_j)\subseteq
+(A\cap T_j)+N''$, and by continuity an open neighbourhood $U_j$ of $j$
+in $K$ on which $T_{j'}+N'_j=T_j+N'_j$. Finitely many
+$U_{j_1},\dots,U_{j_r}$ cover $K$; let $N'$ be the intersection of the
+$N'_{j_l}$ and $\varpi'$ a partition with $(N',\varpi')\in I$ such
+that every class contained in $K$ lies in some $U_{j_l}$. For such a
+class $c'\subseteq U_{j_l}$ we get $(A+N')\cap(T_{c'}+N')\subseteq
+(A+N'_{j_l})\cap(T_{j_l}+N'_{j_l})\subseteq(A\cap T_{j_l})+N''$. So
+$P_{i'}(K)\subseteq\sum_{j\in K}(A\cap T_j)+N''$, and the intersection
+over $N''$ of the right sides is $R_K$.
+
+We apply Theorem~\ref{thm:general}; (B) holds with $m=3$, and there
+are no collapsing children. The strings of the limit are threads of
+strings of the $\cX_i$. For a string whose first object is $0_c$ or
+$1$ the group $G_s$ is trivial, and there is no obstruction. Let
+$\tilde s=(2)$, with $G_{\tilde s}=H_{\tilde s}=A$. In $\cX_{i'}$ the
+one-step arrows into $(2)$ are the arrows $\kappa\colon t_\gamma\to
+(2)$ from the strings $t_\gamma=(1\xrightarrow{\gamma}2)$, $\gamma\in
+G/N'$, with $\kappa\in(A+N')/N'+\gamma$, and the arrows
+$d\colon(0_{c'}\xrightarrow{d_0}2)\to(2)$ with $d\in(A+N')/N'+d_0$.
+The one-step arrows into $t_\gamma$ are the arrows
+$x\colon(0_{c'}\xrightarrow{x}1\xrightarrow{\gamma'}2)\to t_\gamma$
+with $\gamma'\in(A+N')/N'+\gamma$, as $\Aut(1)$ is trivial; these
+strings have no one-step arrows into them. Over $(2)$ we have
+$V_{t_\gamma}=G/N'$ and $K_{t_\gamma}=(A+N')/N'+\gamma$.
+
+Let $T$ be a leg tree of $\cX_i$ at $(2)$. For a child $\nu$ of the
+root with a string $(1\to2)$ let $K_\nu\subseteq J$ be the union of
+the classes $c$ such that $\nu$ has a child with first object $0_c$,
+and let $K'$ be the union of the classes $c$ such that the root has a
+child with a string $(0_c\to2)$. In the pullback $T^{(2)}$ to $i'\ge
+i$, a node over $\nu$ has a child with first object $0_{c'}$ exactly
+for the classes $c'\subseteq K_\nu$, the quotient maps being
+surjective. A leg $x$ from $0_{c'}$ gives on $V_{t_\gamma}$ the
+relation $g+x=g'+x$ in $G/(T_{c'}+N')$, that is $g-g'\in
+(T_{c'}+N')/N'$, and on $K_{t_\gamma}$ its restriction $g-g'\in
+((A+N')\cap(T_{c'}+N'))/N'$. So at such a node $E$ is $g-g'\in
+(N'+\sum_{j\in K_\nu}T_j)/N'$ and $F$ is $g-g'\in P_{i'}(K_\nu)/N'$.
+At the root, the leg $\kappa$ into this node gives on $(A+N')/N'$ the
+relations $a-a'\in((A+N')\cap(N'+\sum_{j\in K_\nu}T_j))/N'$ for $E$
+and $a-a'\in P_{i'}(K_\nu)/N'$ for $F$, and a leg $d$ from a string
+$(0_{c'}\to2)$ gives $a+d=a'+d$ in $G/(T_{c'}+N')$ for both. Hence the
+inverse images in $A$ of $S_{T^{(2)}}$ and $R_{T^{(2)}}$ are the
+intersections of $A$ with
+\[
+N'+\sum_\nu(A+N')\cap\Bigl(N'+\sum_{j\in K_\nu}T_j\Bigr)+P_{i'}(K')
+\qquad\text{and}\qquad\sum_\nu P_{i'}(K_\nu)+P_{i'}(K').
+\]
+Passing to the intersections over $i'$, by the claim and the
+compactness of $G$,
+\[
+S_{(i,T)}=\sum_\nu(A\cap T_{K_\nu})+R_{K'},\qquad
+R_{(i,T)}=\sum_\nu R_{K_\nu}+R_{K'}.
+\]
+If \eqref{eq:closed} holds, these are equal. Conversely, for an open
+and closed $K$ choose $i=(N,\varpi)$ with $K$ a union of classes of
+$\varpi$, and let $T$ be the leg tree of $\cX_i$ at $(2)$ with one
+child $(0\colon(1\xrightarrow{0}2)\to(2))$ of the root, which has the
+children $(0\colon(0_c\xrightarrow{0}1\xrightarrow{0}2)\to(1
+\xrightarrow{0}2))$, $c\subseteq K$; then $S_{(i,T)}=A\cap T_K$ and
+$R_{(i,T)}=R_K$.
+\end{proof}
+
+\begin{ex}\label{ex:infinite}
+Let $G=(\mathbb Z/2)^{\mathbb N}$, $J=\mathbb N\cup\{\infty\}$ the
+one-point compactification, $T_k=\langle e_k\rangle$ for $k\in\mathbb
+N$, $T_\infty=0$, and $A=\langle(1,1,1,\dots)\rangle$. The family is
+continuous: an open subgroup contains $e_k$ for all but finitely many
+$k$. For an open and closed $K$ not containing some $k_0\in\mathbb N$,
+the elements of $T_K$ have $k_0$-th coordinate $0$, so both sides of
+\eqref{eq:closed} are $0$. For $K=J$ the left side is $A$ and the
+right side is $0$. So $c^L_\cC$ is not an equivalence for $n_L\ge3$,
+although \eqref{eq:closed} holds for every proper open and closed
+subset containing $\infty$ and for every finite set of indices.
+\end{ex}
+
+\section{Questions}\label{sec:questions}
+
+\begin{que}
+Is there a criterion as in Theorem~\ref{thm:A} for the logics proving
+linearity with $n_L=\infty$? If the chains of prime filters of
+$\Sub(1)$ are bounded, the models of $\HH_L\cC$ are still strings
+(Remark~\ref{rem:infty}), but we do not know whether the strings of the
+categories $\cX_\Lambda$ are bounded, as \emph{(B)} requires; without
+a bound, Lemma~\ref{lem:threads}(b) is not available.
+\end{que}
+
+\begin{que}
+Describe the groups $S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ of
+Theorem~\ref{thm:A} in $\Mod(\cC)$ alone, without the finite
+languages. For finitely many sentences they are given by a recursion
+with joins in the lattices of closed equivalence relations, over the
+legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}. The examples of
+Section~\ref{sec:family} suggest joins over a compact space of legs in
+which non-invertible homomorphisms can converge to isomorphisms.
+\end{que}
+
+\section*{Declarations}
+The author has no competing interests to declare.
+
+\begin{thebibliography}{9}
+\bibitem{AGM08} S.~Aguzzoli, B.~Gerla, V.~Marra, \emph{G\"odel algebras
+free over finite distributive lattices}, Ann. Pure Appl. Logic 155
+(2008), 183--193.
+\bibitem{Carai} L.~Carai, \emph{Free algebras and coproducts in
+varieties of G\"odel algebras}, J. Symb. Log., published online 2026,
+doi:10.1017/jsl.2026.10194; arXiv:2406.05480.
+\bibitem{Interm} R.~Shibusawa, \emph{Intermediate logics and
+imaginaries: the translation into an intermediate logic commutes with
+the pretopos completion of all finite propositional theories exactly
+for the extensions of G\"odel--Dummett logic}, preprint (2026),
+archived at DOI 10.5281/zenodo.24150610.
+\bibitem{Strings} R.~Shibusawa, \emph{G\"odel--Dummett logic over a
+finite category of models: the models of the translated theory are
+strings of arrows, and a subgroup obstruction to commuting with the
+imaginaries}, preprint (2026), archived at DOI
+10.5281/zenodo.24327653.
+\bibitem{Finsorts} R.~Shibusawa, \emph{Intermediate logics and the
+imaginaries of a theory whose models are finite on every sort},
+preprint (2026), archived at DOI 10.5281/zenodo.24356860.
+\bibitem{Proftrees} R.~Shibusawa, \emph{Intermediate logics and the
+imaginaries of a theory with finite sorts and finitely many sentences:
+profinite leg trees}, preprint (2026), archived at DOI
+10.5281/zenodo.24362902.
+\end{thebibliography}
+
+\end{document}
