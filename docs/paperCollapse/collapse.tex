@@ -56,21 +56,20 @@ a chain of three elements as a frame, except for theories with
 finitely many sentences. We settle it for all these logics, including
 G\"odel--Dummett logic: the two operations commute if and only if
 every endomorphism of a model is invertible and no leg tree of a
-finite language is an obstruction. A leg tree is a finite tree of
-chains of non-invertible homomorphisms of models of the theory
-restricted to a finite language. Pulled back to the larger finite
-languages, with the homomorphisms which become invertible after
-restriction as new branches, it defines two closed subgroups of the
-automorphism group of a model, and it is an obstruction if they
-differ. The models of the translated theory are
-the compatible families of such chains over the finite languages; if
-the chain frames of the logic or the chains of prime filters of
-sentences are bounded, they are the chains of non-invertible
-homomorphisms of models, and the logic can be replaced by the logic of
-a finite chain. In an example given by closed subgroups of a profinite
-abelian group, non-invertible homomorphisms converge to automorphisms,
-and the condition is a distributivity property for the cofinite sets
-of subgroups.
+finite language is an obstruction at a chain of non-invertible
+homomorphisms of models, of length at most that of the chain frames of
+the logic. A leg tree is a finite tree of such chains for a finite
+language; pulled back to the larger finite languages, with the
+homomorphisms which become invertible after restriction as new
+branches, it defines two closed subgroups of the automorphism group of
+a model, and it is an obstruction if they differ. The condition is
+inherited by the logics with shorter chain frames, but it is not
+determined by the logics of the finite chains: for the limit of a
+tower of finite categories it holds for all of them and fails for
+G\"odel--Dummett logic. In an example given by closed subgroups of a
+profinite abelian group, non-invertible homomorphisms converge to
+automorphisms, and the condition is a distributivity property for the
+cofinite sets of subgroups.
 \end{abstract}
 
 \maketitle
@@ -115,23 +114,19 @@ most $n_L$ models. If $\Mod(\cC)$ is an EI-category, then so is
 $\cX_\Lambda$ for cofinally many $\Lambda$ \cite{Finsorts}, and we
 consider these $\Lambda$ only. A string $s'$ of $\cX_{\Lambda'}$
 restricts to a string $s'|_\Lambda$ of $\cX_\Lambda$, after the
-homomorphisms whose restrictions are invertible have been deleted. A
-\emph{thread} is a family $\sigma=(s_\Lambda)_\Lambda$ of strings
-$s_\Lambda$ of $\cX_\Lambda$ with $s_{\Lambda'}|_\Lambda=s_\Lambda$
-for $\Lambda\subseteq\Lambda'$. The first models of the $s_\Lambda$
-form a model $\sigma_0$ of $\cC$; its automorphism group $G_\sigma$ is
-profinite, and it contains the closed subgroup $H_\sigma$ of the
-automorphisms whose restriction to every $\Lambda$ extends to an
-automorphism of the string $s_\Lambda$. The restrictions of a string
-$\tilde s$ of models of $\cC$ form a thread; if $n_L$ is finite, or if
-the chains of prime filters of sentences are bounded, every thread
-arises in this way, and $H_\sigma$ is the group of the automorphisms
-which extend to an automorphism of the string $\tilde s$
-(Remark~\ref{rem:strings}). A \emph{leg tree} $T$ of $\cX_\Lambda$ at
-$s_\Lambda$ \cite[Def.~6.14]{Strings} is a finite tree of strings of
-$\cX_\Lambda$ which extend $s_\Lambda$ to the left. It has a
-\emph{pullback} to every $\Lambda'\supseteq\Lambda$
-(Section~\ref{sec:pull}): a branch is replaced by all branches of
+homomorphisms whose restrictions are invertible have been deleted; in
+the same way a string $\tilde s$ of models of $\cC$ has restrictions
+$\tilde s|_\Lambda$, and $(\tilde s|_{\Lambda'})|_\Lambda=\tilde
+s|_\Lambda$ for $\Lambda\subseteq\Lambda'$. The automorphism group
+$G_{\tilde s}$ of the first model of $\tilde s$ is profinite, and it
+contains the closed subgroup $H_{\tilde s}$ of the automorphisms of
+the first model which extend to an automorphism of the string $\tilde
+s$. A \emph{leg tree}
+$T$ of $\cX_\Lambda$ at $\tilde s|_\Lambda$ \cite[Def.~6.14]{Strings}
+is a finite tree of strings of $\cX_\Lambda$ which extend $\tilde
+s|_\Lambda$ to the left. It has a \emph{pullback} to every
+$\Lambda'\supseteq\Lambda$ (Section~\ref{sec:pull}), a leg tree at
+$\tilde s|_{\Lambda'}$: a branch is replaced by all branches of
 $\cX_{\Lambda'}$ over it, and new branches are added at every node for
 the arrows of $\cX_{\Lambda'}$ into the first model of its string
 which are not invertible but have an invertible restriction to
@@ -140,22 +135,38 @@ of equivalence relations in two ways, on all homomorphisms and on
 those which are homomorphisms of strings, at every $\Lambda'$, and
 passing to the limit, we obtain closed subgroups
 \[
-R_{(\Lambda,T)}\le H_\sigma\cap S_{(\Lambda,T)}
+R_{(\Lambda,T)}\le H_{\tilde s}\cap S_{(\Lambda,T)}
 \]
-of $G_\sigma$ (Section~\ref{sec:inverse}); the pair $(\Lambda,T)$ is
-an \emph{obstruction at $\sigma$} if they are different.
+of $G_{\tilde s}$ (Section~\ref{sec:inverse}); the pair $(\Lambda,T)$
+is an \emph{obstruction at $\tilde s$} if they are different.
 
 \begin{thm}\label{thm:A}
 Let $\cC$ be a small coherent category with finite sorts and $L$ a
 non-classical intermediate logic proving linearity. Then $c^L_\cC$ is
 an equivalence if and only if $\Mod(\cC)$ is an EI-category and no leg
-tree of a finite language of $\PP\cC$ is an obstruction at a thread.
+tree of a finite language of $\PP\cC$ is an obstruction at a string of
+models.
 \end{thm}
 
-If $\Mod(\cC)$ is an EI-category, the threads describe the models of
-$\HH_L\PP\cC$: every model is isomorphic to the model $\hat G_\sigma$
-of a thread $\sigma$, and $H_\sigma$ is the automorphism group of
-$\hat G_\sigma$ (Proposition~\ref{prop:models}). For theories with
+The strings have at most $n_L$ models; for $n_L=\infty$ they have
+arbitrary finite length, and the depth of the pulled back trees is not
+bounded. The models of $\HH_L\PP\cC$ are described by more general
+objects. A \emph{thread} is a family $\sigma=(s_\Lambda)_\Lambda$ of
+strings $s_\Lambda$ of $\cX_\Lambda$ with
+$s_{\Lambda'}|_\Lambda=s_\Lambda$ for $\Lambda\subseteq\Lambda'$. The
+restrictions of a string of models form a thread; if $n_L$ is finite,
+or if the chains of prime filters of sentences are bounded, every
+thread arises in this way (Remark~\ref{rem:strings}), but in general
+the lengths of the $s_\Lambda$ need not be bounded. If
+$\Mod(\cC)$ is an EI-category, every model of $\HH_L\PP\cC$ is
+isomorphic to the model $\hat G_\sigma$ of a thread $\sigma$, and its
+automorphism group is the group $H_\sigma$ of the automorphisms of the
+first model whose restriction to every $\Lambda$ extends to an
+automorphism of $s_\Lambda$ (Proposition~\ref{prop:models}).
+Obstructions are defined at threads in the same way, and the criterion
+is first proved for threads (Theorem~\ref{thm:general}); an
+obstruction at a thread gives one at a string of models
+(Theorem~\ref{thm:bounded}). For theories with
 finitely many sentences Theorem~\ref{thm:A} is
 \cite[Thm.~1.1]{Proftrees}. There the theory is approximated by its
 restrictions to finite sets of sorts, which keep all sentences; no
@@ -238,6 +249,34 @@ all finite sets of indices and fails for $K=\mathbb N$
 models $0_k$ together, and at each finite stage, for all but finitely
 many $k$ they have become automorphisms of the model $1$.
 
+The condition of Theorem~\ref{thm:A} depends on $L$ through $n_L$. For
+$m\ge1$ let $L_m$ be the logic of the chain with $m$ elements, so that
+$n_{L_m}=m$.
+
+\begin{thm}\label{thm:E}
+\begin{enumerate}
+\item[(a)] Let $\cC$ be a coherent category with finite sorts, $L$ a
+non-classical logic proving linearity and $L'$ a logic proving
+linearity with $n_{L'}\le n_L$. If $c^L_\cC$ is an equivalence, so is
+$c^{L'}_\cC$.
+\item[(b)] For every $m\ge3$ there is a finite EI-category $\cX$ such
+that, for $L$ proving linearity, $c^L_\cC$ is an equivalence for
+$\cC=\Fin^\cX$ if and only if $n_L\le m$.
+\item[(c)] There is a pretopos $\cC$ with finite sorts such that, for
+$L$ proving linearity, $c^L_\cC$ is an equivalence if and only if
+$n_L$ is finite. So the translation commutes with the imaginaries of
+$\cC$ for all the logics $L_m$, and not for G\"odel--Dummett logic.
+\end{enumerate}
+\end{thm}
+
+For $m=3$ the category of (b) is the example of
+\cite[Ex.~6.19]{Strings}; the others generalise it
+(Section~\ref{sec:depth}). The pretopos of (c) is the colimit of the
+$\Fin^{\cX}$ along a tower of these categories. Its obstruction is at
+a string with one model; the pulled back trees of
+Theorem~\ref{thm:A} become deeper with the finite language, and by
+(c) their depth cannot be bounded in terms of the logics $L_m$.
+
 \subsection*{The method}
 If $\Mod(\cC)$ is an EI-category, $\cC$ is the directed colimit of the
 pretoposes $\Fin^{\cX_\Lambda}$ over the finite languages $\Lambda$
@@ -267,10 +306,20 @@ pullback of $W$ along $q$ is the pullback of the largest tree for $W$
 compactness argument on the finite sets of the elements at which a
 unit fails to be injective gives the criterion
 (Theorem~\ref{thm:general}), in terms of the compatible families of
-strings of the stages. These are the strings of the limit category if
-their lengths are bounded (Lemma~\ref{lem:threads}), and in general
-they describe the models of $\HH_L\cC$
-(Proposition~\ref{prop:models}).
+strings of the stages, the threads. These are the strings of the limit
+category if their lengths are bounded (Lemma~\ref{lem:threads}), and
+in general they describe the models of $\HH_L\cC$
+(Proposition~\ref{prop:models}). The relation which a leg tree
+defines on all arrows depends only on the first object of the string
+at which it is formed; so omitting objects from the strings of a
+thread gives a string of the limit category at which a failure of the
+criterion persists (Theorem~\ref{thm:bounded}). For
+Theorem~\ref{thm:E}, the strings with at most $m$ objects form a
+subterminal object of the category for $n_L>m$, and the category for
+$L_m$ is a colimit of slices (Theorem~\ref{thm:mono}); the examples
+are categories with one object with two automorphisms above a poset,
+for which the criterion is a recursion on equivalence relations
+(Lemma~\ref{lem:cone}).
 
 \subsection*{What is new and what is known}
 Known: the classification of \cite{Finsorts}, with the necessity of
@@ -282,8 +331,11 @@ Theorem~\ref{thm:general} in which the functors reflect isomorphisms
 of models \cite[Prop.~4.2]{Strings}, and for propositional theories,
 where it amounts to the description of the free G\"odel algebras over
 distributive lattices by chains of prime filters \cite{AGM08,Carai}; the implication from $\cC$ to the
-$\cC_{(Q)}$ in Theorem~\ref{thm:C} \cite[Thm.~1.3]{Proftrees}. New, to
-the author's knowledge: Theorems~\ref{thm:A}--\ref{thm:D} beyond these
+$\cC_{(Q)}$ in Theorem~\ref{thm:C} \cite[Thm.~1.3]{Proftrees}; the
+case $m=3$ of Theorem~\ref{thm:E}(b) \cite[Ex.~6.19]{Strings}, and
+that for a finite category of models the comparison is an equivalence
+if $n_L\le2$ \cite[Cor.~6.3]{Strings}. New, to
+the author's knowledge: Theorems~\ref{thm:A}--\ref{thm:E} beyond these
 cases.
 
 \section{The setting and the results used}\label{sec:setting}
@@ -907,7 +959,8 @@ being a disjoint join of the two subobjects is represented.
 \end{proof}
 
 Theorem~\ref{thm:C} is the equivalence of (i) and (iii). The open
-parts do not behave in this way. For $n_L\ge3$ let $\cC$ be the
+parts do not behave in this way. For $L$ proving linearity with
+$n_L\ge3$ let $\cC$ be the
 pretopos $\cC(G;A;T_1,T_2)$ of \cite[Thm.~1.2]{Proftrees} with
 $A\cap(T_1+T_2)\ne(A\cap T_1)+(A\cap T_2)$, so that $\HH_L\cC$ is not
 a pretopos, and $s_j$ the sentence which is false exactly in the model
@@ -1391,6 +1444,175 @@ automorphism of the model $\hat G_{s_i}$ is an arrow $s_i\to s_i$ of
 $\cS_n(\cX_i)$.
 \end{proof}
 
+\subsection*{Obstructions occur at the strings of the limit}
+The relation $E_T$ of a leg tree depends on the base string only
+through its first object $m_*$: it is a relation on $\cX(t_0,m_*)$,
+defined by composition with the arrows of $\cX$ underlying the labels
+(the sets $K_t$ and the relations $F_T$ depend on the whole base
+string). We use that two arrows of $\cS_n(\cX)$ with the same source,
+the same target and the same underlying arrow of $\cX$ are equal, and
+that an invertible arrow of $\cS_n(\cX)$ whose underlying arrow is an
+identity is the first component of an isomorphism of strings
+$(\id,\mu_1,\dots)$.
+
+\begin{lem}\label{lem:first}
+Let $q\colon\cX'\to\cX$ be a functor of finite EI-categories,
+$W\colon\cS_n(\cX)\to\Fin$, and $u$, $v$ strings of $\cX'$ with the
+same first object such that $v$ has at most as many objects as $u$.
+Let $\lambda\colon\tilde q(v)\to\tilde q(u)$ be an invertible arrow of
+$\cS_n(\cX)$ whose underlying arrow is an identity, and $a\in W(\tilde
+q(u))$. Then, for the maximal trees of $W\tilde q$,
+\[
+E_{\Max(u,a)}\subseteq E_{\Max(v,W(\lambda)^{-1}a)}
+\]
+as relations on $\cX'(u_0,m_*)$, for every object $m_*$.
+\end{lem}
+\begin{proof}
+By induction on the largest number $N(u_0)$ of composable
+non-invertible arrows of $\cX'$ ending at $u_0$; it is finite, as in
+an EI-category such a sequence does not meet an isomorphism class of
+objects twice. Let $(\beta,y)$ be a child of the root of $\Max(u,a)$:
+$\beta\colon x\to u$ is one-step, $x=(y_0\xrightarrow{p}w)$,
+$\iota\colon w\to u$ is an isomorphism of strings, the underlying
+arrow of $\beta$ is $g=\iota_0p$, and $y\in W(\tilde q(x))$ with
+$W(\tilde q\beta)y=a$. Let $\bar w$ be the string obtained from $v$ by
+replacing its first object by $w_0$ and its first arrow $c$ by
+$c\iota_0$ ($\bar w=(w_0)$ if $v$ has one object);
+$\kappa=(\iota_0,\id,\dots,\id)$ is an isomorphism of strings $\bar
+w\to v$. Let $\bar x=(y_0\xrightarrow{p}\bar w)$, a string with at
+most as many objects as $x$, and $\bar\beta\colon\bar x\to v$ the
+one-step arrow with underlying arrow $\kappa_0p=g$.
+\[
+\begin{tikzcd}[column sep=large,row sep=small]
+x=(y_0\xrightarrow{p}w)\ar[r,"\beta"]&u&\tilde q(x)\ar[r,"\tilde
+q\beta"]&\tilde q(u)\\
+\bar x=(y_0\xrightarrow{p}\bar w)\ar[r,"\bar\beta"]&v&\tilde q(\bar
+x)\ar[r,"\tilde q\bar\beta"]\ar[u,"\bar\lambda"]&\tilde
+q(v)\ar[u,"\lambda"']
+\end{tikzcd}
+\]
+The arrows $\tilde q(\iota_0)\colon\tilde q(w)\to\tilde q(u)$ and
+$\tilde q(\kappa_0)\colon\tilde q(\bar w)\to\tilde q(v)$ of
+$\cS_n(\cX)$ are invertible with underlying arrow $q(\iota_0)$; so
+$\mu=\tilde q(\iota_0)^{-1}\lambda\,\tilde q(\kappa_0)\colon\tilde
+q(\bar w)\to\tilde q(w)$ is invertible with underlying arrow the
+identity of $q(w_0)$, the first component of an isomorphism of strings
+$(\id,\mu_1,\dots)$. The strings $\tilde q(x)$ and $\tilde q(\bar x)$
+are obtained from $\tilde q(w)$ and $\tilde q(\bar w)$ in the same
+way: by adding the object $q(y_0)$ and the arrow $q(p)$ in front if
+$q(p)$ is not invertible, and by replacing the first object by
+$q(y_0)$ and composing the first arrow, if there is one, with $q(p)$
+if $q(p)$ is invertible. Accordingly $(\id_{q(y_0)},\id,\mu_1,\dots)$,
+resp.\ $(\id_{q(y_0)},\mu_1,\dots)$, is an isomorphism of strings
+$\tilde q(\bar x)\to\tilde q(x)$; let $\bar\lambda$ be the
+corresponding arrow of $\cS_n(\cX)$, invertible, with underlying arrow
+the identity of $q(y_0)$. The arrows $\tilde q(\beta)\bar\lambda$ and
+$\lambda\tilde q(\bar\beta)$ from $\tilde q(\bar x)$ to $\tilde q(u)$
+have the same underlying arrow $q(g)$, so they are equal. Hence for
+$\bar y=W(\bar\lambda)^{-1}y\in W(\tilde q(\bar x))$
+\[
+W(\tilde q\bar\beta)\bar y=W(\lambda)^{-1}W(\tilde
+q\beta)W(\bar\lambda)\bar y=W(\lambda)^{-1}a,
+\]
+and $(\bar\beta,\bar y)$ is a child of the root of
+$\Max(v,W(\lambda)^{-1}a)$, with subtree $\Max(\bar x,\bar y)$. The
+strings $x$, $\bar x$ have the first object $y_0$, with
+$N(y_0)<N(u_0)$, and $x$, $\bar x$, $\bar\lambda$, $y$ satisfy the
+hypotheses; by induction $E_{\Max(x,y)}\subseteq E_{\Max(\bar x,\bar
+y)}$ on $\cX'(y_0,m_*)$. As $\beta$ and $\bar\beta$ have the same
+underlying arrow $g$,
+\[
+\beta^*E_{\Max(x,y)}\subseteq\bar\beta^*E_{\Max(\bar x,\bar
+y)}\subseteq E_{\Max(v,W(\lambda)^{-1}a)} .
+\]
+The join over the children $(\beta,y)$ gives the claim (if there are
+no children, the left side is the equality).
+\end{proof}
+
+\begin{lem}\label{lem:sub}
+Let $\sigma=(s_i)$ be a thread and $i\in I$. There is a bounded thread
+$\tau=(t_j)$ such that $t_i=s_i$, the strings $t_j$ and $s_j$ have the
+same first object for all $j$, for $j\ge i$ the string $t_j$ has as
+many objects as $s_i$ and $\tilde q_{ji}(t_j)=s_i$, and
+$H_\sigma\subseteq H_\tau$ in $G_\sigma=G_\tau$.
+\end{lem}
+\begin{proof}
+Let $j\ge i$ and $s_j=(m_0\xrightarrow{a_1}\dots\xrightarrow{a_r}
+m_r)$. Let $k_0=0<k_1<\dots<k_e$ be the indices $k$ such that $k=0$ or
+$q_{ji}(a_k)$ is not invertible; so $\tilde q_{ji}(s_j)=s_i$ is the
+sequence of the $q_{ji}(m_{k_l})$ and the images of the composites
+$b_l\colon m_{k_{l-1}}\to m_{k_l}$ of arrows of $s_j$. Let $t_j$ be
+the sequence of the $m_{k_l}$ and the $b_l$. The $b_l$ are not
+invertible, as their images are not; so $t_j$ is a string with as many
+objects as $s_i$, $q_{ji}$ sends its arrows to those of $s_i$, and
+$\tilde q_{ji}(t_j)=s_i$; $t_i=s_i$.
+
+Let $j'\ge j\ge i$ and $s_{j'}=(m'_0\xrightarrow{a'_1}\dots)$. An
+arrow $a'_k$ whose image in $\cX_i$ is not invertible has a
+non-invertible image in $\cX_j$. The string $\tilde
+q_{j'j}(s_{j'})=s_j$ has the objects $q_{j'j}(m'_k)$, for $k=0$ and
+the $k$ with $q_{j'j}(a'_k)$ not invertible, and its arrows are the
+images of the composites of the arrows of $s_{j'}$ between them. Among
+these $k$ are the indices $k'_l$ of the objects of $t_{j'}$; so the
+$q_{j'j}(m'_{k'_l})$ are objects of $s_j$, the image of the arrow
+$b'_l$ of $t_{j'}$ is the composite of the arrows of $s_j$ between
+them, and the last of these arrows of $s_j$ is the only one among them
+whose image in $\cX_i$ is not invertible, as $q_{j'i}(a'_k)$ is
+invertible for $k'_{l-1}<k<k'_l$. Hence the $q_{j'j}(m'_{k'_l})$ are
+the objects $m_{k_l}$ of $t_j$, and $q_{j'j}$ sends the arrows of
+$t_{j'}$ to those of $t_j$, which are not invertible: $\tilde
+q_{j'j}(t_{j'})=t_j$. The family $(t_j)_{j\ge i}$ extends uniquely to
+a thread $\tau$ (put $t_j=\tilde q_{j'j}(t_{j'})$ for $j'\ge i,j$),
+which is bounded. For $j\ge i$, $t_j$ and $s_j$ have the same first
+object; for the other $j$ the first objects of $t_j$ and of
+$s_j=\tilde q_{j'j}(s_{j'})$, $j'\ge i,j$, are the image of the first
+object of $t_{j'}$ and $s_{j'}$. So $\sigma_0=\tau_0$ and
+$G_\sigma=G_\tau$. An automorphism of the string $s_j$, $j\ge i$,
+gives one of $t_j$ with the same first component (its components at
+the $m_{k_l}$ commute with the composites $b_l$); so $H_{s_j}\subseteq
+H_{t_j}$ for $j\ge i$. If $\Theta\in H_\sigma$, then
+$\rho_j(\Theta)\in H_{t_j}$ for $j\ge i$, and for the other $j$,
+$\rho_j(\Theta)=q_{j'j}(\rho_{j'}(\Theta))\in H_{t_j}$ with $j'\ge
+i,j$, by Lemma~\ref{lem:collapse}(c); so $\Theta\in H_\tau$.
+\end{proof}
+
+\begin{thm}\label{thm:bounded}
+In the situation of Theorem~\ref{thm:general}, with $n_L$ finite or
+infinite: if some pair $(i,T)$ is an obstruction at a thread, then
+some pair is an obstruction at a bounded thread. Consequently
+$\HH_L\cC$ is a pretopos if and only if no pair $(i,T)$ of an index
+$i$ and a leg tree $T$ of $\cX_i$ is an obstruction at a string of the
+limit $\cM$.
+\end{thm}
+\begin{proof}
+Suppose that no pair is an obstruction at a bounded thread; we show
+\eqref{eq:W} for all $i$, $W$, $\sigma$ and $a$, so that $\HH_L\cC$ is
+a pretopos and no pair is an obstruction at any thread, by
+Theorem~\ref{thm:general} and its proof. Let $i\in I$,
+$W\colon\cS_n(\cX_i)\to\Fin$, $\sigma=(s_j)$ a thread, $a\in W(s_i)$,
+$M=\Max(s_i,a)$ and $\Theta\in H_\sigma\cap S_{(i,M)}$; we have to
+show $W(\rho_i\Theta)a=a$. Let $\tau=(t_j)$ be as in
+Lemma~\ref{lem:sub}; $t_i=s_i$, so $M$ is a leg tree at $t_i$, and
+$\Theta\in H_\tau$. For $j\ge i$, $\rho_j(\Theta)\in S_{M^{s_j}}$,
+where $M^{s_j}$ is by (P1) the tree $\Max(s_j,a)$ of $W\tilde q_{ji}$.
+The strings $s_j$ and $t_j$ of $\cX_j$ have the same first object,
+$t_j$ has at most as many objects as $s_j$, and $\tilde
+q_{ji}(t_j)=s_i=\tilde q_{ji}(s_j)$; by Lemma~\ref{lem:first} for
+$q_{ji}$, with $u=s_j$, $v=t_j$, $\lambda$ the identity of $s_i$ and
+$m_*$ the first object of $s_j$, $E_{\Max(s_j,a)}\subseteq
+E_{\Max(t_j,a)}$, and the latter tree is $M^{t_j}$ by (P1). So
+$\rho_j(\Theta)\in S_{M^{t_j}}$ for all $j\ge i$: $\Theta$ is in the
+group $S_{(i,M)}$ formed for the thread $\tau$. As no pair is an
+obstruction at $\tau$, by Lemma~\ref{lem:groups}(d)
+$\rho_i(\Theta)\in R_M$, which fixes $a$ by (R10). The last statement
+follows with Lemma~\ref{lem:threads}(b).
+\end{proof}
+
+For $n_L=\infty$ the strings of $\cM$ have arbitrary finite length.
+The proof moves a violation of \eqref{eq:W} from a thread to a bounded
+thread whose strings are obtained by omitting objects; it does not
+show that the same pair $(i,T)$ is an obstruction there.
+
 \begin{rem}\label{rem:special}
 (a) For a constant system, $S_{(i,T)}=S_T$ and $R_{(i,T)}=R_T$, and
 Theorem~\ref{thm:general} is \cite[Thm.~6.15]{Strings}.
@@ -1436,16 +1658,24 @@ of the strings $\tilde s|_\Lambda=\tilde q_\Lambda(\tilde s)$.
 \begin{cor}\label{cor:final}
 Let $\cC$ be a pretopos with finite sorts and $L$ a non-classical
 logic proving linearity. Then $\HH_L\cC$ is a pretopos if and only if
-$\Mod(\cC)$ is an EI-category and $R_{(\Lambda,T)}=H_\sigma\cap
-S_{(\Lambda,T)}$ for every thread $\sigma=(s_\Lambda)$, every
-$\Lambda\in I$ and every leg tree $T$ of $\cX_\Lambda$ at $s_\Lambda$.
-If $\Mod(\cC)$ is an EI-category, every model of $\HH_L\cC$ is
-isomorphic to $\hat G_\sigma$ for a thread $\sigma$, and
-$H_\sigma=\Aut(\hat G_\sigma)$.
+$\Mod(\cC)$ is an EI-category and
+\[
+R_{(\Lambda,T)}=H_{\tilde s}\cap S_{(\Lambda,T)}
+\]
+for every string $\tilde s$ of standard models, every $\Lambda\in I$
+and every leg tree $T$ of $\cX_\Lambda$ at $\tilde s|_\Lambda$, the
+groups being those of the thread of $\tilde s$ and $H_{\tilde s}$ the
+group of the automorphisms of $\tilde s_0$ which extend to an
+automorphism of the string $\tilde s$. The same holds with all
+threads $\sigma=(s_\Lambda)$ and the groups $H_\sigma$ in place of the
+strings of standard models. If $\Mod(\cC)$ is an EI-category, every
+model of $\HH_L\cC$ is isomorphic to $\hat G_\sigma$ for a thread
+$\sigma$, and $H_\sigma=\Aut(\hat G_\sigma)$.
 \end{cor}
 \begin{proof}
 If $\HH_L\cC$ is a pretopos, $\Mod(\cC)$ is an EI-category by (R4). If
-$\Mod(\cC)$ is an EI-category, Theorem~\ref{thm:general} and
+$\Mod(\cC)$ is an EI-category, Theorems~\ref{thm:general}
+and~\ref{thm:bounded}, Lemma~\ref{lem:threads}(c) and
 Proposition~\ref{prop:models} apply to the inverse system above.
 \end{proof}
 
@@ -1462,7 +1692,8 @@ so by Lemma~\ref{lem:threads} the threads are the families $(\tilde
 s|_\Lambda)_\Lambda$ for the strings $\tilde s$ of standard models,
 $H_\sigma$ is the group $H_{\tilde s}$ of the automorphisms of $\tilde
 s_0$ which extend to an automorphism of the string $\tilde s$, and
-Corollary~\ref{cor:final} is a condition on the strings of models. For
+by Corollary~\ref{cor:final} every model of $\HH_L\cC$ is isomorphic
+to the model of the thread of a string of standard models. For
 $n_L$ finite this is clear. In the other case let $\sigma=(s_\Lambda)$
 be a thread. By Theorem~\ref{thm:strings}(a) and
 Remark~\ref{rem:infty}, $\hat G_\sigma\cong\hat G_{\tilde s}$ for a
@@ -1625,22 +1856,413 @@ R_{(G,T)}$. At each finite stage, for all but finitely many $k$ the
 homomorphisms $0_k\to1$ have become automorphisms of the model $1$.
 \end{ex}
 
+\section{The dependence on the logic}\label{sec:depth}
+
+The criterion depends on $L$ through $n_L$ only. We show that it
+becomes weaker when $n_L$ decreases, that every $n_L\ge3$ is the exact
+bound for some finite category, and that the criterion for
+$n_L=\infty$ is not the conjunction of those for the finite $n_L$.
+
+\subsection*{Monotonicity}
+
+\begin{lem}\label{lem:slice}
+Let $\cX$ be a finite EI-category, $n=n_L$ and $m\le n$ a positive
+integer. Then $\cS_m(\cX)$ is a full subcategory of $\cS_n(\cX)$
+closed under the arrows out of its objects; so there is a subfunctor
+$\tau_m\le1$ in $\Fin^{\cS_n(\cX)}$ with $\tau_m(s)=1$ iff $s$ has at
+most $m$ objects, it is an object of $\HH_L\Fin^\cX$, and restriction
+to $\cS_m(\cX)$ is an equivalence from $(\HH_L\Fin^\cX)/\tau_m$ to the
+full subcategory of $\Fin^{\cS_m(\cX)}$ of the functors isomorphic to
+subfunctors of the functors $A\pi$, $A$ in $\Fin^\cX$.
+\end{lem}
+\begin{proof}
+The arrows of $\cS_m$ and $\cS_n$ between strings with at most $m$
+objects are defined in the same way, and the target of an arrow $s\to
+t$ is isomorphic to a final segment of $s$, so it has at most as many
+objects as $s$. Hence $\tau_m$ is a functor, a subfunctor of
+$1=\pi^*1$, and an object of $\HH_L\Fin^\cX$ by (R9). Restriction is
+an equivalence from the functors on $\cS_n$ which are empty outside
+$\cS_m$ to the functors on $\cS_m$, the inverse being the extension by
+the empty set, which is a functor because $\cS_m$ is closed under the
+arrows out of its objects. A functor $W$ on $\cS_n$, empty outside
+$\cS_m$, is isomorphic to a subfunctor of $A\pi$ iff its restriction
+is isomorphic to a subfunctor of the restriction of $A\pi$: an
+injective transformation on $\cS_m$ extends by the empty maps.
+\end{proof}
+
+\begin{thm}\label{thm:mono}
+Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories
+over a directed set, $\cC=\varinjlim\Fin^{\cX_i}$, and $L$, $L'$
+logics proving linearity with $n_{L'}\le n_L$. If $\HH_L\cC$ is a
+pretopos, so is $\HH_{L'}\cC$.
+\end{thm}
+\begin{proof}
+Let $n=n_L$, $m=n_{L'}$, $\cE_i=\HH_L\Fin^{\cX_i}$ and
+$\cE=\HH_L\cC=\varinjlim\cE_i$ by (R3). By (R9) and
+Lemma~\ref{lem:collapse}(c), $\cE_i$ is the category of the functors
+on $\cS_n(\cX_i)$ isomorphic to subfunctors of the $A\pi$, and the
+transition functors are $W\mapsto W\tilde q_{i'i}$; the same holds for
+$L'$ and $\cS_m$. If $m=n$, $\HH_{L'}\cC\simeq\cE$ and we are done.
+Let $m<n$, so $m$ is finite, and $\tau_i=\tau_m\le1$ in $\cE_i$ as in
+Lemma~\ref{lem:slice}. For $i'\ge i$ the functor $\tilde q_{i'i}$ maps
+strings with at most $m$ objects to such strings, and its restriction
+to $\cS_m(\cX_{i'})$ is the functor $\tilde q_{i'i}$ of $\cS_m$. So
+$\tau_{i'}\le\tau_i\tilde q_{i'i}$, the image of $\tau_i$ in
+$\cE_{i'}$, and under the equivalences of Lemma~\ref{lem:slice} the
+functor
+\[
+\cE_i/\tau_i\to\cE_{i'}/\tau_{i'},\qquad W\mapsto W\tilde
+q_{i'i}\times\tau_{i'},
+\]
+corresponds to $W\mapsto W\tilde q_{i'i}$ on the functors on
+$\cS_m(\cX_i)$, that is to $\HH_{L'}(q_{i'i}^*)$. By (R3) for $L'$,
+\[
+\HH_{L'}\cC\simeq\varinjlim_i\cE_i/\tau_i .
+\]
+Let $t_i\le1$ be the image of $\tau_i$ in $\cE$; then $t_{i'}\le t_i$
+for $i'\ge i$. For $j\le i$ let $\tau_{j,i}$ be the image of $\tau_j$
+in $\cE_i$, so $\tau_i\le\tau_{j,i}$. The slice $\cE/t_j$ is the
+colimit over $i\ge j$ of the $\cE_i/\tau_{j,i}$: an object of $\cE$
+whose map to $1$ factors through $t_j$ is represented at some stage
+$i\ge j$ by an object whose map to $1$ factors through $\tau_{j,i}$,
+and the slices are full subcategories. So $\varinjlim_j\cE/t_j$, along
+the functors $Z\mapsto Z\times t_{j'}$, is the colimit of the
+categories $\cE_i/\tau_{j,i}$ over the directed set of the pairs
+$j\le i$, along the functors $Z\mapsto Z|_{i'}\times\tau_{j',i'}$ for
+$j\le j'$, $i\le i'$. The pairs $(i,i)$ are cofinal, and on them this
+is the system of the $\cE_i/\tau_i$. Hence
+\[
+\HH_{L'}\cC\simeq\varinjlim_j\cE/t_j .
+\]
+If $\cE$ is a pretopos, this is a directed colimit of pretoposes and
+coherent functors (Section~\ref{sec:setting}, Localisation), hence a
+pretopos.
+\end{proof}
+
+\begin{cor}\label{cor:mono}
+Let $\cC$ be a coherent category with finite sorts, $L$ a
+non-classical logic proving linearity and $L'$ a logic proving
+linearity with $n_{L'}\le n_L$. If $c^L_\cC$ is an equivalence, so is
+$c^{L'}_\cC$. In particular, if the translation into G\"odel--Dummett
+logic commutes with the imaginaries of $\cC$, so do the translations
+into the logics $L_m$ of the finite chains.
+\end{cor}
+\begin{proof}
+We may assume that $\cC$ is a pretopos (Section~\ref{sec:setting});
+then $\HH_L\cC$ is a pretopos, $\Mod(\cC)$ is an EI-category by (R4),
+and Theorem~\ref{thm:mono} applies to the inverse system of
+Section~\ref{sec:theories}.
+\end{proof}
+
+So for a finite EI-category $\cX$ the set of the $n$ such that
+$\HH_L\Fin^\cX$ is a pretopos for $n_L=n$ is an initial segment of
+$\{1,2,\dots,\infty\}$; it contains $1$ and $2$
+\cite[Cor.~6.3]{Strings}.
+
+\subsection*{Cone categories}
+Let $Z=\{1,\omega\}$ be the group with two elements, $P$ a finite
+poset and $\Phi\colon P^{op}\to\Fin$ a functor with an action of $Z$
+on every $\Phi(y)$ which is free and commutes with the restriction
+maps $x\mapsto x|_{y'}$, $y'\le y$. The \emph{cone category}
+$\cX(P,\Phi)$ has the objects of $P$ and one more object $c$; the
+arrows of $P$ (one arrow $y'\to y$ iff $y'\le y$), $\cX(y,c)=\Phi(y)$,
+$\Aut(c)=Z$, and no arrows from $c$ to $P$; the composites are given
+by the restrictions and the actions. It is a finite EI-category, and
+its non-invertible arrows are the arrows $y'<y$ and the elements of
+the $\Phi(y)$. For $y\in P$ and $k\ge0$ define equivalence relations
+$E^k_y$ on $\Phi(y)$ by $E^0_y=$ equality and, for $k\ge1$,
+\[
+E^k_y=\bigvee_{y'<y}\{(x_1,x_2)\mid x_1|_{y'}\mathrel{E^{k-1}_{y'}}
+x_2|_{y'}\}
+\]
+(the equality if $y$ is minimal). They increase with $k$; let
+$E^\infty_y=\bigcup_kE^k_y$ and $\infty-2=\infty$.
+
+\begin{lem}\label{lem:cone}
+Let $\cX=\cX(P,\Phi)$ and $n=n_L\ge2$. Then $\HH_L\Fin^\cX$ is a
+pretopos if and only if there are no $y\in P$ and $x\in\Phi(y)$ with
+$x\mathrel{E^{n-2}_y}\omega x$.
+\end{lem}
+\begin{proof}
+\emph{Strings.} An arrow out of $c$ is invertible; so a string is a
+chain $y_0<\dots<y_r$ of $P$, or such a chain followed by an arrow
+$x\in\Phi(y_r)$, for which we write $(y_0,\dots,y_r;x)$, a string
+with $r+2\le n$ objects, or $(c)$. For a string $s$ with first object
+in $P$ the group $G_s$ is trivial and the units are injective at $s$
+by (R11). There remains $s=(c)$, with $G_s=H_s=Z$; we take it as the
+base string. The strings $t\ne(c)$ over it are the
+$t=(y_0,\dots,y_r;x)$: an arrow $t\to(c)$ of $\cS_n$ is $\theta p$
+with $p=x|_{y_0}$ the composite of $t$ and $\theta\in Z$; so
+$V_t=\Phi(y_0)$ and $K_t=\{x|_{y_0},\omega x|_{y_0}\}$, two different
+elements. An isomorphism of strings onto $t$ is the identity on the
+$y_j$, so its source is $t$ or $(y_0,\dots,y_r;\omega x)$. Hence the
+one-step arrows into $t$ are the arrows $y'<y_0$ of $\cX$, as arrows
+from $(y',y_0,\dots,y_r;x)$ and from $(y',y_0,\dots,y_r;\omega x)$ (if
+$r+3\le n$), and the one-step arrows into $(c)$ are the $x\in\Phi(y)$,
+$y\in P$, as arrows from $(y;x)$ and from $(y;\omega x)$.
+
+\emph{The relations $F$.} For every leg tree $T$ at a string $t\ne(c)$
+over $(c)$, $F_T$ is the equality on the two-element set $K_t$: by
+induction, for a child $(\beta,T')$, $\beta$ the arrow $y'<y_0$, the
+map $g\mapsto g\beta=g|_{y'}$ from $K_t$ to $K_{t'}$ is injective, the
+action being free, and $F_{T'}$ is the equality. The same holds at
+$(c)$: for a child $(x,T')$ the map $\theta\mapsto\theta x$ from $Z$
+to $K_{t'}$ is injective. So $R_T=1$ for every leg tree at $(c)$.
+
+\emph{The relations $E$.} For a leg tree $T$ of depth at most $k$ at
+$t=(y_0,\dots,y_r;x)$ we have $E_T\subseteq E^k_{y_0}$, by induction:
+$E_T$ is the join of the relations $\beta^*E_{T'}$, $\beta$ an arrow
+$y'<y_0$ and $T'$ of depth at most $k-1$ at a string with first object
+$y'$, and $\beta^*E_{T'}$ is the set of the $(x_1,x_2)$ with
+$x_1|_{y'}\mathrel{E_{T'}}x_2|_{y'}$. Conversely, if $r+2+k\le n$, the
+leg tree $T^k_t$ at $t$ whose root has all one-step arrows into $t$ as
+children, with the subtrees $T^{k-1}_{t'}$ at their sources (no
+children if $k=0$), has $E_{T^k_t}=E^k_{y_0}$, by the same induction.
+A leg tree at $(y;x)$ has depth at most $n-2$.
+
+\emph{Conclusion.} For a leg tree $T$ at $(c)$, $E_T$ is a relation on
+the two-element set $Z$; so $\omega\in S_T$ iff for some child
+$(x,T')$ of the root we have $x\mathrel{E_{T'}}\omega x$, $T'$ being a
+leg tree at $(y;x)$ or $(y;\omega x)$. If there are no $y$, $x$ with
+$x\mathrel{E^{n-2}_y}\omega x$, then $S_T=1$ for all $T$ and the units
+are injective at $(c)$ by (R11). If $x\mathrel{E^{n-2}_y}\omega x$,
+let $k\le n-2$ be finite with $x\mathrel{E^k_y}\omega x$ and $T$ the
+leg tree at $(c)$ with the one child $(x,T^k_{(y;x)})$; then
+$\omega\in S_T$ and $R_T=1$. For $W=W_T$ and $a$ as in (R10),
+$W(\omega)a\ne a$, and there is a morphism $T\to\Max((c),a)$, so
+$\omega\in S_{\Max((c),a)}$ by (R11): the unit of $W$ is not injective
+at $(c)$. With (R9) this proves the lemma.
+\end{proof}
+
+\subsection*{The categories $\cX_d$}
+Let $d\ge1$. Let $P_d$ be the poset with the elements $b_0,\dots,b_d$,
+$a'$, $z^k_1,z^k_2$ ($1\le k\le d$) and the order generated by
+\[
+b_d<b_{d-1}<\dots<b_0,\qquad a'<b_0,\qquad z^k_i<b_k .
+\]
+Let $\Gamma$ be the set of the symbols $\beta$, $e_0,\dots,e_d$,
+$e'_0,\dots,e'_{d-1}$; put $e'_d=e_d$, and $\Gamma_{\le j}=\{\beta\}
+\cup\{e_k,e'_k\mid k\le j\}$. Let
+\begin{align*}
+\Phi_d(b_j)&=Z\times\Gamma_{\le j},\\
+\Phi_d(z^k_1)&=Z\times\Gamma_{\le k}/\bigl((\theta,e_{k-1})\sim
+(\theta,e_k)\bigr),\\
+\Phi_d(z^k_2)&=Z\times\Gamma_{\le k}/\bigl((\theta,e'_{k-1})\sim
+(\theta,e'_k)\bigr),\\
+\Phi_d(a')&=Z\times\Gamma_{\le0}/\bigl((\theta,\beta)\sim(\theta,e_0),
+\ (\theta,e'_0)\sim(\omega\theta,\beta)\bigr),
+\end{align*}
+with the action of $Z$ on the first factor, the inclusions
+$\Phi_d(b_j)\to\Phi_d(b_l)$ ($l\ge j$, so $b_l\le b_j$) as
+restrictions, and the inclusions followed by the quotient maps as the
+other restrictions. The equivalence relations are invariant under $Z$
+and no class contains $(\theta,e)$ and $(\omega\theta,e)$ (the classes
+of $\Phi_d(a')$ are $\{(\theta,\beta),(\theta,e_0),(\omega\theta,
+e'_0)\}$); so the actions are free. Let $\cX_d=\cX(P_d,\Phi_d)$. We
+write $\theta e$ for $(\theta,e)$.
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+z^d_1,z^d_2\ar[d]&&z^2_1,z^2_2\ar[d]&z^1_1,z^1_2\ar[d]&a'\ar[d]&\\
+b_d\ar[r]&\cdots\ar[r]&b_2\ar[r]&b_1\ar[r]&b_0\ar[r,"{\beta,e_0,e'_0}"]&c
+\ar[loop right,"\omega"]
+\end{tikzcd}
+\]
+For $d=1$ this is the category of \cite[Ex.~6.19]{Strings}, with
+$e_0$, $e'_0$, $e_1$, $\omega$ for $g$, $g'$, $h$, $\sigma$ there.
+
+\begin{thm}\label{thm:Xd}
+Let $L$ prove linearity and $d\ge1$. Then $\HH_L\Fin^{\cX_d}$ is a
+pretopos if and only if $n_L\le d+2$.
+\end{thm}
+\begin{proof}
+If $n_L=1$, the strings have one object and there are no one-step
+arrows; so the trees $\Max(s,a)$ have no children, and the units are
+injective by (R11). Let $n_L\ge2$. We compute the relations $E^k_y$.
+At the minimal elements they are the equality. Let $\ell_j$ be the
+equivalence relation on $\Phi_d(b_j)$ generated by $\theta
+e_{j-1}\sim\theta e_j$, $\theta e'_j\sim\theta e'_{j-1}$ if $j\ge1$,
+and by $\theta\beta\sim\theta e_0$, $\theta e'_0\sim\omega\theta\beta$
+if $j=0$ ($\theta\in Z$).
+
+\emph{Claim.} For $k\ge1$ and $0\le j\le d$, $E^k_{b_j}$ is generated
+by $\ell_j$ and, if $j<d$ and $k\ge d-j+1$, the pairs $\theta
+e_j\sim\theta e'_j$.
+
+Proof by induction on $k$. The elements below $b_j$ are $z^j_1,z^j_2$
+(for $j\ge1$), $a'$ (for $j=0$), and the $b_l$, $z^l_i$ with $l>j$. As
+$E^{k-1}$ is the equality at the minimal elements, they contribute the
+kernels of the restrictions. The kernels of the restrictions to
+$z^j_1$, $z^j_2$ (to $a'$ if $j=0$) generate $\ell_j$. For $l>j$ the
+restriction to $z^l_i$ is injective on $\Phi_d(b_j)$: the non-trivial
+classes of $\Phi_d(z^l_1)$ are the $\{\theta e_{l-1},\theta e_l\}$, and
+$e_l\notin\Gamma_{\le j}$ ($e_l\ne e'_k$ for $k\le j<l$, also if
+$l=d$); likewise for $z^l_2$. The element $b_l$, $l>j$, contributes
+the restriction of $E^{k-1}_{b_l}$ to the subset $\Phi_d(b_j)$. For
+$k=1$ this is the equality. For $k\ge2$, by the induction hypothesis
+every class of $E^{k-1}_{b_l}$ with more than one element is contained
+in $\{\theta e_{l-1},\theta e_l,\theta e'_l,\theta e'_{l-1}\}$ for one
+$\theta$; the elements of this set in $\Phi_d(b_j)$ are $\theta
+e_{l-1}$, $\theta e'_{l-1}$ if $l=j+1$, and none if $l\ge j+2$. For
+$l=j+1$: $\theta e_j$ and $\theta e'_j$ are related by
+$E^{k-1}_{b_{j+1}}$ iff $\theta e_{j+1}$ and $\theta e'_{j+1}$ are
+equal or related by one of the generators, that is, iff $j+1=d$, or
+$j+1<d$ and $k-1\ge d-j$. As $k\ge2$, this is the condition $k\ge
+d-j+1$. This proves the claim.
+
+By the claim, for $j\ge1$ every class of $E^k_{b_j}$ is contained in
+some $\{\theta\}\times\Gamma$; so $x$ and $\omega x$ are not related.
+For $j=0$: if $1\le k\le d$, the classes of $E^k_{b_0}$ are the
+$\{\theta\beta,\theta e_0,\omega\theta e'_0\}$ and singletons; if
+$k\ge d+1$, $\beta\sim e_0\sim e'_0\sim\omega\beta$. So there are $y$,
+$x$ with $x\mathrel{E^{k}_y}\omega x$ iff $k\ge d+1$, and
+Lemma~\ref{lem:cone} gives: $\HH_L\Fin^{\cX_d}$ is a pretopos iff
+$n_L-2\le d$.
+\end{proof}
+
+\subsection*{The tower}
+For $d\ge1$ let $q_d\colon\cX_{d+1}\to\cX_d$ be the functor which is
+the identity on $c$, $a'$, the $b_j$ and $z^k_i$ with $j,k\le d$,
+sends $b_{d+1}$, $z^{d+1}_1$, $z^{d+1}_2$ to $b_d$, is the identity on
+$Z$, and is given on the arrows into $c$ by $q_d(\theta e)=\theta
+\varepsilon(e)$, where $\varepsilon$ maps the symbols of $\cX_{d+1}$
+to those of $\cX_d$ by
+\[
+\varepsilon(e_d)=\varepsilon(e'_d)=\varepsilon(e_{d+1})=e_d
+\]
+and the identity on the other symbols. This is well defined and a
+functor: the map on the objects is monotone; $\varepsilon$ maps the
+symbols $\Gamma_{\le j}$ of $\cX_{d+1}$ into those of $\cX_d$ for
+$j\le d$ and $\Gamma_{\le d+1}$ into $\Gamma_{\le d}$; it sends the
+generating pairs of the relations for $z^k_i$, $k<d$, and $a'$ to the
+same pairs, the pair $(\theta e_{d-1},\theta e_d)$ for $z^d_1$ to
+itself, the pair $(\theta e'_{d-1},\theta e'_d)$ for $z^d_2$ to
+$(\theta e'_{d-1},\theta e_d)$, the pair of $z^d_2$ in $\cX_d$, and
+the pairs for $z^{d+1}_i$ to pairs of equal elements of $\Phi_d(b_d)$;
+so the maps $\Phi_{d+1}(y)\to\Phi_d(q_dy)$ are defined, equivariant
+and compatible with the restrictions. The $q_d$ form an inverse system
+indexed by the positive integers; for $d'\ge d$ the composite
+$q_{d'd}\colon\cX_{d'}\to\cX_d$ sends $b_j$ ($j\ge d$) and $z^k_i$
+($k>d$) to $b_d$, and $e_k$, $e'_k$ ($k\ge d$) to $e_d$. Let
+\[
+\cC_\infty=\varinjlim_d\Fin^{\cX_d},
+\]
+the colimit along the functors $q_d^*$.
+
+\begin{thm}\label{thm:tower}
+Let $L$ prove linearity. Then $\HH_L\cC_\infty$ is a pretopos if and
+only if $n_L$ is finite.
+\end{thm}
+\begin{proof}
+Let $n_L$ be finite. For $d'\ge n_L-2$, $\HH_L\Fin^{\cX_{d'}}$ is a
+pretopos by Theorem~\ref{thm:Xd}, so the unit of every functor
+$\cS_n(\cX_{d'})\to\Fin$ is injective by (R9), in particular that of
+$W\tilde q_{d'd}$ for $W$ at a stage $d\le d'$;
+Lemma~\ref{lem:eventual} applies.
+
+Let $n_L=\infty$. In $\cX_1$ let $T$ be the leg tree at $(c)$ whose
+root has the one child $\beta\colon(b_0;\beta)\to(c)$, which has the
+children $a'<b_0$, from $(a',b_0;\beta)$, without children, and
+$b_1<b_0$, from $t_1=(b_1,b_0;\beta)$, with the two children
+$z^1_i<b_1$, from $(z^1_i,b_1,b_0;\beta)$, without children; let $T_1$
+be its subtree at $t_1$. Let $W=W_T$ and $a$ be as in (R10); as
+$R_T=1$ (proof of Lemma~\ref{lem:cone}), $W(\omega)a\ne a$. Fix
+$d\ge1$, let $q=q_{d1}$ and $T^{(c)}$ the pullback along $q$, a leg
+tree of $\cX_d$ at $(c)$. We show $\omega\in S_{T^{(c)}}$. Then, as
+there is a morphism $T\to\Max((c),a)$, by (P4), (P1) and (R11)
+$\omega$ is in $S_{\Max((c),a)^{(c)}}$, the group of the tree
+$\Max((c),a)$ for $W\tilde q$, while $W\tilde
+q(\omega)a=W(\omega)a\ne a$; so the unit of $W\tilde q_{d1}$ is not
+injective, for every $d$, and $\HH_L\cC_\infty$ is not a pretopos by
+Lemma~\ref{lem:eventual}.
+
+Let $U$ be the leg tree of $\cX_d$ at $(c)$ whose nodes other than the
+root are: $\beta$, from $u_0=(b_0;\beta)$; above it $a'<b_0$, from
+$(a',b_0;\beta)$; and for $1\le k\le d$ the node $b_k<b_{k-1}$, from
+$u_k=(b_k,\dots,b_0;\beta)$, above the node of $u_{k-1}$, and above it
+the two nodes $z^k_i<b_k$, from $(z^k_i,b_k,\dots,b_0;\beta)$.
+
+\emph{$U$ is contained in $T^{(c)}$}, as a set of nodes closed under
+parents. We use the definition of the pullback in
+Section~\ref{sec:pull}; note that $\tilde q(u_0)=(b_0;\beta)$ and
+$\tilde q(u_k)=t_1$ for $k\ge1$, as $q$ maps the arrows $b_k<b_{k-1}$,
+$k\ge2$, to the identity of $b_1$. The arrow $\beta$ of $\cX_d$ lies
+over the child $\beta$ of $T$; above it, the subtree is the pullback
+at $u_0$, in which $a'<b_0$ lies over the child $a'<b_0$ and $b_1<b_0$
+over the child $b_1<b_0$, with subtree $T_1^{u_1}$. In $T_1^{u_1}$ the
+arrows $z^1_i<b_1$ lie over the children of $T_1$. For $1\le k<d$: in
+$T_1^{u_k}$ the one-step arrow $b_{k+1}<b_k$ from $u_{k+1}$ is mapped
+by $q$ to the identity of $t_1$, so it is a collapsing child with
+subtree $T_1^{u_{k+1}}$; and for $2\le k\le d$ the one-step arrows
+$z^k_i<b_k$ into $u_k$ are mapped to the identity of $t_1$ as well
+($q(z^k_i)=b_1$), so they are collapsing children of the root of
+$T_1^{u_k}$.
+
+\emph{$\omega\in S_U$.} Let $E_k$ be the relation on $V_{u_k}=
+\Phi_d(b_k)$ of the subtree of $U$ at $u_k$. The children $z^k_1$,
+$z^k_2$ give $e_{k-1}\sim e_k$ and $e'_k\sim e'_{k-1}$. So
+$e_{d-1}\mathrel{E_d}e'_{d-1}$, as $e_d=e'_d$; and for $1\le k<d$, if
+$e_k\mathrel{E_{k+1}}e'_k$, the child $b_{k+1}$ gives $e_k\sim e'_k$
+and so $e_{k-1}\mathrel{E_k}e'_{k-1}$. Hence $e_0\mathrel{E_1}e'_0$,
+and at $u_0$, with the child $a'$: $\beta\sim e_0\sim e'_0\sim
+\omega\beta$. So $\id\mathrel{E_U}\omega$, and $S_U\subseteq
+S_{T^{(c)}}$ by (R11), the inclusion of a set of nodes closed under
+parents being a morphism of leg trees.
+\end{proof}
+
+\begin{cor}\label{cor:tower}
+There is a pretopos $\cC$ with finite sorts such that $c^L_\cC$ is an
+equivalence for every logic $L$ proving linearity with $n_L$ finite,
+in particular for the logics $L_m$ of the finite chains, and is not an
+equivalence for G\"odel--Dummett logic.
+\end{cor}
+\begin{proof}
+$\cC_\infty$ is a directed colimit of pretoposes and coherent
+functors, hence a pretopos. An object of $\cC_\infty$ comes from some
+$\Fin^{\cX_d}$, and a coherent functor $F\colon\Fin^{\cX_d}\to\Set$
+has finite values: for an object $A$ with at most $N$ elements at
+every object of $\cX_d$, the power $A^{N+1}$ is the union of the
+subobjects on which two coordinates agree, and $F$ preserves this
+finite union. Theorem~\ref{thm:tower} applies.
+\end{proof}
+
+Corollary~\ref{cor:mono}, Theorem~\ref{thm:Xd} for $d=m-2$ and
+Corollary~\ref{cor:tower} give Theorem~\ref{thm:E}.
+
+\begin{rem}\label{rem:tower}
+(a) By Corollary~\ref{cor:mono} the criterion for G\"odel--Dummett
+logic implies those for all the logics $L_m$; by
+Corollary~\ref{cor:tower} it is strictly stronger than all of them
+together. (b) The limit of the $\cX_d$ has the objects $c$, $a'$,
+$b_j$, $z^k_i$ and one more object $b_\infty$ below all $b_j$. The
+obstruction for $n_L=\infty$ is at the string $(c)$ with one object,
+in accordance with Theorem~\ref{thm:bounded}; the depth of the pulled
+back trees $T^{(c)}$ is not bounded. For the logics $L_m$ the trees
+have depth less than $m$ and there is no obstruction; so the depth of
+the pulled back trees in Theorem~\ref{thm:A} cannot be bounded. (c) The chain $b_\infty<\dots<b_1<b_0$ gives an
+unbounded chain of prime filters of sentences of $\cC_\infty$, as it
+must: if $\Mod(\cC)$ is an EI-category and the chains of prime filters
+of a pretopos $\cC$ with finite sorts are bounded by $m$, then $\HH_L\cC$ is the free $L_m$-category
+on $\cC$ for all $L$ with $n_L\ge m$ (Proposition~\ref{prop:Lm}), and
+the criterion is the same for these $L$.
+\end{rem}
+
 \section{Questions}\label{sec:questions}
 
-\begin{que}
-Is there a theory with finite sorts for which, for $n_L=\infty$, an
-obstruction occurs only at threads which are not bounded? Is the
-condition of Theorem~\ref{thm:A} for G\"odel--Dummett logic equivalent
-to the conditions for all the logics $L_m$, $m\ge3$?
-\end{que}
+The two questions of the first version of this paper on the role of
+the threads are answered by Theorem~\ref{thm:bounded} (an obstruction
+never occurs at unbounded threads only) and by
+Corollary~\ref{cor:tower} (the criterion for G\"odel--Dummett logic is
+not equivalent to the criteria for all the logics $L_m$).
 
 \begin{que}
-Describe the threads and the groups $S_{(\Lambda,T)}$ and
-$R_{(\Lambda,T)}$ of Theorem~\ref{thm:A} in $\Mod(\cC)$ alone, without
-the finite languages. For finitely many sentences they are given by a recursion
-with joins in the lattices of closed equivalence relations, over the
-legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}. The example of
-Section~\ref{sec:family} suggests joins over a compact space of legs.
+Describe the groups $S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ of
+Theorem~\ref{thm:A} at a string of models in $\Mod(\cC)$ alone,
+without the finite languages. For finitely many sentences they are
+given by a recursion with joins in the lattices of closed equivalence
+relations, over the legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}.
+The example of Section~\ref{sec:family} suggests joins over a compact
+space of legs, and the tower of Section~\ref{sec:depth} a recursion
+along chains of models of the order type of a converging sequence.
 \end{que}
 
 \section*{Declarations}
