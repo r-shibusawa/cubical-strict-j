@@ -37,9 +37,9 @@
 
 \begin{document}
 
-\title[Finite sorts and logics with bounded chains]{Intermediate logics
+\title[Finite sorts and the logics proving linearity]{Intermediate logics
 and the imaginaries of a theory with finite sorts: the logics proving
-linearity with bounded chains}
+linearity}
 \author{Ryota Shibusawa}
 \thanks{Corresponding author. E-mail: \texttt{r-shibusawa@daiichi-koudai.ac.jp}}
 \address{Daiichi Institute of Technology}
@@ -53,23 +53,24 @@ theory in first-order logic over $L$ and adding the imaginaries need
 not commute. For the theories all of whose models are finite on every
 sort the question was open for the logics proving linearity which have
 a chain of three elements as a frame, except for theories with
-finitely many sentences. We settle it for the logics of this kind
-whose chain frames are bounded: the two operations commute if and only
-if every endomorphism of a model is invertible and no leg tree of a
+finitely many sentences. We settle it for all these logics, including
+G\"odel--Dummett logic: the two operations commute if and only if
+every endomorphism of a model is invertible and no leg tree of a
 finite language is an obstruction. A leg tree is a finite tree of
 chains of non-invertible homomorphisms of models of the theory
 restricted to a finite language. Pulled back to the larger finite
-languages, where it acquires as new branches the homomorphisms which
-become invertible after restriction, it defines two closed subgroups
-of the profinite automorphism group of a model, and it is an
-obstruction if they differ. We also show that the models of the
-translated theory are the chains of non-invertible homomorphisms, and
-that for every logic proving the weak excluded middle and every
-coherent theory, commutation can be tested on the theories of the
-models whose true sentences lie in a prime filter. In an example given
-by closed subgroups of a profinite abelian group, non-invertible
-homomorphisms converge to automorphisms, and the condition is a
-distributivity property for the cofinite sets of subgroups.
+languages, with the homomorphisms which become invertible after
+restriction as new branches, it defines two closed subgroups of the
+automorphism group of a model, and it is an obstruction if they
+differ. The models of the translated theory are
+the compatible families of such chains over the finite languages; if
+the chain frames of the logic or the chains of prime filters of
+sentences are bounded, they are the chains of non-invertible
+homomorphisms of models, and the logic can be replaced by the logic of
+a finite chain. In an example given by closed subgroups of a profinite
+abelian group, non-invertible homomorphisms converge to automorphisms,
+and the condition is a distributivity property for the cofinite sets
+of subgroups.
 \end{abstract}
 
 \maketitle
@@ -98,7 +99,7 @@ $L$. In that case it is necessary that $\Mod(\cC)$ is an
 sufficient \cite{Strings}. A \emph{sentence} is a subobject of the
 terminal object of $\cC$. For theories with finitely many sentences
 the case $n_L\ge3$ was settled in \cite{Proftrees}. This paper treats
-all theories with finite sorts, for $n_L$ finite.
+all theories with finite sorts and all logics proving linearity.
 
 The models of the pretopos completion are those of $\cC$, so let $\cC$
 be a pretopos with finite sorts. A \emph{finite language}
@@ -110,17 +111,26 @@ finite category $\cX_\Lambda$, and for $\Lambda\subseteq\Lambda'$ the
 restriction of structures is a functor
 $\cX_{\Lambda'}\to\cX_\Lambda$. A \emph{string} is a sequence
 $M_0\to\dots\to M_r$ of non-invertible homomorphisms of models with at
-most $n_L$ models. A string $\tilde s$ of models of $\cC$ restricts to
-a string $\tilde s|_\Lambda$ of $\cX_\Lambda$, after the homomorphisms
-whose restrictions are invertible have been deleted. If $\Mod(\cC)$ is
-an EI-category, then so is $\cX_\Lambda$ for cofinally many $\Lambda$
-\cite{Finsorts}; the automorphism group $G_{\tilde s}$ of the first
-model of $\tilde s$ is profinite, and it contains the closed subgroup
-$H_{\tilde s}$ of the automorphisms which extend to an automorphism of
-the string. A \emph{leg tree} $T$ of $\cX_\Lambda$ at $\tilde
-s|_\Lambda$ \cite[Def.~6.14]{Strings} is a finite tree of strings of
-$\cX_\Lambda$ which extend $\tilde s|_\Lambda$ to the left. It has a
-\emph{pullback} to every such $\Lambda'\supseteq\Lambda$
+most $n_L$ models. If $\Mod(\cC)$ is an EI-category, then so is
+$\cX_\Lambda$ for cofinally many $\Lambda$ \cite{Finsorts}, and we
+consider these $\Lambda$ only. A string $s'$ of $\cX_{\Lambda'}$
+restricts to a string $s'|_\Lambda$ of $\cX_\Lambda$, after the
+homomorphisms whose restrictions are invertible have been deleted. A
+\emph{thread} is a family $\sigma=(s_\Lambda)_\Lambda$ of strings
+$s_\Lambda$ of $\cX_\Lambda$ with $s_{\Lambda'}|_\Lambda=s_\Lambda$
+for $\Lambda\subseteq\Lambda'$. The first models of the $s_\Lambda$
+form a model $\sigma_0$ of $\cC$; its automorphism group $G_\sigma$ is
+profinite, and it contains the closed subgroup $H_\sigma$ of the
+automorphisms whose restriction to every $\Lambda$ extends to an
+automorphism of the string $s_\Lambda$. The restrictions of a string
+$\tilde s$ of models of $\cC$ form a thread; if $n_L$ is finite, or if
+the chains of prime filters of sentences are bounded, every thread
+arises in this way, and $H_\sigma$ is the group of the automorphisms
+which extend to an automorphism of the string $\tilde s$
+(Remark~\ref{rem:strings}). A \emph{leg tree} $T$ of $\cX_\Lambda$ at
+$s_\Lambda$ \cite[Def.~6.14]{Strings} is a finite tree of strings of
+$\cX_\Lambda$ which extend $s_\Lambda$ to the left. It has a
+\emph{pullback} to every $\Lambda'\supseteq\Lambda$
 (Section~\ref{sec:pull}): a branch is replaced by all branches of
 $\cX_{\Lambda'}$ over it, and new branches are added at every node for
 the arrows of $\cX_{\Lambda'}$ into the first model of its string
@@ -130,31 +140,39 @@ of equivalence relations in two ways, on all homomorphisms and on
 those which are homomorphisms of strings, at every $\Lambda'$, and
 passing to the limit, we obtain closed subgroups
 \[
-R_{(\Lambda,T)}\le H_{\tilde s}\cap S_{(\Lambda,T)}
+R_{(\Lambda,T)}\le H_\sigma\cap S_{(\Lambda,T)}
 \]
-of $G_{\tilde s}$ (Section~\ref{sec:inverse}); the pair $(\Lambda,T)$ is
-an \emph{obstruction at $\tilde s$} if they are different.
+of $G_\sigma$ (Section~\ref{sec:inverse}); the pair $(\Lambda,T)$ is
+an \emph{obstruction at $\sigma$} if they are different.
 
 \begin{thm}\label{thm:A}
 Let $\cC$ be a small coherent category with finite sorts and $L$ a
-non-classical intermediate logic proving linearity with $n_L$ finite.
-Then $c^L_\cC$ is an equivalence if and only if $\Mod(\cC)$ is an
-EI-category and no leg tree of a finite language $\Lambda$, with
-$\cX_\Lambda$ an EI-category, is an obstruction at a string of models.
+non-classical intermediate logic proving linearity. Then $c^L_\cC$ is
+an equivalence if and only if $\Mod(\cC)$ is an EI-category and no leg
+tree of a finite language of $\PP\cC$ is an obstruction at a thread.
 \end{thm}
 
-For theories with finitely many sentences this is
-\cite[Thm.~1.1]{Proftrees}, which also covers $n_L=\infty$. There the
-theory is approximated by its restrictions to finite sets of sorts,
-which keep all sentences; no homomorphism becomes invertible and there
-are no collapsing children. A finite language has finitely many
-sentences up to equivalence, and non-isomorphic models can have isomorphic restrictions;
-this was the difficulty named in \cite[Question~10.1]{Proftrees}, and
-Theorem~\ref{thm:A} answers that question for $n_L$ finite. The proof
-uses the following description of the models of $\HH_L\cC$. A model of
-$\HH_L\cC$ is a coherent functor to sets; a string $s$ is a Kripke
-model of $\cC$ over a chain which is a frame of $L$, and the
-evaluation at its first node is a model $\hat G_s$ of $\HH_L\cC$.
+If $\Mod(\cC)$ is an EI-category, the threads describe the models of
+$\HH_L\PP\cC$: every model is isomorphic to the model $\hat G_\sigma$
+of a thread $\sigma$, and $H_\sigma$ is the automorphism group of
+$\hat G_\sigma$ (Proposition~\ref{prop:models}). For theories with
+finitely many sentences Theorem~\ref{thm:A} is
+\cite[Thm.~1.1]{Proftrees}. There the theory is approximated by its
+restrictions to finite sets of sorts, which keep all sentences; no
+homomorphism becomes invertible and there are no collapsing children.
+A finite language has finitely many sentences up to equivalence, and
+non-isomorphic models can have isomorphic restrictions; this was the
+difficulty named in \cite[Question~10.1]{Proftrees}, which
+Theorem~\ref{thm:A} answers. With \cite{Finsorts} for the other
+logics, it is now determined for every intermediate logic and every
+coherent theory with finite sorts whether the translation commutes
+with the imaginaries; for the logics of Theorem~\ref{thm:A} the
+condition is stated through the finite languages
+(Section~\ref{sec:questions}). If $n_L$ is finite, the models of
+$\HH_L\cC$ have the following description. A model of $\HH_L\cC$ is a
+coherent functor to sets; a string $s$ is a Kripke model of $\cC$ over
+a chain which is a frame of $L$, and the evaluation at its first node
+is a model $\hat G_s$ of $\HH_L\cC$.
 
 \begin{thm}\label{thm:B}
 Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
@@ -167,8 +185,11 @@ $U\mapsto(s\mapsto\hat G_s(U))$ is a conservative Heyting functor from
 $\HH_L\cC$ to the category of functors from the strings to sets.
 \end{thm}
 
-For a finite category of models this is \cite[Prop.~4.2]{Strings}. The
-next result needs neither finite sorts nor linearity. For a pretopos
+For a finite category of models this is \cite[Prop.~4.2]{Strings}.
+It holds also for $n_L=\infty$ if the chains of prime filters of
+sentences are bounded, and then $\HH_L\cC$ is the free category for
+the logic of a finite chain (Proposition~\ref{prop:Lm}). The next result
+needs neither finite sorts nor linearity. For a pretopos
 $\cC$ and a prime filter $Q$ of the lattice $\Sub(1)$ of sentences let
 $\cC_{(Q)}$ be the pretopos of the theory of $\cC$ with the additional
 axioms $s'\vdash\bot$ for the sentences $s'\notin Q$; its models are
@@ -181,16 +202,9 @@ equivalence if and only if $c^L_{\cC_{(Q)}}$ is an equivalence for
 every prime filter $Q$ of $\Sub(1)$.
 \end{thm}
 
-If $\cC$ has finite sorts and every prime filter of $\Sub(1)$ contains
-only finitely many prime filters, the pretoposes $\cC_{(Q)}$ have
-finitely many sentences, and Theorem~\ref{thm:C} with
-\cite[Thm.~1.1]{Proftrees} gives a criterion for all logics proving
-linearity, including those with $n_L=\infty$
-(Corollary~\ref{cor:locfin}). For $n_L=\infty$ a criterion for all
-theories with finite sorts remains open
-(Section~\ref{sec:questions}).
-
-The first example with collapsing children is the following. Let $G$
+If every prime filter of $\Sub(1)$ contains only finitely many prime
+filters, this gives a criterion without finite languages
+(Corollary~\ref{cor:locfin}). The first example with collapsing children is the following. Let $G$
 be a profinite abelian group, $H$ a closed subgroup and
 $(S_k)_{k\in\mathbb N}$ non-zero closed subgroups \emph{converging to
 $0$}: every open subgroup contains all but finitely many $S_k$. Let
@@ -222,9 +236,7 @@ vector and $H$ generated by $(1,1,1,\dots)$, the condition holds for
 all finite sets of indices and fails for $K=\mathbb N$
 (Example~\ref{ex:conv}): the obstruction uses the legs from all the
 models $0_k$ together, and at each finite stage, for all but finitely
-many $k$ they have become automorphisms of the model $1$. A second family,
-indexed by a profinite set and without collapsing children, is treated
-in Proposition~\ref{prop:family}.
+many $k$ they have become automorphisms of the model $1$.
 
 \subsection*{The method}
 If $\Mod(\cC)$ is an EI-category, $\cC$ is the directed colimit of the
@@ -251,12 +263,14 @@ every $W$ at a stage has an injective unit at some later stage
 controlled by the largest leg tree realised at each element of $W$
 \cite{Proftrees}. The new point is that the largest tree for the
 pullback of $W$ along $q$ is the pullback of the largest tree for $W$
-\emph{with the collapsing children} (Lemma~\ref{lem:pull}). If the
-strings have bounded length, the strings of the limit category are the
-compatible families of strings (Lemma~\ref{lem:threads}), and a
+\emph{with the collapsing children} (Lemma~\ref{lem:pull}). A
 compactness argument on the finite sets of the elements at which a
 unit fails to be injective gives the criterion
-(Theorem~\ref{thm:general}).
+(Theorem~\ref{thm:general}), in terms of the compatible families of
+strings of the stages. These are the strings of the limit category if
+their lengths are bounded (Lemma~\ref{lem:threads}), and in general
+they describe the models of $\HH_L\cC$
+(Proposition~\ref{prop:models}).
 
 \subsection*{What is new and what is known}
 Known: the classification of \cite{Finsorts}, with the necessity of
@@ -384,8 +398,7 @@ $t$. Let $\pi\colon\cS_n(\cX)\to\cX$ be the first object. An arrow of
 $\cS_n(\cX)$ between strings with the same number of objects is the
 first component of an isomorphism of strings; we call it an
 \emph{isomorphism of strings} too, and it is invertible in
-$\cS_n(\cX)$. (In \cite{Strings} one string is taken in each
-isomorphism class; this gives an equivalent category.)
+$\cS_n(\cX)$.
 
 \begin{itemize}
 \item[(R8)] (\cite[Prop.~4.2]{Strings}.) Every model of
@@ -739,6 +752,40 @@ Lemma~\ref{lem:classes} the number of classes is at most $m$ by (b),
 and the rest of the proof is unchanged.
 \end{rem}
 
+For $m\ge1$ let $L_m$ be the logic of the chain with $m$ elements; it
+proves linearity, $n_{L_m}=m$, and $L\subseteq L_m$ if $m\le n_L$.
+
+\begin{prop}\label{prop:Lm}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, $L$ a logic proving linearity and $m\le n_L$ a positive
+integer such that $m=n_L$, or the chains of prime filters of
+$\Sub_\cC(1)$ have at most $m$ elements. Then $\HH_L\cC$ is an
+$L_m$-category, and $\eta\colon\cC\to\HH_L\cC$ is the free
+$L_m$-category on $\cC$.
+\end{prop}
+\begin{proof}
+All strings have at most $m$ models, by definition if $m=n_L$ and by
+(R5) otherwise. By
+Corollary~\ref{cor:cons} and Remark~\ref{rem:infty} the lattices of
+subobjects of $\HH_L\cC$ are Heyting subalgebras of those of
+$\Set^\cS$. For $F\colon\cS\to\Set$ the lattice $\Sub(F)$ is the
+Heyting algebra of the up-sets of the preorder of the pairs $(s,x)$,
+$x\in F(s)$, with $(s,x)\le(t,y)$ iff $y=F(g)x$ for an arrow $g\colon
+s\to t$. Restriction to the principal up-sets ${\uparrow}(s,x)$ embeds
+it into the product of their algebras of up-sets. By
+Theorem~\ref{thm:strings}(b), for arrows $g=\iota_0a_j\cdots a_1$ and
+$g'=\iota'_0a_{j'}\cdots a_1$ out of $s$ with $j\le j'$ we have
+$g'=hg$ for the arrow $h=\iota'_0a_{j'}\cdots a_{j+1}\iota_0^{-1}$ of
+$\cS$. So ${\uparrow}(s,x)$ is a total preorder with at most $m$
+classes, and its algebra of up-sets is that of a chain with at most
+$m$ elements, a generated subframe of the chain with $m$ elements. So
+the formulas of $L_m$ are valid in $\Sub(F)$, and $\HH_L\cC$ is an
+$L_m$-category. As $L\subseteq L_m$, the $L_m$-categories are the
+$L$-categories in which the formulas of $L_m$ are valid, with the same
+Heyting functors; so the universal property of $\HH_L\cC$ among the
+$L$-categories gives that of the free $L_m$-category.
+\end{proof}
+
 \section{Reduction to the theories below a prime filter}\label{sec:prime}
 
 In this section $\cC$ is any pretopos, $D=\Sub_\cC(1)$, $L$ is an
@@ -883,9 +930,8 @@ A logic proving linearity proves the weak excluded middle. The lattice
 of sentences of $\cC_{(Q)}$ is the quotient $D_Q$ of $D$ by the
 congruence generated by the ideal $D\setminus Q$; its prime filters
 are the prime filters of $D$ contained in $Q$, finitely many, so it is
-finite, a distributive lattice being embedded in the power set of its
-set of prime filters. The models of $\cC_{(Q)}$ are models of $\cC$,
-so it has finite sorts. Theorem~\ref{thm:stalk} and
+finite. The models of $\cC_{(Q)}$ are models of $\cC$, so it has
+finite sorts. Theorem~\ref{thm:stalk} and
 \cite[Thm.~1.1]{Proftrees} apply.
 \end{proof}
 
@@ -1135,15 +1181,23 @@ and arbitrary functors $q_{i'i}$, $q_{i'i}q_{i''i'}=q_{i''i}$, over a
 directed set, $\cM$ its limit (objects and arrows are the compatible
 families; the sets of arrows between two objects are profinite),
 $q_i\colon\cM\to\cX_i$ the projections and $\cC=\varinjlim
-\Fin^{\cX_i}$. We assume:
-\begin{itemize}
-\item[(B)] there is $m$ such that every string of every $\cX_i$ has at
-most $m$ objects.
-\end{itemize}
-This holds with $m=n$ if $n=n_L$ is finite, and if the numbers of
-isomorphism classes of objects of the $\cX_i$ are bounded. Strings of
-$\cM$ (with at most $n$ objects), their isomorphisms and automorphisms,
-and $\tilde q_i(\tilde s)$ are defined as for a finite EI-category.
+\Fin^{\cX_i}$, with the functors $J_i\colon\Fin^{\cX_i}\to\cC$. A
+\emph{thread} is a family $\sigma=(s_i)_{i\in I}$ of strings $s_i$ of
+$\cX_i$ with $\tilde q_{i'i}(s_{i'})=s_i$ for $i'\ge i$. The first
+objects of the $s_i$ form an object $\sigma_0$ of $\cM$; let
+$G_\sigma=\Aut_\cM(\sigma_0)=\varprojlim G_{s_i}$, a profinite group
+with projections $\rho_i$, and
+\[
+H_\sigma=\{\Theta\in G_\sigma\mid\rho_i(\Theta)\in H_{s_i}\text{ for
+all }i\},
+\]
+a closed subgroup; $q_{i'i}$ maps $H_{s_{i'}}$ into $H_{s_i}$ by
+Lemma~\ref{lem:collapse}(c). The numbers of objects of the $s_i$ are
+non-decreasing in $i$, and $\sigma$ is \emph{bounded} if they are
+bounded; every thread is bounded if $n=n_L$ is finite. Strings of
+$\cM$ (with at most $n$ objects), their isomorphisms and
+automorphisms, and $\tilde q_i(\tilde s)$ are defined as for a finite
+EI-category.
 
 \begin{lem}\label{lem:threads}
 \begin{enumerate}
@@ -1151,17 +1205,13 @@ and $\tilde q_i(\tilde s)$ are defined as for a finite EI-category.
 invertible iff all $q_i(f)$ are, and if $q_i(f)$ is not invertible,
 neither is $q_{i'}(f)$ for $i'\ge i$.
 \item[(b)] $\tilde s\mapsto(\tilde q_i(\tilde s))_i$ is a bijection
-from the strings of $\cM$ to the families $(s_i)_i$ of strings $s_i$
-of $\cX_i$ with $\tilde q_{i'i}(s_{i'})=s_i$ for $i'\ge i$; and there
-is $i_0$ such that for $i'\ge i\ge i_0$ the functor $q_{i'i}$ sends
-the arrows of $s_{i'}$ to the arrows of $s_i$.
-\item[(c)] For a string $\tilde s$ of $\cM$ with $s_i=\tilde q_i(
-\tilde s)$ let $G_{\tilde s}=\Aut_\cM(\tilde s_0)=\varprojlim
-G_{s_i}$, a profinite group with projections $\rho_i$, and $H_{\tilde
-s}$ the group of the first components of the automorphisms of the
-string $\tilde s$. Then $q_{i'i}$ maps $H_{s_{i'}}$ into $H_{s_i}$,
-and $H_{\tilde s}=\{\Theta\in G_{\tilde s}\mid\rho_i(\Theta)\in
-H_{s_i}\text{ for all }i\}$, a closed subgroup.
+from the strings of $\cM$ to the bounded threads; and for a bounded
+thread $(s_i)$ there is $i_0$ such that for $i'\ge i\ge i_0$ the
+functor $q_{i'i}$ sends the arrows of $s_{i'}$ to the arrows of $s_i$.
+\item[(c)] For a string $\tilde s$ of $\cM$ with thread $\sigma$, the
+group $H_\sigma$ is the group $H_{\tilde s}$ of the first components
+of the automorphisms of the string $\tilde s$. We write $G_{\tilde
+s}=G_\sigma$.
 \end{enumerate}
 \end{lem}
 \begin{proof}
@@ -1169,57 +1219,57 @@ H_{s_i}\text{ for all }i\}$, a closed subgroup.
 the components are compatible; functors preserve invertibility.
 
 (b) $\tilde q_i(\tilde s)=\tilde q_{i'i}\tilde q_{i'}(\tilde s)$ as in
-Lemma~\ref{lem:collapse}(d). By (a), for $i$ large no arrow of $\tilde
-s$ has an invertible image, so $\tilde s$ is determined by the family.
-Conversely let $(s_i)$ be such a family. The numbers of objects of the
-$s_i$ are non-decreasing in $i$ and at most $m$ by (B), so constant
-for $i\ge i_0$; then $\tilde q_{i'i}(s_{i'})=s_i$ means that $q_{i'i}$
-sends the arrows of $s_{i'}$ to those of $s_i$, and the families of
-arrows are the arrows of a string $\tilde s$ of $\cM$, non-invertible
-by (a), with $\tilde q_i(\tilde s)=s_i$ for $i\ge i_0$, hence for all
-$i$. It has at most $n$ objects, as the $s_i$ have.
+Lemma~\ref{lem:collapse}(d), so the family is a thread, bounded by the
+number of objects of $\tilde s$. By (a), for $i$ large no arrow of
+$\tilde s$ has an invertible image, so $\tilde s$ is determined by the
+family. Conversely let $(s_i)$ be a bounded thread. The numbers of
+objects of the $s_i$ are constant for $i\ge i_0$; then $\tilde
+q_{i'i}(s_{i'})=s_i$ means that $q_{i'i}$ sends the arrows of $s_{i'}$
+to those of $s_i$, and the families of arrows are the arrows of a
+string $\tilde s$ of $\cM$, non-invertible by (a), with $\tilde
+q_i(\tilde s)=s_i$ for $i\ge i_0$, hence for all $i$. It has at most
+$n$ objects, as the $s_i$ have.
 
-(c) $q_{i'i}$ maps the automorphisms of $s_{i'}$ in $\cS_n(\cX_{i'})$
-to automorphisms of $s_i$ by Lemma~\ref{lem:collapse}(c); so
-$\rho_i(H_{\tilde s})\subseteq H_{s_i}$ for $i\ge i_0$, where the
-automorphisms of the string $\tilde s$ restrict to automorphisms of
-the string $s_i$, and then for all $i$. Conversely let
-$\rho_i(\Theta)\in H_{s_i}$ for all $i$. For $i\ge i_0$ the set of the
-automorphisms of the string $s_i$, that is of the families of
-automorphisms of its objects commuting with its arrows, with first
-component $\rho_i(\Theta)$ is finite and non-empty; these sets form an
-inverse system, and an element of the limit is an automorphism of the
-string $\tilde s$ with first component $\Theta$.
+(c) Let $i_0$ be as in (b). For $i\ge i_0$ the automorphisms of the
+string $\tilde s$ restrict to automorphisms of the string $s_i$; so
+$\rho_i(H_{\tilde s})\subseteq H_{s_i}$ for $i\ge i_0$, and then for
+all $i$. Conversely let $\rho_i(\Theta)\in H_{s_i}$ for all $i$. For
+$i\ge i_0$ the set of the automorphisms of the string $s_i$, that is
+of the families of automorphisms of its objects commuting with its
+arrows, with first component $\rho_i(\Theta)$ is finite and non-empty;
+these sets form an inverse system, and an element of the limit is an
+automorphism of the string $\tilde s$ with first component $\Theta$.
 \end{proof}
 
-Let $\tilde s$ be a string of $\cM$, $s_i=\tilde q_i(\tilde s)$, $i\in
-I$ and $T$ a leg tree of $\cX_i$ at $s_i$, over $s_i$. For $i'\ge i$
-let $T^{s_{i'}}$ be the pullback along $q_{i'i}$, a leg tree of
-$\cX_{i'}$ at $s_{i'}$ over $s_{i'}$, with the subgroups
-$R_{T^{s_{i'}}}\le H_{s_{i'}}\cap S_{T^{s_{i'}}}$ of $G_{s_{i'}}$. Put
+Let $\sigma=(s_i)$ be a thread, $i\in I$ and $T$ a leg tree of $\cX_i$
+at $s_i$, over $s_i$. For $i'\ge i$ let $T^{s_{i'}}$ be the pullback
+along $q_{i'i}$, a leg tree of $\cX_{i'}$ at $s_{i'}$ over $s_{i'}$,
+with the subgroups $R_{T^{s_{i'}}}\le H_{s_{i'}}\cap S_{T^{s_{i'}}}$
+of $G_{s_{i'}}$. Put
 \[
 S_{(i,T)}=\bigcap_{i'\ge i}\rho_{i'}^{-1}\bigl(S_{T^{s_{i'}}}\bigr),
 \qquad
 R_{(i,T)}=\bigcap_{i'\ge i}\rho_{i'}^{-1}\bigl(R_{T^{s_{i'}}}\bigr).
 \]
-The pair $(i,T)$ is an \emph{obstruction at $\tilde s$} if
-$R_{(i,T)}\ne H_{\tilde s}\cap S_{(i,T)}$.
+The pair $(i,T)$ is an \emph{obstruction at $\sigma$} if
+$R_{(i,T)}\ne H_\sigma\cap S_{(i,T)}$, and an obstruction at a string
+of $\cM$ if it is one at its thread.
 
 \begin{lem}\label{lem:groups}
 \begin{enumerate}
 \item[(a)] For $i''\ge i'\ge i$, $q_{i''i'}$ maps $S_{T^{s_{i''}}}$
 into $S_{T^{s_{i'}}}$ and $R_{T^{s_{i''}}}$ into $R_{T^{s_{i'}}}$. So
-$S_{(i,T)}$ and $R_{(i,T)}$ are closed subgroups of $G_{\tilde s}$,
-the intersections are directed, and $R_{(i,T)}\le H_{\tilde s}\cap
+$S_{(i,T)}$ and $R_{(i,T)}$ are closed subgroups of $G_\sigma$,
+the intersections are directed, and $R_{(i,T)}\le H_\sigma\cap
 S_{(i,T)}$.
 \item[(b)] $S_{(i',T^{s_{i'}})}=S_{(i,T)}$ and
 $R_{(i',T^{s_{i'}})}=R_{(i,T)}$ for $i'\ge i$.
-\item[(c)] $\rho_i(H_{\tilde s}\cap S_{(i,T)})=\bigcap_{i'\ge
+\item[(c)] $\rho_i(H_\sigma\cap S_{(i,T)})=\bigcap_{i'\ge
 i}q_{i'i}(H_{s_{i'}}\cap S_{T^{s_{i'}}})$.
-\item[(d)] No pair $(i,T)$ is an obstruction at $\tilde s$ if and only
+\item[(d)] No pair $(i,T)$ is an obstruction at $\sigma$ if and only
 if
 \begin{equation}\label{eq:crit}
-\rho_i(H_{\tilde s}\cap S_{(i,T)})\subseteq R_T
+\rho_i(H_\sigma\cap S_{(i,T)})\subseteq R_T
 \end{equation}
 for every $i$ and every leg tree $T$ of $\cX_i$ at $s_i$.
 \end{enumerate}
@@ -1227,30 +1277,31 @@ for every $i$ and every leg tree $T$ of $\cX_i$ at $s_i$.
 \begin{proof}
 (a) By (P2), $T^{s_{i''}}=(T^{s_{i'}})^{s_{i''}}$, and (P3) applies to
 $q_{i''i'}$ and the tree $T^{s_{i'}}$. As $R_{T^{s_{i'}}}\le
-H_{s_{i'}}$, Lemma~\ref{lem:threads}(c) gives $R_{(i,T)}\le H_{\tilde
-s}$. (b) By (P2) the groups on the left are the intersections over
-$i''\ge i'$ of the same families, which by (a) is the intersection
-over $i''\ge i$. (c) The left side is contained in the right side by
-Lemma~\ref{lem:threads}(c). Let $\theta$ be in the right side. The
+H_{s_{i'}}$ for all $i'\ge i$, and $\rho_j=q_{i'j}\rho_{i'}$ for
+$i'\ge i,j$, we get $R_{(i,T)}\le H_\sigma$. (b) By (P2) the groups on
+the left are the intersections over $i''\ge i'$ of the same families,
+which by (a) is the intersection over $i''\ge i$. (c) The left side is
+contained in the right side. Let $\theta$ be in the right side. The
 sets of the $\Theta'\in H_{s_{i'}}\cap S_{T^{s_{i'}}}$ with
 $q_{i'i}(\Theta')=\theta$ are finite and non-empty, and form an
-inverse system by (a) and Lemma~\ref{lem:threads}(c); an element of
-the limit is $\Theta\in G_{\tilde s}$ with $\rho_i(\Theta)=\theta$,
-and $\Theta\in H_{\tilde s}\cap S_{(i,T)}$ by
-Lemma~\ref{lem:threads}(c). (d) If no pair is an obstruction, then
-$H_{\tilde s}\cap S_{(i,T)}=R_{(i,T)}\subseteq\rho_i^{-1}(R_{T^{s_i}})$,
+inverse system by (a) and Lemma~\ref{lem:collapse}(c); an element of
+the limit is $\Theta\in G_\sigma$ with $\rho_i(\Theta)=\theta$ and
+$\rho_{i'}(\Theta)\in H_{s_{i'}}\cap S_{T^{s_{i'}}}$ for $i'\ge i$, so
+$\Theta\in H_\sigma\cap S_{(i,T)}$. (d) If no pair is an obstruction, then
+$H_\sigma\cap S_{(i,T)}=R_{(i,T)}\subseteq\rho_i^{-1}(R_{T^{s_i}})$,
 and $T^{s_i}=T$. Conversely, \eqref{eq:crit} for the pair
-$(i',T^{s_{i'}})$ and (b) give $H_{\tilde s}\cap
+$(i',T^{s_{i'}})$ and (b) give $H_\sigma\cap
 S_{(i,T)}\subseteq\rho_{i'}^{-1}(R_{T^{s_{i'}}})$ for all $i'\ge i$,
-so $H_{\tilde s}\cap S_{(i,T)}\subseteq R_{(i,T)}$.
+so $H_\sigma\cap S_{(i,T)}\subseteq R_{(i,T)}$.
 \end{proof}
 
 \begin{thm}\label{thm:general}
-Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories
-satisfying \emph{(B)}, with limit $\cM$, $\cC=\varinjlim\Fin^{\cX_i}$,
-and $L$ a logic proving linearity. Then $\HH_L\cC$ is a pretopos if
-and only if no pair $(i,T)$ of an index $i$ and a leg tree $T$ of
-$\cX_i$ is an obstruction at a string of $\cM$.
+Let $(\cX_i)_{i\in I}$ be an inverse system of finite EI-categories,
+$\cC=\varinjlim\Fin^{\cX_i}$, and $L$ a logic proving linearity. Then
+$\HH_L\cC$ is a pretopos if and only if no pair $(i,T)$ of an index
+$i$ and a leg tree $T$ of $\cX_i$ is an obstruction at a thread. If
+all threads are bounded, in particular if $n_L$ is finite, the threads
+are the strings of the limit $\cM$.
 \end{thm}
 \begin{proof}
 Fix $i$ and $W\colon\cS_n(\cX_i)\to\Fin$. For $i'\ge i$ let
@@ -1267,27 +1318,77 @@ then with $s'=\tilde q_{i''i'}s''$ we have $M^{s''}=(M^{s'})^{s''}$ by
 (P2), so $\Theta'=q_{i''i'}(\Theta'')\in H_{s'}$ satisfies
 $\id\mathrel{E_{M^{s'}}}\Theta'$ by (P3), and
 $q_{i'i}(\Theta')=\theta$. These maps form an inverse system of finite
-sets, so some $\mathcal B_{i'}$ is empty iff the limit is empty. By
-Lemma~\ref{lem:threads}(b), the indices $i'\ge i$ being cofinal, and
-Lemma~\ref{lem:groups}(c), an element of the limit is a string $\tilde
-s$ of $\cM$, $a\in W(s_i)$ and $\theta\in\rho_i(H_{\tilde s}\cap
-S_{(i,\Max(s_i,a))})$ with $W(\theta)a\ne a$. With
+sets, so some $\mathcal B_{i'}$ is empty iff the limit is empty. An
+element of the limit is a family of strings $s_{i'}$, $i'\ge i$, with
+$\tilde q_{i''i'}(s_{i''})=s_{i'}$, which extends uniquely to a thread
+$\sigma$ (put $s_j=\tilde q_{i'j}(s_{i'})$ for $i'\ge i,j$), together
+with $a\in W(s_i)$ and $\theta\in\bigcap_{i'\ge i}q_{i'i}(H_{s_{i'}}
+\cap S_{\Max(s_i,a)^{s_{i'}}})$ with $W(\theta)a\ne a$; by
+Lemma~\ref{lem:groups}(c) the condition on $\theta$ is $\theta\in
+\rho_i(H_\sigma\cap S_{(i,\Max(s_i,a))})$. With
 Lemma~\ref{lem:eventual}: $\HH_L\cC$ is a pretopos iff for all $i$,
-$W$, $\tilde s$ and $a\in W(s_i)$,
+$W$, threads $\sigma$ and $a\in W(s_i)$,
 \begin{equation}\label{eq:W}
-\rho_i\bigl(H_{\tilde s}\cap S_{(i,\Max(s_i,a))}\bigr)\ \text{fixes }a.
+\rho_i\bigl(H_\sigma\cap S_{(i,\Max(s_i,a))}\bigr)\ \text{fixes }a.
 \end{equation}
 By Lemma~\ref{lem:groups}(d) it remains to show that \eqref{eq:W} for
-all $i$, $W$, $\tilde s$, $a$ is equivalent to \eqref{eq:crit} for all
-$i$, $\tilde s$, $T$. If \eqref{eq:crit} holds, then \eqref{eq:W}
+all $i$, $W$, $\sigma$, $a$ is equivalent to \eqref{eq:crit} for all
+$i$, $\sigma$, $T$. If \eqref{eq:crit} holds, then \eqref{eq:W}
 holds: $\Max(s_i,a)$ is realised in $W$ with $a$ at the root, so
 $R_{\Max(s_i,a)}$ fixes $a$ by (R10). Conversely assume \eqref{eq:W}
 and let $T$ be a leg tree at $s_i$. Let $W=W_T$ as in (R10), with $a$
 at the root. There is a morphism $T\to\Max(s_i,a)$ by (R11), hence
 morphisms $T^{s_{i'}}\to\Max(s_i,a)^{s_{i'}}$ by (P4), so
-$S_{(i,T)}\subseteq S_{(i,\Max(s_i,a))}$ by (R11). So $\rho_i(H_{\tilde
-s}\cap S_{(i,T)})$ fixes $a$, and it is contained in $R_T$ by the
-property of $W_T$.
+$S_{(i,T)}\subseteq S_{(i,\Max(s_i,a))}$ by (R11). So
+$\rho_i(H_\sigma\cap S_{(i,T)})$ fixes $a$, and it is contained in
+$R_T$ by the property of $W_T$. The last statement is
+Lemma~\ref{lem:threads}(b).
+\end{proof}
+
+\begin{prop}\label{prop:models}
+In the situation of Theorem~\ref{thm:general}:
+\begin{enumerate}
+\item[(a)] For a thread $\sigma=(s_i)$ there is a model $\hat
+G_\sigma$ of $\HH_L\cC$ over the evaluation at $\sigma_0$, with $\hat
+G_\sigma(\HH_L(J_i)U)=\hat G_{s_i}(U)$ for $U$ in $\HH_L\Fin^{\cX_i}$.
+\item[(b)] Every model of $\HH_L\cC$ is isomorphic to $\hat G_\sigma$
+for a thread $\sigma$.
+\item[(c)] $H_\sigma$ is the group of the automorphisms $\Theta$ of
+$\sigma_0$ with $\Theta(\hat G_\sigma(U))=\hat G_\sigma(U)$ for all
+$U$, that is, the automorphism group of the model $\hat G_\sigma$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+A model $F$ of $\cC$ is isomorphic to the evaluation at an object of
+$\cM$: the sets of the pairs of an object $x_i$ of $\cX_i$ and an
+isomorphism from $FJ_i$ to the evaluation at $x_i$ are finite and
+non-empty, they form an inverse system, and an element of the limit is
+an object $x$ of $\cM$ with an isomorphism from $F$ to the evaluation
+at $x$. By (R3), $\HH_L\cC$ is the colimit of the $\HH_L\Fin^{\cX_i}$;
+so a model of $\HH_L\cC$ over the evaluation at $x$ is a family of
+models $\hat G_i$ of $\HH_L\Fin^{\cX_i}$ over $q_ix$ with $\hat
+G_{i'}(\HH_L(q_{i'i}^*)U)=\hat G_i(U)$ for $i'\ge i$ and all $U$.
+
+(a) The $\hat G_{s_i}$ are such a family by
+Lemma~\ref{lem:collapse}(b). (b) Let $\hat G=(\hat G_i)$ be a model
+over the evaluation at $x$, and $\Sigma_i$ the set of the strings $s$
+of $\cX_i$ with first object $q_ix$ and $\hat G_s=\hat G_i$. It is
+finite, and non-empty: by (R8) there are a string $t$ and an
+isomorphism of models $\hat G_i\to\hat G_t$, given by an isomorphism
+$\varphi\colon q_ix\to t_0$; replacing the first object of $t$ by
+$q_ix$ and its first arrow $a_1$ by $a_1\varphi$ (if $t$ has one
+object: $t$ by $(q_ix)$) gives a string $s$ and an isomorphism of
+strings $s\to t$ with first component $\varphi$, so $\hat
+G_s(U)=\varphi^{-1}\hat G_t(U)=\hat G_i(U)$. By
+Lemma~\ref{lem:collapse}(b), $\tilde q_{i'i}$ maps $\Sigma_{i'}$ to
+$\Sigma_i$: for $s'\in\Sigma_{i'}$, $\hat G_{\tilde q_{i'i}(s')}(U)=
+\hat G_{s'}(\HH_L(q_{i'i}^*)U)=\hat G_i(U)$. An element of the limit
+of the $\Sigma_i$ is a thread $\sigma$ with $\hat G_\sigma=\hat G$.
+(c) An automorphism $\Theta$ of $\sigma_0$ preserves all $\hat
+G_\sigma(U)$ iff every $\rho_i(\Theta)$ preserves all $\hat
+G_{s_i}(U)$, iff $\rho_i(\Theta)\in H_{s_i}$ for all $i$, by (R8): an
+automorphism of the model $\hat G_{s_i}$ is an arrow $s_i\to s_i$ of
+$\cS_n(\cX_i)$.
 \end{proof}
 
 \begin{rem}\label{rem:special}
@@ -1298,14 +1399,14 @@ Theorem~\ref{thm:general} is \cite[Thm.~6.15]{Strings}.
 collapsing children, and the pullback $T^{s_{i'}}$ consists of the
 branches of $\cX_{i'}$ over those of $T$. For the towers of
 \cite[\S7]{Proftrees}, whose functors are bijective on objects and
-full, and which satisfy (B), the pairs $(i,T)$ are the profinite leg
+full, and whose threads are bounded, the pairs $(i,T)$ are the profinite leg
 trees and Theorem~\ref{thm:general} is \cite[Thm.~8.2]{Proftrees}.
 
 (c) If $n\le2$, there are no obstructions: a string with two objects
 has no one-step arrows into it, and for a string $s=(m)$ and a
 one-step arrow $\beta$ into $s$ the relations $\beta^*(=)$ on
 $V_s=G_s$ and on $K_s=H_s=G_s$ coincide; the same holds for the
-pullbacks (compare \cite[Thm.~1.1(4)]{Finsorts}).
+pullbacks.
 \end{rem}
 
 \section{Theories with finite sorts}\label{sec:theories}
@@ -1322,39 +1423,67 @@ sets $\{1,\dots,e\}$ and all subobjects of finite products of objects
 by relations, so that all coherent sequents valid in $\cC$ hold; this
 is a standard model, the morphisms of $\cC$ being interpreted through
 their graphs; and a compatible family of homomorphisms is a natural
-transformation. So the strings of $\cM$ are the strings of standard
-models of $\cC$, and for such a string $\tilde s$ and $\Lambda\in I$
-we have the string $\tilde s|_\Lambda=\tilde q_\Lambda(\tilde s)$ of
-$\cX_\Lambda$, the closed subgroup $H_{\tilde s}$ of the profinite
-group $G_{\tilde s}=\Aut(\tilde s_0)$, and for a leg tree $T$ of
-$\cX_\Lambda$ at $\tilde s|_\Lambda$ the closed subgroups
-$R_{(\Lambda,T)}\le H_{\tilde s}\cap S_{(\Lambda,T)}$ of
-Section~\ref{sec:inverse}. Every string of models of $\cC$ is
-isomorphic to a string of standard models.
+transformation. A thread $\sigma=(s_\Lambda)$ is a family of strings
+$s_\Lambda$ of $\cX_\Lambda$, $\Lambda\in I$, with $\tilde
+q_{\Lambda'\Lambda}(s_{\Lambda'})=s_\Lambda$; $\sigma_0$ is a standard
+model of $\cC$, and for a leg tree $T$ of $\cX_\Lambda$ at $s_\Lambda$
+we have the closed subgroups $R_{(\Lambda,T)}\le H_\sigma\cap
+S_{(\Lambda,T)}$ of $G_\sigma=\Aut(\sigma_0)$ of
+Section~\ref{sec:inverse}. The strings of $\cM$ are the strings of
+standard models of $\cC$, and such a string $\tilde s$ has the thread
+of the strings $\tilde s|_\Lambda=\tilde q_\Lambda(\tilde s)$.
 
 \begin{cor}\label{cor:final}
 Let $\cC$ be a pretopos with finite sorts and $L$ a non-classical
-logic proving linearity with $n_L$ finite. Then $\HH_L\cC$ is a
-pretopos if and only if $\Mod(\cC)$ is an EI-category and
-$R_{(\Lambda,T)}=H_{\tilde s}\cap S_{(\Lambda,T)}$ for every string
-$\tilde s$ of standard models of $\cC$, every $\Lambda\in I$ and every
-leg tree $T$ of $\cX_\Lambda$ at $\tilde s|_\Lambda$.
+logic proving linearity. Then $\HH_L\cC$ is a pretopos if and only if
+$\Mod(\cC)$ is an EI-category and $R_{(\Lambda,T)}=H_\sigma\cap
+S_{(\Lambda,T)}$ for every thread $\sigma=(s_\Lambda)$, every
+$\Lambda\in I$ and every leg tree $T$ of $\cX_\Lambda$ at $s_\Lambda$.
+If $\Mod(\cC)$ is an EI-category, every model of $\HH_L\cC$ is
+isomorphic to $\hat G_\sigma$ for a thread $\sigma$, and
+$H_\sigma=\Aut(\hat G_\sigma)$.
 \end{cor}
 \begin{proof}
 If $\HH_L\cC$ is a pretopos, $\Mod(\cC)$ is an EI-category by (R4). If
-$\Mod(\cC)$ is an EI-category, Theorem~\ref{thm:general} applies to
-the inverse system above, which satisfies (B) with $m=n_L$.
+$\Mod(\cC)$ is an EI-category, Theorem~\ref{thm:general} and
+Proposition~\ref{prop:models} apply to the inverse system above.
 \end{proof}
 
 This is Theorem~\ref{thm:A}. By Lemma~\ref{lem:groups}(d) the
-condition can be tested in the finite groups $H_{\tilde
-s|_\Lambda}$: the image of $H_{\tilde s}\cap S_{(\Lambda,T)}$ is
-contained in $R_T$. By Theorem~\ref{thm:stalk} it suffices to test the
-pretoposes $\cC_{(Q)}$.
+condition can be tested in the finite groups $H_{s_\Lambda}$: the
+image of $H_\sigma\cap S_{(\Lambda,T)}$ is contained in $R_T$. By
+Theorem~\ref{thm:stalk} it suffices to test the pretoposes
+$\cC_{(Q)}$.
 
-\section{Two families with profinite abelian groups}\label{sec:family}
+\begin{rem}\label{rem:strings}
+Suppose that $n_L$ is finite, or that the chains of prime filters of
+$\Sub_\cC(1)$ have at most $m$ elements. Then every thread is bounded;
+so by Lemma~\ref{lem:threads} the threads are the families $(\tilde
+s|_\Lambda)_\Lambda$ for the strings $\tilde s$ of standard models,
+$H_\sigma$ is the group $H_{\tilde s}$ of the automorphisms of $\tilde
+s_0$ which extend to an automorphism of the string $\tilde s$, and
+Corollary~\ref{cor:final} is a condition on the strings of models. For
+$n_L$ finite this is clear. In the other case let $\sigma=(s_\Lambda)$
+be a thread. By Theorem~\ref{thm:strings}(a) and
+Remark~\ref{rem:infty}, $\hat G_\sigma\cong\hat G_{\tilde s}$ for a
+string $\tilde s$ of standard models with at most $m$ models; changing
+the first model and the first arrow of $\tilde s$ along this
+isomorphism, we may assume $\tilde s_0=\sigma_0$ and $\hat G_{\tilde
+s}=\hat G_\sigma$. Let $\tau=(t_\Lambda)$ be the thread of $\tilde s$.
+Then $\hat G_{\tilde s}(\HH_L(J_\Lambda)U)=\hat G_{t_\Lambda}(U)$, as
+in Lemma~\ref{lem:collapse}(b): the composite of $\HH_L(J_\Lambda)$
+with the Heyting functor of the Kripke model $\tilde s$ extends the
+Kripke model of the restrictions to $\Lambda$, and
+Lemma~\ref{lem:collapse}(a) applies. So $\hat G_{t_\Lambda}=\hat
+G_{s_\Lambda}$, and by (R8) the identity of the first object is an
+arrow $\iota_0p\colon s_\Lambda\to t_\Lambda$ of
+$\cS_n(\cX_\Lambda)$; as it is invertible in $\cX_\Lambda$, $p$ is an
+identity, and $s_\Lambda$ is isomorphic to $t_\Lambda$, which has at
+most $m$ objects.
+\end{rem}
 
-\subsection*{Legs converging to automorphisms}
+\section{A family with legs converging to automorphisms}\label{sec:family}
+
 Let $G$ be a profinite abelian group, $H$ a closed subgroup and
 $(S_k)_{k\in\mathbb N}$ non-zero closed subgroups converging to $0$.
 For an open subgroup $N$ let $I_N$ be the finite set of the $k$ with
@@ -1496,144 +1625,22 @@ R_{(G,T)}$. At each finite stage, for all but finitely many $k$ the
 homomorphisms $0_k\to1$ have become automorphisms of the model $1$.
 \end{ex}
 
-\subsection*{A family over a profinite set}
-Let $G$ be a profinite abelian group, $A$ a closed subgroup, $J$ a
-profinite set and $(T_j)_{j\in J}$ a family of closed subgroups which
-is \emph{continuous}: for every open subgroup $N$ the map $j\mapsto
-T_j+N$ is locally constant. Let $I$ be the set of the pairs
-$i=(N,\varpi)$ of an open subgroup $N$ and a finite partition $\varpi$
-of $J$ into open and closed sets on each of which $T_j+N$ is constant,
-with value $T_c+N$ on $c\in\varpi$; $(N',\varpi')\ge(N,\varpi)$ if
-$N'\subseteq N$ and $\varpi'$ refines $\varpi$. This is a directed
-set. Let $\cX_i$ have the objects $0_c$, $c\in\varpi$, $1$, $2$, with
-$\Aut(2)=(A+N)/N$, trivial automorphism groups otherwise, and
-\[
-\cX_i(1,2)=G/N,\qquad\cX_i(0_c,1)=\cX_i(0_c,2)=G/(T_c+N),
-\]
-composition being the addition, and no other arrows; a finite
-EI-category. For $i'\ge i$ the functor $q_{i'i}$ sends $0_{c'}$ to
-$0_c$, $c'\subseteq c$, and is given by the quotient maps on the
-arrows. These functors reflect isomorphisms. The limit has the objects
-$0_j$, $j\in J$, $1$, $2$, with $\Aut(2)=A$ and the sets of arrows
-$G$, $G/T_j$, $G/T_j$. For finite $J$ this is the family of \cite[Thm.~1.2]{Proftrees}.
-
-\begin{prop}\label{prop:family}
-Let $\cC=\varinjlim\Fin^{\cX_i}$ for this system and $L$ a logic
-proving linearity with $n_L\ge3$. Then $\HH_L\cC$ is a pretopos if and
-only if
-\begin{equation}\label{eq:closed}
-A\cap\overline{\sum_{j\in K}T_j}=\overline{\sum_{j\in K}(A\cap T_j)}
-\qquad\text{for every open and closed }K\subseteq J.
-\end{equation}
-\end{prop}
-\begin{proof}
-For an open and closed $K\subseteq J$ write $T_K=\overline{\sum_{j\in
-K}T_j}$ and $R_K=\overline{\sum_{j\in K}(A\cap T_j)}$. For
-$i'=(N',\varpi')$ and $K$ a union of classes of $\varpi'$ let
-\[
-P_{i'}(K)=N'+\sum_{c'\in\varpi',\,c'\subseteq K}\bigl((A+N')\cap
-(T_{c'}+N')\bigr);
-\]
-note that $N'+\sum_{c'\subseteq K}(T_{c'}+N')=N'+\sum_{j\in K}T_j$.
-These closed subgroups decrease with $i'$, and $\bigcap_{i'}(N'+
-\sum_{j\in K}T_j)=T_K$. \emph{Claim: $\bigcap_{i'}P_{i'}(K)=R_K$.} The
-inclusion $\supseteq$ is clear. Let $N''$ be an open subgroup. For
-$j\in K$ the groups $(A+N')\cap(T_j+N')$ decrease to $A\cap T_j$, so
-there is $N'_j\subseteq N''$ with $(A+N'_j)\cap(T_j+N'_j)\subseteq
-(A\cap T_j)+N''$, and by continuity an open neighbourhood $U_j$ of $j$
-in $K$ on which $T_{j'}+N'_j=T_j+N'_j$. Finitely many
-$U_{j_1},\dots,U_{j_r}$ cover $K$; let $N'$ be the intersection of the
-$N'_{j_l}$ and $\varpi'$ a partition with $(N',\varpi')\in I$ such
-that every class contained in $K$ lies in some $U_{j_l}$. For such a
-class $c'\subseteq U_{j_l}$ we get $(A+N')\cap(T_{c'}+N')\subseteq
-(A+N'_{j_l})\cap(T_{j_l}+N'_{j_l})\subseteq(A\cap T_{j_l})+N''$. So
-$P_{i'}(K)\subseteq\sum_{j\in K}(A\cap T_j)+N''$, and the intersection
-over $N''$ of the right sides is $R_K$.
-
-We apply Theorem~\ref{thm:general}; (B) holds with $m=3$, and there
-are no collapsing children. The strings of the limit are threads of
-strings of the $\cX_i$. For a string whose first object is $0_c$ or
-$1$ the group $G_s$ is trivial, and there is no obstruction. Let
-$\tilde s=(2)$, with $G_{\tilde s}=H_{\tilde s}=A$. In $\cX_{i'}$ the
-one-step arrows into $(2)$ are the arrows $\kappa\colon t_\gamma\to
-(2)$ from the strings $t_\gamma=(1\xrightarrow{\gamma}2)$, $\gamma\in
-G/N'$, with $\kappa\in(A+N')/N'+\gamma$, and the arrows
-$d\colon(0_{c'}\xrightarrow{d_0}2)\to(2)$ with $d\in(A+N')/N'+d_0$.
-The one-step arrows into $t_\gamma$ are the arrows
-$x\colon(0_{c'}\xrightarrow{x}1\xrightarrow{\gamma'}2)\to t_\gamma$
-with $\gamma'\in(A+N')/N'+\gamma$, as $\Aut(1)$ is trivial; these
-strings have no one-step arrows into them. Over $(2)$ we have
-$V_{t_\gamma}=G/N'$ and $K_{t_\gamma}=(A+N')/N'+\gamma$.
-
-Let $T$ be a leg tree of $\cX_i$ at $(2)$. For a child $\nu$ of the
-root with a string $(1\to2)$ let $K_\nu\subseteq J$ be the union of
-the classes $c$ such that $\nu$ has a child with first object $0_c$,
-and let $K'$ be the union of the classes $c$ such that the root has a
-child with a string $(0_c\to2)$. In the pullback $T^{(2)}$ to $i'\ge
-i$, a node over $\nu$ has a child with first object $0_{c'}$ exactly
-for the classes $c'\subseteq K_\nu$, the quotient maps being
-surjective. A leg $x$ from $0_{c'}$ gives on $V_{t_\gamma}$ the
-relation $g+x=g'+x$ in $G/(T_{c'}+N')$, that is $g-g'\in
-(T_{c'}+N')/N'$, and on $K_{t_\gamma}$ its restriction $g-g'\in
-((A+N')\cap(T_{c'}+N'))/N'$. So at such a node $E$ is $g-g'\in
-(N'+\sum_{j\in K_\nu}T_j)/N'$ and $F$ is $g-g'\in P_{i'}(K_\nu)/N'$.
-At the root, the leg $\kappa$ into this node gives on $(A+N')/N'$ the
-relations $a-a'\in((A+N')\cap(N'+\sum_{j\in K_\nu}T_j))/N'$ for $E$
-and $a-a'\in P_{i'}(K_\nu)/N'$ for $F$, and a leg $d$ from a string
-$(0_{c'}\to2)$ gives $a+d=a'+d$ in $G/(T_{c'}+N')$ for both. Hence the
-inverse images in $A$ of $S_{T^{(2)}}$ and $R_{T^{(2)}}$ are the
-intersections of $A$ with
-\[
-N'+\sum_\nu(A+N')\cap\Bigl(N'+\sum_{j\in K_\nu}T_j\Bigr)+P_{i'}(K')
-\qquad\text{and}\qquad\sum_\nu P_{i'}(K_\nu)+P_{i'}(K').
-\]
-Passing to the intersections over $i'$, by the claim and the
-compactness of $G$,
-\[
-S_{(i,T)}=\sum_\nu(A\cap T_{K_\nu})+R_{K'},\qquad
-R_{(i,T)}=\sum_\nu R_{K_\nu}+R_{K'}.
-\]
-If \eqref{eq:closed} holds, these are equal. Conversely, for an open
-and closed $K$ choose $i=(N,\varpi)$ with $K$ a union of classes of
-$\varpi$, and let $T$ be the leg tree of $\cX_i$ at $(2)$ with one
-child $(0\colon(1\xrightarrow{0}2)\to(2))$ of the root, which has the
-children $(0\colon(0_c\xrightarrow{0}1\xrightarrow{0}2)\to(1
-\xrightarrow{0}2))$, $c\subseteq K$; then $S_{(i,T)}=A\cap T_K$ and
-$R_{(i,T)}=R_K$.
-\end{proof}
-
-\begin{ex}\label{ex:infinite}
-Let $G=(\mathbb Z/2)^{\mathbb N}$, $J=\mathbb N\cup\{\infty\}$ the
-one-point compactification, $T_k=\langle e_k\rangle$ for $k\in\mathbb
-N$, $T_\infty=0$, and $A=\langle(1,1,1,\dots)\rangle$. The family is
-continuous: an open subgroup contains $e_k$ for all but finitely many
-$k$. For an open and closed $K$ not containing some $k_0\in\mathbb N$,
-the elements of $T_K$ have $k_0$-th coordinate $0$, so both sides of
-\eqref{eq:closed} are $0$. For $K=J$ the left side is $A$ and the
-right side is $0$. So $c^L_\cC$ is not an equivalence for $n_L\ge3$,
-although \eqref{eq:closed} holds for every proper open and closed
-subset containing $\infty$ and for every finite set of indices.
-\end{ex}
-
 \section{Questions}\label{sec:questions}
 
 \begin{que}
-Is there a criterion as in Theorem~\ref{thm:A} for the logics proving
-linearity with $n_L=\infty$? If the chains of prime filters of
-$\Sub(1)$ are bounded, the models of $\HH_L\cC$ are still strings
-(Remark~\ref{rem:infty}), but we do not know whether the strings of the
-categories $\cX_\Lambda$ are bounded, as \emph{(B)} requires; without
-a bound, Lemma~\ref{lem:threads}(b) is not available.
+Is there a theory with finite sorts for which, for $n_L=\infty$, an
+obstruction occurs only at threads which are not bounded? Is the
+condition of Theorem~\ref{thm:A} for G\"odel--Dummett logic equivalent
+to the conditions for all the logics $L_m$, $m\ge3$?
 \end{que}
 
 \begin{que}
-Describe the groups $S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ of
-Theorem~\ref{thm:A} in $\Mod(\cC)$ alone, without the finite
-languages. For finitely many sentences they are given by a recursion
+Describe the threads and the groups $S_{(\Lambda,T)}$ and
+$R_{(\Lambda,T)}$ of Theorem~\ref{thm:A} in $\Mod(\cC)$ alone, without
+the finite languages. For finitely many sentences they are given by a recursion
 with joins in the lattices of closed equivalence relations, over the
-legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}. The examples of
-Section~\ref{sec:family} suggest joins over a compact space of legs in
-which non-invertible homomorphisms can converge to isomorphisms.
+legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}. The example of
+Section~\ref{sec:family} suggests joins over a compact space of legs.
 \end{que}
 
 \section*{Declarations}
