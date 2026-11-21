@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.49.2` (paper 50, second revision: the criterion at chains of models for all
-  logics proving linearity, and its dependence on the logic -- `docs/consolidated/collapse.pdf`), archived at DOI (pending) -- cite this one.
+  logics proving linearity, and its dependence on the logic -- `docs/consolidated/collapse.pdf`), archived at DOI [10.5281/zenodo.24411634](https://doi.org/10.5281/zenodo.24411634) -- cite this one.
 - Previous: release `v1.49.1` (paper 50 revised: the criterion for all logics proving linearity,
   without a bound on the chains -- `docs/consolidated/collapse.pdf`), archived at DOI [10.5281/zenodo.24408710](https://doi.org/10.5281/zenodo.24408710).
 - Previous: release `v1.49.0` (paper 50: intermediate logics and theories with finite sorts, the logics
