@@ -50,26 +50,26 @@ linearity}
 \begin{abstract}
 For an intermediate logic $L$ and a coherent theory, reading the
 theory in first-order logic over $L$ and adding the imaginaries need
-not commute. For the theories all of whose models are finite on every
-sort the question was open for the logics proving linearity which have
-a chain of three elements as a frame, except for theories with
-finitely many sentences. We settle it for all these logics, including
+not commute. For theories whose models are finite on every sort the
+question was open for the logics proving linearity with a
+three-element chain frame, unless the theory has finitely many
+sentences. We settle it for all these logics, including
 G\"odel--Dummett logic: the two operations commute if and only if
-every endomorphism of a model is invertible and no leg tree of a
-finite language is an obstruction at a chain of non-invertible
-homomorphisms of models, of length at most that of the chain frames of
-the logic. A leg tree is a finite tree of such chains for a finite
+every endomorphism of a model is invertible and no leg tree is an
+obstruction at a chain of non-invertible homomorphisms of models, no
+longer than the chain frames of the logic. A leg tree is a finite tree of such chains for a finite
 language; pulled back to the larger finite languages, with the
 homomorphisms which become invertible after restriction as new
 branches, it defines two closed subgroups of the automorphism group of
-a model, and it is an obstruction if they differ. The condition is
-inherited by the logics with shorter chain frames, but it is not
-determined by the logics of the finite chains: for the limit of a
-tower of finite categories it holds for all of them and fails for
-G\"odel--Dummett logic. In an example given by closed subgroups of a
-profinite abelian group, non-invertible homomorphisms converge to
-automorphisms, and the condition is a distributivity property for the
-cofinite sets of subgroups.
+a model, and it is an obstruction if they differ. The condition passes
+to logics with shorter chain frames, but for a limit
+of a tower of finite categories it holds for the logics of all finite
+chains and fails for G\"odel--Dummett logic. The two subgroups are
+intersections over the solutions of finite level of a system of
+implications between equivalence relations;
+if the chain frames are bounded, they are given by a recursion with
+open equivalence relations, and the criterion can be stated without
+leg trees.
 \end{abstract}
 
 \maketitle
@@ -277,6 +277,64 @@ a string with one model; the pulled back trees of
 Theorem~\ref{thm:A} become deeper with the finite language, and by
 (c) their depth cannot be bounded in terms of the logics $L_m$.
 
+The groups $S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ are defined through
+the finite languages $\Lambda'\supseteq\Lambda$, and a homomorphism of
+models of $\bT_{\Lambda'}$ need not be the restriction of a
+homomorphism of models of $\cC$. They can be computed in $\Mod(\cC)$.
+The pullback of $T$ to $\Mod(\cC)$ has as nodes strings of models
+which extend $\tilde s$ to the left, and a node can have infinitely
+many children. A \emph{solution} is a family of equivalence relations
+on the sets of homomorphisms from the first models of these strings to
+the first model of $\tilde s$, one for each node, such that two
+homomorphisms are related at a node whenever their composites with a
+child are related at the child; it is \emph{of finite level} if it
+depends only on the restrictions to a finite language
+(Section~\ref{sec:intrinsic}; for $n_L=\infty$ the nodes are
+compatible families of strings of the finite languages).
+
+\begin{thm}\label{thm:F}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, $L$ a logic proving linearity, $\tilde s$ a string of
+models and $T$ a leg tree of a finite language $\Lambda$ at $\tilde
+s|_\Lambda$.
+\begin{enumerate}
+\item[(a)] $S_{(\Lambda,T)}$ is the set of the automorphisms of the
+first model of $\tilde s$ which are related to the identity, at the
+root, in every solution of finite level; and $R_{(\Lambda,T)}$ is
+described in the same way with the homomorphisms of strings.
+\item[(b)] If $n_L$ is finite, the relations defining the groups are
+given by a recursion over the pulled back tree in $\Mod(\cC)$: the
+relation at a node is the intersection of the open equivalence
+relations containing the relations induced by its children. They form
+the least solution which is closed, as a subset of the space of the
+pairs of homomorphisms at all nodes, and consists of intersections of
+open equivalence relations.
+\item[(c)] If $n_L$ is finite, $\HH_L\cC$ is a pretopos if and only
+if for every finite language $\Lambda$, every object $W$ of the
+pretopos completion of $\HH_L\cC_\Lambda$, where $\cC_\Lambda$ is the
+pretopos of $\bT_\Lambda$, every string $\tilde s$ of models, $a\in
+W(\tilde s)$ and every automorphism $\Theta$ of the first model which
+extends to an automorphism of the string $\tilde s$: if
+$\id\mathrel{E^W_{(\tilde s,a)}}\Theta$, then $\Theta a=a$. Here $W(\tilde s)$ is the value at $W$ of the model of
+$\HH_L\cC_\Lambda$ given by the restriction of $\tilde s$ to
+$\Lambda$, extended to the pretopos completion, and the relations $E^W_{(\tilde t,y)}$
+on the homomorphisms from the first model of $\tilde t$ to that of
+$\tilde s$ are defined by the recursion of \emph{(b)} over the pairs
+of a string $\tilde t$ of models and $y\in W(\tilde t)$, the children
+of $(\tilde t,y)$ being the one-step homomorphisms $\tilde u\to\tilde
+t$ with an element of $W(\tilde u)$ over $y$.
+\end{enumerate}
+For limits of inverse systems of finite EI-categories, the least
+solution does not give the groups if $n_L=\infty$, and in \emph{(b)}
+the open equivalence relations cannot be replaced by the closed ones
+\textup{(Examples~\ref{ex:towersol} and~\ref{ex:interval})}.
+\end{thm}
+
+For theories with finitely many sentences (b) is
+\cite[Prop.~8.3]{Proftrees}. In general a sequence of children which
+are not isomorphisms can converge to an isomorphism, and the space of
+the children of a node is not compact.
+
 \subsection*{The method}
 If $\Mod(\cC)$ is an EI-category, $\cC$ is the directed colimit of the
 pretoposes $\Fin^{\cX_\Lambda}$ over the finite languages $\Lambda$
@@ -319,7 +377,16 @@ subterminal object of the category for $n_L>m$, and the category for
 $L_m$ is a colimit of slices (Theorem~\ref{thm:mono}); the examples
 are categories with one object with two automorphisms above a poset,
 for which the criterion is a recursion on equivalence relations
-(Lemma~\ref{lem:cone}).
+(Lemma~\ref{lem:cone}). For Theorem~\ref{thm:F}, a solution of finite level
+is pulled back to a late stage, where it contains the relations of
+the pulled back tree because these are the least solution there
+(Theorem~\ref{thm:level}); only finite configurations of a fixed
+shape have to be lifted to the limit. For bounded strings a closed
+solution has neighbourhoods which are solutions
+(Theorem~\ref{thm:closed}), and the relations of the recursion form a
+closed solution (Theorem~\ref{thm:rec}). For the largest leg trees the
+tree in the category of models is the tree of the elements of $W$
+(Theorem~\ref{thm:elements}).
 
 \subsection*{What is new and what is known}
 Known: the classification of \cite{Finsorts}, with the necessity of
@@ -334,8 +401,10 @@ distributive lattices by chains of prime filters \cite{AGM08,Carai}; the implica
 $\cC_{(Q)}$ in Theorem~\ref{thm:C} \cite[Thm.~1.3]{Proftrees}; the
 case $m=3$ of Theorem~\ref{thm:E}(b) \cite[Ex.~6.19]{Strings}, and
 that for a finite category of models the comparison is an equivalence
-if $n_L\le2$ \cite[Cor.~6.3]{Strings}. New, to
-the author's knowledge: Theorems~\ref{thm:A}--\ref{thm:E} beyond these
+if $n_L\le2$ \cite[Cor.~6.3]{Strings}. Theorem~\ref{thm:F}(b) is known for the
+towers of \cite{Proftrees}, whose functors reflect isomorphisms
+\cite[Prop.~8.3]{Proftrees}. New, to
+the author's knowledge: Theorems~\ref{thm:A}--\ref{thm:F} beyond these
 cases.
 
 \section{The setting and the results used}\label{sec:setting}
@@ -2246,6 +2315,754 @@ on $\cC$ for all $L$ with $n_L\ge m$ (Proposition~\ref{prop:Lm}), and
 the criterion is the same for these $L$.
 \end{rem}
 
+\section{The groups of a leg tree in the limit category}\label{sec:intrinsic}
+
+The groups $S_{(i,T)}$ and $R_{(i,T)}$ of Section~\ref{sec:inverse}
+are defined through the categories $\cX_{i'}$, $i'\ge i$, and an arrow
+of $\cX_{i'}$ need not be the image of an arrow of the limit $\cM$. In
+this section we describe them in terms of $\cM$, the threads and the
+functor $q_i\colon\cM\to\cX_i$: as intersections over the solutions of
+finite level of a system of implications
+(Theorem~\ref{thm:level}), and, if the strings are bounded, by a
+recursion over a tree in $\cM$ (Theorem~\ref{thm:rec}). Two examples
+show that the least solution, and the solutions by closed equivalence
+relations, do not give the groups.
+
+Let $(\cX_k)_{k\in I}$ be an inverse system of finite EI-categories
+and arbitrary functors with limit $\cM$, as in
+Section~\ref{sec:inverse}, and $n=n_L\le\infty$. We fix a thread
+$\sigma=(s_k)$, the \emph{base}, an index $i$ and a leg tree $T$ of
+$\cX_i$ at $s_i$. Finite sets are discrete, and the sets of arrows of
+$\cM$ and the sets of threads carry the topology of the inverse
+limit; an equivalence relation on a profinite set $V$ is \emph{open}
+if it is an open subset of $V\times V$, that is, if it is the inverse
+image of an equivalence relation on a finite quotient of $V$.
+
+\subsection*{Thread arrows}
+For threads $\upsilon=(u_k)$ and $\tau=(t_k)$ a \emph{thread arrow}
+$\gamma\colon\upsilon\to\tau$ is an arrow $\gamma\colon\upsilon_0\to
+\tau_0$ of $\cM$ such that $\gamma_k:=q_k(\gamma)$ is an arrow
+$u_k\to t_k$ of $\cS_n(\cX_k)$ for every $k$. It is \emph{short} if
+every $\gamma_k$ is a one-step arrow or an isomorphism of strings.
+Let
+\[
+V_\tau=\cM(\tau_0,\sigma_0),\qquad K_\tau=\{\text{thread arrows }\tau
+\to\sigma\}\subseteq V_\tau,
+\]
+closed subsets of the set of arrows of $\cM$.
+
+\begin{lem}\label{lem:tarrows}
+\begin{enumerate}
+\item[(a)] Thread arrows compose, and $K_\sigma=H_\sigma$. A thread
+arrow $\gamma\colon\upsilon\to\tau$ which is invertible in $\cM$ is
+short, every $\gamma_k$ is an isomorphism of strings, and
+$\gamma^{-1}$ is a thread arrow $\tau\to\upsilon$; we call $\gamma$
+an \emph{isomorphism}.
+\item[(b)] Let $\upsilon$, $\tau$ be bounded, the threads of the
+strings $\tilde u$, $\tilde t$ of $\cM$
+\textup{(Lemma~\ref{lem:threads}(b))}. Then the thread arrows
+$\upsilon\to\tau$ are the arrows $\tilde u\to\tilde t$ of
+$\cS_n(\cM)$, that is, the arrows $\tilde\iota_0\tilde p$ with
+$\tilde p$ the composite $\tilde u_0\to\tilde u_j$ of arrows of
+$\tilde u$ and $\tilde\iota$ an isomorphism of strings from $\tilde
+u_{\ge j}$ onto $\tilde t$. If a short thread arrow $\upsilon\to\tau$
+is not an isomorphism, $\tilde u$ has exactly one object more than
+$\tilde t$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(a) The $\cS_n(\cX_k)$ are categories, and $\cS_n(\cX_k)(s_k,s_k)=
+H_{s_k}$, an arrow $\sigma_0\to\sigma_0$ of $\cM$ being invertible.
+If $\gamma$ is invertible, $\gamma_k=\iota_0p$ is invertible in
+$\cX_k$, so the composite $p$ of non-invertible arrows is an
+identity, and $\gamma_k$ is an isomorphism of strings; its inverse is
+an arrow of $\cS_n(\cX_k)$.
+
+(b) Let $i_0$ be such that for $k'\ge k\ge i_0$ the functor $q_{k'k}$
+sends the arrows of $u_{k'}$, $t_{k'}$ to the arrows of $u_k$, $t_k$.
+Let $\gamma$ be a thread arrow. For $k\ge i_0$ we have
+$\gamma_k=\iota_0p_k$, with $p_k$ the composite of the first $j$
+arrows of $u_k$, where $j$ is the difference of the numbers of
+objects of $\tilde u$ and $\tilde t$; so $p_k=q_k(\tilde p)$. The set
+of the isomorphisms of strings $\iota\colon(u_k)_{\ge j}\to t_k$ with
+$\iota_0p_k=\gamma_k$ is finite and non-empty, and these sets form an
+inverse system over the $k\ge i_0$; an element of the limit is an
+isomorphism of strings $\tilde\iota\colon\tilde u_{\ge j}\to\tilde t$
+with $\tilde\iota_0\tilde p=\gamma$. Conversely, $q_k(\tilde\iota_0
+\tilde p)$ is an arrow $u_k\to t_k$ of $\cS_n(\cX_k)$ for $k\ge i_0$,
+and then for all $k$ by Lemma~\ref{lem:collapse}(c). If $\gamma$ is
+short and not invertible, then $\gamma_k$ is not invertible for $k$
+large (Lemma~\ref{lem:threads}(a)), so it is one-step, and $u_k$ has
+one object more than $t_k$.
+\end{proof}
+
+\subsection*{Nodes, children and solutions}
+Let $T'$ be a leg tree of $\cX_i$ at a string $t$ and $\delta\colon
+u\to t$ an arrow of $\cS_n(\cX_i)$ which is one-step or an
+isomorphism of strings. Let $\Delta(T',\delta)$ be the following set
+of leg trees at $u$: the set of the $T_1$ with $(\delta,T_1)$ a child
+of the root of $T'$, if $\delta$ is one-step; and $\{\delta^*T'\}$,
+the transport of Section~\ref{sec:pull}, if $\delta$ is an
+isomorphism of strings. Let $\mathcal T$ be the set of the leg trees
+$\iota^*T_1$, where $T_1$ is the subtree of $T$ at one of its nodes
+and $\iota$ an isomorphism of strings of $\cX_i$ onto the string of
+this node. It is finite, contains $T$, and $\Delta(T',\delta)\subseteq
+\mathcal T$ for $T'\in\mathcal T$: the children of the root of
+$\iota^*T_1$ are the $(\iota^{-1}\beta,T_2)$ for the children
+$(\beta,T_2)$ of the root of $T_1$, and $\delta^*\iota^*T_1=
+(\iota\delta)^*T_1$.
+
+A \emph{node} is a pair $x=(\tau,T')$ of a thread $\tau=(t_k)$ and
+$T'\in\mathcal T$ at $t_i$. A \emph{child} of the node $(\tau,T')$ is
+a triple $(\upsilon,\gamma,T'')$ of a thread $\upsilon$, a short
+thread arrow $\gamma\colon\upsilon\to\tau$ and $T''\in\Delta(T',
+\gamma_i)$; then $(\upsilon,T'')$ is a node. An \emph{$E$-solution}
+is a family $\mathcal F=(\mathcal F_x)$ of equivalence relations on
+the sets $V_\tau$, indexed by the nodes $x=(\tau,T')$, such that for
+every child $(\upsilon,\gamma,T'')$ of a node $(\tau,T')$ and
+$g,g'\in V_\tau$:
+\begin{equation}\label{eq:sol}
+g\gamma\mathrel{\mathcal F_{(\upsilon,T'')}}g'\gamma\quad
+\Longrightarrow\quad g\mathrel{\mathcal F_{(\tau,T')}}g'.
+\end{equation}
+An \emph{$F$-solution} is defined in the same way with the sets
+$K_\tau$ in place of the $V_\tau$ (if $g\in K_\tau$, then $g\gamma\in
+K_\upsilon$). A solution is \emph{of level $k$} ($k\ge i$) if the
+truth of $g\mathrel{\mathcal F_{(\tau,T')}}g'$ depends only on
+$(t_k,T',q_k(g),q_k(g'))$, and \emph{of finite level} if it is of
+some level; its relations are then open. For $k\ge i$ let
+$\varepsilon^k$ and $\varphi^k$ be the families
+\[
+g\mathrel{\varepsilon^k_{(\tau,T')}}g'\iff q_k(g)\mathrel{E_{T'^{t_k}}}
+q_k(g'),\qquad
+h\mathrel{\varphi^k_{(\tau,T')}}h'\iff q_k(h)\mathrel{F_{T'^{t_k}}}
+q_k(h'),
+\]
+where $T'^{t_k}$ is the pullback of $T'$ along $q_{ki}$ and the
+relations are taken relative to the base string $s_k$, so on
+$\cX_k((t_k)_0,(s_k)_0)$ and on $\cS_n(\cX_k)(t_k,s_k)$. They
+decrease with $k$, by (P2) and (P3). Let
+\[
+\bar E=\bigcap_{k\ge i}\varepsilon^k,\qquad\bar F=\bigcap_{k\ge i}
+\varphi^k .
+\]
+By the definitions, $S_{(i,T)}=\{\Theta\in G_\sigma\mid\id\mathrel{
+\bar E_{(\sigma,T)}}\Theta\}$ and $R_{(i,T)}=\{\Theta\in H_\sigma\mid
+\id\mathrel{\bar F_{(\sigma,T)}}\Theta\}$.
+
+\begin{thm}\label{thm:level}
+\begin{enumerate}
+\item[(a)] $\varepsilon^k$ is an $E$-solution of level $k$ and
+$\varphi^k$ is an $F$-solution of level $k$, for every $k\ge i$.
+\item[(b)] For every $E$-solution $\mathcal F$ of finite level there
+is $l$ with $\varepsilon^l_x\subseteq\mathcal F_x$ for all nodes $x$;
+and the same for the $F$-solutions and the $\varphi^l$.
+\item[(c)] $\bar E$ is the intersection of the $E$-solutions of
+finite level and $\bar F$ that of the $F$-solutions of finite level.
+So $S_{(i,T)}$ is the set of the $\Theta\in G_\sigma$ with
+$\id\mathrel{\mathcal F_{(\sigma,T)}}\Theta$ for every $E$-solution
+$\mathcal F$ of finite level, and $R_{(i,T)}$ the set of the
+$\Theta\in H_\sigma$ with this property for every $F$-solution of
+finite level.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(a) The relations are equivalence relations depending only on the
+images at the stage $k$. Let $(\upsilon,\gamma,T'')$ be a child of
+$(\tau,T')$; note $q_{ki}(\gamma_k)=\gamma_i$. If $\gamma_k$ is
+one-step, then by the definition of the pullback $\gamma_k$ is the
+label of a child of the root of $T'^{t_k}$ with subtree $T''^{u_k}$:
+if $\gamma_i$ is one-step, $T''$ is the subtree of a child
+$\nu=(\gamma_i,T'')$ of the root of $T'$ and the child is
+$(\gamma_k,\nu)$; if $\gamma_i$ is an isomorphism of strings,
+$T''=\gamma_i^*T'$ and $\gamma_k$ is a collapsing child. Hence
+$\gamma_k^*E_{T''^{u_k}}\subseteq E_{T'^{t_k}}$ and
+$\gamma_k^*F_{T''^{u_k}}\subseteq F_{T'^{t_k}}$, which is
+\eqref{eq:sol}. If $\gamma_k$ is an isomorphism of strings, so is
+$\gamma_i$, $T''=\gamma_i^*T'$, and $T''^{u_k}=\gamma_k^*(T'^{t_k})$
+by \eqref{eq:tp}; by the description of the relations of a
+transported tree in Section~\ref{sec:pull}, $g\gamma_k\mathrel{
+E_{\gamma_k^*(T'^{t_k})}}g'\gamma_k$ iff $g\mathrel{E_{T'^{t_k}}}g'$,
+and the same for $F$.
+
+(b) We use the following fact: \emph{for an inverse system of finite
+sets $(B_{k'})_{k'\ge k}$ over a directed set there is $l\ge k$ such
+that the image of $B_l$ in $B_k$ is the image of $\varprojlim
+B_{k'}$.} Indeed, the images of the $B_{k'}$ in $B_k$ decrease and
+are constant for $k'\ge l$; for $b$ in this image the sets of the
+preimages of $b$ in the $B_{k'}$ are finite and non-empty and form an
+inverse system, which has a non-empty limit.
+
+Let $\mathcal F$ be an $E$-solution of level $k$. For $k'\ge k$ let
+$\Pi^3_{k'}$ be the set of the tuples $(t,T',g_1,g_2,g_3)$ of a
+string $t$ of $\cX_{k'}$, a tree $T'\in\mathcal T$ at $\tilde q_{k'i}
+(t)$ and $g_1,g_2,g_3\in\cX_{k'}(t_0,(s_{k'})_0)$; and $\Pi'_{k'}$
+the set of the tuples $(u,t,\gamma,T',T'',g_1,g_2)$ of strings $u$,
+$t$ of $\cX_{k'}$, an arrow $\gamma\colon u\to t$ of $\cS_n(\cX_{k'})$
+which is one-step or an isomorphism of strings, $T'\in\mathcal T$ at
+$\tilde q_{k'i}(t)$, $T''\in\Delta(T',q_{k'i}(\gamma))$ and
+$g_1,g_2\in\cX_{k'}(t_0,(s_{k'})_0)$. These sets are finite, and the
+functors $q$ and $\tilde q$ map the sets at $k''$ to the sets at $k'$
+for $k''\ge k'$, keeping the trees: by Lemma~\ref{lem:collapse}(c),(d)
+the image of a one-step arrow or an isomorphism of strings is one or
+the other, and $\Delta(T',q_{k''i}(\gamma))$ depends only on the image
+at the stage $i$. An element of $\varprojlim\Pi^3_{k'}$ is a tuple
+$(x,g_1,g_2,g_3)$ of a node $x=(\tau,T')$ and three elements of
+$V_\tau$ (a family of strings $t_{k'}$, $k'\ge k$, extends uniquely
+to a thread, and the arrows of $\cM$ are the compatible families); an
+element of $\varprojlim\Pi'_{k'}$ is a tuple $(x,(\upsilon,\gamma,
+T''),g_1,g_2)$ of a node $x=(\tau,T')$, a child of it and
+$g_1,g_2\in V_\tau$. Choose $l\ge k$ as in the fact for both systems.
+
+Let $\bar{\mathcal F}$ be the set of the tuples $(t_k,T',q_k(g),
+q_k(g'))$ for the nodes $(\tau,T')$ and $g\mathrel{\mathcal F_{(\tau,
+T')}}g'$; as $\mathcal F$ is of level $k$, $g\mathrel{\mathcal
+F_{(\tau,T')}}g'$ iff $(t_k,T',q_k(g),q_k(g'))\in\bar{\mathcal F}$.
+For a string $t$ of $\cX_l$ and $T'\in\mathcal T$ at $\tilde q_{li}
+(t)$ define a relation $\Psi_{(t,T')}$ on $\cX_l(t_0,(s_l)_0)$ by
+\[
+g_1\mathrel{\Psi_{(t,T')}}g_2\iff(\tilde q_{lk}(t),T',q_{lk}(g_1),
+q_{lk}(g_2))\in\bar{\mathcal F}.
+\]
+
+\emph{$\Psi_{(t,T')}$ is an equivalence relation.} It is symmetric
+as $\bar{\mathcal F}$ is. Let $g_1,g_2,g_3$ be given. The image of
+$(t,T',g_1,g_2,g_3)$ in $\Pi^3_k$ is the image of some
+$((\tau,T'),h_1,h_2,h_3)$ of the limit: $t_k=\tilde q_{lk}(t)$ and
+$q_k(h_a)=q_{lk}(g_a)$. So $g_a\mathrel\Psi g_b$ iff
+$h_a\mathrel{\mathcal F_{(\tau,T')}}h_b$, for all $a,b$, and
+$\mathcal F_{(\tau,T')}$ is reflexive and transitive.
+
+\emph{Closure.} Let $\beta\colon u\to t$ be a one-step arrow of
+$\cS_n(\cX_l)$, $T^\circ\in\Delta(T',q_{li}(\beta))$ and
+$g_1\beta\mathrel{\Psi_{(u,T^\circ)}}g_2\beta$. The image of
+$(u,t,\beta,T',T^\circ,g_1,g_2)\in\Pi'_l$ in $\Pi'_k$ is the
+image of some $((\tau,T'),(\upsilon,\gamma,T^\circ),h_1,h_2)$ of the
+limit. Then $(u_k,T^\circ,q_k(h_1\gamma),q_k(h_2\gamma))=(\tilde
+q_{lk}(u),T^\circ,q_{lk}(g_1\beta),q_{lk}(g_2\beta))\in
+\bar{\mathcal F}$, so $h_1\gamma\mathrel{\mathcal F_{(\upsilon,
+T^\circ)}}h_2\gamma$, hence $h_1\mathrel{\mathcal F_{(\tau,T')}}h_2$
+by \eqref{eq:sol}, and $g_1\mathrel{\Psi_{(t,T')}}g_2$.
+
+\emph{Conclusion.} $E_{T'^t}\subseteq\Psi_{(t,T')}$ for all $t$ and
+$T'$, by induction along the recursive definition of the pullback:
+the children of the root of $T'^t$ have as labels one-step arrows
+$\beta\colon u\to t$ and as subtrees trees $T^{\circ u}$ with
+$T^\circ\in\Delta(T',q_{li}(\beta))\subseteq\mathcal T$; so
+$E_{T'^t}$ is the join of relations $\beta^*E_{T^{\circ u}}\subseteq
+\beta^*\Psi_{(u,T^\circ)}\subseteq\Psi_{(t,T')}$ (the equality if
+there are no children). Now if $g\mathrel{\varepsilon^l_{(\tau,T')}}
+g'$, then $q_l(g)\mathrel{\Psi_{(t_l,T')}}q_l(g')$, that is
+$(t_k,T',q_k(g),q_k(g'))\in\bar{\mathcal F}$, and $g\mathrel{\mathcal
+F_{(\tau,T')}}g'$.
+
+For an $F$-solution the proof is the same, with $g_a\in\cS_n(\cX_{k'})
+(t,s_{k'})$ in the sets $\Pi^3_{k'}$, $\Pi'_{k'}$: the elements of
+the limits then have their $g_a$ in $K_\tau$ (the condition at the
+indices $k'\ge k$ implies it at all indices, by
+Lemma~\ref{lem:collapse}(c)), and $\Psi$ is defined on
+$\cS_n(\cX_l)(t,s_l)$.
+
+(c) By (a) and (b), and the description of the groups before the
+theorem; recall $K_\sigma=H_\sigma$.
+\end{proof}
+
+The nodes are all the pairs $(\tau,T')$, not only those reached from
+$(\sigma,T)$ by passing to children, and a node is a child of itself
+by the identity. By Lemma~\ref{lem:tarrows}(b), if all threads are
+bounded, the nodes reached from $(\sigma,T)$ and their children which
+are not isomorphisms are those of the pullback of $T$ along $q_i\colon\cM\to\cX_i$, formed as in
+Section~\ref{sec:pull} with the one-step arrows of $\cS_n(\cM)$: a
+tree in which a node can have infinitely many children.
+
+\subsection*{Bounded strings: closed solutions and the recursion}
+Let $\Pi$ be the set of the triples $(x,g,g')$ of a node
+$x=(\tau,T')$ and $g,g'\in V_\tau$. It is the limit of the finite
+sets $\Pi_k$ of the tuples $(t,T',g,g')$ at the stages $k\ge i$
+(defined as $\Pi^3_k$, with two arrows), a profinite space; let
+$q_k\colon\Pi\to\Pi_k$ be the projections. A \emph{family} is a
+subset $\mathcal U\subseteq\Pi$ such that every $\mathcal U_x=\{(g,g')
+\mid(x,g,g')\in\mathcal U\}$ is an equivalence relation; it is of
+level $k$ iff $\mathcal U=q_k^{-1}(q_k(\mathcal U))$, and of finite
+level iff it is open and closed. So $\bar E$ is a closed family, and
+every $\bar E_x$ is an intersection of open equivalence relations.
+Let $\Pi'=\varprojlim\Pi'_k$ be the profinite space of the tuples
+$(x,(\upsilon,\gamma,T''),g,g')$ of a node, a child of it and
+$g,g'\in V_\tau$; the maps to $\Pi$ given by $(x,g,g')$ and by
+$((\upsilon,T''),g\gamma,g'\gamma)$ are continuous.
+
+\begin{thm}\label{thm:closed}
+Suppose that there is $N$ such that every string of every $\cX_k$ has
+at most $N$ objects; for instance, that $n_L$ is finite. Let
+$\mathcal F$ be an $E$-solution such that
+\begin{enumerate}
+\item[(i)] $\mathcal F$ is closed in $\Pi$, and
+\item[(ii)] every $\mathcal F_x$ is an intersection of open
+equivalence relations.
+\end{enumerate}
+Then $\mathcal F$ is an intersection of $E$-solutions of finite
+level. Hence $\bar E$ is the least $E$-solution with \emph{(i)} and
+\emph{(ii)}. The same holds for the $F$-solutions and $\bar F$.
+\end{thm}
+\begin{proof}
+A \emph{neighbourhood} is a family of finite level containing
+$\mathcal F$; the intersection of two neighbourhoods is one.
+
+\emph{Step 1: $\mathcal F$ is the intersection of its neighbourhoods.}
+Let $(x,g,g')\notin\mathcal F$, $x=(\tau,T')$. By (ii) there is an
+open equivalence relation $\mathcal E\supseteq\mathcal F_x$ on
+$V_\tau$ with $(g,g')\notin\mathcal E$; let $k$ be such that
+$\mathcal E$ is the inverse image of an equivalence relation on
+$q_k(V_\tau)$, and $\mathcal E^+$ the equivalence relation on
+$\cX_k((t_k)_0,(s_k)_0)$ obtained by adding the equality. For $l\ge
+k$ let $N_l$ be the set of the nodes $(\upsilon,T')$ with $u_l=t_l$,
+and $B_l$ the set of the $(y,h,h')\in\mathcal F$ with $y\in N_l$ and
+$(q_k(h),q_k(h'))\notin\mathcal E^+$. The $B_l$ are closed, by (i),
+and decrease, and a point of their intersection has $y=x$ (a thread
+is determined by its components) and $(h,h')\in\mathcal
+F_x\setminus\mathcal E$; so the intersection is empty and
+$B_l=\emptyset$ for some $l$. The family which at the nodes of $N_l$
+is the inverse image of $\mathcal E^+$ under $q_k$ and at the other
+nodes the total relation is of level $l$, contains $\mathcal F$ and
+does not contain $(x,g,g')$.
+
+\emph{Step 2: for every neighbourhood $\mathcal U$ there is a
+neighbourhood $\mathcal U'$ such that
+\begin{equation}\label{eq:S}
+g\gamma\mathrel{\mathcal U'_{(\upsilon,T'')}}g'\gamma\quad
+\Longrightarrow\quad g\mathrel{\mathcal U_{(\tau,T')}}g'
+\end{equation}
+for all children $(\upsilon,\gamma,T'')$ of nodes $(\tau,T')$.} For a
+neighbourhood $\mathcal U'$ let $A(\mathcal U')\subseteq\Pi'$ be the
+set of the points with $((\upsilon,T''),g\gamma,g'\gamma)\in\mathcal
+U'$ and $(x,g,g')\notin\mathcal U$. These sets are closed, the set of
+them is directed downwards, and by Step~1 a point of their
+intersection has $g\gamma\mathrel{\mathcal F_{(\upsilon,T'')}}
+g'\gamma$, so $g\mathrel{\mathcal F_x}g'$ by \eqref{eq:sol},
+contradicting $(x,g,g')\notin\mathcal U$. So some $A(\mathcal U')$ is
+empty.
+
+\emph{Step 3: every neighbourhood $\mathcal U$ contains an
+$E$-solution of finite level containing $\mathcal F$.} By Step~2
+choose neighbourhoods
+\[
+\mathcal U=\mathcal U_1\supseteq\mathcal U'_1\supseteq\mathcal U_2
+\supseteq\mathcal U'_2\supseteq\dots\supseteq\mathcal U_N\supseteq
+\mathcal U'_N
+\]
+such that \eqref{eq:S} holds for the pairs $(\mathcal U_m,\mathcal
+U'_m)$, $1\le m\le N$, and $(\mathcal U'_m,\mathcal U_{m+1})$, $1\le
+m<N$, in the place of $(\mathcal U,\mathcal U')$. Let $k$ be such
+that all of them are of level $k$, and $l\ge k$ as in the fact in the
+proof of Theorem~\ref{thm:level}(b) for the systems $\Pi^3$ and
+$\Pi'$.
+
+A \emph{stage node} is a pair $z=(t,T^\circ)$ of a string $t$ of
+$\cX_l$ and $T^\circ\in\mathcal T$ at $\tilde q_{li}(t)$; let
+$m(z)\le N$ be the number of objects of $t$ and $V_z=\cX_l(t_0,
+(s_l)_0)$. For a stage node $z$ with $m(z)=m$ let
+\[
+\Omega_z=\{(g,g')\in V_z^2\mid q_{lk}(z,g,g')\in q_k(\mathcal U_m)\}.
+\]
+As in the proof of Theorem~\ref{thm:level}(b), $\Omega_z$ is an
+equivalence relation: for $g_1,g_2,g_3\in V_z$ there is a point
+$(x,h_1,h_2,h_3)$ of $\varprojlim\Pi^3_{k'}$ with the same image at
+the stage $k$ as $(z,g_1,g_2,g_3)$, and then $g_a\mathrel{\Omega_z}
+g_b$ iff $h_a\mathrel{(\mathcal U_m)_x}h_b$, because $\mathcal U_m$
+is of level $k$. Let $\Xi_z$ be the equivalence relation on $V_z$
+generated by the pairs
+\begin{equation}\label{eq:gen}
+\bigl(q_l(c)\kappa^{-1},\,q_l(c')\kappa^{-1}\bigr),
+\end{equation}
+where $y=(\upsilon,T'')$ is a node, $c\mathrel{(\mathcal U'_m)_y}c'$,
+and $\kappa\colon u_l\to t$ is an isomorphism of strings of $\cX_l$
+with $T''=q_{li}(\kappa)^*T^\circ$. Define the family $\mathcal H$ by
+\[
+g\mathrel{\mathcal H_{(\tau,T')}}g'\iff q_l(g)\mathrel{\Xi_{(t_l,T')}}
+q_l(g').
+\]
+It is a family of level $l$.
+
+(a) \emph{$\mathcal F\subseteq\mathcal H$}: for $g\mathrel{\mathcal
+F_x}g'$ and $m=m(t_l,T')$ we have $g\mathrel{(\mathcal U'_m)_x}g'$,
+and \eqref{eq:gen} with $y=x$, $\kappa=\id$.
+
+(b) \emph{$\Xi_z\subseteq\Omega_z$; hence $\mathcal H_x\subseteq
+(\mathcal U_m)_x$ for $m=m(t_l,T')$, and $\mathcal H\subseteq\mathcal
+U$.} As $\Omega_z$ is an equivalence relation it suffices to consider
+a pair \eqref{eq:gen}; put $g=q_l(c)\kappa^{-1}$, $g'=q_l(c')
+\kappa^{-1}$. The tuple $(u_l,t,\kappa,T^\circ,T'',g,g')$ is in
+$\Pi'_l$. Its image in $\Pi'_k$ is the image of a point of $\Pi'$: a
+node $x^\circ=(\tau^\circ,T^\circ)$, a child $(\upsilon^\circ,\pi,
+T'')$ of it and $h,h'\in V_{\tau^\circ}$, with $\tau^\circ_k=\tilde
+q_{lk}(t)$, $\upsilon^\circ_k=u_k$, $q_k(h)=q_{lk}(g)$ and
+$q_k(h\pi)=q_{lk}(g\kappa)=q_k(c)$, and the same for $h'$. So
+$((\upsilon^\circ,T''),h\pi,h'\pi)$ and $(y,c,c')$ have the same
+image in $\Pi_k$; as $\mathcal U'_m$ is of level $k$,
+$h\pi\mathrel{(\mathcal U'_m)_{(\upsilon^\circ,T'')}}h'\pi$, and
+$h\mathrel{(\mathcal U_m)_{x^\circ}}h'$ by \eqref{eq:S}. As
+$q_k(x^\circ,h,h')=q_{lk}(z,g,g')$, this is $g\mathrel{\Omega_z}g'$.
+
+(c) \emph{$\mathcal H$ is an $E$-solution.} Let $(\upsilon,\gamma,
+T'')$ be a child of $x=(\tau,T')$ and $g\gamma\mathrel{\mathcal
+H_{(\upsilon,T'')}}g'\gamma$; let $m$ be the number of objects of
+$t_l$. If $\gamma_l$ is one-step, $u_l$ has $m+1\le N$ objects, so
+$g\gamma\mathrel{(\mathcal U_{m+1})_{(\upsilon,T'')}}g'\gamma$ by
+(b), hence $g\mathrel{(\mathcal U'_m)_x}g'$ by \eqref{eq:S} for
+$(\mathcal U'_m,\mathcal U_{m+1})$, and $g\mathrel{\mathcal H_x}g'$
+by \eqref{eq:gen} with $\kappa=\id$. If $\gamma_l$ is an isomorphism
+of strings, then $T''=\gamma_i^*T'$, and there is a chain from
+$q_l(g)\gamma_l$ to $q_l(g')\gamma_l$ in $V_{(u_l,T'')}$ whose
+consecutive members are pairs \eqref{eq:gen} (or their reverses),
+with isomorphisms $\kappa_a$ onto $u_l$ and nodes $(\upsilon_a,
+T''_a)$, $T''_a=q_{li}(\kappa_a)^*T''$. Composing the members with
+$\gamma_l^{-1}$ gives a chain from $q_l(g)$ to $q_l(g')$ whose
+consecutive members are the pairs \eqref{eq:gen} for the
+isomorphisms $\gamma_l\kappa_a$ onto $t_l$, and $T''_a=q_{li}(\gamma_l
+\kappa_a)^*T'$. So $g\mathrel{\mathcal H_x}g'$.
+
+By Steps 1 and 3, $\mathcal F$ is the intersection of the
+$E$-solutions of finite level containing it. By
+Theorem~\ref{thm:level} each of them contains $\bar E$, and $\bar E$
+is an $E$-solution with (i) and (ii). For the $F$-solutions the proof
+is the same, with the sets $K_\tau$ and $\cS_n(\cX_k)(t,s_k)$.
+\end{proof}
+
+For a set $(\rho_\lambda)$ of relations on a profinite set $V$ let
+$\widehat\bigvee_\lambda\rho_\lambda$ be the intersection of the open
+equivalence relations on $V$ containing all $\rho_\lambda$, as in
+\cite[\S8]{Proftrees}; for the empty set of relations it is the
+equality. Under the hypothesis of Theorem~\ref{thm:closed} all
+threads are bounded, so the nodes are the pairs of a string of $\cM$
+and a tree; the \emph{height} of a node $(\tau,T')$ is $N$ minus the
+number of objects of the string $\tau$ of $\cM$, and by
+Lemma~\ref{lem:tarrows}(b) a child $(\upsilon,\gamma,T'')$ for which
+$\gamma$ is not an isomorphism has smaller height. Define relations
+$\widehat E_x$ on $V_\tau$, for the nodes $x=(\tau,T')$, by recursion
+on the height:
+\[
+\widehat E_x=\widehat\bigvee\gamma^*\widehat E_{(\upsilon,T'')}
+\]
+over the children $(\upsilon,\gamma,T'')$ of $x$ for which $\gamma$
+is not an isomorphism, where $g\mathrel{\gamma^*\rho}g'$ iff
+$g\gamma\mathrel\rho g'\gamma$; and relations $\widehat F_x$ on
+$K_\tau$ in the same way.
+
+\begin{thm}\label{thm:rec}
+Under the hypothesis of Theorem~\ref{thm:closed}, $\bar E_x=\widehat
+E_x$ and $\bar F_x=\widehat F_x$ for every node $x$. So
+\[
+S_{(i,T)}=\{\Theta\in G_\sigma\mid\id\mathrel{\widehat E_{(\sigma,T)}}
+\Theta\},\qquad R_{(i,T)}=\{\Theta\in H_\sigma\mid\id\mathrel{
+\widehat F_{(\sigma,T)}}\Theta\}.
+\]
+\end{thm}
+\begin{proof}
+We treat $E$; the proof for $F$ is the same. Let $\widehat E$ be the
+family of the $\widehat E_x$.
+
+(1) \emph{$\widehat E_x\subseteq\bar E_x$}, by induction on the
+height: for every $k$, $\varepsilon^k_x$ is an open equivalence
+relation which contains $\gamma^*\varepsilon^k_{(\upsilon,T'')}
+\supseteq\gamma^*\bar E_{(\upsilon,T'')}\supseteq\gamma^*\widehat
+E_{(\upsilon,T'')}$ for the children which are not isomorphisms.
+
+(2) \emph{Transport.} Let $\iota\colon\upsilon\to\tau$ be an
+isomorphism and $T'\in\mathcal T$ at $t_i$. Then for $h,h'\in
+V_\tau$: $h\iota\mathrel{\widehat E_{(\upsilon,\iota_i^*T')}}h'\iota$
+iff $h\mathrel{\widehat E_{(\tau,T')}}h'$. By induction on the
+height, the two nodes having the same height: $(\omega,\gamma,T'')
+\mapsto(\omega,\iota\gamma,T'')$ is a bijection from the children of
+$(\upsilon,\iota_i^*T')$ to the children of $(\tau,T')$, since
+$\Delta(\iota_i^*T',\gamma_i)=\Delta(T',\iota_i\gamma_i)$; it
+preserves the children which are not isomorphisms; $h\mapsto h\iota$
+is a homeomorphism $V_\tau\to V_\upsilon$; and
+$(h\iota)\gamma=h(\iota\gamma)$.
+
+(3) \emph{$\widehat E$ is an $E$-solution.} For a child with $\gamma$
+not an isomorphism \eqref{eq:sol} holds by the definition of
+$\widehat E_x$; for an isomorphism $\gamma$ we have
+$T''=\gamma_i^*T'$ and (2).
+
+(4) \emph{$\widehat E$ is closed in $\Pi$.} We show by induction on
+$d$: if a net $(x_a,g_a,g'_a)$ in $\widehat E$ with nodes $x_a$ of
+height at most $d$ converges to $(x,g,g')$ in $\Pi$, then
+$g\mathrel{\widehat E_x}g'$. Suppose not, $x=(\tau,T')$. There is an
+open equivalence relation $\mathcal E\supseteq\widehat E_x$ on
+$V_\tau$ with $(g,g')\notin\mathcal E$; let $k$ and $\mathcal E^+$ be
+as in Step~1 of the proof of Theorem~\ref{thm:closed}. For $a$ large,
+$x_a=(\tau_a,T')$ with $(\tau_a)_k=t_k$; let $\mathcal E^a$ be the
+inverse image of $\mathcal E^+$ under $q_k$ on $V_{\tau_a}$, an open
+equivalence relation, and $(g_a,g'_a)\notin\mathcal E^a$ for $a$
+large. As $g_a\mathrel{\widehat E_{x_a}}g'_a$, the relation $\mathcal
+E^a$ does not contain $\widehat E_{x_a}$; so $x_a$ has a child
+$(\upsilon_a,\gamma_a,T''_a)$ with $\gamma_a$ not an isomorphism (in
+particular $d\ge1$) and $h_a,h'_a\in V_{\tau_a}$ with
+\[
+h_a\gamma_a\mathrel{\widehat E_{(\upsilon_a,T''_a)}}h'_a\gamma_a,
+\qquad(h_a,h'_a)\notin\mathcal E^a.
+\]
+The points $(x_a,(\upsilon_a,\gamma_a,T''_a),h_a,h'_a)$ of the
+compact space $\Pi'$ have a subnet converging to a point
+$(x,(\upsilon,\gamma,T''),h,h')$; then $(h,h')\notin\mathcal E$, and
+the points $((\upsilon_a,T''_a),h_a\gamma_a,h'_a\gamma_a)$ of
+$\widehat E$, at nodes of height at most $d-1$, converge to
+$((\upsilon,T''),h\gamma,h'\gamma)$. By the induction hypothesis
+$h\gamma\mathrel{\widehat E_{(\upsilon,T'')}}h'\gamma$, and by (3)
+$h\mathrel{\widehat E_x}h'$, so $(h,h')\in\mathcal E$: a
+contradiction. Note that the limit $\gamma$ of the $\gamma_a$ can be
+an isomorphism, and that the height of the limit node is not
+restricted in the statement proved by induction.
+
+(5) By (3), (4) and the definition, $\widehat E$ is an $E$-solution
+with (i) and (ii) of Theorem~\ref{thm:closed}; so $\bar
+E\subseteq\widehat E$, and with (1) $\bar E=\widehat E$.
+\end{proof}
+
+For the towers of \cite[\S7]{Proftrees} (functors which are the
+identity on objects and full, so that they reflect isomorphisms and
+the strings are bounded by the number of objects) this is
+\cite[Prop.~8.3]{Proftrees}; there a child which is not an
+isomorphism is not an isomorphism at any stage, and the children over
+a label form a compact space. In general the children which are not
+isomorphisms can converge to isomorphisms, as in
+Example~\ref{ex:interval}.
+
+\subsection*{Two examples}
+In both examples the inverse system consists of cone categories
+$\cX(P,\Phi)$ (Section~\ref{sec:depth}), and so does the limit, in
+the following sense: the objects of $\cM$ other than $c$ form a poset
+$P_\infty$, the arrows of $\cM$ are the automorphisms of $c$, the
+inequalities of $P_\infty$ and the elements of the profinite sets
+$\Phi(o)=\cM(o,c)$, on which $Z=\{1,\omega\}$ acts freely, and
+composition with an inequality $o'<o$ is a restriction map
+$\Phi(o)\to\Phi(o')$. Let $\sigma=(c)$.
+
+\begin{lem}\label{lem:conesol}
+For such $\cM$ let $(\approx_o)_{o\in P_\infty}$ be equivalence
+relations on the sets $\Phi(o)$ such that $x|_{o'}\approx_{o'}
+x'|_{o'}$ implies $x\approx_ox'$ for $o'<o$, and no $x$ is related to
+$\omega x$. Then the family $\mathcal G$ with $\mathcal G_{(\tau,T')}$
+the relation $\approx_{\tau_0}$ if $\tau_0\ne c$, and the equality on
+$Z$ if $\tau_0=c$, is an $E$-solution, and
+$(\id,\omega)\notin\mathcal G_{((c),T)}$.
+\end{lem}
+\begin{proof}
+Let $\gamma\colon\upsilon\to\tau$ be a thread arrow. If $\tau_0\ne
+c$, then $\gamma$ is an inequality $\upsilon_0\le\tau_0$, and
+\eqref{eq:sol} is the first hypothesis. If $\tau_0=c$, then
+$g,g'\in Z$ and $\gamma$ is in $Z$ or an element $x$ of some
+$\Phi(o)$; and $gx\approx_og'x$ implies $g=g'$ by the second
+hypothesis.
+\end{proof}
+
+\begin{ex}[the least solution]\label{ex:towersol}
+Let $n=\infty$ and $(\cX_d)$ the tower of Section~\ref{sec:depth},
+$i=1$ and $T$ the leg tree of the proof of Theorem~\ref{thm:tower};
+so $\omega\in S_{(1,T)}$. The limit $\cM$ has the poset $P_\infty$ of
+the $b_k$ ($k<\infty$), $b_\infty$, $a'$ and $z^k_j$
+(Remark~\ref{rem:tower}(b)), with $\Phi(b_k)=Z\times\Gamma_{\le k}$,
+the sets $\Phi(z^k_j)$, $\Phi(a')$ defined as in $\cX_d$, and
+$\Phi(b_\infty)=Z\times\Gamma_\infty$, where $\Gamma_\infty=\{\beta\}
+\cup\{e_k,e'_k\mid k<\infty\}\cup\{e_\infty\}$ is the one-point
+compactification. Let $\approx_o$ be the equality for $o=a'$,
+$z^k_j$, $b_\infty$; for $o=b_k$, $k\ge1$, the relation with the
+classes $\{\theta e_{k-1},\theta e_k\}$, $\{\theta e'_{k-1},\theta
+e'_k\}$ and singletons; and for $o=b_0$ the relation with the classes
+$\{\theta\beta,\theta e_0,\omega\theta e'_0\}$. The hypotheses of
+Lemma~\ref{lem:conesol} hold: for $z^k_j<b_k$ and $a'<b_0$ by the
+definition of $\Phi(z^k_j)$, $\Phi(a')$; for $b_l<b_k$, $l>k$,
+because no class of $\approx_{b_l}$ with more than one element is
+contained in $Z\times\Gamma_{\le k}$; and for $z^l_j<b_k$, $l>k$,
+because the restriction $\Phi(b_k)\to\Phi(z^l_j)$ is injective. So
+there is an $E$-solution, by closed equivalence relations, which does
+not contain $(\id,\omega)$ at the node $((c),T)$; it is not of finite
+level. In particular the least $E$-solution does not give
+$S_{(1,T)}$. A solution of level $d$ contains
+$(e_d,e'_d)$ at the nodes at $b_d$, since $e_d$ and $e'_d$ have the
+same image in $\cX_d$.
+\end{ex}
+
+\begin{ex}[closed equivalence relations]\label{ex:interval}
+Let $n\ge3$. For $d\ge1$ let $N_d=2^d-1$ and $P_d$ the poset with the
+elements $y$, $a'$, $z_1,\dots,z_{N_d}$ and the order $a'<y$,
+$z_m<y$. Let $\Gamma_d=\{\beta,w_0,\dots,w_{N_d}\}$ and
+\begin{align*}
+\Phi_d(y)&=Z\times\Gamma_d,\qquad
+\Phi_d(z_m)=Z\times\Gamma_d/\bigl((\theta,w_{m-1})\sim(\theta,w_m)
+\bigr),\\
+\Phi_d(a')&=Z\times\Gamma_d/\bigl((\theta,\beta)\sim(\theta,w_0),\
+(\theta,w_{N_d})\sim(\omega\theta,\beta)\bigr),
+\end{align*}
+with the quotient maps as restrictions; the actions of $Z$ are free.
+Let $\mathcal Y_d=\cX(P_d,\Phi_d)$, and $q_d\colon\mathcal Y_{d+1}\to
+\mathcal Y_d$ the functor which is the identity on $c$, $y$, $a'$,
+sends $z_{2m}$ to $z_m$ and $z_m$ to $y$ for $m$ odd, and sends
+$\beta$ to $\beta$ and $w_m$ to $w_{\lfloor m/2\rfloor}$: the pair of
+$z_{2m}$ is sent to the pair of $z_m$, the pair of $z_m$, $m$ odd, to
+a pair of equal elements, and $w_0$, $w_{2N_d+1}$ to $w_0$,
+$w_{N_d}$, so the maps $\Phi_{d+1}(o)\to\Phi_d(q_do)$ are defined,
+equivariant and compatible with the restrictions. We think of $w_m$
+as the word of length $d$ which is the binary expansion of $m$; $q_d$
+deletes the last letter, and $z_m$ joins two consecutive words.
+\[
+\begin{tikzcd}[column sep=small,row sep=small]
+z_1\ar[drr]&z_2\ar[dr]&\cdots&z_{N_d}\ar[dl]&a'\ar[dll]&\\
+&&y\ar[rrr,"{\beta,w_0,\dots,w_{N_d}}"]&&&c\ar[loop right,"\omega"]
+\end{tikzcd}
+\]
+\emph{The limit.} The poset $P_\infty$ has the elements $a'<y$ and
+$z_r<y$ for the dyadic rationals $0<r<1$, where $z_r$ is $z_{r2^d}$
+at the stages $d$ with $r2^d$ an integer and $y$ at the others. With
+$\Gamma_\infty=\{\beta\}\sqcup\{0,1\}^{\mathbb N}$,
+\[
+\begin{gathered}
+\Phi(y)=Z\times\Gamma_\infty,\qquad\Phi(z_r)=Z\times\Gamma_\infty/
+(\theta r^-\sim\theta r^+),\\
+\Phi(a')=Z\times\Gamma_\infty/(\theta\beta\sim\theta\bar0,\
+\theta\bar1\sim\omega\theta\beta),
+\end{gathered}
+\]
+where $r^-$, $r^+$ are the two binary expansions of $r$ and $\bar0$,
+$\bar1$ the constant sequences. The arrows $z_r\to y$ are not
+invertible, and they converge to the identity of $y$ when the
+denominator of $r$ in lowest terms tends to infinity.
+
+\emph{The groups.} Let $i=1$ and $T$ the leg tree of $\mathcal Y_1$
+at $(c)$ whose root has the one child $\beta$, from $(y;\beta)$, with
+the subtree $T_0$ whose root has the two children $a'<y$ and $z_1<y$,
+without children. In the pullback of $T$ along $q_{d1}$ the node
+$\beta$ has the subtree $T_0^{(y;\beta)}$, in which the arrow $a'<y$
+lies over a child, and so does $z_m<y$ for $m=2^{d-1}$; for the other
+$m$ the arrow $z_m<y$ is mapped to the identity of $(y;\beta)$, so it
+is a collapsing child. Each $z_m$ gives $w_{m-1}\sim w_m$ and $a'$
+gives $\beta\sim w_0$, $w_{N_d}\sim\omega\beta$; so
+$\beta\sim\omega\beta$ at $(y;\beta)$ and $\omega\in S_{T^{(c)}}$,
+for every $d$. Hence $S_{(1,T)}=Z$, and $R_{(1,T)}=1$ by the proof of
+Lemma~\ref{lem:cone}: $(1,T)$ is an obstruction at $(c)$. (Already
+$\HH_L\Fin^{\mathcal Y_d}$ is not a pretopos, by
+Lemma~\ref{lem:cone}; the point of the example is the form of the
+description.)
+
+\emph{A solution by closed equivalence relations.} Let $v\colon
+Z\times\Gamma_\infty\to\mathbb R/2\mathbb Z$ be the continuous map
+\[
+v(\theta,\beta)=[\theta],\qquad v(\theta,w)=[\theta]+
+\textstyle\sum_{k\ge1}w_k2^{-k},\qquad[1]=0,\ [\omega]=1,
+\]
+$\approx_y$ its kernel pair, a closed equivalence relation whose
+quotient is a circle, and $\approx_{a'}$, $\approx_{z_r}$ the
+equality. The hypotheses of Lemma~\ref{lem:conesol} hold: $v(\theta
+r^-)=v(\theta r^+)$, $v(\theta\beta)=v(\theta\bar0)$,
+$v(\theta\bar1)=[\theta]+1=v(\omega\theta\beta)$, and $v(\omega
+x)=v(x)+1$. So there is an $E$-solution by closed equivalence
+relations which does not contain $(\id,\omega)$ at the node
+$((c),T)$, while every $E$-solution of finite level does, by
+Theorem~\ref{thm:level}. In the recursion of Theorem~\ref{thm:rec},
+at the node of $(y;\beta)$ the relations of the children are the
+equality, and $\widehat\bigvee$ of the pairs $(\theta r^-,\theta
+r^+)$, $(\theta\beta,\theta\bar0)$, $(\theta\bar1,\omega\theta\beta)$
+is the total relation: an open equivalence relation containing the
+pairs $(\theta r^-,\theta r^+)$ identifies all $\theta w$, the
+quotient of the Cantor set by these pairs being an interval, which is
+connected. So $\widehat\bigvee$ cannot be replaced by the join in the
+lattice of closed equivalence relations.
+\end{ex}
+
+\subsection*{Theories with finite sorts}
+Let $\cC$ be a pretopos with finite sorts such that $\Mod(\cC)$ is an
+EI-category, and $(\cX_\Lambda)_{\Lambda\in I}$ the inverse system of
+Section~\ref{sec:theories}, whose limit $\cM$ is the category of the
+standard models. For a string $\tilde s$ of standard models, a finite
+language $\Lambda\in I$ and a leg tree $T$ of $\cX_\Lambda$ at
+$\tilde s|_\Lambda$, Theorem~\ref{thm:level} describes the groups
+$S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ of Theorem~\ref{thm:A} by the
+solutions of finite level, where the level is now a finite language
+$\Lambda'\supseteq\Lambda$. If $n_L$ is finite, the nodes are the
+pairs of a string of standard models and a tree of $\mathcal T$, the
+children which are not isomorphisms are the homomorphisms of strings
+$\tilde u\to\tilde t$ from a string with one model more whose
+restriction to $\Lambda$ is the label of a child or an isomorphism of
+strings, and by Theorem~\ref{thm:rec} the groups are given by the
+recursion with the joins $\widehat\bigvee$ over this tree of strings
+of models. This is Theorem~\ref{thm:F}(a),(b).
+
+\subsection*{The criterion without leg trees}
+By the proof of Theorem~\ref{thm:general} it suffices to consider the
+trees $\Max(s_i,a)$ of the functors $W\colon\cS_n(\cX_i)\to\Fin$, and
+for these the tree in $\cM$ is the tree of the elements of $W$. We
+return to an inverse system $(\cX_k)_{k\in I}$ satisfying the
+hypothesis of Theorem~\ref{thm:closed}, with limit $\cM$ and
+$\cC=\varinjlim\Fin^{\cX_k}$; the threads are the strings of $\cM$.
+Fix $i$, $W\colon\cS_n(\cX_i)\to\Fin$, a string $\tilde s$ of $\cM$
+with thread $\sigma$ as the base, and $a\in W(s_i)$. For a string
+$\tilde t$ of $\cM$ with thread $(t_k)$ put $W(\tilde t)=W(t_i)$, and
+for a thread arrow $\gamma\colon\tilde u\to\tilde t$ let
+$\gamma_*=W(\gamma_i)\colon W(\tilde u)\to W(\tilde t)$. Define
+equivalence relations $E^W_{(\tilde t,y)}$ on $V_{\tilde
+t}=\cM(\tilde t_0,\tilde s_0)$, for the strings $\tilde t$ of $\cM$
+and $y\in W(\tilde t)$, by recursion on $N$ minus the number of
+objects of $\tilde t$:
+\begin{equation}\label{eq:EW}
+E^W_{(\tilde t,y)}=\widehat\bigvee\gamma^*E^W_{(\tilde u,y')}
+\end{equation}
+over the pairs $(\gamma,y')$ of a one-step arrow $\gamma\colon\tilde
+u\to\tilde t$ of $\cS_n(\cM)$ and $y'\in W(\tilde u)$ with
+$\gamma_*y'=y$.
+
+\begin{thm}\label{thm:elements}
+Under the hypothesis of Theorem~\ref{thm:closed}:
+\begin{enumerate}
+\item[(a)] For $T=\Max(s_i,a)$ and every string $\tilde t$ of $\cM$
+and $y\in W(\tilde t)$ such that $\Max(t_i,y)\in\mathcal T$:
+$\bar E_{(\tilde t,\Max(t_i,y))}=E^W_{(\tilde t,y)}$. In particular
+$S_{(i,\Max(s_i,a))}=\{\Theta\in G_{\tilde s}\mid\id\mathrel{
+E^W_{(\tilde s,a)}}\Theta\}$.
+\item[(b)] $\HH_L\cC$ is a pretopos if and only if for every $i$,
+every $W\colon\cS_n(\cX_i)\to\Fin$, every string $\tilde s$ of $\cM$,
+$a\in W(\tilde s)$ and $\Theta\in H_{\tilde s}$:
+\[
+\id\mathrel{E^W_{(\tilde s,a)}}\Theta\quad\Longrightarrow\quad
+\Theta_*a=a .
+\]
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(a) Let $T=\Max(s_i,a)$. For $y\in W(t)$, $t$ a string of $\cX_i$,
+the children of the root of $\Max(t,y)$ with a one-step label
+$\delta\colon u\to t$ are the $(\delta,y')$ with $W(\delta)y'=y$,
+with the subtrees $\Max(u,y')$; and $\delta^*\Max(t,y)=\Max(u,
+W(\delta)^{-1}y)$ for an isomorphism of strings $\delta\colon u\to
+t$, by the proof of (P1). So the trees of $\mathcal T$ are of the
+form $\Max(t,y)$, and the children $(\tilde u,\gamma,T'')$ of a node
+$(\tilde t,\Max(t_i,y))$ are those with $T''=\Max(u_i,y')$ for some
+$y'\in W(\tilde u)$ with $\gamma_*y'=y$. By
+Lemma~\ref{lem:tarrows}(b) the short thread arrows which are not
+isomorphisms are the one-step arrows of $\cS_n(\cM)$. Hence the
+relations $\widehat E_{(\tilde t,\Max(t_i,y))}$ of
+Theorem~\ref{thm:rec} satisfy the recursion \eqref{eq:EW}, by
+induction on the height, and they are the $\bar E$.
+
+(b) By the proof of Theorem~\ref{thm:general}, $\HH_L\cC$ is a
+pretopos iff \eqref{eq:W} holds for all $i$, $W$, threads $\sigma$ and
+$a\in W(s_i)$: every element of $\rho_i(H_\sigma\cap
+S_{(i,\Max(s_i,a))})$ fixes $a$. The threads are the strings of
+$\cM$, $H_\sigma=H_{\tilde s}$ by Lemma~\ref{lem:threads}(c),
+$\Theta_*=W(\rho_i(\Theta))$, and (a) applies.
+\end{proof}
+
+So for bounded strings the leg trees, their pullbacks and the groups
+$R$ can be removed from the criterion: what remains is one family of
+equivalence relations for each functor $W$ at a stage, defined by a
+recursion over the elements of $W$ at the strings of $\cM$. In the
+situation of Theorem~\ref{thm:A} with $n_L$ finite, the strings of
+$\cM$ are the strings of standard models, the functors $W$ at the
+stage $\Lambda$ are the objects of $\PP\HH_L\cC_\Lambda$ by (R9), the
+set $W(\tilde t)$ is the value at $W$ of the model $\hat G_{\tilde t}$
+(extended to the pretopos completion), and by (R8) at every stage the
+thread arrows are the homomorphisms of these models. This is
+Theorem~\ref{thm:F}(c).
+
 \section{Questions}\label{sec:questions}
 
 The two questions of the first version of this paper on the role of
@@ -2253,16 +3070,20 @@ the threads are answered by Theorem~\ref{thm:bounded} (an obstruction
 never occurs at unbounded threads only) and by
 Corollary~\ref{cor:tower} (the criterion for G\"odel--Dummett logic is
 not equivalent to the criteria for all the logics $L_m$).
+Section~\ref{sec:intrinsic} describes the groups of a leg tree in the
+category of models, and for $n_L$ finite the criterion without leg
+trees.
 
 \begin{que}
-Describe the groups $S_{(\Lambda,T)}$ and $R_{(\Lambda,T)}$ of
-Theorem~\ref{thm:A} at a string of models in $\Mod(\cC)$ alone,
-without the finite languages. For finitely many sentences they are
-given by a recursion with joins in the lattices of closed equivalence
-relations, over the legs of $\Mod(\cC)$ \cite[Prop.~8.3]{Proftrees}.
-The example of Section~\ref{sec:family} suggests joins over a compact
-space of legs, and the tower of Section~\ref{sec:depth} a recursion
-along chains of models of the order type of a converging sequence.
+(a) In Theorem~\ref{thm:F}(c) the finite languages enter only
+through the objects $W$. Is it sufficient to test a smaller class of
+objects, defined in terms of $\cC$?
+
+(b) For $n_L=\infty$: do the nodes at strings of models suffice in
+Theorem~\ref{thm:level}, and is there a description of the groups
+which does not refer to the levels? The recursion of
+Theorem~\ref{thm:rec} is then not well-founded in general, and its
+least solution can be wrong (Example~\ref{ex:towersol}).
 \end{que}
 
 \section*{Declarations}
