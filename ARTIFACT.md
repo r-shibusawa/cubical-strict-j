@@ -6,7 +6,7 @@ This repository is the artifact accompanying the paper
 
 - Repository: <https://github.com/r-shibusawa/cubical-strict-j>
 - Current snapshot: release `v1.49.3` (paper 50, third revision: adds the description of the groups of a leg tree
-  in the category of models and a criterion without leg trees -- `docs/consolidated/collapse.pdf`), archived at DOI (pending) -- cite this one.
+  in the category of models and a criterion without leg trees -- `docs/consolidated/collapse.pdf`), archived at DOI [10.5281/zenodo.24468063](https://doi.org/10.5281/zenodo.24468063) -- cite this one.
 - Previous: release `v1.49.2` (paper 50, second revision: the criterion at chains of models for all
   logics proving linearity, and its dependence on the logic -- `docs/consolidated/collapse.pdf`), archived at DOI [10.5281/zenodo.24411634](https://doi.org/10.5281/zenodo.24411634).
 - Previous: release `v1.49.1` (paper 50 revised: the criterion for all logics proving linearity,
